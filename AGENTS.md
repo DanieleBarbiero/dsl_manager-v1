@@ -4,7 +4,7 @@
 
 ## Project purpose
 
-This repository contains a small mock Python application used to verify that VS Code, Codex, GitHub, and the local Python environment behave consistently.
+This repository contains a DSL manager application.
 
 ## Python version
 
@@ -21,10 +21,10 @@ The project requires:
 Use the `src/` layout:
 
 ```text
-mockapp-vscode-codex/
+dsl_manager-v1/
   pyproject.toml
   src/
-    mockapp/
+    dsl_mngr/
       __init__.py
       __main__.py
       main.py
@@ -32,7 +32,7 @@ mockapp-vscode-codex/
     test_smoke.py
 ```
 
-The Python package is `mockapp`.
+The Python package is `dsl_mngr`.
 
 `src` is not a Python package and must not be imported as one.
 
@@ -41,13 +41,13 @@ The Python package is `mockapp`.
 Use absolute imports from the top-level package:
 
 ```python
-from mockapp.main import greet
+from dsl_mngr.main import greet
 ```
 
 Do not use imports such as:
 
 ```python
-from src.mockapp.main import greet
+from src.dsl_mngr.main import greet
 import main
 ```
 
@@ -58,7 +58,7 @@ These are the logical project commands:
 ```bash
 python -m pip install -e ".[dev]"
 python -m pytest
-python -m mockapp
+python -m dsl_mngr
 ```
 
 They must always be executed with the correct project interpreter for the current environment.

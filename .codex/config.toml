@@ -1,0 +1,10 @@
+# .codex/config.toml
+
+approval_policy = "on-request"
+sandbox_mode = "workspace-write"
+
+[shell_environment_policy]
+inherit = "all"
+
+[shell_environment_policy.set]
+PROJECT_PYTHON = ".venv\\Scripts\\python.exe"

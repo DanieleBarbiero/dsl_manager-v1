@@ -1,9 +1,9 @@
-from dsl_mngr.main import greet
+from __future__ import annotations
 
+import sys
 
-def main() -> None:
-    print(greet())
+from dsl_mngr.main import main
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

@@ -9,6 +9,9 @@ description = "DSL Manager v1."
 requires-python = ">=3.12,<3.13"
 dependencies = []
 
+[project.scripts]
+dsl-manager = "dsl_mngr.main:main"
+
 [project.optional-dependencies]
 dev = [
     "pytest",

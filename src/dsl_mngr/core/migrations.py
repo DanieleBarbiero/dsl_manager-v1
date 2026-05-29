@@ -283,6 +283,136 @@ MIGRATIONS: tuple[Migration, ...] = (
             """,
         ),
     ),
+    Migration(
+        version=3,
+        name="create_fact_merge_schema",
+        statements=(
+            """
+            CREATE TABLE IF NOT EXISTS facts (
+                fact_id TEXT PRIMARY KEY,
+                fact_identity_hash TEXT NOT NULL UNIQUE,
+                fact_type TEXT NOT NULL,
+                entity_name TEXT NOT NULL,
+                canonical_entity_name TEXT NOT NULL,
+                property_name TEXT NOT NULL,
+                property_value TEXT NOT NULL,
+                normalized_property_value TEXT NOT NULL,
+                assertion_type TEXT NOT NULL,
+                confidence TEXT NOT NULL,
+                status TEXT NOT NULL,
+                first_candidate_record_id TEXT NOT NULL,
+                created_at TEXT NOT NULL,
+                updated_at TEXT NOT NULL,
+                FOREIGN KEY (first_candidate_record_id)
+                    REFERENCES candidate_records(candidate_record_id)
+            )
+            """,
+            """
+            CREATE TABLE IF NOT EXISTS fact_evidence (
+                fact_evidence_id TEXT PRIMARY KEY,
+                fact_id TEXT NOT NULL,
+                candidate_record_id TEXT NOT NULL,
+                source_revision_id TEXT NOT NULL,
+                chunk_id TEXT,
+                fragment_id TEXT,
+                evidence_text TEXT NOT NULL,
+                evidence_text_hash TEXT NOT NULL,
+                created_at TEXT NOT NULL,
+                UNIQUE (fact_id, candidate_record_id),
+                FOREIGN KEY (fact_id)
+                    REFERENCES facts(fact_id),
+                FOREIGN KEY (candidate_record_id)
+                    REFERENCES candidate_records(candidate_record_id),
+                FOREIGN KEY (source_revision_id)
+                    REFERENCES source_revisions(source_revision_id),
+                FOREIGN KEY (chunk_id)
+                    REFERENCES chunks(chunk_id),
+                FOREIGN KEY (fragment_id)
+                    REFERENCES source_fragments(fragment_id)
+            )
+            """,
+            """
+            CREATE TABLE IF NOT EXISTS relations (
+                relation_id TEXT PRIMARY KEY,
+                relation_identity_hash TEXT NOT NULL UNIQUE,
+                source_entity TEXT NOT NULL,
+                canonical_source_entity TEXT NOT NULL,
+                relation_type TEXT NOT NULL,
+                target_entity TEXT NOT NULL,
+                canonical_target_entity TEXT NOT NULL,
+                assertion_type TEXT NOT NULL,
+                confidence TEXT NOT NULL,
+                status TEXT NOT NULL,
+                first_candidate_record_id TEXT NOT NULL,
+                created_at TEXT NOT NULL,
+                updated_at TEXT NOT NULL,
+                FOREIGN KEY (first_candidate_record_id)
+                    REFERENCES candidate_records(candidate_record_id)
+            )
+            """,
+            """
+            CREATE TABLE IF NOT EXISTS relation_evidence (
+                relation_evidence_id TEXT PRIMARY KEY,
+                relation_id TEXT NOT NULL,
+                candidate_record_id TEXT NOT NULL,
+                source_revision_id TEXT NOT NULL,
+                chunk_id TEXT,
+                fragment_id TEXT,
+                evidence_text TEXT NOT NULL,
+                evidence_text_hash TEXT NOT NULL,
+                created_at TEXT NOT NULL,
+                UNIQUE (relation_id, candidate_record_id),
+                FOREIGN KEY (relation_id)
+                    REFERENCES relations(relation_id),
+                FOREIGN KEY (candidate_record_id)
+                    REFERENCES candidate_records(candidate_record_id),
+                FOREIGN KEY (source_revision_id)
+                    REFERENCES source_revisions(source_revision_id),
+                FOREIGN KEY (chunk_id)
+                    REFERENCES chunks(chunk_id),
+                FOREIGN KEY (fragment_id)
+                    REFERENCES source_fragments(fragment_id)
+            )
+            """,
+            """
+            CREATE TABLE IF NOT EXISTS conflicts (
+                conflict_id TEXT PRIMARY KEY,
+                conflict_key_hash TEXT NOT NULL UNIQUE,
+                conflict_type TEXT NOT NULL,
+                entity_name TEXT NOT NULL,
+                canonical_entity_name TEXT NOT NULL,
+                property_name TEXT NOT NULL,
+                left_fact_id TEXT NOT NULL,
+                right_fact_id TEXT NOT NULL,
+                left_value TEXT NOT NULL,
+                right_value TEXT NOT NULL,
+                status TEXT NOT NULL,
+                created_at TEXT NOT NULL,
+                updated_at TEXT NOT NULL,
+                FOREIGN KEY (left_fact_id)
+                    REFERENCES facts(fact_id),
+                FOREIGN KEY (right_fact_id)
+                    REFERENCES facts(fact_id)
+            )
+            """,
+            """
+            CREATE INDEX IF NOT EXISTS idx_fact_evidence_candidate_record
+            ON fact_evidence(candidate_record_id)
+            """,
+            """
+            CREATE INDEX IF NOT EXISTS idx_relation_evidence_candidate_record
+            ON relation_evidence(candidate_record_id)
+            """,
+            """
+            CREATE INDEX IF NOT EXISTS idx_facts_entity_property
+            ON facts(canonical_entity_name, property_name)
+            """,
+            """
+            CREATE INDEX IF NOT EXISTS idx_relations_entities_type
+            ON relations(canonical_source_entity, relation_type, canonical_target_entity)
+            """,
+        ),
+    ),
 )
 
 

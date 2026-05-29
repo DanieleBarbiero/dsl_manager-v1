@@ -6,6 +6,7 @@ from collections.abc import Sequence
 from dsl_mngr.cli.commands.candidates import run_candidates_validate_command
 from dsl_mngr.cli.commands.corpus import run_corpus_scan_command
 from dsl_mngr.cli.commands.db import run_db_init_command
+from dsl_mngr.cli.commands.facts import run_facts_merge_command
 from dsl_mngr.cli.commands.init import run_init_command
 from dsl_mngr.cli.commands.log import run_log_table_command
 from dsl_mngr.cli.commands.run import run_start_command, run_status_command
@@ -72,6 +73,24 @@ def build_parser() -> argparse.ArgumentParser:
         help="Candidate JSONL path inside the workspace.",
     )
     validate_parser.set_defaults(func=run_candidates_validate_command)
+
+    facts_parser = subparsers.add_parser("facts", help="Merge validated facts and relations.")
+    facts_subparsers = facts_parser.add_subparsers(dest="facts_command", required=True)
+    facts_merge_parser = facts_subparsers.add_parser(
+        "merge",
+        help="Merge accepted candidate facts and relations.",
+    )
+    facts_merge_parser.add_argument(
+        "workspace",
+        help="Workspace directory.",
+    )
+    facts_merge_parser.add_argument(
+        "--batch",
+        dest="batch_id",
+        required=True,
+        help="Candidate batch id, for example CBATCH_000001.",
+    )
+    facts_merge_parser.set_defaults(func=run_facts_merge_command)
 
     run_parser = subparsers.add_parser("run", help="Manage reproducible runs.")
     run_subparsers = run_parser.add_subparsers(dest="run_command", required=True)

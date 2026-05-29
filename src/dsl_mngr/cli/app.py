@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 from collections.abc import Sequence
 
+from dsl_mngr.cli.commands.candidates import run_candidates_validate_command
 from dsl_mngr.cli.commands.corpus import run_corpus_scan_command
 from dsl_mngr.cli.commands.db import run_db_init_command
 from dsl_mngr.cli.commands.init import run_init_command
@@ -50,6 +51,27 @@ def build_parser() -> argparse.ArgumentParser:
         help="Optional corpus directory path relative to the workspace.",
     )
     scan_parser.set_defaults(func=run_corpus_scan_command)
+
+    candidates_parser = subparsers.add_parser("candidates", help="Validate candidate records.")
+    candidates_subparsers = candidates_parser.add_subparsers(
+        dest="candidates_command",
+        required=True,
+    )
+    validate_parser = candidates_subparsers.add_parser(
+        "validate",
+        help="Import and validate JSONL candidate records.",
+    )
+    validate_parser.add_argument(
+        "workspace",
+        help="Workspace directory.",
+    )
+    validate_parser.add_argument(
+        "--input",
+        dest="input_path",
+        required=True,
+        help="Candidate JSONL path inside the workspace.",
+    )
+    validate_parser.set_defaults(func=run_candidates_validate_command)
 
     run_parser = subparsers.add_parser("run", help="Manage reproducible runs.")
     run_subparsers = run_parser.add_subparsers(dest="run_command", required=True)

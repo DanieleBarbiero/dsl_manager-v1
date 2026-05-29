@@ -165,6 +165,124 @@ MIGRATIONS: tuple[Migration, ...] = (
             """,
         ),
     ),
+    Migration(
+        version=2,
+        name="create_candidate_validation_schema",
+        statements=(
+            """
+            CREATE TABLE IF NOT EXISTS chunks (
+                chunk_id TEXT PRIMARY KEY,
+                source_revision_id TEXT NOT NULL,
+                sequence INTEGER NOT NULL,
+                text TEXT NOT NULL,
+                text_hash TEXT,
+                metadata_json TEXT,
+                status TEXT NOT NULL,
+                created_at TEXT NOT NULL,
+                FOREIGN KEY (source_revision_id)
+                    REFERENCES source_revisions(source_revision_id)
+            )
+            """,
+            """
+            CREATE TABLE IF NOT EXISTS source_fragments (
+                fragment_id TEXT PRIMARY KEY,
+                source_revision_id TEXT NOT NULL,
+                fragment_type TEXT NOT NULL,
+                sequence INTEGER NOT NULL,
+                path_or_selector TEXT,
+                line_start INTEGER,
+                line_end INTEGER,
+                char_start INTEGER,
+                char_end INTEGER,
+                text TEXT NOT NULL,
+                text_hash TEXT,
+                metadata_json TEXT,
+                status TEXT NOT NULL,
+                created_at TEXT NOT NULL,
+                FOREIGN KEY (source_revision_id)
+                    REFERENCES source_revisions(source_revision_id)
+            )
+            """,
+            """
+            CREATE TABLE IF NOT EXISTS candidate_batches (
+                batch_id TEXT PRIMARY KEY,
+                run_id TEXT NOT NULL,
+                input_path TEXT NOT NULL,
+                total_records INTEGER NOT NULL,
+                accepted_count INTEGER NOT NULL,
+                rejected_count INTEGER NOT NULL,
+                status TEXT NOT NULL,
+                created_at TEXT NOT NULL,
+                updated_at TEXT NOT NULL,
+                FOREIGN KEY (run_id)
+                    REFERENCES runs(run_id)
+            )
+            """,
+            """
+            CREATE TABLE IF NOT EXISTS candidate_records (
+                candidate_record_id TEXT PRIMARY KEY,
+                batch_id TEXT NOT NULL,
+                run_id TEXT NOT NULL,
+                line_number INTEGER NOT NULL,
+                candidate_id TEXT NOT NULL,
+                record_type TEXT NOT NULL,
+                source_revision_id TEXT NOT NULL,
+                chunk_id TEXT,
+                fragment_id TEXT,
+                assertion_type TEXT NOT NULL,
+                confidence TEXT NOT NULL,
+                evidence_text TEXT NOT NULL,
+                payload_json TEXT NOT NULL,
+                created_at TEXT NOT NULL,
+                FOREIGN KEY (batch_id)
+                    REFERENCES candidate_batches(batch_id),
+                FOREIGN KEY (run_id)
+                    REFERENCES runs(run_id),
+                FOREIGN KEY (source_revision_id)
+                    REFERENCES source_revisions(source_revision_id),
+                FOREIGN KEY (chunk_id)
+                    REFERENCES chunks(chunk_id),
+                FOREIGN KEY (fragment_id)
+                    REFERENCES source_fragments(fragment_id)
+            )
+            """,
+            """
+            CREATE TABLE IF NOT EXISTS rejected_candidates (
+                rejected_candidate_id TEXT PRIMARY KEY,
+                batch_id TEXT NOT NULL,
+                run_id TEXT NOT NULL,
+                line_number INTEGER NOT NULL,
+                candidate_id TEXT,
+                record_type TEXT,
+                reason TEXT NOT NULL,
+                message TEXT,
+                raw_line TEXT,
+                payload_json TEXT,
+                created_at TEXT NOT NULL,
+                FOREIGN KEY (batch_id)
+                    REFERENCES candidate_batches(batch_id),
+                FOREIGN KEY (run_id)
+                    REFERENCES runs(run_id)
+            )
+            """,
+            """
+            CREATE INDEX IF NOT EXISTS idx_chunks_source_revision
+            ON chunks(source_revision_id)
+            """,
+            """
+            CREATE INDEX IF NOT EXISTS idx_source_fragments_source_revision
+            ON source_fragments(source_revision_id)
+            """,
+            """
+            CREATE INDEX IF NOT EXISTS idx_candidate_records_batch
+            ON candidate_records(batch_id)
+            """,
+            """
+            CREATE INDEX IF NOT EXISTS idx_rejected_candidates_batch
+            ON rejected_candidates(batch_id)
+            """,
+        ),
+    ),
 )
 
 

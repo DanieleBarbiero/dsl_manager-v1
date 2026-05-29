@@ -7,6 +7,7 @@ from dsl_mngr.cli.commands.corpus import run_corpus_scan_command
 from dsl_mngr.cli.commands.db import run_db_init_command
 from dsl_mngr.cli.commands.init import run_init_command
 from dsl_mngr.cli.commands.log import run_log_table_command
+from dsl_mngr.cli.commands.run import run_start_command, run_status_command
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -49,6 +50,39 @@ def build_parser() -> argparse.ArgumentParser:
         help="Optional corpus directory path relative to the workspace.",
     )
     scan_parser.set_defaults(func=run_corpus_scan_command)
+
+    run_parser = subparsers.add_parser("run", help="Manage reproducible runs.")
+    run_subparsers = run_parser.add_subparsers(dest="run_command", required=True)
+    start_parser = run_subparsers.add_parser("start", help="Start a run.")
+    start_parser.add_argument(
+        "workspace",
+        nargs="?",
+        default=".",
+        help="Workspace directory. Defaults to the current directory.",
+    )
+    start_parser.add_argument(
+        "--type",
+        dest="run_type",
+        default="test",
+        help="Run type. The minimal slice supports at least 'test'.",
+    )
+    start_parser.add_argument(
+        "--parent-run-id",
+        help="Optional parent run id.",
+    )
+    start_parser.set_defaults(func=run_start_command)
+
+    status_parser = run_subparsers.add_parser("status", help="Show run status.")
+    status_parser.add_argument(
+        "workspace_or_run_id",
+        help="Workspace directory, or the run id when workspace is omitted.",
+    )
+    status_parser.add_argument(
+        "run_id",
+        nargs="?",
+        help="Run id, for example RUN_000001.",
+    )
+    status_parser.set_defaults(func=run_status_command)
 
     log_parser = subparsers.add_parser("log", help="Read application logs.")
     log_subparsers = log_parser.add_subparsers(dest="log_command", required=True)

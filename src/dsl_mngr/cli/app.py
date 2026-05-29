@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 from collections.abc import Sequence
 
+from dsl_mngr.cli.commands.corpus import run_corpus_scan_command
 from dsl_mngr.cli.commands.db import run_db_init_command
 from dsl_mngr.cli.commands.init import run_init_command
 from dsl_mngr.cli.commands.log import run_log_table_command
@@ -31,6 +32,23 @@ def build_parser() -> argparse.ArgumentParser:
         help="Workspace directory. Defaults to the current directory.",
     )
     db_init_parser.set_defaults(func=run_db_init_command)
+
+    corpus_parser = subparsers.add_parser("corpus", help="Manage source corpus files.")
+    corpus_subparsers = corpus_parser.add_subparsers(dest="corpus_command", required=True)
+    scan_parser = corpus_subparsers.add_parser("scan", help="Scan active corpus sources.")
+    scan_parser.add_argument(
+        "workspace",
+        nargs="?",
+        default=".",
+        help="Workspace directory. Defaults to the current directory.",
+    )
+    scan_parser.add_argument(
+        "--path",
+        "--corpus-dir",
+        dest="corpus_path",
+        help="Optional corpus directory path relative to the workspace.",
+    )
+    scan_parser.set_defaults(func=run_corpus_scan_command)
 
     log_parser = subparsers.add_parser("log", help="Read application logs.")
     log_subparsers = log_parser.add_subparsers(dest="log_command", required=True)

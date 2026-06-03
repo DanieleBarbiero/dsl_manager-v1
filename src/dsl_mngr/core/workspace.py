@@ -32,6 +32,24 @@ MDW_AI_INBOX=./ai/inbox
 MDW_ENABLE_WAL=true
 """
 
+DEFAULT_DOCLING_NO_IMAGES_PROFILE = """worker:
+  name: normalize_docling
+  version: 1.0
+docling:
+  input_formats: pdf,docx,pptx,html,md,txt
+  output_normalized_markdown: true
+  output_normalized_json: true
+  images_enabled: false
+  image_export_mode: placeholder
+  generate_page_images: false
+  generate_picture_images: false
+  ocr_enabled: false
+  force_full_page_ocr: false
+  tables_enabled: true
+  tables_mode: auto
+  strict_options_fail_on_unsupported_option: true
+"""
+
 
 @dataclass(frozen=True)
 class WorkspaceInitResult:
@@ -47,6 +65,10 @@ def initialize_workspace(workspace_dir: str | Path) -> WorkspaceInitResult:
 
     _write_if_missing(workspace_path / ".env", DEFAULT_ENV)
     _write_if_missing(workspace_path / "configs" / "project.yaml", dump_simple_yaml(DEFAULT_CONFIG))
+    _write_if_missing(
+        workspace_path / "configs" / "workers" / "docling.no_images.yaml",
+        DEFAULT_DOCLING_NO_IMAGES_PROFILE,
+    )
     (workspace_path / "logs" / "app.jsonl").touch(exist_ok=True)
 
     return WorkspaceInitResult(workspace_dir=workspace_path)

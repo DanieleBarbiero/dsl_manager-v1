@@ -86,9 +86,11 @@ def run_worker(
 
         worker_run_id = next_id(connection, "worker_runs", "worker_run_id", "WRK")
         started_at = timestamp_now(clock)
+        worker_parameters = input_payload or {}
         worker_input = {
+            **worker_parameters,
             "artifact_dir": artifacts.artifact_dir_relative,
-            "input": input_payload or {},
+            "input": worker_parameters,
             "run_id": run_id,
             "run_type": run_record.run_type,
             "worker_name": worker_name,

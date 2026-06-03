@@ -36,6 +36,10 @@ DEFAULT_CONFIG: dict[str, Any] = {
 }
 
 
+class WorkerProfileError(RuntimeError):
+    """Raised when a worker profile cannot be loaded safely."""
+
+
 ENV_TO_CONFIG_PATH = {
     "MDW_WORKSPACE_DIR": ("workspace", "dir"),
     "MDW_DB_PATH": ("database", "path"),
@@ -68,6 +72,22 @@ def load_config(
     return config
 
 
+def load_worker_profile(workspace_dir: str | Path, profile: str) -> dict[str, Any]:
+    if not _is_safe_profile_name(profile):
+        raise WorkerProfileError(f"Invalid worker profile name: {profile}.")
+
+    profile_path = Path(workspace_dir) / "configs" / "workers" / f"{profile}.yaml"
+    if not profile_path.is_file():
+        raise WorkerProfileError(f"Worker profile not found: configs/workers/{profile}.yaml.")
+
+    data = parse_simple_yaml(profile_path.read_text(encoding="utf-8"))
+    if not isinstance(data.get("worker"), dict):
+        raise WorkerProfileError(f"Worker profile {profile} is missing section: worker.")
+    if not isinstance(data.get("docling"), dict):
+        raise WorkerProfileError(f"Worker profile {profile} is missing section: docling.")
+    return data
+
+
 def parse_env(text: str) -> dict[str, str]:
     values: dict[str, str] = {}
     for raw_line in text.splitlines():
@@ -77,6 +97,19 @@ def parse_env(text: str) -> dict[str, str]:
         key, value = line.split("=", 1)
         values[key.strip()] = value.strip().strip('"').strip("'")
     return values
+
+
+def _is_safe_profile_name(profile: str) -> bool:
+    if not profile or profile in {".", ".."}:
+        return False
+    path = Path(profile)
+    return (
+        not path.is_absolute()
+        and len(path.parts) == 1
+        and "/" not in profile
+        and "\\" not in profile
+        and ".." not in path.parts
+    )
 
 
 def parse_simple_yaml(text: str) -> dict[str, Any]:

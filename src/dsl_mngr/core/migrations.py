@@ -413,6 +413,39 @@ MIGRATIONS: tuple[Migration, ...] = (
             """,
         ),
     ),
+    Migration(
+        version=4,
+        name="create_dsl_snapshot_schema",
+        statements=(
+            """
+            CREATE TABLE IF NOT EXISTS dsl_snapshots (
+                snapshot_id TEXT PRIMARY KEY,
+                run_id TEXT NOT NULL,
+                dsl_hash TEXT NOT NULL,
+                registry_hash TEXT NOT NULL,
+                content_json TEXT NOT NULL,
+                json_path TEXT NOT NULL,
+                yaml_path TEXT NOT NULL,
+                markdown_path TEXT NOT NULL,
+                fact_count INTEGER NOT NULL,
+                relation_count INTEGER NOT NULL,
+                conflict_count INTEGER NOT NULL,
+                status TEXT NOT NULL,
+                created_at TEXT NOT NULL,
+                FOREIGN KEY (run_id)
+                    REFERENCES runs(run_id)
+            )
+            """,
+            """
+            CREATE INDEX IF NOT EXISTS idx_dsl_snapshots_dsl_hash
+            ON dsl_snapshots(dsl_hash)
+            """,
+            """
+            CREATE INDEX IF NOT EXISTS idx_dsl_snapshots_run
+            ON dsl_snapshots(run_id)
+            """,
+        ),
+    ),
 )
 
 

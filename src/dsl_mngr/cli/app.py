@@ -6,6 +6,7 @@ from collections.abc import Sequence
 from dsl_mngr.cli.commands.candidates import run_candidates_validate_command
 from dsl_mngr.cli.commands.corpus import run_corpus_scan_command
 from dsl_mngr.cli.commands.db import run_db_init_command
+from dsl_mngr.cli.commands.dsl import run_dsl_render_command
 from dsl_mngr.cli.commands.facts import run_facts_merge_command
 from dsl_mngr.cli.commands.init import run_init_command
 from dsl_mngr.cli.commands.log import run_log_table_command
@@ -91,6 +92,22 @@ def build_parser() -> argparse.ArgumentParser:
         help="Candidate batch id, for example CBATCH_000001.",
     )
     facts_merge_parser.set_defaults(func=run_facts_merge_command)
+
+    dsl_parser = subparsers.add_parser("dsl", help="Render DSL snapshots.")
+    dsl_subparsers = dsl_parser.add_subparsers(dest="dsl_command", required=True)
+    dsl_render_parser = dsl_subparsers.add_parser(
+        "render",
+        help="Render the current registry as a DSL snapshot.",
+    )
+    dsl_render_parser.add_argument(
+        "workspace",
+        help="Workspace directory.",
+    )
+    dsl_render_parser.add_argument(
+        "--output-dir",
+        help="Optional output directory inside the workspace. Defaults to exports/dsl.",
+    )
+    dsl_render_parser.set_defaults(func=run_dsl_render_command)
 
     run_parser = subparsers.add_parser("run", help="Manage reproducible runs.")
     run_subparsers = run_parser.add_subparsers(dest="run_command", required=True)

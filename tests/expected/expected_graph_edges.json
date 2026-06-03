@@ -1,0 +1,13 @@
+[
+  {
+    "source": "cliente",
+    "type": "places",
+    "target": "ordine"
+  },
+  {
+    "source": "ordine",
+    "type": "has_rows",
+    "target": "rigaordine"
+  }
+]
+

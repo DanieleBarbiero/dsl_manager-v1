@@ -1,0 +1,167 @@
+metadata:
+  schema_version: "1"
+  dsl_hash: "616d3b2678c85b4c74090a33fd737833f69d6a839b45d7f41d72eda729292355"
+  registry_hash: "5265558bc7050aa313dc8d334bd0893d8bd9f4228839511fc23f0661f478b253"
+  counts:
+    conflicts: 0
+    entities: 3
+    facts: 6
+    relations: 2
+entities:
+  -
+    name: "Cliente"
+    canonical_name: "cliente"
+    facts:
+      -
+        assertion_type: "explicit"
+        confidence: "high"
+        fact_id: "FACT_000002"
+        fact_type: "business_rule"
+        property_name: "delete_rule"
+        property_value: "La cancellazione di un cliente non è consentita se esistono ordini aperti."
+        status: "active"
+      -
+        assertion_type: "explicit"
+        confidence: "high"
+        fact_id: "FACT_000001"
+        fact_type: "business_entity"
+        property_name: "description"
+        property_value: "Cliente del dominio commerciale."
+        status: "active"
+  -
+    name: "Ordine"
+    canonical_name: "ordine"
+    facts:
+      -
+        assertion_type: "explicit"
+        confidence: "high"
+        fact_id: "FACT_000004"
+        fact_type: "business_rule"
+        property_name: "composition"
+        property_value: "Ogni ordine contiene una testata e una o più righe."
+        status: "active"
+      -
+        assertion_type: "explicit"
+        confidence: "high"
+        fact_id: "FACT_000003"
+        fact_type: "business_entity"
+        property_name: "description"
+        property_value: "Ordine del dominio commerciale."
+        status: "active"
+      -
+        assertion_type: "explicit"
+        confidence: "high"
+        fact_id: "FACT_000006"
+        fact_type: "business_rule"
+        property_name: "status_values"
+        property_value: "BOZZA, CONFERMATO, EVASO, ANNULLATO"
+        status: "active"
+  -
+    name: "RigaOrdine"
+    canonical_name: "rigaordine"
+    facts:
+      -
+        assertion_type: "explicit"
+        confidence: "high"
+        fact_id: "FACT_000005"
+        fact_type: "business_entity"
+        property_name: "description"
+        property_value: "Riga di dettaglio collegata all'ordine."
+        status: "active"
+relations:
+  -
+    assertion_type: "explicit"
+    canonical_source_entity: "cliente"
+    canonical_target_entity: "ordine"
+    confidence: "high"
+    relation_id: "REL_000001"
+    relation_type: "places"
+    source_entity: "Cliente"
+    status: "active"
+    target_entity: "Ordine"
+  -
+    assertion_type: "explicit"
+    canonical_source_entity: "ordine"
+    canonical_target_entity: "rigaordine"
+    confidence: "high"
+    relation_id: "REL_000002"
+    relation_type: "has_rows"
+    source_entity: "Ordine"
+    status: "active"
+    target_entity: "RigaOrdine"
+conflicts: []
+traceability:
+  facts:
+    FACT_000002:
+      -
+        candidate_record_id: "CREC_000002"
+        source_revision_id: "REV_000001"
+        source_id: "SRC_000001"
+        file_path: "corpus/active/manuale_clienti.md"
+        chunk_id: "CHK_000001"
+        fragment_id: null
+        evidence_text_hash: "3a786a6655916cf6e95dad55c9141d175bf10ac31a87a9334f5947c72e5cad63"
+    FACT_000001:
+      -
+        candidate_record_id: "CREC_000001"
+        source_revision_id: "REV_000001"
+        source_id: "SRC_000001"
+        file_path: "corpus/active/manuale_clienti.md"
+        chunk_id: "CHK_000001"
+        fragment_id: null
+        evidence_text_hash: "6d02f1a7af7fd87d313f45c0b10e882f265288fe6d769a37bcdd686cdde9dfb7"
+    FACT_000004:
+      -
+        candidate_record_id: "CREC_000004"
+        source_revision_id: "REV_000002"
+        source_id: "SRC_000002"
+        file_path: "corpus/active/manuale_ordini.md"
+        chunk_id: "CHK_000002"
+        fragment_id: null
+        evidence_text_hash: "66b8f044e03fe190dc7220e97b79fd6586e0ff985890fb0075a162660f86d9f1"
+    FACT_000003:
+      -
+        candidate_record_id: "CREC_000003"
+        source_revision_id: "REV_000002"
+        source_id: "SRC_000002"
+        file_path: "corpus/active/manuale_ordini.md"
+        chunk_id: "CHK_000002"
+        fragment_id: null
+        evidence_text_hash: "bb06b81f5462e899b981d0859badebee7f19fcead2ebad64baefd6fa187c1f89"
+    FACT_000006:
+      -
+        candidate_record_id: "CREC_000006"
+        source_revision_id: "REV_000002"
+        source_id: "SRC_000002"
+        file_path: "corpus/active/manuale_ordini.md"
+        chunk_id: "CHK_000002"
+        fragment_id: null
+        evidence_text_hash: "2173635533b60221c9bbe4bd92cf2d53a6954641a5a75ffdb95e033a7aee5f75"
+    FACT_000005:
+      -
+        candidate_record_id: "CREC_000005"
+        source_revision_id: "REV_000002"
+        source_id: "SRC_000002"
+        file_path: "corpus/active/manuale_ordini.md"
+        chunk_id: "CHK_000002"
+        fragment_id: null
+        evidence_text_hash: "1e233254a1ea618a34fff547b34a172ff95a292d9c1cfbab97b9d41e8339a39c"
+  relations:
+    REL_000001:
+      -
+        candidate_record_id: "CREC_000007"
+        source_revision_id: "REV_000002"
+        source_id: "SRC_000002"
+        file_path: "corpus/active/manuale_ordini.md"
+        chunk_id: "CHK_000002"
+        fragment_id: null
+        evidence_text_hash: "a47e8c7b7f3e9ac736b8e27fed94836cfb6bd55372cc0ab26407af149bdc5a58"
+    REL_000002:
+      -
+        candidate_record_id: "CREC_000008"
+        source_revision_id: "REV_000002"
+        source_id: "SRC_000002"
+        file_path: "corpus/active/manuale_ordini.md"
+        chunk_id: "CHK_000002"
+        fragment_id: null
+        evidence_text_hash: "533ecee36501bbaa5af1a476f1a5c5263da80fe95c125ff932153f5d02ccb54d"

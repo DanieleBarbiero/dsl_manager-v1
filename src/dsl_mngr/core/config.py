@@ -72,7 +72,12 @@ def load_config(
     return config
 
 
-def load_worker_profile(workspace_dir: str | Path, profile: str) -> dict[str, Any]:
+def load_worker_profile(
+    workspace_dir: str | Path,
+    profile: str,
+    *,
+    required_sections: tuple[str, ...] = ("worker", "docling"),
+) -> dict[str, Any]:
     if not _is_safe_profile_name(profile):
         raise WorkerProfileError(f"Invalid worker profile name: {profile}.")
 
@@ -81,10 +86,9 @@ def load_worker_profile(workspace_dir: str | Path, profile: str) -> dict[str, An
         raise WorkerProfileError(f"Worker profile not found: configs/workers/{profile}.yaml.")
 
     data = parse_simple_yaml(profile_path.read_text(encoding="utf-8"))
-    if not isinstance(data.get("worker"), dict):
-        raise WorkerProfileError(f"Worker profile {profile} is missing section: worker.")
-    if not isinstance(data.get("docling"), dict):
-        raise WorkerProfileError(f"Worker profile {profile} is missing section: docling.")
+    for section in required_sections:
+        if not isinstance(data.get(section), dict):
+            raise WorkerProfileError(f"Worker profile {profile} is missing section: {section}.")
     return data
 
 

@@ -4,7 +4,11 @@ import argparse
 from collections.abc import Sequence
 
 from dsl_mngr.cli.commands.candidates import run_candidates_validate_command
-from dsl_mngr.cli.commands.corpus import run_corpus_normalize_command, run_corpus_scan_command
+from dsl_mngr.cli.commands.corpus import (
+    run_corpus_chunk_command,
+    run_corpus_normalize_command,
+    run_corpus_scan_command,
+)
 from dsl_mngr.cli.commands.db import run_db_init_command
 from dsl_mngr.cli.commands.dsl import run_dsl_diff_command, run_dsl_render_command
 from dsl_mngr.cli.commands.facts import run_facts_merge_command
@@ -72,6 +76,25 @@ def build_parser() -> argparse.ArgumentParser:
         help="Worker profile under configs/workers. Defaults to docling.no_images.",
     )
     normalize_parser.set_defaults(func=run_corpus_normalize_command)
+    chunk_parser = corpus_subparsers.add_parser(
+        "chunk",
+        help="Create stable chunks from a normalized source revision.",
+    )
+    chunk_parser.add_argument(
+        "workspace",
+        help="Workspace directory.",
+    )
+    chunk_parser.add_argument(
+        "--revision",
+        required=True,
+        help="Source revision id, for example REV_000001.",
+    )
+    chunk_parser.add_argument(
+        "--profile",
+        default="docling.chunking",
+        help="Worker profile under configs/workers. Defaults to docling.chunking.",
+    )
+    chunk_parser.set_defaults(func=run_corpus_chunk_command)
 
     candidates_parser = subparsers.add_parser("candidates", help="Validate candidate records.")
     candidates_subparsers = candidates_parser.add_subparsers(

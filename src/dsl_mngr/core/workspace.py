@@ -16,6 +16,7 @@ WORKSPACE_DIRS = (
     "ai/inbox",
     "ai/imported",
     "artifacts/runs",
+    "chunks",
     "exports/dsl",
     "exports/dsl_diff",
     "exports/graph",
@@ -50,6 +51,21 @@ docling:
   strict_options_fail_on_unsupported_option: true
 """
 
+DEFAULT_DOCLING_CHUNKING_PROFILE = """worker:
+  name: chunk_docling
+  version: 1.0
+chunking:
+  strategy: heading_paragraph
+  max_chars: 8000
+  min_chars: 1
+  include_heading_context: true
+  preserve_paragraphs: true
+  merge_small_paragraphs: true
+  strict_options_fail_on_unsupported_option: true
+  require_normalized_hash_match: true
+  output_chunks_jsonl: true
+"""
+
 
 @dataclass(frozen=True)
 class WorkspaceInitResult:
@@ -68,6 +84,10 @@ def initialize_workspace(workspace_dir: str | Path) -> WorkspaceInitResult:
     _write_if_missing(
         workspace_path / "configs" / "workers" / "docling.no_images.yaml",
         DEFAULT_DOCLING_NO_IMAGES_PROFILE,
+    )
+    _write_if_missing(
+        workspace_path / "configs" / "workers" / "docling.chunking.yaml",
+        DEFAULT_DOCLING_CHUNKING_PROFILE,
     )
     (workspace_path / "logs" / "app.jsonl").touch(exist_ok=True)
 

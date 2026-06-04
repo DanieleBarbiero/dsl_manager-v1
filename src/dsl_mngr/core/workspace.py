@@ -17,6 +17,7 @@ WORKSPACE_DIRS = (
     "ai/imported",
     "artifacts/runs",
     "chunks",
+    "fragments",
     "exports/dsl",
     "exports/dsl_diff",
     "exports/graph",
@@ -66,6 +67,21 @@ chunking:
   output_chunks_jsonl: true
 """
 
+DEFAULT_DDL_PROFILE = """worker:
+  name: parse_ddl
+  version: 1.0
+ddl:
+  dialect: generic_sql
+  parse_create_table: true
+  parse_primary_keys: true
+  parse_foreign_keys: true
+  parse_unique_constraints: true
+  parse_indexes: true
+  strict_options_fail_on_unsupported_option: true
+  unsupported_statement_policy: warn
+  output_fragments_jsonl: true
+"""
+
 
 @dataclass(frozen=True)
 class WorkspaceInitResult:
@@ -88,6 +104,10 @@ def initialize_workspace(workspace_dir: str | Path) -> WorkspaceInitResult:
     _write_if_missing(
         workspace_path / "configs" / "workers" / "docling.chunking.yaml",
         DEFAULT_DOCLING_CHUNKING_PROFILE,
+    )
+    _write_if_missing(
+        workspace_path / "configs" / "workers" / "ddl.default.yaml",
+        DEFAULT_DDL_PROFILE,
     )
     (workspace_path / "logs" / "app.jsonl").touch(exist_ok=True)
 

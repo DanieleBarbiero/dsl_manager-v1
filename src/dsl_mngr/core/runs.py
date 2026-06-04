@@ -22,6 +22,7 @@ RUN_TYPES = {
     "register",
     "normalize",
     "chunk",
+    "parse_ddl",
     "ai_package",
     "candidate_import",
     "candidate_validation",

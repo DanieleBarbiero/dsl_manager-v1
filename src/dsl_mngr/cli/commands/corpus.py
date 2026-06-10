@@ -41,6 +41,7 @@ from dsl_mngr.core.runs import (
 from dsl_mngr.core.source_registry import CorpusScanError, scan_corpus
 from dsl_mngr.core.worker_runner import WorkerRunResult, WorkerRunnerError, run_worker
 from dsl_mngr.workers import chunk_docling, normalize_docling, parse_ddl, parse_xml_form
+from dsl_mngr.workers import parse_db_code, parse_log
 
 
 def run_corpus_scan_command(args: object) -> int:
@@ -177,6 +178,61 @@ class XmlFormParseResult:
     worker_result: WorkerRunResult
 
 
+@dataclass(frozen=True)
+class DbCodeRevisionContext:
+    source_id: str
+    source_revision_id: str
+    file_path: str
+    content_hash: str
+    source_type: str
+    source_subtype: str | None
+    authority_level: str
+
+
+@dataclass(frozen=True)
+class DbCodeParseResult:
+    run_id: str
+    source_id: str
+    source_revision_id: str
+    procedure_count: int
+    trigger_count: int
+    statement_count: int
+    read_count: int
+    write_count: int
+    call_count: int
+    fragment_count: int
+    fragments_hash: str
+    fragments_jsonl_path: str
+    db_code_report_path: str
+    worker_result: WorkerRunResult
+
+
+@dataclass(frozen=True)
+class LogRevisionContext:
+    source_id: str
+    source_revision_id: str
+    file_path: str
+    content_hash: str
+    source_type: str
+    source_subtype: str | None
+    authority_level: str
+
+
+@dataclass(frozen=True)
+class LogParseResult:
+    run_id: str
+    source_id: str
+    source_revision_id: str
+    event_count: int
+    warning_count: int
+    components: tuple[str, ...]
+    fragment_count: int
+    fragments_hash: str
+    fragments_jsonl_path: str
+    log_report_path: str
+    worker_result: WorkerRunResult
+
+
 class CorpusNormalizeError(RuntimeError):
     """Raised when a source revision cannot be normalized."""
 
@@ -191,6 +247,14 @@ class CorpusDdlParseError(RuntimeError):
 
 class CorpusXmlFormParseError(RuntimeError):
     """Raised when a source revision cannot be parsed as XML form."""
+
+
+class CorpusDbCodeParseError(RuntimeError):
+    """Raised when a source revision cannot be parsed as SQL code."""
+
+
+class CorpusLogParseError(RuntimeError):
+    """Raised when a source revision cannot be parsed as log."""
 
 
 def run_corpus_normalize_command(args: object) -> int:
@@ -366,6 +430,99 @@ def run_corpus_parse_xml_form_command(args: object) -> int:
     print(f"Fragments hash: {result.fragments_hash}")
     print(f"Fragments JSONL: {result.fragments_jsonl_path}")
     print(f"Report: {result.xml_form_report_path}")
+    return 0
+
+
+def run_corpus_parse_db_code_command(args: object) -> int:
+    workspace = Path(getattr(args, "workspace"))
+    revision_id = getattr(args, "revision")
+    profile = getattr(args, "profile", None) or "db_code.default"
+
+    try:
+        result = parse_db_code_source_revision(
+            workspace,
+            source_revision_id=revision_id,
+            profile=profile,
+        )
+    except (
+        CorpusDbCodeParseError,
+        DatabaseConfigurationError,
+        DatabaseNotReadyError,
+        FragmentRegistryError,
+        RunLifecycleError,
+        WorkerProfileError,
+        WorkerRunnerError,
+        WorkspaceNotInitializedError,
+    ) as exc:
+        print(f"Error: {exc}", file=sys.stderr)
+        return 2
+
+    if result.worker_result.status != "completed":
+        print(
+            "Error: SQL code parsing failed for "
+            f"{revision_id}; run={result.run_id}; exit_code={result.worker_result.exit_code}.",
+            file=sys.stderr,
+        )
+        return 2
+
+    print(f"Run: {result.run_id}")
+    print(f"Revision: {result.source_revision_id}")
+    print(f"Source: {result.source_id}")
+    print(f"Procedures: {result.procedure_count}")
+    print(f"Triggers: {result.trigger_count}")
+    print(f"Statements: {result.statement_count}")
+    print(f"Reads: {result.read_count}")
+    print(f"Writes: {result.write_count}")
+    print(f"Calls: {result.call_count}")
+    print(f"Fragments: {result.fragment_count}")
+    print(f"Fragments hash: {result.fragments_hash}")
+    print(f"Fragments JSONL: {result.fragments_jsonl_path}")
+    print(f"Report: {result.db_code_report_path}")
+    return 0
+
+
+def run_corpus_parse_log_command(args: object) -> int:
+    workspace = Path(getattr(args, "workspace"))
+    revision_id = getattr(args, "revision")
+    profile = getattr(args, "profile", None) or "log.default"
+
+    try:
+        result = parse_log_source_revision(
+            workspace,
+            source_revision_id=revision_id,
+            profile=profile,
+        )
+    except (
+        CorpusLogParseError,
+        DatabaseConfigurationError,
+        DatabaseNotReadyError,
+        FragmentRegistryError,
+        RunLifecycleError,
+        WorkerProfileError,
+        WorkerRunnerError,
+        WorkspaceNotInitializedError,
+    ) as exc:
+        print(f"Error: {exc}", file=sys.stderr)
+        return 2
+
+    if result.worker_result.status != "completed":
+        print(
+            "Error: Log parsing failed for "
+            f"{revision_id}; run={result.run_id}; exit_code={result.worker_result.exit_code}.",
+            file=sys.stderr,
+        )
+        return 2
+
+    print(f"Run: {result.run_id}")
+    print(f"Revision: {result.source_revision_id}")
+    print(f"Source: {result.source_id}")
+    print(f"Events: {result.event_count}")
+    print(f"Warnings: {result.warning_count}")
+    print(f"Components: {', '.join(result.components)}")
+    print(f"Fragments: {result.fragment_count}")
+    print(f"Fragments hash: {result.fragments_hash}")
+    print(f"Fragments JSONL: {result.fragments_jsonl_path}")
+    print(f"Report: {result.log_report_path}")
     return 0
 
 
@@ -867,6 +1024,278 @@ def parse_xml_form_source_revision(
     )
 
 
+def parse_db_code_source_revision(
+    workspace_dir: str | Path,
+    *,
+    source_revision_id: str,
+    profile: str,
+) -> DbCodeParseResult:
+    settings = resolve_database_settings(workspace_dir)
+    revision = _load_db_code_revision_context(settings, source_revision_id)
+    input_path = _resolve_db_code_revision_file(settings.workspace_dir, revision.file_path)
+    _validate_db_code_source_hash(revision, input_path)
+
+    profile_config = load_worker_profile(
+        settings.workspace_dir,
+        profile,
+        required_sections=("worker", "db_code"),
+    )
+    worker_config = dict(profile_config["worker"])
+    db_code_options = dict(profile_config["db_code"])
+    worker_version = str(worker_config.get("version", "1.0"))
+
+    seed = _load_fragment_id_seed(settings, revision.source_revision_id)
+    output_dir = f"fragments/{revision.source_id}/{revision.source_revision_id}"
+    worker_input = {
+        "db_code_options": db_code_options,
+        "fragment_id_by_sequence": {
+            str(key): value for key, value in seed.fragment_id_by_sequence.items()
+        },
+        "input_path": relative_workspace_path(settings.workspace_dir, input_path),
+        "next_fragment_number": seed.next_fragment_number,
+        "output_dir": output_dir,
+        "profile": profile,
+        "source_hash": revision.content_hash,
+        "source_id": revision.source_id,
+        "source_revision_id": revision.source_revision_id,
+        "worker_config": worker_config,
+    }
+    started = start_run(
+        settings.workspace_dir,
+        run_type="parse_db_code",
+        input_payload=worker_input,
+        cli_options={
+            "db_code": db_code_options,
+            "profile": {"name": profile},
+            "worker": worker_config,
+        },
+    )
+
+    try:
+        worker_result = run_worker(
+            settings.workspace_dir,
+            run_id=started.record.run_id,
+            worker_name="parse_db_code",
+            worker_path=Path(parse_db_code.__file__).resolve(),
+            worker_version=worker_version,
+            input_payload=worker_input,
+            apply_mutations=_persist_fragments_mutation(
+                settings.workspace_dir,
+                revision,
+                relative_workspace_path(settings.workspace_dir, input_path),
+            ),
+        )
+    except Exception as exc:
+        fail_run(
+            settings.workspace_dir,
+            started.record.run_id,
+            error=f"SQL code parse orchestration failed: {exc}",
+        )
+        raise
+
+    app_log_path = _resolve_app_log_path(settings.workspace_dir)
+    if worker_result.status != "completed":
+        log_event(
+            app_log_path,
+            level="ERROR",
+            event="corpus_parse_db_code_failed",
+            message=(
+                f"SQL code parsing failed for revision {source_revision_id}; "
+                f"run={started.record.run_id}; exit_code={worker_result.exit_code}"
+            ),
+            run_id=started.record.run_id,
+            worker="parse_db_code",
+        )
+        return DbCodeParseResult(
+            run_id=started.record.run_id,
+            source_id=revision.source_id,
+            source_revision_id=revision.source_revision_id,
+            procedure_count=0,
+            trigger_count=0,
+            statement_count=0,
+            read_count=0,
+            write_count=0,
+            call_count=0,
+            fragment_count=0,
+            fragments_hash="",
+            fragments_jsonl_path="",
+            db_code_report_path="",
+            worker_result=worker_result,
+        )
+
+    output = worker_result.output or {}
+    procedure_count = _required_db_code_output_int(output, "procedure_count")
+    trigger_count = _required_db_code_output_int(output, "trigger_count")
+    statement_count = _required_db_code_output_int(output, "statement_count")
+    read_count = _required_db_code_output_int(output, "read_count")
+    write_count = _required_db_code_output_int(output, "write_count")
+    call_count = _required_db_code_output_int(output, "call_count")
+    fragment_count = _required_db_code_output_int(output, "fragment_count")
+    fragments_hash = _required_db_code_output_hash(output, "fragments_hash")
+    fragments_jsonl_path = _required_db_code_output_path(output, "fragments_jsonl_path")
+    db_code_report_path = _required_db_code_output_path(output, "db_code_report_path")
+    log_event(
+        app_log_path,
+        level="INFO",
+        event="corpus_parse_db_code_completed",
+        message=(
+            f"SQL code parsing completed for revision {source_revision_id}; "
+            f"source={revision.source_id}; procedures={procedure_count}; "
+            f"triggers={trigger_count}; fragments={fragment_count}; "
+            f"fragments_hash={fragments_hash}"
+        ),
+        run_id=started.record.run_id,
+        worker="parse_db_code",
+    )
+    return DbCodeParseResult(
+        run_id=started.record.run_id,
+        source_id=revision.source_id,
+        source_revision_id=revision.source_revision_id,
+        procedure_count=procedure_count,
+        trigger_count=trigger_count,
+        statement_count=statement_count,
+        read_count=read_count,
+        write_count=write_count,
+        call_count=call_count,
+        fragment_count=fragment_count,
+        fragments_hash=fragments_hash,
+        fragments_jsonl_path=fragments_jsonl_path,
+        db_code_report_path=db_code_report_path,
+        worker_result=worker_result,
+    )
+
+
+def parse_log_source_revision(
+    workspace_dir: str | Path,
+    *,
+    source_revision_id: str,
+    profile: str,
+) -> LogParseResult:
+    settings = resolve_database_settings(workspace_dir)
+    revision = _load_log_revision_context(settings, source_revision_id)
+    input_path = _resolve_log_revision_file(settings.workspace_dir, revision.file_path)
+    _validate_log_source_hash(revision, input_path)
+
+    profile_config = load_worker_profile(
+        settings.workspace_dir,
+        profile,
+        required_sections=("worker", "log"),
+    )
+    worker_config = dict(profile_config["worker"])
+    log_options = dict(profile_config["log"])
+    worker_version = str(worker_config.get("version", "1.0"))
+
+    seed = _load_fragment_id_seed(settings, revision.source_revision_id)
+    output_dir = f"fragments/{revision.source_id}/{revision.source_revision_id}"
+    worker_input = {
+        "fragment_id_by_sequence": {
+            str(key): value for key, value in seed.fragment_id_by_sequence.items()
+        },
+        "input_path": relative_workspace_path(settings.workspace_dir, input_path),
+        "log_options": log_options,
+        "next_fragment_number": seed.next_fragment_number,
+        "output_dir": output_dir,
+        "profile": profile,
+        "source_hash": revision.content_hash,
+        "source_id": revision.source_id,
+        "source_revision_id": revision.source_revision_id,
+        "worker_config": worker_config,
+    }
+    started = start_run(
+        settings.workspace_dir,
+        run_type="parse_log",
+        input_payload=worker_input,
+        cli_options={
+            "log": log_options,
+            "profile": {"name": profile},
+            "worker": worker_config,
+        },
+    )
+
+    try:
+        worker_result = run_worker(
+            settings.workspace_dir,
+            run_id=started.record.run_id,
+            worker_name="parse_log",
+            worker_path=Path(parse_log.__file__).resolve(),
+            worker_version=worker_version,
+            input_payload=worker_input,
+            apply_mutations=_persist_fragments_mutation(
+                settings.workspace_dir,
+                revision,
+                relative_workspace_path(settings.workspace_dir, input_path),
+            ),
+        )
+    except Exception as exc:
+        fail_run(
+            settings.workspace_dir,
+            started.record.run_id,
+            error=f"Log parse orchestration failed: {exc}",
+        )
+        raise
+
+    app_log_path = _resolve_app_log_path(settings.workspace_dir)
+    if worker_result.status != "completed":
+        log_event(
+            app_log_path,
+            level="ERROR",
+            event="corpus_parse_log_failed",
+            message=(
+                f"Log parsing failed for revision {source_revision_id}; "
+                f"run={started.record.run_id}; exit_code={worker_result.exit_code}"
+            ),
+            run_id=started.record.run_id,
+            worker="parse_log",
+        )
+        return LogParseResult(
+            run_id=started.record.run_id,
+            source_id=revision.source_id,
+            source_revision_id=revision.source_revision_id,
+            event_count=0,
+            warning_count=0,
+            components=(),
+            fragment_count=0,
+            fragments_hash="",
+            fragments_jsonl_path="",
+            log_report_path="",
+            worker_result=worker_result,
+        )
+
+    output = worker_result.output or {}
+    event_count = _required_log_output_int(output, "event_count")
+    warning_count = _required_log_output_int(output, "warning_count")
+    fragment_count = _required_log_output_int(output, "fragment_count")
+    fragments_hash = _required_log_output_hash(output, "fragments_hash")
+    fragments_jsonl_path = _required_log_output_path(output, "fragments_jsonl_path")
+    log_report_path = _required_log_output_path(output, "log_report_path")
+    components = _required_log_output_string_tuple(output, "components")
+    log_event(
+        app_log_path,
+        level="INFO",
+        event="corpus_parse_log_completed",
+        message=(
+            f"Log parsing completed for revision {source_revision_id}; "
+            f"source={revision.source_id}; events={event_count}; "
+            f"fragments={fragment_count}; fragments_hash={fragments_hash}"
+        ),
+        run_id=started.record.run_id,
+        worker="parse_log",
+    )
+    return LogParseResult(
+        run_id=started.record.run_id,
+        source_id=revision.source_id,
+        source_revision_id=revision.source_revision_id,
+        event_count=event_count,
+        warning_count=warning_count,
+        components=components,
+        fragment_count=fragment_count,
+        fragments_hash=fragments_hash,
+        fragments_jsonl_path=fragments_jsonl_path,
+        log_report_path=log_report_path,
+        worker_result=worker_result,
+    )
+
+
 def _resolve_app_log_path(workspace_dir: Path) -> Path:
     config = load_config(workspace_dir)
     logging_config = config.get("logging", {})
@@ -1077,6 +1506,108 @@ def _load_xml_form_revision_context(
     )
 
 
+def _load_db_code_revision_context(
+    settings: DatabaseSettings,
+    source_revision_id: str,
+) -> DbCodeRevisionContext:
+    if not settings.database_path.is_file():
+        raise DatabaseNotReadyError(
+            f"Database is not initialized: {settings.database_path}. "
+            "Run 'dsl-manager db init <workspace>' before 'dsl-manager corpus parse-db-code'."
+        )
+
+    connection = open_database(settings.database_path, enable_wal=settings.wal_enabled)
+    try:
+        validate_database_migrations(connection)
+        row = connection.execute(
+            """
+            SELECT
+                sr.source_revision_id,
+                sr.source_id,
+                sr.file_path,
+                sr.content_hash,
+                s.source_id AS existing_source_id,
+                s.source_type,
+                s.source_subtype,
+                s.authority_level
+            FROM source_revisions AS sr
+            JOIN sources AS s
+                ON s.source_id = sr.source_id
+            WHERE sr.source_revision_id = ?
+            """,
+            (source_revision_id,),
+        ).fetchone()
+    finally:
+        connection.close()
+
+    if row is None:
+        raise CorpusDbCodeParseError(f"Source revision not found: {source_revision_id}.")
+    if row["existing_source_id"] is None:
+        raise CorpusDbCodeParseError(
+            f"Source revision {source_revision_id} does not belong to an existing source."
+        )
+    return DbCodeRevisionContext(
+        source_id=row["source_id"],
+        source_revision_id=row["source_revision_id"],
+        file_path=row["file_path"],
+        content_hash=row["content_hash"],
+        source_type=row["source_type"],
+        source_subtype=row["source_subtype"],
+        authority_level=row["authority_level"],
+    )
+
+
+def _load_log_revision_context(
+    settings: DatabaseSettings,
+    source_revision_id: str,
+) -> LogRevisionContext:
+    if not settings.database_path.is_file():
+        raise DatabaseNotReadyError(
+            f"Database is not initialized: {settings.database_path}. "
+            "Run 'dsl-manager db init <workspace>' before 'dsl-manager corpus parse-log'."
+        )
+
+    connection = open_database(settings.database_path, enable_wal=settings.wal_enabled)
+    try:
+        validate_database_migrations(connection)
+        row = connection.execute(
+            """
+            SELECT
+                sr.source_revision_id,
+                sr.source_id,
+                sr.file_path,
+                sr.content_hash,
+                s.source_id AS existing_source_id,
+                s.source_type,
+                s.source_subtype,
+                s.authority_level
+            FROM source_revisions AS sr
+            JOIN sources AS s
+                ON s.source_id = sr.source_id
+            WHERE sr.source_revision_id = ?
+            """,
+            (source_revision_id,),
+        ).fetchone()
+    finally:
+        connection.close()
+
+    if row is None:
+        raise CorpusLogParseError(f"Source revision not found: {source_revision_id}.")
+    if row["existing_source_id"] is None:
+        raise CorpusLogParseError(
+            f"Source revision {source_revision_id} does not belong to an existing source."
+        )
+    return LogRevisionContext(
+        source_id=row["source_id"],
+        source_revision_id=row["source_revision_id"],
+        file_path=row["file_path"],
+        content_hash=row["content_hash"],
+        source_type=row["source_type"],
+        source_subtype=row["source_subtype"],
+        authority_level=row["authority_level"],
+    )
+
+
 def _resolve_normalized_input_paths(
     workspace_dir: Path,
     revision: ChunkRevisionContext,
@@ -1183,7 +1714,7 @@ def _persist_chunks_mutation(
 
 def _persist_fragments_mutation(
     workspace_dir: Path,
-    revision: DdlRevisionContext | XmlFormRevisionContext,
+    revision: DdlRevisionContext | XmlFormRevisionContext | DbCodeRevisionContext | LogRevisionContext,
     input_path_relative: str,
 ):
     def apply(connection: sqlite3.Connection, output: dict[str, Any]) -> None:
@@ -1255,6 +1786,42 @@ def _resolve_xml_form_revision_file(workspace_dir: Path, file_path: str) -> Path
     return resolved
 
 
+def _resolve_db_code_revision_file(workspace_dir: Path, file_path: str) -> Path:
+    raw_path = Path(file_path)
+    if raw_path.is_absolute():
+        raise CorpusDbCodeParseError(f"Source revision path must be relative: {file_path}.")
+    if ".." in raw_path.parts:
+        raise CorpusDbCodeParseError(f"Source revision path escapes the workspace: {file_path}.")
+
+    try:
+        resolved = resolve_workspace_path(workspace_dir, file_path)
+    except DatabaseConfigurationError as exc:
+        raise CorpusDbCodeParseError(
+            f"Source revision path escapes the workspace: {file_path}."
+        ) from exc
+    if not resolved.is_file():
+        raise CorpusDbCodeParseError(f"Source revision file does not exist: {file_path}.")
+    return resolved
+
+
+def _resolve_log_revision_file(workspace_dir: Path, file_path: str) -> Path:
+    raw_path = Path(file_path)
+    if raw_path.is_absolute():
+        raise CorpusLogParseError(f"Source revision path must be relative: {file_path}.")
+    if ".." in raw_path.parts:
+        raise CorpusLogParseError(f"Source revision path escapes the workspace: {file_path}.")
+
+    try:
+        resolved = resolve_workspace_path(workspace_dir, file_path)
+    except DatabaseConfigurationError as exc:
+        raise CorpusLogParseError(
+            f"Source revision path escapes the workspace: {file_path}."
+        ) from exc
+    if not resolved.is_file():
+        raise CorpusLogParseError(f"Source revision file does not exist: {file_path}.")
+    return resolved
+
+
 def _validate_ddl_source_hash(revision: DdlRevisionContext, input_path: Path) -> None:
     actual_hash = sha256_file(input_path)
     if actual_hash != revision.content_hash:
@@ -1270,6 +1837,24 @@ def _validate_xml_form_source_hash(revision: XmlFormRevisionContext, input_path:
         raise CorpusXmlFormParseError(
             "Source file hash does not match source_revisions.content_hash for "
             f"{revision.source_revision_id}. Rerun 'dsl-manager corpus scan' before parsing XML forms."
+        )
+
+
+def _validate_db_code_source_hash(revision: DbCodeRevisionContext, input_path: Path) -> None:
+    actual_hash = sha256_file(input_path)
+    if actual_hash != revision.content_hash:
+        raise CorpusDbCodeParseError(
+            "Source file hash does not match source_revisions.content_hash for "
+            f"{revision.source_revision_id}. Rerun 'dsl-manager corpus scan' before parsing SQL code."
+        )
+
+
+def _validate_log_source_hash(revision: LogRevisionContext, input_path: Path) -> None:
+    actual_hash = sha256_file(input_path)
+    if actual_hash != revision.content_hash:
+        raise CorpusLogParseError(
+            "Source file hash does not match source_revisions.content_hash for "
+            f"{revision.source_revision_id}. Rerun 'dsl-manager corpus scan' before parsing logs."
         )
 
 
@@ -1387,3 +1972,56 @@ def _required_xml_form_output_int(output: dict[str, Any], key: str) -> int:
     if isinstance(value, bool) or not isinstance(value, int) or value < 0:
         raise CorpusXmlFormParseError(f"Worker output field is invalid: {key}.")
     return value
+
+
+def _required_db_code_output_hash(output: dict[str, Any], key: str) -> str:
+    value = output.get(key)
+    if not isinstance(value, str) or not re.fullmatch(r"[0-9a-f]{64}", value):
+        raise CorpusDbCodeParseError(f"Worker output field is invalid: {key}.")
+    return value
+
+
+def _required_db_code_output_path(output: dict[str, Any], key: str) -> str:
+    value = output.get(key)
+    if not isinstance(value, str) or not value:
+        raise CorpusDbCodeParseError(f"Worker output field is missing: {key}.")
+    if "\\" in value or Path(value).is_absolute() or ".." in Path(value).parts:
+        raise CorpusDbCodeParseError(f"Worker output path is not workspace-relative: {key}.")
+    return value
+
+
+def _required_db_code_output_int(output: dict[str, Any], key: str) -> int:
+    value = output.get(key)
+    if isinstance(value, bool) or not isinstance(value, int) or value < 0:
+        raise CorpusDbCodeParseError(f"Worker output field is invalid: {key}.")
+    return value
+
+
+def _required_log_output_hash(output: dict[str, Any], key: str) -> str:
+    value = output.get(key)
+    if not isinstance(value, str) or not re.fullmatch(r"[0-9a-f]{64}", value):
+        raise CorpusLogParseError(f"Worker output field is invalid: {key}.")
+    return value
+
+
+def _required_log_output_path(output: dict[str, Any], key: str) -> str:
+    value = output.get(key)
+    if not isinstance(value, str) or not value:
+        raise CorpusLogParseError(f"Worker output field is missing: {key}.")
+    if "\\" in value or Path(value).is_absolute() or ".." in Path(value).parts:
+        raise CorpusLogParseError(f"Worker output path is not workspace-relative: {key}.")
+    return value
+
+
+def _required_log_output_int(output: dict[str, Any], key: str) -> int:
+    value = output.get(key)
+    if isinstance(value, bool) or not isinstance(value, int) or value < 0:
+        raise CorpusLogParseError(f"Worker output field is invalid: {key}.")
+    return value
+
+
+def _required_log_output_string_tuple(output: dict[str, Any], key: str) -> tuple[str, ...]:
+    value = output.get(key)
+    if not isinstance(value, list) or not all(isinstance(item, str) for item in value):
+        raise CorpusLogParseError(f"Worker output field is invalid: {key}.")
+    return tuple(value)

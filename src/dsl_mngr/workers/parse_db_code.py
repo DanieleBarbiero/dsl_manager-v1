@@ -1,0 +1,282 @@
+from __future__ import annotations
+
+import argparse
+import hashlib
+import json
+import sys
+from pathlib import Path
+from typing import Any
+
+from dsl_mngr.core.db_code_parser import (
+    DbCodeParserError,
+    UnsupportedDbCodeOption,
+    build_fragment_records,
+    fragments_jsonl_content,
+    fragments_jsonl_hash,
+    parse_db_code_options,
+    parse_db_code_text,
+)
+from dsl_mngr.core.runs import canonical_json, relative_workspace_path
+
+
+WORKER_NAME = "parse_db_code"
+WORKER_VERSION = "1.0"
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--input", required=True)
+    parser.add_argument("--output", required=True)
+    args = parser.parse_args()
+
+    input_path = Path(args.input).resolve()
+    output_path = Path(args.output).resolve()
+
+    try:
+        payload = json.loads(input_path.read_text(encoding="utf-8"))
+        workspace_dir = _workspace_dir_from_input(input_path)
+        worker_input = _worker_input(payload)
+        result_payload = parse(worker_input, workspace_dir=workspace_dir)
+    except UnsupportedDbCodeOption as exc:
+        _write_error("unsupported_db_code_option", str(exc), option=exc.option_key)
+        return 4
+    except (
+        DbCodeParserError,
+        RuntimeError,
+        ValueError,
+        OSError,
+        UnicodeDecodeError,
+        json.JSONDecodeError,
+    ) as exc:
+        _write_error("db_code_parsing_failed", str(exc))
+        return 5
+
+    output_path.write_text(canonical_json(result_payload), encoding="utf-8", newline="\n")
+    print("parse_db_code completed")
+    return 0
+
+
+def parse(payload: dict[str, Any], *, workspace_dir: Path) -> dict[str, Any]:
+    run_id = _required_string(payload, "run_id")
+    source_id = _required_string(payload, "source_id")
+    source_revision_id = _required_string(payload, "source_revision_id")
+    source_hash = _required_string(payload, "source_hash")
+    input_path_relative = _required_string(payload, "input_path")
+    output_dir_relative = _required_string(payload, "output_dir")
+    profile = _required_string(payload, "profile")
+    worker_config = _required_dict(payload, "worker_config")
+    db_code_options = _required_dict(payload, "db_code_options")
+
+    options = parse_db_code_options(db_code_options)
+    worker_version = str(worker_config.get("version", WORKER_VERSION))
+
+    source_path = _resolve_relative_path(workspace_dir, input_path_relative)
+    output_dir = _resolve_relative_path(workspace_dir, output_dir_relative)
+    if not source_path.is_file():
+        raise ValueError(f"Input source file not found: {input_path_relative}")
+
+    actual_source_hash = _sha256_file(source_path)
+    if actual_source_hash != source_hash:
+        raise ValueError(
+            "Source file hash does not match source_revisions.content_hash; "
+            "rerun 'dsl-manager corpus scan' before parsing SQL code."
+        )
+
+    db_code_text = source_path.read_text(encoding="utf-8")
+    parse_result = parse_db_code_text(db_code_text, options)
+    fragment_id_by_sequence = _fragment_id_by_sequence(payload.get("fragment_id_by_sequence"))
+    next_fragment_number = _required_int(payload, "next_fragment_number")
+    records = build_fragment_records(
+        parse_result,
+        source_revision_id=source_revision_id,
+        source_hash=source_hash,
+        parser_name=WORKER_NAME,
+        parser_version=worker_version,
+        fragment_id_by_sequence=fragment_id_by_sequence,
+        next_fragment_number=next_fragment_number,
+    )
+
+    output_dir.mkdir(parents=True, exist_ok=True)
+    fragments_jsonl_path = output_dir / "fragments.jsonl"
+    report_path = output_dir / "db_code_report.json"
+    fragments_hash = fragments_jsonl_hash(records)
+    if options.output_fragments_jsonl:
+        fragments_jsonl_path.write_text(
+            fragments_jsonl_content(records),
+            encoding="utf-8",
+            newline="\n",
+        )
+
+    output_payload = {
+        "call_count": len(parse_result.calls),
+        "calls": parse_result.calls,
+        "db_code_objects": parse_result.to_objects(),
+        "db_code_options": db_code_options,
+        "db_code_report_path": relative_workspace_path(workspace_dir, report_path),
+        "dialect": options.dialect,
+        "exit_code": 0,
+        "fragment_count": len(records),
+        "fragments": records,
+        "fragments_hash": fragments_hash,
+        "fragments_jsonl_path": relative_workspace_path(workspace_dir, fragments_jsonl_path),
+        "input_path": input_path_relative,
+        "procedure_count": parse_result.procedure_count,
+        "profile": profile,
+        "read_count": len(parse_result.reads),
+        "reads": parse_result.reads,
+        "run_id": run_id,
+        "source_hash": actual_source_hash,
+        "source_id": source_id,
+        "source_revision_id": source_revision_id,
+        "statement_count": parse_result.statement_count,
+        "status": "completed",
+        "trigger_count": parse_result.trigger_count,
+        "warnings": list(parse_result.warnings),
+        "worker_config": worker_config,
+        "worker_name": WORKER_NAME,
+        "worker_version": worker_version,
+        "write_count": len(parse_result.writes),
+        "writes": parse_result.writes,
+    }
+    report_path.write_text(
+        canonical_json(_report_payload(output_payload)),
+        encoding="utf-8",
+        newline="\n",
+    )
+    return output_payload
+
+
+def _report_payload(output: dict[str, Any]) -> dict[str, Any]:
+    return {
+        "call_count": output["call_count"],
+        "calls": output["calls"],
+        "db_code_objects": output["db_code_objects"],
+        "dialect": output["dialect"],
+        "fragment_count": output["fragment_count"],
+        "fragments": [
+            {
+                "fragment_id": record["fragment_id"],
+                "fragment_type": record["fragment_type"],
+                "path_or_selector": record["path_or_selector"],
+                "sequence": record["sequence"],
+                "status": record["status"],
+                "text_hash": record["text_hash"],
+            }
+            for record in output["fragments"]
+        ],
+        "fragments_hash": output["fragments_hash"],
+        "input": {
+            "input_path": output["input_path"],
+            "source_hash": output["source_hash"],
+            "source_id": output["source_id"],
+            "source_revision_id": output["source_revision_id"],
+        },
+        "outputs": {
+            "db_code_report_path": output["db_code_report_path"],
+            "fragments_jsonl_path": output["fragments_jsonl_path"],
+        },
+        "procedure_count": output["procedure_count"],
+        "profile": output["profile"],
+        "read_count": output["read_count"],
+        "reads": output["reads"],
+        "resolved_config": {
+            "db_code": output.get("db_code_options", {}),
+            "worker": output.get("worker_config", {}),
+        },
+        "run_id": output["run_id"],
+        "statement_count": output["statement_count"],
+        "status": "completed",
+        "trigger_count": output["trigger_count"],
+        "warnings": output.get("warnings", []),
+        "worker_name": output["worker_name"],
+        "worker_version": output["worker_version"],
+        "write_count": output["write_count"],
+        "writes": output["writes"],
+    }
+
+
+def _worker_input(payload: dict[str, Any]) -> dict[str, Any]:
+    nested = payload.get("input")
+    if isinstance(nested, dict):
+        return {**payload, **nested}
+    return payload
+
+
+def _workspace_dir_from_input(input_path: Path) -> Path:
+    try:
+        return input_path.parent.parent.parent.parent.resolve()
+    except IndexError as exc:
+        raise ValueError(f"Cannot infer workspace from input artifact: {input_path}") from exc
+
+
+def _resolve_relative_path(workspace_dir: Path, relative_path: str) -> Path:
+    raw = Path(relative_path)
+    if raw.is_absolute() or ".." in raw.parts:
+        raise ValueError(f"Path must be relative to the workspace: {relative_path}")
+    resolved = (workspace_dir / raw).resolve()
+    try:
+        resolved.relative_to(workspace_dir.resolve())
+    except ValueError as exc:
+        raise ValueError(f"Path escapes the workspace: {relative_path}") from exc
+    return resolved
+
+
+def _fragment_id_by_sequence(value: Any) -> dict[int, str]:
+    if value is None:
+        return {}
+    if not isinstance(value, dict):
+        raise ValueError("fragment_id_by_sequence must be an object.")
+    result: dict[int, str] = {}
+    for raw_sequence, raw_fragment_id in value.items():
+        sequence = int(raw_sequence)
+        if not isinstance(raw_fragment_id, str) or not raw_fragment_id:
+            raise ValueError("fragment_id_by_sequence values must be non-empty strings.")
+        result[sequence] = raw_fragment_id
+    return result
+
+
+def _required_string(payload: dict[str, Any], key: str) -> str:
+    value = payload.get(key)
+    if not isinstance(value, str) or not value:
+        raise ValueError(f"Missing required worker input field: {key}")
+    return value
+
+
+def _required_dict(payload: dict[str, Any], key: str) -> dict[str, Any]:
+    value = payload.get(key)
+    if not isinstance(value, dict):
+        raise ValueError(f"Missing required worker input field: {key}")
+    return value
+
+
+def _required_int(payload: dict[str, Any], key: str) -> int:
+    value = payload.get(key)
+    if isinstance(value, bool):
+        raise ValueError(f"Missing required worker input field: {key}")
+    try:
+        return int(value)
+    except (TypeError, ValueError) as exc:
+        raise ValueError(f"Missing required worker input field: {key}") from exc
+
+
+def _sha256_file(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def _write_error(error_type: str, message: str, *, option: str | None = None) -> None:
+    payload: dict[str, Any] = {
+        "error_type": error_type,
+        "message": message,
+        "worker_name": WORKER_NAME,
+    }
+    if option is not None:
+        payload["option"] = option
+    print(json.dumps(payload, ensure_ascii=False, sort_keys=True), file=sys.stderr)
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

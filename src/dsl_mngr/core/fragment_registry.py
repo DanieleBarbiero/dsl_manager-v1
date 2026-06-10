@@ -13,6 +13,7 @@ from dsl_mngr.core.ddl_parser import (
     fragments_jsonl_hash,
     sha256_text,
 )
+from dsl_mngr.core.log_parser import component_is_batch_like
 from dsl_mngr.core.runs import canonical_json, next_id
 
 
@@ -36,7 +37,14 @@ class PersistedFragments:
 
 DDL_FRAGMENT_TYPES = {"ddl_table", "ddl_column", "ddl_constraint"}
 XML_FORM_FRAGMENT_TYPES = {"xml_form", "xml_field", "xml_button"}
-ALLOWED_FRAGMENT_TYPES = DDL_FRAGMENT_TYPES | XML_FORM_FRAGMENT_TYPES
+SQL_FRAGMENT_TYPES = {"sql_procedure", "sql_statement", "sql_trigger"}
+LOG_FRAGMENT_TYPES = {"log_event"}
+ALLOWED_FRAGMENT_TYPES = (
+    DDL_FRAGMENT_TYPES
+    | XML_FORM_FRAGMENT_TYPES
+    | SQL_FRAGMENT_TYPES
+    | LOG_FRAGMENT_TYPES
+)
 
 COMMON_REQUIRED_METADATA_KEYS = {
     "object_type",
@@ -140,7 +148,14 @@ def persist_worker_fragments(
             (expected_source_revision_id, *produced_sequences),
         )
 
-    _classify_unknown_source(connection, expected_source_id, worker_name, timestamp)
+    _classify_unknown_source(
+        connection,
+        expected_source_id,
+        worker_name,
+        timestamp,
+        output=output,
+        records=records,
+    )
 
     fragments_path.parent.mkdir(parents=True, exist_ok=True)
     fragments_path.write_text(fragments_jsonl_content(records), encoding="utf-8", newline="\n")
@@ -153,6 +168,20 @@ def persist_worker_fragments(
         )
     elif worker_name == "parse_xml_form":
         _write_xml_form_report(
+            report_path,
+            output=output,
+            records=records,
+            fragments_hash=actual_hash,
+        )
+    elif worker_name == "parse_db_code":
+        _write_db_code_report(
+            report_path,
+            output=output,
+            records=records,
+            fragments_hash=actual_hash,
+        )
+    elif worker_name == "parse_log":
+        _write_log_report(
             report_path,
             output=output,
             records=records,
@@ -238,6 +267,10 @@ def _validate_record(
         _validate_ddl_metadata(record, metadata)
     elif parser == "parse_xml_form":
         _validate_xml_form_metadata(record, metadata)
+    elif parser == "parse_db_code":
+        _validate_sql_metadata(record, metadata)
+    elif parser == "parse_log":
+        _validate_log_metadata(record, metadata)
     else:
         raise FragmentRegistryError("Fragment metadata parser is incoherent.")
     return fragment_id
@@ -320,6 +353,108 @@ def _validate_xml_form_metadata(record: dict[str, Any], metadata: dict[str, Any]
         return
 
     raise FragmentRegistryError("XML form fragment metadata is incoherent.")
+
+
+def _validate_sql_metadata(record: dict[str, Any], metadata: dict[str, Any]) -> None:
+    fragment_type = record.get("fragment_type")
+    if fragment_type not in SQL_FRAGMENT_TYPES:
+        raise FragmentRegistryError("SQL code fragment has unsupported fragment_type.")
+
+    object_type = metadata.get("object_type")
+    if fragment_type == "sql_trigger":
+        if object_type != "trigger":
+            raise FragmentRegistryError("sql_trigger fragment metadata object_type must be trigger.")
+        for key in (
+            "calls",
+            "reads",
+            "target_table",
+            "trigger_event",
+            "trigger_name",
+            "trigger_timing",
+            "writes",
+        ):
+            if key not in metadata:
+                raise FragmentRegistryError(f"Trigger fragment metadata is missing {key}.")
+        _require_text_metadata(metadata, "trigger_name", "Trigger")
+        _require_text_metadata(metadata, "trigger_timing", "Trigger")
+        _require_text_metadata(metadata, "trigger_event", "Trigger")
+        _require_text_metadata(metadata, "target_table", "Trigger")
+        _require_list_metadata(metadata, "reads", "Trigger")
+        _require_list_metadata(metadata, "writes", "Trigger")
+        _require_list_metadata(metadata, "calls", "Trigger")
+        return
+
+    if fragment_type == "sql_procedure":
+        if object_type != "procedure":
+            raise FragmentRegistryError("sql_procedure fragment metadata object_type must be procedure.")
+        for key in ("calls", "parameters", "procedure_name", "reads", "writes"):
+            if key not in metadata:
+                raise FragmentRegistryError(f"Procedure fragment metadata is missing {key}.")
+        _require_text_metadata(metadata, "procedure_name", "Procedure")
+        _require_list_metadata(metadata, "parameters", "Procedure")
+        _require_list_metadata(metadata, "reads", "Procedure")
+        _require_list_metadata(metadata, "writes", "Procedure")
+        _require_list_metadata(metadata, "calls", "Procedure")
+        return
+
+    if fragment_type == "sql_statement":
+        if object_type != "statement":
+            raise FragmentRegistryError("sql_statement fragment metadata object_type must be statement.")
+        for key in (
+            "calls",
+            "parent_object_name",
+            "parent_object_type",
+            "reads",
+            "statement_kind",
+            "writes",
+        ):
+            if key not in metadata:
+                raise FragmentRegistryError(f"SQL statement fragment metadata is missing {key}.")
+        _require_text_metadata(metadata, "parent_object_name", "SQL statement")
+        if metadata.get("parent_object_type") not in {"procedure", "trigger"}:
+            raise FragmentRegistryError("SQL statement parent_object_type is invalid.")
+        _require_text_metadata(metadata, "statement_kind", "SQL statement")
+        _require_list_metadata(metadata, "reads", "SQL statement")
+        _require_list_metadata(metadata, "writes", "SQL statement")
+        _require_list_metadata(metadata, "calls", "SQL statement")
+        return
+
+    raise FragmentRegistryError("SQL code fragment metadata is incoherent.")
+
+
+def _validate_log_metadata(record: dict[str, Any], metadata: dict[str, Any]) -> None:
+    if record.get("fragment_type") not in LOG_FRAGMENT_TYPES:
+        raise FragmentRegistryError("Log fragment has unsupported fragment_type.")
+    if metadata.get("object_type") != "log_event":
+        raise FragmentRegistryError("log_event fragment metadata object_type must be log_event.")
+    for key in (
+        "component",
+        "event_kind",
+        "level",
+        "message",
+        "observed_identifiers",
+        "timestamp",
+    ):
+        if key not in metadata:
+            raise FragmentRegistryError(f"Log event fragment metadata is missing {key}.")
+    _require_text_metadata(metadata, "timestamp", "Log event")
+    _require_text_metadata(metadata, "level", "Log event")
+    _require_text_metadata(metadata, "component", "Log event")
+    if metadata.get("event_kind") not in {"start", "processed", "warning", "end", "unknown"}:
+        raise FragmentRegistryError("Log event metadata event_kind is invalid.")
+    _require_text_metadata(metadata, "message", "Log event")
+    if not isinstance(metadata.get("observed_identifiers"), dict):
+        raise FragmentRegistryError("Log event metadata observed_identifiers must be an object.")
+
+
+def _require_text_metadata(metadata: dict[str, Any], key: str, label: str) -> None:
+    if not isinstance(metadata.get(key), str) or not metadata[key]:
+        raise FragmentRegistryError(f"{label} fragment metadata {key} is invalid.")
+
+
+def _require_list_metadata(metadata: dict[str, Any], key: str, label: str) -> None:
+    if not isinstance(metadata.get(key), list):
+        raise FragmentRegistryError(f"{label} fragment metadata {key} must be a list.")
 
 
 def _upsert_fragment(
@@ -423,6 +558,9 @@ def _classify_unknown_source(
     source_id: str,
     worker_name: str,
     timestamp: str,
+    *,
+    output: dict[str, Any],
+    records: list[dict[str, Any]],
 ) -> None:
     row = connection.execute(
         """
@@ -439,9 +577,19 @@ def _classify_unknown_source(
     if worker_name == "parse_ddl":
         source_type = "ddl"
         source_subtype = "mixed_ddl"
+        authority_level = "technical_structure"
     elif worker_name == "parse_xml_form":
         source_type = "xml_form"
         source_subtype = "form"
+        authority_level = "technical_structure"
+    elif worker_name == "parse_db_code":
+        source_type = "database_code"
+        source_subtype = _db_code_source_subtype(records)
+        authority_level = "runtime_code"
+    elif worker_name == "parse_log":
+        source_type = "log"
+        source_subtype = _log_source_subtype(output, records)
+        authority_level = "runtime_observation"
     else:
         raise FragmentRegistryError(f"Unsupported fragment worker: {worker_name}.")
     connection.execute(
@@ -453,8 +601,39 @@ def _classify_unknown_source(
             updated_at = ?
         WHERE source_id = ?
         """,
-        (source_type, source_subtype, "technical_structure", timestamp, source_id),
+        (source_type, source_subtype, authority_level, timestamp, source_id),
     )
+
+
+def _db_code_source_subtype(records: list[dict[str, Any]]) -> str:
+    object_types = {
+        record.get("metadata", {}).get("object_type")
+        for record in records
+        if isinstance(record.get("metadata"), dict)
+    }
+    has_trigger = "trigger" in object_types
+    has_procedure = "procedure" in object_types
+    if has_trigger and has_procedure:
+        return "mixed_sql_code"
+    if has_trigger:
+        return "trigger"
+    if has_procedure:
+        return "procedure"
+    return "mixed_sql_code"
+
+
+def _log_source_subtype(output: dict[str, Any], records: list[dict[str, Any]]) -> str:
+    components = output.get("components")
+    if not isinstance(components, list):
+        components = [
+            record.get("metadata", {}).get("component")
+            for record in records
+            if isinstance(record.get("metadata"), dict)
+        ]
+    for component in components:
+        if isinstance(component, str) and component_is_batch_like(component):
+            return "batch_log"
+    return "application_log"
 
 
 def _write_ddl_report(
@@ -562,16 +741,127 @@ def _write_xml_form_report(
     path.write_text(canonical_json(report), encoding="utf-8", newline="\n")
 
 
+def _write_db_code_report(
+    path: Path,
+    *,
+    output: dict[str, Any],
+    records: list[dict[str, Any]],
+    fragments_hash: str,
+) -> None:
+    report = {
+        "call_count": output["call_count"],
+        "calls": output["calls"],
+        "db_code_objects": output["db_code_objects"],
+        "dialect": output["dialect"],
+        "fragment_count": len(records),
+        "fragments": [
+            {
+                "fragment_id": record["fragment_id"],
+                "fragment_type": record["fragment_type"],
+                "path_or_selector": record["path_or_selector"],
+                "sequence": record["sequence"],
+                "status": record["status"],
+                "text_hash": record["text_hash"],
+            }
+            for record in records
+        ],
+        "fragments_hash": fragments_hash,
+        "input": {
+            "input_path": output["input_path"],
+            "source_hash": output["source_hash"],
+            "source_id": output["source_id"],
+            "source_revision_id": output["source_revision_id"],
+        },
+        "outputs": {
+            "db_code_report_path": output["db_code_report_path"],
+            "fragments_jsonl_path": output["fragments_jsonl_path"],
+        },
+        "procedure_count": output["procedure_count"],
+        "profile": output["profile"],
+        "read_count": output["read_count"],
+        "reads": output["reads"],
+        "resolved_config": {
+            "db_code": output.get("db_code_options", {}),
+            "worker": output.get("worker_config", {}),
+        },
+        "run_id": output["run_id"],
+        "statement_count": output["statement_count"],
+        "status": "completed",
+        "trigger_count": output["trigger_count"],
+        "warnings": output.get("warnings", []),
+        "worker_name": output["worker_name"],
+        "worker_version": output["worker_version"],
+        "write_count": output["write_count"],
+        "writes": output["writes"],
+    }
+    path.write_text(canonical_json(report), encoding="utf-8", newline="\n")
+
+
+def _write_log_report(
+    path: Path,
+    *,
+    output: dict[str, Any],
+    records: list[dict[str, Any]],
+    fragments_hash: str,
+) -> None:
+    report = {
+        "component_count": output["component_count"],
+        "components": output["components"],
+        "event_count": output["event_count"],
+        "fragment_count": len(records),
+        "fragments": [
+            {
+                "fragment_id": record["fragment_id"],
+                "fragment_type": record["fragment_type"],
+                "path_or_selector": record["path_or_selector"],
+                "sequence": record["sequence"],
+                "status": record["status"],
+                "text_hash": record["text_hash"],
+            }
+            for record in records
+        ],
+        "fragments_hash": fragments_hash,
+        "input": {
+            "input_path": output["input_path"],
+            "source_hash": output["source_hash"],
+            "source_id": output["source_id"],
+            "source_revision_id": output["source_revision_id"],
+        },
+        "log_objects": output["log_objects"],
+        "outputs": {
+            "fragments_jsonl_path": output["fragments_jsonl_path"],
+            "log_report_path": output["log_report_path"],
+        },
+        "parser": output["parser"],
+        "profile": output["profile"],
+        "resolved_config": {
+            "log": output.get("log_options", {}),
+            "worker": output.get("worker_config", {}),
+        },
+        "run_id": output["run_id"],
+        "status": "completed",
+        "warning_count": output["warning_count"],
+        "warnings": output.get("warnings", []),
+        "worker_name": output["worker_name"],
+        "worker_version": output["worker_version"],
+    }
+    path.write_text(canonical_json(report), encoding="utf-8", newline="\n")
+
+
 def _required_worker_name(output: dict[str, Any]) -> str:
     value = output.get("worker_name")
-    if value not in {"parse_ddl", "parse_xml_form"}:
+    if value not in {"parse_db_code", "parse_ddl", "parse_log", "parse_xml_form"}:
         raise FragmentRegistryError("Worker output worker_name is unsupported.")
     return value
 
 
 def _report_path_key(worker_name: str) -> str:
+    if worker_name == "parse_db_code":
+        return "db_code_report_path"
     if worker_name == "parse_ddl":
         return "ddl_report_path"
+    if worker_name == "parse_log":
+        return "log_report_path"
     if worker_name == "parse_xml_form":
         return "xml_form_report_path"
     raise FragmentRegistryError(f"Unsupported fragment worker: {worker_name}.")

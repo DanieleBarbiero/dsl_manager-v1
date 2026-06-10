@@ -7,7 +7,9 @@ from dsl_mngr.cli.commands.candidates import run_candidates_validate_command
 from dsl_mngr.cli.commands.corpus import (
     run_corpus_chunk_command,
     run_corpus_normalize_command,
+    run_corpus_parse_db_code_command,
     run_corpus_parse_ddl_command,
+    run_corpus_parse_log_command,
     run_corpus_parse_xml_form_command,
     run_corpus_scan_command,
 )
@@ -135,6 +137,44 @@ def build_parser() -> argparse.ArgumentParser:
         help="Worker profile under configs/workers. Defaults to xml_form.default.",
     )
     parse_xml_form_parser.set_defaults(func=run_corpus_parse_xml_form_command)
+    parse_db_code_parser = corpus_subparsers.add_parser(
+        "parse-db-code",
+        help="Parse SQL procedures and triggers from a source revision into structural fragments.",
+    )
+    parse_db_code_parser.add_argument(
+        "workspace",
+        help="Workspace directory.",
+    )
+    parse_db_code_parser.add_argument(
+        "--revision",
+        required=True,
+        help="Source revision id, for example REV_000001.",
+    )
+    parse_db_code_parser.add_argument(
+        "--profile",
+        default="db_code.default",
+        help="Worker profile under configs/workers. Defaults to db_code.default.",
+    )
+    parse_db_code_parser.set_defaults(func=run_corpus_parse_db_code_command)
+    parse_log_parser = corpus_subparsers.add_parser(
+        "parse-log",
+        help="Parse line-based logs from a source revision into observed event fragments.",
+    )
+    parse_log_parser.add_argument(
+        "workspace",
+        help="Workspace directory.",
+    )
+    parse_log_parser.add_argument(
+        "--revision",
+        required=True,
+        help="Source revision id, for example REV_000001.",
+    )
+    parse_log_parser.add_argument(
+        "--profile",
+        default="log.default",
+        help="Worker profile under configs/workers. Defaults to log.default.",
+    )
+    parse_log_parser.set_defaults(func=run_corpus_parse_log_command)
 
     candidates_parser = subparsers.add_parser("candidates", help="Validate candidate records.")
     candidates_subparsers = candidates_parser.add_subparsers(

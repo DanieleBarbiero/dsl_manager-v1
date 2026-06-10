@@ -98,6 +98,28 @@ xml_form:
   output_fragments_jsonl: true
 """
 
+DEFAULT_DB_CODE_PROFILE = """worker:
+  name: parse_db_code
+  version: 1.0
+db_code:
+  dialect: generic_sql
+  parse_triggers: true
+  parse_procedures: true
+  parse_update_statements: true
+  parse_calls: true
+  strict_options_fail_on_unsupported_option: true
+  output_fragments_jsonl: true
+"""
+
+DEFAULT_LOG_PROFILE = """worker:
+  name: parse_log
+  version: 1.0
+log:
+  parser: line_regex
+  strict_options_fail_on_unsupported_option: true
+  output_fragments_jsonl: true
+"""
+
 
 @dataclass(frozen=True)
 class WorkspaceInitResult:
@@ -128,6 +150,14 @@ def initialize_workspace(workspace_dir: str | Path) -> WorkspaceInitResult:
     _write_if_missing(
         workspace_path / "configs" / "workers" / "xml_form.default.yaml",
         DEFAULT_XML_FORM_PROFILE,
+    )
+    _write_if_missing(
+        workspace_path / "configs" / "workers" / "db_code.default.yaml",
+        DEFAULT_DB_CODE_PROFILE,
+    )
+    _write_if_missing(
+        workspace_path / "configs" / "workers" / "log.default.yaml",
+        DEFAULT_LOG_PROFILE,
     )
     (workspace_path / "logs" / "app.jsonl").touch(exist_ok=True)
 

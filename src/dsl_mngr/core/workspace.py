@@ -133,6 +133,19 @@ ai_package:
   package_format: markdown_plus_json
 """
 
+DEFAULT_GEXF_PROFILE = """worker:
+  name: export_gexf
+  version: 1.0
+graph:
+  include_sources: true
+  include_fact_nodes: true
+  include_conflicts: true
+  include_low_confidence: true
+  directed: true
+  node_label_strategy: readable
+  strict_orphans: false
+"""
+
 
 @dataclass(frozen=True)
 class WorkspaceInitResult:
@@ -175,6 +188,10 @@ def initialize_workspace(workspace_dir: str | Path) -> WorkspaceInitResult:
     _write_if_missing(
         workspace_path / "configs" / "workers" / "ai_package.default.yaml",
         DEFAULT_AI_PACKAGE_PROFILE,
+    )
+    _write_if_missing(
+        workspace_path / "configs" / "workers" / "gexf.default.yaml",
+        DEFAULT_GEXF_PROFILE,
     )
     (workspace_path / "logs" / "app.jsonl").touch(exist_ok=True)
 

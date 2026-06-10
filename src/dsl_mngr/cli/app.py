@@ -28,6 +28,7 @@ from dsl_mngr.cli.commands.db import run_db_init_command
 from dsl_mngr.cli.commands.dsl import run_dsl_diff_command, run_dsl_render_command
 from dsl_mngr.cli.commands.facts import run_facts_merge_command
 from dsl_mngr.cli.commands.facts import run_facts_merge_batch_command
+from dsl_mngr.cli.commands.graph import run_graph_export_command
 from dsl_mngr.cli.commands.init import run_init_command
 from dsl_mngr.cli.commands.log import run_log_table_command
 from dsl_mngr.cli.commands.run import run_start_command, run_status_command
@@ -431,6 +432,38 @@ def build_parser() -> argparse.ArgumentParser:
         help="Optional output directory inside the workspace. Defaults to exports/dsl_diff.",
     )
     dsl_diff_parser.set_defaults(func=run_dsl_diff_command)
+
+    graph_parser = subparsers.add_parser("graph", help="Export graph views from DSL snapshots.")
+    graph_subparsers = graph_parser.add_subparsers(dest="graph_command", required=True)
+    graph_export_parser = graph_subparsers.add_parser(
+        "export",
+        help="Export a persisted DSL snapshot as a GEXF graph.",
+    )
+    graph_export_parser.add_argument(
+        "workspace",
+        help="Workspace directory.",
+    )
+    graph_export_parser.add_argument(
+        "--snapshot",
+        dest="snapshot_id",
+        required=True,
+        help="DSL snapshot id, for example DSL_000001.",
+    )
+    graph_export_parser.add_argument(
+        "--format",
+        default="gexf",
+        help="Export format. Only gexf is supported in v1.",
+    )
+    graph_export_parser.add_argument(
+        "--output-dir",
+        help="Optional output directory inside the workspace. Defaults to exports/graph.",
+    )
+    graph_export_parser.add_argument(
+        "--strict-orphans",
+        action="store_true",
+        help="Fail when a relation references a missing entity.",
+    )
+    graph_export_parser.set_defaults(func=run_graph_export_command)
 
     run_parser = subparsers.add_parser("run", help="Manage reproducible runs.")
     run_subparsers = run_parser.add_subparsers(dest="run_command", required=True)

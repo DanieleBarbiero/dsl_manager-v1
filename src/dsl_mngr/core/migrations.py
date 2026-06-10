@@ -482,6 +482,42 @@ MIGRATIONS: tuple[Migration, ...] = (
             """,
         ),
     ),
+    Migration(
+        version=6,
+        name="create_graph_export_schema",
+        statements=(
+            """
+            CREATE TABLE IF NOT EXISTS graph_exports (
+                graph_export_id TEXT PRIMARY KEY,
+                run_id TEXT NOT NULL,
+                snapshot_id TEXT NOT NULL,
+                dsl_hash TEXT NOT NULL,
+                graph_hash TEXT NOT NULL,
+                format TEXT NOT NULL,
+                graph_path TEXT NOT NULL,
+                report_path TEXT NOT NULL,
+                node_count INTEGER NOT NULL,
+                edge_count INTEGER NOT NULL,
+                orphan_count INTEGER NOT NULL,
+                warning_count INTEGER NOT NULL,
+                status TEXT NOT NULL,
+                created_at TEXT NOT NULL,
+                FOREIGN KEY (run_id)
+                    REFERENCES runs(run_id),
+                FOREIGN KEY (snapshot_id)
+                    REFERENCES dsl_snapshots(snapshot_id)
+            )
+            """,
+            """
+            CREATE INDEX IF NOT EXISTS idx_graph_exports_run
+            ON graph_exports(run_id)
+            """,
+            """
+            CREATE INDEX IF NOT EXISTS idx_graph_exports_snapshot
+            ON graph_exports(snapshot_id)
+            """,
+        ),
+    ),
 )
 
 

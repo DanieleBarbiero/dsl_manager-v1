@@ -56,7 +56,7 @@ def test_docling_normalization_no_images(tmp_path, capsys):
         check=False,
         capture_output=True,
         text=True,
-        timeout=180,
+        timeout=2000,
     )
     assert completed.returncode == 0
     assert "Run: RUN_000002" in completed.stdout

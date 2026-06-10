@@ -7,8 +7,14 @@ from dsl_mngr.cli.commands.ai import (
     run_ai_import_command,
     run_ai_inbox_scan_command,
     run_ai_package_command,
+    run_ai_package_batch_command,
+)
+from dsl_mngr.cli.commands.batch import (
+    run_batch_chunk_dir_command,
+    run_batch_process_dir_command,
 )
 from dsl_mngr.cli.commands.candidates import run_candidates_validate_command
+from dsl_mngr.cli.commands.candidates import run_candidates_validate_batch_command
 from dsl_mngr.cli.commands.corpus import (
     run_corpus_chunk_command,
     run_corpus_normalize_command,
@@ -21,6 +27,7 @@ from dsl_mngr.cli.commands.corpus import (
 from dsl_mngr.cli.commands.db import run_db_init_command
 from dsl_mngr.cli.commands.dsl import run_dsl_diff_command, run_dsl_render_command
 from dsl_mngr.cli.commands.facts import run_facts_merge_command
+from dsl_mngr.cli.commands.facts import run_facts_merge_batch_command
 from dsl_mngr.cli.commands.init import run_init_command
 from dsl_mngr.cli.commands.log import run_log_table_command
 from dsl_mngr.cli.commands.run import run_start_command, run_status_command
@@ -181,6 +188,48 @@ def build_parser() -> argparse.ArgumentParser:
     )
     parse_log_parser.set_defaults(func=run_corpus_parse_log_command)
 
+    batch_parser = subparsers.add_parser("batch", help="Run batch orchestration commands.")
+    batch_subparsers = batch_parser.add_subparsers(dest="batch_command", required=True)
+    batch_process_parser = batch_subparsers.add_parser(
+        "process-dir",
+        help="Scan and process source files in a directory.",
+    )
+    batch_process_parser.add_argument("workspace", help="Workspace directory.")
+    batch_process_parser.add_argument(
+        "--path",
+        dest="corpus_path",
+        default="corpus/active",
+        help="Corpus directory path relative to the workspace. Defaults to corpus/active.",
+    )
+    batch_process_parser.add_argument(
+        "--stop-on-error",
+        action="store_true",
+        help="Stop the batch at the first failed item.",
+    )
+    batch_process_parser.set_defaults(func=run_batch_process_dir_command)
+
+    batch_chunk_parser = batch_subparsers.add_parser(
+        "chunk-dir",
+        help="Chunk multiple normalized source revisions.",
+    )
+    batch_chunk_parser.add_argument("workspace", help="Workspace directory.")
+    batch_chunk_parser.add_argument(
+        "--revision",
+        action="append",
+        help="Source revision id to chunk. Can be repeated.",
+    )
+    batch_chunk_parser.add_argument(
+        "--profile",
+        default="docling.chunking",
+        help="Worker profile under configs/workers. Defaults to docling.chunking.",
+    )
+    batch_chunk_parser.add_argument(
+        "--stop-on-error",
+        action="store_true",
+        help="Stop the batch at the first failed item.",
+    )
+    batch_chunk_parser.set_defaults(func=run_batch_chunk_dir_command)
+
     candidates_parser = subparsers.add_parser("candidates", help="Validate candidate records.")
     candidates_subparsers = candidates_parser.add_subparsers(
         dest="candidates_command",
@@ -201,6 +250,27 @@ def build_parser() -> argparse.ArgumentParser:
         help="Candidate JSONL path inside the workspace.",
     )
     validate_parser.set_defaults(func=run_candidates_validate_command)
+    validate_batch_parser = candidates_subparsers.add_parser(
+        "validate-batch",
+        help="Import and validate multiple JSONL candidate files.",
+    )
+    validate_batch_parser.add_argument("workspace", help="Workspace directory.")
+    validate_batch_parser.add_argument(
+        "--input-dir",
+        default="ai/inbox",
+        help="Candidate input directory inside the workspace. Defaults to ai/inbox.",
+    )
+    validate_batch_parser.add_argument(
+        "--pattern",
+        default="*.jsonl",
+        help="Glob pattern inside input-dir. Defaults to *.jsonl.",
+    )
+    validate_batch_parser.add_argument(
+        "--stop-on-error",
+        action="store_true",
+        help="Stop the batch at the first failed item.",
+    )
+    validate_batch_parser.set_defaults(func=run_candidates_validate_batch_command)
 
     ai_parser = subparsers.add_parser("ai", help="Prepare and import AI handoff packages.")
     ai_subparsers = ai_parser.add_subparsers(dest="ai_command", required=True)
@@ -223,6 +293,27 @@ def build_parser() -> argparse.ArgumentParser:
         help="Worker profile under configs/workers. Defaults to ai_package.default.",
     )
     ai_package_parser.set_defaults(func=run_ai_package_command)
+    ai_package_batch_parser = ai_subparsers.add_parser(
+        "package-batch",
+        help="Build one AI package per source revision with active evidence.",
+    )
+    ai_package_batch_parser.add_argument("workspace", help="Workspace directory.")
+    ai_package_batch_parser.add_argument(
+        "--revision",
+        action="append",
+        help="Source revision id to package. Can be repeated.",
+    )
+    ai_package_batch_parser.add_argument(
+        "--profile",
+        default="ai_package.default",
+        help="Worker profile under configs/workers. Defaults to ai_package.default.",
+    )
+    ai_package_batch_parser.add_argument(
+        "--stop-on-error",
+        action="store_true",
+        help="Stop the batch at the first failed item.",
+    )
+    ai_package_batch_parser.set_defaults(func=run_ai_package_batch_command)
 
     ai_inbox_parser = ai_subparsers.add_parser("inbox", help="Inspect AI inbox files.")
     ai_inbox_subparsers = ai_inbox_parser.add_subparsers(
@@ -282,6 +373,23 @@ def build_parser() -> argparse.ArgumentParser:
         help="Candidate batch id, for example CBATCH_000001.",
     )
     facts_merge_parser.set_defaults(func=run_facts_merge_command)
+    facts_merge_batch_parser = facts_subparsers.add_parser(
+        "merge-batch",
+        help="Merge multiple completed candidate batches.",
+    )
+    facts_merge_batch_parser.add_argument("workspace", help="Workspace directory.")
+    facts_merge_batch_parser.add_argument(
+        "--batch",
+        dest="batch_id",
+        action="append",
+        help="Candidate batch id to merge. Can be repeated.",
+    )
+    facts_merge_batch_parser.add_argument(
+        "--stop-on-error",
+        action="store_true",
+        help="Stop the batch at the first failed item.",
+    )
+    facts_merge_batch_parser.set_defaults(func=run_facts_merge_batch_command)
 
     dsl_parser = subparsers.add_parser("dsl", help="Render DSL snapshots.")
     dsl_subparsers = dsl_parser.add_subparsers(dest="dsl_command", required=True)

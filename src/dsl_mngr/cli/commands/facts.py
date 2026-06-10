@@ -3,6 +3,7 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 
+from dsl_mngr.core.batch import BatchError, batch_cli_lines, facts_merge_batch
 from dsl_mngr.core.config import load_config
 from dsl_mngr.core.database import (
     DatabaseConfigurationError,
@@ -32,12 +33,7 @@ def run_facts_merge_command(args: object) -> int:
     batch_id = str(getattr(args, "batch_id"))
 
     try:
-        batch_info = load_merge_batch_info(workspace, batch_id)
-        started = start_run(
-            workspace,
-            run_type="merge",
-            input_payload=batch_info.to_initial_payload(),
-        )
+        result = merge_facts_candidate_batch(workspace, batch_id=batch_id)
     except (
         DatabaseConfigurationError,
         DatabaseNotReadyError,
@@ -48,6 +44,61 @@ def run_facts_merge_command(args: object) -> int:
     ) as exc:
         print(f"Error: {exc}", file=sys.stderr)
         return 2
+
+    print(f"Run: {result.run_id}")
+    print(f"Batch: {result.batch_id}")
+    print(f"Candidate records: {result.candidate_record_count}")
+    print(f"Facts created: {result.facts_created}")
+    print(f"Facts existing: {result.facts_existing}")
+    print(f"Relations created: {result.relations_created}")
+    print(f"Relations existing: {result.relations_existing}")
+    print(f"Conflicts created: {result.conflicts_created}")
+    print(f"Conflicts existing: {result.conflicts_existing}")
+    print(f"Skipped: {result.skipped_records}")
+    return 0
+
+
+def run_facts_merge_batch_command(args: object) -> int:
+    workspace = Path(getattr(args, "workspace"))
+    batch_ids = tuple(getattr(args, "batch_id", None) or ())
+    stop_on_error = bool(getattr(args, "stop_on_error", False))
+
+    try:
+        result = facts_merge_batch(
+            workspace,
+            batch_ids=batch_ids,
+            stop_on_error=stop_on_error,
+        )
+    except (
+        BatchError,
+        DatabaseConfigurationError,
+        DatabaseNotReadyError,
+        MergeDatabaseNotReadyError,
+        MergeError,
+        RunLifecycleError,
+        WorkspaceNotInitializedError,
+    ) as exc:
+        print(f"Error: {exc}", file=sys.stderr)
+        return 2
+
+    print("\n".join(batch_cli_lines(result)))
+    return 2 if result.summary["failed"] else 0
+
+
+def merge_facts_candidate_batch(
+    workspace_dir: str | Path,
+    *,
+    batch_id: str,
+    parent_run_id: str | None = None,
+) -> MergeResult:
+    workspace = Path(workspace_dir)
+    batch_info = load_merge_batch_info(workspace, batch_id)
+    started = start_run(
+        workspace,
+        run_type="merge",
+        parent_run_id=parent_run_id,
+        input_payload=batch_info.to_initial_payload(),
+    )
 
     try:
         result = merge_candidate_batch(
@@ -71,22 +122,10 @@ def run_facts_merge_command(args: object) -> int:
     ) as exc:
         _mark_started_run_failed(workspace, started.record.run_id, str(exc))
         _log_merge_failed(started.artifacts.workspace_dir, started.record.run_id, batch_id, str(exc))
-        print(f"Error: {exc}", file=sys.stderr)
-        return 2
+        raise
 
     _log_merge_completed(started.artifacts.workspace_dir, result)
-
-    print(f"Run: {result.run_id}")
-    print(f"Batch: {result.batch_id}")
-    print(f"Candidate records: {result.candidate_record_count}")
-    print(f"Facts created: {result.facts_created}")
-    print(f"Facts existing: {result.facts_existing}")
-    print(f"Relations created: {result.relations_created}")
-    print(f"Relations existing: {result.relations_existing}")
-    print(f"Conflicts created: {result.conflicts_created}")
-    print(f"Conflicts existing: {result.conflicts_existing}")
-    print(f"Skipped: {result.skipped_records}")
-    return 0
+    return result
 
 
 def _mark_started_run_failed(workspace: Path, run_id: str, error: str) -> None:

@@ -21,6 +21,7 @@ from dsl_mngr.core.ai_package import (
     prepare_ai_package_input,
     write_ai_package_process_report,
 )
+from dsl_mngr.core.batch import BatchError, ai_package_batch, batch_cli_lines
 from dsl_mngr.core.config import WorkerProfileError, load_config, load_worker_profile
 from dsl_mngr.core.database import (
     DatabaseConfigurationError,
@@ -97,6 +98,36 @@ def run_ai_package_command(args: object) -> int:
     print(f"Outbox: {result.package_path}")
     print(f"Manifest: {result.manifest_path}")
     return 0
+
+
+def run_ai_package_batch_command(args: object) -> int:
+    workspace = Path(getattr(args, "workspace"))
+    revisions = tuple(getattr(args, "revision", None) or ())
+    profile = getattr(args, "profile", None) or "ai_package.default"
+    stop_on_error = bool(getattr(args, "stop_on_error", False))
+
+    try:
+        result = ai_package_batch(
+            workspace,
+            revision_ids=revisions,
+            profile=profile,
+            stop_on_error=stop_on_error,
+        )
+    except (
+        AiPackageError,
+        BatchError,
+        DatabaseConfigurationError,
+        DatabaseNotReadyError,
+        RunLifecycleError,
+        WorkerProfileError,
+        WorkerRunnerError,
+        WorkspaceNotInitializedError,
+    ) as exc:
+        print(f"Error: {exc}", file=sys.stderr)
+        return 2
+
+    print("\n".join(batch_cli_lines(result)))
+    return 2 if result.summary["failed"] else 0
 
 
 def run_ai_inbox_scan_command(args: object) -> int:
@@ -185,6 +216,7 @@ def build_ai_package(
     *,
     revision_ids: tuple[str, ...],
     profile: str,
+    parent_run_id: str | None = None,
 ) -> AiPackageCommandResult:
     settings = resolve_database_settings(workspace_dir)
     package_id = _allocate_package_id(settings)
@@ -208,6 +240,7 @@ def build_ai_package(
     started = start_run(
         settings.workspace_dir,
         run_type="ai_package",
+        parent_run_id=parent_run_id,
         input_payload=prepared.worker_input,
         cli_options={
             "ai_package": ai_package_options,

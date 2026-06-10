@@ -531,6 +531,7 @@ def normalize_source_revision(
     *,
     source_revision_id: str,
     profile: str,
+    parent_run_id: str | None = None,
 ) -> NormalizeResult:
     settings = resolve_database_settings(workspace_dir)
     revision = _load_revision_context(settings, source_revision_id)
@@ -553,6 +554,7 @@ def normalize_source_revision(
     started = start_run(
         settings.workspace_dir,
         run_type="normalize",
+        parent_run_id=parent_run_id,
         input_payload=worker_input,
         cli_options={
             "docling": docling_options,
@@ -636,6 +638,7 @@ def chunk_source_revision(
     *,
     source_revision_id: str,
     profile: str,
+    parent_run_id: str | None = None,
 ) -> ChunkResult:
     settings = resolve_database_settings(workspace_dir)
     revision = _load_chunk_revision_context(settings, source_revision_id)
@@ -671,6 +674,7 @@ def chunk_source_revision(
     started = start_run(
         settings.workspace_dir,
         run_type="chunk",
+        parent_run_id=parent_run_id,
         input_payload=worker_input,
         cli_options={
             "chunking": chunking_options,
@@ -758,6 +762,7 @@ def parse_ddl_source_revision(
     *,
     source_revision_id: str,
     profile: str,
+    parent_run_id: str | None = None,
 ) -> DdlParseResult:
     settings = resolve_database_settings(workspace_dir)
     revision = _load_ddl_revision_context(settings, source_revision_id)
@@ -792,6 +797,7 @@ def parse_ddl_source_revision(
     started = start_run(
         settings.workspace_dir,
         run_type="parse_ddl",
+        parent_run_id=parent_run_id,
         input_payload=worker_input,
         cli_options={
             "ddl": ddl_options,
@@ -889,6 +895,7 @@ def parse_xml_form_source_revision(
     *,
     source_revision_id: str,
     profile: str,
+    parent_run_id: str | None = None,
 ) -> XmlFormParseResult:
     settings = resolve_database_settings(workspace_dir)
     revision = _load_xml_form_revision_context(settings, source_revision_id)
@@ -923,6 +930,7 @@ def parse_xml_form_source_revision(
     started = start_run(
         settings.workspace_dir,
         run_type="parse_xml_form",
+        parent_run_id=parent_run_id,
         input_payload=worker_input,
         cli_options={
             "profile": {"name": profile},
@@ -1029,6 +1037,7 @@ def parse_db_code_source_revision(
     *,
     source_revision_id: str,
     profile: str,
+    parent_run_id: str | None = None,
 ) -> DbCodeParseResult:
     settings = resolve_database_settings(workspace_dir)
     revision = _load_db_code_revision_context(settings, source_revision_id)
@@ -1063,6 +1072,7 @@ def parse_db_code_source_revision(
     started = start_run(
         settings.workspace_dir,
         run_type="parse_db_code",
+        parent_run_id=parent_run_id,
         input_payload=worker_input,
         cli_options={
             "db_code": db_code_options,
@@ -1170,6 +1180,7 @@ def parse_log_source_revision(
     *,
     source_revision_id: str,
     profile: str,
+    parent_run_id: str | None = None,
 ) -> LogParseResult:
     settings = resolve_database_settings(workspace_dir)
     revision = _load_log_revision_context(settings, source_revision_id)
@@ -1204,6 +1215,7 @@ def parse_log_source_revision(
     started = start_run(
         settings.workspace_dir,
         run_type="parse_log",
+        parent_run_id=parent_run_id,
         input_payload=worker_input,
         cli_options={
             "log": log_options,

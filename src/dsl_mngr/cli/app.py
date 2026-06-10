@@ -8,6 +8,7 @@ from dsl_mngr.cli.commands.corpus import (
     run_corpus_chunk_command,
     run_corpus_normalize_command,
     run_corpus_parse_ddl_command,
+    run_corpus_parse_xml_form_command,
     run_corpus_scan_command,
 )
 from dsl_mngr.cli.commands.db import run_db_init_command
@@ -115,6 +116,25 @@ def build_parser() -> argparse.ArgumentParser:
         help="Worker profile under configs/workers. Defaults to ddl.default.",
     )
     parse_ddl_parser.set_defaults(func=run_corpus_parse_ddl_command)
+    parse_xml_form_parser = corpus_subparsers.add_parser(
+        "parse-xml-form",
+        help="Parse XML forms from a source revision into structural fragments.",
+    )
+    parse_xml_form_parser.add_argument(
+        "workspace",
+        help="Workspace directory.",
+    )
+    parse_xml_form_parser.add_argument(
+        "--revision",
+        required=True,
+        help="Source revision id, for example REV_000001.",
+    )
+    parse_xml_form_parser.add_argument(
+        "--profile",
+        default="xml_form.default",
+        help="Worker profile under configs/workers. Defaults to xml_form.default.",
+    )
+    parse_xml_form_parser.set_defaults(func=run_corpus_parse_xml_form_command)
 
     candidates_parser = subparsers.add_parser("candidates", help="Validate candidate records.")
     candidates_subparsers = candidates_parser.add_subparsers(

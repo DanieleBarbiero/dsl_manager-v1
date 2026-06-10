@@ -1,0 +1,6 @@
+<form name="FRM_ORDINE" title="Ordine cliente">
+  <field name="IDORD" label="Numero ordine" table="ORDTES" column="IDORD" required="true"/>
+  <field name="CODCLI" label="Cliente" table="ORDTES" column="CODCLI" required="true"/>
+  <field name="STATO" label="Stato" table="ORDTES" column="STATO" required="true"/>
+  <button name="CONFIRM" label="Conferma ordine"/>
+</form>

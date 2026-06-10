@@ -1,0 +1,6 @@
+<form name="FRM_CLIENTE" title="Cliente">
+  <field name="CODCLI" label="Codice cliente" table="ANCLI" column="CODCLI" required="true"/>
+  <field name="RAGSOC" label="Ragione sociale" table="ANCLI" column="RAGSOC" required="true"/>
+  <field name="PIVA" label="Partita IVA" table="ANCLI" column="PIVA"/>
+  <button name="SAVE" label="Salva"/>
+</form>

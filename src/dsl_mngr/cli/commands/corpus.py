@@ -40,7 +40,7 @@ from dsl_mngr.core.runs import (
 )
 from dsl_mngr.core.source_registry import CorpusScanError, scan_corpus
 from dsl_mngr.core.worker_runner import WorkerRunResult, WorkerRunnerError, run_worker
-from dsl_mngr.workers import chunk_docling, normalize_docling, parse_ddl
+from dsl_mngr.workers import chunk_docling, normalize_docling, parse_ddl, parse_xml_form
 
 
 def run_corpus_scan_command(args: object) -> int:
@@ -148,6 +148,35 @@ class DdlParseResult:
     worker_result: WorkerRunResult
 
 
+@dataclass(frozen=True)
+class XmlFormRevisionContext:
+    source_id: str
+    source_revision_id: str
+    file_path: str
+    content_hash: str
+    source_type: str
+    source_subtype: str | None
+    authority_level: str
+
+
+@dataclass(frozen=True)
+class XmlFormParseResult:
+    run_id: str
+    source_id: str
+    source_revision_id: str
+    form_count: int
+    field_count: int
+    required_field_count: int
+    button_count: int
+    table_reference_count: int
+    edit_relation_count: int
+    fragment_count: int
+    fragments_hash: str
+    fragments_jsonl_path: str
+    xml_form_report_path: str
+    worker_result: WorkerRunResult
+
+
 class CorpusNormalizeError(RuntimeError):
     """Raised when a source revision cannot be normalized."""
 
@@ -158,6 +187,10 @@ class CorpusChunkError(RuntimeError):
 
 class CorpusDdlParseError(RuntimeError):
     """Raised when a source revision cannot be parsed as DDL."""
+
+
+class CorpusXmlFormParseError(RuntimeError):
+    """Raised when a source revision cannot be parsed as XML form."""
 
 
 def run_corpus_normalize_command(args: object) -> int:
@@ -285,6 +318,54 @@ def run_corpus_parse_ddl_command(args: object) -> int:
     print(f"Fragments hash: {result.fragments_hash}")
     print(f"Fragments JSONL: {result.fragments_jsonl_path}")
     print(f"Report: {result.ddl_report_path}")
+    return 0
+
+
+def run_corpus_parse_xml_form_command(args: object) -> int:
+    workspace = Path(getattr(args, "workspace"))
+    revision_id = getattr(args, "revision")
+    profile = getattr(args, "profile", None) or "xml_form.default"
+
+    try:
+        result = parse_xml_form_source_revision(
+            workspace,
+            source_revision_id=revision_id,
+            profile=profile,
+        )
+    except (
+        CorpusXmlFormParseError,
+        DatabaseConfigurationError,
+        DatabaseNotReadyError,
+        FragmentRegistryError,
+        RunLifecycleError,
+        WorkerProfileError,
+        WorkerRunnerError,
+        WorkspaceNotInitializedError,
+    ) as exc:
+        print(f"Error: {exc}", file=sys.stderr)
+        return 2
+
+    if result.worker_result.status != "completed":
+        print(
+            "Error: XML form parsing failed for "
+            f"{revision_id}; run={result.run_id}; exit_code={result.worker_result.exit_code}.",
+            file=sys.stderr,
+        )
+        return 2
+
+    print(f"Run: {result.run_id}")
+    print(f"Revision: {result.source_revision_id}")
+    print(f"Source: {result.source_id}")
+    print(f"Forms: {result.form_count}")
+    print(f"Fields: {result.field_count}")
+    print(f"Required fields: {result.required_field_count}")
+    print(f"Buttons: {result.button_count}")
+    print(f"Table references: {result.table_reference_count}")
+    print(f"Edit relations: {result.edit_relation_count}")
+    print(f"Fragments: {result.fragment_count}")
+    print(f"Fragments hash: {result.fragments_hash}")
+    print(f"Fragments JSONL: {result.fragments_jsonl_path}")
+    print(f"Report: {result.xml_form_report_path}")
     return 0
 
 
@@ -646,6 +727,146 @@ def parse_ddl_source_revision(
     )
 
 
+def parse_xml_form_source_revision(
+    workspace_dir: str | Path,
+    *,
+    source_revision_id: str,
+    profile: str,
+) -> XmlFormParseResult:
+    settings = resolve_database_settings(workspace_dir)
+    revision = _load_xml_form_revision_context(settings, source_revision_id)
+    input_path = _resolve_xml_form_revision_file(settings.workspace_dir, revision.file_path)
+    _validate_xml_form_source_hash(revision, input_path)
+
+    profile_config = load_worker_profile(
+        settings.workspace_dir,
+        profile,
+        required_sections=("worker", "xml_form"),
+    )
+    worker_config = dict(profile_config["worker"])
+    xml_form_options = dict(profile_config["xml_form"])
+    worker_version = str(worker_config.get("version", "1.0"))
+
+    seed = _load_fragment_id_seed(settings, revision.source_revision_id)
+    output_dir = f"fragments/{revision.source_id}/{revision.source_revision_id}"
+    worker_input = {
+        "fragment_id_by_sequence": {
+            str(key): value for key, value in seed.fragment_id_by_sequence.items()
+        },
+        "input_path": relative_workspace_path(settings.workspace_dir, input_path),
+        "next_fragment_number": seed.next_fragment_number,
+        "output_dir": output_dir,
+        "profile": profile,
+        "source_hash": revision.content_hash,
+        "source_id": revision.source_id,
+        "source_revision_id": revision.source_revision_id,
+        "worker_config": worker_config,
+        "xml_form_options": xml_form_options,
+    }
+    started = start_run(
+        settings.workspace_dir,
+        run_type="parse_xml_form",
+        input_payload=worker_input,
+        cli_options={
+            "profile": {"name": profile},
+            "worker": worker_config,
+            "xml_form": xml_form_options,
+        },
+    )
+
+    try:
+        worker_result = run_worker(
+            settings.workspace_dir,
+            run_id=started.record.run_id,
+            worker_name="parse_xml_form",
+            worker_path=Path(parse_xml_form.__file__).resolve(),
+            worker_version=worker_version,
+            input_payload=worker_input,
+            apply_mutations=_persist_fragments_mutation(
+                settings.workspace_dir,
+                revision,
+                relative_workspace_path(settings.workspace_dir, input_path),
+            ),
+        )
+    except Exception as exc:
+        fail_run(
+            settings.workspace_dir,
+            started.record.run_id,
+            error=f"XML form parse orchestration failed: {exc}",
+        )
+        raise
+
+    app_log_path = _resolve_app_log_path(settings.workspace_dir)
+    if worker_result.status != "completed":
+        log_event(
+            app_log_path,
+            level="ERROR",
+            event="corpus_parse_xml_form_failed",
+            message=(
+                f"XML form parsing failed for revision {source_revision_id}; "
+                f"run={started.record.run_id}; exit_code={worker_result.exit_code}"
+            ),
+            run_id=started.record.run_id,
+            worker="parse_xml_form",
+        )
+        return XmlFormParseResult(
+            run_id=started.record.run_id,
+            source_id=revision.source_id,
+            source_revision_id=revision.source_revision_id,
+            form_count=0,
+            field_count=0,
+            required_field_count=0,
+            button_count=0,
+            table_reference_count=0,
+            edit_relation_count=0,
+            fragment_count=0,
+            fragments_hash="",
+            fragments_jsonl_path="",
+            xml_form_report_path="",
+            worker_result=worker_result,
+        )
+
+    output = worker_result.output or {}
+    form_count = _required_xml_form_output_int(output, "form_count")
+    field_count = _required_xml_form_output_int(output, "field_count")
+    required_field_count = _required_xml_form_output_int(output, "required_field_count")
+    button_count = _required_xml_form_output_int(output, "button_count")
+    table_reference_count = _required_xml_form_output_int(output, "table_reference_count")
+    edit_relation_count = _required_xml_form_output_int(output, "edit_relation_count")
+    fragment_count = _required_xml_form_output_int(output, "fragment_count")
+    fragments_hash = _required_xml_form_output_hash(output, "fragments_hash")
+    fragments_jsonl_path = _required_xml_form_output_path(output, "fragments_jsonl_path")
+    xml_form_report_path = _required_xml_form_output_path(output, "xml_form_report_path")
+    log_event(
+        app_log_path,
+        level="INFO",
+        event="corpus_parse_xml_form_completed",
+        message=(
+            f"XML form parsing completed for revision {source_revision_id}; "
+            f"source={revision.source_id}; forms={form_count}; "
+            f"fragments={fragment_count}; fragments_hash={fragments_hash}"
+        ),
+        run_id=started.record.run_id,
+        worker="parse_xml_form",
+    )
+    return XmlFormParseResult(
+        run_id=started.record.run_id,
+        source_id=revision.source_id,
+        source_revision_id=revision.source_revision_id,
+        form_count=form_count,
+        field_count=field_count,
+        required_field_count=required_field_count,
+        button_count=button_count,
+        table_reference_count=table_reference_count,
+        edit_relation_count=edit_relation_count,
+        fragment_count=fragment_count,
+        fragments_hash=fragments_hash,
+        fragments_jsonl_path=fragments_jsonl_path,
+        xml_form_report_path=xml_form_report_path,
+        worker_result=worker_result,
+    )
+
+
 def _resolve_app_log_path(workspace_dir: Path) -> Path:
     config = load_config(workspace_dir)
     logging_config = config.get("logging", {})
@@ -805,6 +1026,57 @@ def _load_ddl_revision_context(
     )
 
 
+def _load_xml_form_revision_context(
+    settings: DatabaseSettings,
+    source_revision_id: str,
+) -> XmlFormRevisionContext:
+    if not settings.database_path.is_file():
+        raise DatabaseNotReadyError(
+            f"Database is not initialized: {settings.database_path}. "
+            "Run 'dsl-manager db init <workspace>' before 'dsl-manager corpus parse-xml-form'."
+        )
+
+    connection = open_database(settings.database_path, enable_wal=settings.wal_enabled)
+    try:
+        validate_database_migrations(connection)
+        row = connection.execute(
+            """
+            SELECT
+                sr.source_revision_id,
+                sr.source_id,
+                sr.file_path,
+                sr.content_hash,
+                s.source_id AS existing_source_id,
+                s.source_type,
+                s.source_subtype,
+                s.authority_level
+            FROM source_revisions AS sr
+            JOIN sources AS s
+                ON s.source_id = sr.source_id
+            WHERE sr.source_revision_id = ?
+            """,
+            (source_revision_id,),
+        ).fetchone()
+    finally:
+        connection.close()
+
+    if row is None:
+        raise CorpusXmlFormParseError(f"Source revision not found: {source_revision_id}.")
+    if row["existing_source_id"] is None:
+        raise CorpusXmlFormParseError(
+            f"Source revision {source_revision_id} does not belong to an existing source."
+        )
+    return XmlFormRevisionContext(
+        source_id=row["source_id"],
+        source_revision_id=row["source_revision_id"],
+        file_path=row["file_path"],
+        content_hash=row["content_hash"],
+        source_type=row["source_type"],
+        source_subtype=row["source_subtype"],
+        authority_level=row["authority_level"],
+    )
+
+
 def _resolve_normalized_input_paths(
     workspace_dir: Path,
     revision: ChunkRevisionContext,
@@ -911,7 +1183,7 @@ def _persist_chunks_mutation(
 
 def _persist_fragments_mutation(
     workspace_dir: Path,
-    revision: DdlRevisionContext,
+    revision: DdlRevisionContext | XmlFormRevisionContext,
     input_path_relative: str,
 ):
     def apply(connection: sqlite3.Connection, output: dict[str, Any]) -> None:
@@ -965,12 +1237,39 @@ def _resolve_ddl_revision_file(workspace_dir: Path, file_path: str) -> Path:
     return resolved
 
 
+def _resolve_xml_form_revision_file(workspace_dir: Path, file_path: str) -> Path:
+    raw_path = Path(file_path)
+    if raw_path.is_absolute():
+        raise CorpusXmlFormParseError(f"Source revision path must be relative: {file_path}.")
+    if ".." in raw_path.parts:
+        raise CorpusXmlFormParseError(f"Source revision path escapes the workspace: {file_path}.")
+
+    try:
+        resolved = resolve_workspace_path(workspace_dir, file_path)
+    except DatabaseConfigurationError as exc:
+        raise CorpusXmlFormParseError(
+            f"Source revision path escapes the workspace: {file_path}."
+        ) from exc
+    if not resolved.is_file():
+        raise CorpusXmlFormParseError(f"Source revision file does not exist: {file_path}.")
+    return resolved
+
+
 def _validate_ddl_source_hash(revision: DdlRevisionContext, input_path: Path) -> None:
     actual_hash = sha256_file(input_path)
     if actual_hash != revision.content_hash:
         raise CorpusDdlParseError(
             "Source file hash does not match source_revisions.content_hash for "
             f"{revision.source_revision_id}. Rerun 'dsl-manager corpus scan' before parsing DDL."
+        )
+
+
+def _validate_xml_form_source_hash(revision: XmlFormRevisionContext, input_path: Path) -> None:
+    actual_hash = sha256_file(input_path)
+    if actual_hash != revision.content_hash:
+        raise CorpusXmlFormParseError(
+            "Source file hash does not match source_revisions.content_hash for "
+            f"{revision.source_revision_id}. Rerun 'dsl-manager corpus scan' before parsing XML forms."
         )
 
 
@@ -1064,4 +1363,27 @@ def _required_ddl_output_int(output: dict[str, Any], key: str) -> int:
     value = output.get(key)
     if isinstance(value, bool) or not isinstance(value, int) or value < 0:
         raise CorpusDdlParseError(f"Worker output field is invalid: {key}.")
+    return value
+
+
+def _required_xml_form_output_hash(output: dict[str, Any], key: str) -> str:
+    value = output.get(key)
+    if not isinstance(value, str) or not re.fullmatch(r"[0-9a-f]{64}", value):
+        raise CorpusXmlFormParseError(f"Worker output field is invalid: {key}.")
+    return value
+
+
+def _required_xml_form_output_path(output: dict[str, Any], key: str) -> str:
+    value = output.get(key)
+    if not isinstance(value, str) or not value:
+        raise CorpusXmlFormParseError(f"Worker output field is missing: {key}.")
+    if "\\" in value or Path(value).is_absolute() or ".." in Path(value).parts:
+        raise CorpusXmlFormParseError(f"Worker output path is not workspace-relative: {key}.")
+    return value
+
+
+def _required_xml_form_output_int(output: dict[str, Any], key: str) -> int:
+    value = output.get(key)
+    if isinstance(value, bool) or not isinstance(value, int) or value < 0:
+        raise CorpusXmlFormParseError(f"Worker output field is invalid: {key}.")
     return value

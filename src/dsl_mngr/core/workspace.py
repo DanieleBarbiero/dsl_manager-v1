@@ -82,6 +82,22 @@ ddl:
   output_fragments_jsonl: true
 """
 
+DEFAULT_XML_FORM_PROFILE = """worker:
+  name: parse_xml_form
+  version: 1.0
+xml_form:
+  parser: elementtree
+  require_root_form: true
+  parse_fields: true
+  parse_buttons: true
+  parse_required_fields: true
+  parse_table_column_references: true
+  infer_edit_relations: true
+  strict_options_fail_on_unsupported_option: true
+  malformed_xml_policy: fail
+  output_fragments_jsonl: true
+"""
+
 
 @dataclass(frozen=True)
 class WorkspaceInitResult:
@@ -108,6 +124,10 @@ def initialize_workspace(workspace_dir: str | Path) -> WorkspaceInitResult:
     _write_if_missing(
         workspace_path / "configs" / "workers" / "ddl.default.yaml",
         DEFAULT_DDL_PROFILE,
+    )
+    _write_if_missing(
+        workspace_path / "configs" / "workers" / "xml_form.default.yaml",
+        DEFAULT_XML_FORM_PROFILE,
     )
     (workspace_path / "logs" / "app.jsonl").touch(exist_ok=True)
 

@@ -23,6 +23,7 @@ RUN_TYPES = {
     "normalize",
     "chunk",
     "parse_ddl",
+    "parse_xml_form",
     "ai_package",
     "candidate_import",
     "candidate_validation",

@@ -34,14 +34,19 @@ class PersistedFragments:
     ddl_report_path: str
 
 
-ALLOWED_FRAGMENT_TYPES = {"ddl_table", "ddl_column", "ddl_constraint"}
+DDL_FRAGMENT_TYPES = {"ddl_table", "ddl_column", "ddl_constraint"}
+XML_FORM_FRAGMENT_TYPES = {"xml_form", "xml_field", "xml_button"}
+ALLOWED_FRAGMENT_TYPES = DDL_FRAGMENT_TYPES | XML_FORM_FRAGMENT_TYPES
 
-REQUIRED_METADATA_KEYS = {
-    "dialect",
+COMMON_REQUIRED_METADATA_KEYS = {
     "object_type",
     "parser",
     "parser_version",
     "source_hash",
+}
+
+DDL_REQUIRED_METADATA_KEYS = {
+    "dialect",
     "statement_kind",
 }
 
@@ -88,10 +93,12 @@ def persist_worker_fragments(
     if output.get("input_path") != expected_input_path:
         raise FragmentRegistryError("Worker output input_path is incoherent.")
 
+    worker_name = _required_worker_name(output)
     fragments_jsonl_path = _required_output_path(output, "fragments_jsonl_path")
-    ddl_report_path = _required_output_path(output, "ddl_report_path")
+    report_path_key = _report_path_key(worker_name)
+    report_path_value = _required_output_path(output, report_path_key)
     fragments_path = _resolve_relative_file(workspace_dir, fragments_jsonl_path)
-    report_path = _resolve_relative_file(workspace_dir, ddl_report_path)
+    report_path = _resolve_relative_file(workspace_dir, report_path_value)
     records = _required_records(output)
 
     actual_hash = fragments_jsonl_hash(records)
@@ -133,21 +140,29 @@ def persist_worker_fragments(
             (expected_source_revision_id, *produced_sequences),
         )
 
-    _classify_unknown_source_as_ddl(connection, expected_source_id, timestamp)
+    _classify_unknown_source(connection, expected_source_id, worker_name, timestamp)
 
     fragments_path.parent.mkdir(parents=True, exist_ok=True)
     fragments_path.write_text(fragments_jsonl_content(records), encoding="utf-8", newline="\n")
-    _write_ddl_report(
-        report_path,
-        output=output,
-        records=records,
-        fragments_hash=actual_hash,
-    )
+    if worker_name == "parse_ddl":
+        _write_ddl_report(
+            report_path,
+            output=output,
+            records=records,
+            fragments_hash=actual_hash,
+        )
+    elif worker_name == "parse_xml_form":
+        _write_xml_form_report(
+            report_path,
+            output=output,
+            records=records,
+            fragments_hash=actual_hash,
+        )
     return PersistedFragments(
         fragment_count=len(records),
         fragments_hash=actual_hash,
         fragments_jsonl_path=fragments_jsonl_path,
-        ddl_report_path=ddl_report_path,
+        ddl_report_path=report_path_value,
     )
 
 
@@ -210,13 +225,30 @@ def _validate_record(
     metadata = record.get("metadata")
     if not isinstance(metadata, dict):
         raise FragmentRegistryError("Fragment metadata must be an object.")
-    missing = sorted(REQUIRED_METADATA_KEYS - set(metadata))
+    missing = sorted(COMMON_REQUIRED_METADATA_KEYS - set(metadata))
     if missing:
         raise FragmentRegistryError(f"Fragment metadata is missing: {', '.join(missing)}.")
     if metadata.get("source_hash") != expected_source_hash:
         raise FragmentRegistryError("Fragment metadata source_hash is incoherent.")
-    if metadata.get("parser") != "parse_ddl":
+    if not isinstance(metadata.get("parser_version"), str) or not metadata["parser_version"]:
+        raise FragmentRegistryError("Fragment metadata parser_version is invalid.")
+
+    parser = metadata.get("parser")
+    if parser == "parse_ddl":
+        _validate_ddl_metadata(record, metadata)
+    elif parser == "parse_xml_form":
+        _validate_xml_form_metadata(record, metadata)
+    else:
         raise FragmentRegistryError("Fragment metadata parser is incoherent.")
+    return fragment_id
+
+
+def _validate_ddl_metadata(record: dict[str, Any], metadata: dict[str, Any]) -> None:
+    if record.get("fragment_type") not in DDL_FRAGMENT_TYPES:
+        raise FragmentRegistryError("DDL fragment has unsupported fragment_type.")
+    missing = sorted(DDL_REQUIRED_METADATA_KEYS - set(metadata))
+    if missing:
+        raise FragmentRegistryError(f"DDL fragment metadata is missing: {', '.join(missing)}.")
     if metadata.get("dialect") != "generic_sql":
         raise FragmentRegistryError("Fragment metadata dialect is incoherent.")
 
@@ -233,7 +265,61 @@ def _validate_record(
                 raise FragmentRegistryError(f"Constraint fragment metadata is missing {key}.")
         if not isinstance(metadata.get("columns"), list):
             raise FragmentRegistryError("Constraint fragment metadata columns must be a list.")
-    return fragment_id
+
+
+def _validate_xml_form_metadata(record: dict[str, Any], metadata: dict[str, Any]) -> None:
+    fragment_type = record.get("fragment_type")
+    if fragment_type not in XML_FORM_FRAGMENT_TYPES:
+        raise FragmentRegistryError("XML form fragment has unsupported fragment_type.")
+
+    object_type = metadata.get("object_type")
+    if fragment_type == "xml_form":
+        if object_type != "form":
+            raise FragmentRegistryError("xml_form fragment metadata object_type must be form.")
+        for key in ("form_name", "table_references", "edit_relations"):
+            if key not in metadata:
+                raise FragmentRegistryError(f"Form fragment metadata is missing {key}.")
+        if not isinstance(metadata.get("form_name"), str) or not metadata["form_name"]:
+            raise FragmentRegistryError("Form fragment metadata form_name is invalid.")
+        if not isinstance(metadata.get("table_references"), list):
+            raise FragmentRegistryError("Form fragment metadata table_references must be a list.")
+        if not isinstance(metadata.get("edit_relations"), list):
+            raise FragmentRegistryError("Form fragment metadata edit_relations must be a list.")
+        return
+
+    if fragment_type == "xml_field":
+        if object_type != "field":
+            raise FragmentRegistryError("xml_field fragment metadata object_type must be field.")
+        for key in ("form_name", "field_name", "required"):
+            if key not in metadata:
+                raise FragmentRegistryError(f"Field fragment metadata is missing {key}.")
+        if not isinstance(metadata.get("form_name"), str) or not metadata["form_name"]:
+            raise FragmentRegistryError("Field fragment metadata form_name is invalid.")
+        if not isinstance(metadata.get("field_name"), str) or not metadata["field_name"]:
+            raise FragmentRegistryError("Field fragment metadata field_name is invalid.")
+        if not isinstance(metadata.get("required"), bool):
+            raise FragmentRegistryError("Field fragment metadata required must be a boolean.")
+        has_table = isinstance(metadata.get("table_name"), str) and bool(metadata.get("table_name"))
+        has_column = isinstance(metadata.get("column_name"), str) and bool(metadata.get("column_name"))
+        if has_table and has_column and metadata.get("mapping_type") != "form_field_to_column":
+            raise FragmentRegistryError("Field mapping metadata is missing mapping_type.")
+        return
+
+    if fragment_type == "xml_button":
+        if object_type != "button":
+            raise FragmentRegistryError("xml_button fragment metadata object_type must be button.")
+        for key in ("action_kind", "button_name", "form_name"):
+            if key not in metadata:
+                raise FragmentRegistryError(f"Button fragment metadata is missing {key}.")
+        if metadata.get("action_kind") not in {"save", "confirm", "delete", "cancel", "unknown"}:
+            raise FragmentRegistryError("Button fragment metadata action_kind is invalid.")
+        if not isinstance(metadata.get("button_name"), str) or not metadata["button_name"]:
+            raise FragmentRegistryError("Button fragment metadata button_name is invalid.")
+        if not isinstance(metadata.get("form_name"), str) or not metadata["form_name"]:
+            raise FragmentRegistryError("Button fragment metadata form_name is invalid.")
+        return
+
+    raise FragmentRegistryError("XML form fragment metadata is incoherent.")
 
 
 def _upsert_fragment(
@@ -332,9 +418,10 @@ def _upsert_fragment(
     )
 
 
-def _classify_unknown_source_as_ddl(
+def _classify_unknown_source(
     connection: sqlite3.Connection,
     source_id: str,
+    worker_name: str,
     timestamp: str,
 ) -> None:
     row = connection.execute(
@@ -349,6 +436,14 @@ def _classify_unknown_source_as_ddl(
         raise FragmentRegistryError(f"Source not found: {source_id}.")
     if row["source_type"] != "unknown":
         return
+    if worker_name == "parse_ddl":
+        source_type = "ddl"
+        source_subtype = "mixed_ddl"
+    elif worker_name == "parse_xml_form":
+        source_type = "xml_form"
+        source_subtype = "form"
+    else:
+        raise FragmentRegistryError(f"Unsupported fragment worker: {worker_name}.")
     connection.execute(
         """
         UPDATE sources
@@ -358,7 +453,7 @@ def _classify_unknown_source_as_ddl(
             updated_at = ?
         WHERE source_id = ?
         """,
-        ("ddl", "mixed_ddl", "technical_structure", timestamp, source_id),
+        (source_type, source_subtype, "technical_structure", timestamp, source_id),
     )
 
 
@@ -410,6 +505,76 @@ def _write_ddl_report(
         "worker_version": output["worker_version"],
     }
     path.write_text(canonical_json(report), encoding="utf-8", newline="\n")
+
+
+def _write_xml_form_report(
+    path: Path,
+    *,
+    output: dict[str, Any],
+    records: list[dict[str, Any]],
+    fragments_hash: str,
+) -> None:
+    report = {
+        "button_count": output["button_count"],
+        "edit_relation_count": output["edit_relation_count"],
+        "edit_relations": output["edit_relations"],
+        "field_count": output["field_count"],
+        "form_count": output["form_count"],
+        "fragment_count": len(records),
+        "fragments": [
+            {
+                "fragment_id": record["fragment_id"],
+                "fragment_type": record["fragment_type"],
+                "path_or_selector": record["path_or_selector"],
+                "sequence": record["sequence"],
+                "status": record["status"],
+                "text_hash": record["text_hash"],
+            }
+            for record in records
+        ],
+        "fragments_hash": fragments_hash,
+        "input": {
+            "input_path": output["input_path"],
+            "source_hash": output["source_hash"],
+            "source_id": output["source_id"],
+            "source_revision_id": output["source_revision_id"],
+        },
+        "outputs": {
+            "fragments_jsonl_path": output["fragments_jsonl_path"],
+            "xml_form_report_path": output["xml_form_report_path"],
+        },
+        "parser": output["parser"],
+        "profile": output["profile"],
+        "required_field_count": output["required_field_count"],
+        "resolved_config": {
+            "worker": output.get("worker_config", {}),
+            "xml_form": output.get("xml_form_options", {}),
+        },
+        "run_id": output["run_id"],
+        "status": "completed",
+        "table_column_references": output.get("table_column_references", []),
+        "table_reference_count": output["table_reference_count"],
+        "warnings": output.get("warnings", []),
+        "worker_name": output["worker_name"],
+        "worker_version": output["worker_version"],
+        "xml_form_objects": output["xml_form_objects"],
+    }
+    path.write_text(canonical_json(report), encoding="utf-8", newline="\n")
+
+
+def _required_worker_name(output: dict[str, Any]) -> str:
+    value = output.get("worker_name")
+    if value not in {"parse_ddl", "parse_xml_form"}:
+        raise FragmentRegistryError("Worker output worker_name is unsupported.")
+    return value
+
+
+def _report_path_key(worker_name: str) -> str:
+    if worker_name == "parse_ddl":
+        return "ddl_report_path"
+    if worker_name == "parse_xml_form":
+        return "xml_form_report_path"
+    raise FragmentRegistryError(f"Unsupported fragment worker: {worker_name}.")
 
 
 def _required_output_path(output: dict[str, Any], key: str) -> str:

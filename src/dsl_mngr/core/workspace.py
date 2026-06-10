@@ -120,6 +120,19 @@ log:
   output_fragments_jsonl: true
 """
 
+DEFAULT_AI_PACKAGE_PROFILE = """worker:
+  name: build_ai_package
+  version: 1.0
+ai_package:
+  include_chunks: true
+  include_fragments: true
+  include_candidate_schema: true
+  include_output_template: true
+  max_evidence_chars: 20000
+  strict_options_fail_on_unsupported_option: true
+  package_format: markdown_plus_json
+"""
+
 
 @dataclass(frozen=True)
 class WorkspaceInitResult:
@@ -158,6 +171,10 @@ def initialize_workspace(workspace_dir: str | Path) -> WorkspaceInitResult:
     _write_if_missing(
         workspace_path / "configs" / "workers" / "log.default.yaml",
         DEFAULT_LOG_PROFILE,
+    )
+    _write_if_missing(
+        workspace_path / "configs" / "workers" / "ai_package.default.yaml",
+        DEFAULT_AI_PACKAGE_PROFILE,
     )
     (workspace_path / "logs" / "app.jsonl").touch(exist_ok=True)
 

@@ -3,6 +3,11 @@ from __future__ import annotations
 import argparse
 from collections.abc import Sequence
 
+from dsl_mngr.cli.commands.ai import (
+    run_ai_import_command,
+    run_ai_inbox_scan_command,
+    run_ai_package_command,
+)
 from dsl_mngr.cli.commands.candidates import run_candidates_validate_command
 from dsl_mngr.cli.commands.corpus import (
     run_corpus_chunk_command,
@@ -196,6 +201,69 @@ def build_parser() -> argparse.ArgumentParser:
         help="Candidate JSONL path inside the workspace.",
     )
     validate_parser.set_defaults(func=run_candidates_validate_command)
+
+    ai_parser = subparsers.add_parser("ai", help="Prepare and import AI handoff packages.")
+    ai_subparsers = ai_parser.add_subparsers(dest="ai_command", required=True)
+    ai_package_parser = ai_subparsers.add_parser(
+        "package",
+        help="Build a deterministic outbox package for an external AI tool.",
+    )
+    ai_package_parser.add_argument(
+        "workspace",
+        help="Workspace directory.",
+    )
+    ai_package_parser.add_argument(
+        "--revision",
+        action="append",
+        help="Source revision id to include. Can be repeated.",
+    )
+    ai_package_parser.add_argument(
+        "--profile",
+        default="ai_package.default",
+        help="Worker profile under configs/workers. Defaults to ai_package.default.",
+    )
+    ai_package_parser.set_defaults(func=run_ai_package_command)
+
+    ai_inbox_parser = ai_subparsers.add_parser("inbox", help="Inspect AI inbox files.")
+    ai_inbox_subparsers = ai_inbox_parser.add_subparsers(
+        dest="ai_inbox_command",
+        required=True,
+    )
+    ai_inbox_scan_parser = ai_inbox_subparsers.add_parser(
+        "scan",
+        help="List candidate JSONL files and package stale status.",
+    )
+    ai_inbox_scan_parser.add_argument(
+        "workspace",
+        help="Workspace directory.",
+    )
+    ai_inbox_scan_parser.set_defaults(func=run_ai_inbox_scan_command)
+
+    ai_import_parser = ai_subparsers.add_parser(
+        "import",
+        help="Import externally produced AI candidates from the inbox.",
+    )
+    ai_import_parser.add_argument(
+        "workspace",
+        help="Workspace directory.",
+    )
+    ai_import_parser.add_argument(
+        "--package",
+        dest="package_id",
+        required=True,
+        help="AI package id, for example AIPKG_000001.",
+    )
+    ai_import_parser.add_argument(
+        "--input",
+        dest="input_path",
+        help="Optional candidate JSONL path inside the workspace.",
+    )
+    ai_import_parser.add_argument(
+        "--allow-stale",
+        action="store_true",
+        help="Import even if the AI package is stale.",
+    )
+    ai_import_parser.set_defaults(func=run_ai_import_command)
 
     facts_parser = subparsers.add_parser("facts", help="Merge validated facts and relations.")
     facts_subparsers = facts_parser.add_subparsers(dest="facts_command", required=True)

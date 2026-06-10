@@ -446,6 +446,42 @@ MIGRATIONS: tuple[Migration, ...] = (
             """,
         ),
     ),
+    Migration(
+        version=5,
+        name="create_ai_package_schema",
+        statements=(
+            """
+            CREATE TABLE IF NOT EXISTS ai_packages (
+                package_id TEXT PRIMARY KEY,
+                run_id TEXT NOT NULL,
+                package_path TEXT NOT NULL,
+                manifest_path TEXT NOT NULL,
+                content_path TEXT NOT NULL,
+                instructions_path TEXT NOT NULL,
+                candidate_schema_path TEXT NOT NULL,
+                output_template_path TEXT NOT NULL,
+                package_hash TEXT NOT NULL,
+                source_revision_count INTEGER NOT NULL,
+                chunk_count INTEGER NOT NULL,
+                fragment_count INTEGER NOT NULL,
+                status TEXT NOT NULL,
+                stale_reason TEXT,
+                created_at TEXT NOT NULL,
+                updated_at TEXT NOT NULL,
+                FOREIGN KEY (run_id)
+                    REFERENCES runs(run_id)
+            )
+            """,
+            """
+            CREATE INDEX IF NOT EXISTS idx_ai_packages_run
+            ON ai_packages(run_id)
+            """,
+            """
+            CREATE INDEX IF NOT EXISTS idx_ai_packages_status
+            ON ai_packages(status)
+            """,
+        ),
+    ),
 )
 
 

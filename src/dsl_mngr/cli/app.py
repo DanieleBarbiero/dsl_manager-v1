@@ -30,7 +30,7 @@ from dsl_mngr.cli.commands.facts import run_facts_merge_command
 from dsl_mngr.cli.commands.facts import run_facts_merge_batch_command
 from dsl_mngr.cli.commands.graph import run_graph_export_command
 from dsl_mngr.cli.commands.init import run_init_command
-from dsl_mngr.cli.commands.log import run_log_table_command
+from dsl_mngr.cli.commands.log import run_log_csv_command, run_log_table_command
 from dsl_mngr.cli.commands.run import run_start_command, run_status_command
 
 
@@ -500,24 +500,36 @@ def build_parser() -> argparse.ArgumentParser:
 
     log_parser = subparsers.add_parser("log", help="Read application logs.")
     log_subparsers = log_parser.add_subparsers(dest="log_command", required=True)
-    table_parser = log_subparsers.add_parser("table", help="Render logs as a table or CSV.")
+    table_parser = log_subparsers.add_parser("table", help="Render logs as a table, HTML, or legacy CSV.")
     table_parser.add_argument(
-        "workspace",
+        "target",
         nargs="?",
         default=".",
-        help="Workspace directory. Defaults to the current directory.",
+        help="Workspace directory or JSONL log path. Defaults to the current directory.",
     )
     table_parser.add_argument(
         "--format",
-        choices=("table", "csv"),
-        default="table",
-        help="Output format.",
+        choices=("table", "html", "csv"),
+        help="Output format. Defaults to table, or html when --output ends with .html.",
     )
     table_parser.add_argument(
         "--output",
         help="Optional output path. Prints to stdout when omitted.",
     )
     table_parser.set_defaults(func=run_log_table_command)
+
+    csv_parser = log_subparsers.add_parser("csv", help="Render logs as deterministic CSV.")
+    csv_parser.add_argument(
+        "target",
+        nargs="?",
+        default=".",
+        help="Workspace directory or JSONL log path. Defaults to the current directory.",
+    )
+    csv_parser.add_argument(
+        "--output",
+        help="Optional output path. Prints to stdout when omitted.",
+    )
+    csv_parser.set_defaults(func=run_log_csv_command)
 
     return parser
 

@@ -32,6 +32,7 @@ from dsl_mngr.cli.commands.graph import run_graph_export_command
 from dsl_mngr.cli.commands.init import run_init_command
 from dsl_mngr.cli.commands.log import run_log_csv_command, run_log_table_command
 from dsl_mngr.cli.commands.run import run_start_command, run_status_command
+from dsl_mngr.cli.commands.ui import run_ui_serve_command
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -530,6 +531,29 @@ def build_parser() -> argparse.ArgumentParser:
         help="Optional output path. Prints to stdout when omitted.",
     )
     csv_parser.set_defaults(func=run_log_csv_command)
+
+    ui_parser = subparsers.add_parser("ui", help="Serve the optional local read-only UI.")
+    ui_subparsers = ui_parser.add_subparsers(dest="ui_command", required=True)
+    ui_serve_parser = ui_subparsers.add_parser(
+        "serve",
+        help="Serve a local read-only workspace UI.",
+    )
+    ui_serve_parser.add_argument(
+        "workspace",
+        help="Workspace directory.",
+    )
+    ui_serve_parser.add_argument(
+        "--host",
+        default="127.0.0.1",
+        help="Bind host. Defaults to 127.0.0.1.",
+    )
+    ui_serve_parser.add_argument(
+        "--port",
+        type=int,
+        default=8765,
+        help="Bind port. Defaults to 8765. Use 0 for an ephemeral port.",
+    )
+    ui_serve_parser.set_defaults(func=run_ui_serve_command)
 
     return parser
 

@@ -1,0 +1,18 @@
+percorso;periodo;utilita_modernizzazione;tipo;azione_attesa;motivazione
+corpus/active/documenti/nuovi_utili/requisiti_modernizzazione_2025.md;nuovo;alta;documento;normalize+chunk;Fonte funzionale corrente e autorevole
+corpus/active/documenti/nuovi_utili/manuale_ufficio_crediti_2024.docx;nuovo;alta;documento;normalize+chunk;Descrive il lavoro degli operatori
+corpus/active/documenti/nuovi_utili/matrice_stati_2025.xlsx;nuovo;alta;foglio elettronico;skipped;Utile all'analisi ma XLSX non è gestito dal batch v1
+corpus/active/documenti/vecchi_utili/manuale_pratiche_2012.txt;vecchio;media;documento;normalize+chunk;Contiene regole storiche e conflitti da preservare
+corpus/active/documenti/vecchi_utili/regole_calcolo_rate_2016.html;vecchio;media;documento;normalize+chunk;Contiene dettagli ancora parzialmente validi
+corpus/active/documenti/vecchi_non_utili/verbale_mensa_2013.docx;vecchio;nessuna;documento;normalize+chunk;Rumore intenzionale da non trasformare in fatti di dominio
+corpus/active/documenti/nuovi_non_utili/istruzioni_parcheggio_2025.html;nuovo;nessuna;documento;normalize+chunk;Rumore intenzionale da non trasformare in fatti di dominio
+corpus/active/database/dump_oracle_ddl.sql;corrente;alta;DDL;parse-ddl;Struttura tecnica Oracle
+corpus/active/forms/FRM_CLIENTE.xml;corrente;alta;XML form;parse-xml-form;Campi e mapping della form cliente
+corpus/active/forms/FRM_PRATICA.xml;corrente;alta;XML form;parse-xml-form;Campi e mapping della form pratica
+corpus/active/forms/FRM_PIANO_RATE.xml;corrente;alta;XML form;parse-xml-form;Campi e mapping di rate e pagamenti
+corpus/active/plsql/TRG_PRATICA_APPROVA.sql;corrente;alta;codice database;parse-db-code;Comportamento automatico di approvazione
+corpus/active/plsql/PRC_GENERA_PIANO.sql;corrente;alta;codice database;parse-db-code;Generazione del piano rate
+corpus/active/plsql/PRC_REGISTRA_PAGAMENTO.sql;corrente;alta;codice database;parse-db-code;Aggiornamento pagamento e rata
+corpus/active/logs/batch_piano_rate_2025.log;corrente;alta;log;parse-log;Comportamento osservato del batch rate
+corpus/active/logs/pagamenti_2025.log;corrente;alta;log;parse-log;Comportamento osservato dei pagamenti
+

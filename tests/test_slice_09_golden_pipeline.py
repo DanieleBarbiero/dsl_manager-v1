@@ -114,7 +114,7 @@ def test_golden_full_pipeline(tmp_path, capsys):
     _assert_app_logs(workspace)
 
 
-def test_slice9_expected_files_are_static_valid_and_readable():
+def test_slice_09_expected_files_are_static_valid_and_readable():
     expected_dsl = _read_json(EXPECTED_DSL_JSON)
 
     assert len(expected_dsl["metadata"]["dsl_hash"]) == 64

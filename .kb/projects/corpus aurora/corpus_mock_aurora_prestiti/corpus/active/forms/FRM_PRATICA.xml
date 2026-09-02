@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form name="FRM_PRATICA" title="Istruttoria pratica di prestito">
+  <field name="ID_PRATICA" label="Numero pratica" table="PRT_PRATICA" column="ID_PRATICA" required="true"/>
+  <field name="ID_CLIENTE" label="Cliente" table="PRT_PRATICA" column="ID_CLIENTE" required="true"/>
+  <field name="STATO" label="Stato" table="PRT_PRATICA" column="STATO" required="true"/>
+  <field name="IMPORTO" label="Importo richiesto" table="PRT_PRATICA" column="IMPORTO" required="true"/>
+  <field name="DURATA_MESI" label="Durata in mesi" table="PRT_PRATICA" column="DURATA_MESI" required="true"/>
+  <field name="TASSO" label="Tasso applicato" table="PRT_PRATICA" column="TASSO" required="true"/>
+  <field name="DATA_APPROVAZIONE" label="Data approvazione" table="PRT_PRATICA" column="DATA_APPROVAZIONE"/>
+  <button name="SAVE" label="Salva pratica"/>
+  <button name="CONFIRM" label="Conferma approvazione"/>
+</form>
+

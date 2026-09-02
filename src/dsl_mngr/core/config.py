@@ -7,7 +7,7 @@ from typing import Any
 
 DEFAULT_CONFIG: dict[str, Any] = {
     "project": {
-        "name": "modernization-dsl-workbench-demo",
+        "name": "dsl-manager",
         "default_language": "it",
         "timezone": "Europe/Rome",
     },

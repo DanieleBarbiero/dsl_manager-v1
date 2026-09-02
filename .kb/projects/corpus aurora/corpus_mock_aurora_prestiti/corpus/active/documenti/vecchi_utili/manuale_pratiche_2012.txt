@@ -1,0 +1,17 @@
+MANUALE OPERATIVO PRATICHE PRESTITO
+Edizione 4 - giugno 2012
+
+La pratica di prestito è associata alla posizione anagrafica del richiedente.
+
+Gli stati previsti dalla procedura sono BOZZA, VALIDATA, DELIBERATA e ANNULLATA.
+
+Una pratica può essere deliberata soltanto se l'importo richiesto non supera 50000 euro.
+
+La durata standard è compresa fra 12 e 60 mesi.
+
+Alla delibera positiva l'operatore deve annotare manualmente la data nel campo DATA_DEL.
+
+Il piano rate viene prodotto dal programma notturno PRC_GENERA_PIANO.
+
+Nota storica: i nomi BOZZA, VALIDATA e DELIBERATA sono riferiti alla versione precedente del flusso. Verificare la documentazione corrente prima di riutilizzarli.
+

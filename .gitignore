@@ -25,7 +25,5 @@ Thumbs.db
 .vscode/*.log
 
 # misc
-.kb/
-.workspaces/
 *.bat
 *.ini

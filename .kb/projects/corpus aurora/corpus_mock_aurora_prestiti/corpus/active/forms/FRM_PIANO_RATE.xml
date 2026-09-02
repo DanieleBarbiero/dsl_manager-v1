@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form name="FRM_PIANO_RATE" title="Piano rate e pagamenti">
+  <field name="ID_RATA" label="Identificativo rata" table="PRT_RATA" column="ID_RATA" required="true"/>
+  <field name="ID_PRATICA" label="Pratica" table="PRT_RATA" column="ID_PRATICA" required="true"/>
+  <field name="NUMERO_RATA" label="Numero rata" table="PRT_RATA" column="NUMERO_RATA" required="true"/>
+  <field name="DATA_SCADENZA" label="Scadenza" table="PRT_RATA" column="DATA_SCADENZA" required="true"/>
+  <field name="IMPORTO_RATA" label="Importo rata" table="PRT_RATA" column="IMPORTO" required="true"/>
+  <field name="STATO_RATA" label="Stato rata" table="PRT_RATA" column="STATO" required="true"/>
+  <field name="ID_PAGAMENTO" label="Pagamento" table="PRT_PAGAMENTO" column="ID_PAGAMENTO"/>
+  <field name="ESITO_PAGAMENTO" label="Esito pagamento" table="PRT_PAGAMENTO" column="ESITO"/>
+  <button name="SAVE" label="Salva piano"/>
+  <button name="CONFIRM" label="Conferma pagamento"/>
+</form>
+

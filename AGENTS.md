@@ -1,6 +1,6 @@
 # AGENTS.md
 
-<!-- versione 3.0 -->
+<!-- versione 3.1 -->
 
 ## Project purpose
 
@@ -22,19 +22,62 @@ Use the `src/` layout:
 
 ```text
 dsl_manager-v1/
+  .codex/
+    config.toml
+  .kb/                         # project knowledge; intentionally ignored by Git
+    documenti/
+    projects/
+      slicing/
+        slice_01/
+    prompt/
+    template/
   pyproject.toml
   src/
     dsl_mngr/
       __init__.py
       __main__.py
       main.py
+      cli/
+        app.py
+        commands/
+      core/
+      workers/
   tests/
-    test_smoke.py
+    expected/
+    fixtures/
+    test_slice_01_*.py
+    ...
+    test_slice_19_*.py
 ```
 
 The Python package is `dsl_mngr`.
 
 `src` is not a Python package and must not be imported as one.
+
+The `.kb` directory contains project documentation, prompts, templates, and
+slicing material. Keep it outside Git until this policy is explicitly changed,
+but treat its contents as project context when a task refers to them.
+
+## File naming conventions
+
+Use lowercase `snake_case` for new project-controlled files and directories.
+
+Use an underscore followed by a two-digit, zero-padded number for ordered
+sequences:
+
+```text
+slice_01/
+dsl_manager_slice_01_prompt.md
+dsl_manager_slice_01_report.md
+test_slice_01_workspace_config_logging.py
+design_document_v_01.md
+```
+
+Do not omit either the separator or the zero-padding in ordered names. When
+renaming an ordered file, update all textual references to it in the same
+change. Do not apply zero-padding to years, dates, schema versions, or runtime
+identifiers whose format is defined by an external or existing application
+contract.
 
 ## Import rules
 

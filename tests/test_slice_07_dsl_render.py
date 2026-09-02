@@ -291,7 +291,7 @@ def _insert_source_revision_and_chunk(workspace: Path) -> None:
 
 
 def _validate_candidates(workspace: Path) -> str:
-    input_file = workspace / "ai" / "inbox" / "slice7_candidates.jsonl"
+    input_file = workspace / "ai" / "inbox" / "slice_07_candidates.jsonl"
     records = [
         _candidate_fact(
             candidate_id="CAND_FACT_001",

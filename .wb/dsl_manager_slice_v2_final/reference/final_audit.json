@@ -1,0 +1,286 @@
+{
+  "ok": true,
+  "checks": {
+    "cardinality_10_prompts": {
+      "pass": true,
+      "detail": [
+        "/mnt/data/dsl_manager_slice_v2_final/repo_overlay/.kb/projects/slicing/slice_20/dsl_manager_slice_20_prompt.md",
+        "/mnt/data/dsl_manager_slice_v2_final/repo_overlay/.kb/projects/slicing/slice_21/dsl_manager_slice_21_prompt.md",
+        "/mnt/data/dsl_manager_slice_v2_final/repo_overlay/.kb/projects/slicing/slice_22/dsl_manager_slice_22_prompt.md",
+        "/mnt/data/dsl_manager_slice_v2_final/repo_overlay/.kb/projects/slicing/slice_23/dsl_manager_slice_23_prompt.md",
+        "/mnt/data/dsl_manager_slice_v2_final/repo_overlay/.kb/projects/slicing/slice_24/dsl_manager_slice_24_prompt.md",
+        "/mnt/data/dsl_manager_slice_v2_final/repo_overlay/.kb/projects/slicing/slice_25/dsl_manager_slice_25_prompt.md",
+        "/mnt/data/dsl_manager_slice_v2_final/repo_overlay/.kb/projects/slicing/slice_26/dsl_manager_slice_26_prompt.md",
+        "/mnt/data/dsl_manager_slice_v2_final/repo_overlay/.kb/projects/slicing/slice_27/dsl_manager_slice_27_prompt.md",
+        "/mnt/data/dsl_manager_slice_v2_final/repo_overlay/.kb/projects/slicing/slice_28/dsl_manager_slice_28_prompt.md",
+        "/mnt/data/dsl_manager_slice_v2_final/repo_overlay/.kb/projects/slicing/slice_29/dsl_manager_slice_29_prompt.md"
+      ]
+    },
+    "zero_reports_20_29": {
+      "pass": true,
+      "detail": []
+    },
+    "exact_slice_dirs": {
+      "pass": true
+    },
+    "all_slice_static_semantic_gates": {
+      "pass": true
+    },
+    "design_no_old_anchors": {
+      "pass": true
+    },
+    "design_no_embedded_prompt_blocks": {
+      "pass": true
+    },
+    "design_section22_once": {
+      "pass": true
+    },
+    "design_auto_verify_updated": {
+      "pass": true
+    },
+    "design_slice_20_link_twice": {
+      "pass": true,
+      "detail": 2
+    },
+    "design_slice_20_link_resolves_overlay": {
+      "pass": true,
+      "detail": ".kb/projects/slicing/slice_20/dsl_manager_slice_20_prompt.md"
+    },
+    "design_slice_21_link_twice": {
+      "pass": true,
+      "detail": 2
+    },
+    "design_slice_21_link_resolves_overlay": {
+      "pass": true,
+      "detail": ".kb/projects/slicing/slice_21/dsl_manager_slice_21_prompt.md"
+    },
+    "design_slice_22_link_twice": {
+      "pass": true,
+      "detail": 2
+    },
+    "design_slice_22_link_resolves_overlay": {
+      "pass": true,
+      "detail": ".kb/projects/slicing/slice_22/dsl_manager_slice_22_prompt.md"
+    },
+    "design_slice_23_link_twice": {
+      "pass": true,
+      "detail": 2
+    },
+    "design_slice_23_link_resolves_overlay": {
+      "pass": true,
+      "detail": ".kb/projects/slicing/slice_23/dsl_manager_slice_23_prompt.md"
+    },
+    "design_slice_24_link_twice": {
+      "pass": true,
+      "detail": 2
+    },
+    "design_slice_24_link_resolves_overlay": {
+      "pass": true,
+      "detail": ".kb/projects/slicing/slice_24/dsl_manager_slice_24_prompt.md"
+    },
+    "design_slice_25_link_twice": {
+      "pass": true,
+      "detail": 2
+    },
+    "design_slice_25_link_resolves_overlay": {
+      "pass": true,
+      "detail": ".kb/projects/slicing/slice_25/dsl_manager_slice_25_prompt.md"
+    },
+    "design_slice_26_link_twice": {
+      "pass": true,
+      "detail": 2
+    },
+    "design_slice_26_link_resolves_overlay": {
+      "pass": true,
+      "detail": ".kb/projects/slicing/slice_26/dsl_manager_slice_26_prompt.md"
+    },
+    "design_slice_27_link_twice": {
+      "pass": true,
+      "detail": 2
+    },
+    "design_slice_27_link_resolves_overlay": {
+      "pass": true,
+      "detail": ".kb/projects/slicing/slice_27/dsl_manager_slice_27_prompt.md"
+    },
+    "design_slice_28_link_twice": {
+      "pass": true,
+      "detail": 2
+    },
+    "design_slice_28_link_resolves_overlay": {
+      "pass": true,
+      "detail": ".kb/projects/slicing/slice_28/dsl_manager_slice_28_prompt.md"
+    },
+    "design_slice_29_link_twice": {
+      "pass": true,
+      "detail": 2
+    },
+    "design_slice_29_link_resolves_overlay": {
+      "pass": true,
+      "detail": ".kb/projects/slicing/slice_29/dsl_manager_slice_29_prompt.md"
+    },
+    "no_percent_encoded_paths": {
+      "pass": true
+    },
+    "helper_expected_remote_blob_guard": {
+      "pass": true
+    },
+    "helper_atomic_write": {
+      "pass": true
+    },
+    "helper_has_check_mode": {
+      "pass": true
+    },
+    "helper_postconditions": {
+      "pass": true
+    },
+    "patch_checkpoint_apply_check": {
+      "pass": true
+    },
+    "patch_result_equals_preview": {
+      "pass": true
+    },
+    "connector_checkpoint_size_matches_remote": {
+      "pass": true,
+      "detail": 89660
+    }
+  },
+  "slices": {
+    "20": {
+      "core_literal_once": true,
+      "core_sha256": "54e69abe5be83242822fae46c3daaca90477a4d5d0424fe8cfa734488d9314b9",
+      "prompt_sha256": "c4c7c43af2709166d06ad3c53a6019f7ed3a24673e60bd23730ba8f2f882e04b",
+      "no_template_placeholders": true,
+      "common_protocol": true,
+      "specific_markers": true,
+      "interpreter_authority": true,
+      "prior_reports_exactly_once": true,
+      "no_future_reports": true,
+      "report_target": true,
+      "pass": true
+    },
+    "21": {
+      "core_literal_once": true,
+      "core_sha256": "d66ea9c81f9ff8f4fb67490201c049ae2c026b9e1ad588225d383e6147c9edb5",
+      "prompt_sha256": "4b1cb546539183d1cf9040f1a05a4b70d34079c92985d0b630dc2a8f6669ce4e",
+      "no_template_placeholders": true,
+      "common_protocol": true,
+      "specific_markers": true,
+      "interpreter_authority": true,
+      "prior_reports_exactly_once": true,
+      "no_future_reports": true,
+      "report_target": true,
+      "pass": true
+    },
+    "22": {
+      "core_literal_once": true,
+      "core_sha256": "a71a2b74377e17303dd5d327fadf28174e7d9d1a5cb502601052df284ba07eb7",
+      "prompt_sha256": "bd1a2f9e8b250e969294183d42ca086e5576890840eba1f38328548580cea84b",
+      "no_template_placeholders": true,
+      "common_protocol": true,
+      "specific_markers": true,
+      "interpreter_authority": true,
+      "prior_reports_exactly_once": true,
+      "no_future_reports": true,
+      "report_target": true,
+      "pass": true
+    },
+    "23": {
+      "core_literal_once": true,
+      "core_sha256": "e2860923260aa9fb785424b626f1c02dc091a8ac23dbb357761209064d345103",
+      "prompt_sha256": "3f53dd45a6bff9f2bea29fdb6476d64bf61260d4d96e1aaf115e5977efb8a3b3",
+      "no_template_placeholders": true,
+      "common_protocol": true,
+      "specific_markers": true,
+      "interpreter_authority": true,
+      "prior_reports_exactly_once": true,
+      "no_future_reports": true,
+      "report_target": true,
+      "pass": true
+    },
+    "24": {
+      "core_literal_once": true,
+      "core_sha256": "d7860c9acd55df66d440775d15fb02373596569f34e9c4c2368369a742a5cd42",
+      "prompt_sha256": "8531aadc0239e6dbcec88edf3d0fc3985b80c5e6dd73f62919da8d7478adec45",
+      "no_template_placeholders": true,
+      "common_protocol": true,
+      "specific_markers": true,
+      "interpreter_authority": true,
+      "prior_reports_exactly_once": true,
+      "no_future_reports": true,
+      "report_target": true,
+      "pass": true
+    },
+    "25": {
+      "core_literal_once": true,
+      "core_sha256": "bbef43ecef60fb39af70cfc29ff7471b2a5dce165734a7fc5cca7a0f50cf1c13",
+      "prompt_sha256": "93bb3e41391ef56128aeb5ea2655d3b596ac0605acc932bff0bd7b31590e9d24",
+      "no_template_placeholders": true,
+      "common_protocol": true,
+      "specific_markers": true,
+      "interpreter_authority": true,
+      "prior_reports_exactly_once": true,
+      "no_future_reports": true,
+      "report_target": true,
+      "pass": true
+    },
+    "26": {
+      "core_literal_once": true,
+      "core_sha256": "be28bf91860d2f93ca30cf4795313ca7a8e8843ac86e5a567332ff71831451e7",
+      "prompt_sha256": "04fec90b3cb73580dde94015125f07111c1ac79c1966bfc804c2087e07c2763b",
+      "no_template_placeholders": true,
+      "common_protocol": true,
+      "specific_markers": true,
+      "interpreter_authority": true,
+      "prior_reports_exactly_once": true,
+      "no_future_reports": true,
+      "report_target": true,
+      "pass": true
+    },
+    "27": {
+      "core_literal_once": true,
+      "core_sha256": "aaea2c41f566d74707bf834dc451f051019229e107a1d1f4e8f096bcd5e91e90",
+      "prompt_sha256": "0645032445ea3b13164806713fdb9ef6763cc03c21f881d912a877025890a14c",
+      "no_template_placeholders": true,
+      "common_protocol": true,
+      "specific_markers": true,
+      "interpreter_authority": true,
+      "prior_reports_exactly_once": true,
+      "no_future_reports": true,
+      "report_target": true,
+      "pass": true
+    },
+    "28": {
+      "core_literal_once": true,
+      "core_sha256": "d195abd140ccc23a0cbca811a830234c53b54cc4fe99c0662bd5989180c33398",
+      "prompt_sha256": "7dce3470b6fab46ecef9531536cb6bae5d237d368f93f44ebcf0d62e026779e4",
+      "no_template_placeholders": true,
+      "common_protocol": true,
+      "specific_markers": true,
+      "interpreter_authority": true,
+      "prior_reports_exactly_once": true,
+      "no_future_reports": true,
+      "report_target": true,
+      "pass": true
+    },
+    "29": {
+      "core_literal_once": true,
+      "core_sha256": "d363865ac465e98e68a499c7f169005f9c9841dd288ae39f3400c6b1f763882e",
+      "prompt_sha256": "82d99bfa0ca1d2201a59d4da5b82b66110b7375ec3d9f1a676bbe895a32d62a3",
+      "no_template_placeholders": true,
+      "common_protocol": true,
+      "specific_markers": true,
+      "interpreter_authority": true,
+      "prior_reports_exactly_once": true,
+      "no_future_reports": true,
+      "report_target": true,
+      "pass": true
+    }
+  },
+  "representation_note": {
+    "github_reported_blob_sha": "8aa78b1210216b78d97e4e2554b075a7c1b462df",
+    "local_connector_checkpoint_blob_sha": "a687c84207c8a3ace1a8e54a5928e1ae5b92e6a6",
+    "same_size": true,
+    "policy": "Do not directly overwrite design from preview; use apply_design_update.py with baseline guard.",
+    "remote_prompt_sections_verified_individually": "Slice 20-29 re-fetched from GitHub main in the final audit session and matched the generated core text."
+  }
+}

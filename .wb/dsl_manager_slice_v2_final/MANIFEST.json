@@ -1,0 +1,144 @@
+{
+  "package": "dsl_manager_slice_v2_final",
+  "repository": "DanieleBarbiero/dsl_manager-v1",
+  "repository_write_actions_performed": false,
+  "verified_design_baseline_git_blob_sha": "8aa78b1210216b78d97e4e2554b075a7c1b462df",
+  "application_policy": {
+    "copy": "repo_overlay contents to repository root",
+    "design_update": "use tools/apply_design_update.py; do not directly overwrite from preview",
+    "force_baseline": "not recommended; inspect baseline differences instead"
+  },
+  "audit": {
+    "status": "PASS",
+    "global_structural_gates": 36,
+    "slice_prompts_passed": "10/10"
+  },
+  "files": [
+    {
+      "path": "AUDIT_FINALE.md",
+      "role": "audit",
+      "commit_to_repository": false,
+      "size_bytes": 4184,
+      "sha256": "48dfc8c9aabf0e12e8f4e2d0af1ddc7d2f7666a21e3bfe9165d6ff12c6f0fe3e"
+    },
+    {
+      "path": "ISTRUZIONI_APPLICAZIONE.md",
+      "role": "instructions",
+      "commit_to_repository": false,
+      "size_bytes": 5918,
+      "sha256": "28fd5d4115b706f0f7d9d49edb6c4adc61f7f51d174213bd95fdd7d1b811580a"
+    },
+    {
+      "path": "reference/PATCH_design_document_v_02.diff",
+      "role": "fallback_patch",
+      "commit_to_repository": false,
+      "size_bytes": 35075,
+      "sha256": "b8c4e88164211e0a3ae35cdc93471a3e7db956292878592a35e1c6860d35e457"
+    },
+    {
+      "path": "reference/WORKLOG_FINALE.md",
+      "role": "worklog",
+      "commit_to_repository": false,
+      "size_bytes": 1781,
+      "sha256": "357e4d1a481663b9ded34c8313de6573222ae05aa0244e4faac79cfa15a1f5a6"
+    },
+    {
+      "path": "reference/design_document_v_02.modified.preview.md",
+      "role": "design_preview_do_not_copy",
+      "commit_to_repository": false,
+      "size_bytes": 69487,
+      "sha256": "7d8f9d144ec99ee98154d253c469c3cd2d162e805ee14a5622045f601dc4b233"
+    },
+    {
+      "path": "reference/final_audit.json",
+      "role": "machine_audit",
+      "commit_to_repository": false,
+      "size_bytes": 10096,
+      "sha256": "2a7b9c9b66c00d9f4818758dadc1b8e9b9fa89f99e01781c852031753149c04b"
+    },
+    {
+      "path": "repo_overlay/.kb/modifica_prompt_slice_v2.md",
+      "role": "commit_ready_guide",
+      "commit_to_repository": true,
+      "size_bytes": 14717,
+      "sha256": "0b5c49e352807d0aba56ffe42cad8a9f3cd4448373de6da74ba3d2551148ae67"
+    },
+    {
+      "path": "repo_overlay/.kb/projects/slicing/slice_20/dsl_manager_slice_20_prompt.md",
+      "role": "commit_ready_slice_20_prompt",
+      "commit_to_repository": true,
+      "size_bytes": 15610,
+      "sha256": "c4c7c43af2709166d06ad3c53a6019f7ed3a24673e60bd23730ba8f2f882e04b"
+    },
+    {
+      "path": "repo_overlay/.kb/projects/slicing/slice_21/dsl_manager_slice_21_prompt.md",
+      "role": "commit_ready_slice_21_prompt",
+      "commit_to_repository": true,
+      "size_bytes": 14160,
+      "sha256": "4b1cb546539183d1cf9040f1a05a4b70d34079c92985d0b630dc2a8f6669ce4e"
+    },
+    {
+      "path": "repo_overlay/.kb/projects/slicing/slice_22/dsl_manager_slice_22_prompt.md",
+      "role": "commit_ready_slice_22_prompt",
+      "commit_to_repository": true,
+      "size_bytes": 13544,
+      "sha256": "bd1a2f9e8b250e969294183d42ca086e5576890840eba1f38328548580cea84b"
+    },
+    {
+      "path": "repo_overlay/.kb/projects/slicing/slice_23/dsl_manager_slice_23_prompt.md",
+      "role": "commit_ready_slice_23_prompt",
+      "commit_to_repository": true,
+      "size_bytes": 14273,
+      "sha256": "3f53dd45a6bff9f2bea29fdb6476d64bf61260d4d96e1aaf115e5977efb8a3b3"
+    },
+    {
+      "path": "repo_overlay/.kb/projects/slicing/slice_24/dsl_manager_slice_24_prompt.md",
+      "role": "commit_ready_slice_24_prompt",
+      "commit_to_repository": true,
+      "size_bytes": 13705,
+      "sha256": "8531aadc0239e6dbcec88edf3d0fc3985b80c5e6dd73f62919da8d7478adec45"
+    },
+    {
+      "path": "repo_overlay/.kb/projects/slicing/slice_25/dsl_manager_slice_25_prompt.md",
+      "role": "commit_ready_slice_25_prompt",
+      "commit_to_repository": true,
+      "size_bytes": 13667,
+      "sha256": "93bb3e41391ef56128aeb5ea2655d3b596ac0605acc932bff0bd7b31590e9d24"
+    },
+    {
+      "path": "repo_overlay/.kb/projects/slicing/slice_26/dsl_manager_slice_26_prompt.md",
+      "role": "commit_ready_slice_26_prompt",
+      "commit_to_repository": true,
+      "size_bytes": 15560,
+      "sha256": "04fec90b3cb73580dde94015125f07111c1ac79c1966bfc804c2087e07c2763b"
+    },
+    {
+      "path": "repo_overlay/.kb/projects/slicing/slice_27/dsl_manager_slice_27_prompt.md",
+      "role": "commit_ready_slice_27_prompt",
+      "commit_to_repository": true,
+      "size_bytes": 15169,
+      "sha256": "0645032445ea3b13164806713fdb9ef6763cc03c21f881d912a877025890a14c"
+    },
+    {
+      "path": "repo_overlay/.kb/projects/slicing/slice_28/dsl_manager_slice_28_prompt.md",
+      "role": "commit_ready_slice_28_prompt",
+      "commit_to_repository": true,
+      "size_bytes": 15067,
+      "sha256": "7dce3470b6fab46ecef9531536cb6bae5d237d368f93f44ebcf0d62e026779e4"
+    },
+    {
+      "path": "repo_overlay/.kb/projects/slicing/slice_29/dsl_manager_slice_29_prompt.md",
+      "role": "commit_ready_slice_29_prompt",
+      "commit_to_repository": true,
+      "size_bytes": 14895,
+      "sha256": "82d99bfa0ca1d2201a59d4da5b82b66110b7375ec3d9f1a676bbe895a32d62a3"
+    },
+    {
+      "path": "tools/apply_design_update.py",
+      "role": "application_helper",
+      "commit_to_repository": false,
+      "size_bytes": 6319,
+      "sha256": "987bd60372e3c87eb64c2e7eafacf2485aae0820d485a5fa2e2cbc60019ec7a4"
+    }
+  ]
+}

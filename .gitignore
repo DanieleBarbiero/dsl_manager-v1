@@ -27,3 +27,9 @@ Thumbs.db
 # misc
 *.bat
 *.ini
+
+# versioned project knowledge and workbench resources
+!.kb/
+!.kb/**
+!.wb/
+!.wb/**

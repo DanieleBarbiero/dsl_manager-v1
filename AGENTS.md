@@ -1,6 +1,6 @@
 # AGENTS.md
 
-<!-- versione 3.1 -->
+<!-- versione 3.2 -->
 
 ## Project purpose
 
@@ -24,13 +24,14 @@ Use the `src/` layout:
 dsl_manager-v1/
   .codex/
     config.toml
-  .kb/                         # project knowledge; intentionally ignored by Git
+  .kb/                         # versioned project knowledge
     documenti/
     projects/
       slicing/
         slice_01/
     prompt/
     template/
+  .wb/                         # versioned workbench resources
   pyproject.toml
   src/
     dsl_mngr/
@@ -55,8 +56,11 @@ The Python package is `dsl_mngr`.
 `src` is not a Python package and must not be imported as one.
 
 The `.kb` directory contains project documentation, prompts, templates, and
-slicing material. Keep it outside Git until this policy is explicitly changed,
-but treat its contents as project context when a task refers to them.
+slicing material. The `.wb` directory contains project workbench resources.
+Both directories are part of the repository and must be tracked by Git so that
+local, VS Code, and Codex cloud environments use the same committed resources.
+Treat their contents as project context when a task refers to them. Do not add
+ignore rules for either directory or omit their relevant changes from commits.
 
 ## File naming conventions
 

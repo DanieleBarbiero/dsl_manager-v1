@@ -717,61 +717,61 @@ La voce documentale della slice 29 usa una verifica automatica di link, nomi com
 
 Dipende dalle slice 01–19. Implementa migrazione v7, canonical JSON/hash, servizio e CLI review, catene/head/idempotenza, correzione atomica, lineage, coda di riconciliazione, viste effettive, filtro merge e backfill legacy. Aggiunge il catalogo delle regole e la prima regola `ddl_table_fact/1`, così il percorso completo parser→evidenza→pending→decisione→merge è dimostrato subito.
 
-Artefatti: report JSON review/derive, batch di correzione, audit note opzionale. Test obbligatori: migrazione da un DB v6 realistico, race su testa, crash/replay, no-op, correzione/branch/ciclo, merge misto/strict, supporti multipli, blocco render per riconciliazione. Accettazione: nessun candidato privo di testa positiva corrente entra nel nuovo merge. [Prompt eseguibile](#prompt-slice-20).
+Artefatti: report JSON review/derive, batch di correzione, audit note opzionale. Test obbligatori: migrazione da un DB v6 realistico, race su testa, crash/replay, no-op, correzione/branch/ciclo, merge misto/strict, supporti multipli, blocco render per riconciliazione. Accettazione: nessun candidato privo di testa positiva corrente entra nel nuovo merge. [Prompt eseguibile](../../../projects/slicing/slice_20/dsl_manager_slice_20_prompt.md).
 
 ### 18.2 Slice 21 — derivazione deterministica completa
 
 Dipende dalla 20. Completa in sottopassi interni DDL colonne/FK, XML form/block/item/table reference, unità e dipendenze DB, osservazioni log. Usa solo metadati e locator già prodotti, regole pure/versionate e importer comune. Non modifica il batch orchestrator.
 
-Test: golden per regola, ordinamento, deduplica, evidenza mancante, placeholder, nomi ambigui e assenza di semantica di dominio inventata. Accettazione: a parità di parser output, due esecuzioni producono lo stesso report semantico e gli stessi payload/hash candidati. [Prompt eseguibile](#prompt-slice-21).
+Test: golden per regola, ordinamento, deduplica, evidenza mancante, placeholder, nomi ambigui e assenza di semantica di dominio inventata. Accettazione: a parità di parser output, due esecuzioni producono lo stesso report semantico e gli stessi payload/hash candidati. [Prompt eseguibile](../../../projects/slicing/slice_21/dsl_manager_slice_21_prompt.md).
 
 ### 18.3 Slice 22 — consolidamento batch e orchestrazione
 
 Dipende da 20–21. Inserisce derive come fase dopo parser strutturali; applica solo policy automatiche abilitate; merge usa eligibility corrente; reconcile può essere fase finale. Definisce stato aggregato, report catalogato, retry dopo crash e zero-candidate.
 
-Test: batch con sorgenti supportate/non supportate, candidati pending/rejected/confirmed, nessun eleggibile, strict, crash tra fasi, ripresa e due run convergenti. Accettazione: lo stesso workspace raggiunge medesimi effective hash indipendentemente dai retry. [Prompt eseguibile](#prompt-slice-22).
+Test: batch con sorgenti supportate/non supportate, candidati pending/rejected/confirmed, nessun eleggibile, strict, crash tra fasi, ripresa e due run convergenti. Accettazione: lo stesso workspace raggiunge medesimi effective hash indipendentemente dai retry. [Prompt eseguibile](../../../projects/slicing/slice_22/dsl_manager_slice_22_prompt.md).
 
 ### 18.4 Slice 23 — ingest `.xlsx`/`.xlsm` trasparente
 
 Dipende dalla 22. Estende routing e normalizer, implementa lettura singola, confronto `content_hash`, preflight sicuro minimo e worker isolato. Mantiene `docling==2.97.0`. Produce `normalized.json`, `normalized.md` e preflight report; non interpreta ancora regioni.
 
-Test reali Docling per `.xlsx` e `.xlsm`, mismatch revision, ZIP traversal/bomb/duplicate, XML DTD/entity, relazioni invalide, limiti at/over, timeout, no-network e assenza ricalcolo/macro. Accettazione `.xlsm`: conversione diretta comprovata; se il backend non la supporta, la slice fallisce esplicitamente senza fallback. [Prompt eseguibile](#prompt-slice-23).
+Test reali Docling per `.xlsx` e `.xlsm`, mismatch revision, ZIP traversal/bomb/duplicate, XML DTD/entity, relazioni invalide, limiti at/over, timeout, no-network e assenza ricalcolo/macro. Accettazione `.xlsm`: conversione diretta comprovata; se il backend non la supporta, la slice fallisce esplicitamente senza fallback. [Prompt eseguibile](../../../projects/slicing/slice_23/dsl_manager_slice_23_prompt.md).
 
 ### 18.5 Slice 24 — manifest, struttura e frammenti workbook
 
 Dipende dalla 23. Estende il medesimo parser e aggiunge migrazione v8, manifest canonico, region detector, frammenti e persistenza dei riferimenti. Conserva formula/cached, merge, named range scoped, visibility, relazioni, external link e presenza/hash macro.
 
-Test golden e DB per tutti i tipi cella, regioni multiple, nomi/ordine Unicode, worksheet hidden/veryHidden, relazione esterna, budget regioni/celle/output e roundtrip. Accettazione: manifest e frammenti identici su due macchine/run e nessun dato strutturale richiesto affidato solo a `normalized.md`. [Prompt eseguibile](#prompt-slice-24).
+Test golden e DB per tutti i tipi cella, regioni multiple, nomi/ordine Unicode, worksheet hidden/veryHidden, relazione esterna, budget regioni/celle/output e roundtrip. Accettazione: manifest e frammenti identici su due macchine/run e nessun dato strutturale richiesto affidato solo a `normalized.md`. [Prompt eseguibile](../../../projects/slicing/slice_24/dsl_manager_slice_24_prompt.md).
 
 ### 18.6 Slice 25 — candidati Excel deterministici
 
 Dipende da 20 e 24. Introduce regole conservative: workbook/sheet/region/named table come fatti tecnici; riferimenti espliciti tra regioni come relazioni solo se osservabili; header e label restano attributi/evidenze, non dominio. Tutto passa da candidate batch e review comune.
 
-Test su regioni duplicate, named range scope, formule, fogli nascosti e candidate ID ripetuti tra batch. Accettazione: nessun valore di cella diventa automaticamente una regola di business. [Prompt eseguibile](#prompt-slice-25).
+Test su regioni duplicate, named range scope, formule, fogli nascosti e candidate ID ripetuti tra batch. Accettazione: nessun valore di cella diventa automaticamente una regola di business. [Prompt eseguibile](../../../projects/slicing/slice_25/dsl_manager_slice_25_prompt.md).
 
 ### 18.7 Slice 26 — nucleo temporale, DSL v2 e GEXF 1.3
 
 Dipende da 20 e 22. Implementa migrazione v9, estrattori minimi OOXML core/app/ZIP, evidenza grezza, candidati temporali, review comune, un intervallo massimo, DSL schema 2/hashing/diff same-schema, export GEXF 1.3 dinamico, risorse XSD vendute e validazione offline doppia.
 
-Test: raw evidence fields, contraddizione, day/dateTime timezone, review/merge temporale, snapshot v2 roundtrip, `intervals=[]`, hash, XSD SHA/package/no-network, edge bounds e immutabilità v1. Accettazione: solo intervalli resolved+confirmed raggiungono DSL/grafo. [Prompt eseguibile](#prompt-slice-26).
+Test: raw evidence fields, contraddizione, day/dateTime timezone, review/merge temporale, snapshot v2 roundtrip, `intervals=[]`, hash, XSD SHA/package/no-network, edge bounds e immutabilità v1. Accettazione: solo intervalli resolved+confirmed raggiungono DSL/grafo. [Prompt eseguibile](../../../projects/slicing/slice_26/dsl_manager_slice_26_prompt.md).
 
 ### 18.8 Slice 27 — consolidamento temporale
 
 Dipende dalla 26. Aggiunge migrazione v10, fonti PDF/HTML/testo/SQL/XML/log/nome file/`sources.first_seen_at`, indipendenza/correlazione/conflitto, multipli intervalli, precisione year/month, relazioni di versione/precedenza solo quando esplicite, propagazione esplicita, batch/reconcile, diff cross-schema e golden completi. Integra facoltativamente il generatore AI solo tramite handoff candidato finto.
 
-Test: matrice fonti, conflitti e correlazione, timezone unknown, coverage envelope, spells ordinati/inclusivi, relazione fuori bounds, modalità omit/separate/strict, retry e budget. Accettazione: nessun riempimento o troncamento silenzioso. [Prompt eseguibile](#prompt-slice-27).
+Test: matrice fonti, conflitti e correlazione, timezone unknown, coverage envelope, spells ordinati/inclusivi, relazione fuori bounds, modalità omit/separate/strict, retry e budget. Accettazione: nessun riempimento o troncamento silenzioso. [Prompt eseguibile](../../../projects/slicing/slice_27/dsl_manager_slice_27_prompt.md).
 
 ### 18.9 Slice 28 — corpus Aurora aggiornato
 
 Dipende da 23–27. Sostituisce/amplia i fixture Aurora con workbook completi e immutabili, xlsm macro, malformed/partial, segnali temporali discordanti e attesi v2. Aggiorna inventario, checklist e guide rimuovendo i riferimenti mancanti a ZIP/guida di root.
 
-Test end-to-end e hash su due run, no-network e limiti. Accettazione: tutti gli elementi della checklist 16.4 hanno un atteso verificato e il binario formula/cached coincide con la fixture test per SHA. [Prompt eseguibile](#prompt-slice-28).
+Test end-to-end e hash su due run, no-network e limiti. Accettazione: tutti gli elementi della checklist 16.4 hanno un atteso verificato e il binario formula/cached coincide con la fixture test per SHA. [Prompt eseguibile](../../../projects/slicing/slice_28/dsl_manager_slice_28_prompt.md).
 
 ### 18.10 Slice 29 — consolidamento documentale
 
 Dipende da 20–28. Aggiorna analisi tecnica, contratti manifest, manuale utente e documenti architetturali per stato realmente implementato, comandi, migrazioni, codici esito, formati, sicurezza e compatibilità. Non cambia runtime.
 
-Verifica automatica link/comandi/nomi e confronto con `--help`. Accettazione: nessun documento presenta pending come mergeabile, `.xlsm` come conversione, metadata come verità o GEXF dinamico come validato dalla sola XSD. [Prompt eseguibile](#prompt-slice-29).
+Verifica automatica link/comandi/nomi e confronto con `--help`. Accettazione: nessun documento presenta pending come mergeabile, `.xlsm` come conversione, metadata come verità o GEXF dinamico come validato dalla sola XSD. [Prompt eseguibile](../../../projects/slicing/slice_29/dsl_manager_slice_29_prompt.md).
 
 ## 19. Roadmap e criteri globali
 
@@ -822,189 +822,27 @@ Nessuna fonte ufficiale consultata garantisce autonomamente che ogni `.xlsm` sia
 - [x] GEXF 1.3 è dinamico, offline, XSD+semantico, con risorse versionate/licenziate/hashate.
 - [x] Budget at/over, no-network, fixture Excel/temporal/Aurora e golden sono obbligatori.
 - [x] La matrice di tracciabilità assegna test o motivazione esplicita.
-- [x] Tutti i prompt sono senza placeholder di template e pronti all'uso.
+- [x] I prompt canonici esterni delle slice 20–29 sono senza placeholder di template, pronti all'uso, collegati dal design e verificabili nelle rispettive directory di slicing.
 
 Conclusione: il design è implementabile per incrementi, preserva il registro storico e rende ogni promozione semantica esplicita, persistita, verificabile e revocabile nelle viste correnti senza riscrivere il passato.
 
 ## 22. Prompt di implementazione
 
-I prompt seguenti sono completi, pronti all'uso e costituiscono parte normativa del perimetro di ciascuna slice.
-
-### Prompt Slice 20
-
-Implementa solo la Slice 20 — fondazione candidati, review, lineage, riconciliazione, viste effettive e prima regola DDL table→fact — nel repository DSL Manager. Produci `.kb/projects/slicing/slice_20/dsl_manager_slice_20_report.md`.
-
-Prima di modificare codice, leggi integralmente `AGENTS.md`, questo documento v02, l'analisi tecnica, i contratti manifest, il manuale utente, il design v01, i report 01–19 e il materiale di supporto sui candidati. Ispeziona il worktree corrente e preserva modifiche non correlate. Usa Python 3.12 e l'interprete indicato da `.codex/config.toml`; installa editable con extra dev prima del codice e usa quello stesso interprete per i test.
-
-Obiettivo verticale minimo: dimostrare `evidenza DDL → candidato pending → decisione persistita → merge-eligible → fatto effettivo`, mantenendo compatibilità legacy.
-
-Perimetro obbligatorio:
-
-- migrazione v7 esattamente secondo la sezione 8.1, inclusa nullabilità controllata di `candidate_batches.input_path` e upgrade da DB v6 realistico;
-- `CandidateReviewService`, canonical JSON/hash condiviso, chain/head aciclici, optimistic concurrency, idempotenza e no-op della sezione 7/9;
-- CLI esatta `candidates review list/show/confirm/reject/correct` e `facts reconcile <workspace>`;
-- identità umana da flag/config, reason obbligatoria, policy id/versione per automatici;
-- correzione atomica in nuovo batch `human_correction`, lineage senza branch e output del batch ID;
-- quattro viste `effective_fact_evidence`, `effective_relation_evidence`, `effective_facts`, `effective_relations` e coda `reconciliation_required`;
-- merge che rilegge decisione nella propria transazione, modalità mixed/strict e report catalogato;
-- backfill legacy solo per supporti active explicit/observed, senza cambiare snapshot;
-- framework di derivazione e sola regola `ddl_table_fact/1`, con import candidato normale;
-- blocco render/diff/export in presenza di riconciliazione; soltanto schema 2 futuro potrà usare allow-incomplete.
-
-Non implementare le altre regole, Excel o temporalità. Non mutare decisioni/candidati esistenti, non usare username macchina, non rendere `candidate_id` univoco globale, non confermare inferred/pending/conflicted.
-
-Test minimi obbligatori: migrazione v6→v7; chain/head/same-subject/ciclo; due writer con testa stantia; replay prima del head check; collisione chiave; semantic no-op; actor/reason; correct atomica/crash/retry/no-branch; mixed merge, strict e no eligible; supporti multipli; reconcile semplice/sostituzione pending; hash Unicode/numeri/null/list/key order; primo DDL end-to-end. Aggiorna golden e test esistenti solo dove il contratto lo richiede.
-
-La slice è finita quando la suite completa passa, gli output di due run sono deterministici, nessun pending è materializzato dal percorso nuovo e il report di slice elenca file, migrazione, comandi, test ed eventuali scostamenti. Prima di codificare dichiara brevemente i file previsti; poi implementa, esegui test mirati e completi e riassumi risultato e diff.
-
-### Prompt Slice 21
-
-Implementa solo la Slice 21 — derivazione deterministica completa da DDL, XML, codice database e log. Produci `.kb/projects/slicing/slice_21/dsl_manager_slice_21_report.md`.
-
-Leggi integralmente `AGENTS.md`, design v02, analisi tecnica, contratti, manuale, report delle slice 12–14 e 20 e materiale di supporto candidati. Ispeziona parser, fixture e worktree; usa esclusivamente il Python 3.12 configurato, installa editable dev e preserva modifiche non correlate.
-
-Obiettivo verticale minimo: trasformare gli output strutturati già persistiti dai parser in candidate batch deterministici e reviewable, senza accesso AI e senza scrittura diretta di fatti/relazioni.
-
-Implementa, come sottopassi interni alla stessa slice, `ddl_column_fact/1`, `ddl_fk_relation/1`, `xml_form_structure/1`, `xml_table_usage/1`, `db_code_unit/1`, `db_code_dependency/1`, `log_event_observation/1`. Ogni regola deve dichiarare versione, schema input, assertion, locator e policy consentita; usare l'importer della slice 20; ordinare e deduplicare stabilmente; produrre report `result_catalog_v1`. Usa solo segnali espliciti/observed descritti nella sezione 10. Se un read/write/call o target FK non è esplicito, mantieni pending o segnala evidenza insufficiente. Aggiungi al validator il rifiuto di placeholder semantici irrisolti.
-
-Non modificare l'orchestratore batch, non introdurre nuove migrazioni salvo una necessità dimostrata e compatibile, non inventare concetti di dominio da nomi, non auto-confermare log per default e non creare sottoslice ulteriori.
-
-Test obbligatori: golden per ogni regola e parser; FK risolta/non risolta; XML read/write esplicito/ambiguo; unità e dipendenze DB; log pending; locator mancante; placeholder; candidate ID uguali in batch diversi; ordine input invertito; due run con payload/hash identici; nessuna chiamata rete/AI. Esegui test mirati e suite completa.
-
-Done: tutte le regole consegnano candidati validi o ragioni stabili, non facts diretti; il report di slice documenta conteggi per rule/version e il diff resta nel perimetro. Prima del codice elenca i file previsti; dopo i test riporta esito e modifiche.
-
-### Prompt Slice 22
-
-Implementa solo la Slice 22 — consolidamento batch e orchestrazione di parse, derive, review automatica autorizzata, merge e reconcile. Produci `.kb/projects/slicing/slice_22/dsl_manager_slice_22_report.md`.
-
-Leggi integralmente `AGENTS.md`, design v02, contratti batch/worker/candidate/merge, manuale e report 16, 20 e 21. Ispeziona il worktree e il modello di stato corrente. Usa il Python 3.12 configurato, installazione editable dev e preserva cambi estranei.
-
-Obiettivo verticale minimo: una singola esecuzione batch su input misti produce candidati deterministici, applica solo policy abilitate, unisce solo eleggibili e può riprendere dopo crash convergendo allo stesso stato.
-
-Inserisci derive dopo i parser strutturali, registra versione regole e batch; integra review automatica via `CandidateReviewService`; rilegge eligibility nel merge; esegui reconcile finale se configurato. Definisci checkpoint, retry per fase, aggregazione `result_catalog_v1`, contatori mixed/strict/no-eligible, zero candidates e report ordinati. La modalità predefinita tratta skip review come non-errori quando esiste almeno un merge; no eligible esce 4; strict rollback/esce 4. Non duplicare logica review o merge nel worker.
-
-Non aggiungere Excel o temporalità, non auto-confermare regole non allowlisted, non cambiare snapshot storici e non nascondere partial/failure.
-
-Test obbligatori: input supportati/non supportati; pending/rejected/superseded/confirmed insieme; policy assente/presente/versione diversa; zero candidates; no eligible; strict rollback; crash dopo derive/review/merge e resume; ordine inverso; due run/retry con stessi effective hash, contatori e nessun doppio supporto; no-network. Esegui test mirati e suite completa.
-
-Done: report e exit code sono conformi al catalogo, il batch non promuove nulla implicitamente e retry/ordine convergono. Dichiara file previsti prima del codice; chiudi con test e diff.
-
-### Prompt Slice 23
-
-Implementa solo la Slice 23 — ingest trasparente e sicuro `.xlsx`/`.xlsm` con Docling 2.97.0. Produci `.kb/projects/slicing/slice_23/dsl_manager_slice_23_report.md`.
-
-Leggi integralmente `AGENTS.md`, design v02, analisi/contratti/manuale, report 10–11 e 22, fonti ufficiali Docling v2.97.0 ed ECMA-376 Part 2 indicate nella sezione 20. Ispeziona dipendenze e worktree. Usa il Python 3.12 configurato; mantieni `docling==2.97.0`; installa editable dev senza upgrade non richiesti.
-
-Obiettivo verticale minimo: una source revision Excel valida viene letta una volta, preflightata e passata a Docling come stream con lo stesso hash, producendo `normalized.json`, `normalized.md` e report; input malevoli falliscono prima della conversione.
-
-Estendi routing a `.xlsx` e `.xlsm`. Carica una sequenza byte limitata, confronta SHA-256 con `source_revisions.content_hash`, crea due cursori e non riaprire il path. Implementa il preflight minimo della sezione 11.2 senza estrazione su disco, DTD/entity o rete. `.xlsm` deve superare content type macro-enabled ed essere inoltrato esplicitamente come `InputFormat.XLSX` con nome `.xlsm`; prova un file reale. Isola il worker con timeout/output/memory hard dove supportato o monitored+kill dichiarato. Pubblica artefatti atomici e usa reason/status del catalogo. Nessun ricalcolo, macro, link/query o conversione.
-
-Non implementare manifest completo, regioni o candidati Excel. Se il test Docling `.xlsm` fallisce, marca la slice bloccata con evidenza: non introdurre LibreOffice, openpyxl come normalizzatore sostitutivo, rinomina o downgrade.
-
-Test obbligatori: `.xlsx` reale; `.xlsm` reale; byte identity/mismatch; estensione-content type; traversal/absolute/duplicate/case-fold; zip bomb/entry e streaming limits; DTD/entity; relationship duplicate/target invalido; parti minime mancanti; external link mai dereferenziato; at/over ogni limite rilevante; timeout/output/memory mode; partial distinto; no-network; due run stessi output. Esegui suite completa.
-
-Done: i due formati seguono il percorso trasparente autorizzato, gli attacchi hanno esiti stabili e nessun path viene riaperto. Dichiara file prima del codice e riporta test/diff.
-
-### Prompt Slice 24
-
-Implementa solo la Slice 24 — manifest OOXML canonico, struttura workbook, regioni e frammenti. Produci `.kb/projects/slicing/slice_24/dsl_manager_slice_24_report.md`.
-
-Leggi integralmente `AGENTS.md`, design v02, contratti manifest/evidence, report 11–14 e 23, ECMA-376 Part 2. Ispeziona il parser preflight della slice 23 e riusalo: non crearne uno parallelo. Usa Python 3.12 configurato, installazione editable dev e preserva worktree estraneo.
-
-Obiettivo verticale minimo: dallo stesso buffer validato ottenere un `workbook_manifest.json` autoritativo, riferimenti DB v8 e frammenti localizzati, deterministici e sufficienti a distinguere formula e cached value.
-
-Implementa migrazione v8, schema/ordine della sezione 11.3, parsing streaming esteso, region detector versionato, fragments, hash e persistenza. Conserva sheet order/name/visibility, coordinate e tipi cella, formule/cached, merge, named ranges con scope, relazioni part+rId, external link e macro presence/part/hash/`executed:false`. Stabilizza i prodotti Docling in ordine e formato; `normalized.md` resta secondario. Escludi timestamp operativi e path assoluti. Applica limiti celle/regioni/relazioni/output e report catalogato.
-
-Non interpretare dominio, non produrre candidati, non eseguire/recalcolare/aggiornare alcun contenuto e non copiare XML non limitato in memoria.
-
-Test obbligatori con binari immutabili: multi-sheet/multi-region; formula con/senza cached; merged; named range workbook/sheet; visible/hidden/veryHidden; string/number/bool/date/error/blank; external link; xlsm macro; Unicode/ordine; at/over limits; DB roundtrip; manifest golden e hash uguali su due run/macchine logiche; no-network. Registra SHA dei binari e testa il checksum. Esegui suite completa.
-
-Done: manifest/fragments coprono ogni campo obbligatorio e sono fonte primaria strutturale. Prima elenca file; dopo riporta test e diff.
-
-### Prompt Slice 25
-
-Implementa solo la Slice 25 — candidati deterministici da Excel. Produci `.kb/projects/slicing/slice_25/dsl_manager_slice_25_report.md`.
-
-Leggi integralmente `AGENTS.md`, design v02, report 20–24, materiale candidati e contratti candidate/evidence. Ispeziona manifest e fragments correnti. Usa Python 3.12 configurato, editable dev e conserva modifiche non correlate.
-
-Obiettivo verticale minimo: workbook→manifest/fragments→candidate batch→review comune, senza attribuire significato di business ai valori delle celle.
-
-Definisci regole versionate conservative per fatti tecnici workbook, sheet, region e named range/table e relazioni soltanto quando un riferimento è esplicito. Ogni candidato usa locator sheet+coordinate/part, evidence ref esistente, payload completo e importer comune. Header, label, formule e valori restano evidenza/attributi; policy automatica è allowlisted solo per struttura certa. Supporta fogli nascosti senza considerarli inattivi. Produci report per rule/version e ordine stabile.
-
-Non creare fatti di dominio, non leggere `normalized.md` come fonte primaria, non modificare review/merge e non aggiungere formati spreadsheet.
-
-Test obbligatori: regioni multiple/duplicate, named range scoped, table reference, formule/cached, hidden/veryHidden, external link non semantico, candidate ID ripetuto tra batch, evidenza mancante, ordine invertito, pending vs auto policy, golden e due run, no-network. Esegui test mirati e completi.
-
-Done: tutti gli output passano da candidati e decisioni e nessuna cella diventa direttamente autoritativa. Elenca file prima; riporta test/diff dopo.
-
-### Prompt Slice 26
-
-Implementa solo la Slice 26 — nucleo temporale completo, DSL schema 2, hashing e GEXF 1.3 dinamico validato offline. Produci `.kb/projects/slicing/slice_26/dsl_manager_slice_26_report.md`.
-
-Leggi integralmente `AGENTS.md`, design v02, documento metadata chat, proposta temporale, design v01, contratti snapshot/diff/GEXF, report 17 e 20–25 e tutte le fonti ufficiali della sezione 20. Il prompt/design v02 prevale sulla proposta di supporto in caso di conflitto. Usa Python 3.12 configurato; aggiungi il pin `lxml==6.1.2`; installa editable dev; preserva il worktree.
-
-Obiettivo verticale minimo: evidenza OOXML grezza→candidato temporale pending→review comune→intervallo validato→DSL v2 persistito/riletto→GEXF 1.3 dinamico valido XSD e semanticamente, tutto offline.
-
-Implementa migrazione v9 e modello della sezione 8.3. Estrai almeno core properties, app properties e timestamp ZIP separati, con tutti i campi raw/metodo/versione/precisione/timezone/reliability/warning. Estendi `candidate_records` al tipo temporale e usa esclusivamente `CandidateReviewService`. Supporta target source_revision/source_fragment/candidate_record/fact/relation e zero/un intervallo. Non ereditare automaticamente l'intervallo sorgente.
-
-Implementa `dsl render --schema-version 2`, default v1, `metadata.schema_version="2"`, `metadata.temporal.base="day"|"timestamp"`, timezone esplicita/`unknown` e `intervals` sempre presenti; usa effective views, hash semantico e roundtrip snapshot. Diff solo same-schema. Export dinamico solo v2, namespace/version/mode/timeformat/intervalli inclusivi.
-
-Vendi `gexf.xsd`, `dynamics.xsd`, `viz.xsd` nel path e con commit/URL/licenza/SHA esatti della sezione 13.2. Usa lxml no-network con resolver allowlist locale; aggiungi validazione semantica di riferimenti, tipi, ordine e bounds. Testa packaging via `importlib.resources` e SHA. Un unico timeformat per file; day e dateTime timezone-resolved; unknown/incompatible non esportato silenziosamente.
-
-Non aggiungere ancora fonti PDF/HTML/nome/contenuto, multi-intervallo o cross-schema diff. Non usare filesystem timestamp, alta confidenza come conferma, rete o XSD scaricati a runtime.
-
-Test obbligatori: migrazioni/rollback; raw fields; proprietà concordanti/contraddittorie; timezone; common review; un interval max; `intervals=[]`; v2 hash/golden/persist-re-read; v1 immutabile/default; reconciliation block e allow-incomplete solo v2; tre SHA XSD, package, no-network; namespace/mode/timeformat; edge bounds/ref/type; output non registrato su errore. Esegui suite completa.
-
-Done: solo interval resolved+confirmed appare nel DSL/grafo, XSD e semantic validation passano offline e v1 resta compatibile. Elenca file prima; riporta test/diff dopo.
-
-### Prompt Slice 27
-
-Implementa solo la Slice 27 — consolidamento temporale, fonti multiple, conflitti, precisione, timezone, diff/batch/reconcile e golden. Produci `.kb/projects/slicing/slice_27/dsl_manager_slice_27_report.md`.
-
-Leggi integralmente `AGENTS.md`, design v02, metadata chat, proposta temporale, contratti e report 16–17 e 26. In conflitto prevale design v02. Usa Python 3.12 configurato, editable dev e preserva modifiche estranee.
-
-Obiettivo verticale minimo: più segnali eterogenei vengono raggruppati per indipendenza, producono candidati reviewable e, se risolti, più intervalli corretti in DSL v2/GEXF spells con batch e retry convergenti.
-
-Implementa migrazione v10. Aggiungi estrattori PDF Info/XMP, HTML dichiarativo e testo/Markdown/SQL/XML/log per dichiarazioni contenuto, nome file e solo `sources.first_seen_at`; conserva source format/key/method/version/raw/precision/timezone/reliability/warnings. Classifica correlazione: segnali dello stesso generatore/copia non aumentano forza; indipendenti concordanti sì; contraddittori/low quality restano pending. Deriva relazioni di versione/precedenza soltanto da riferimenti espliciti e tramite candidati. Implementa propagation policies esplicite, intersection, aggregation e conflict senza inheritance implicita.
-
-Supporta intervalli multipli/disgiunti, year/month come coverage envelope con original precision, dateTime solo timezone-resolved, output omit/separate/strict, spells inclusivi/ordinati e bounds edge/node. Integra temporal derive/review/merge/reconcile nel batch; aggiungi diff cross-schema esplicito e categorie separate; golden condivisi. Se integri generazione AI, usa adapter finto e handoff candidato esistente, mai scrittura diretta o rete.
-
-Non colmare date, troncare dateTime, contare fonti correlate come conferme né cambiare DSL v1.
-
-Test obbligatori: matrice di tutte le fonti; correlazione/indipendenza/conflitto; precision year/month/day/dateTime; timezone Z/offset/unknown; target a ogni granularità; propagation/intersection/aggregation; multi intervals/spells; edge fuori bounds; omit/separate/strict; cross-schema diff; batch crash/retry/order; first_seen_at esatto; budget at/over; golden/hash; fake AI/no-network. Esegui suite completa.
-
-Done: nessun segnale ambiguo entra automaticamente nell'output e due ordini/retry convergono. Elenca file prima; riporta test/diff dopo.
-
-### Prompt Slice 28
-
-Implementa solo la Slice 28 — aggiornamento completo del corpus mock Aurora e dei relativi test end-to-end. Produci `.kb/projects/slicing/slice_28/dsl_manager_slice_28_report.md`.
-
-Leggi integralmente `AGENTS.md`, design v02, tutto il corpus Aurora corrente, inventario, checklist, guide e report 23–27. Ispeziona i nuovi fixture test e checksum. Usa Python 3.12 configurato, editable dev e preserva modifiche non correlate.
-
-Obiettivo verticale minimo: un corpus Aurora autoconsistente esercita Excel, candidati/review, temporalità, DSL v2 e GEXF dinamico con attesi riproducibili, conservando gli scenari legacy utili.
-
-Aggiorna il workbook Aurora a multi-sheet/multi-region con formula+cached, merged, named range, visible/hidden/veryHidden, celle string/number/bool/date/error/blank ed external link; usa esattamente il binario formula/cached dei fixture o lo stesso SHA. Aggiungi `.xlsm` reale macro-enabled inerte, malformed e partial controllati. Registra checksum immutabili. Inserisci segnali temporali concordanti/discordanti significativi, senza adattare le attese a una falsa verità.
-
-Aggiorna `inventario_fonti.csv`, `checklist_risultati_attesi.md`, `LEGGIMI_PRIMA.md` e le due guide reali. Rimuovi/correggi riferimenti a `corpus_mock_aurora_prestiti.zip` e `guida_dsl-manager.md` di root che non esistono; non creare alias fittizi. Le attese devono includere normalized JSON/MD, workbook manifest/fragments/report, candidate batches/decisioni, DSL v1/v2/diff e GEXF XSD+semantic valido.
-
-Non cambiare codice runtime salvo un difetto necessario e documentato emerso dal corpus; se emerge, fermati e assegna la correzione alla slice proprietaria invece di espandere di nascosto il perimetro. Non eseguire macro/rete.
-
-Test obbligatori: checklist della sezione 16.4; checksum; due run stessi hash; ordine/retry; budget/no-network; xlsm; malformed vs partial; contraddizioni temporali pending; export validato. Esegui test mirati e suite completa.
-
-Done: corpus, inventario, guide, checksum e attesi sono coerenti e nessun riferimento interno punta a file mancante. Elenca file prima; riporta test/diff dopo.
-
-### Prompt Slice 29
-
-Implementa solo la Slice 29 — consolidamento documentale finale delle capacità realmente consegnate dalle slice 20–28. Produci `.kb/projects/slicing/slice_29/dsl_manager_slice_29_report.md`.
-
-Leggi integralmente `AGENTS.md`, design v02, codice/test/report finali 20–28, analisi tecnica, contratti manifest, manuale utente, design v01 e documentazione Aurora. Ispeziona il worktree; usa Python 3.12 configurato per eventuali verifiche CLI/test e preserva modifiche estranee.
-
-Obiettivo verticale minimo: documentazione tecnica e utente coerente con schema, comandi, compatibilità, limiti e rischi effettivamente implementati.
-
-Aggiorna analisi tecnica, contratti manifest, manuale, riferimenti architetturali e guide necessarie. Documenta state machine, decision schema/idempotenza/correzione/reconcile, effective views, derivazione, batch, `.xlsx`/`.xlsm` e limitazioni, manifest, budget/sicurezza, temporal evidence/policy/precision/timezone, DSL v2/diff, GEXF 1.3/XSD+semantic offline, migrazioni v7–v10, result catalog ed esempi CLI. Marca chiaramente compatibilità schema1/static e comportamento allow-incomplete. Correggi link e nomi ordinati.
-
-Non aggiungere feature runtime, non retrodatare lo stato e non descrivere: pending come mergeabile; `.xlsm` come conversione; metadata come verità; formula Docling come autoritativa; sola XSD come validazione completa; filesystem timestamps come evidenza.
-
-Verifiche obbligatorie: lint/link check locale o test equivalente; confronto esempi con `--help`; ricerca riferimenti obsoleti e nomi non zero-padded; suite completa perché eventuali doctest/snapshot CLI restino coerenti. Se una capacità prevista non è implementata, documenta il gap e non dichiararla completa.
-
-Done: documenti e CLI si contraddicono in zero punti noti, i riferimenti sono risolvibili e il report di slice elenca file, verifiche e gap. Prima dichiara file previsti; dopo mostra test e diff.
+I prompt di implementazione completi costituiscono parte normativa del perimetro delle rispettive slice e sono conservati nei seguenti file canonici:
+
+- [Slice 20](../../../projects/slicing/slice_20/dsl_manager_slice_20_prompt.md)
+- [Slice 21](../../../projects/slicing/slice_21/dsl_manager_slice_21_prompt.md)
+- [Slice 22](../../../projects/slicing/slice_22/dsl_manager_slice_22_prompt.md)
+- [Slice 23](../../../projects/slicing/slice_23/dsl_manager_slice_23_prompt.md)
+- [Slice 24](../../../projects/slicing/slice_24/dsl_manager_slice_24_prompt.md)
+- [Slice 25](../../../projects/slicing/slice_25/dsl_manager_slice_25_prompt.md)
+- [Slice 26](../../../projects/slicing/slice_26/dsl_manager_slice_26_prompt.md)
+- [Slice 27](../../../projects/slicing/slice_27/dsl_manager_slice_27_prompt.md)
+- [Slice 28](../../../projects/slicing/slice_28/dsl_manager_slice_28_prompt.md)
+- [Slice 29](../../../projects/slicing/slice_29/dsl_manager_slice_29_prompt.md)
+
+Il presente design governa requisiti funzionali, invarianti e confini. I prompt esterni ne costituiscono il contratto operativo di esecuzione; `AGENTS.md` governa ambiente, processo e convenzioni del repository.
+
+In caso di contraddizione non risolvibile secondo queste responsabilità, non introdurre una nuova decisione progettuale silenziosa: documentare il conflitto e correggere la fonte normativa appropriata prima di proseguire.
+
+In caso di modifica a un prompt canonico, aggiornare la tracciabilità del design senza reintrodurre copie duplicate dei prompt in questo documento.

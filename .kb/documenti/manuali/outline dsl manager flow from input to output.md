@@ -1,5 +1,7 @@
 # DSL Manager: dal dato grezzo all'output
 
+> Release applicativa di riferimento: **1.1.0**.
+
 Questa è la mappa architetturale sintetica dello stato consegnato fino alla
 Slice 28. Per l'uso dettagliato vedere il
 [manuale utente](manuale_utente_dsl_manager.md); per le invarianti vedere

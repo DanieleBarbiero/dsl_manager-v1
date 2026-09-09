@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 from collections.abc import Sequence
 
+from dsl_mngr import __version__
 from dsl_mngr.cli.commands.ai import (
     run_ai_import_command,
     run_ai_inbox_scan_command,
@@ -49,6 +50,11 @@ from dsl_mngr.cli.commands.ui import run_ui_serve_command
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="dsl-manager")
+    parser.add_argument(
+        "--version",
+        action="version",
+        version=f"%(prog)s {__version__}",
+    )
     subparsers = parser.add_subparsers(dest="command", required=True)
 
     init_parser = subparsers.add_parser("init", help="Initialize a local workspace.")

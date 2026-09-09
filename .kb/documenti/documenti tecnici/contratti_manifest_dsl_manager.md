@@ -1,5 +1,7 @@
 # Contratti dati e manifest di DSL Manager
 
+> Release applicativa di riferimento: **1.1.0**.
+
 ## 1. Scopo
 
 Questo documento è il riferimento operativo per schema persistente, artefatti e

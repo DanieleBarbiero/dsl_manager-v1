@@ -1,5 +1,7 @@
 # Manuale utente di DSL Manager
 
+> Release applicativa di riferimento: **1.1.0**.
+
 ## 1. Che cosa fa
 
 DSL Manager trasforma un corpus locale in evidenze tracciabili, candidati

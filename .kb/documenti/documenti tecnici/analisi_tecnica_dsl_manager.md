@@ -1,5 +1,7 @@
 # Analisi tecnica di DSL Manager
 
+> Release applicativa di riferimento: **1.1.0**.
+
 ## 1. Scopo e stato osservato
 
 Questo documento descrive il comportamento realmente consegnato fino alla Slice 28.

@@ -1,0 +1,11 @@
+{
+  "artifact_dir": "artifacts/runs/RUN_000090",
+  "config_hash": "37ac21ae780e66e15fdb75132532b2bade8fc4e728548b31a0e36d9d92abe4fa",
+  "error": "no_merge_eligible_candidates",
+  "finished_at": "2026-09-09T16:48:17+02:00",
+  "run_id": "RUN_000090",
+  "run_type": "merge",
+  "started_at": "2026-09-09T16:48:17+02:00",
+  "status": "failed",
+  "workers": []
+}

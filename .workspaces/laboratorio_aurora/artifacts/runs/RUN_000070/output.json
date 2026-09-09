@@ -1,0 +1,66 @@
+{
+  "artifact_paths": [
+    "artifacts/runs/RUN_000070/derived_candidates.jsonl",
+    "artifacts/runs/RUN_000070/derive_report.json"
+  ],
+  "batch_id": "CBATCH_000047",
+  "candidate_ids": [
+    "EXCEL_NAMED_RANGE_FACT_8C78235828087001",
+    "EXCEL_NAMED_RANGE_FACT_42C202843919DD8A"
+  ],
+  "catalog_version": "result_catalog_v1",
+  "condition": "candidate_derivation",
+  "counters": {
+    "auto_confirmed": 0,
+    "deduplicated": 0,
+    "input_fragments": 2,
+    "pending": 2,
+    "produced": 2,
+    "rejected": 0
+  },
+  "derivation_id": "DERIVE_000040",
+  "derivation_rejections": [],
+  "exit_code": 0,
+  "mutations": true,
+  "outcome": "pending",
+  "payload_hashes": [
+    "76ce005943b460aaa9884506e26556146ef05a0db5beece86773d7454489cb86",
+    "73813650e35d467f3a0d09fd7f2d5fa6a608a79014a6eb8f1861e77b2b89c975"
+  ],
+  "reason": "success",
+  "retryable": false,
+  "rule": "excel_named_range_fact/1",
+  "rule_contract": {
+    "assertion_type": "explicit",
+    "automatic_review_allowed": true,
+    "automatic_review_policy": "explicit_excel_named_range_only/1",
+    "candidate_record_type": "candidate_fact",
+    "default_review_state": "pending",
+    "evidence_locator": "source_revision_id+fragment_id+manifest_id+sheet_name+coordinate+part_name",
+    "input_schema": "source_fragment/excel_region/1",
+    "parser_kind": "workbook_manifest",
+    "rule_id": "excel_named_range_fact",
+    "rule_version": "1"
+  },
+  "rule_counts": {
+    "excel_named_range_fact/1": {
+      "auto_confirmed": 0,
+      "deduplicated": 0,
+      "input_fragments": 2,
+      "pending": 2,
+      "produced": 2,
+      "rejected": 0
+    }
+  },
+  "rule_set_version": "1",
+  "run_id": "RUN_000070",
+  "schema_version": "1",
+  "semantic_report_hash": "f89ad2d75e3e872ee42bac7f1ea6c2577ecb4aecf1712d5da1ff52a3b0cd8b91",
+  "severity": "info",
+  "source_revision_id": "REV_000006",
+  "status": "completed",
+  "subject_ids": [
+    "EXCEL_NAMED_RANGE_FACT_8C78235828087001",
+    "EXCEL_NAMED_RANGE_FACT_42C202843919DD8A"
+  ]
+}

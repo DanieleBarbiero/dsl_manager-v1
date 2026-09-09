@@ -106,7 +106,7 @@ Il malformed e il partial sono verificati dal test mirato, che inietta
 "%PY%" -m dsl_mngr facts merge "%WS%" --batch CBATCH_000001
 ```
 
-Sostituire gli ID con quelli mostrati dai report. Le relazioni Excel e le date
+Sostituire gli ID con quelli mostrati dall’output di `candidates review list`. Le relazioni Excel e le date
 estratte restano pending per default. In particolare, una data nel nome o nei
 metadata non prova da sola la validita' di una regola.
 Se si corregge un candidato gia' materializzato, la correzione crea una nuova

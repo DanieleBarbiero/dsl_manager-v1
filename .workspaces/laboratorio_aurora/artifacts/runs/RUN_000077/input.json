@@ -1,0 +1,11 @@
+{
+  "artifact_dir": "artifacts/runs/RUN_000077",
+  "parameters": {
+    "rule": "xml_form_structure/1",
+    "rule_set_version": "1",
+    "source_revision_id": "REV_000012"
+  },
+  "parent_run_id": "RUN_000059",
+  "run_id": "RUN_000077",
+  "run_type": "candidate_derivation"
+}

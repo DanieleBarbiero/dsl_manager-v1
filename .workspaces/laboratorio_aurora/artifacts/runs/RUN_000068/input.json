@@ -1,0 +1,11 @@
+{
+  "artifact_dir": "artifacts/runs/RUN_000068",
+  "parameters": {
+    "rule": "excel_workbook_fact/1",
+    "rule_set_version": "1",
+    "source_revision_id": "REV_000003"
+  },
+  "parent_run_id": "RUN_000059",
+  "run_id": "RUN_000068",
+  "run_type": "candidate_derivation"
+}

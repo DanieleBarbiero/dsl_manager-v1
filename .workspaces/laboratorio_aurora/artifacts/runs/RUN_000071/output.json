@@ -1,0 +1,75 @@
+{
+  "artifact_paths": [
+    "artifacts/runs/RUN_000071/derived_candidates.jsonl",
+    "artifacts/runs/RUN_000071/derive_report.json"
+  ],
+  "batch_id": "CBATCH_000048",
+  "candidate_ids": [
+    "EXCEL_REGION_FACT_31B646641CF8976F",
+    "EXCEL_REGION_FACT_9BF2ABE72147B971",
+    "EXCEL_REGION_FACT_DB86B891963AAF2A",
+    "EXCEL_REGION_FACT_E0266A4E0A3940D0",
+    "EXCEL_REGION_FACT_302C3BD0E9EBC6F0"
+  ],
+  "catalog_version": "result_catalog_v1",
+  "condition": "candidate_derivation",
+  "counters": {
+    "auto_confirmed": 0,
+    "deduplicated": 0,
+    "input_fragments": 5,
+    "pending": 5,
+    "produced": 5,
+    "rejected": 0
+  },
+  "derivation_id": "DERIVE_000041",
+  "derivation_rejections": [],
+  "exit_code": 0,
+  "mutations": true,
+  "outcome": "pending",
+  "payload_hashes": [
+    "bfc3fb659ef5c29fc909475578024cbef738499c5cc3dd47808f38287515d92d",
+    "b2acb3d15ba361c2ede8b076877e5650435230d40c6fe32629b6e3cde57f065c",
+    "f1a71d315f9c121e07e6d878d7a3c38c709f8b53509b8f565ea17c015023986c",
+    "8c6cc15bd6b98094d3c3999ac408b2fb0609a008d7891a69836808c059433ada",
+    "7443db00f03238d2b068a215385c1591f297e89aab2208b7db65e30d64a5021e"
+  ],
+  "reason": "success",
+  "retryable": false,
+  "rule": "excel_region_fact/1",
+  "rule_contract": {
+    "assertion_type": "explicit",
+    "automatic_review_allowed": true,
+    "automatic_review_policy": "explicit_excel_region_only/1",
+    "candidate_record_type": "candidate_fact",
+    "default_review_state": "pending",
+    "evidence_locator": "source_revision_id+fragment_id+manifest_id+sheet_name+coordinate+part_name",
+    "input_schema": "source_fragment/excel_region/1",
+    "parser_kind": "workbook_manifest",
+    "rule_id": "excel_region_fact",
+    "rule_version": "1"
+  },
+  "rule_counts": {
+    "excel_region_fact/1": {
+      "auto_confirmed": 0,
+      "deduplicated": 0,
+      "input_fragments": 5,
+      "pending": 5,
+      "produced": 5,
+      "rejected": 0
+    }
+  },
+  "rule_set_version": "1",
+  "run_id": "RUN_000071",
+  "schema_version": "1",
+  "semantic_report_hash": "bc84da176c0be3a55e4773e41fd545e68e29d921a8ff777756354abd34b7333b",
+  "severity": "info",
+  "source_revision_id": "REV_000006",
+  "status": "completed",
+  "subject_ids": [
+    "EXCEL_REGION_FACT_31B646641CF8976F",
+    "EXCEL_REGION_FACT_9BF2ABE72147B971",
+    "EXCEL_REGION_FACT_DB86B891963AAF2A",
+    "EXCEL_REGION_FACT_E0266A4E0A3940D0",
+    "EXCEL_REGION_FACT_302C3BD0E9EBC6F0"
+  ]
+}

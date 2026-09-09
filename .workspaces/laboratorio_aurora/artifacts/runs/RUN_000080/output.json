@@ -1,0 +1,63 @@
+{
+  "artifact_paths": [
+    "artifacts/runs/RUN_000080/derived_candidates.jsonl",
+    "artifacts/runs/RUN_000080/derive_report.json"
+  ],
+  "batch_id": "CBATCH_000057",
+  "candidate_ids": [
+    "XML_TABLE_USAGE_E20659E310E52588"
+  ],
+  "catalog_version": "result_catalog_v1",
+  "condition": "candidate_derivation",
+  "counters": {
+    "auto_confirmed": 0,
+    "deduplicated": 0,
+    "input_fragments": 1,
+    "pending": 1,
+    "produced": 1,
+    "rejected": 0
+  },
+  "derivation_id": "DERIVE_000050",
+  "derivation_rejections": [],
+  "exit_code": 0,
+  "mutations": true,
+  "outcome": "pending",
+  "payload_hashes": [
+    "c3281253a9674892baa6a50ac2534eec2d16d0486028dee69ec1c737e13b596a"
+  ],
+  "reason": "success",
+  "retryable": false,
+  "rule": "xml_table_usage/1",
+  "rule_contract": {
+    "assertion_type": "explicit",
+    "automatic_review_allowed": true,
+    "automatic_review_policy": "explicit_xml_operation_only/1",
+    "candidate_record_type": "candidate_relation",
+    "default_review_state": "pending",
+    "evidence_locator": "source_revision_id+fragment_id+path_or_selector+line_start+line_end",
+    "input_schema": "source_fragment/xml_form/1",
+    "parser_kind": "xml_form",
+    "rule_id": "xml_table_usage",
+    "rule_version": "1"
+  },
+  "rule_counts": {
+    "xml_table_usage/1": {
+      "auto_confirmed": 0,
+      "deduplicated": 0,
+      "input_fragments": 1,
+      "pending": 1,
+      "produced": 1,
+      "rejected": 0
+    }
+  },
+  "rule_set_version": "1",
+  "run_id": "RUN_000080",
+  "schema_version": "1",
+  "semantic_report_hash": "bcc15b6a964baad9ed7ae3b3914252a80261c9b8ef9d4178e855f01d9d53340b",
+  "severity": "info",
+  "source_revision_id": "REV_000013",
+  "status": "completed",
+  "subject_ids": [
+    "XML_TABLE_USAGE_E20659E310E52588"
+  ]
+}

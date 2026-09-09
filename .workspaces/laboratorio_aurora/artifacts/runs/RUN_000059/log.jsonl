@@ -1,0 +1,2 @@
+{"event": "run_started", "level": "INFO", "message": "Run RUN_000059 started.", "run_id": "RUN_000059", "timestamp": "2026-09-09T16:48:11+02:00"}
+{"event": "run_failed", "level": "ERROR", "message": "Run RUN_000059 failed: no_merge_eligible_candidates", "run_id": "RUN_000059", "timestamp": "2026-09-09T16:48:17+02:00"}

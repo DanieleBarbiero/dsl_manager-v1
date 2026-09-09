@@ -1,0 +1,18 @@
+{
+  "artifact_dir": "artifacts/runs/RUN_000059",
+  "parameters": {
+    "batch_command": "consolidate",
+    "options": {
+      "automatic_policies": [],
+      "corpus_path": "corpus/active",
+      "reconcile": false,
+      "rule_set_version": "1",
+      "stop_on_error": false,
+      "strict_review": false
+    },
+    "retry_of": "RUN_000001"
+  },
+  "parent_run_id": "RUN_000001",
+  "run_id": "RUN_000059",
+  "run_type": "batch"
+}

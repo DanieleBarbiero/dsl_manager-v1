@@ -1,0 +1,3903 @@
+{
+  "artifact_paths": [
+    "artifacts/runs/RUN_000059/batch_checkpoint.json",
+    "artifacts/runs/RUN_000059/batch_report.json"
+  ],
+  "batch_command": "consolidate",
+  "catalog_version": "result_catalog_v1",
+  "condition": "batch_consolidation",
+  "counters": {
+    "auto_confirmed": 0,
+    "auto_replayed": 0,
+    "candidate_batches": 55,
+    "candidates_produced": 127,
+    "candidates_rejected": 0,
+    "facts_created": 0,
+    "facts_existing": 0,
+    "merged_candidates": 0,
+    "parse_completed": 27,
+    "parse_failed": 0,
+    "parse_skipped": 0,
+    "policy_skipped_absent": 127,
+    "policy_skipped_version": 0,
+    "reconciliation_closed": 0,
+    "reconciliation_pending": 0,
+    "relations_created": 0,
+    "relations_existing": 0,
+    "review_confirmed": 0,
+    "review_non_leaf": 0,
+    "review_pending": 127,
+    "review_rejected": 0,
+    "review_superseded": 0,
+    "skipped_no_positive_head": 0,
+    "skipped_non_leaf": 0,
+    "skipped_pending": 127,
+    "skipped_records": 127,
+    "skipped_rejected": 0,
+    "skipped_superseded": 0,
+    "temporal_candidates": 26,
+    "temporal_evidence_extracted": 144,
+    "zero_candidate_batches": 5
+  },
+  "effective_hashes": {
+    "effective_fact_count": 0,
+    "effective_fact_hash": "07259d961951a5402e700a8e010175e4fd4b99321ad455d98da3e471ece26a3c",
+    "effective_fact_support_count": 0,
+    "effective_registry_hash": "c3ff6c0a3e97178b586394f89eff291c9c22f3d01f6139c08e562917f0117200",
+    "effective_relation_count": 0,
+    "effective_relation_hash": "07259d961951a5402e700a8e010175e4fd4b99321ad455d98da3e471ece26a3c",
+    "effective_relation_support_count": 0
+  },
+  "exit_code": 4,
+  "mutations": false,
+  "options": {
+    "automatic_policies": [],
+    "corpus_path": "corpus/active",
+    "reconcile": false,
+    "rule_set_version": "1",
+    "stop_on_error": false,
+    "strict_review": false
+  },
+  "outcome": null,
+  "phases": [
+    {
+      "attempts": 1,
+      "name": "parse",
+      "result": {
+        "condition": "batch_parse",
+        "counters": {
+          "completed": 27,
+          "failed": 0,
+          "skipped": 0,
+          "total": 27
+        },
+        "exit_code": 0,
+        "items": [
+          {
+            "error": null,
+            "exit_code": 0,
+            "input_path": "corpus/active/database/dump_oracle_ddl.sql",
+            "item_id": "BITEM_000001",
+            "kind": "parse_ddl",
+            "outputs": {
+              "columns": 25,
+              "foreign_keys": 3,
+              "fragments": 38,
+              "tables": 4
+            },
+            "run_id": "RUN_000003",
+            "source_id": "SRC_000001",
+            "source_revision_id": "REV_000001",
+            "status": "completed"
+          },
+          {
+            "error": null,
+            "exit_code": 0,
+            "input_path": "corpus/active/documenti/nuovi_non_utili/istruzioni_parcheggio_2025.html",
+            "item_id": "BITEM_000002",
+            "kind": "normalize",
+            "outputs": {
+              "is_excel": false,
+              "normalized_hash": "2d6c44293d9218f6d8844bee6cccaa7d3e33444ac46b9f338b8c29f36d417614",
+              "normalized_markdown_path": "normalized/SRC_000002/REV_000002/normalized.md"
+            },
+            "run_id": "RUN_000004",
+            "source_id": "SRC_000002",
+            "source_revision_id": "REV_000002",
+            "status": "completed"
+          },
+          {
+            "error": null,
+            "exit_code": 0,
+            "input_path": "corpus/active/documenti/nuovi_non_utili/istruzioni_parcheggio_2025.html",
+            "item_id": "BITEM_000003",
+            "kind": "chunk",
+            "outputs": {
+              "chunks": 1,
+              "chunks_hash": "3146da414814c19d5d9cb73bdb45f07886aa2b8e21f82dfaf5ce80b3e65cee68"
+            },
+            "run_id": "RUN_000005",
+            "source_id": "SRC_000002",
+            "source_revision_id": "REV_000002",
+            "status": "completed"
+          },
+          {
+            "error": null,
+            "exit_code": 0,
+            "input_path": "corpus/active/documenti/nuovi_utili/calcolo_rate_macro_2025.xlsm",
+            "item_id": "BITEM_000004",
+            "kind": "normalize",
+            "outputs": {
+              "is_excel": true,
+              "normalized_hash": "40684b75600e12a65d87fd6657a461b5fde9941ee7c16e6713c6104d29337513",
+              "normalized_markdown_path": "normalized/SRC_000003/REV_000003/normalized.md"
+            },
+            "run_id": "RUN_000006",
+            "source_id": "SRC_000003",
+            "source_revision_id": "REV_000003",
+            "status": "completed"
+          },
+          {
+            "error": null,
+            "exit_code": 0,
+            "input_path": "corpus/active/documenti/nuovi_utili/calcolo_rate_macro_2025.xlsm",
+            "item_id": "BITEM_000005",
+            "kind": "chunk",
+            "outputs": {
+              "chunks": 1,
+              "chunks_hash": "c63bd6475800b0eccafdd35a4685813ff1d9d5964df91ee4ce0d68362cdbb282"
+            },
+            "run_id": "RUN_000007",
+            "source_id": "SRC_000003",
+            "source_revision_id": "REV_000003",
+            "status": "completed"
+          },
+          {
+            "error": null,
+            "exit_code": 0,
+            "input_path": "corpus/active/documenti/nuovi_utili/decorrenza_modernizzazione_2025.txt",
+            "item_id": "BITEM_000006",
+            "kind": "normalize",
+            "outputs": {
+              "is_excel": false,
+              "normalized_hash": "2651a7a3383a84db459ecc0918bbb69633f6ccf69953ffd64d6046d015040d60",
+              "normalized_markdown_path": "normalized/SRC_000004/REV_000004/normalized.md"
+            },
+            "run_id": "RUN_000008",
+            "source_id": "SRC_000004",
+            "source_revision_id": "REV_000004",
+            "status": "completed"
+          },
+          {
+            "error": null,
+            "exit_code": 0,
+            "input_path": "corpus/active/documenti/nuovi_utili/decorrenza_modernizzazione_2025.txt",
+            "item_id": "BITEM_000007",
+            "kind": "chunk",
+            "outputs": {
+              "chunks": 1,
+              "chunks_hash": "b3c1036ed4d6b2f1acdfe67636dbe2fe33e478d02248adbd6eacafd588321924"
+            },
+            "run_id": "RUN_000009",
+            "source_id": "SRC_000004",
+            "source_revision_id": "REV_000004",
+            "status": "completed"
+          },
+          {
+            "error": null,
+            "exit_code": 0,
+            "input_path": "corpus/active/documenti/nuovi_utili/manuale_ufficio_crediti_2024.docx",
+            "item_id": "BITEM_000008",
+            "kind": "normalize",
+            "outputs": {
+              "is_excel": false,
+              "normalized_hash": "92c82c78bfd49bd520b41b8d1ff32e950dbbe27a19bfde275bd5ba865d4215a9",
+              "normalized_markdown_path": "normalized/SRC_000005/REV_000005/normalized.md"
+            },
+            "run_id": "RUN_000010",
+            "source_id": "SRC_000005",
+            "source_revision_id": "REV_000005",
+            "status": "completed"
+          },
+          {
+            "error": null,
+            "exit_code": 0,
+            "input_path": "corpus/active/documenti/nuovi_utili/manuale_ufficio_crediti_2024.docx",
+            "item_id": "BITEM_000009",
+            "kind": "chunk",
+            "outputs": {
+              "chunks": 1,
+              "chunks_hash": "b8696855f7ae2e86aee75e3848e4db5c8ba24b3fc4e7977de23e67c30f62d0f9"
+            },
+            "run_id": "RUN_000011",
+            "source_id": "SRC_000005",
+            "source_revision_id": "REV_000005",
+            "status": "completed"
+          },
+          {
+            "error": null,
+            "exit_code": 0,
+            "input_path": "corpus/active/documenti/nuovi_utili/matrice_stati_2025.xlsx",
+            "item_id": "BITEM_000010",
+            "kind": "normalize",
+            "outputs": {
+              "is_excel": true,
+              "normalized_hash": "24523bcede353a28dd3869a7407d2b592ebf43be6508012a768df70bd7eee371",
+              "normalized_markdown_path": "normalized/SRC_000006/REV_000006/normalized.md"
+            },
+            "run_id": "RUN_000012",
+            "source_id": "SRC_000006",
+            "source_revision_id": "REV_000006",
+            "status": "completed"
+          },
+          {
+            "error": null,
+            "exit_code": 0,
+            "input_path": "corpus/active/documenti/nuovi_utili/matrice_stati_2025.xlsx",
+            "item_id": "BITEM_000011",
+            "kind": "chunk",
+            "outputs": {
+              "chunks": 1,
+              "chunks_hash": "d00d59c1ec9eefa8ab3cd199aa4025aa155cc4ee3f4655b9341e0010625dff93"
+            },
+            "run_id": "RUN_000013",
+            "source_id": "SRC_000006",
+            "source_revision_id": "REV_000006",
+            "status": "completed"
+          },
+          {
+            "error": null,
+            "exit_code": 0,
+            "input_path": "corpus/active/documenti/nuovi_utili/requisiti_modernizzazione_2025.md",
+            "item_id": "BITEM_000012",
+            "kind": "normalize",
+            "outputs": {
+              "is_excel": false,
+              "normalized_hash": "8072b5db431726ec1b6e39971fe54fdb7fcc8caa362091cf3ac98a51ed7e9100",
+              "normalized_markdown_path": "normalized/SRC_000007/REV_000007/normalized.md"
+            },
+            "run_id": "RUN_000014",
+            "source_id": "SRC_000007",
+            "source_revision_id": "REV_000007",
+            "status": "completed"
+          },
+          {
+            "error": null,
+            "exit_code": 0,
+            "input_path": "corpus/active/documenti/nuovi_utili/requisiti_modernizzazione_2025.md",
+            "item_id": "BITEM_000013",
+            "kind": "chunk",
+            "outputs": {
+              "chunks": 1,
+              "chunks_hash": "ab4385a90dde502693faa50b069c8037e67c1413d61de7cfd49d019de53b9718"
+            },
+            "run_id": "RUN_000015",
+            "source_id": "SRC_000007",
+            "source_revision_id": "REV_000007",
+            "status": "completed"
+          },
+          {
+            "error": null,
+            "exit_code": 0,
+            "input_path": "corpus/active/documenti/vecchi_non_utili/verbale_mensa_2013.docx",
+            "item_id": "BITEM_000014",
+            "kind": "normalize",
+            "outputs": {
+              "is_excel": false,
+              "normalized_hash": "28bd0754beff515ca0ae2b043cec672448d8dff3f2caa4d7f203062490c0d86d",
+              "normalized_markdown_path": "normalized/SRC_000008/REV_000008/normalized.md"
+            },
+            "run_id": "RUN_000016",
+            "source_id": "SRC_000008",
+            "source_revision_id": "REV_000008",
+            "status": "completed"
+          },
+          {
+            "error": null,
+            "exit_code": 0,
+            "input_path": "corpus/active/documenti/vecchi_non_utili/verbale_mensa_2013.docx",
+            "item_id": "BITEM_000015",
+            "kind": "chunk",
+            "outputs": {
+              "chunks": 1,
+              "chunks_hash": "65fac60dae357387a31c9fbb4fca6550f056405fa559e10caa8e1b89bb1c243a"
+            },
+            "run_id": "RUN_000017",
+            "source_id": "SRC_000008",
+            "source_revision_id": "REV_000008",
+            "status": "completed"
+          },
+          {
+            "error": null,
+            "exit_code": 0,
+            "input_path": "corpus/active/documenti/vecchi_utili/manuale_pratiche_2012.txt",
+            "item_id": "BITEM_000016",
+            "kind": "normalize",
+            "outputs": {
+              "is_excel": false,
+              "normalized_hash": "2a957a1a8fc987900813e2501d80d8397f8c4b2c2fcde8c4d0edd1c9d8447ccc",
+              "normalized_markdown_path": "normalized/SRC_000009/REV_000009/normalized.md"
+            },
+            "run_id": "RUN_000018",
+            "source_id": "SRC_000009",
+            "source_revision_id": "REV_000009",
+            "status": "completed"
+          },
+          {
+            "error": null,
+            "exit_code": 0,
+            "input_path": "corpus/active/documenti/vecchi_utili/manuale_pratiche_2012.txt",
+            "item_id": "BITEM_000017",
+            "kind": "chunk",
+            "outputs": {
+              "chunks": 1,
+              "chunks_hash": "864945b7e5c5b2349a8029e0683c4c90943e3503aac91e0f3f29de7e66896af8"
+            },
+            "run_id": "RUN_000019",
+            "source_id": "SRC_000009",
+            "source_revision_id": "REV_000009",
+            "status": "completed"
+          },
+          {
+            "error": null,
+            "exit_code": 0,
+            "input_path": "corpus/active/documenti/vecchi_utili/regole_calcolo_rate_2016.html",
+            "item_id": "BITEM_000018",
+            "kind": "normalize",
+            "outputs": {
+              "is_excel": false,
+              "normalized_hash": "f027203745c541cec75c107eff379235a7c34b395cea24f128aaf3120c63e739",
+              "normalized_markdown_path": "normalized/SRC_000010/REV_000010/normalized.md"
+            },
+            "run_id": "RUN_000020",
+            "source_id": "SRC_000010",
+            "source_revision_id": "REV_000010",
+            "status": "completed"
+          },
+          {
+            "error": null,
+            "exit_code": 0,
+            "input_path": "corpus/active/documenti/vecchi_utili/regole_calcolo_rate_2016.html",
+            "item_id": "BITEM_000019",
+            "kind": "chunk",
+            "outputs": {
+              "chunks": 1,
+              "chunks_hash": "ed5e80500eefba29a634d448f2c31eeb284b870ae454a8eec903bb1f04247ef8"
+            },
+            "run_id": "RUN_000021",
+            "source_id": "SRC_000010",
+            "source_revision_id": "REV_000010",
+            "status": "completed"
+          },
+          {
+            "error": null,
+            "exit_code": 0,
+            "input_path": "corpus/active/forms/FRM_CLIENTE.xml",
+            "item_id": "BITEM_000020",
+            "kind": "parse_xml_form",
+            "outputs": {
+              "fields": 6,
+              "forms": 1,
+              "fragments": 9
+            },
+            "run_id": "RUN_000022",
+            "source_id": "SRC_000011",
+            "source_revision_id": "REV_000011",
+            "status": "completed"
+          },
+          {
+            "error": null,
+            "exit_code": 0,
+            "input_path": "corpus/active/forms/FRM_PIANO_RATE.xml",
+            "item_id": "BITEM_000021",
+            "kind": "parse_xml_form",
+            "outputs": {
+              "fields": 8,
+              "forms": 1,
+              "fragments": 11
+            },
+            "run_id": "RUN_000023",
+            "source_id": "SRC_000012",
+            "source_revision_id": "REV_000012",
+            "status": "completed"
+          },
+          {
+            "error": null,
+            "exit_code": 0,
+            "input_path": "corpus/active/forms/FRM_PRATICA.xml",
+            "item_id": "BITEM_000022",
+            "kind": "parse_xml_form",
+            "outputs": {
+              "fields": 7,
+              "forms": 1,
+              "fragments": 10
+            },
+            "run_id": "RUN_000024",
+            "source_id": "SRC_000013",
+            "source_revision_id": "REV_000013",
+            "status": "completed"
+          },
+          {
+            "error": null,
+            "exit_code": 0,
+            "input_path": "corpus/active/logs/batch_piano_rate_2025.log",
+            "item_id": "BITEM_000023",
+            "kind": "parse_log",
+            "outputs": {
+              "events": 5,
+              "fragments": 5,
+              "warnings": 1
+            },
+            "run_id": "RUN_000025",
+            "source_id": "SRC_000014",
+            "source_revision_id": "REV_000014",
+            "status": "completed"
+          },
+          {
+            "error": null,
+            "exit_code": 0,
+            "input_path": "corpus/active/logs/pagamenti_2025.log",
+            "item_id": "BITEM_000024",
+            "kind": "parse_log",
+            "outputs": {
+              "events": 4,
+              "fragments": 4,
+              "warnings": 0
+            },
+            "run_id": "RUN_000026",
+            "source_id": "SRC_000015",
+            "source_revision_id": "REV_000015",
+            "status": "completed"
+          },
+          {
+            "error": null,
+            "exit_code": 0,
+            "input_path": "corpus/active/plsql/PRC_GENERA_PIANO.sql",
+            "item_id": "BITEM_000025",
+            "kind": "parse_db_code",
+            "outputs": {
+              "fragments": 2,
+              "procedures": 1,
+              "statements": 1,
+              "triggers": 0
+            },
+            "run_id": "RUN_000027",
+            "source_id": "SRC_000016",
+            "source_revision_id": "REV_000016",
+            "status": "completed"
+          },
+          {
+            "error": null,
+            "exit_code": 0,
+            "input_path": "corpus/active/plsql/PRC_REGISTRA_PAGAMENTO.sql",
+            "item_id": "BITEM_000026",
+            "kind": "parse_db_code",
+            "outputs": {
+              "fragments": 3,
+              "procedures": 1,
+              "statements": 2,
+              "triggers": 0
+            },
+            "run_id": "RUN_000028",
+            "source_id": "SRC_000017",
+            "source_revision_id": "REV_000017",
+            "status": "completed"
+          },
+          {
+            "error": null,
+            "exit_code": 0,
+            "input_path": "corpus/active/plsql/TRG_PRATICA_APPROVA.sql",
+            "item_id": "BITEM_000027",
+            "kind": "parse_db_code",
+            "outputs": {
+              "fragments": 2,
+              "procedures": 0,
+              "statements": 1,
+              "triggers": 1
+            },
+            "run_id": "RUN_000029",
+            "source_id": "SRC_000018",
+            "source_revision_id": "REV_000018",
+            "status": "completed"
+          }
+        ],
+        "reason": "success",
+        "report_path": "artifacts/runs/RUN_000002/batch_report.json",
+        "run_id": "RUN_000002",
+        "source_revision_ids": [
+          "REV_000001",
+          "REV_000002",
+          "REV_000003",
+          "REV_000004",
+          "REV_000005",
+          "REV_000006",
+          "REV_000007",
+          "REV_000008",
+          "REV_000009",
+          "REV_000010",
+          "REV_000011",
+          "REV_000012",
+          "REV_000013",
+          "REV_000014",
+          "REV_000015",
+          "REV_000016",
+          "REV_000017",
+          "REV_000018"
+        ],
+        "status": "completed",
+        "structured_sources": [
+          {
+            "kind": "parse_ddl",
+            "source_revision_id": "REV_000001"
+          },
+          {
+            "kind": "normalize_excel",
+            "source_revision_id": "REV_000003"
+          },
+          {
+            "kind": "normalize_excel",
+            "source_revision_id": "REV_000006"
+          },
+          {
+            "kind": "parse_xml_form",
+            "source_revision_id": "REV_000011"
+          },
+          {
+            "kind": "parse_xml_form",
+            "source_revision_id": "REV_000012"
+          },
+          {
+            "kind": "parse_xml_form",
+            "source_revision_id": "REV_000013"
+          },
+          {
+            "kind": "parse_log",
+            "source_revision_id": "REV_000014"
+          },
+          {
+            "kind": "parse_log",
+            "source_revision_id": "REV_000015"
+          },
+          {
+            "kind": "parse_db_code",
+            "source_revision_id": "REV_000016"
+          },
+          {
+            "kind": "parse_db_code",
+            "source_revision_id": "REV_000017"
+          },
+          {
+            "kind": "parse_db_code",
+            "source_revision_id": "REV_000018"
+          }
+        ]
+      },
+      "status": "completed",
+      "transitions": [
+        {
+          "from": "pending",
+          "to": "running"
+        },
+        {
+          "from": "running",
+          "to": "completed"
+        }
+      ]
+    },
+    {
+      "attempts": 2,
+      "name": "derive",
+      "result": {
+        "condition": "candidate_derivation",
+        "counters": {
+          "batches": 55,
+          "deduplicated": 0,
+          "input_fragments": 100,
+          "produced": 127,
+          "rejected": 0,
+          "temporal_candidates": 26,
+          "temporal_evidence_extracted": 144,
+          "zero_candidate_batches": 5
+        },
+        "exit_code": 0,
+        "items": [
+          {
+            "batch_id": "CBATCH_000037",
+            "candidate_ids": [
+              "DDL_COLUMN_FACT_48720077BD515AAE",
+              "DDL_COLUMN_FACT_CF61A37BF69239C0",
+              "DDL_COLUMN_FACT_F93298FEBC8DDE01",
+              "DDL_COLUMN_FACT_C1DD0AC9287E26FE",
+              "DDL_COLUMN_FACT_2059F25F3C9E3211",
+              "DDL_COLUMN_FACT_248F85324D7A2658",
+              "DDL_COLUMN_FACT_A82DDFCC7A32C69E",
+              "DDL_COLUMN_FACT_135EB12D92DDA52A",
+              "DDL_COLUMN_FACT_5C76197D5CC1E54E",
+              "DDL_COLUMN_FACT_6308190CA181D05C",
+              "DDL_COLUMN_FACT_6F5BF9941D2CE578",
+              "DDL_COLUMN_FACT_5EFDB688B8CF0A97",
+              "DDL_COLUMN_FACT_1F97E8D03D2DCCE1",
+              "DDL_COLUMN_FACT_226FA88679D13205",
+              "DDL_COLUMN_FACT_80574D3E6FB5E319",
+              "DDL_COLUMN_FACT_95B1A412F67C06CB",
+              "DDL_COLUMN_FACT_41A3C44ACBEA6FE1",
+              "DDL_COLUMN_FACT_C53ADD7D72BE92DF",
+              "DDL_COLUMN_FACT_571973C0F1F8A257",
+              "DDL_COLUMN_FACT_1CFE9BC6314FBF64",
+              "DDL_COLUMN_FACT_782C9797BC655F95",
+              "DDL_COLUMN_FACT_1CFED63D4211D108",
+              "DDL_COLUMN_FACT_A0F14B0AB664796F",
+              "DDL_COLUMN_FACT_EDDC30413EC155A6",
+              "DDL_COLUMN_FACT_25786F4E456AB64D"
+            ],
+            "candidates_path": "artifacts/runs/RUN_000060/derived_candidates.jsonl",
+            "counters": {
+              "auto_confirmed": 0,
+              "deduplicated": 0,
+              "input_fragments": 25,
+              "pending": 25,
+              "produced": 25,
+              "rejected": 0
+            },
+            "payload_hashes": [
+              "74dc860ca87de2a6d4a41c951096bcb88dce9baa479b1471ceb7a186545739b7",
+              "dd9aab0943f67eb372fbefb6a832bf12af0b5b77cdf4f67391ae51559aecb600",
+              "d2a0bfe56caaa68d1422896717aed299f1bef2ccdaf3e770bd3c3b6a7cf93148",
+              "45fc7de9b8519bb79f841ac4f3818d343ff71cb53093a771e0def3e806dd81b6",
+              "76fa01db748414602cc86879599754688d7b47c0c2b76225d1c67fe94d511e82",
+              "c243c96ffb6633482699bfbde0ce86dedd202e8c7910a057520d4fd2dd756bf3",
+              "80c51777b380b4ae0ebf11d26f4a7f66449f9f2a3cfa0493808ae4f75f376d94",
+              "48cc6d99687b258f3e64254d916d8b8aa11ef61c0b1cfcfacf3ba71d05baef8c",
+              "317234d6d78d1a738258833cc6a8b98998305362663608b51fca454e360094ae",
+              "7bbac736b988be72b24b0543d6aa8364dc1ef0b105721b247d8db8da957f1850",
+              "295bfeb3b7b8348c6a9de788ac9b81cbbad8939e434cc8a6907dbcb20c370790",
+              "341048045a0ea28937269e74d6e4d743b314195f1bacc7511e4c9514bdcefecd",
+              "9c43eb5b49f7a555f4b69621ffa7efdb72f711ca46a6dbf0f3ff6de53755bb40",
+              "50cab4d9d7b8445067d5486937ec05be40af74d9d1cf7d5eb9e4f7f98ca3aa0d",
+              "c0064eb921b5f07ff43593e5008c213cd3f641d2fd0b7e756a38a68500f5edcd",
+              "d1b8b2349c419afe8afc32027e499a45afe3b4c687fac356a8d53c364c235795",
+              "da7746c7f72f6b2f85b1b0388945eaea129453e421067b71a1acede98a24bcb4",
+              "d97ecf105d88ae93981fe80b09eb392b101a70a1b5d87cbd35005c9ccf9fe0fc",
+              "1415d2fdd2df9f957fe33c98371b3fbef4fcf7c4ea61882def61bf5210a69116",
+              "72c841a703f6340394fd54ab2b71e00a814701bd76fd82e808ac704ee5a6d0eb",
+              "eb03a038806532041dc045002c724df25b1961b26493fb108f2e0b5b81cb1b2b",
+              "d3aa99e742bfe8ad8766dd10f6c979250185647ef37b9a1e15bd2780190ab7bf",
+              "b806d47d7f9f407d976dd54562cd800466318719e02b7cf42c1a03cef49a8151",
+              "946af1f7d5c37265dcc24858c7d6277617308eb89489541d7795f3dc8868fdcd",
+              "98e65ae7a7c6c9830ec0cc216ca688221ee7336b91d42ebda07d0eec314c7451"
+            ],
+            "report_path": "artifacts/runs/RUN_000060/derive_report.json",
+            "rule": "ddl_column_fact/1",
+            "run_id": "RUN_000060",
+            "semantic_report_hash": "20a0f3ef987aac96b4f6b4a8ac1397411d42112d423ba03d0eb81f8c48f47b40",
+            "source_revision_id": "REV_000001",
+            "status": "completed"
+          },
+          {
+            "batch_id": "CBATCH_000038",
+            "candidate_ids": [
+              "DDL_FK_RELATION_5B1A97ED15B5335A",
+              "DDL_FK_RELATION_FF413FB49B874939",
+              "DDL_FK_RELATION_B0B9A017334218DF"
+            ],
+            "candidates_path": "artifacts/runs/RUN_000061/derived_candidates.jsonl",
+            "counters": {
+              "auto_confirmed": 0,
+              "deduplicated": 0,
+              "input_fragments": 9,
+              "pending": 3,
+              "produced": 3,
+              "rejected": 0
+            },
+            "payload_hashes": [
+              "68f6cc331d702005b237871793e787cefa166eb5d5193bf7b6fad4c4dc9d0139",
+              "89de60eff9fbccb15817ec03c20c49a3dbbbe130bf921a7a45b7e0ca015d636a",
+              "b0e129fe73f45a2e7c88e6cd143d2c8ec99540de661657d25a5d54b3159566af"
+            ],
+            "report_path": "artifacts/runs/RUN_000061/derive_report.json",
+            "rule": "ddl_fk_relation/1",
+            "run_id": "RUN_000061",
+            "semantic_report_hash": "2aaad0092d1fdb6fd7c896b523d997f5c4ba10d8f6b966daa8a950495f6cfa6a",
+            "source_revision_id": "REV_000001",
+            "status": "completed"
+          },
+          {
+            "batch_id": "CBATCH_000039",
+            "candidate_ids": [
+              "DDL_TABLE_FACT_986973361C832136",
+              "DDL_TABLE_FACT_E4126E94FEBD4AB5",
+              "DDL_TABLE_FACT_03BB14D56FC5CE4A",
+              "DDL_TABLE_FACT_CF1D606F67DF158A"
+            ],
+            "candidates_path": "artifacts/runs/RUN_000062/derived_candidates.jsonl",
+            "counters": {
+              "auto_confirmed": 0,
+              "deduplicated": 0,
+              "input_fragments": 4,
+              "pending": 4,
+              "produced": 4,
+              "rejected": 0
+            },
+            "payload_hashes": [
+              "d22b281d4400179bc3a4fe1c68f7f09275992f6ebdc8025a43e02564cf594096",
+              "6495158c4ece4dce6fb384fe47d002b595bd7537e94a3d3570ce955b6dabf2c0",
+              "3901c88066ca937ff12ee587515c4e734f82c4e56f89a57c4ebbab62a98f7296",
+              "b9ef8efbe3612e441d63b8bc22149b74b1effc8add2f9c0f149bf0e454b9c1a0"
+            ],
+            "report_path": "artifacts/runs/RUN_000062/derive_report.json",
+            "rule": "ddl_table_fact/1",
+            "run_id": "RUN_000062",
+            "semantic_report_hash": "f2b93d1db1c99ff463a8e9dd397734829a1c28f3740ed39c2f0aa681d3040b8a",
+            "source_revision_id": "REV_000001",
+            "status": "completed"
+          },
+          {
+            "batch_id": "CBATCH_000040",
+            "candidate_ids": [],
+            "candidates_path": "artifacts/runs/RUN_000063/derived_candidates.jsonl",
+            "counters": {
+              "auto_confirmed": 0,
+              "deduplicated": 0,
+              "input_fragments": 0,
+              "pending": 0,
+              "produced": 0,
+              "rejected": 0
+            },
+            "payload_hashes": [],
+            "report_path": "artifacts/runs/RUN_000063/derive_report.json",
+            "rule": "excel_explicit_reference/1",
+            "run_id": "RUN_000063",
+            "semantic_report_hash": "363fd4d208b30a6e1951a458e3be5c337725ac717084c0045d1f3358460dc7c8",
+            "source_revision_id": "REV_000003",
+            "status": "completed"
+          },
+          {
+            "batch_id": "CBATCH_000041",
+            "candidate_ids": [],
+            "candidates_path": "artifacts/runs/RUN_000064/derived_candidates.jsonl",
+            "counters": {
+              "auto_confirmed": 0,
+              "deduplicated": 0,
+              "input_fragments": 0,
+              "pending": 0,
+              "produced": 0,
+              "rejected": 0
+            },
+            "payload_hashes": [],
+            "report_path": "artifacts/runs/RUN_000064/derive_report.json",
+            "rule": "excel_named_range_fact/1",
+            "run_id": "RUN_000064",
+            "semantic_report_hash": "ab7738d554e96d129759b8a16ced23ccf4053bcfaae380f206e3fe80c627d9fe",
+            "source_revision_id": "REV_000003",
+            "status": "completed"
+          },
+          {
+            "batch_id": "CBATCH_000042",
+            "candidate_ids": [
+              "EXCEL_REGION_FACT_8ADE5D67FEE1A167"
+            ],
+            "candidates_path": "artifacts/runs/RUN_000065/derived_candidates.jsonl",
+            "counters": {
+              "auto_confirmed": 0,
+              "deduplicated": 0,
+              "input_fragments": 1,
+              "pending": 1,
+              "produced": 1,
+              "rejected": 0
+            },
+            "payload_hashes": [
+              "ea0e53ab37426fce245eea0b63dfcb591e0275efb16ad7fedb1df99582950ba6"
+            ],
+            "report_path": "artifacts/runs/RUN_000065/derive_report.json",
+            "rule": "excel_region_fact/1",
+            "run_id": "RUN_000065",
+            "semantic_report_hash": "c8dcb8797e5e7fc3ea8b2988d2c5a32dd5fd45c8717edf0f9e6224e91e4720f4",
+            "source_revision_id": "REV_000003",
+            "status": "completed"
+          },
+          {
+            "batch_id": "CBATCH_000043",
+            "candidate_ids": [
+              "EXCEL_SHEET_FACT_705E6391DFE4251B"
+            ],
+            "candidates_path": "artifacts/runs/RUN_000066/derived_candidates.jsonl",
+            "counters": {
+              "auto_confirmed": 0,
+              "deduplicated": 0,
+              "input_fragments": 1,
+              "pending": 1,
+              "produced": 1,
+              "rejected": 0
+            },
+            "payload_hashes": [
+              "918a6764b565296243fd5aad7f32c3b166a3bd9eaacde0a3316ff6cdca35afae"
+            ],
+            "report_path": "artifacts/runs/RUN_000066/derive_report.json",
+            "rule": "excel_sheet_fact/1",
+            "run_id": "RUN_000066",
+            "semantic_report_hash": "8260a4e5e9181eeaeca5725057823de66a72d557701bc36e1c05b65828779325",
+            "source_revision_id": "REV_000003",
+            "status": "completed"
+          },
+          {
+            "batch_id": "CBATCH_000044",
+            "candidate_ids": [],
+            "candidates_path": "artifacts/runs/RUN_000067/derived_candidates.jsonl",
+            "counters": {
+              "auto_confirmed": 0,
+              "deduplicated": 0,
+              "input_fragments": 0,
+              "pending": 0,
+              "produced": 0,
+              "rejected": 0
+            },
+            "payload_hashes": [],
+            "report_path": "artifacts/runs/RUN_000067/derive_report.json",
+            "rule": "excel_table_fact/1",
+            "run_id": "RUN_000067",
+            "semantic_report_hash": "f2da4d711e44444e2e1e41de4e3bea2f4d56aec80c3475de3d25441e2792fba8",
+            "source_revision_id": "REV_000003",
+            "status": "completed"
+          },
+          {
+            "batch_id": "CBATCH_000045",
+            "candidate_ids": [
+              "EXCEL_WORKBOOK_FACT_76B8CF100FD040CE"
+            ],
+            "candidates_path": "artifacts/runs/RUN_000068/derived_candidates.jsonl",
+            "counters": {
+              "auto_confirmed": 0,
+              "deduplicated": 0,
+              "input_fragments": 1,
+              "pending": 1,
+              "produced": 1,
+              "rejected": 0
+            },
+            "payload_hashes": [
+              "14ed251dc84fc5f10ca6e27f9bf0b145cff9204eaded214d4d6306eb58502bf1"
+            ],
+            "report_path": "artifacts/runs/RUN_000068/derive_report.json",
+            "rule": "excel_workbook_fact/1",
+            "run_id": "RUN_000068",
+            "semantic_report_hash": "bcd3d5146e0f8a065bf93ce9a550c49b90660e4461ba22c5321edd73c64a957c",
+            "source_revision_id": "REV_000003",
+            "status": "completed"
+          },
+          {
+            "batch_id": "CBATCH_000046",
+            "candidate_ids": [],
+            "candidates_path": "artifacts/runs/RUN_000069/derived_candidates.jsonl",
+            "counters": {
+              "auto_confirmed": 0,
+              "deduplicated": 0,
+              "input_fragments": 0,
+              "pending": 0,
+              "produced": 0,
+              "rejected": 0
+            },
+            "payload_hashes": [],
+            "report_path": "artifacts/runs/RUN_000069/derive_report.json",
+            "rule": "excel_explicit_reference/1",
+            "run_id": "RUN_000069",
+            "semantic_report_hash": "f7fd2f27b8311dd7295ed187df10721995be662f8da5003c9970621f7574e84d",
+            "source_revision_id": "REV_000006",
+            "status": "completed"
+          },
+          {
+            "batch_id": "CBATCH_000047",
+            "candidate_ids": [
+              "EXCEL_NAMED_RANGE_FACT_8C78235828087001",
+              "EXCEL_NAMED_RANGE_FACT_42C202843919DD8A"
+            ],
+            "candidates_path": "artifacts/runs/RUN_000070/derived_candidates.jsonl",
+            "counters": {
+              "auto_confirmed": 0,
+              "deduplicated": 0,
+              "input_fragments": 2,
+              "pending": 2,
+              "produced": 2,
+              "rejected": 0
+            },
+            "payload_hashes": [
+              "76ce005943b460aaa9884506e26556146ef05a0db5beece86773d7454489cb86",
+              "73813650e35d467f3a0d09fd7f2d5fa6a608a79014a6eb8f1861e77b2b89c975"
+            ],
+            "report_path": "artifacts/runs/RUN_000070/derive_report.json",
+            "rule": "excel_named_range_fact/1",
+            "run_id": "RUN_000070",
+            "semantic_report_hash": "f89ad2d75e3e872ee42bac7f1ea6c2577ecb4aecf1712d5da1ff52a3b0cd8b91",
+            "source_revision_id": "REV_000006",
+            "status": "completed"
+          },
+          {
+            "batch_id": "CBATCH_000048",
+            "candidate_ids": [
+              "EXCEL_REGION_FACT_31B646641CF8976F",
+              "EXCEL_REGION_FACT_9BF2ABE72147B971",
+              "EXCEL_REGION_FACT_DB86B891963AAF2A",
+              "EXCEL_REGION_FACT_E0266A4E0A3940D0",
+              "EXCEL_REGION_FACT_302C3BD0E9EBC6F0"
+            ],
+            "candidates_path": "artifacts/runs/RUN_000071/derived_candidates.jsonl",
+            "counters": {
+              "auto_confirmed": 0,
+              "deduplicated": 0,
+              "input_fragments": 5,
+              "pending": 5,
+              "produced": 5,
+              "rejected": 0
+            },
+            "payload_hashes": [
+              "bfc3fb659ef5c29fc909475578024cbef738499c5cc3dd47808f38287515d92d",
+              "b2acb3d15ba361c2ede8b076877e5650435230d40c6fe32629b6e3cde57f065c",
+              "f1a71d315f9c121e07e6d878d7a3c38c709f8b53509b8f565ea17c015023986c",
+              "8c6cc15bd6b98094d3c3999ac408b2fb0609a008d7891a69836808c059433ada",
+              "7443db00f03238d2b068a215385c1591f297e89aab2208b7db65e30d64a5021e"
+            ],
+            "report_path": "artifacts/runs/RUN_000071/derive_report.json",
+            "rule": "excel_region_fact/1",
+            "run_id": "RUN_000071",
+            "semantic_report_hash": "bc84da176c0be3a55e4773e41fd545e68e29d921a8ff777756354abd34b7333b",
+            "source_revision_id": "REV_000006",
+            "status": "completed"
+          },
+          {
+            "batch_id": "CBATCH_000049",
+            "candidate_ids": [
+              "EXCEL_SHEET_FACT_D7F848CBC47F27A1",
+              "EXCEL_SHEET_FACT_17D8CC49A643F5BC",
+              "EXCEL_SHEET_FACT_0804E967757ABB06"
+            ],
+            "candidates_path": "artifacts/runs/RUN_000072/derived_candidates.jsonl",
+            "counters": {
+              "auto_confirmed": 0,
+              "deduplicated": 0,
+              "input_fragments": 3,
+              "pending": 3,
+              "produced": 3,
+              "rejected": 0
+            },
+            "payload_hashes": [
+              "69edc34e9b7f5b80d680ffb9158c72e81e8fa1fff404ddc940f9b0c3d22146cf",
+              "847c042f1315562fa378733ccd742eb8099c81a3584b381e0c01de298dc0f4ee",
+              "081cb56f9c9eacf5c3976e44aa71ee0417e33b314f6791c801a023cc56da61c8"
+            ],
+            "report_path": "artifacts/runs/RUN_000072/derive_report.json",
+            "rule": "excel_sheet_fact/1",
+            "run_id": "RUN_000072",
+            "semantic_report_hash": "44dcc1624f5e75651ced57e94aff7b26b41d08e0f16cebe689547ce59ea572c4",
+            "source_revision_id": "REV_000006",
+            "status": "completed"
+          },
+          {
+            "batch_id": "CBATCH_000050",
+            "candidate_ids": [],
+            "candidates_path": "artifacts/runs/RUN_000073/derived_candidates.jsonl",
+            "counters": {
+              "auto_confirmed": 0,
+              "deduplicated": 0,
+              "input_fragments": 0,
+              "pending": 0,
+              "produced": 0,
+              "rejected": 0
+            },
+            "payload_hashes": [],
+            "report_path": "artifacts/runs/RUN_000073/derive_report.json",
+            "rule": "excel_table_fact/1",
+            "run_id": "RUN_000073",
+            "semantic_report_hash": "f11934bb618c835e39910b29fbdcace966632114d236d1757c3336300a8d2a7f",
+            "source_revision_id": "REV_000006",
+            "status": "completed"
+          },
+          {
+            "batch_id": "CBATCH_000051",
+            "candidate_ids": [
+              "EXCEL_WORKBOOK_FACT_C1EFD3FFC28158BA"
+            ],
+            "candidates_path": "artifacts/runs/RUN_000074/derived_candidates.jsonl",
+            "counters": {
+              "auto_confirmed": 0,
+              "deduplicated": 0,
+              "input_fragments": 1,
+              "pending": 1,
+              "produced": 1,
+              "rejected": 0
+            },
+            "payload_hashes": [
+              "3e9674ca92e7049402967f658a2d8e05629a4fb6a480483cb6eb6ec0b53a5113"
+            ],
+            "report_path": "artifacts/runs/RUN_000074/derive_report.json",
+            "rule": "excel_workbook_fact/1",
+            "run_id": "RUN_000074",
+            "semantic_report_hash": "af542ad56ea560e7103370199a24f81f894e947825f991241602b136b85c62f2",
+            "source_revision_id": "REV_000006",
+            "status": "completed"
+          },
+          {
+            "batch_id": "CBATCH_000052",
+            "candidate_ids": [
+              "XML_FORM_STRUCTURE_CAAD5F68CC83DEA1",
+              "XML_FORM_STRUCTURE_F3DC387567F8CF2D",
+              "XML_FORM_STRUCTURE_187C46C5BB39FE02",
+              "XML_FORM_STRUCTURE_C51E7260332C34B8",
+              "XML_FORM_STRUCTURE_EF071FB57971E546",
+              "XML_FORM_STRUCTURE_B8E4ED263598FD30",
+              "XML_FORM_STRUCTURE_2CE5CFBFDA98EBC2",
+              "XML_FORM_STRUCTURE_B07081959B246EBF",
+              "XML_FORM_STRUCTURE_C5AF62D2B7D86462"
+            ],
+            "candidates_path": "artifacts/runs/RUN_000075/derived_candidates.jsonl",
+            "counters": {
+              "auto_confirmed": 0,
+              "deduplicated": 0,
+              "input_fragments": 9,
+              "pending": 9,
+              "produced": 9,
+              "rejected": 0
+            },
+            "payload_hashes": [
+              "2f49d32fb011661de5bb8b90684d65dcf4cdfe1f38a0d342a2b0591eb076a5ef",
+              "bca26e57abc111b8cb85272dca2321c5a35a3f0a024d02d421dc7eeefbcbccb3",
+              "ec9e362fa497951c72f5b9706d4fc7ae04161d73bc9c2a3b1df58c7911c82685",
+              "2b59a3bcf8dfed53a7e226a59b716755cbeed1b258eb3d579ffbc42222931bb6",
+              "56db1e83dddbe27dc41026aded622b69b6eea0ef5dca2f8a4a50dea88e0681c4",
+              "50d13d62c7fb0df72796995d852928d44a6ea2309b09420e04e154b488f4cb9d",
+              "0b48c89a553958043b0ecd70277aad46ea3c3b42d87c56e64c829ffec403ab6a",
+              "1a644b18b86441964dca034958ef222be5cb2216195dbab06e60dd35bb7be15b",
+              "c42bfd03d4623c7339da2c9f69383d1fa3deb8efc487760c7c63d3137e417392"
+            ],
+            "report_path": "artifacts/runs/RUN_000075/derive_report.json",
+            "rule": "xml_form_structure/1",
+            "run_id": "RUN_000075",
+            "semantic_report_hash": "cb71b9ab04cc54cc6d898156901879fbdad5833b7fb6fc782c11b114f414f162",
+            "source_revision_id": "REV_000011",
+            "status": "completed"
+          },
+          {
+            "batch_id": "CBATCH_000053",
+            "candidate_ids": [
+              "XML_TABLE_USAGE_ED9895219E877383"
+            ],
+            "candidates_path": "artifacts/runs/RUN_000076/derived_candidates.jsonl",
+            "counters": {
+              "auto_confirmed": 0,
+              "deduplicated": 0,
+              "input_fragments": 1,
+              "pending": 1,
+              "produced": 1,
+              "rejected": 0
+            },
+            "payload_hashes": [
+              "4e991e86ec699164c9613c297974cbd40c72a487912569245dff7ceab93c8534"
+            ],
+            "report_path": "artifacts/runs/RUN_000076/derive_report.json",
+            "rule": "xml_table_usage/1",
+            "run_id": "RUN_000076",
+            "semantic_report_hash": "fdcc7b6c12e64baaff76564c7dd3bc4440060f49442e51b2c545bfd09c00ee65",
+            "source_revision_id": "REV_000011",
+            "status": "completed"
+          },
+          {
+            "batch_id": "CBATCH_000054",
+            "candidate_ids": [
+              "XML_FORM_STRUCTURE_8340A4DFAA943D72",
+              "XML_FORM_STRUCTURE_53CD293E43553ADE",
+              "XML_FORM_STRUCTURE_E42403D4ABB1A788",
+              "XML_FORM_STRUCTURE_934AEC48A0C0E13B",
+              "XML_FORM_STRUCTURE_256BD9C3A931E196",
+              "XML_FORM_STRUCTURE_DD4A27BBE7C2F8A7",
+              "XML_FORM_STRUCTURE_97FDDDE30EC8387B",
+              "XML_FORM_STRUCTURE_ADDF7CA18A5CE216",
+              "XML_FORM_STRUCTURE_625CEFCDADD785A5",
+              "XML_FORM_STRUCTURE_16FE606F2C0545E3",
+              "XML_FORM_STRUCTURE_2489374B58E2825A"
+            ],
+            "candidates_path": "artifacts/runs/RUN_000077/derived_candidates.jsonl",
+            "counters": {
+              "auto_confirmed": 0,
+              "deduplicated": 0,
+              "input_fragments": 11,
+              "pending": 11,
+              "produced": 11,
+              "rejected": 0
+            },
+            "payload_hashes": [
+              "66935e2880490d1411acda076490fed4ddad0bd2ed4c857edd032782b4c97cbf",
+              "aedf371ea087ce44580c02ae1892552edc8d30b0b4afcd274b9260d2ffca55e8",
+              "b99b6694e577bc74234ce51e04ac867e44017216d41e197a0a3ea56c70b8a0e9",
+              "8d54e12611197f3bb0a2f792774330821b3b154ff5343a0766dc66a9441d1216",
+              "bd83efb4da8e22c868f9d634341be46d4a6e508bcdea1a2eac7dbd0975c7fe47",
+              "c1d0abba377cf13adfd0df029e7c8bde3eaa8b34d73c27d0e9c69d5f8bb43886",
+              "166eaf8fcf32c3993dcc66c6006e2bac48a25d2041f70bc2e059aac406f7a1e3",
+              "6b2850e617ca77ae850ee825e9d2610cd8052b11271101a6bebc793db23622b5",
+              "55e08e0825db22358d10e3217aa48f6960a44a7f007ddaf71c94b6e49dd3f7b1",
+              "6649b19f04117cfa9cbfc451ca5632883e25cbb2a6feec14a5f5ca4702a10a74",
+              "f21214eb146c145a26200dd54d820689acbdba846e0f36cb0df22382f1046a23"
+            ],
+            "report_path": "artifacts/runs/RUN_000077/derive_report.json",
+            "rule": "xml_form_structure/1",
+            "run_id": "RUN_000077",
+            "semantic_report_hash": "c916c4753cf4b42e1a9d8f67dfaf83fec422412a4c8a05d19ece15f3beb2c8c6",
+            "source_revision_id": "REV_000012",
+            "status": "completed"
+          },
+          {
+            "batch_id": "CBATCH_000055",
+            "candidate_ids": [
+              "XML_TABLE_USAGE_3DD5689767B2878D",
+              "XML_TABLE_USAGE_F0C5845DC44A2343"
+            ],
+            "candidates_path": "artifacts/runs/RUN_000078/derived_candidates.jsonl",
+            "counters": {
+              "auto_confirmed": 0,
+              "deduplicated": 0,
+              "input_fragments": 1,
+              "pending": 2,
+              "produced": 2,
+              "rejected": 0
+            },
+            "payload_hashes": [
+              "4edad41c786293772a234da4f8dead58ce0e2d3c6b14ad809ebb4dae55432982",
+              "d7472c03e933f3f75dc7b68f466c26243d0aeaecce81814500621aacd7a461a0"
+            ],
+            "report_path": "artifacts/runs/RUN_000078/derive_report.json",
+            "rule": "xml_table_usage/1",
+            "run_id": "RUN_000078",
+            "semantic_report_hash": "d10bf535fe28b70ae8f10d5dce09d27362df35c81f1dcfe37c19f3d7c5083bd4",
+            "source_revision_id": "REV_000012",
+            "status": "completed"
+          },
+          {
+            "batch_id": "CBATCH_000056",
+            "candidate_ids": [
+              "XML_FORM_STRUCTURE_8C1AEA7040E12F25",
+              "XML_FORM_STRUCTURE_2040C4993428E721",
+              "XML_FORM_STRUCTURE_14327AE30C1909F5",
+              "XML_FORM_STRUCTURE_CC49026D748B5520",
+              "XML_FORM_STRUCTURE_F5E6CC13BAEB7176",
+              "XML_FORM_STRUCTURE_257B95B14BE360AA",
+              "XML_FORM_STRUCTURE_2D1A069644C34272",
+              "XML_FORM_STRUCTURE_E51A0A940410D40F",
+              "XML_FORM_STRUCTURE_1353B2AD7893D3C6",
+              "XML_FORM_STRUCTURE_933D001BB363F32C"
+            ],
+            "candidates_path": "artifacts/runs/RUN_000079/derived_candidates.jsonl",
+            "counters": {
+              "auto_confirmed": 0,
+              "deduplicated": 0,
+              "input_fragments": 10,
+              "pending": 10,
+              "produced": 10,
+              "rejected": 0
+            },
+            "payload_hashes": [
+              "2c429a8a4ff67b31a8b820e787bda97177892a8f183a607d637b4c8bca7cff11",
+              "7fb4293e054043f95e2a17289ecada1958ce531e17e45824fcadf72697710ff9",
+              "648bda88aa941672049136df113e438d84e3971d06d055467c664197d5aedfeb",
+              "879bd5150d93ca6d1510502d73e03c9991dd9c26be15e71662dbc3da50909aef",
+              "8417fc69638df27d53b9a50b3d8905903f26160305287c7de3b00c9ed0f4b611",
+              "e677473f5d201894dc52f16467c251bdf9f5bdeffd176587069b91891b8570c5",
+              "f048ed4256e7c27badce47a863e64ad6cc86e51a9cad4cd12095cae1f21db58c",
+              "ff27f1d09391be7b9f31060d651f6ee66157166ad1a62ff641b14d4a8b7b22da",
+              "4ab6b90d4c9526ebc58fd37490ec1e8b83243cf0057e841d990a590033e97728",
+              "7947fac05baba12564affc170ea95d137ea9779dd6a3539c93c906ae68a327a1"
+            ],
+            "report_path": "artifacts/runs/RUN_000079/derive_report.json",
+            "rule": "xml_form_structure/1",
+            "run_id": "RUN_000079",
+            "semantic_report_hash": "f36d1ec035531b2bce0a85a3e839b8ecb00002651bc7fac11da0c354dd4cd5df",
+            "source_revision_id": "REV_000013",
+            "status": "completed"
+          },
+          {
+            "batch_id": "CBATCH_000057",
+            "candidate_ids": [
+              "XML_TABLE_USAGE_E20659E310E52588"
+            ],
+            "candidates_path": "artifacts/runs/RUN_000080/derived_candidates.jsonl",
+            "counters": {
+              "auto_confirmed": 0,
+              "deduplicated": 0,
+              "input_fragments": 1,
+              "pending": 1,
+              "produced": 1,
+              "rejected": 0
+            },
+            "payload_hashes": [
+              "c3281253a9674892baa6a50ac2534eec2d16d0486028dee69ec1c737e13b596a"
+            ],
+            "report_path": "artifacts/runs/RUN_000080/derive_report.json",
+            "rule": "xml_table_usage/1",
+            "run_id": "RUN_000080",
+            "semantic_report_hash": "bcc15b6a964baad9ed7ae3b3914252a80261c9b8ef9d4178e855f01d9d53340b",
+            "source_revision_id": "REV_000013",
+            "status": "completed"
+          },
+          {
+            "batch_id": "CBATCH_000058",
+            "candidate_ids": [
+              "LOG_EVENT_OBSERVATION_9926448712CAFF6A",
+              "LOG_EVENT_OBSERVATION_D2EC1A7FF2C72DA1",
+              "LOG_EVENT_OBSERVATION_269AC2205D462621",
+              "LOG_EVENT_OBSERVATION_5E088751519873E6",
+              "LOG_EVENT_OBSERVATION_20A30513FFF4B7C7"
+            ],
+            "candidates_path": "artifacts/runs/RUN_000081/derived_candidates.jsonl",
+            "counters": {
+              "auto_confirmed": 0,
+              "deduplicated": 0,
+              "input_fragments": 5,
+              "pending": 5,
+              "produced": 5,
+              "rejected": 0
+            },
+            "payload_hashes": [
+              "f6f485379c42d964c3d13b832710c1a4edb79a6d74ff5ab1e031b2a0584c1a8d",
+              "86c12f8832f85caf468481e6340861a5a5acc5cdb0743fc8476244a2bfe11e29",
+              "bf5e17d06684e60ac159c54330180a79b8e4c845198992a0177f7fe18fce5557",
+              "e742f7140ea520c8d26e5906ce3026ca02a10014ffb5985b26bc35d51c871429",
+              "1cf665aba6cf4faf5d183a2a1d137c5588eab74b4b4c15ebb194e43d06783781"
+            ],
+            "report_path": "artifacts/runs/RUN_000081/derive_report.json",
+            "rule": "log_event_observation/1",
+            "run_id": "RUN_000081",
+            "semantic_report_hash": "4567701fda705e91ddc0f37100ff3d06355002c4d26fb9970f143b910f74036a",
+            "source_revision_id": "REV_000014",
+            "status": "completed"
+          },
+          {
+            "batch_id": "CBATCH_000059",
+            "candidate_ids": [
+              "LOG_EVENT_OBSERVATION_3C84AA1A11BC56D9",
+              "LOG_EVENT_OBSERVATION_3892193CC3CDC979",
+              "LOG_EVENT_OBSERVATION_46DE44857AC9FF96",
+              "LOG_EVENT_OBSERVATION_41CA6236EC3CA149"
+            ],
+            "candidates_path": "artifacts/runs/RUN_000082/derived_candidates.jsonl",
+            "counters": {
+              "auto_confirmed": 0,
+              "deduplicated": 0,
+              "input_fragments": 4,
+              "pending": 4,
+              "produced": 4,
+              "rejected": 0
+            },
+            "payload_hashes": [
+              "334109d1a943cee434d3f21898ad30255d7629c678d21deb8bf1dcbd25e022d7",
+              "546a22b0cd7ad32dc37128af53c50d4a512f826e4e23dbe6b813fd54814a7eb6",
+              "ef558b13830d7f49d680a6499c5aea2ef2809a6820e479b61c35e966acd7f4fc",
+              "bffda22ff19e29544a9ae118359e5c730c14ce2d076aff1c9fa587b5a53c1fb0"
+            ],
+            "report_path": "artifacts/runs/RUN_000082/derive_report.json",
+            "rule": "log_event_observation/1",
+            "run_id": "RUN_000082",
+            "semantic_report_hash": "cf435261d0caa4417e648be4b88f894cf641eb3d78017c19016f0e553d3a7080",
+            "source_revision_id": "REV_000015",
+            "status": "completed"
+          },
+          {
+            "batch_id": "CBATCH_000060",
+            "candidate_ids": [
+              "DB_CODE_DEPENDENCY_0F6C06BB1E3BF912",
+              "DB_CODE_DEPENDENCY_EA7EC39BC6E1671E",
+              "DB_CODE_DEPENDENCY_3314B04C0E3E5A0C"
+            ],
+            "candidates_path": "artifacts/runs/RUN_000083/derived_candidates.jsonl",
+            "counters": {
+              "auto_confirmed": 0,
+              "deduplicated": 0,
+              "input_fragments": 1,
+              "pending": 3,
+              "produced": 3,
+              "rejected": 0
+            },
+            "payload_hashes": [
+              "1ae30893f1964c0279d0f8180a01fbf04ce9c95060a2018fb3815cb284317d58",
+              "1fef7197c5c7c4c7d17f51ba41b86321b3a993821ba00399c30cc8f36e343055",
+              "134d71cf48ec2ea35dbfbd9062ba5771c01438a544ca0fa755f240eb453c9a6d"
+            ],
+            "report_path": "artifacts/runs/RUN_000083/derive_report.json",
+            "rule": "db_code_dependency/1",
+            "run_id": "RUN_000083",
+            "semantic_report_hash": "74d6d296a7d443b2a57da8ad7ca3617a29dc18b8929690acf1de5b2525d7b4bd",
+            "source_revision_id": "REV_000016",
+            "status": "completed"
+          },
+          {
+            "batch_id": "CBATCH_000061",
+            "candidate_ids": [
+              "DB_CODE_UNIT_D617E9D34CE01A99"
+            ],
+            "candidates_path": "artifacts/runs/RUN_000084/derived_candidates.jsonl",
+            "counters": {
+              "auto_confirmed": 0,
+              "deduplicated": 0,
+              "input_fragments": 1,
+              "pending": 1,
+              "produced": 1,
+              "rejected": 0
+            },
+            "payload_hashes": [
+              "7491f7e6c0bbde19bfca2d984622af2fa4748d4a60fb591cc4754b9b15194506"
+            ],
+            "report_path": "artifacts/runs/RUN_000084/derive_report.json",
+            "rule": "db_code_unit/1",
+            "run_id": "RUN_000084",
+            "semantic_report_hash": "e79ff6eba673af2b23d0b96a85bfe6986fd2a9ec32718c91b7dc037b5314b2b8",
+            "source_revision_id": "REV_000016",
+            "status": "completed"
+          },
+          {
+            "batch_id": "CBATCH_000062",
+            "candidate_ids": [
+              "DB_CODE_DEPENDENCY_FD9658FC1983920A",
+              "DB_CODE_DEPENDENCY_4DC844E163242BED",
+              "DB_CODE_DEPENDENCY_7E43E4B7AE91B6F0",
+              "DB_CODE_DEPENDENCY_EF7B311857FD3D75"
+            ],
+            "candidates_path": "artifacts/runs/RUN_000085/derived_candidates.jsonl",
+            "counters": {
+              "auto_confirmed": 0,
+              "deduplicated": 0,
+              "input_fragments": 1,
+              "pending": 4,
+              "produced": 4,
+              "rejected": 0
+            },
+            "payload_hashes": [
+              "8ac6de5337937f38fcccc9e0e5ed6464f77644516a23771803716af69585f3f6",
+              "109fd2d615ec118cd5938ba9fe8d7384b105930d71f9d215947b29d910500d52",
+              "5ee31eac683e26a97218e0a06eb544c919c2298d73f74f17f548d721d40fa7b1",
+              "0c2cc46fdaf89ee021417d23fc0c9e4be8ab5332ceabdb21b7478ad30c78de5c"
+            ],
+            "report_path": "artifacts/runs/RUN_000085/derive_report.json",
+            "rule": "db_code_dependency/1",
+            "run_id": "RUN_000085",
+            "semantic_report_hash": "5f46fbf418d49330a6491bc465a90c7434e79d157275c7f1fd9dea3f6357ee5e",
+            "source_revision_id": "REV_000017",
+            "status": "completed"
+          },
+          {
+            "batch_id": "CBATCH_000063",
+            "candidate_ids": [
+              "DB_CODE_UNIT_A0C4095E71DF72AB"
+            ],
+            "candidates_path": "artifacts/runs/RUN_000086/derived_candidates.jsonl",
+            "counters": {
+              "auto_confirmed": 0,
+              "deduplicated": 0,
+              "input_fragments": 1,
+              "pending": 1,
+              "produced": 1,
+              "rejected": 0
+            },
+            "payload_hashes": [
+              "6eb98b82be94eacb0e232f216ec0779a585fe32636d1bee92ad8d76b2e28d79e"
+            ],
+            "report_path": "artifacts/runs/RUN_000086/derive_report.json",
+            "rule": "db_code_unit/1",
+            "run_id": "RUN_000086",
+            "semantic_report_hash": "e625deaebf91b78dc7ad6b64f14fc8efe8381c33e0b3de12205ba02832a9bcdc",
+            "source_revision_id": "REV_000017",
+            "status": "completed"
+          },
+          {
+            "batch_id": "CBATCH_000064",
+            "candidate_ids": [
+              "DB_CODE_DEPENDENCY_5FE6635030960641",
+              "DB_CODE_DEPENDENCY_18C497AA793CE97D"
+            ],
+            "candidates_path": "artifacts/runs/RUN_000087/derived_candidates.jsonl",
+            "counters": {
+              "auto_confirmed": 0,
+              "deduplicated": 0,
+              "input_fragments": 1,
+              "pending": 2,
+              "produced": 2,
+              "rejected": 0
+            },
+            "payload_hashes": [
+              "cbfa8312dd29ab85451f43bc87c0f897cc55af4919f7fa846dc812d124877b3e",
+              "7b0017fefe2221285ffe81b7cb851e3ecbe573465f337382cc5db573f9b2456f"
+            ],
+            "report_path": "artifacts/runs/RUN_000087/derive_report.json",
+            "rule": "db_code_dependency/1",
+            "run_id": "RUN_000087",
+            "semantic_report_hash": "334e9487f1f45e0df902133afb7c1f2a7a5f9fa569f61719d4002ed10e1d94ef",
+            "source_revision_id": "REV_000018",
+            "status": "completed"
+          },
+          {
+            "batch_id": "CBATCH_000065",
+            "candidate_ids": [
+              "DB_CODE_UNIT_5216B81053C991D8"
+            ],
+            "candidates_path": "artifacts/runs/RUN_000088/derived_candidates.jsonl",
+            "counters": {
+              "auto_confirmed": 0,
+              "deduplicated": 0,
+              "input_fragments": 1,
+              "pending": 1,
+              "produced": 1,
+              "rejected": 0
+            },
+            "payload_hashes": [
+              "fa8e72ae46504ce696037b575e2c6e6d371670b14e15e364acbc2724d12443d6"
+            ],
+            "report_path": "artifacts/runs/RUN_000088/derive_report.json",
+            "rule": "db_code_unit/1",
+            "run_id": "RUN_000088",
+            "semantic_report_hash": "363660893af084a349c2fa05ef544a2c4b03d49dd359dd1a11a9675280f8be44",
+            "source_revision_id": "REV_000018",
+            "status": "completed"
+          }
+        ],
+        "reason": "success",
+        "rule_set_version": "1",
+        "status": "completed",
+        "temporal_items": [
+          {
+            "assessment": "conflicted",
+            "batch_id": "CBATCH_000066",
+            "candidate_ids": [
+              "CREC_000210"
+            ],
+            "counters": {
+              "produced": 1,
+              "rejected": 0
+            },
+            "group_hash": "f381118eb49b4702e251122b5e1b624fb2ea9324d02950dd32dae8b68aa0af97",
+            "rule": "temporal_consolidation/1",
+            "source_revision_id": "REV_000003",
+            "status": "completed"
+          },
+          {
+            "assessment": "conflicted",
+            "batch_id": "CBATCH_000067",
+            "candidate_ids": [
+              "CREC_000211"
+            ],
+            "counters": {
+              "produced": 1,
+              "rejected": 0
+            },
+            "group_hash": "f381118eb49b4702e251122b5e1b624fb2ea9324d02950dd32dae8b68aa0af97",
+            "rule": "temporal_consolidation/1",
+            "source_revision_id": "REV_000003",
+            "status": "completed"
+          },
+          {
+            "assessment": "conflicted",
+            "batch_id": "CBATCH_000068",
+            "candidate_ids": [
+              "CREC_000212"
+            ],
+            "counters": {
+              "produced": 1,
+              "rejected": 0
+            },
+            "group_hash": "f381118eb49b4702e251122b5e1b624fb2ea9324d02950dd32dae8b68aa0af97",
+            "rule": "temporal_consolidation/1",
+            "source_revision_id": "REV_000003",
+            "status": "completed"
+          },
+          {
+            "assessment": "conflicted",
+            "batch_id": "CBATCH_000069",
+            "candidate_ids": [
+              "CREC_000213"
+            ],
+            "counters": {
+              "produced": 1,
+              "rejected": 0
+            },
+            "group_hash": "f381118eb49b4702e251122b5e1b624fb2ea9324d02950dd32dae8b68aa0af97",
+            "rule": "temporal_consolidation/1",
+            "source_revision_id": "REV_000003",
+            "status": "completed"
+          },
+          {
+            "assessment": "conflicted",
+            "batch_id": "CBATCH_000070",
+            "candidate_ids": [
+              "CREC_000214"
+            ],
+            "counters": {
+              "produced": 1,
+              "rejected": 0
+            },
+            "group_hash": "403608a676e6630776204b88b16e3e43924655c657d265c840ad62eb61f4e7fd",
+            "rule": "temporal_consolidation/1",
+            "source_revision_id": "REV_000004",
+            "status": "completed"
+          },
+          {
+            "assessment": "conflicted",
+            "batch_id": "CBATCH_000071",
+            "candidate_ids": [
+              "CREC_000215"
+            ],
+            "counters": {
+              "produced": 1,
+              "rejected": 0
+            },
+            "group_hash": "403608a676e6630776204b88b16e3e43924655c657d265c840ad62eb61f4e7fd",
+            "rule": "temporal_consolidation/1",
+            "source_revision_id": "REV_000004",
+            "status": "completed"
+          },
+          {
+            "assessment": "conflicted",
+            "batch_id": "CBATCH_000072",
+            "candidate_ids": [
+              "CREC_000216"
+            ],
+            "counters": {
+              "produced": 1,
+              "rejected": 0
+            },
+            "group_hash": "403608a676e6630776204b88b16e3e43924655c657d265c840ad62eb61f4e7fd",
+            "rule": "temporal_consolidation/1",
+            "source_revision_id": "REV_000004",
+            "status": "completed"
+          },
+          {
+            "assessment": "conflicted",
+            "batch_id": "CBATCH_000073",
+            "candidate_ids": [
+              "CREC_000217"
+            ],
+            "counters": {
+              "produced": 1,
+              "rejected": 0
+            },
+            "group_hash": "2e67acca8927383b5bd588a05b4ca4681ed2a6a49053c452f1020d2c65e1afbf",
+            "rule": "temporal_consolidation/1",
+            "source_revision_id": "REV_000005",
+            "status": "completed"
+          },
+          {
+            "assessment": "conflicted",
+            "batch_id": "CBATCH_000074",
+            "candidate_ids": [
+              "CREC_000218"
+            ],
+            "counters": {
+              "produced": 1,
+              "rejected": 0
+            },
+            "group_hash": "2e67acca8927383b5bd588a05b4ca4681ed2a6a49053c452f1020d2c65e1afbf",
+            "rule": "temporal_consolidation/1",
+            "source_revision_id": "REV_000005",
+            "status": "completed"
+          },
+          {
+            "assessment": "conflicted",
+            "batch_id": "CBATCH_000075",
+            "candidate_ids": [
+              "CREC_000219"
+            ],
+            "counters": {
+              "produced": 1,
+              "rejected": 0
+            },
+            "group_hash": "2e67acca8927383b5bd588a05b4ca4681ed2a6a49053c452f1020d2c65e1afbf",
+            "rule": "temporal_consolidation/1",
+            "source_revision_id": "REV_000005",
+            "status": "completed"
+          },
+          {
+            "assessment": "conflicted",
+            "batch_id": "CBATCH_000076",
+            "candidate_ids": [
+              "CREC_000220"
+            ],
+            "counters": {
+              "produced": 1,
+              "rejected": 0
+            },
+            "group_hash": "2e67acca8927383b5bd588a05b4ca4681ed2a6a49053c452f1020d2c65e1afbf",
+            "rule": "temporal_consolidation/1",
+            "source_revision_id": "REV_000005",
+            "status": "completed"
+          },
+          {
+            "assessment": "conflicted",
+            "batch_id": "CBATCH_000077",
+            "candidate_ids": [
+              "CREC_000221"
+            ],
+            "counters": {
+              "produced": 1,
+              "rejected": 0
+            },
+            "group_hash": "621c383b2cef039a3bc168ec336640b70c8bae5a3fcf60a6fb8c746b5418c807",
+            "rule": "temporal_consolidation/1",
+            "source_revision_id": "REV_000006",
+            "status": "completed"
+          },
+          {
+            "assessment": "conflicted",
+            "batch_id": "CBATCH_000078",
+            "candidate_ids": [
+              "CREC_000222"
+            ],
+            "counters": {
+              "produced": 1,
+              "rejected": 0
+            },
+            "group_hash": "621c383b2cef039a3bc168ec336640b70c8bae5a3fcf60a6fb8c746b5418c807",
+            "rule": "temporal_consolidation/1",
+            "source_revision_id": "REV_000006",
+            "status": "completed"
+          },
+          {
+            "assessment": "conflicted",
+            "batch_id": "CBATCH_000079",
+            "candidate_ids": [
+              "CREC_000223"
+            ],
+            "counters": {
+              "produced": 1,
+              "rejected": 0
+            },
+            "group_hash": "621c383b2cef039a3bc168ec336640b70c8bae5a3fcf60a6fb8c746b5418c807",
+            "rule": "temporal_consolidation/1",
+            "source_revision_id": "REV_000006",
+            "status": "completed"
+          },
+          {
+            "assessment": "conflicted",
+            "batch_id": "CBATCH_000080",
+            "candidate_ids": [
+              "CREC_000224"
+            ],
+            "counters": {
+              "produced": 1,
+              "rejected": 0
+            },
+            "group_hash": "621c383b2cef039a3bc168ec336640b70c8bae5a3fcf60a6fb8c746b5418c807",
+            "rule": "temporal_consolidation/1",
+            "source_revision_id": "REV_000006",
+            "status": "completed"
+          },
+          {
+            "assessment": "conflicted",
+            "batch_id": "CBATCH_000081",
+            "candidate_ids": [
+              "CREC_000225"
+            ],
+            "counters": {
+              "produced": 1,
+              "rejected": 0
+            },
+            "group_hash": "621c383b2cef039a3bc168ec336640b70c8bae5a3fcf60a6fb8c746b5418c807",
+            "rule": "temporal_consolidation/1",
+            "source_revision_id": "REV_000006",
+            "status": "completed"
+          },
+          {
+            "assessment": "conflicted",
+            "batch_id": "CBATCH_000082",
+            "candidate_ids": [
+              "CREC_000226"
+            ],
+            "counters": {
+              "produced": 1,
+              "rejected": 0
+            },
+            "group_hash": "e2d879d1647b3fa17e87ddd3b3661ae066429343a72288bab0227e0c1a76113e",
+            "rule": "temporal_consolidation/1",
+            "source_revision_id": "REV_000007",
+            "status": "completed"
+          },
+          {
+            "assessment": "conflicted",
+            "batch_id": "CBATCH_000083",
+            "candidate_ids": [
+              "CREC_000227"
+            ],
+            "counters": {
+              "produced": 1,
+              "rejected": 0
+            },
+            "group_hash": "e2d879d1647b3fa17e87ddd3b3661ae066429343a72288bab0227e0c1a76113e",
+            "rule": "temporal_consolidation/1",
+            "source_revision_id": "REV_000007",
+            "status": "completed"
+          },
+          {
+            "assessment": "conflicted",
+            "batch_id": "CBATCH_000084",
+            "candidate_ids": [
+              "CREC_000228"
+            ],
+            "counters": {
+              "produced": 1,
+              "rejected": 0
+            },
+            "group_hash": "e2d879d1647b3fa17e87ddd3b3661ae066429343a72288bab0227e0c1a76113e",
+            "rule": "temporal_consolidation/1",
+            "source_revision_id": "REV_000007",
+            "status": "completed"
+          },
+          {
+            "assessment": "conflicted",
+            "batch_id": "CBATCH_000085",
+            "candidate_ids": [
+              "CREC_000229"
+            ],
+            "counters": {
+              "produced": 1,
+              "rejected": 0
+            },
+            "group_hash": "1e396d9004763c0f9df3a2513b05a86f5459c12f8da0fed215a98a2055364261",
+            "rule": "temporal_consolidation/1",
+            "source_revision_id": "REV_000008",
+            "status": "completed"
+          },
+          {
+            "assessment": "conflicted",
+            "batch_id": "CBATCH_000086",
+            "candidate_ids": [
+              "CREC_000230"
+            ],
+            "counters": {
+              "produced": 1,
+              "rejected": 0
+            },
+            "group_hash": "1e396d9004763c0f9df3a2513b05a86f5459c12f8da0fed215a98a2055364261",
+            "rule": "temporal_consolidation/1",
+            "source_revision_id": "REV_000008",
+            "status": "completed"
+          },
+          {
+            "assessment": "conflicted",
+            "batch_id": "CBATCH_000087",
+            "candidate_ids": [
+              "CREC_000231"
+            ],
+            "counters": {
+              "produced": 1,
+              "rejected": 0
+            },
+            "group_hash": "1e396d9004763c0f9df3a2513b05a86f5459c12f8da0fed215a98a2055364261",
+            "rule": "temporal_consolidation/1",
+            "source_revision_id": "REV_000008",
+            "status": "completed"
+          },
+          {
+            "assessment": "conflicted",
+            "batch_id": "CBATCH_000088",
+            "candidate_ids": [
+              "CREC_000232"
+            ],
+            "counters": {
+              "produced": 1,
+              "rejected": 0
+            },
+            "group_hash": "1e396d9004763c0f9df3a2513b05a86f5459c12f8da0fed215a98a2055364261",
+            "rule": "temporal_consolidation/1",
+            "source_revision_id": "REV_000008",
+            "status": "completed"
+          },
+          {
+            "assessment": "conflicted",
+            "batch_id": "CBATCH_000089",
+            "candidate_ids": [
+              "CREC_000233"
+            ],
+            "counters": {
+              "produced": 1,
+              "rejected": 0
+            },
+            "group_hash": "6ae19d16aa7ce04fbf04ff3b47f823313463b51928a0fc9b8e21508d268b2344",
+            "rule": "temporal_consolidation/1",
+            "source_revision_id": "REV_000009",
+            "status": "completed"
+          },
+          {
+            "assessment": "conflicted",
+            "batch_id": "CBATCH_000090",
+            "candidate_ids": [
+              "CREC_000234"
+            ],
+            "counters": {
+              "produced": 1,
+              "rejected": 0
+            },
+            "group_hash": "6ae19d16aa7ce04fbf04ff3b47f823313463b51928a0fc9b8e21508d268b2344",
+            "rule": "temporal_consolidation/1",
+            "source_revision_id": "REV_000009",
+            "status": "completed"
+          },
+          {
+            "assessment": "conflicted",
+            "batch_id": "CBATCH_000091",
+            "candidate_ids": [
+              "CREC_000235"
+            ],
+            "counters": {
+              "produced": 1,
+              "rejected": 0
+            },
+            "group_hash": "6ae19d16aa7ce04fbf04ff3b47f823313463b51928a0fc9b8e21508d268b2344",
+            "rule": "temporal_consolidation/1",
+            "source_revision_id": "REV_000009",
+            "status": "completed"
+          }
+        ]
+      },
+      "status": "completed",
+      "transitions": [
+        {
+          "from": "pending",
+          "to": "running"
+        },
+        {
+          "from": "running",
+          "to": "failed"
+        },
+        {
+          "from": "failed",
+          "reason": "retry",
+          "to": "pending"
+        },
+        {
+          "from": "pending",
+          "to": "running"
+        },
+        {
+          "from": "running",
+          "to": "completed"
+        }
+      ]
+    },
+    {
+      "attempts": 1,
+      "name": "review",
+      "result": {
+        "artifact_paths": [
+          "artifacts/runs/RUN_000089/review_report.json"
+        ],
+        "automatic_policies": [],
+        "batch_ids": [
+          "CBATCH_000037",
+          "CBATCH_000038",
+          "CBATCH_000039",
+          "CBATCH_000040",
+          "CBATCH_000041",
+          "CBATCH_000042",
+          "CBATCH_000043",
+          "CBATCH_000044",
+          "CBATCH_000045",
+          "CBATCH_000046",
+          "CBATCH_000047",
+          "CBATCH_000048",
+          "CBATCH_000049",
+          "CBATCH_000050",
+          "CBATCH_000051",
+          "CBATCH_000052",
+          "CBATCH_000053",
+          "CBATCH_000054",
+          "CBATCH_000055",
+          "CBATCH_000056",
+          "CBATCH_000057",
+          "CBATCH_000058",
+          "CBATCH_000059",
+          "CBATCH_000060",
+          "CBATCH_000061",
+          "CBATCH_000062",
+          "CBATCH_000063",
+          "CBATCH_000064",
+          "CBATCH_000065",
+          "CBATCH_000066",
+          "CBATCH_000067",
+          "CBATCH_000068",
+          "CBATCH_000069",
+          "CBATCH_000070",
+          "CBATCH_000071",
+          "CBATCH_000072",
+          "CBATCH_000073",
+          "CBATCH_000074",
+          "CBATCH_000075",
+          "CBATCH_000076",
+          "CBATCH_000077",
+          "CBATCH_000078",
+          "CBATCH_000079",
+          "CBATCH_000080",
+          "CBATCH_000081",
+          "CBATCH_000082",
+          "CBATCH_000083",
+          "CBATCH_000084",
+          "CBATCH_000085",
+          "CBATCH_000086",
+          "CBATCH_000087",
+          "CBATCH_000088",
+          "CBATCH_000089",
+          "CBATCH_000090",
+          "CBATCH_000091"
+        ],
+        "catalog_version": "result_catalog_v1",
+        "condition": "automatic_review",
+        "counters": {
+          "auto_confirmed": 0,
+          "auto_replayed": 0,
+          "confirmed": 0,
+          "non_leaf": 0,
+          "pending": 127,
+          "policy_skipped_absent": 127,
+          "policy_skipped_version": 0,
+          "rejected": 0,
+          "superseded": 0,
+          "total": 127
+        },
+        "exit_code": 0,
+        "items": [
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000109",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000110",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000111",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000112",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000113",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000114",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000115",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000116",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000117",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000118",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000119",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000120",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000121",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000122",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000123",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000124",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000125",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000126",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000127",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000128",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000129",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000130",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000131",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000132",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000133",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000134",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000135",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000136",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000137",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000138",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000139",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000140",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000141",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000142",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000143",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000144",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000145",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000146",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000147",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000148",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000149",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000150",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000151",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000152",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000153",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000154",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000155",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000156",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000157",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000158",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000159",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000160",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000161",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000162",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000163",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000164",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000165",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000166",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000167",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000168",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000169",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000170",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000171",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000172",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000173",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000174",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000175",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000176",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000177",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000178",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000179",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000180",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000181",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000182",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000183",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000184",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000185",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000186",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000187",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000188",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000189",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000190",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000191",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000192",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000193",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000194",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000195",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000196",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000197",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000198",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000199",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000200",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000201",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000202",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000203",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000204",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000205",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000206",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000207",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000208",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000209",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000210",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000211",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000212",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000213",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000214",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000215",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000216",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000217",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000218",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000219",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000220",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000221",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000222",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000223",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000224",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000225",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000226",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000227",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000228",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000229",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000230",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000231",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000232",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000233",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000234",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          },
+          {
+            "action": "skipped",
+            "candidate_record_id": "CREC_000235",
+            "decision_id": null,
+            "outcome": "pending",
+            "reason": "automatic_policy_not_enabled"
+          }
+        ],
+        "mutations": false,
+        "outcome": null,
+        "reason": "success",
+        "retryable": false,
+        "run_id": "RUN_000089",
+        "schema_version": "1",
+        "severity": "info",
+        "status": "completed",
+        "subject_ids": [
+          "CREC_000109",
+          "CREC_000110",
+          "CREC_000111",
+          "CREC_000112",
+          "CREC_000113",
+          "CREC_000114",
+          "CREC_000115",
+          "CREC_000116",
+          "CREC_000117",
+          "CREC_000118",
+          "CREC_000119",
+          "CREC_000120",
+          "CREC_000121",
+          "CREC_000122",
+          "CREC_000123",
+          "CREC_000124",
+          "CREC_000125",
+          "CREC_000126",
+          "CREC_000127",
+          "CREC_000128",
+          "CREC_000129",
+          "CREC_000130",
+          "CREC_000131",
+          "CREC_000132",
+          "CREC_000133",
+          "CREC_000134",
+          "CREC_000135",
+          "CREC_000136",
+          "CREC_000137",
+          "CREC_000138",
+          "CREC_000139",
+          "CREC_000140",
+          "CREC_000141",
+          "CREC_000142",
+          "CREC_000143",
+          "CREC_000144",
+          "CREC_000145",
+          "CREC_000146",
+          "CREC_000147",
+          "CREC_000148",
+          "CREC_000149",
+          "CREC_000150",
+          "CREC_000151",
+          "CREC_000152",
+          "CREC_000153",
+          "CREC_000154",
+          "CREC_000155",
+          "CREC_000156",
+          "CREC_000157",
+          "CREC_000158",
+          "CREC_000159",
+          "CREC_000160",
+          "CREC_000161",
+          "CREC_000162",
+          "CREC_000163",
+          "CREC_000164",
+          "CREC_000165",
+          "CREC_000166",
+          "CREC_000167",
+          "CREC_000168",
+          "CREC_000169",
+          "CREC_000170",
+          "CREC_000171",
+          "CREC_000172",
+          "CREC_000173",
+          "CREC_000174",
+          "CREC_000175",
+          "CREC_000176",
+          "CREC_000177",
+          "CREC_000178",
+          "CREC_000179",
+          "CREC_000180",
+          "CREC_000181",
+          "CREC_000182",
+          "CREC_000183",
+          "CREC_000184",
+          "CREC_000185",
+          "CREC_000186",
+          "CREC_000187",
+          "CREC_000188",
+          "CREC_000189",
+          "CREC_000190",
+          "CREC_000191",
+          "CREC_000192",
+          "CREC_000193",
+          "CREC_000194",
+          "CREC_000195",
+          "CREC_000196",
+          "CREC_000197",
+          "CREC_000198",
+          "CREC_000199",
+          "CREC_000200",
+          "CREC_000201",
+          "CREC_000202",
+          "CREC_000203",
+          "CREC_000204",
+          "CREC_000205",
+          "CREC_000206",
+          "CREC_000207",
+          "CREC_000208",
+          "CREC_000209",
+          "CREC_000210",
+          "CREC_000211",
+          "CREC_000212",
+          "CREC_000213",
+          "CREC_000214",
+          "CREC_000215",
+          "CREC_000216",
+          "CREC_000217",
+          "CREC_000218",
+          "CREC_000219",
+          "CREC_000220",
+          "CREC_000221",
+          "CREC_000222",
+          "CREC_000223",
+          "CREC_000224",
+          "CREC_000225",
+          "CREC_000226",
+          "CREC_000227",
+          "CREC_000228",
+          "CREC_000229",
+          "CREC_000230",
+          "CREC_000231",
+          "CREC_000232",
+          "CREC_000233",
+          "CREC_000234",
+          "CREC_000235"
+        ]
+      },
+      "status": "completed",
+      "transitions": [
+        {
+          "from": "pending",
+          "to": "skipped"
+        },
+        {
+          "from": "skipped",
+          "reason": "retry",
+          "to": "pending"
+        },
+        {
+          "from": "pending",
+          "to": "running"
+        },
+        {
+          "from": "running",
+          "to": "completed"
+        }
+      ]
+    },
+    {
+      "attempts": 1,
+      "name": "merge",
+      "result": {
+        "artifact_paths": [
+          "artifacts/runs/RUN_000090/merge_report.json"
+        ],
+        "batch_ids": [
+          "CBATCH_000037",
+          "CBATCH_000038",
+          "CBATCH_000039",
+          "CBATCH_000040",
+          "CBATCH_000041",
+          "CBATCH_000042",
+          "CBATCH_000043",
+          "CBATCH_000044",
+          "CBATCH_000045",
+          "CBATCH_000046",
+          "CBATCH_000047",
+          "CBATCH_000048",
+          "CBATCH_000049",
+          "CBATCH_000050",
+          "CBATCH_000051",
+          "CBATCH_000052",
+          "CBATCH_000053",
+          "CBATCH_000054",
+          "CBATCH_000055",
+          "CBATCH_000056",
+          "CBATCH_000057",
+          "CBATCH_000058",
+          "CBATCH_000059",
+          "CBATCH_000060",
+          "CBATCH_000061",
+          "CBATCH_000062",
+          "CBATCH_000063",
+          "CBATCH_000064",
+          "CBATCH_000065",
+          "CBATCH_000066",
+          "CBATCH_000067",
+          "CBATCH_000068",
+          "CBATCH_000069",
+          "CBATCH_000070",
+          "CBATCH_000071",
+          "CBATCH_000072",
+          "CBATCH_000073",
+          "CBATCH_000074",
+          "CBATCH_000075",
+          "CBATCH_000076",
+          "CBATCH_000077",
+          "CBATCH_000078",
+          "CBATCH_000079",
+          "CBATCH_000080",
+          "CBATCH_000081",
+          "CBATCH_000082",
+          "CBATCH_000083",
+          "CBATCH_000084",
+          "CBATCH_000085",
+          "CBATCH_000086",
+          "CBATCH_000087",
+          "CBATCH_000088",
+          "CBATCH_000089",
+          "CBATCH_000090",
+          "CBATCH_000091"
+        ],
+        "catalog_version": "result_catalog_v1",
+        "condition": "merge",
+        "counters": {
+          "candidate_records": 127,
+          "conflicts_created": 0,
+          "conflicts_existing": 0,
+          "facts_created": 0,
+          "facts_existing": 0,
+          "merged_candidates": 0,
+          "reconciled_supports_removed": 0,
+          "reconciliation_closed": 0,
+          "relations_created": 0,
+          "relations_existing": 0,
+          "skipped_no_positive_head": 0,
+          "skipped_non_leaf": 0,
+          "skipped_pending": 127,
+          "skipped_records": 127,
+          "skipped_rejected": 0,
+          "skipped_superseded": 0
+        },
+        "exit_code": 4,
+        "merged_candidate_record_ids": [],
+        "merged_candidates": [],
+        "mutations": false,
+        "outcome": null,
+        "reason": "no_merge_eligible_candidates",
+        "retryable": true,
+        "run_id": "RUN_000090",
+        "schema_version": "1",
+        "severity": "warning",
+        "skipped_candidates": [
+          {
+            "candidate_record_id": "CREC_000109",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000110",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000111",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000112",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000113",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000114",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000115",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000116",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000117",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000118",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000119",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000120",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000121",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000122",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000123",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000124",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000125",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000126",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000127",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000128",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000129",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000130",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000131",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000132",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000133",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000134",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000135",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000136",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000137",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000138",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000139",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000140",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000141",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000142",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000143",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000144",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000145",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000146",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000147",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000148",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000149",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000150",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000151",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000152",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000153",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000154",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000155",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000156",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000157",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000158",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000159",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000160",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000161",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000162",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000163",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000164",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000165",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000166",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000167",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000168",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000169",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000170",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000171",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000172",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000173",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000174",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000175",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000176",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000177",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000178",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000179",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000180",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000181",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000182",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000183",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000184",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000185",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000186",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000187",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000188",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000189",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000190",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000191",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000192",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000193",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000194",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000195",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000196",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000197",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000198",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000199",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000200",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000201",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000202",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000203",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000204",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000205",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000206",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000207",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000208",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000209",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000210",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000211",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000212",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000213",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000214",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000215",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000216",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000217",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000218",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000219",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000220",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000221",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000222",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000223",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000224",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000225",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000226",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000227",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000228",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000229",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000230",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000231",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000232",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000233",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000234",
+            "decision_id": null,
+            "reason": "pending"
+          },
+          {
+            "candidate_record_id": "CREC_000235",
+            "decision_id": null,
+            "reason": "pending"
+          }
+        ],
+        "status": "blocked",
+        "subject_ids": []
+      },
+      "status": "blocked",
+      "transitions": [
+        {
+          "from": "pending",
+          "to": "skipped"
+        },
+        {
+          "from": "skipped",
+          "reason": "retry",
+          "to": "pending"
+        },
+        {
+          "from": "pending",
+          "to": "running"
+        },
+        {
+          "from": "running",
+          "to": "blocked"
+        }
+      ]
+    },
+    {
+      "attempts": 0,
+      "name": "reconcile",
+      "result": {
+        "reason": "not_configured",
+        "status": "skipped"
+      },
+      "status": "skipped",
+      "transitions": [
+        {
+          "from": "pending",
+          "to": "skipped"
+        },
+        {
+          "from": "skipped",
+          "reason": "retry",
+          "to": "pending"
+        },
+        {
+          "from": "pending",
+          "to": "skipped"
+        }
+      ]
+    }
+  ],
+  "reason": "no_merge_eligible_candidates",
+  "retry_of": "RUN_000001",
+  "retryable": true,
+  "run_id": "RUN_000059",
+  "schema_version": "2",
+  "semantic_report_hash": "6e9f48d1c60bcf1d40d657cb38fef250a6002202db640d024299df7e62755e8f",
+  "severity": "warning",
+  "status": "blocked",
+  "subject_ids": [
+    "CREC_000109",
+    "CREC_000110",
+    "CREC_000111",
+    "CREC_000112",
+    "CREC_000113",
+    "CREC_000114",
+    "CREC_000115",
+    "CREC_000116",
+    "CREC_000117",
+    "CREC_000118",
+    "CREC_000119",
+    "CREC_000120",
+    "CREC_000121",
+    "CREC_000122",
+    "CREC_000123",
+    "CREC_000124",
+    "CREC_000125",
+    "CREC_000126",
+    "CREC_000127",
+    "CREC_000128",
+    "CREC_000129",
+    "CREC_000130",
+    "CREC_000131",
+    "CREC_000132",
+    "CREC_000133",
+    "CREC_000134",
+    "CREC_000135",
+    "CREC_000136",
+    "CREC_000137",
+    "CREC_000138",
+    "CREC_000139",
+    "CREC_000140",
+    "CREC_000141",
+    "CREC_000142",
+    "CREC_000143",
+    "CREC_000144",
+    "CREC_000145",
+    "CREC_000146",
+    "CREC_000147",
+    "CREC_000148",
+    "CREC_000149",
+    "CREC_000150",
+    "CREC_000151",
+    "CREC_000152",
+    "CREC_000153",
+    "CREC_000154",
+    "CREC_000155",
+    "CREC_000156",
+    "CREC_000157",
+    "CREC_000158",
+    "CREC_000159",
+    "CREC_000160",
+    "CREC_000161",
+    "CREC_000162",
+    "CREC_000163",
+    "CREC_000164",
+    "CREC_000165",
+    "CREC_000166",
+    "CREC_000167",
+    "CREC_000168",
+    "CREC_000169",
+    "CREC_000170",
+    "CREC_000171",
+    "CREC_000172",
+    "CREC_000173",
+    "CREC_000174",
+    "CREC_000175",
+    "CREC_000176",
+    "CREC_000177",
+    "CREC_000178",
+    "CREC_000179",
+    "CREC_000180",
+    "CREC_000181",
+    "CREC_000182",
+    "CREC_000183",
+    "CREC_000184",
+    "CREC_000185",
+    "CREC_000186",
+    "CREC_000187",
+    "CREC_000188",
+    "CREC_000189",
+    "CREC_000190",
+    "CREC_000191",
+    "CREC_000192",
+    "CREC_000193",
+    "CREC_000194",
+    "CREC_000195",
+    "CREC_000196",
+    "CREC_000197",
+    "CREC_000198",
+    "CREC_000199",
+    "CREC_000200",
+    "CREC_000201",
+    "CREC_000202",
+    "CREC_000203",
+    "CREC_000204",
+    "CREC_000205",
+    "CREC_000206",
+    "CREC_000207",
+    "CREC_000208",
+    "CREC_000209",
+    "CREC_000210",
+    "CREC_000211",
+    "CREC_000212",
+    "CREC_000213",
+    "CREC_000214",
+    "CREC_000215",
+    "CREC_000216",
+    "CREC_000217",
+    "CREC_000218",
+    "CREC_000219",
+    "CREC_000220",
+    "CREC_000221",
+    "CREC_000222",
+    "CREC_000223",
+    "CREC_000224",
+    "CREC_000225",
+    "CREC_000226",
+    "CREC_000227",
+    "CREC_000228",
+    "CREC_000229",
+    "CREC_000230",
+    "CREC_000231",
+    "CREC_000232",
+    "CREC_000233",
+    "CREC_000234",
+    "CREC_000235"
+  ]
+}

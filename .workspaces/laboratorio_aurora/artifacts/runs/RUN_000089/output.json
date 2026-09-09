@@ -1,0 +1,1106 @@
+{
+  "artifact_paths": [
+    "artifacts/runs/RUN_000089/review_report.json"
+  ],
+  "automatic_policies": [],
+  "batch_ids": [
+    "CBATCH_000037",
+    "CBATCH_000038",
+    "CBATCH_000039",
+    "CBATCH_000040",
+    "CBATCH_000041",
+    "CBATCH_000042",
+    "CBATCH_000043",
+    "CBATCH_000044",
+    "CBATCH_000045",
+    "CBATCH_000046",
+    "CBATCH_000047",
+    "CBATCH_000048",
+    "CBATCH_000049",
+    "CBATCH_000050",
+    "CBATCH_000051",
+    "CBATCH_000052",
+    "CBATCH_000053",
+    "CBATCH_000054",
+    "CBATCH_000055",
+    "CBATCH_000056",
+    "CBATCH_000057",
+    "CBATCH_000058",
+    "CBATCH_000059",
+    "CBATCH_000060",
+    "CBATCH_000061",
+    "CBATCH_000062",
+    "CBATCH_000063",
+    "CBATCH_000064",
+    "CBATCH_000065",
+    "CBATCH_000066",
+    "CBATCH_000067",
+    "CBATCH_000068",
+    "CBATCH_000069",
+    "CBATCH_000070",
+    "CBATCH_000071",
+    "CBATCH_000072",
+    "CBATCH_000073",
+    "CBATCH_000074",
+    "CBATCH_000075",
+    "CBATCH_000076",
+    "CBATCH_000077",
+    "CBATCH_000078",
+    "CBATCH_000079",
+    "CBATCH_000080",
+    "CBATCH_000081",
+    "CBATCH_000082",
+    "CBATCH_000083",
+    "CBATCH_000084",
+    "CBATCH_000085",
+    "CBATCH_000086",
+    "CBATCH_000087",
+    "CBATCH_000088",
+    "CBATCH_000089",
+    "CBATCH_000090",
+    "CBATCH_000091"
+  ],
+  "catalog_version": "result_catalog_v1",
+  "condition": "automatic_review",
+  "counters": {
+    "auto_confirmed": 0,
+    "auto_replayed": 0,
+    "confirmed": 0,
+    "non_leaf": 0,
+    "pending": 127,
+    "policy_skipped_absent": 127,
+    "policy_skipped_version": 0,
+    "rejected": 0,
+    "superseded": 0,
+    "total": 127
+  },
+  "exit_code": 0,
+  "items": [
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000109",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000110",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000111",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000112",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000113",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000114",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000115",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000116",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000117",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000118",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000119",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000120",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000121",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000122",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000123",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000124",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000125",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000126",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000127",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000128",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000129",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000130",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000131",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000132",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000133",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000134",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000135",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000136",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000137",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000138",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000139",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000140",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000141",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000142",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000143",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000144",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000145",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000146",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000147",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000148",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000149",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000150",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000151",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000152",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000153",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000154",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000155",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000156",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000157",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000158",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000159",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000160",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000161",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000162",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000163",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000164",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000165",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000166",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000167",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000168",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000169",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000170",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000171",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000172",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000173",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000174",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000175",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000176",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000177",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000178",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000179",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000180",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000181",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000182",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000183",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000184",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000185",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000186",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000187",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000188",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000189",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000190",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000191",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000192",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000193",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000194",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000195",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000196",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000197",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000198",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000199",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000200",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000201",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000202",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000203",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000204",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000205",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000206",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000207",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000208",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000209",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000210",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000211",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000212",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000213",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000214",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000215",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000216",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000217",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000218",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000219",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000220",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000221",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000222",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000223",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000224",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000225",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000226",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000227",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000228",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000229",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000230",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000231",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000232",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000233",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000234",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000235",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    }
+  ],
+  "mutations": false,
+  "outcome": null,
+  "reason": "success",
+  "retryable": false,
+  "run_id": "RUN_000089",
+  "schema_version": "1",
+  "severity": "info",
+  "status": "completed",
+  "subject_ids": [
+    "CREC_000109",
+    "CREC_000110",
+    "CREC_000111",
+    "CREC_000112",
+    "CREC_000113",
+    "CREC_000114",
+    "CREC_000115",
+    "CREC_000116",
+    "CREC_000117",
+    "CREC_000118",
+    "CREC_000119",
+    "CREC_000120",
+    "CREC_000121",
+    "CREC_000122",
+    "CREC_000123",
+    "CREC_000124",
+    "CREC_000125",
+    "CREC_000126",
+    "CREC_000127",
+    "CREC_000128",
+    "CREC_000129",
+    "CREC_000130",
+    "CREC_000131",
+    "CREC_000132",
+    "CREC_000133",
+    "CREC_000134",
+    "CREC_000135",
+    "CREC_000136",
+    "CREC_000137",
+    "CREC_000138",
+    "CREC_000139",
+    "CREC_000140",
+    "CREC_000141",
+    "CREC_000142",
+    "CREC_000143",
+    "CREC_000144",
+    "CREC_000145",
+    "CREC_000146",
+    "CREC_000147",
+    "CREC_000148",
+    "CREC_000149",
+    "CREC_000150",
+    "CREC_000151",
+    "CREC_000152",
+    "CREC_000153",
+    "CREC_000154",
+    "CREC_000155",
+    "CREC_000156",
+    "CREC_000157",
+    "CREC_000158",
+    "CREC_000159",
+    "CREC_000160",
+    "CREC_000161",
+    "CREC_000162",
+    "CREC_000163",
+    "CREC_000164",
+    "CREC_000165",
+    "CREC_000166",
+    "CREC_000167",
+    "CREC_000168",
+    "CREC_000169",
+    "CREC_000170",
+    "CREC_000171",
+    "CREC_000172",
+    "CREC_000173",
+    "CREC_000174",
+    "CREC_000175",
+    "CREC_000176",
+    "CREC_000177",
+    "CREC_000178",
+    "CREC_000179",
+    "CREC_000180",
+    "CREC_000181",
+    "CREC_000182",
+    "CREC_000183",
+    "CREC_000184",
+    "CREC_000185",
+    "CREC_000186",
+    "CREC_000187",
+    "CREC_000188",
+    "CREC_000189",
+    "CREC_000190",
+    "CREC_000191",
+    "CREC_000192",
+    "CREC_000193",
+    "CREC_000194",
+    "CREC_000195",
+    "CREC_000196",
+    "CREC_000197",
+    "CREC_000198",
+    "CREC_000199",
+    "CREC_000200",
+    "CREC_000201",
+    "CREC_000202",
+    "CREC_000203",
+    "CREC_000204",
+    "CREC_000205",
+    "CREC_000206",
+    "CREC_000207",
+    "CREC_000208",
+    "CREC_000209",
+    "CREC_000210",
+    "CREC_000211",
+    "CREC_000212",
+    "CREC_000213",
+    "CREC_000214",
+    "CREC_000215",
+    "CREC_000216",
+    "CREC_000217",
+    "CREC_000218",
+    "CREC_000219",
+    "CREC_000220",
+    "CREC_000221",
+    "CREC_000222",
+    "CREC_000223",
+    "CREC_000224",
+    "CREC_000225",
+    "CREC_000226",
+    "CREC_000227",
+    "CREC_000228",
+    "CREC_000229",
+    "CREC_000230",
+    "CREC_000231",
+    "CREC_000232",
+    "CREC_000233",
+    "CREC_000234",
+    "CREC_000235"
+  ]
+}

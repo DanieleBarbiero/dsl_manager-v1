@@ -1,0 +1,18 @@
+{
+  "docling_report_path": "normalized/SRC_000005/REV_000005/docling_report.json",
+  "docling_version": "2.97.0",
+  "exit_code": 0,
+  "input_path": "corpus/active/documenti/nuovi_utili/manuale_ufficio_crediti_2024.docx",
+  "normalized_hash": "92c82c78bfd49bd520b41b8d1ff32e950dbbe27a19bfde275bd5ba865d4215a9",
+  "normalized_json_path": "normalized/SRC_000005/REV_000005/normalized.json",
+  "normalized_markdown_path": "normalized/SRC_000005/REV_000005/normalized.md",
+  "profile": "docling.no_images",
+  "run_id": "RUN_000010",
+  "source_hash": "05074499275e3ddb2eea338de17ec4269772ec2e0cf4337dbdada6100ac0efc3",
+  "source_hash_path": "normalized/SRC_000005/REV_000005/source_hash.txt",
+  "source_id": "SRC_000005",
+  "source_revision_id": "REV_000005",
+  "status": "completed",
+  "worker_name": "normalize_docling",
+  "worker_version": "1.0"
+}

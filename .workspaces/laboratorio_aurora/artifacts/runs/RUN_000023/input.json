@@ -1,0 +1,57 @@
+{
+  "artifact_dir": "artifacts/runs/RUN_000023",
+  "fragment_id_by_sequence": {},
+  "input": {
+    "fragment_id_by_sequence": {},
+    "input_path": "corpus/active/forms/FRM_PIANO_RATE.xml",
+    "next_fragment_number": 54,
+    "output_dir": "fragments/SRC_000012/REV_000012",
+    "profile": "xml_form.default",
+    "source_hash": "c401a94ee1683638cbb391f0a52a13b118082bac19af41fd0c82729cd9a3730d",
+    "source_id": "SRC_000012",
+    "source_revision_id": "REV_000012",
+    "worker_config": {
+      "name": "parse_xml_form",
+      "version": "1.0"
+    },
+    "xml_form_options": {
+      "infer_edit_relations": true,
+      "malformed_xml_policy": "fail",
+      "output_fragments_jsonl": true,
+      "parse_buttons": true,
+      "parse_fields": true,
+      "parse_required_fields": true,
+      "parse_table_column_references": true,
+      "parser": "elementtree",
+      "require_root_form": true,
+      "strict_options_fail_on_unsupported_option": true
+    }
+  },
+  "input_path": "corpus/active/forms/FRM_PIANO_RATE.xml",
+  "next_fragment_number": 54,
+  "output_dir": "fragments/SRC_000012/REV_000012",
+  "profile": "xml_form.default",
+  "run_id": "RUN_000023",
+  "run_type": "parse_xml_form",
+  "source_hash": "c401a94ee1683638cbb391f0a52a13b118082bac19af41fd0c82729cd9a3730d",
+  "source_id": "SRC_000012",
+  "source_revision_id": "REV_000012",
+  "worker_config": {
+    "name": "parse_xml_form",
+    "version": "1.0"
+  },
+  "worker_name": "parse_xml_form",
+  "worker_version": "1.0",
+  "xml_form_options": {
+    "infer_edit_relations": true,
+    "malformed_xml_policy": "fail",
+    "output_fragments_jsonl": true,
+    "parse_buttons": true,
+    "parse_fields": true,
+    "parse_required_fields": true,
+    "parse_table_column_references": true,
+    "parser": "elementtree",
+    "require_root_form": true,
+    "strict_options_fail_on_unsupported_option": true
+  }
+}

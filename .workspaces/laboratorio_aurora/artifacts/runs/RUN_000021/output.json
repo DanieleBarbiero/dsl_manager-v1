@@ -1,0 +1,45 @@
+{
+  "chunk_count": 1,
+  "chunk_report_path": "chunks/SRC_000010/REV_000010/chunk_report.json",
+  "chunks": [
+    {
+      "chunk_id": "CHK_000009",
+      "metadata": {
+        "chunker": "chunk_docling",
+        "chunker_version": "1.0",
+        "end_char": 621,
+        "heading_path": [
+          "Regole di calcolo rate",
+          "Avvertenza"
+        ],
+        "normalized_hash": "f027203745c541cec75c107eff379235a7c34b395cea24f128aaf3120c63e739",
+        "normalized_json_path": "normalized/SRC_000010/REV_000010/normalized.json",
+        "normalized_markdown_path": "normalized/SRC_000010/REV_000010/normalized.md",
+        "source_text_kind": "normalized_markdown",
+        "start_char": 0,
+        "strategy": "heading_paragraph"
+      },
+      "sequence": 1,
+      "source_revision_id": "REV_000010",
+      "status": "active",
+      "text": "# Regole di calcolo rate\n\nDocumento tecnico archiviato il 30 settembre 2016.\n\n## Composizione del piano\n\nIl piano di rimborso è composto da rate mensili numerate progressivamente.\n\nOgni rata contiene data di scadenza, quota capitale, quota interessi, importo totale e stato.\n\nGli stati storici della rata sono DA\\_PAGARE, PAGATA e SCADUTA.\n\n## Arrotondamento\n\nL'importo della rata viene arrotondato a due decimali. L'eventuale differenza di arrotondamento viene applicata all'ultima rata.\n\n## Avvertenza\n\nLa formula finanziaria è ancora utile, ma i riferimenti al tasso fisso predefinito del 4,5 per cento sono obsoleti.\n",
+      "text_hash": "f027203745c541cec75c107eff379235a7c34b395cea24f128aaf3120c63e739"
+    }
+  ],
+  "chunks_hash": "ed5e80500eefba29a634d448f2c31eeb284b870ae454a8eec903bb1f04247ef8",
+  "chunks_jsonl_path": "chunks/SRC_000010/REV_000010/chunks.jsonl",
+  "exit_code": 0,
+  "normalized_hash": "f027203745c541cec75c107eff379235a7c34b395cea24f128aaf3120c63e739",
+  "normalized_json_path": "normalized/SRC_000010/REV_000010/normalized.json",
+  "normalized_markdown_path": "normalized/SRC_000010/REV_000010/normalized.md",
+  "profile": "docling.chunking",
+  "run_id": "RUN_000021",
+  "source_hash": "fbee4084c35aec91d4e19dd9c20119092da5879d881735c107f674abb0afa99d",
+  "source_hash_path": "normalized/SRC_000010/REV_000010/source_hash.txt",
+  "source_id": "SRC_000010",
+  "source_revision_id": "REV_000010",
+  "status": "completed",
+  "strategy": "heading_paragraph",
+  "worker_name": "chunk_docling",
+  "worker_version": "1.0"
+}

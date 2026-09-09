@@ -1,0 +1,42 @@
+{
+  "chunk_count": 1,
+  "chunk_report_path": "chunks/SRC_000006/REV_000006/chunk_report.json",
+  "chunks": [
+    {
+      "chunk_id": "CHK_000005",
+      "metadata": {
+        "chunker": "chunk_docling",
+        "chunker_version": "1.0",
+        "end_char": 349,
+        "heading_path": [],
+        "normalized_hash": "24523bcede353a28dd3869a7407d2b592ebf43be6508012a768df70bd7eee371",
+        "normalized_json_path": "normalized/SRC_000006/REV_000006/normalized.json",
+        "normalized_markdown_path": "normalized/SRC_000006/REV_000006/normalized.md",
+        "source_text_kind": "normalized_markdown",
+        "start_char": 0,
+        "strategy": "heading_paragraph"
+      },
+      "sequence": 1,
+      "source_revision_id": "REV_000006",
+      "status": "active",
+      "text": "| Label   | Left   |   Right | Cached              | No cache   | Error   |\n|---------|--------|---------|---------------------|------------|---------|\n| α       | 1      |     2.5 | 3.5                 |            | #DIV/0! |\n| merged  | merged |    True | 2024-02-29 00:00:00 |            |         |\n\n| 41   | separate   |\n|------|------------|\n",
+      "text_hash": "24523bcede353a28dd3869a7407d2b592ebf43be6508012a768df70bd7eee371"
+    }
+  ],
+  "chunks_hash": "d00d59c1ec9eefa8ab3cd199aa4025aa155cc4ee3f4655b9341e0010625dff93",
+  "chunks_jsonl_path": "chunks/SRC_000006/REV_000006/chunks.jsonl",
+  "exit_code": 0,
+  "normalized_hash": "24523bcede353a28dd3869a7407d2b592ebf43be6508012a768df70bd7eee371",
+  "normalized_json_path": "normalized/SRC_000006/REV_000006/normalized.json",
+  "normalized_markdown_path": "normalized/SRC_000006/REV_000006/normalized.md",
+  "profile": "docling.chunking",
+  "run_id": "RUN_000013",
+  "source_hash": "8691d24f3b6748d76a51731e6dfe362733cc26c2b8ea84769339832346754081",
+  "source_hash_path": "normalized/SRC_000006/REV_000006/source_hash.txt",
+  "source_id": "SRC_000006",
+  "source_revision_id": "REV_000006",
+  "status": "completed",
+  "strategy": "heading_paragraph",
+  "worker_name": "chunk_docling",
+  "worker_version": "1.0"
+}

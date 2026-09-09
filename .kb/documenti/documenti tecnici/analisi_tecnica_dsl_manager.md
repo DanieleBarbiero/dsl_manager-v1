@@ -357,4 +357,4 @@ Le capacità sopra sono coperte dai test `test_slice_20_*` fino a
 end-to-end è descritto nel
 [LEGGIMI Aurora](../../projects/corpus%20aurora/corpus_mock_aurora_prestiti/LEGGIMI_PRIMA.md).
 La mappa sintetica del viaggio è nell'
-[outline input-output](../manuali/outline%20dsl%20manager%20flow%20from%20input%20to%20output.md).
+[outline input-output](../manuali/outline_dsl_manager_flow_from_input_to_output_riassunto.md).

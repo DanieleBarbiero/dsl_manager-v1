@@ -1,0 +1,34 @@
+{
+  "chunk_count": 1,
+  "chunks": [
+    {
+      "chunk_id": "CHK_000003",
+      "end_char": 358,
+      "heading_path": [],
+      "sequence": 1,
+      "start_char": 0,
+      "status": "active",
+      "text_hash": "2651a7a3383a84db459ecc0918bbb69633f6ccf69953ffd64d6046d015040d60"
+    }
+  ],
+  "chunks_hash": "b3c1036ed4d6b2f1acdfe67636dbe2fe33e478d02248adbd6eacafd588321924",
+  "input": {
+    "normalized_hash": "2651a7a3383a84db459ecc0918bbb69633f6ccf69953ffd64d6046d015040d60",
+    "normalized_json_path": "normalized/SRC_000004/REV_000004/normalized.json",
+    "normalized_markdown_path": "normalized/SRC_000004/REV_000004/normalized.md",
+    "source_hash": "6db5de9fd04a3f3cc4160ebcbfcd7ea52dcc765dbd9882d4fe122984d9a43c3a",
+    "source_hash_path": "normalized/SRC_000004/REV_000004/source_hash.txt",
+    "source_id": "SRC_000004",
+    "source_revision_id": "REV_000004"
+  },
+  "outputs": {
+    "chunk_report_path": "chunks/SRC_000004/REV_000004/chunk_report.json",
+    "chunks_jsonl_path": "chunks/SRC_000004/REV_000004/chunks.jsonl"
+  },
+  "profile": "docling.chunking",
+  "run_id": "RUN_000009",
+  "status": "completed",
+  "strategy": "heading_paragraph",
+  "worker_name": "chunk_docling",
+  "worker_version": "1.0"
+}

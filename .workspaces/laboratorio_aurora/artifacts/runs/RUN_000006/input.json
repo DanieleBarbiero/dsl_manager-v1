@@ -1,0 +1,91 @@
+{
+  "artifact_dir": "artifacts/runs/RUN_000006",
+  "docling_options": {
+    "force_full_page_ocr": false,
+    "generate_page_images": false,
+    "generate_picture_images": false,
+    "image_export_mode": "placeholder",
+    "images_enabled": false,
+    "input_formats": "pdf,docx,pptx,html,md,txt,xlsx,xlsm",
+    "ocr_enabled": false,
+    "output_normalized_json": true,
+    "output_normalized_markdown": true,
+    "strict_options_fail_on_unsupported_option": true,
+    "tables_enabled": true,
+    "tables_mode": "auto"
+  },
+  "excel_limits": {
+    "max_cells": 2000000,
+    "max_compression_ratio": 100,
+    "max_file_bytes": 67108864,
+    "max_output_bytes": 268435456,
+    "max_regions": 10000,
+    "max_relationships": 50000,
+    "max_sheets": 256,
+    "max_uncompressed_bytes": 536870912,
+    "max_xml_part_bytes": 33554432,
+    "max_zip_entries": 20000,
+    "worker_memory_bytes": 1073741824,
+    "worker_timeout_seconds": 120
+  },
+  "expected_source_hash": "17f2858e53262098f899180d470a5390c3072ba5415e7d59a3cd9a4b2bd4caf4",
+  "fragment_id_by_sequence": {},
+  "input": {
+    "docling_options": {
+      "force_full_page_ocr": false,
+      "generate_page_images": false,
+      "generate_picture_images": false,
+      "image_export_mode": "placeholder",
+      "images_enabled": false,
+      "input_formats": "pdf,docx,pptx,html,md,txt,xlsx,xlsm",
+      "ocr_enabled": false,
+      "output_normalized_json": true,
+      "output_normalized_markdown": true,
+      "strict_options_fail_on_unsupported_option": true,
+      "tables_enabled": true,
+      "tables_mode": "auto"
+    },
+    "excel_limits": {
+      "max_cells": 2000000,
+      "max_compression_ratio": 100,
+      "max_file_bytes": 67108864,
+      "max_output_bytes": 268435456,
+      "max_regions": 10000,
+      "max_relationships": 50000,
+      "max_sheets": 256,
+      "max_uncompressed_bytes": 536870912,
+      "max_xml_part_bytes": 33554432,
+      "max_zip_entries": 20000,
+      "worker_memory_bytes": 1073741824,
+      "worker_timeout_seconds": 120
+    },
+    "expected_source_hash": "17f2858e53262098f899180d470a5390c3072ba5415e7d59a3cd9a4b2bd4caf4",
+    "fragment_id_by_sequence": {},
+    "input_path": "corpus/active/documenti/nuovi_utili/calcolo_rate_macro_2025.xlsm",
+    "memory_limit_mode": "monitored",
+    "next_fragment_number": 39,
+    "output_dir": "normalized/SRC_000003/REV_000003",
+    "profile": "docling.no_images",
+    "source_id": "SRC_000003",
+    "source_revision_id": "REV_000003",
+    "worker_config": {
+      "name": "normalize_docling",
+      "version": "1.0"
+    }
+  },
+  "input_path": "corpus/active/documenti/nuovi_utili/calcolo_rate_macro_2025.xlsm",
+  "memory_limit_mode": "monitored",
+  "next_fragment_number": 39,
+  "output_dir": "normalized/SRC_000003/REV_000003",
+  "profile": "docling.no_images",
+  "run_id": "RUN_000006",
+  "run_type": "normalize",
+  "source_id": "SRC_000003",
+  "source_revision_id": "REV_000003",
+  "worker_config": {
+    "name": "normalize_docling",
+    "version": "1.0"
+  },
+  "worker_name": "normalize_docling",
+  "worker_version": "1.0"
+}

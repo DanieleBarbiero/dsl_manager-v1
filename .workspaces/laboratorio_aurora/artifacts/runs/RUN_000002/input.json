@@ -1,0 +1,234 @@
+{
+  "artifact_dir": "artifacts/runs/RUN_000002",
+  "batch_command": "process-dir",
+  "options": {
+    "path": "corpus/active",
+    "scan": {
+      "added": 0,
+      "deleted": 0,
+      "modified": 0,
+      "unchanged": 18
+    }
+  },
+  "planned_items": [
+    {
+      "input_path": "corpus/active/database/dump_oracle_ddl.sql",
+      "item_id": "BITEM_000001",
+      "kind": "parse_ddl",
+      "source_id": "SRC_000001",
+      "source_revision_id": "REV_000001",
+      "status": "pending"
+    },
+    {
+      "input_path": "corpus/active/documenti/nuovi_non_utili/istruzioni_parcheggio_2025.html",
+      "item_id": "BITEM_000002",
+      "kind": "normalize",
+      "source_id": "SRC_000002",
+      "source_revision_id": "REV_000002",
+      "status": "pending"
+    },
+    {
+      "input_path": "corpus/active/documenti/nuovi_non_utili/istruzioni_parcheggio_2025.html",
+      "item_id": "BITEM_000003",
+      "kind": "chunk",
+      "source_id": "SRC_000002",
+      "source_revision_id": "REV_000002",
+      "status": "pending"
+    },
+    {
+      "input_path": "corpus/active/documenti/nuovi_utili/calcolo_rate_macro_2025.xlsm",
+      "item_id": "BITEM_000004",
+      "kind": "normalize",
+      "source_id": "SRC_000003",
+      "source_revision_id": "REV_000003",
+      "status": "pending"
+    },
+    {
+      "input_path": "corpus/active/documenti/nuovi_utili/calcolo_rate_macro_2025.xlsm",
+      "item_id": "BITEM_000005",
+      "kind": "chunk",
+      "source_id": "SRC_000003",
+      "source_revision_id": "REV_000003",
+      "status": "pending"
+    },
+    {
+      "input_path": "corpus/active/documenti/nuovi_utili/decorrenza_modernizzazione_2025.txt",
+      "item_id": "BITEM_000006",
+      "kind": "normalize",
+      "source_id": "SRC_000004",
+      "source_revision_id": "REV_000004",
+      "status": "pending"
+    },
+    {
+      "input_path": "corpus/active/documenti/nuovi_utili/decorrenza_modernizzazione_2025.txt",
+      "item_id": "BITEM_000007",
+      "kind": "chunk",
+      "source_id": "SRC_000004",
+      "source_revision_id": "REV_000004",
+      "status": "pending"
+    },
+    {
+      "input_path": "corpus/active/documenti/nuovi_utili/manuale_ufficio_crediti_2024.docx",
+      "item_id": "BITEM_000008",
+      "kind": "normalize",
+      "source_id": "SRC_000005",
+      "source_revision_id": "REV_000005",
+      "status": "pending"
+    },
+    {
+      "input_path": "corpus/active/documenti/nuovi_utili/manuale_ufficio_crediti_2024.docx",
+      "item_id": "BITEM_000009",
+      "kind": "chunk",
+      "source_id": "SRC_000005",
+      "source_revision_id": "REV_000005",
+      "status": "pending"
+    },
+    {
+      "input_path": "corpus/active/documenti/nuovi_utili/matrice_stati_2025.xlsx",
+      "item_id": "BITEM_000010",
+      "kind": "normalize",
+      "source_id": "SRC_000006",
+      "source_revision_id": "REV_000006",
+      "status": "pending"
+    },
+    {
+      "input_path": "corpus/active/documenti/nuovi_utili/matrice_stati_2025.xlsx",
+      "item_id": "BITEM_000011",
+      "kind": "chunk",
+      "source_id": "SRC_000006",
+      "source_revision_id": "REV_000006",
+      "status": "pending"
+    },
+    {
+      "input_path": "corpus/active/documenti/nuovi_utili/requisiti_modernizzazione_2025.md",
+      "item_id": "BITEM_000012",
+      "kind": "normalize",
+      "source_id": "SRC_000007",
+      "source_revision_id": "REV_000007",
+      "status": "pending"
+    },
+    {
+      "input_path": "corpus/active/documenti/nuovi_utili/requisiti_modernizzazione_2025.md",
+      "item_id": "BITEM_000013",
+      "kind": "chunk",
+      "source_id": "SRC_000007",
+      "source_revision_id": "REV_000007",
+      "status": "pending"
+    },
+    {
+      "input_path": "corpus/active/documenti/vecchi_non_utili/verbale_mensa_2013.docx",
+      "item_id": "BITEM_000014",
+      "kind": "normalize",
+      "source_id": "SRC_000008",
+      "source_revision_id": "REV_000008",
+      "status": "pending"
+    },
+    {
+      "input_path": "corpus/active/documenti/vecchi_non_utili/verbale_mensa_2013.docx",
+      "item_id": "BITEM_000015",
+      "kind": "chunk",
+      "source_id": "SRC_000008",
+      "source_revision_id": "REV_000008",
+      "status": "pending"
+    },
+    {
+      "input_path": "corpus/active/documenti/vecchi_utili/manuale_pratiche_2012.txt",
+      "item_id": "BITEM_000016",
+      "kind": "normalize",
+      "source_id": "SRC_000009",
+      "source_revision_id": "REV_000009",
+      "status": "pending"
+    },
+    {
+      "input_path": "corpus/active/documenti/vecchi_utili/manuale_pratiche_2012.txt",
+      "item_id": "BITEM_000017",
+      "kind": "chunk",
+      "source_id": "SRC_000009",
+      "source_revision_id": "REV_000009",
+      "status": "pending"
+    },
+    {
+      "input_path": "corpus/active/documenti/vecchi_utili/regole_calcolo_rate_2016.html",
+      "item_id": "BITEM_000018",
+      "kind": "normalize",
+      "source_id": "SRC_000010",
+      "source_revision_id": "REV_000010",
+      "status": "pending"
+    },
+    {
+      "input_path": "corpus/active/documenti/vecchi_utili/regole_calcolo_rate_2016.html",
+      "item_id": "BITEM_000019",
+      "kind": "chunk",
+      "source_id": "SRC_000010",
+      "source_revision_id": "REV_000010",
+      "status": "pending"
+    },
+    {
+      "input_path": "corpus/active/forms/FRM_CLIENTE.xml",
+      "item_id": "BITEM_000020",
+      "kind": "parse_xml_form",
+      "source_id": "SRC_000011",
+      "source_revision_id": "REV_000011",
+      "status": "pending"
+    },
+    {
+      "input_path": "corpus/active/forms/FRM_PIANO_RATE.xml",
+      "item_id": "BITEM_000021",
+      "kind": "parse_xml_form",
+      "source_id": "SRC_000012",
+      "source_revision_id": "REV_000012",
+      "status": "pending"
+    },
+    {
+      "input_path": "corpus/active/forms/FRM_PRATICA.xml",
+      "item_id": "BITEM_000022",
+      "kind": "parse_xml_form",
+      "source_id": "SRC_000013",
+      "source_revision_id": "REV_000013",
+      "status": "pending"
+    },
+    {
+      "input_path": "corpus/active/logs/batch_piano_rate_2025.log",
+      "item_id": "BITEM_000023",
+      "kind": "parse_log",
+      "source_id": "SRC_000014",
+      "source_revision_id": "REV_000014",
+      "status": "pending"
+    },
+    {
+      "input_path": "corpus/active/logs/pagamenti_2025.log",
+      "item_id": "BITEM_000024",
+      "kind": "parse_log",
+      "source_id": "SRC_000015",
+      "source_revision_id": "REV_000015",
+      "status": "pending"
+    },
+    {
+      "input_path": "corpus/active/plsql/PRC_GENERA_PIANO.sql",
+      "item_id": "BITEM_000025",
+      "kind": "parse_db_code",
+      "source_id": "SRC_000016",
+      "source_revision_id": "REV_000016",
+      "status": "pending"
+    },
+    {
+      "input_path": "corpus/active/plsql/PRC_REGISTRA_PAGAMENTO.sql",
+      "item_id": "BITEM_000026",
+      "kind": "parse_db_code",
+      "source_id": "SRC_000017",
+      "source_revision_id": "REV_000017",
+      "status": "pending"
+    },
+    {
+      "input_path": "corpus/active/plsql/TRG_PRATICA_APPROVA.sql",
+      "item_id": "BITEM_000027",
+      "kind": "parse_db_code",
+      "source_id": "SRC_000018",
+      "source_revision_id": "REV_000018",
+      "status": "pending"
+    }
+  ],
+  "run_id": "RUN_000002",
+  "run_type": "batch",
+  "stop_on_error": false
+}

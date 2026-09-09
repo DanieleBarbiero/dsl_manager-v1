@@ -1,0 +1,69 @@
+project:
+  name: dsl-manager
+  default_language: it
+  timezone: Europe/Rome
+  default_doc_profile: docling.no_images
+database:
+  path: workspace.sqlite
+  wal: true
+  foreign_keys: true
+logging:
+  app_log_path: logs/app.jsonl
+  per_run_logs: true
+  jsonl: true
+  level: INFO
+corpus:
+  active_dir: corpus/active
+  incoming_dir: corpus/incoming
+  deleted_dir: corpus/deleted
+  ignored_dir: corpus/ignored
+ai_handoff:
+  outbox_dir: ./ai/outbox
+  inbox_dir: ./ai/inbox
+  package_format: markdown_plus_json
+review:
+  default_actor_id: 
+  automatic_policies: []
+derive:
+  rule_set_version: "1"
+excel:
+  max_file_bytes: 67108864
+  max_zip_entries: 20000
+  max_uncompressed_bytes: 536870912
+  max_compression_ratio: 100
+  max_xml_part_bytes: 33554432
+  max_sheets: 256
+  max_cells: 2000000
+  max_regions: 10000
+  max_relationships: 50000
+  max_output_bytes: 268435456
+  worker_timeout_seconds: 120
+  worker_memory_bytes: 1073741824
+temporal:
+  max_evidence_per_source: 100000
+  max_intervals_per_subject: 1000
+  default_timeformat: date
+  unknown_timezone_policy: pending
+gexf:
+  schema_version: 1.3
+  validator_dependency: lxml==6.1.2
+workspace:
+  dir: .
+docling:
+  input_formats: pdf,docx,pptx,html,md,txt,xlsx,xlsm
+  output_normalized_markdown: true
+  output_normalized_json: true
+  images_enabled: false
+  image_export_mode: placeholder
+  generate_page_images: false
+  generate_picture_images: false
+  ocr_enabled: false
+  force_full_page_ocr: false
+  tables_enabled: true
+  tables_mode: auto
+  strict_options_fail_on_unsupported_option: true
+profile:
+  name: docling.no_images
+worker:
+  name: normalize_docling
+  version: 1.0

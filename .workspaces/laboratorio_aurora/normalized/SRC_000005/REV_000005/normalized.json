@@ -1,0 +1,287 @@
+{
+  "body": {
+    "children": [
+      {
+        "$ref": "#/groups/0"
+      }
+    ],
+    "content_layer": "body",
+    "label": "unspecified",
+    "name": "_root_",
+    "self_ref": "#/body"
+  },
+  "form_items": [],
+  "furniture": {
+    "children": [],
+    "content_layer": "furniture",
+    "label": "unspecified",
+    "name": "_root_",
+    "self_ref": "#/furniture"
+  },
+  "groups": [
+    {
+      "children": [
+        {
+          "$ref": "#/texts/0"
+        }
+      ],
+      "content_layer": "body",
+      "label": "section",
+      "name": "header-0",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "self_ref": "#/groups/0"
+    }
+  ],
+  "key_value_items": [],
+  "name": "manuale_ufficio_crediti_2024",
+  "origin": {
+    "binary_hash": 13667763031969427395,
+    "filename": "manuale_ufficio_crediti_2024.docx",
+    "mimetype": "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+  },
+  "pages": {},
+  "pictures": [],
+  "schema_name": "DoclingDocument",
+  "tables": [],
+  "texts": [
+    {
+      "children": [
+        {
+          "$ref": "#/texts/1"
+        },
+        {
+          "$ref": "#/texts/2"
+        },
+        {
+          "$ref": "#/texts/5"
+        },
+        {
+          "$ref": "#/texts/8"
+        },
+        {
+          "$ref": "#/texts/10"
+        }
+      ],
+      "content_layer": "body",
+      "label": "section_header",
+      "level": 1,
+      "orig": "Manuale dell'ufficio crediti",
+      "parent": {
+        "$ref": "#/groups/0"
+      },
+      "prov": [],
+      "self_ref": "#/texts/0",
+      "text": "Manuale dell'ufficio crediti"
+    },
+    {
+      "children": [],
+      "content_layer": "body",
+      "formatting": {
+        "bold": false,
+        "italic": false,
+        "script": "baseline",
+        "strikethrough": false,
+        "underline": false
+      },
+      "label": "text",
+      "orig": "Edizione operativa del 12 dicembre 2024.",
+      "parent": {
+        "$ref": "#/texts/0"
+      },
+      "prov": [],
+      "self_ref": "#/texts/1",
+      "text": "Edizione operativa del 12 dicembre 2024."
+    },
+    {
+      "children": [
+        {
+          "$ref": "#/texts/3"
+        },
+        {
+          "$ref": "#/texts/4"
+        }
+      ],
+      "content_layer": "body",
+      "label": "section_header",
+      "level": 2,
+      "orig": "Apertura della pratica",
+      "parent": {
+        "$ref": "#/texts/0"
+      },
+      "prov": [],
+      "self_ref": "#/texts/2",
+      "text": "Apertura della pratica"
+    },
+    {
+      "children": [],
+      "content_layer": "body",
+      "formatting": {
+        "bold": false,
+        "italic": false,
+        "script": "baseline",
+        "strikethrough": false,
+        "underline": false
+      },
+      "label": "text",
+      "orig": "L'operatore identifica il Cliente tramite codice fiscale e registra una nuova PraticaPrestito con importo, durata e tasso proposto.",
+      "parent": {
+        "$ref": "#/texts/2"
+      },
+      "prov": [],
+      "self_ref": "#/texts/3",
+      "text": "L'operatore identifica il Cliente tramite codice fiscale e registra una nuova PraticaPrestito con importo, durata e tasso proposto."
+    },
+    {
+      "children": [],
+      "content_layer": "body",
+      "formatting": {
+        "bold": false,
+        "italic": false,
+        "script": "baseline",
+        "strikethrough": false,
+        "underline": false
+      },
+      "label": "text",
+      "orig": "La pratica appena salvata assume lo stato INSERITA. Dopo il controllo dei documenti passa allo stato IN_ISTRUTTORIA.",
+      "parent": {
+        "$ref": "#/texts/2"
+      },
+      "prov": [],
+      "self_ref": "#/texts/4",
+      "text": "La pratica appena salvata assume lo stato INSERITA. Dopo il controllo dei documenti passa allo stato IN_ISTRUTTORIA."
+    },
+    {
+      "children": [
+        {
+          "$ref": "#/texts/6"
+        },
+        {
+          "$ref": "#/texts/7"
+        }
+      ],
+      "content_layer": "body",
+      "label": "section_header",
+      "level": 2,
+      "orig": "Delibera",
+      "parent": {
+        "$ref": "#/texts/0"
+      },
+      "prov": [],
+      "self_ref": "#/texts/5",
+      "text": "Delibera"
+    },
+    {
+      "children": [],
+      "content_layer": "body",
+      "formatting": {
+        "bold": false,
+        "italic": false,
+        "script": "baseline",
+        "strikethrough": false,
+        "underline": false
+      },
+      "label": "text",
+      "orig": "L'approvazione è consentita soltanto per clienti maggiorenni e per durate comprese fra 6 e 84 mesi.",
+      "parent": {
+        "$ref": "#/texts/5"
+      },
+      "prov": [],
+      "self_ref": "#/texts/6",
+      "text": "L'approvazione è consentita soltanto per clienti maggiorenni e per durate comprese fra 6 e 84 mesi."
+    },
+    {
+      "children": [],
+      "content_layer": "body",
+      "formatting": {
+        "bold": false,
+        "italic": false,
+        "script": "baseline",
+        "strikethrough": false,
+        "underline": false
+      },
+      "label": "text",
+      "orig": "Il pulsante Conferma approvazione della form FRM_PRATICA imposta lo stato APPROVATA. La data di approvazione è valorizzata automaticamente.",
+      "parent": {
+        "$ref": "#/texts/5"
+      },
+      "prov": [],
+      "self_ref": "#/texts/7",
+      "text": "Il pulsante Conferma approvazione della form FRM_PRATICA imposta lo stato APPROVATA. La data di approvazione è valorizzata automaticamente."
+    },
+    {
+      "children": [
+        {
+          "$ref": "#/texts/9"
+        }
+      ],
+      "content_layer": "body",
+      "label": "section_header",
+      "level": 2,
+      "orig": "Piano di rimborso",
+      "parent": {
+        "$ref": "#/texts/0"
+      },
+      "prov": [],
+      "self_ref": "#/texts/8",
+      "text": "Piano di rimborso"
+    },
+    {
+      "children": [],
+      "content_layer": "body",
+      "formatting": {
+        "bold": false,
+        "italic": false,
+        "script": "baseline",
+        "strikethrough": false,
+        "underline": false
+      },
+      "label": "text",
+      "orig": "Per una pratica APPROVATA il processo PRC_GENERA_PIANO prepara le Rate. L'operatore consulta il risultato nella form FRM_PIANO_RATE.",
+      "parent": {
+        "$ref": "#/texts/8"
+      },
+      "prov": [],
+      "self_ref": "#/texts/9",
+      "text": "Per una pratica APPROVATA il processo PRC_GENERA_PIANO prepara le Rate. L'operatore consulta il risultato nella form FRM_PIANO_RATE."
+    },
+    {
+      "children": [
+        {
+          "$ref": "#/texts/11"
+        }
+      ],
+      "content_layer": "body",
+      "label": "section_header",
+      "level": 2,
+      "orig": "Eccezioni",
+      "parent": {
+        "$ref": "#/texts/0"
+      },
+      "prov": [],
+      "self_ref": "#/texts/10",
+      "text": "Eccezioni"
+    },
+    {
+      "children": [],
+      "content_layer": "body",
+      "formatting": {
+        "bold": false,
+        "italic": false,
+        "script": "baseline",
+        "strikethrough": false,
+        "underline": false
+      },
+      "label": "text",
+      "orig": "Un pagamento duplicato sulla stessa rata deve essere segnalato e non deve produrre una seconda contabilizzazione.",
+      "parent": {
+        "$ref": "#/texts/10"
+      },
+      "prov": [],
+      "self_ref": "#/texts/11",
+      "text": "Un pagamento duplicato sulla stessa rata deve essere segnalato e non deve produrre una seconda contabilizzazione."
+    }
+  ],
+  "version": "1.10.0"
+}

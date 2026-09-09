@@ -19,7 +19,7 @@ dipendenza delle slice precedenti: il budget nodi+archi GEXF non è applicato e
 - Riscritto il [manuale utente](../../../documenti/manuali/manuale_utente_dsl_manager.md)
   con tutti i leaf command correnti ed esempi confrontati con `--help`.
 - Sostituito il precedente transcript architetturale con un
-  [outline input-output](../../../documenti/manuali/outline%20dsl%20manager%20flow%20from%20input%20to%20output.md)
+  [outline input-output](../../../documenti/manuali/outline_dsl_manager_flow_from_input_to_output_riassunto.md)
   conciso e coerente.
 - Integrate le guide Aurora
   [PowerShell](../../../projects/corpus%20aurora/corpus_mock_aurora_prestiti/materiale_di_supporto/guida_dsl-manager-powershell.md)

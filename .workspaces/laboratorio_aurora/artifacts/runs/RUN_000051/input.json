@@ -1,0 +1,11 @@
+{
+  "artifact_dir": "artifacts/runs/RUN_000051",
+  "parameters": {
+    "rule": "log_event_observation/1",
+    "rule_set_version": "1",
+    "source_revision_id": "REV_000014"
+  },
+  "parent_run_id": "RUN_000001",
+  "run_id": "RUN_000051",
+  "run_type": "candidate_derivation"
+}

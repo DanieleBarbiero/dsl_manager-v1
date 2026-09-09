@@ -1,0 +1,18 @@
+{
+  "docling_report_path": "normalized/SRC_000004/REV_000004/docling_report.json",
+  "docling_version": "2.97.0",
+  "exit_code": 0,
+  "input_path": "corpus/active/documenti/nuovi_utili/decorrenza_modernizzazione_2025.txt",
+  "normalized_hash": "2651a7a3383a84db459ecc0918bbb69633f6ccf69953ffd64d6046d015040d60",
+  "normalized_json_path": "normalized/SRC_000004/REV_000004/normalized.json",
+  "normalized_markdown_path": "normalized/SRC_000004/REV_000004/normalized.md",
+  "profile": "docling.no_images",
+  "run_id": "RUN_000008",
+  "source_hash": "6db5de9fd04a3f3cc4160ebcbfcd7ea52dcc765dbd9882d4fe122984d9a43c3a",
+  "source_hash_path": "normalized/SRC_000004/REV_000004/source_hash.txt",
+  "source_id": "SRC_000004",
+  "source_revision_id": "REV_000004",
+  "status": "completed",
+  "worker_name": "normalize_docling",
+  "worker_version": "1.0"
+}

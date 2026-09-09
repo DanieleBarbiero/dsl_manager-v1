@@ -15,7 +15,7 @@ CANONICAL_DOCUMENTS = (
     Path(".kb/documenti/documenti tecnici/analisi_tecnica_dsl_manager.md"),
     Path(".kb/documenti/documenti tecnici/contratti_manifest_dsl_manager.md"),
     Path(".kb/documenti/manuali/manuale_utente_dsl_manager.md"),
-    Path(".kb/documenti/manuali/outline dsl manager flow from input to output.md"),
+    Path(".kb/documenti/manuali/outline_dsl_manager_flow_from_input_to_output_riassunto.md"),
 )
 
 

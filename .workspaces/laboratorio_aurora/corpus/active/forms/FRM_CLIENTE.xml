@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form name="FRM_CLIENTE" title="Anagrafica cliente">
+  <field name="ID_CLIENTE" label="Identificativo" table="CLI_CLIENTE" column="ID_CLIENTE" required="true"/>
+  <field name="CODICE_FISCALE" label="Codice fiscale" table="CLI_CLIENTE" column="CODICE_FISCALE" required="true"/>
+  <field name="NOME" label="Nome" table="CLI_CLIENTE" column="NOME" required="true"/>
+  <field name="COGNOME" label="Cognome" table="CLI_CLIENTE" column="COGNOME" required="true"/>
+  <field name="DATA_NASCITA" label="Data di nascita" table="CLI_CLIENTE" column="DATA_NASCITA" required="true"/>
+  <field name="EMAIL" label="Posta elettronica" table="CLI_CLIENTE" column="EMAIL"/>
+  <button name="SAVE" label="Salva cliente"/>
+  <button name="CANCEL" label="Annulla modifiche"/>
+</form>
+

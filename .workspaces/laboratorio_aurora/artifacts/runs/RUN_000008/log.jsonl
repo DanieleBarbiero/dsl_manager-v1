@@ -1,0 +1,4 @@
+{"event": "run_started", "level": "INFO", "message": "Run RUN_000008 started.", "run_id": "RUN_000008", "timestamp": "2026-09-09T15:02:01+02:00"}
+{"event": "worker_started", "level": "INFO", "message": "Worker normalize_docling started.", "run_id": "RUN_000008", "timestamp": "2026-09-09T15:02:01+02:00", "worker": "normalize_docling"}
+{"event": "worker_completed", "level": "INFO", "message": "Worker normalize_docling completed.", "run_id": "RUN_000008", "timestamp": "2026-09-09T15:02:40+02:00", "worker": "normalize_docling"}
+{"event": "run_completed", "level": "INFO", "message": "Run RUN_000008 completed.", "run_id": "RUN_000008", "timestamp": "2026-09-09T15:02:40+02:00"}

@@ -1,0 +1,45 @@
+{
+  "chunk_count": 1,
+  "chunk_report_path": "chunks/SRC_000007/REV_000007/chunk_report.json",
+  "chunks": [
+    {
+      "chunk_id": "CHK_000006",
+      "metadata": {
+        "chunker": "chunk_docling",
+        "chunker_version": "1.0",
+        "end_char": 1686,
+        "heading_path": [
+          "Requisiti di modernizzazione di Aurora Prestiti",
+          "Obiettivi del nuovo sistema"
+        ],
+        "normalized_hash": "8072b5db431726ec1b6e39971fe54fdb7fcc8caa362091cf3ac98a51ed7e9100",
+        "normalized_json_path": "normalized/SRC_000007/REV_000007/normalized.json",
+        "normalized_markdown_path": "normalized/SRC_000007/REV_000007/normalized.md",
+        "source_text_kind": "normalized_markdown",
+        "start_char": 0,
+        "strategy": "heading_paragraph"
+      },
+      "sequence": 1,
+      "source_revision_id": "REV_000007",
+      "status": "active",
+      "text": "# Requisiti di modernizzazione di Aurora Prestiti\n\nVersione approvata il 18 novembre 2025.\n\n```\nvalid_from: 2025-11-18\n```\n\nLa decorrenza e' una dichiarazione di contenuto da sottoporre a revisione: non trasforma automaticamente la data del documento nella validita' di ogni regola.\n\n## Perimetro\n\nAurora Prestiti gestisce richieste di prestito personale presentate da clienti maggiorenni. Una richiesta registrata nel sistema è chiamata PraticaPrestito.\n\nOgni PraticaPrestito appartiene a un solo Cliente. Un Cliente può presentare più pratiche nel tempo.\n\nOgni pratica approvata genera un piano composto da una o più Rate. Un Pagamento può saldare una sola Rata; una Rata può ricevere più tentativi di pagamento, ma un solo pagamento con esito CONTABILIZZATO.\n\n## Stati correnti\n\nGli stati ammessi per una PraticaPrestito sono: INSERITA, IN\\_ISTRUTTORIA, APPROVATA, RIFIUTATA, EROGATA, ESTINTA.\n\nIl passaggio da IN\\_ISTRUTTORIA ad APPROVATA richiede un importo non superiore a 60000 euro e una durata compresa fra 6 e 84 mesi.\n\nQuando la pratica passa ad APPROVATA, il sistema registra la data di approvazione.\n\nUna pratica RIFIUTATA non può tornare in istruttoria senza l'apertura di una nuova pratica.\n\n## Regole sul cliente\n\nIl cliente è identificato dal codice fiscale. La data di nascita è obbligatoria.\n\nNon è consentito approvare una pratica se il cliente ha meno di 18 anni alla data della richiesta.\n\n## Obiettivi del nuovo sistema\n\nIl nuovo sistema deve conservare la tracciabilità fra regola di business, dato tecnico, schermata e comportamento osservato.\n\nLe informazioni storiche in conflitto non devono essere cancellate: devono essere segnalate per la revisione umana.\n",
+      "text_hash": "8072b5db431726ec1b6e39971fe54fdb7fcc8caa362091cf3ac98a51ed7e9100"
+    }
+  ],
+  "chunks_hash": "ab4385a90dde502693faa50b069c8037e67c1413d61de7cfd49d019de53b9718",
+  "chunks_jsonl_path": "chunks/SRC_000007/REV_000007/chunks.jsonl",
+  "exit_code": 0,
+  "normalized_hash": "8072b5db431726ec1b6e39971fe54fdb7fcc8caa362091cf3ac98a51ed7e9100",
+  "normalized_json_path": "normalized/SRC_000007/REV_000007/normalized.json",
+  "normalized_markdown_path": "normalized/SRC_000007/REV_000007/normalized.md",
+  "profile": "docling.chunking",
+  "run_id": "RUN_000015",
+  "source_hash": "a7ab69c9480ac1a651fc0fe66877790c35f4439d3b4d6cf73d54cfd927f6d3a6",
+  "source_hash_path": "normalized/SRC_000007/REV_000007/source_hash.txt",
+  "source_id": "SRC_000007",
+  "source_revision_id": "REV_000007",
+  "status": "completed",
+  "strategy": "heading_paragraph",
+  "worker_name": "chunk_docling",
+  "worker_version": "1.0"
+}

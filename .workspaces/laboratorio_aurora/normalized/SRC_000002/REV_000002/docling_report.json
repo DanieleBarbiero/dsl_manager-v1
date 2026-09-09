@@ -1,0 +1,75 @@
+{
+  "catalog": {
+    "artifact_paths": [
+      "normalized/SRC_000002/REV_000002/docling_report.json",
+      "normalized/SRC_000002/REV_000002/normalized.json",
+      "normalized/SRC_000002/REV_000002/normalized.md",
+      "normalized/SRC_000002/REV_000002/source_hash.txt"
+    ],
+    "catalog_version": 1,
+    "condition": "operation_completed",
+    "counters": {
+      "normalized_json_items": 13,
+      "normalized_markdown_bytes": 294
+    },
+    "exit_code": 0,
+    "mutations": "artifacts_published",
+    "outcome": null,
+    "reason": "success",
+    "retryable": false,
+    "run_id": "RUN_000004",
+    "severity": "info",
+    "status": "completed",
+    "subject_ids": {
+      "source_id": "SRC_000002",
+      "source_revision_id": "REV_000002"
+    }
+  },
+  "conversion_status": "success",
+  "docling_version": "2.97.0",
+  "input": {
+    "input_path": "corpus/active/documenti/nuovi_non_utili/istruzioni_parcheggio_2025.html",
+    "source_hash": "ac2a9c910463cdafcd000b2ae81155652ca272b19a29de8db62ef0fb3dfc6f44",
+    "source_id": "SRC_000002",
+    "source_revision_id": "REV_000002"
+  },
+  "outputs": {
+    "docling_report_path": "normalized/SRC_000002/REV_000002/docling_report.json",
+    "normalized_hash": "2d6c44293d9218f6d8844bee6cccaa7d3e33444ac46b9f338b8c29f36d417614",
+    "normalized_json_path": "normalized/SRC_000002/REV_000002/normalized.json",
+    "normalized_markdown_path": "normalized/SRC_000002/REV_000002/normalized.md",
+    "source_hash_path": "normalized/SRC_000002/REV_000002/source_hash.txt"
+  },
+  "profile": "docling.no_images",
+  "resolved_config": {
+    "docling": {
+      "force_full_page_ocr": false,
+      "generate_page_images": false,
+      "generate_picture_images": false,
+      "image_export_mode": "placeholder",
+      "images_enabled": false,
+      "input_formats": [
+        "PDF",
+        "DOCX",
+        "PPTX",
+        "HTML",
+        "MD",
+        "XLSX"
+      ],
+      "ocr_enabled": false,
+      "output_normalized_json": true,
+      "output_normalized_markdown": true,
+      "strict_options_fail_on_unsupported_option": true,
+      "tables_enabled": true,
+      "tables_mode": "auto"
+    },
+    "worker": {
+      "name": "normalize_docling",
+      "version": "1.0"
+    }
+  },
+  "run_id": "RUN_000004",
+  "status": "completed",
+  "worker_name": "normalize_docling",
+  "worker_version": "1.0"
+}

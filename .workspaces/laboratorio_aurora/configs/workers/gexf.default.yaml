@@ -1,0 +1,11 @@
+worker:
+  name: export_gexf
+  version: 1.0
+graph:
+  include_sources: true
+  include_fact_nodes: true
+  include_conflicts: true
+  include_low_confidence: true
+  directed: true
+  node_label_strategy: readable
+  strict_orphans: false

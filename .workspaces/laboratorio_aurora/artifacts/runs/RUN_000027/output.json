@@ -1,0 +1,151 @@
+{
+  "call_count": 1,
+  "calls": [
+    "PRC_RICALCOLA_SCADENZE"
+  ],
+  "db_code_objects": {
+    "procedures": [
+      {
+        "calls": [
+          "PRC_RICALCOLA_SCADENZE"
+        ],
+        "parameters": [
+          "P_ID_PRATICA"
+        ],
+        "procedure_name": "PRC_GENERA_PIANO",
+        "reads": [
+          "PRT_RATA.ID_PRATICA",
+          "P_ID_PRATICA"
+        ],
+        "statements": [
+          {
+            "calls": [],
+            "parent_object_name": "PRC_GENERA_PIANO",
+            "parent_object_type": "procedure",
+            "reads": [
+              "PRT_RATA.ID_PRATICA",
+              "P_ID_PRATICA"
+            ],
+            "statement_kind": "UPDATE",
+            "writes": [
+              "PRT_RATA.STATO"
+            ]
+          }
+        ],
+        "writes": [
+          "PRT_RATA.STATO"
+        ]
+      }
+    ],
+    "triggers": [],
+    "warnings": []
+  },
+  "db_code_options": {
+    "dialect": "generic_sql",
+    "output_fragments_jsonl": true,
+    "parse_calls": true,
+    "parse_procedures": true,
+    "parse_triggers": true,
+    "parse_update_statements": true,
+    "strict_options_fail_on_unsupported_option": true
+  },
+  "db_code_report_path": "fragments/SRC_000016/REV_000016/db_code_report.json",
+  "dialect": "generic_sql",
+  "exit_code": 0,
+  "fragment_count": 2,
+  "fragments": [
+    {
+      "char_end": 195,
+      "char_start": 0,
+      "fragment_id": "FRAG_000084",
+      "fragment_type": "sql_procedure",
+      "line_end": 8,
+      "line_start": 1,
+      "metadata": {
+        "calls": [
+          "PRC_RICALCOLA_SCADENZE"
+        ],
+        "object_type": "procedure",
+        "parameters": [
+          "P_ID_PRATICA"
+        ],
+        "parser": "parse_db_code",
+        "parser_version": "1.0",
+        "procedure_name": "PRC_GENERA_PIANO",
+        "reads": [
+          "PRT_RATA.ID_PRATICA",
+          "P_ID_PRATICA"
+        ],
+        "source_hash": "9e30d0e1f840718a7ac49cdd64362c555ef858f64f93a1a6daefa7484926cd48",
+        "writes": [
+          "PRT_RATA.STATO"
+        ]
+      },
+      "path_or_selector": "procedure:PRC_GENERA_PIANO",
+      "sequence": 1,
+      "source_revision_id": "REV_000016",
+      "status": "active",
+      "text": "CREATE PROCEDURE PRC_GENERA_PIANO (IN P_ID_PRATICA INTEGER)\nBEGIN\n  UPDATE PRT_RATA\n  SET STATO = 'DA_PAGARE'\n  WHERE ID_PRATICA = P_ID_PRATICA;\n\n  CALL PRC_RICALCOLA_SCADENZE(P_ID_PRATICA);\nEND;",
+      "text_hash": "05424f705fb9eb9050c29f2de857606d284bbdb52edd808779fa38dfc4bbfd12"
+    },
+    {
+      "char_end": 144,
+      "char_start": 68,
+      "fragment_id": "FRAG_000085",
+      "fragment_type": "sql_statement",
+      "line_end": 5,
+      "line_start": 3,
+      "metadata": {
+        "calls": [],
+        "object_type": "statement",
+        "parent_object_name": "PRC_GENERA_PIANO",
+        "parent_object_type": "procedure",
+        "parser": "parse_db_code",
+        "parser_version": "1.0",
+        "reads": [
+          "PRT_RATA.ID_PRATICA",
+          "P_ID_PRATICA"
+        ],
+        "source_hash": "9e30d0e1f840718a7ac49cdd64362c555ef858f64f93a1a6daefa7484926cd48",
+        "statement_kind": "UPDATE",
+        "writes": [
+          "PRT_RATA.STATO"
+        ]
+      },
+      "path_or_selector": "procedure:PRC_GENERA_PIANO/statement:1",
+      "sequence": 2,
+      "source_revision_id": "REV_000016",
+      "status": "active",
+      "text": "UPDATE PRT_RATA\n  SET STATO = 'DA_PAGARE'\n  WHERE ID_PRATICA = P_ID_PRATICA;",
+      "text_hash": "902836d465d4d2fcb999750f79f6770807f1201b8fe08b4187b2671496de232f"
+    }
+  ],
+  "fragments_hash": "a0a84c2bc66882184bf2853aa3d52e8095c26e04dfd96cd56a3bb31a3135985b",
+  "fragments_jsonl_path": "fragments/SRC_000016/REV_000016/fragments.jsonl",
+  "input_path": "corpus/active/plsql/PRC_GENERA_PIANO.sql",
+  "procedure_count": 1,
+  "profile": "db_code.default",
+  "read_count": 2,
+  "reads": [
+    "PRT_RATA.ID_PRATICA",
+    "P_ID_PRATICA"
+  ],
+  "run_id": "RUN_000027",
+  "source_hash": "9e30d0e1f840718a7ac49cdd64362c555ef858f64f93a1a6daefa7484926cd48",
+  "source_id": "SRC_000016",
+  "source_revision_id": "REV_000016",
+  "statement_count": 1,
+  "status": "completed",
+  "trigger_count": 0,
+  "warnings": [],
+  "worker_config": {
+    "name": "parse_db_code",
+    "version": "1.0"
+  },
+  "worker_name": "parse_db_code",
+  "worker_version": "1.0",
+  "write_count": 1,
+  "writes": [
+    "PRT_RATA.STATO"
+  ]
+}

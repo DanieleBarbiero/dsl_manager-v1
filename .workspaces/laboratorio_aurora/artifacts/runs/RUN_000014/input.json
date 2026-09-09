@@ -1,0 +1,55 @@
+{
+  "artifact_dir": "artifacts/runs/RUN_000014",
+  "docling_options": {
+    "force_full_page_ocr": false,
+    "generate_page_images": false,
+    "generate_picture_images": false,
+    "image_export_mode": "placeholder",
+    "images_enabled": false,
+    "input_formats": "pdf,docx,pptx,html,md,txt,xlsx,xlsm",
+    "ocr_enabled": false,
+    "output_normalized_json": true,
+    "output_normalized_markdown": true,
+    "strict_options_fail_on_unsupported_option": true,
+    "tables_enabled": true,
+    "tables_mode": "auto"
+  },
+  "input": {
+    "docling_options": {
+      "force_full_page_ocr": false,
+      "generate_page_images": false,
+      "generate_picture_images": false,
+      "image_export_mode": "placeholder",
+      "images_enabled": false,
+      "input_formats": "pdf,docx,pptx,html,md,txt,xlsx,xlsm",
+      "ocr_enabled": false,
+      "output_normalized_json": true,
+      "output_normalized_markdown": true,
+      "strict_options_fail_on_unsupported_option": true,
+      "tables_enabled": true,
+      "tables_mode": "auto"
+    },
+    "input_path": "corpus/active/documenti/nuovi_utili/requisiti_modernizzazione_2025.md",
+    "output_dir": "normalized/SRC_000007/REV_000007",
+    "profile": "docling.no_images",
+    "source_id": "SRC_000007",
+    "source_revision_id": "REV_000007",
+    "worker_config": {
+      "name": "normalize_docling",
+      "version": "1.0"
+    }
+  },
+  "input_path": "corpus/active/documenti/nuovi_utili/requisiti_modernizzazione_2025.md",
+  "output_dir": "normalized/SRC_000007/REV_000007",
+  "profile": "docling.no_images",
+  "run_id": "RUN_000014",
+  "run_type": "normalize",
+  "source_id": "SRC_000007",
+  "source_revision_id": "REV_000007",
+  "worker_config": {
+    "name": "normalize_docling",
+    "version": "1.0"
+  },
+  "worker_name": "normalize_docling",
+  "worker_version": "1.0"
+}

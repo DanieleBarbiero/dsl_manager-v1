@@ -1,0 +1,37 @@
+{
+  "chunk_count": 1,
+  "chunks": [
+    {
+      "chunk_id": "CHK_000009",
+      "end_char": 621,
+      "heading_path": [
+        "Regole di calcolo rate",
+        "Avvertenza"
+      ],
+      "sequence": 1,
+      "start_char": 0,
+      "status": "active",
+      "text_hash": "f027203745c541cec75c107eff379235a7c34b395cea24f128aaf3120c63e739"
+    }
+  ],
+  "chunks_hash": "ed5e80500eefba29a634d448f2c31eeb284b870ae454a8eec903bb1f04247ef8",
+  "input": {
+    "normalized_hash": "f027203745c541cec75c107eff379235a7c34b395cea24f128aaf3120c63e739",
+    "normalized_json_path": "normalized/SRC_000010/REV_000010/normalized.json",
+    "normalized_markdown_path": "normalized/SRC_000010/REV_000010/normalized.md",
+    "source_hash": "fbee4084c35aec91d4e19dd9c20119092da5879d881735c107f674abb0afa99d",
+    "source_hash_path": "normalized/SRC_000010/REV_000010/source_hash.txt",
+    "source_id": "SRC_000010",
+    "source_revision_id": "REV_000010"
+  },
+  "outputs": {
+    "chunk_report_path": "chunks/SRC_000010/REV_000010/chunk_report.json",
+    "chunks_jsonl_path": "chunks/SRC_000010/REV_000010/chunks.jsonl"
+  },
+  "profile": "docling.chunking",
+  "run_id": "RUN_000021",
+  "status": "completed",
+  "strategy": "heading_paragraph",
+  "worker_name": "chunk_docling",
+  "worker_version": "1.0"
+}

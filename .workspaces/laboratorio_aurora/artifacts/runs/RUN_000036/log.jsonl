@@ -1,0 +1,2 @@
+{"event": "run_started", "level": "INFO", "message": "Run RUN_000036 started.", "run_id": "RUN_000036", "timestamp": "2026-09-09T15:07:01+02:00"}
+{"event": "run_completed", "level": "INFO", "message": "Run RUN_000036 completed.", "run_id": "RUN_000036", "timestamp": "2026-09-09T15:07:02+02:00"}

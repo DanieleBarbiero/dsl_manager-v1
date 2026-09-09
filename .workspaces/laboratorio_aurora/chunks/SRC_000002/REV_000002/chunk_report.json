@@ -1,0 +1,36 @@
+{
+  "chunk_count": 1,
+  "chunks": [
+    {
+      "chunk_id": "CHK_000001",
+      "end_char": 294,
+      "heading_path": [
+        "Parcheggio della sede"
+      ],
+      "sequence": 1,
+      "start_char": 0,
+      "status": "active",
+      "text_hash": "2d6c44293d9218f6d8844bee6cccaa7d3e33444ac46b9f338b8c29f36d417614"
+    }
+  ],
+  "chunks_hash": "3146da414814c19d5d9cb73bdb45f07886aa2b8e21f82dfaf5ce80b3e65cee68",
+  "input": {
+    "normalized_hash": "2d6c44293d9218f6d8844bee6cccaa7d3e33444ac46b9f338b8c29f36d417614",
+    "normalized_json_path": "normalized/SRC_000002/REV_000002/normalized.json",
+    "normalized_markdown_path": "normalized/SRC_000002/REV_000002/normalized.md",
+    "source_hash": "ac2a9c910463cdafcd000b2ae81155652ca272b19a29de8db62ef0fb3dfc6f44",
+    "source_hash_path": "normalized/SRC_000002/REV_000002/source_hash.txt",
+    "source_id": "SRC_000002",
+    "source_revision_id": "REV_000002"
+  },
+  "outputs": {
+    "chunk_report_path": "chunks/SRC_000002/REV_000002/chunk_report.json",
+    "chunks_jsonl_path": "chunks/SRC_000002/REV_000002/chunks.jsonl"
+  },
+  "profile": "docling.chunking",
+  "run_id": "RUN_000005",
+  "status": "completed",
+  "strategy": "heading_paragraph",
+  "worker_name": "chunk_docling",
+  "worker_version": "1.0"
+}

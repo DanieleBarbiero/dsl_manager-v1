@@ -1,0 +1,61 @@
+{
+  "artifact_dir": "artifacts/runs/RUN_000011",
+  "chunk_id_by_sequence": {},
+  "chunking_options": {
+    "include_heading_context": true,
+    "max_chars": 8000,
+    "merge_small_paragraphs": true,
+    "min_chars": 1,
+    "output_chunks_jsonl": true,
+    "preserve_paragraphs": true,
+    "require_normalized_hash_match": true,
+    "strategy": "heading_paragraph",
+    "strict_options_fail_on_unsupported_option": true
+  },
+  "input": {
+    "chunk_id_by_sequence": {},
+    "chunking_options": {
+      "include_heading_context": true,
+      "max_chars": 8000,
+      "merge_small_paragraphs": true,
+      "min_chars": 1,
+      "output_chunks_jsonl": true,
+      "preserve_paragraphs": true,
+      "require_normalized_hash_match": true,
+      "strategy": "heading_paragraph",
+      "strict_options_fail_on_unsupported_option": true
+    },
+    "next_chunk_number": 4,
+    "normalized_hash": "92c82c78bfd49bd520b41b8d1ff32e950dbbe27a19bfde275bd5ba865d4215a9",
+    "normalized_json_path": "normalized/SRC_000005/REV_000005/normalized.json",
+    "normalized_markdown_path": "normalized/SRC_000005/REV_000005/normalized.md",
+    "output_dir": "chunks/SRC_000005/REV_000005",
+    "profile": "docling.chunking",
+    "source_hash": "05074499275e3ddb2eea338de17ec4269772ec2e0cf4337dbdada6100ac0efc3",
+    "source_hash_path": "normalized/SRC_000005/REV_000005/source_hash.txt",
+    "source_id": "SRC_000005",
+    "source_revision_id": "REV_000005",
+    "worker_config": {
+      "name": "chunk_docling",
+      "version": "1.0"
+    }
+  },
+  "next_chunk_number": 4,
+  "normalized_hash": "92c82c78bfd49bd520b41b8d1ff32e950dbbe27a19bfde275bd5ba865d4215a9",
+  "normalized_json_path": "normalized/SRC_000005/REV_000005/normalized.json",
+  "normalized_markdown_path": "normalized/SRC_000005/REV_000005/normalized.md",
+  "output_dir": "chunks/SRC_000005/REV_000005",
+  "profile": "docling.chunking",
+  "run_id": "RUN_000011",
+  "run_type": "chunk",
+  "source_hash": "05074499275e3ddb2eea338de17ec4269772ec2e0cf4337dbdada6100ac0efc3",
+  "source_hash_path": "normalized/SRC_000005/REV_000005/source_hash.txt",
+  "source_id": "SRC_000005",
+  "source_revision_id": "REV_000005",
+  "worker_config": {
+    "name": "chunk_docling",
+    "version": "1.0"
+  },
+  "worker_name": "chunk_docling",
+  "worker_version": "1.0"
+}

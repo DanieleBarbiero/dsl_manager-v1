@@ -1,0 +1,42 @@
+{
+  "chunk_count": 1,
+  "chunk_report_path": "chunks/SRC_000009/REV_000009/chunk_report.json",
+  "chunks": [
+    {
+      "chunk_id": "CHK_000008",
+      "metadata": {
+        "chunker": "chunk_docling",
+        "chunker_version": "1.0",
+        "end_char": 736,
+        "heading_path": [],
+        "normalized_hash": "2a957a1a8fc987900813e2501d80d8397f8c4b2c2fcde8c4d0edd1c9d8447ccc",
+        "normalized_json_path": "normalized/SRC_000009/REV_000009/normalized.json",
+        "normalized_markdown_path": "normalized/SRC_000009/REV_000009/normalized.md",
+        "source_text_kind": "normalized_markdown",
+        "start_char": 0,
+        "strategy": "heading_paragraph"
+      },
+      "sequence": 1,
+      "source_revision_id": "REV_000009",
+      "status": "active",
+      "text": "MANUALE OPERATIVO PRATICHE PRESTITO Edizione 4 - giugno 2012\n\nvalid\\_from: 2012-06-01 valid\\_to: 2016-12-31\n\nLa pratica di prestito è associata alla posizione anagrafica del richiedente.\n\nGli stati previsti dalla procedura sono BOZZA, VALIDATA, DELIBERATA e ANNULLATA.\n\nUna pratica può essere deliberata soltanto se l'importo richiesto non supera 50000 euro.\n\nLa durata standard è compresa fra 12 e 60 mesi.\n\nAlla delibera positiva l'operatore deve annotare manualmente la data nel campo DATA\\_DEL.\n\nIl piano rate viene prodotto dal programma notturno PRC\\_GENERA\\_PIANO.\n\nNota storica: i nomi BOZZA, VALIDATA e DELIBERATA sono riferiti alla versione precedente del flusso. Verificare la documentazione corrente prima di riutilizzarli.\n",
+      "text_hash": "2a957a1a8fc987900813e2501d80d8397f8c4b2c2fcde8c4d0edd1c9d8447ccc"
+    }
+  ],
+  "chunks_hash": "864945b7e5c5b2349a8029e0683c4c90943e3503aac91e0f3f29de7e66896af8",
+  "chunks_jsonl_path": "chunks/SRC_000009/REV_000009/chunks.jsonl",
+  "exit_code": 0,
+  "normalized_hash": "2a957a1a8fc987900813e2501d80d8397f8c4b2c2fcde8c4d0edd1c9d8447ccc",
+  "normalized_json_path": "normalized/SRC_000009/REV_000009/normalized.json",
+  "normalized_markdown_path": "normalized/SRC_000009/REV_000009/normalized.md",
+  "profile": "docling.chunking",
+  "run_id": "RUN_000019",
+  "source_hash": "03a58684f958300f92ea662eee3cf0a53bb112746c0ea214e031da684a3902f7",
+  "source_hash_path": "normalized/SRC_000009/REV_000009/source_hash.txt",
+  "source_id": "SRC_000009",
+  "source_revision_id": "REV_000009",
+  "status": "completed",
+  "strategy": "heading_paragraph",
+  "worker_name": "chunk_docling",
+  "worker_version": "1.0"
+}

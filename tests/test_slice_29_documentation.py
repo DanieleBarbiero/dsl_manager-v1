@@ -13,7 +13,7 @@ ACTIVE_DOCUMENTS = (
     Path(".kb/documenti/documenti tecnici/analisi_tecnica_dsl_manager.md"),
     Path(".kb/documenti/documenti tecnici/contratti_manifest_dsl_manager.md"),
     Path(".kb/documenti/manuali/manuale_utente_dsl_manager.md"),
-    Path(".kb/documenti/manuali/outline dsl manager flow from input to output.md"),
+    Path(".kb/documenti/manuali/outline_dsl_manager_flow_from_input_to_output_riassunto.md"),
     Path(
         ".kb/projects/corpus aurora/corpus_mock_aurora_prestiti/"
         "materiale_di_supporto/guida_dsl-manager-powershell.md"

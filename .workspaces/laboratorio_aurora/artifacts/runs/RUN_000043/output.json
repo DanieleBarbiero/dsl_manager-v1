@@ -1,0 +1,57 @@
+{
+  "artifact_paths": [
+    "artifacts/runs/RUN_000043/derived_candidates.jsonl",
+    "artifacts/runs/RUN_000043/derive_report.json"
+  ],
+  "batch_id": "CBATCH_000014",
+  "candidate_ids": [],
+  "catalog_version": "result_catalog_v1",
+  "condition": "candidate_derivation",
+  "counters": {
+    "auto_confirmed": 0,
+    "deduplicated": 0,
+    "input_fragments": 0,
+    "pending": 0,
+    "produced": 0,
+    "rejected": 0
+  },
+  "derivation_id": "DERIVE_000014",
+  "derivation_rejections": [],
+  "exit_code": 0,
+  "mutations": true,
+  "outcome": "pending",
+  "payload_hashes": [],
+  "reason": "success",
+  "retryable": false,
+  "rule": "excel_table_fact/1",
+  "rule_contract": {
+    "assertion_type": "explicit",
+    "automatic_review_allowed": true,
+    "automatic_review_policy": "explicit_excel_table_only/1",
+    "candidate_record_type": "candidate_fact",
+    "default_review_state": "pending",
+    "evidence_locator": "source_revision_id+fragment_id+manifest_id+sheet_name+coordinate+part_name",
+    "input_schema": "source_fragment/excel_region/1",
+    "parser_kind": "workbook_manifest",
+    "rule_id": "excel_table_fact",
+    "rule_version": "1"
+  },
+  "rule_counts": {
+    "excel_table_fact/1": {
+      "auto_confirmed": 0,
+      "deduplicated": 0,
+      "input_fragments": 0,
+      "pending": 0,
+      "produced": 0,
+      "rejected": 0
+    }
+  },
+  "rule_set_version": "1",
+  "run_id": "RUN_000043",
+  "schema_version": "1",
+  "semantic_report_hash": "f11934bb618c835e39910b29fbdcace966632114d236d1757c3336300a8d2a7f",
+  "severity": "info",
+  "source_revision_id": "REV_000006",
+  "status": "completed",
+  "subject_ids": []
+}

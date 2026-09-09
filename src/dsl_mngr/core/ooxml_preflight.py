@@ -31,6 +31,12 @@ XLSX_WORKBOOK_CONTENT_TYPE = (
     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"
 )
 XLSM_WORKBOOK_CONTENT_TYPE = "application/vnd.ms-excel.sheet.macroEnabled.main+xml"
+DOCX_DOCUMENT_CONTENT_TYPE = (
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"
+)
+PPTX_PRESENTATION_CONTENT_TYPE = (
+    "application/vnd.openxmlformats-officedocument.presentationml.presentation.main+xml"
+)
 RELATIONSHIPS_CONTENT_TYPE = "application/vnd.openxmlformats-package.relationships+xml"
 CONTENT_TYPES_NAMESPACE = "http://schemas.openxmlformats.org/package/2006/content-types"
 RELATIONSHIPS_NAMESPACE = "http://schemas.openxmlformats.org/package/2006/relationships"
@@ -402,6 +408,129 @@ def preflight_ooxml(
             ),
             safe_part_names=tuple(sorted(names)),
         )
+
+
+def preflight_ooxml_metadata(
+    cursor: io.BytesIO,
+    *,
+    original_name: str,
+    source_hash: str,
+    limits: ExcelLimits,
+) -> None:
+    """Validate an Office OOXML package before reading temporal metadata."""
+    extension = Path(original_name).suffix.lower()
+    if extension in {".xlsx", ".xlsm"}:
+        preflight_ooxml(
+            cursor,
+            original_name=original_name,
+            source_hash=source_hash,
+            limits=limits,
+        )
+        return
+
+    required_content_type = {
+        ".docx": DOCX_DOCUMENT_CONTENT_TYPE,
+        ".pptx": PPTX_PRESENTATION_CONTENT_TYPE,
+    }.get(extension)
+    if required_content_type is None:
+        raise _security(
+            "OOXML metadata preflight requires a .docx, .pptx, .xlsx, or .xlsm name."
+        )
+    if cursor.read(4) != b"PK\x03\x04":
+        raise _security("The source does not have an OOXML ZIP signature.")
+    cursor.seek(0)
+
+    try:
+        package = zipfile.ZipFile(cursor)
+    except (OSError, zipfile.BadZipFile) as exc:
+        raise _security("The source has no valid ZIP central directory.") from exc
+
+    with package:
+        infos = package.infolist()
+        if len(infos) > limits.max_zip_entries:
+            raise _budget("excel.max_zip_entries", limits.max_zip_entries)
+        names = _validated_names(infos)
+        required_names = {"[Content_Types].xml", "_rels/.rels"}
+        missing = sorted(required_names - names)
+        if missing:
+            raise _security(f"Required OOXML part is missing: {missing[0]}.")
+
+        declared_total = 0
+        for info in infos:
+            if info.is_dir():
+                continue
+            declared_total += info.file_size
+            if declared_total > limits.max_uncompressed_bytes:
+                raise _budget(
+                    "excel.max_uncompressed_bytes", limits.max_uncompressed_bytes
+                )
+            ratio = info.file_size / max(1, info.compress_size)
+            if ratio > limits.max_compression_ratio:
+                raise _budget(
+                    "excel.max_compression_ratio", limits.max_compression_ratio
+                )
+
+        content_types_bytes = _read_member(
+            package,
+            package.getinfo("[Content_Types].xml"),
+            total_before=0,
+            limits=limits,
+            retain=True,
+            xml_part=True,
+        )[0]
+        content_types_root = _parse_xml(content_types_bytes, "[Content_Types].xml")
+        defaults, overrides = _parse_content_types(content_types_root)
+        missing_overrides = sorted(set(overrides) - names)
+        if missing_overrides:
+            raise _security(
+                f"Content type Override references a missing part: {missing_overrides[0]!r}."
+            )
+        main_parts = sorted(
+            name for name, value in overrides.items() if value == required_content_type
+        )
+        if len(main_parts) != 1:
+            raise _security(
+                f"The {extension} extension does not match one unique main document content type."
+            )
+        main_part = main_parts[0]
+
+        retained_relationships: dict[str, ElementTree.Element] = {}
+        actual_total = len(content_types_bytes)
+        for info in infos:
+            if info.is_dir() or info.filename == "[Content_Types].xml":
+                continue
+            xml_part = _is_xml_part(info.filename, defaults, overrides)
+            data, actual_total = _read_member(
+                package,
+                info,
+                total_before=actual_total,
+                limits=limits,
+                retain=xml_part,
+                xml_part=xml_part,
+            )
+            if xml_part:
+                root = _parse_xml(data, info.filename)
+                if info.filename.endswith(".rels"):
+                    retained_relationships[info.filename] = root
+
+        relationship_count = 0
+        relationships_by_part: dict[str, dict[str, OoxmlRelationship]] = {}
+        for name, root in sorted(retained_relationships.items()):
+            owner = _owner_part_for_relationships(name)
+            relation_map, _external_count = _validate_relationships(root, owner, names)
+            relationship_count += len(relation_map)
+            if relationship_count > limits.max_relationships:
+                raise _budget("excel.max_relationships", limits.max_relationships)
+            relationships_by_part[name] = relation_map
+
+        root_office_targets = [
+            relationship.target
+            for relationship in relationships_by_part.get("_rels/.rels", {}).values()
+            if relationship.relationship_type.endswith(OFFICE_DOCUMENT_RELATIONSHIP_SUFFIX)
+            and relationship.target_mode == "internal"
+        ]
+        if root_office_targets != [main_part]:
+            raise _security("The package officeDocument relationship is invalid or ambiguous.")
 
 
 def _validated_names(infos: list[zipfile.ZipInfo]) -> set[str]:

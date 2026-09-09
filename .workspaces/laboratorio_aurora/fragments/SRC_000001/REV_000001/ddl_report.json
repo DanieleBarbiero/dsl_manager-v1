@@ -1,0 +1,685 @@
+{
+  "column_count": 25,
+  "ddl_objects": {
+    "indexes": [],
+    "tables": [
+      {
+        "columns": [
+          {
+            "data_type": "NUMBER(10)",
+            "default": null,
+            "name": "ID_CLIENTE",
+            "nullable": false,
+            "primary_key": false,
+            "unique": false
+          },
+          {
+            "data_type": "VARCHAR2(16)",
+            "default": null,
+            "name": "CODICE_FISCALE",
+            "nullable": false,
+            "primary_key": false,
+            "unique": false
+          },
+          {
+            "data_type": "VARCHAR2(60)",
+            "default": null,
+            "name": "NOME",
+            "nullable": false,
+            "primary_key": false,
+            "unique": false
+          },
+          {
+            "data_type": "VARCHAR2(60)",
+            "default": null,
+            "name": "COGNOME",
+            "nullable": false,
+            "primary_key": false,
+            "unique": false
+          },
+          {
+            "data_type": "DATE",
+            "default": null,
+            "name": "DATA_NASCITA",
+            "nullable": false,
+            "primary_key": false,
+            "unique": false
+          },
+          {
+            "data_type": "VARCHAR2(120)",
+            "default": null,
+            "name": "EMAIL",
+            "nullable": null,
+            "primary_key": false,
+            "unique": false
+          }
+        ],
+        "constraints": [
+          {
+            "columns": [
+              "ID_CLIENTE"
+            ],
+            "constraint_kind": "primary_key",
+            "constraint_name": "pk_CLI_CLIENTE_ID_CLIENTE",
+            "references_columns": [],
+            "references_table": null
+          },
+          {
+            "columns": [
+              "CODICE_FISCALE"
+            ],
+            "constraint_kind": "unique",
+            "constraint_name": "uq_CLI_CLIENTE_CODICE_FISCALE",
+            "references_columns": [],
+            "references_table": null
+          }
+        ],
+        "full_name": "CLI_CLIENTE",
+        "line_end": 13,
+        "line_start": 4,
+        "schema_name": null,
+        "table_name": "CLI_CLIENTE"
+      },
+      {
+        "columns": [
+          {
+            "data_type": "NUMBER(10)",
+            "default": null,
+            "name": "ID_PRATICA",
+            "nullable": false,
+            "primary_key": false,
+            "unique": false
+          },
+          {
+            "data_type": "NUMBER(10)",
+            "default": null,
+            "name": "ID_CLIENTE",
+            "nullable": false,
+            "primary_key": false,
+            "unique": false
+          },
+          {
+            "data_type": "VARCHAR2(20)",
+            "default": null,
+            "name": "STATO",
+            "nullable": false,
+            "primary_key": false,
+            "unique": false
+          },
+          {
+            "data_type": "NUMBER(12,2)",
+            "default": null,
+            "name": "IMPORTO",
+            "nullable": false,
+            "primary_key": false,
+            "unique": false
+          },
+          {
+            "data_type": "NUMBER(3)",
+            "default": null,
+            "name": "DURATA_MESI",
+            "nullable": false,
+            "primary_key": false,
+            "unique": false
+          },
+          {
+            "data_type": "NUMBER(6,3)",
+            "default": null,
+            "name": "TASSO",
+            "nullable": false,
+            "primary_key": false,
+            "unique": false
+          },
+          {
+            "data_type": "DATE",
+            "default": null,
+            "name": "DATA_RICHIESTA",
+            "nullable": false,
+            "primary_key": false,
+            "unique": false
+          },
+          {
+            "data_type": "DATE",
+            "default": null,
+            "name": "DATA_APPROVAZIONE",
+            "nullable": null,
+            "primary_key": false,
+            "unique": false
+          }
+        ],
+        "constraints": [
+          {
+            "columns": [
+              "ID_PRATICA"
+            ],
+            "constraint_kind": "primary_key",
+            "constraint_name": "pk_PRT_PRATICA_ID_PRATICA",
+            "references_columns": [],
+            "references_table": null
+          },
+          {
+            "columns": [
+              "ID_CLIENTE"
+            ],
+            "constraint_kind": "foreign_key",
+            "constraint_name": "fk_PRT_PRATICA_ID_CLIENTE_CLI_CLIENTE_ID_CLIENTE",
+            "references_columns": [
+              "ID_CLIENTE"
+            ],
+            "references_table": "CLI_CLIENTE"
+          }
+        ],
+        "full_name": "PRT_PRATICA",
+        "line_end": 26,
+        "line_start": 15,
+        "schema_name": null,
+        "table_name": "PRT_PRATICA"
+      },
+      {
+        "columns": [
+          {
+            "data_type": "NUMBER(12)",
+            "default": null,
+            "name": "ID_RATA",
+            "nullable": false,
+            "primary_key": false,
+            "unique": false
+          },
+          {
+            "data_type": "NUMBER(10)",
+            "default": null,
+            "name": "ID_PRATICA",
+            "nullable": false,
+            "primary_key": false,
+            "unique": false
+          },
+          {
+            "data_type": "NUMBER(3)",
+            "default": null,
+            "name": "NUMERO_RATA",
+            "nullable": false,
+            "primary_key": false,
+            "unique": false
+          },
+          {
+            "data_type": "DATE",
+            "default": null,
+            "name": "DATA_SCADENZA",
+            "nullable": false,
+            "primary_key": false,
+            "unique": false
+          },
+          {
+            "data_type": "NUMBER(12,2)",
+            "default": null,
+            "name": "IMPORTO",
+            "nullable": false,
+            "primary_key": false,
+            "unique": false
+          },
+          {
+            "data_type": "VARCHAR2(20)",
+            "default": null,
+            "name": "STATO",
+            "nullable": false,
+            "primary_key": false,
+            "unique": false
+          }
+        ],
+        "constraints": [
+          {
+            "columns": [
+              "ID_RATA"
+            ],
+            "constraint_kind": "primary_key",
+            "constraint_name": "pk_PRT_RATA_ID_RATA",
+            "references_columns": [],
+            "references_table": null
+          },
+          {
+            "columns": [
+              "ID_PRATICA"
+            ],
+            "constraint_kind": "foreign_key",
+            "constraint_name": "fk_PRT_RATA_ID_PRATICA_PRT_PRATICA_ID_PRATICA",
+            "references_columns": [
+              "ID_PRATICA"
+            ],
+            "references_table": "PRT_PRATICA"
+          },
+          {
+            "columns": [
+              "ID_PRATICA",
+              "NUMERO_RATA"
+            ],
+            "constraint_kind": "unique",
+            "constraint_name": "uq_PRT_RATA_ID_PRATICA_NUMERO_RATA",
+            "references_columns": [],
+            "references_table": null
+          }
+        ],
+        "full_name": "PRT_RATA",
+        "line_end": 38,
+        "line_start": 28,
+        "schema_name": null,
+        "table_name": "PRT_RATA"
+      },
+      {
+        "columns": [
+          {
+            "data_type": "NUMBER(12)",
+            "default": null,
+            "name": "ID_PAGAMENTO",
+            "nullable": false,
+            "primary_key": false,
+            "unique": false
+          },
+          {
+            "data_type": "NUMBER(12)",
+            "default": null,
+            "name": "ID_RATA",
+            "nullable": false,
+            "primary_key": false,
+            "unique": false
+          },
+          {
+            "data_type": "DATE",
+            "default": null,
+            "name": "DATA_PAGAMENTO",
+            "nullable": false,
+            "primary_key": false,
+            "unique": false
+          },
+          {
+            "data_type": "NUMBER(12,2)",
+            "default": null,
+            "name": "IMPORTO",
+            "nullable": false,
+            "primary_key": false,
+            "unique": false
+          },
+          {
+            "data_type": "VARCHAR2(20)",
+            "default": null,
+            "name": "ESITO",
+            "nullable": false,
+            "primary_key": false,
+            "unique": false
+          }
+        ],
+        "constraints": [
+          {
+            "columns": [
+              "ID_PAGAMENTO"
+            ],
+            "constraint_kind": "primary_key",
+            "constraint_name": "pk_PRT_PAGAMENTO_ID_PAGAMENTO",
+            "references_columns": [],
+            "references_table": null
+          },
+          {
+            "columns": [
+              "ID_RATA"
+            ],
+            "constraint_kind": "foreign_key",
+            "constraint_name": "fk_PRT_PAGAMENTO_ID_RATA_PRT_RATA_ID_RATA",
+            "references_columns": [
+              "ID_RATA"
+            ],
+            "references_table": "PRT_RATA"
+          }
+        ],
+        "full_name": "PRT_PAGAMENTO",
+        "line_end": 48,
+        "line_start": 40,
+        "schema_name": null,
+        "table_name": "PRT_PAGAMENTO"
+      }
+    ],
+    "warnings": []
+  },
+  "dialect": "generic_sql",
+  "foreign_key_count": 3,
+  "fragment_count": 38,
+  "fragments": [
+    {
+      "fragment_id": "FRAG_000001",
+      "fragment_type": "ddl_table",
+      "path_or_selector": "table:CLI_CLIENTE",
+      "sequence": 1,
+      "status": "active",
+      "text_hash": "4c61fa15769a24141b974fedbc742473094114c31348c52985063da07892043f"
+    },
+    {
+      "fragment_id": "FRAG_000002",
+      "fragment_type": "ddl_column",
+      "path_or_selector": "table:CLI_CLIENTE/column:ID_CLIENTE",
+      "sequence": 2,
+      "status": "active",
+      "text_hash": "e033b6fb14ff9e82b01b6e6fd25d611e9d697357b4ca30383a9d2ed33299ea4e"
+    },
+    {
+      "fragment_id": "FRAG_000003",
+      "fragment_type": "ddl_column",
+      "path_or_selector": "table:CLI_CLIENTE/column:CODICE_FISCALE",
+      "sequence": 3,
+      "status": "active",
+      "text_hash": "70588f7340e3e48277f3cde84fbe225592888169755738a6ff60d9944dd1019f"
+    },
+    {
+      "fragment_id": "FRAG_000004",
+      "fragment_type": "ddl_column",
+      "path_or_selector": "table:CLI_CLIENTE/column:NOME",
+      "sequence": 4,
+      "status": "active",
+      "text_hash": "b5def0bfad35351c2ff2c052a424a889c6a940849b25de5fcd89deccdabca915"
+    },
+    {
+      "fragment_id": "FRAG_000005",
+      "fragment_type": "ddl_column",
+      "path_or_selector": "table:CLI_CLIENTE/column:COGNOME",
+      "sequence": 5,
+      "status": "active",
+      "text_hash": "903b31013a5368bb485e7126c79f26821cd6c473e3a9d2a70e45222173eae79a"
+    },
+    {
+      "fragment_id": "FRAG_000006",
+      "fragment_type": "ddl_column",
+      "path_or_selector": "table:CLI_CLIENTE/column:DATA_NASCITA",
+      "sequence": 6,
+      "status": "active",
+      "text_hash": "d58a7c49a7061fe0494198f91f56a2e0ae5924b69b25c46ca51f8e1879ef70aa"
+    },
+    {
+      "fragment_id": "FRAG_000007",
+      "fragment_type": "ddl_column",
+      "path_or_selector": "table:CLI_CLIENTE/column:EMAIL",
+      "sequence": 7,
+      "status": "active",
+      "text_hash": "d8388d99f6de1e7fe600c3694dc945290b1c780741268cb3982313c48d494c54"
+    },
+    {
+      "fragment_id": "FRAG_000008",
+      "fragment_type": "ddl_constraint",
+      "path_or_selector": "table:CLI_CLIENTE/primary_key:ID_CLIENTE",
+      "sequence": 8,
+      "status": "active",
+      "text_hash": "baaa43625842748905a988813a505c06c0f8b01aaa3dfa101279316fae35bb66"
+    },
+    {
+      "fragment_id": "FRAG_000009",
+      "fragment_type": "ddl_constraint",
+      "path_or_selector": "table:CLI_CLIENTE/unique:CODICE_FISCALE",
+      "sequence": 9,
+      "status": "active",
+      "text_hash": "d25dec9436fd3251b5bfaed890cb71cf89a5dcbc14b7989234de428aec0957f7"
+    },
+    {
+      "fragment_id": "FRAG_000010",
+      "fragment_type": "ddl_table",
+      "path_or_selector": "table:PRT_PRATICA",
+      "sequence": 10,
+      "status": "active",
+      "text_hash": "d53828ae4cad0ea6911fb0548e886488140946bd0246ddb4898a18c120ced34e"
+    },
+    {
+      "fragment_id": "FRAG_000011",
+      "fragment_type": "ddl_column",
+      "path_or_selector": "table:PRT_PRATICA/column:ID_PRATICA",
+      "sequence": 11,
+      "status": "active",
+      "text_hash": "353a354e53182e0e5669aee26dc13315f338bbec3419637b3614d444a907621c"
+    },
+    {
+      "fragment_id": "FRAG_000012",
+      "fragment_type": "ddl_column",
+      "path_or_selector": "table:PRT_PRATICA/column:ID_CLIENTE",
+      "sequence": 12,
+      "status": "active",
+      "text_hash": "e033b6fb14ff9e82b01b6e6fd25d611e9d697357b4ca30383a9d2ed33299ea4e"
+    },
+    {
+      "fragment_id": "FRAG_000013",
+      "fragment_type": "ddl_column",
+      "path_or_selector": "table:PRT_PRATICA/column:STATO",
+      "sequence": 13,
+      "status": "active",
+      "text_hash": "376fdb67145cff0fa70bad2132e131958107b4cfe4de20b9cb5b47925e2b779a"
+    },
+    {
+      "fragment_id": "FRAG_000014",
+      "fragment_type": "ddl_column",
+      "path_or_selector": "table:PRT_PRATICA/column:IMPORTO",
+      "sequence": 14,
+      "status": "active",
+      "text_hash": "4b7c85ae2385b64ffd52cc4a99ccc7a6c0039233d84efb7ffc3b83d21160651e"
+    },
+    {
+      "fragment_id": "FRAG_000015",
+      "fragment_type": "ddl_column",
+      "path_or_selector": "table:PRT_PRATICA/column:DURATA_MESI",
+      "sequence": 15,
+      "status": "active",
+      "text_hash": "4139e222dc1a0e093aaa74fe2195803aed40428d212acf08fb5309fd36f2941b"
+    },
+    {
+      "fragment_id": "FRAG_000016",
+      "fragment_type": "ddl_column",
+      "path_or_selector": "table:PRT_PRATICA/column:TASSO",
+      "sequence": 16,
+      "status": "active",
+      "text_hash": "c16fa3f5a7f9d47b4db6878ed0c0e1d876a589e840aa27941ef46c3b8cdfa8fb"
+    },
+    {
+      "fragment_id": "FRAG_000017",
+      "fragment_type": "ddl_column",
+      "path_or_selector": "table:PRT_PRATICA/column:DATA_RICHIESTA",
+      "sequence": 17,
+      "status": "active",
+      "text_hash": "1264c79351fbf0e04af903d49420850e559ca123831088846c8b18a971c05443"
+    },
+    {
+      "fragment_id": "FRAG_000018",
+      "fragment_type": "ddl_column",
+      "path_or_selector": "table:PRT_PRATICA/column:DATA_APPROVAZIONE",
+      "sequence": 18,
+      "status": "active",
+      "text_hash": "b3791a9e55ef1ecb87a23a47cb9f6be683834cfca72b6e961c4b665273d78caf"
+    },
+    {
+      "fragment_id": "FRAG_000019",
+      "fragment_type": "ddl_constraint",
+      "path_or_selector": "table:PRT_PRATICA/primary_key:ID_PRATICA",
+      "sequence": 19,
+      "status": "active",
+      "text_hash": "11fd221024bdcaca3b8f16099b6408f962bf3f16d202a73a9dcf20d77a0d6dc1"
+    },
+    {
+      "fragment_id": "FRAG_000020",
+      "fragment_type": "ddl_constraint",
+      "path_or_selector": "table:PRT_PRATICA/foreign_key:ID_CLIENTE->CLI_CLIENTE.ID_CLIENTE",
+      "sequence": 20,
+      "status": "active",
+      "text_hash": "2bcf550c73fef576d6a6858175d316cee0d2b305398f583c310a3f26c124b181"
+    },
+    {
+      "fragment_id": "FRAG_000021",
+      "fragment_type": "ddl_table",
+      "path_or_selector": "table:PRT_RATA",
+      "sequence": 21,
+      "status": "active",
+      "text_hash": "e8fc98349e256bc61bf382e9c7ed2600d795979660053d68da4ef6810d221bc5"
+    },
+    {
+      "fragment_id": "FRAG_000022",
+      "fragment_type": "ddl_column",
+      "path_or_selector": "table:PRT_RATA/column:ID_RATA",
+      "sequence": 22,
+      "status": "active",
+      "text_hash": "7bd14881156e380cd76467d9168399cac9fe7546056a9e17eee0c080994dcd74"
+    },
+    {
+      "fragment_id": "FRAG_000023",
+      "fragment_type": "ddl_column",
+      "path_or_selector": "table:PRT_RATA/column:ID_PRATICA",
+      "sequence": 23,
+      "status": "active",
+      "text_hash": "353a354e53182e0e5669aee26dc13315f338bbec3419637b3614d444a907621c"
+    },
+    {
+      "fragment_id": "FRAG_000024",
+      "fragment_type": "ddl_column",
+      "path_or_selector": "table:PRT_RATA/column:NUMERO_RATA",
+      "sequence": 24,
+      "status": "active",
+      "text_hash": "eea9bf0f6ca2940fe521d5ec33aa24d7e8482c6d78d3eb9d1d4778c0312de0ab"
+    },
+    {
+      "fragment_id": "FRAG_000025",
+      "fragment_type": "ddl_column",
+      "path_or_selector": "table:PRT_RATA/column:DATA_SCADENZA",
+      "sequence": 25,
+      "status": "active",
+      "text_hash": "968c821700a513b7cdb339fdec9e39d48fb7b4f33901761fbc6ae0bfc6bed4c5"
+    },
+    {
+      "fragment_id": "FRAG_000026",
+      "fragment_type": "ddl_column",
+      "path_or_selector": "table:PRT_RATA/column:IMPORTO",
+      "sequence": 26,
+      "status": "active",
+      "text_hash": "4b7c85ae2385b64ffd52cc4a99ccc7a6c0039233d84efb7ffc3b83d21160651e"
+    },
+    {
+      "fragment_id": "FRAG_000027",
+      "fragment_type": "ddl_column",
+      "path_or_selector": "table:PRT_RATA/column:STATO",
+      "sequence": 27,
+      "status": "active",
+      "text_hash": "376fdb67145cff0fa70bad2132e131958107b4cfe4de20b9cb5b47925e2b779a"
+    },
+    {
+      "fragment_id": "FRAG_000028",
+      "fragment_type": "ddl_constraint",
+      "path_or_selector": "table:PRT_RATA/primary_key:ID_RATA",
+      "sequence": 28,
+      "status": "active",
+      "text_hash": "0edd56a01636ffe72fc7dc0dee01899353b29e3761e2ea105d60fb5f738a9e2f"
+    },
+    {
+      "fragment_id": "FRAG_000029",
+      "fragment_type": "ddl_constraint",
+      "path_or_selector": "table:PRT_RATA/foreign_key:ID_PRATICA->PRT_PRATICA.ID_PRATICA",
+      "sequence": 29,
+      "status": "active",
+      "text_hash": "6ec355e7ff061b024c4c47728efb9a70fc973665f4a2d499d62ae2bcb76cb855"
+    },
+    {
+      "fragment_id": "FRAG_000030",
+      "fragment_type": "ddl_constraint",
+      "path_or_selector": "table:PRT_RATA/unique:ID_PRATICA,NUMERO_RATA",
+      "sequence": 30,
+      "status": "active",
+      "text_hash": "cc89c2029916c29b5d294ee01a58a55db8e5b3e75f66cf21bdd11c54dd2b517d"
+    },
+    {
+      "fragment_id": "FRAG_000031",
+      "fragment_type": "ddl_table",
+      "path_or_selector": "table:PRT_PAGAMENTO",
+      "sequence": 31,
+      "status": "active",
+      "text_hash": "ca6e238bb97c71e802968d22018ef886f68dbb085b5e21d4d14be812d67199c0"
+    },
+    {
+      "fragment_id": "FRAG_000032",
+      "fragment_type": "ddl_column",
+      "path_or_selector": "table:PRT_PAGAMENTO/column:ID_PAGAMENTO",
+      "sequence": 32,
+      "status": "active",
+      "text_hash": "368e7785580be58302ee8791e89913bdccd21533ae8adba12bd0b6622b94b135"
+    },
+    {
+      "fragment_id": "FRAG_000033",
+      "fragment_type": "ddl_column",
+      "path_or_selector": "table:PRT_PAGAMENTO/column:ID_RATA",
+      "sequence": 33,
+      "status": "active",
+      "text_hash": "7bd14881156e380cd76467d9168399cac9fe7546056a9e17eee0c080994dcd74"
+    },
+    {
+      "fragment_id": "FRAG_000034",
+      "fragment_type": "ddl_column",
+      "path_or_selector": "table:PRT_PAGAMENTO/column:DATA_PAGAMENTO",
+      "sequence": 34,
+      "status": "active",
+      "text_hash": "80be685bea46075050e561e50a0e326b1a305b911cde71af12aa1380948f325c"
+    },
+    {
+      "fragment_id": "FRAG_000035",
+      "fragment_type": "ddl_column",
+      "path_or_selector": "table:PRT_PAGAMENTO/column:IMPORTO",
+      "sequence": 35,
+      "status": "active",
+      "text_hash": "4b7c85ae2385b64ffd52cc4a99ccc7a6c0039233d84efb7ffc3b83d21160651e"
+    },
+    {
+      "fragment_id": "FRAG_000036",
+      "fragment_type": "ddl_column",
+      "path_or_selector": "table:PRT_PAGAMENTO/column:ESITO",
+      "sequence": 36,
+      "status": "active",
+      "text_hash": "d866f2cfb1a5d4e2d3cb1a3318f1b85077348d8ea0f3cdbe214acff9c5c21548"
+    },
+    {
+      "fragment_id": "FRAG_000037",
+      "fragment_type": "ddl_constraint",
+      "path_or_selector": "table:PRT_PAGAMENTO/primary_key:ID_PAGAMENTO",
+      "sequence": 37,
+      "status": "active",
+      "text_hash": "9e295cbded932f482c5c63dc84bf3a17594bcdaa3cd16c11c83aa001bcf3e71c"
+    },
+    {
+      "fragment_id": "FRAG_000038",
+      "fragment_type": "ddl_constraint",
+      "path_or_selector": "table:PRT_PAGAMENTO/foreign_key:ID_RATA->PRT_RATA.ID_RATA",
+      "sequence": 38,
+      "status": "active",
+      "text_hash": "63d91237f294283f3de43fcbe8d5746aedb190c14da85471d8723a95152aefa0"
+    }
+  ],
+  "fragments_hash": "ddc290acab333d3a60a1f6d8e6d5c9ef81d0b143d801e3f6806edae6982c32b5",
+  "input": {
+    "input_path": "corpus/active/database/dump_oracle_ddl.sql",
+    "source_hash": "43f6797251a710b425c9e00b3aba016d1720a5bf3a544b7b3f12c3bdca4c6cfc",
+    "source_id": "SRC_000001",
+    "source_revision_id": "REV_000001"
+  },
+  "outputs": {
+    "ddl_report_path": "fragments/SRC_000001/REV_000001/ddl_report.json",
+    "fragments_jsonl_path": "fragments/SRC_000001/REV_000001/fragments.jsonl"
+  },
+  "profile": "ddl.default",
+  "resolved_config": {
+    "ddl": {
+      "dialect": "generic_sql",
+      "output_fragments_jsonl": true,
+      "parse_create_table": true,
+      "parse_foreign_keys": true,
+      "parse_indexes": true,
+      "parse_primary_keys": true,
+      "parse_unique_constraints": true,
+      "strict_options_fail_on_unsupported_option": true,
+      "unsupported_statement_policy": "warn"
+    },
+    "worker": {
+      "name": "parse_ddl",
+      "version": "1.0"
+    }
+  },
+  "run_id": "RUN_000003",
+  "status": "completed",
+  "table_count": 4,
+  "warnings": [],
+  "worker_name": "parse_ddl",
+  "worker_version": "1.0"
+}

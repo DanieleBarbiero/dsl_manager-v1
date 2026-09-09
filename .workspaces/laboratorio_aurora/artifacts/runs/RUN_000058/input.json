@@ -1,0 +1,11 @@
+{
+  "artifact_dir": "artifacts/runs/RUN_000058",
+  "parameters": {
+    "rule": "db_code_unit/1",
+    "rule_set_version": "1",
+    "source_revision_id": "REV_000018"
+  },
+  "parent_run_id": "RUN_000001",
+  "run_id": "RUN_000058",
+  "run_type": "candidate_derivation"
+}

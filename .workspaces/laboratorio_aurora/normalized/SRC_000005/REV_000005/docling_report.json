@@ -1,0 +1,75 @@
+{
+  "catalog": {
+    "artifact_paths": [
+      "normalized/SRC_000005/REV_000005/docling_report.json",
+      "normalized/SRC_000005/REV_000005/normalized.json",
+      "normalized/SRC_000005/REV_000005/normalized.md",
+      "normalized/SRC_000005/REV_000005/source_hash.txt"
+    ],
+    "catalog_version": 1,
+    "condition": "operation_completed",
+    "counters": {
+      "normalized_json_items": 13,
+      "normalized_markdown_bytes": 904
+    },
+    "exit_code": 0,
+    "mutations": "artifacts_published",
+    "outcome": null,
+    "reason": "success",
+    "retryable": false,
+    "run_id": "RUN_000010",
+    "severity": "info",
+    "status": "completed",
+    "subject_ids": {
+      "source_id": "SRC_000005",
+      "source_revision_id": "REV_000005"
+    }
+  },
+  "conversion_status": "success",
+  "docling_version": "2.97.0",
+  "input": {
+    "input_path": "corpus/active/documenti/nuovi_utili/manuale_ufficio_crediti_2024.docx",
+    "source_hash": "05074499275e3ddb2eea338de17ec4269772ec2e0cf4337dbdada6100ac0efc3",
+    "source_id": "SRC_000005",
+    "source_revision_id": "REV_000005"
+  },
+  "outputs": {
+    "docling_report_path": "normalized/SRC_000005/REV_000005/docling_report.json",
+    "normalized_hash": "92c82c78bfd49bd520b41b8d1ff32e950dbbe27a19bfde275bd5ba865d4215a9",
+    "normalized_json_path": "normalized/SRC_000005/REV_000005/normalized.json",
+    "normalized_markdown_path": "normalized/SRC_000005/REV_000005/normalized.md",
+    "source_hash_path": "normalized/SRC_000005/REV_000005/source_hash.txt"
+  },
+  "profile": "docling.no_images",
+  "resolved_config": {
+    "docling": {
+      "force_full_page_ocr": false,
+      "generate_page_images": false,
+      "generate_picture_images": false,
+      "image_export_mode": "placeholder",
+      "images_enabled": false,
+      "input_formats": [
+        "PDF",
+        "DOCX",
+        "PPTX",
+        "HTML",
+        "MD",
+        "XLSX"
+      ],
+      "ocr_enabled": false,
+      "output_normalized_json": true,
+      "output_normalized_markdown": true,
+      "strict_options_fail_on_unsupported_option": true,
+      "tables_enabled": true,
+      "tables_mode": "auto"
+    },
+    "worker": {
+      "name": "normalize_docling",
+      "version": "1.0"
+    }
+  },
+  "run_id": "RUN_000010",
+  "status": "completed",
+  "worker_name": "normalize_docling",
+  "worker_version": "1.0"
+}

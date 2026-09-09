@@ -1,0 +1,119 @@
+{
+  "component_count": 1,
+  "components": [
+    "BATCH_PAGAMENTI"
+  ],
+  "event_count": 4,
+  "fragment_count": 4,
+  "fragments": [
+    {
+      "fragment_id": "FRAG_000080",
+      "fragment_type": "log_event",
+      "path_or_selector": "log/line:1",
+      "sequence": 1,
+      "status": "active",
+      "text_hash": "ab832b651dd7c5f29793fac35dff856f838139718b712010d922c593821a1c71"
+    },
+    {
+      "fragment_id": "FRAG_000081",
+      "fragment_type": "log_event",
+      "path_or_selector": "log/line:2",
+      "sequence": 2,
+      "status": "active",
+      "text_hash": "dfea5731949d628418d0818cf5c787f17b0834b185819cff65692e8b94da6687"
+    },
+    {
+      "fragment_id": "FRAG_000082",
+      "fragment_type": "log_event",
+      "path_or_selector": "log/line:3",
+      "sequence": 3,
+      "status": "active",
+      "text_hash": "4fb101f2e3782db94591c130d223eb072df2511e3c4a2fe45928d4ce2ef4d5bb"
+    },
+    {
+      "fragment_id": "FRAG_000083",
+      "fragment_type": "log_event",
+      "path_or_selector": "log/line:4",
+      "sequence": 4,
+      "status": "active",
+      "text_hash": "63f7131fd827ff2a1a716d0dd4063798d43380fef3cd95743051f502086eb493"
+    }
+  ],
+  "fragments_hash": "f124a697b97358bcd31bf2d0169f7aaf972db198beec4d4fb1b4de26c615af35",
+  "input": {
+    "input_path": "corpus/active/logs/pagamenti_2025.log",
+    "source_hash": "d04529bddb6567abf9dc60874046912ffe741cea523088bc1495ae0d27e55008",
+    "source_id": "SRC_000015",
+    "source_revision_id": "REV_000015"
+  },
+  "log_objects": {
+    "events": [
+      {
+        "component": "BATCH_PAGAMENTI",
+        "event_kind": "start",
+        "level": "INFO",
+        "message": "start",
+        "observed_identifiers": {},
+        "timestamp": "2025-11-21 06:30:01"
+      },
+      {
+        "component": "BATCH_PAGAMENTI",
+        "event_kind": "unknown",
+        "level": "INFO",
+        "message": "payment accounted ID_PAGAMENTO=90001 ID_RATA=70001 ESITO=CONTABILIZZATO",
+        "observed_identifiers": {
+          "ESITO": "CONTABILIZZATO",
+          "ID_PAGAMENTO": "90001",
+          "ID_RATA": "70001"
+        },
+        "timestamp": "2025-11-21 06:30:02"
+      },
+      {
+        "component": "BATCH_PAGAMENTI",
+        "event_kind": "unknown",
+        "level": "ERROR",
+        "message": "duplicate payment ID_PAGAMENTO=90002 ID_RATA=70001",
+        "observed_identifiers": {
+          "ID_PAGAMENTO": "90002",
+          "ID_RATA": "70001"
+        },
+        "timestamp": "2025-11-21 06:30:03"
+      },
+      {
+        "component": "BATCH_PAGAMENTI",
+        "event_kind": "end",
+        "level": "INFO",
+        "message": "end processed=2 errors=1",
+        "observed_identifiers": {
+          "errors": "1",
+          "processed": "2"
+        },
+        "timestamp": "2025-11-21 06:30:05"
+      }
+    ],
+    "warnings": []
+  },
+  "outputs": {
+    "fragments_jsonl_path": "fragments/SRC_000015/REV_000015/fragments.jsonl",
+    "log_report_path": "fragments/SRC_000015/REV_000015/log_report.json"
+  },
+  "parser": "line_regex",
+  "profile": "log.default",
+  "resolved_config": {
+    "log": {
+      "output_fragments_jsonl": true,
+      "parser": "line_regex",
+      "strict_options_fail_on_unsupported_option": true
+    },
+    "worker": {
+      "name": "parse_log",
+      "version": "1.0"
+    }
+  },
+  "run_id": "RUN_000026",
+  "status": "completed",
+  "warning_count": 0,
+  "warnings": [],
+  "worker_name": "parse_log",
+  "worker_version": "1.0"
+}

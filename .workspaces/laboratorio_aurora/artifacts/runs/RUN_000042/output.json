@@ -1,0 +1,69 @@
+{
+  "artifact_paths": [
+    "artifacts/runs/RUN_000042/derived_candidates.jsonl",
+    "artifacts/runs/RUN_000042/derive_report.json"
+  ],
+  "batch_id": "CBATCH_000013",
+  "candidate_ids": [
+    "EXCEL_SHEET_FACT_D7F848CBC47F27A1",
+    "EXCEL_SHEET_FACT_17D8CC49A643F5BC",
+    "EXCEL_SHEET_FACT_0804E967757ABB06"
+  ],
+  "catalog_version": "result_catalog_v1",
+  "condition": "candidate_derivation",
+  "counters": {
+    "auto_confirmed": 0,
+    "deduplicated": 0,
+    "input_fragments": 3,
+    "pending": 3,
+    "produced": 3,
+    "rejected": 0
+  },
+  "derivation_id": "DERIVE_000013",
+  "derivation_rejections": [],
+  "exit_code": 0,
+  "mutations": true,
+  "outcome": "pending",
+  "payload_hashes": [
+    "69edc34e9b7f5b80d680ffb9158c72e81e8fa1fff404ddc940f9b0c3d22146cf",
+    "847c042f1315562fa378733ccd742eb8099c81a3584b381e0c01de298dc0f4ee",
+    "081cb56f9c9eacf5c3976e44aa71ee0417e33b314f6791c801a023cc56da61c8"
+  ],
+  "reason": "success",
+  "retryable": false,
+  "rule": "excel_sheet_fact/1",
+  "rule_contract": {
+    "assertion_type": "explicit",
+    "automatic_review_allowed": true,
+    "automatic_review_policy": "explicit_excel_sheet_only/1",
+    "candidate_record_type": "candidate_fact",
+    "default_review_state": "pending",
+    "evidence_locator": "source_revision_id+fragment_id+manifest_id+sheet_name+coordinate+part_name",
+    "input_schema": "source_fragment/excel_region/1",
+    "parser_kind": "workbook_manifest",
+    "rule_id": "excel_sheet_fact",
+    "rule_version": "1"
+  },
+  "rule_counts": {
+    "excel_sheet_fact/1": {
+      "auto_confirmed": 0,
+      "deduplicated": 0,
+      "input_fragments": 3,
+      "pending": 3,
+      "produced": 3,
+      "rejected": 0
+    }
+  },
+  "rule_set_version": "1",
+  "run_id": "RUN_000042",
+  "schema_version": "1",
+  "semantic_report_hash": "44dcc1624f5e75651ced57e94aff7b26b41d08e0f16cebe689547ce59ea572c4",
+  "severity": "info",
+  "source_revision_id": "REV_000006",
+  "status": "completed",
+  "subject_ids": [
+    "EXCEL_SHEET_FACT_D7F848CBC47F27A1",
+    "EXCEL_SHEET_FACT_17D8CC49A643F5BC",
+    "EXCEL_SHEET_FACT_0804E967757ABB06"
+  ]
+}

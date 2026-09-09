@@ -1,0 +1,55 @@
+{
+  "artifact_dir": "artifacts/runs/RUN_000003",
+  "ddl_options": {
+    "dialect": "generic_sql",
+    "output_fragments_jsonl": true,
+    "parse_create_table": true,
+    "parse_foreign_keys": true,
+    "parse_indexes": true,
+    "parse_primary_keys": true,
+    "parse_unique_constraints": true,
+    "strict_options_fail_on_unsupported_option": true,
+    "unsupported_statement_policy": "warn"
+  },
+  "fragment_id_by_sequence": {},
+  "input": {
+    "ddl_options": {
+      "dialect": "generic_sql",
+      "output_fragments_jsonl": true,
+      "parse_create_table": true,
+      "parse_foreign_keys": true,
+      "parse_indexes": true,
+      "parse_primary_keys": true,
+      "parse_unique_constraints": true,
+      "strict_options_fail_on_unsupported_option": true,
+      "unsupported_statement_policy": "warn"
+    },
+    "fragment_id_by_sequence": {},
+    "input_path": "corpus/active/database/dump_oracle_ddl.sql",
+    "next_fragment_number": 1,
+    "output_dir": "fragments/SRC_000001/REV_000001",
+    "profile": "ddl.default",
+    "source_hash": "43f6797251a710b425c9e00b3aba016d1720a5bf3a544b7b3f12c3bdca4c6cfc",
+    "source_id": "SRC_000001",
+    "source_revision_id": "REV_000001",
+    "worker_config": {
+      "name": "parse_ddl",
+      "version": "1.0"
+    }
+  },
+  "input_path": "corpus/active/database/dump_oracle_ddl.sql",
+  "next_fragment_number": 1,
+  "output_dir": "fragments/SRC_000001/REV_000001",
+  "profile": "ddl.default",
+  "run_id": "RUN_000003",
+  "run_type": "parse_ddl",
+  "source_hash": "43f6797251a710b425c9e00b3aba016d1720a5bf3a544b7b3f12c3bdca4c6cfc",
+  "source_id": "SRC_000001",
+  "source_revision_id": "REV_000001",
+  "worker_config": {
+    "name": "parse_ddl",
+    "version": "1.0"
+  },
+  "worker_name": "parse_ddl",
+  "worker_version": "1.0"
+}

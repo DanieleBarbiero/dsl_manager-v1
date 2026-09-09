@@ -45,6 +45,7 @@ from dsl_mngr.core.ooxml_preflight import (
     acquire_source_once,
     build_workbook_manifest,
     preflight_ooxml,
+    preflight_ooxml_metadata,
 )
 from dsl_mngr.core.runs import complete_run, start_run
 from dsl_mngr.core.source_registry import scan_corpus
@@ -72,6 +73,7 @@ MAIN_WORKBOOK = "documenti/nuovi_utili/matrice_stati_2025.xlsx"
 MACRO_WORKBOOK = "documenti/nuovi_utili/calcolo_rate_macro_2025.xlsm"
 CURRENT_REQUIREMENTS = "documenti/nuovi_utili/requisiti_modernizzazione_2025.md"
 CURRENT_ADDENDUM = "documenti/nuovi_utili/decorrenza_modernizzazione_2025.txt"
+CURRENT_DOCX = "documenti/nuovi_utili/manuale_ufficio_crediti_2024.docx"
 HISTORICAL_MANUAL = "documenti/vecchi_utili/manuale_pratiche_2012.txt"
 FIXED_TIME = datetime(2026, 9, 5, 10, 0, 0, tzinfo=timezone.utc)
 LIMITS = ExcelLimits.from_config(dict(DEFAULT_CONFIG["excel"]))
@@ -215,6 +217,62 @@ def test_slice_28_malformed_partial_budget_and_no_network(tmp_path, monkeypatch)
     assert report["catalog"]["reason"] == "normalization_partial"
     assert report["network_accessed"] is False
     assert report["macros_executed"] is False
+
+
+def test_slice_28_batch_derive_accepts_docx_temporal_metadata(tmp_path, monkeypatch):
+    _forbid_network(monkeypatch)
+    workspace = _workspace_with_files(
+        tmp_path / "docx_temporal_regression",
+        {CURRENT_DOCX: ACTIVE / CURRENT_DOCX},
+    )
+    revision_id = _revisions_by_path(workspace)[CURRENT_DOCX]
+    parent = start_run(
+        workspace,
+        run_type="batch",
+        input_payload={"regression": "docx_temporal_preflight"},
+        clock=lambda: FIXED_TIME,
+    )
+
+    derived = _derive_phase(
+        resolve_database_settings(workspace),
+        run_id=parent.record.run_id,
+        parse_payload={
+            "source_revision_ids": [revision_id],
+            "structured_sources": [],
+        },
+        rule_set_version="1",
+    )
+
+    assert derived["status"] == "completed"
+    assert derived["counters"]["temporal_evidence_extracted"] > 0
+    with _connect(workspace) as connection:
+        source_keys = {
+            str(row[0])
+            for row in connection.execute(
+                "SELECT source_key FROM raw_temporal_evidence "
+                "WHERE source_revision_id = ?",
+                (revision_id,),
+            ).fetchall()
+        }
+    assert "core:created" in source_keys
+    assert "core:modified" in source_keys
+    assert any(key.startswith("zip:") for key in source_keys)
+
+
+def test_slice_28_ooxml_metadata_rejects_extension_content_type_mismatch(monkeypatch):
+    _forbid_network(monkeypatch)
+    data = (ACTIVE / CURRENT_DOCX).read_bytes()
+
+    with pytest.raises(OoxmlPreflightError) as caught:
+        preflight_ooxml_metadata(
+            io.BytesIO(data),
+            original_name="manuale_ufficio_crediti_2024.pptx",
+            source_hash=hashlib.sha256(data).hexdigest(),
+            limits=LIMITS,
+        )
+
+    assert caught.value.reason == "ooxml_security_violation"
+    assert "content type" in str(caught.value)
 
 
 def test_slice_28_order_retry_uses_aurora_sources(tmp_path, monkeypatch):

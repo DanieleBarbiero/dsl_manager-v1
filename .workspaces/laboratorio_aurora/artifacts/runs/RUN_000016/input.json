@@ -1,0 +1,55 @@
+{
+  "artifact_dir": "artifacts/runs/RUN_000016",
+  "docling_options": {
+    "force_full_page_ocr": false,
+    "generate_page_images": false,
+    "generate_picture_images": false,
+    "image_export_mode": "placeholder",
+    "images_enabled": false,
+    "input_formats": "pdf,docx,pptx,html,md,txt,xlsx,xlsm",
+    "ocr_enabled": false,
+    "output_normalized_json": true,
+    "output_normalized_markdown": true,
+    "strict_options_fail_on_unsupported_option": true,
+    "tables_enabled": true,
+    "tables_mode": "auto"
+  },
+  "input": {
+    "docling_options": {
+      "force_full_page_ocr": false,
+      "generate_page_images": false,
+      "generate_picture_images": false,
+      "image_export_mode": "placeholder",
+      "images_enabled": false,
+      "input_formats": "pdf,docx,pptx,html,md,txt,xlsx,xlsm",
+      "ocr_enabled": false,
+      "output_normalized_json": true,
+      "output_normalized_markdown": true,
+      "strict_options_fail_on_unsupported_option": true,
+      "tables_enabled": true,
+      "tables_mode": "auto"
+    },
+    "input_path": "corpus/active/documenti/vecchi_non_utili/verbale_mensa_2013.docx",
+    "output_dir": "normalized/SRC_000008/REV_000008",
+    "profile": "docling.no_images",
+    "source_id": "SRC_000008",
+    "source_revision_id": "REV_000008",
+    "worker_config": {
+      "name": "normalize_docling",
+      "version": "1.0"
+    }
+  },
+  "input_path": "corpus/active/documenti/vecchi_non_utili/verbale_mensa_2013.docx",
+  "output_dir": "normalized/SRC_000008/REV_000008",
+  "profile": "docling.no_images",
+  "run_id": "RUN_000016",
+  "run_type": "normalize",
+  "source_id": "SRC_000008",
+  "source_revision_id": "REV_000008",
+  "worker_config": {
+    "name": "normalize_docling",
+    "version": "1.0"
+  },
+  "worker_name": "normalize_docling",
+  "worker_version": "1.0"
+}

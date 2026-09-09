@@ -449,7 +449,7 @@ finché il runtime non verrà allineato.
 ## 17. Riferimenti verificabili
 
 - [Manuale utente](../manuali/manuale_utente_dsl_manager.md)
-- [Outline input-output](../manuali/outline%20dsl%20manager%20flow%20from%20input%20to%20output.md)
+- [Outline input-output](../manuali/outline_dsl_manager_flow_from_input_to_output_riassunto.md)
 - [Corpus Aurora](../../projects/corpus%20aurora/corpus_mock_aurora_prestiti/LEGGIMI_PRIMA.md)
 - [Checklist Aurora](../../projects/corpus%20aurora/corpus_mock_aurora_prestiti/materiale_di_supporto/checklist_risultati_attesi.md)
 - [Report Slice 28](../../projects/slicing/slice_28/dsl_manager_slice_28_report.md)

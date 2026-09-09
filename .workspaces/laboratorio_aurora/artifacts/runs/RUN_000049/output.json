@@ -1,0 +1,90 @@
+{
+  "artifact_paths": [
+    "artifacts/runs/RUN_000049/derived_candidates.jsonl",
+    "artifacts/runs/RUN_000049/derive_report.json"
+  ],
+  "batch_id": "CBATCH_000020",
+  "candidate_ids": [
+    "XML_FORM_STRUCTURE_8C1AEA7040E12F25",
+    "XML_FORM_STRUCTURE_2040C4993428E721",
+    "XML_FORM_STRUCTURE_14327AE30C1909F5",
+    "XML_FORM_STRUCTURE_CC49026D748B5520",
+    "XML_FORM_STRUCTURE_F5E6CC13BAEB7176",
+    "XML_FORM_STRUCTURE_257B95B14BE360AA",
+    "XML_FORM_STRUCTURE_2D1A069644C34272",
+    "XML_FORM_STRUCTURE_E51A0A940410D40F",
+    "XML_FORM_STRUCTURE_1353B2AD7893D3C6",
+    "XML_FORM_STRUCTURE_933D001BB363F32C"
+  ],
+  "catalog_version": "result_catalog_v1",
+  "condition": "candidate_derivation",
+  "counters": {
+    "auto_confirmed": 0,
+    "deduplicated": 0,
+    "input_fragments": 10,
+    "pending": 10,
+    "produced": 10,
+    "rejected": 0
+  },
+  "derivation_id": "DERIVE_000020",
+  "derivation_rejections": [],
+  "exit_code": 0,
+  "mutations": true,
+  "outcome": "pending",
+  "payload_hashes": [
+    "2c429a8a4ff67b31a8b820e787bda97177892a8f183a607d637b4c8bca7cff11",
+    "7fb4293e054043f95e2a17289ecada1958ce531e17e45824fcadf72697710ff9",
+    "648bda88aa941672049136df113e438d84e3971d06d055467c664197d5aedfeb",
+    "879bd5150d93ca6d1510502d73e03c9991dd9c26be15e71662dbc3da50909aef",
+    "8417fc69638df27d53b9a50b3d8905903f26160305287c7de3b00c9ed0f4b611",
+    "e677473f5d201894dc52f16467c251bdf9f5bdeffd176587069b91891b8570c5",
+    "f048ed4256e7c27badce47a863e64ad6cc86e51a9cad4cd12095cae1f21db58c",
+    "ff27f1d09391be7b9f31060d651f6ee66157166ad1a62ff641b14d4a8b7b22da",
+    "4ab6b90d4c9526ebc58fd37490ec1e8b83243cf0057e841d990a590033e97728",
+    "7947fac05baba12564affc170ea95d137ea9779dd6a3539c93c906ae68a327a1"
+  ],
+  "reason": "success",
+  "retryable": false,
+  "rule": "xml_form_structure/1",
+  "rule_contract": {
+    "assertion_type": "explicit",
+    "automatic_review_allowed": true,
+    "automatic_review_policy": "explicit_xml_form_structure_only/1",
+    "candidate_record_type": "candidate_fact",
+    "default_review_state": "pending",
+    "evidence_locator": "source_revision_id+fragment_id+path_or_selector+line_start+line_end",
+    "input_schema": "source_fragment/xml_form|xml_field|xml_button/1",
+    "parser_kind": "xml_form",
+    "rule_id": "xml_form_structure",
+    "rule_version": "1"
+  },
+  "rule_counts": {
+    "xml_form_structure/1": {
+      "auto_confirmed": 0,
+      "deduplicated": 0,
+      "input_fragments": 10,
+      "pending": 10,
+      "produced": 10,
+      "rejected": 0
+    }
+  },
+  "rule_set_version": "1",
+  "run_id": "RUN_000049",
+  "schema_version": "1",
+  "semantic_report_hash": "f36d1ec035531b2bce0a85a3e839b8ecb00002651bc7fac11da0c354dd4cd5df",
+  "severity": "info",
+  "source_revision_id": "REV_000013",
+  "status": "completed",
+  "subject_ids": [
+    "XML_FORM_STRUCTURE_8C1AEA7040E12F25",
+    "XML_FORM_STRUCTURE_2040C4993428E721",
+    "XML_FORM_STRUCTURE_14327AE30C1909F5",
+    "XML_FORM_STRUCTURE_CC49026D748B5520",
+    "XML_FORM_STRUCTURE_F5E6CC13BAEB7176",
+    "XML_FORM_STRUCTURE_257B95B14BE360AA",
+    "XML_FORM_STRUCTURE_2D1A069644C34272",
+    "XML_FORM_STRUCTURE_E51A0A940410D40F",
+    "XML_FORM_STRUCTURE_1353B2AD7893D3C6",
+    "XML_FORM_STRUCTURE_933D001BB363F32C"
+  ]
+}

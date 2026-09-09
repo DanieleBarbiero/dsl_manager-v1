@@ -1,0 +1,47 @@
+{
+  "catalog": {
+    "artifact_paths": [
+      "normalized/SRC_000003/REV_000003/workbook_fragments.jsonl",
+      "normalized/SRC_000003/REV_000003/workbook_manifest.json",
+      "normalized/SRC_000003/REV_000003/workbook_report.json"
+    ],
+    "catalog_version": 1,
+    "condition": "operation_completed",
+    "counters": {
+      "cells": 9,
+      "fragments": 1,
+      "regions": 1,
+      "sheets": 1
+    },
+    "exit_code": 0,
+    "mutations": "artifacts_published",
+    "outcome": null,
+    "reason": "success",
+    "retryable": false,
+    "run_id": null,
+    "severity": "info",
+    "status": "completed",
+    "subject_ids": {
+      "source_id": "SRC_000003",
+      "source_revision_id": "REV_000003"
+    }
+  },
+  "fragment_detector": {
+    "id": "connected_non_empty_cells",
+    "version": "1"
+  },
+  "fragments_hash": "ed7fe645a8bc943644c875af0a12a56c76f0e7eea5b7bdb46b7881e8f4e5a68f",
+  "macros_executed": false,
+  "manifest_hash": "19353e64de331ac28dd60097096fe14792ac68f54ae033354deb3b648735a2f4",
+  "network_accessed": false,
+  "outputs": {
+    "workbook_fragments_path": "normalized/SRC_000003/REV_000003/workbook_fragments.jsonl",
+    "workbook_manifest_path": "normalized/SRC_000003/REV_000003/workbook_manifest.json"
+  },
+  "schema_version": "1",
+  "source_hash": "17f2858e53262098f899180d470a5390c3072ba5415e7d59a3cd9a4b2bd4caf4",
+  "source_id": "SRC_000003",
+  "source_revision_id": "REV_000003",
+  "status": "completed",
+  "structural_source": "workbook_manifest.json"
+}

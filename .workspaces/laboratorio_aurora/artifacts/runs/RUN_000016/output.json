@@ -1,0 +1,18 @@
+{
+  "docling_report_path": "normalized/SRC_000008/REV_000008/docling_report.json",
+  "docling_version": "2.97.0",
+  "exit_code": 0,
+  "input_path": "corpus/active/documenti/vecchi_non_utili/verbale_mensa_2013.docx",
+  "normalized_hash": "28bd0754beff515ca0ae2b043cec672448d8dff3f2caa4d7f203062490c0d86d",
+  "normalized_json_path": "normalized/SRC_000008/REV_000008/normalized.json",
+  "normalized_markdown_path": "normalized/SRC_000008/REV_000008/normalized.md",
+  "profile": "docling.no_images",
+  "run_id": "RUN_000016",
+  "source_hash": "b63bebe418ffdfc8f9d560112268eaa3db3be0f9413e9947bd443c7bc45dfcbd",
+  "source_hash_path": "normalized/SRC_000008/REV_000008/source_hash.txt",
+  "source_id": "SRC_000008",
+  "source_revision_id": "REV_000008",
+  "status": "completed",
+  "worker_name": "normalize_docling",
+  "worker_version": "1.0"
+}

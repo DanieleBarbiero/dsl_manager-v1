@@ -1,0 +1,281 @@
+{
+  "button_count": 2,
+  "edit_relation_count": 1,
+  "edit_relations": [
+    {
+      "field_names": [
+        "ID_CLIENTE",
+        "CODICE_FISCALE",
+        "NOME",
+        "COGNOME",
+        "DATA_NASCITA",
+        "EMAIL"
+      ],
+      "relation_type": "edits",
+      "source_form": "FRM_CLIENTE",
+      "target_table": "CLI_CLIENTE"
+    }
+  ],
+  "field_count": 6,
+  "form_count": 1,
+  "fragment_count": 9,
+  "fragments": [
+    {
+      "fragment_id": "FRAG_000045",
+      "fragment_type": "xml_form",
+      "path_or_selector": "/form[@name='FRM_CLIENTE']",
+      "sequence": 1,
+      "status": "active",
+      "text_hash": "c4944d1ebc1ff0d5a4b0267fda3fb87bf5d02c619eaf20085c12cf4eead0258c"
+    },
+    {
+      "fragment_id": "FRAG_000046",
+      "fragment_type": "xml_field",
+      "path_or_selector": "/form[@name='FRM_CLIENTE']/field[@name='ID_CLIENTE']",
+      "sequence": 2,
+      "status": "active",
+      "text_hash": "9f510d57625866c8e1ada5c5cb476f73df9c66cb9c4bd5df065628db2fb8b3ed"
+    },
+    {
+      "fragment_id": "FRAG_000047",
+      "fragment_type": "xml_field",
+      "path_or_selector": "/form[@name='FRM_CLIENTE']/field[@name='CODICE_FISCALE']",
+      "sequence": 3,
+      "status": "active",
+      "text_hash": "8596064788b2ead408ddb9b027969f8d502527120b32b9141c0cfbdafd50e985"
+    },
+    {
+      "fragment_id": "FRAG_000048",
+      "fragment_type": "xml_field",
+      "path_or_selector": "/form[@name='FRM_CLIENTE']/field[@name='NOME']",
+      "sequence": 4,
+      "status": "active",
+      "text_hash": "d06bca6e9a3ad0fcb4ca084d0cf4140174672306fada0a581417aea1fcddb83c"
+    },
+    {
+      "fragment_id": "FRAG_000049",
+      "fragment_type": "xml_field",
+      "path_or_selector": "/form[@name='FRM_CLIENTE']/field[@name='COGNOME']",
+      "sequence": 5,
+      "status": "active",
+      "text_hash": "ad8d1ace4703500b380178e04c6b9b6d87b2605b338fedacb8ee6439ac0ef884"
+    },
+    {
+      "fragment_id": "FRAG_000050",
+      "fragment_type": "xml_field",
+      "path_or_selector": "/form[@name='FRM_CLIENTE']/field[@name='DATA_NASCITA']",
+      "sequence": 6,
+      "status": "active",
+      "text_hash": "f6ff2fcd7b2a6acfec657684ec4f7eabd076caf63cc116b72e9d8ab59d8047cf"
+    },
+    {
+      "fragment_id": "FRAG_000051",
+      "fragment_type": "xml_field",
+      "path_or_selector": "/form[@name='FRM_CLIENTE']/field[@name='EMAIL']",
+      "sequence": 7,
+      "status": "active",
+      "text_hash": "a608f69d00b075a238e8a7ca10c3d3ce992df499424ece6f1b99740980169e95"
+    },
+    {
+      "fragment_id": "FRAG_000052",
+      "fragment_type": "xml_button",
+      "path_or_selector": "/form[@name='FRM_CLIENTE']/button[@name='SAVE']",
+      "sequence": 8,
+      "status": "active",
+      "text_hash": "d282ff571c5678d41ccdc5eccccf9daa7cb592c2a30d46c85b846b3ec298277c"
+    },
+    {
+      "fragment_id": "FRAG_000053",
+      "fragment_type": "xml_button",
+      "path_or_selector": "/form[@name='FRM_CLIENTE']/button[@name='CANCEL']",
+      "sequence": 9,
+      "status": "active",
+      "text_hash": "b9b82ec361ec527d7bd2a013608e7444da4530e491c959f55f8a4b5e248241f8"
+    }
+  ],
+  "fragments_hash": "76c0f6a93fc2fa137898870bd57b144f79977356a8f7a0a163c590ec7f54d610",
+  "input": {
+    "input_path": "corpus/active/forms/FRM_CLIENTE.xml",
+    "source_hash": "5b5e0f9c41c378a188174e3f3e1b9f2ec3cbe1fc0c705a4d4507fe3e02a80ca9",
+    "source_id": "SRC_000011",
+    "source_revision_id": "REV_000011"
+  },
+  "outputs": {
+    "fragments_jsonl_path": "fragments/SRC_000011/REV_000011/fragments.jsonl",
+    "xml_form_report_path": "fragments/SRC_000011/REV_000011/xml_form_report.json"
+  },
+  "parser": "elementtree",
+  "profile": "xml_form.default",
+  "required_field_count": 5,
+  "resolved_config": {
+    "worker": {
+      "name": "parse_xml_form",
+      "version": "1.0"
+    },
+    "xml_form": {
+      "infer_edit_relations": true,
+      "malformed_xml_policy": "fail",
+      "output_fragments_jsonl": true,
+      "parse_buttons": true,
+      "parse_fields": true,
+      "parse_required_fields": true,
+      "parse_table_column_references": true,
+      "parser": "elementtree",
+      "require_root_form": true,
+      "strict_options_fail_on_unsupported_option": true
+    }
+  },
+  "run_id": "RUN_000022",
+  "status": "completed",
+  "table_column_references": [
+    {
+      "column_name": "ID_CLIENTE",
+      "field_name": "ID_CLIENTE",
+      "table_name": "CLI_CLIENTE"
+    },
+    {
+      "column_name": "CODICE_FISCALE",
+      "field_name": "CODICE_FISCALE",
+      "table_name": "CLI_CLIENTE"
+    },
+    {
+      "column_name": "NOME",
+      "field_name": "NOME",
+      "table_name": "CLI_CLIENTE"
+    },
+    {
+      "column_name": "COGNOME",
+      "field_name": "COGNOME",
+      "table_name": "CLI_CLIENTE"
+    },
+    {
+      "column_name": "DATA_NASCITA",
+      "field_name": "DATA_NASCITA",
+      "table_name": "CLI_CLIENTE"
+    },
+    {
+      "column_name": "EMAIL",
+      "field_name": "EMAIL",
+      "table_name": "CLI_CLIENTE"
+    }
+  ],
+  "table_reference_count": 1,
+  "warnings": [],
+  "worker_name": "parse_xml_form",
+  "worker_version": "1.0",
+  "xml_form_objects": {
+    "forms": [
+      {
+        "buttons": [
+          {
+            "action_kind": "save",
+            "label": "Salva cliente",
+            "name": "SAVE"
+          },
+          {
+            "action_kind": "cancel",
+            "label": "Annulla modifiche",
+            "name": "CANCEL"
+          }
+        ],
+        "edit_relations": [
+          {
+            "field_names": [
+              "ID_CLIENTE",
+              "CODICE_FISCALE",
+              "NOME",
+              "COGNOME",
+              "DATA_NASCITA",
+              "EMAIL"
+            ],
+            "relation_type": "edits",
+            "source_form": "FRM_CLIENTE",
+            "target_table": "CLI_CLIENTE"
+          }
+        ],
+        "fields": [
+          {
+            "column_name": "ID_CLIENTE",
+            "label": "Identificativo",
+            "name": "ID_CLIENTE",
+            "required": true,
+            "table_name": "CLI_CLIENTE"
+          },
+          {
+            "column_name": "CODICE_FISCALE",
+            "label": "Codice fiscale",
+            "name": "CODICE_FISCALE",
+            "required": true,
+            "table_name": "CLI_CLIENTE"
+          },
+          {
+            "column_name": "NOME",
+            "label": "Nome",
+            "name": "NOME",
+            "required": true,
+            "table_name": "CLI_CLIENTE"
+          },
+          {
+            "column_name": "COGNOME",
+            "label": "Cognome",
+            "name": "COGNOME",
+            "required": true,
+            "table_name": "CLI_CLIENTE"
+          },
+          {
+            "column_name": "DATA_NASCITA",
+            "label": "Data di nascita",
+            "name": "DATA_NASCITA",
+            "required": true,
+            "table_name": "CLI_CLIENTE"
+          },
+          {
+            "column_name": "EMAIL",
+            "label": "Posta elettronica",
+            "name": "EMAIL",
+            "required": false,
+            "table_name": "CLI_CLIENTE"
+          }
+        ],
+        "name": "FRM_CLIENTE",
+        "table_column_references": [
+          {
+            "column_name": "ID_CLIENTE",
+            "field_name": "ID_CLIENTE",
+            "table_name": "CLI_CLIENTE"
+          },
+          {
+            "column_name": "CODICE_FISCALE",
+            "field_name": "CODICE_FISCALE",
+            "table_name": "CLI_CLIENTE"
+          },
+          {
+            "column_name": "NOME",
+            "field_name": "NOME",
+            "table_name": "CLI_CLIENTE"
+          },
+          {
+            "column_name": "COGNOME",
+            "field_name": "COGNOME",
+            "table_name": "CLI_CLIENTE"
+          },
+          {
+            "column_name": "DATA_NASCITA",
+            "field_name": "DATA_NASCITA",
+            "table_name": "CLI_CLIENTE"
+          },
+          {
+            "column_name": "EMAIL",
+            "field_name": "EMAIL",
+            "table_name": "CLI_CLIENTE"
+          }
+        ],
+        "table_references": [
+          "CLI_CLIENTE"
+        ],
+        "title": "Anagrafica cliente"
+      }
+    ],
+    "warnings": []
+  }
+}

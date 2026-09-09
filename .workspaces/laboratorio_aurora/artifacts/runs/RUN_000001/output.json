@@ -1,0 +1,663 @@
+{
+  "artifact_paths": [
+    "artifacts/runs/RUN_000001/batch_checkpoint.json",
+    "artifacts/runs/RUN_000001/batch_report.json"
+  ],
+  "batch_command": "consolidate",
+  "catalog_version": "result_catalog_v1",
+  "condition": "batch_consolidation",
+  "counters": {
+    "auto_confirmed": 0,
+    "auto_replayed": 0,
+    "candidate_batches": 0,
+    "candidates_produced": 0,
+    "candidates_rejected": 0,
+    "facts_created": 0,
+    "facts_existing": 0,
+    "merged_candidates": 0,
+    "parse_completed": 27,
+    "parse_failed": 0,
+    "parse_skipped": 0,
+    "policy_skipped_absent": 0,
+    "policy_skipped_version": 0,
+    "reconciliation_closed": 0,
+    "reconciliation_pending": 0,
+    "relations_created": 0,
+    "relations_existing": 0,
+    "review_confirmed": 0,
+    "review_non_leaf": 0,
+    "review_pending": 0,
+    "review_rejected": 0,
+    "review_superseded": 0,
+    "skipped_no_positive_head": 0,
+    "skipped_non_leaf": 0,
+    "skipped_pending": 0,
+    "skipped_records": 0,
+    "skipped_rejected": 0,
+    "skipped_superseded": 0,
+    "temporal_candidates": 0,
+    "temporal_evidence_extracted": 0,
+    "zero_candidate_batches": 0
+  },
+  "effective_hashes": {
+    "effective_fact_count": 0,
+    "effective_fact_hash": "07259d961951a5402e700a8e010175e4fd4b99321ad455d98da3e471ece26a3c",
+    "effective_fact_support_count": 0,
+    "effective_registry_hash": "c3ff6c0a3e97178b586394f89eff291c9c22f3d01f6139c08e562917f0117200",
+    "effective_relation_count": 0,
+    "effective_relation_hash": "07259d961951a5402e700a8e010175e4fd4b99321ad455d98da3e471ece26a3c",
+    "effective_relation_support_count": 0
+  },
+  "exit_code": 3,
+  "mutations": false,
+  "options": {
+    "automatic_policies": [],
+    "corpus_path": "corpus/active",
+    "reconcile": false,
+    "rule_set_version": "1",
+    "stop_on_error": false,
+    "strict_review": false
+  },
+  "outcome": null,
+  "phases": [
+    {
+      "attempts": 1,
+      "name": "parse",
+      "result": {
+        "condition": "batch_parse",
+        "counters": {
+          "completed": 27,
+          "failed": 0,
+          "skipped": 0,
+          "total": 27
+        },
+        "exit_code": 0,
+        "items": [
+          {
+            "error": null,
+            "exit_code": 0,
+            "input_path": "corpus/active/database/dump_oracle_ddl.sql",
+            "item_id": "BITEM_000001",
+            "kind": "parse_ddl",
+            "outputs": {
+              "columns": 25,
+              "foreign_keys": 3,
+              "fragments": 38,
+              "tables": 4
+            },
+            "run_id": "RUN_000003",
+            "source_id": "SRC_000001",
+            "source_revision_id": "REV_000001",
+            "status": "completed"
+          },
+          {
+            "error": null,
+            "exit_code": 0,
+            "input_path": "corpus/active/documenti/nuovi_non_utili/istruzioni_parcheggio_2025.html",
+            "item_id": "BITEM_000002",
+            "kind": "normalize",
+            "outputs": {
+              "is_excel": false,
+              "normalized_hash": "2d6c44293d9218f6d8844bee6cccaa7d3e33444ac46b9f338b8c29f36d417614",
+              "normalized_markdown_path": "normalized/SRC_000002/REV_000002/normalized.md"
+            },
+            "run_id": "RUN_000004",
+            "source_id": "SRC_000002",
+            "source_revision_id": "REV_000002",
+            "status": "completed"
+          },
+          {
+            "error": null,
+            "exit_code": 0,
+            "input_path": "corpus/active/documenti/nuovi_non_utili/istruzioni_parcheggio_2025.html",
+            "item_id": "BITEM_000003",
+            "kind": "chunk",
+            "outputs": {
+              "chunks": 1,
+              "chunks_hash": "3146da414814c19d5d9cb73bdb45f07886aa2b8e21f82dfaf5ce80b3e65cee68"
+            },
+            "run_id": "RUN_000005",
+            "source_id": "SRC_000002",
+            "source_revision_id": "REV_000002",
+            "status": "completed"
+          },
+          {
+            "error": null,
+            "exit_code": 0,
+            "input_path": "corpus/active/documenti/nuovi_utili/calcolo_rate_macro_2025.xlsm",
+            "item_id": "BITEM_000004",
+            "kind": "normalize",
+            "outputs": {
+              "is_excel": true,
+              "normalized_hash": "40684b75600e12a65d87fd6657a461b5fde9941ee7c16e6713c6104d29337513",
+              "normalized_markdown_path": "normalized/SRC_000003/REV_000003/normalized.md"
+            },
+            "run_id": "RUN_000006",
+            "source_id": "SRC_000003",
+            "source_revision_id": "REV_000003",
+            "status": "completed"
+          },
+          {
+            "error": null,
+            "exit_code": 0,
+            "input_path": "corpus/active/documenti/nuovi_utili/calcolo_rate_macro_2025.xlsm",
+            "item_id": "BITEM_000005",
+            "kind": "chunk",
+            "outputs": {
+              "chunks": 1,
+              "chunks_hash": "c63bd6475800b0eccafdd35a4685813ff1d9d5964df91ee4ce0d68362cdbb282"
+            },
+            "run_id": "RUN_000007",
+            "source_id": "SRC_000003",
+            "source_revision_id": "REV_000003",
+            "status": "completed"
+          },
+          {
+            "error": null,
+            "exit_code": 0,
+            "input_path": "corpus/active/documenti/nuovi_utili/decorrenza_modernizzazione_2025.txt",
+            "item_id": "BITEM_000006",
+            "kind": "normalize",
+            "outputs": {
+              "is_excel": false,
+              "normalized_hash": "2651a7a3383a84db459ecc0918bbb69633f6ccf69953ffd64d6046d015040d60",
+              "normalized_markdown_path": "normalized/SRC_000004/REV_000004/normalized.md"
+            },
+            "run_id": "RUN_000008",
+            "source_id": "SRC_000004",
+            "source_revision_id": "REV_000004",
+            "status": "completed"
+          },
+          {
+            "error": null,
+            "exit_code": 0,
+            "input_path": "corpus/active/documenti/nuovi_utili/decorrenza_modernizzazione_2025.txt",
+            "item_id": "BITEM_000007",
+            "kind": "chunk",
+            "outputs": {
+              "chunks": 1,
+              "chunks_hash": "b3c1036ed4d6b2f1acdfe67636dbe2fe33e478d02248adbd6eacafd588321924"
+            },
+            "run_id": "RUN_000009",
+            "source_id": "SRC_000004",
+            "source_revision_id": "REV_000004",
+            "status": "completed"
+          },
+          {
+            "error": null,
+            "exit_code": 0,
+            "input_path": "corpus/active/documenti/nuovi_utili/manuale_ufficio_crediti_2024.docx",
+            "item_id": "BITEM_000008",
+            "kind": "normalize",
+            "outputs": {
+              "is_excel": false,
+              "normalized_hash": "92c82c78bfd49bd520b41b8d1ff32e950dbbe27a19bfde275bd5ba865d4215a9",
+              "normalized_markdown_path": "normalized/SRC_000005/REV_000005/normalized.md"
+            },
+            "run_id": "RUN_000010",
+            "source_id": "SRC_000005",
+            "source_revision_id": "REV_000005",
+            "status": "completed"
+          },
+          {
+            "error": null,
+            "exit_code": 0,
+            "input_path": "corpus/active/documenti/nuovi_utili/manuale_ufficio_crediti_2024.docx",
+            "item_id": "BITEM_000009",
+            "kind": "chunk",
+            "outputs": {
+              "chunks": 1,
+              "chunks_hash": "b8696855f7ae2e86aee75e3848e4db5c8ba24b3fc4e7977de23e67c30f62d0f9"
+            },
+            "run_id": "RUN_000011",
+            "source_id": "SRC_000005",
+            "source_revision_id": "REV_000005",
+            "status": "completed"
+          },
+          {
+            "error": null,
+            "exit_code": 0,
+            "input_path": "corpus/active/documenti/nuovi_utili/matrice_stati_2025.xlsx",
+            "item_id": "BITEM_000010",
+            "kind": "normalize",
+            "outputs": {
+              "is_excel": true,
+              "normalized_hash": "24523bcede353a28dd3869a7407d2b592ebf43be6508012a768df70bd7eee371",
+              "normalized_markdown_path": "normalized/SRC_000006/REV_000006/normalized.md"
+            },
+            "run_id": "RUN_000012",
+            "source_id": "SRC_000006",
+            "source_revision_id": "REV_000006",
+            "status": "completed"
+          },
+          {
+            "error": null,
+            "exit_code": 0,
+            "input_path": "corpus/active/documenti/nuovi_utili/matrice_stati_2025.xlsx",
+            "item_id": "BITEM_000011",
+            "kind": "chunk",
+            "outputs": {
+              "chunks": 1,
+              "chunks_hash": "d00d59c1ec9eefa8ab3cd199aa4025aa155cc4ee3f4655b9341e0010625dff93"
+            },
+            "run_id": "RUN_000013",
+            "source_id": "SRC_000006",
+            "source_revision_id": "REV_000006",
+            "status": "completed"
+          },
+          {
+            "error": null,
+            "exit_code": 0,
+            "input_path": "corpus/active/documenti/nuovi_utili/requisiti_modernizzazione_2025.md",
+            "item_id": "BITEM_000012",
+            "kind": "normalize",
+            "outputs": {
+              "is_excel": false,
+              "normalized_hash": "8072b5db431726ec1b6e39971fe54fdb7fcc8caa362091cf3ac98a51ed7e9100",
+              "normalized_markdown_path": "normalized/SRC_000007/REV_000007/normalized.md"
+            },
+            "run_id": "RUN_000014",
+            "source_id": "SRC_000007",
+            "source_revision_id": "REV_000007",
+            "status": "completed"
+          },
+          {
+            "error": null,
+            "exit_code": 0,
+            "input_path": "corpus/active/documenti/nuovi_utili/requisiti_modernizzazione_2025.md",
+            "item_id": "BITEM_000013",
+            "kind": "chunk",
+            "outputs": {
+              "chunks": 1,
+              "chunks_hash": "ab4385a90dde502693faa50b069c8037e67c1413d61de7cfd49d019de53b9718"
+            },
+            "run_id": "RUN_000015",
+            "source_id": "SRC_000007",
+            "source_revision_id": "REV_000007",
+            "status": "completed"
+          },
+          {
+            "error": null,
+            "exit_code": 0,
+            "input_path": "corpus/active/documenti/vecchi_non_utili/verbale_mensa_2013.docx",
+            "item_id": "BITEM_000014",
+            "kind": "normalize",
+            "outputs": {
+              "is_excel": false,
+              "normalized_hash": "28bd0754beff515ca0ae2b043cec672448d8dff3f2caa4d7f203062490c0d86d",
+              "normalized_markdown_path": "normalized/SRC_000008/REV_000008/normalized.md"
+            },
+            "run_id": "RUN_000016",
+            "source_id": "SRC_000008",
+            "source_revision_id": "REV_000008",
+            "status": "completed"
+          },
+          {
+            "error": null,
+            "exit_code": 0,
+            "input_path": "corpus/active/documenti/vecchi_non_utili/verbale_mensa_2013.docx",
+            "item_id": "BITEM_000015",
+            "kind": "chunk",
+            "outputs": {
+              "chunks": 1,
+              "chunks_hash": "65fac60dae357387a31c9fbb4fca6550f056405fa559e10caa8e1b89bb1c243a"
+            },
+            "run_id": "RUN_000017",
+            "source_id": "SRC_000008",
+            "source_revision_id": "REV_000008",
+            "status": "completed"
+          },
+          {
+            "error": null,
+            "exit_code": 0,
+            "input_path": "corpus/active/documenti/vecchi_utili/manuale_pratiche_2012.txt",
+            "item_id": "BITEM_000016",
+            "kind": "normalize",
+            "outputs": {
+              "is_excel": false,
+              "normalized_hash": "2a957a1a8fc987900813e2501d80d8397f8c4b2c2fcde8c4d0edd1c9d8447ccc",
+              "normalized_markdown_path": "normalized/SRC_000009/REV_000009/normalized.md"
+            },
+            "run_id": "RUN_000018",
+            "source_id": "SRC_000009",
+            "source_revision_id": "REV_000009",
+            "status": "completed"
+          },
+          {
+            "error": null,
+            "exit_code": 0,
+            "input_path": "corpus/active/documenti/vecchi_utili/manuale_pratiche_2012.txt",
+            "item_id": "BITEM_000017",
+            "kind": "chunk",
+            "outputs": {
+              "chunks": 1,
+              "chunks_hash": "864945b7e5c5b2349a8029e0683c4c90943e3503aac91e0f3f29de7e66896af8"
+            },
+            "run_id": "RUN_000019",
+            "source_id": "SRC_000009",
+            "source_revision_id": "REV_000009",
+            "status": "completed"
+          },
+          {
+            "error": null,
+            "exit_code": 0,
+            "input_path": "corpus/active/documenti/vecchi_utili/regole_calcolo_rate_2016.html",
+            "item_id": "BITEM_000018",
+            "kind": "normalize",
+            "outputs": {
+              "is_excel": false,
+              "normalized_hash": "f027203745c541cec75c107eff379235a7c34b395cea24f128aaf3120c63e739",
+              "normalized_markdown_path": "normalized/SRC_000010/REV_000010/normalized.md"
+            },
+            "run_id": "RUN_000020",
+            "source_id": "SRC_000010",
+            "source_revision_id": "REV_000010",
+            "status": "completed"
+          },
+          {
+            "error": null,
+            "exit_code": 0,
+            "input_path": "corpus/active/documenti/vecchi_utili/regole_calcolo_rate_2016.html",
+            "item_id": "BITEM_000019",
+            "kind": "chunk",
+            "outputs": {
+              "chunks": 1,
+              "chunks_hash": "ed5e80500eefba29a634d448f2c31eeb284b870ae454a8eec903bb1f04247ef8"
+            },
+            "run_id": "RUN_000021",
+            "source_id": "SRC_000010",
+            "source_revision_id": "REV_000010",
+            "status": "completed"
+          },
+          {
+            "error": null,
+            "exit_code": 0,
+            "input_path": "corpus/active/forms/FRM_CLIENTE.xml",
+            "item_id": "BITEM_000020",
+            "kind": "parse_xml_form",
+            "outputs": {
+              "fields": 6,
+              "forms": 1,
+              "fragments": 9
+            },
+            "run_id": "RUN_000022",
+            "source_id": "SRC_000011",
+            "source_revision_id": "REV_000011",
+            "status": "completed"
+          },
+          {
+            "error": null,
+            "exit_code": 0,
+            "input_path": "corpus/active/forms/FRM_PIANO_RATE.xml",
+            "item_id": "BITEM_000021",
+            "kind": "parse_xml_form",
+            "outputs": {
+              "fields": 8,
+              "forms": 1,
+              "fragments": 11
+            },
+            "run_id": "RUN_000023",
+            "source_id": "SRC_000012",
+            "source_revision_id": "REV_000012",
+            "status": "completed"
+          },
+          {
+            "error": null,
+            "exit_code": 0,
+            "input_path": "corpus/active/forms/FRM_PRATICA.xml",
+            "item_id": "BITEM_000022",
+            "kind": "parse_xml_form",
+            "outputs": {
+              "fields": 7,
+              "forms": 1,
+              "fragments": 10
+            },
+            "run_id": "RUN_000024",
+            "source_id": "SRC_000013",
+            "source_revision_id": "REV_000013",
+            "status": "completed"
+          },
+          {
+            "error": null,
+            "exit_code": 0,
+            "input_path": "corpus/active/logs/batch_piano_rate_2025.log",
+            "item_id": "BITEM_000023",
+            "kind": "parse_log",
+            "outputs": {
+              "events": 5,
+              "fragments": 5,
+              "warnings": 1
+            },
+            "run_id": "RUN_000025",
+            "source_id": "SRC_000014",
+            "source_revision_id": "REV_000014",
+            "status": "completed"
+          },
+          {
+            "error": null,
+            "exit_code": 0,
+            "input_path": "corpus/active/logs/pagamenti_2025.log",
+            "item_id": "BITEM_000024",
+            "kind": "parse_log",
+            "outputs": {
+              "events": 4,
+              "fragments": 4,
+              "warnings": 0
+            },
+            "run_id": "RUN_000026",
+            "source_id": "SRC_000015",
+            "source_revision_id": "REV_000015",
+            "status": "completed"
+          },
+          {
+            "error": null,
+            "exit_code": 0,
+            "input_path": "corpus/active/plsql/PRC_GENERA_PIANO.sql",
+            "item_id": "BITEM_000025",
+            "kind": "parse_db_code",
+            "outputs": {
+              "fragments": 2,
+              "procedures": 1,
+              "statements": 1,
+              "triggers": 0
+            },
+            "run_id": "RUN_000027",
+            "source_id": "SRC_000016",
+            "source_revision_id": "REV_000016",
+            "status": "completed"
+          },
+          {
+            "error": null,
+            "exit_code": 0,
+            "input_path": "corpus/active/plsql/PRC_REGISTRA_PAGAMENTO.sql",
+            "item_id": "BITEM_000026",
+            "kind": "parse_db_code",
+            "outputs": {
+              "fragments": 3,
+              "procedures": 1,
+              "statements": 2,
+              "triggers": 0
+            },
+            "run_id": "RUN_000028",
+            "source_id": "SRC_000017",
+            "source_revision_id": "REV_000017",
+            "status": "completed"
+          },
+          {
+            "error": null,
+            "exit_code": 0,
+            "input_path": "corpus/active/plsql/TRG_PRATICA_APPROVA.sql",
+            "item_id": "BITEM_000027",
+            "kind": "parse_db_code",
+            "outputs": {
+              "fragments": 2,
+              "procedures": 0,
+              "statements": 1,
+              "triggers": 1
+            },
+            "run_id": "RUN_000029",
+            "source_id": "SRC_000018",
+            "source_revision_id": "REV_000018",
+            "status": "completed"
+          }
+        ],
+        "reason": "success",
+        "report_path": "artifacts/runs/RUN_000002/batch_report.json",
+        "run_id": "RUN_000002",
+        "source_revision_ids": [
+          "REV_000001",
+          "REV_000002",
+          "REV_000003",
+          "REV_000004",
+          "REV_000005",
+          "REV_000006",
+          "REV_000007",
+          "REV_000008",
+          "REV_000009",
+          "REV_000010",
+          "REV_000011",
+          "REV_000012",
+          "REV_000013",
+          "REV_000014",
+          "REV_000015",
+          "REV_000016",
+          "REV_000017",
+          "REV_000018"
+        ],
+        "status": "completed",
+        "structured_sources": [
+          {
+            "kind": "parse_ddl",
+            "source_revision_id": "REV_000001"
+          },
+          {
+            "kind": "normalize_excel",
+            "source_revision_id": "REV_000003"
+          },
+          {
+            "kind": "normalize_excel",
+            "source_revision_id": "REV_000006"
+          },
+          {
+            "kind": "parse_xml_form",
+            "source_revision_id": "REV_000011"
+          },
+          {
+            "kind": "parse_xml_form",
+            "source_revision_id": "REV_000012"
+          },
+          {
+            "kind": "parse_xml_form",
+            "source_revision_id": "REV_000013"
+          },
+          {
+            "kind": "parse_log",
+            "source_revision_id": "REV_000014"
+          },
+          {
+            "kind": "parse_log",
+            "source_revision_id": "REV_000015"
+          },
+          {
+            "kind": "parse_db_code",
+            "source_revision_id": "REV_000016"
+          },
+          {
+            "kind": "parse_db_code",
+            "source_revision_id": "REV_000017"
+          },
+          {
+            "kind": "parse_db_code",
+            "source_revision_id": "REV_000018"
+          }
+        ]
+      },
+      "status": "completed",
+      "transitions": [
+        {
+          "from": "pending",
+          "to": "running"
+        },
+        {
+          "from": "running",
+          "to": "completed"
+        }
+      ]
+    },
+    {
+      "attempts": 1,
+      "name": "derive",
+      "result": {
+        "error": "Excel preflight requires an .xlsx or .xlsm name.",
+        "exit_code": 3,
+        "reason": "ooxml_security_violation",
+        "status": "failed"
+      },
+      "status": "failed",
+      "transitions": [
+        {
+          "from": "pending",
+          "to": "running"
+        },
+        {
+          "from": "running",
+          "to": "failed"
+        }
+      ]
+    },
+    {
+      "attempts": 0,
+      "name": "review",
+      "result": {
+        "reason": "previous_phase_failed",
+        "status": "skipped"
+      },
+      "status": "skipped",
+      "transitions": [
+        {
+          "from": "pending",
+          "to": "skipped"
+        }
+      ]
+    },
+    {
+      "attempts": 0,
+      "name": "merge",
+      "result": {
+        "reason": "previous_phase_failed",
+        "status": "skipped"
+      },
+      "status": "skipped",
+      "transitions": [
+        {
+          "from": "pending",
+          "to": "skipped"
+        }
+      ]
+    },
+    {
+      "attempts": 0,
+      "name": "reconcile",
+      "result": {
+        "reason": "previous_phase_failed",
+        "status": "skipped"
+      },
+      "status": "skipped",
+      "transitions": [
+        {
+          "from": "pending",
+          "to": "skipped"
+        }
+      ]
+    }
+  ],
+  "reason": "ooxml_security_violation",
+  "retry_of": null,
+  "retryable": true,
+  "run_id": "RUN_000001",
+  "schema_version": "2",
+  "semantic_report_hash": "ab5f0af0e2961ce79f18f0d6fb278b560a2ada94c8a76918b92ab4ef0dd576ab",
+  "severity": "error",
+  "status": "failed",
+  "subject_ids": []
+}

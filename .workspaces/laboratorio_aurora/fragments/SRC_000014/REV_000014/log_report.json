@@ -1,0 +1,137 @@
+{
+  "component_count": 1,
+  "components": [
+    "BATCH_PIANO_RATE"
+  ],
+  "event_count": 5,
+  "fragment_count": 5,
+  "fragments": [
+    {
+      "fragment_id": "FRAG_000075",
+      "fragment_type": "log_event",
+      "path_or_selector": "log/line:1",
+      "sequence": 1,
+      "status": "active",
+      "text_hash": "3bc6de2345e9a199470b8d465d7465360bc1a9bd3b07e1252b17b625fb412a5a"
+    },
+    {
+      "fragment_id": "FRAG_000076",
+      "fragment_type": "log_event",
+      "path_or_selector": "log/line:2",
+      "sequence": 2,
+      "status": "active",
+      "text_hash": "e00d9c7f02259918fe9b5a0419a5c8bafb976aa5b418fd46fbd2a3695e36ab2e"
+    },
+    {
+      "fragment_id": "FRAG_000077",
+      "fragment_type": "log_event",
+      "path_or_selector": "log/line:3",
+      "sequence": 3,
+      "status": "active",
+      "text_hash": "9f05859af70f8f35d505649999c03b641ddfe80219a088fab7111e1bc7b73c4a"
+    },
+    {
+      "fragment_id": "FRAG_000078",
+      "fragment_type": "log_event",
+      "path_or_selector": "log/line:4",
+      "sequence": 4,
+      "status": "active",
+      "text_hash": "95c7f3506850965592c2305678838d45ce893aa59eee5910de8c47f1f7948528"
+    },
+    {
+      "fragment_id": "FRAG_000079",
+      "fragment_type": "log_event",
+      "path_or_selector": "log/line:5",
+      "sequence": 5,
+      "status": "active",
+      "text_hash": "fefbece2f25db40d251eb269e2588d4aea0e045ac63e1d3803dfab06df7504e7"
+    }
+  ],
+  "fragments_hash": "7e1d120c1efdfdb3e1d944f20c5750a6f087f4c5e87568826985d9b40dcfb767",
+  "input": {
+    "input_path": "corpus/active/logs/batch_piano_rate_2025.log",
+    "source_hash": "1c00ddff194038ba0546a34b4d5727d9c7f6b151b8ffb9bc9a9fe145807e42aa",
+    "source_id": "SRC_000014",
+    "source_revision_id": "REV_000014"
+  },
+  "log_objects": {
+    "events": [
+      {
+        "component": "BATCH_PIANO_RATE",
+        "event_kind": "start",
+        "level": "INFO",
+        "message": "start",
+        "observed_identifiers": {},
+        "timestamp": "2025-11-20 22:00:01"
+      },
+      {
+        "component": "BATCH_PIANO_RATE",
+        "event_kind": "unknown",
+        "level": "INFO",
+        "message": "generated plan ID_PRATICA=41001 RATE=36",
+        "observed_identifiers": {
+          "ID_PRATICA": "41001",
+          "RATE": "36"
+        },
+        "timestamp": "2025-11-20 22:00:03"
+      },
+      {
+        "component": "BATCH_PIANO_RATE",
+        "event_kind": "unknown",
+        "level": "INFO",
+        "message": "generated plan ID_PRATICA=41002 RATE=24",
+        "observed_identifiers": {
+          "ID_PRATICA": "41002",
+          "RATE": "24"
+        },
+        "timestamp": "2025-11-20 22:00:04"
+      },
+      {
+        "component": "BATCH_PIANO_RATE",
+        "event_kind": "warning",
+        "level": "WARN",
+        "message": "missing rate ID_PRATICA=41003 TASSO=0",
+        "observed_identifiers": {
+          "ID_PRATICA": "41003",
+          "TASSO": "0"
+        },
+        "timestamp": "2025-11-20 22:00:05"
+      },
+      {
+        "component": "BATCH_PIANO_RATE",
+        "event_kind": "end",
+        "level": "INFO",
+        "message": "end processed=3 warnings=1",
+        "observed_identifiers": {
+          "processed": "3",
+          "warnings": "1"
+        },
+        "timestamp": "2025-11-20 22:00:07"
+      }
+    ],
+    "warnings": []
+  },
+  "outputs": {
+    "fragments_jsonl_path": "fragments/SRC_000014/REV_000014/fragments.jsonl",
+    "log_report_path": "fragments/SRC_000014/REV_000014/log_report.json"
+  },
+  "parser": "line_regex",
+  "profile": "log.default",
+  "resolved_config": {
+    "log": {
+      "output_fragments_jsonl": true,
+      "parser": "line_regex",
+      "strict_options_fail_on_unsupported_option": true
+    },
+    "worker": {
+      "name": "parse_log",
+      "version": "1.0"
+    }
+  },
+  "run_id": "RUN_000025",
+  "status": "completed",
+  "warning_count": 1,
+  "warnings": [],
+  "worker_name": "parse_log",
+  "worker_version": "1.0"
+}

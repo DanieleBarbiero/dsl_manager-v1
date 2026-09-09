@@ -1,0 +1,43 @@
+{
+  "artifact_dir": "artifacts/runs/RUN_000026",
+  "fragment_id_by_sequence": {},
+  "input": {
+    "fragment_id_by_sequence": {},
+    "input_path": "corpus/active/logs/pagamenti_2025.log",
+    "log_options": {
+      "output_fragments_jsonl": true,
+      "parser": "line_regex",
+      "strict_options_fail_on_unsupported_option": true
+    },
+    "next_fragment_number": 80,
+    "output_dir": "fragments/SRC_000015/REV_000015",
+    "profile": "log.default",
+    "source_hash": "d04529bddb6567abf9dc60874046912ffe741cea523088bc1495ae0d27e55008",
+    "source_id": "SRC_000015",
+    "source_revision_id": "REV_000015",
+    "worker_config": {
+      "name": "parse_log",
+      "version": "1.0"
+    }
+  },
+  "input_path": "corpus/active/logs/pagamenti_2025.log",
+  "log_options": {
+    "output_fragments_jsonl": true,
+    "parser": "line_regex",
+    "strict_options_fail_on_unsupported_option": true
+  },
+  "next_fragment_number": 80,
+  "output_dir": "fragments/SRC_000015/REV_000015",
+  "profile": "log.default",
+  "run_id": "RUN_000026",
+  "run_type": "parse_log",
+  "source_hash": "d04529bddb6567abf9dc60874046912ffe741cea523088bc1495ae0d27e55008",
+  "source_id": "SRC_000015",
+  "source_revision_id": "REV_000015",
+  "worker_config": {
+    "name": "parse_log",
+    "version": "1.0"
+  },
+  "worker_name": "parse_log",
+  "worker_version": "1.0"
+}

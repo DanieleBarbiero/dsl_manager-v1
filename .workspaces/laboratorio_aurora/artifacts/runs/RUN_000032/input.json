@@ -1,0 +1,11 @@
+{
+  "artifact_dir": "artifacts/runs/RUN_000032",
+  "parameters": {
+    "rule": "ddl_table_fact/1",
+    "rule_set_version": "1",
+    "source_revision_id": "REV_000001"
+  },
+  "parent_run_id": "RUN_000001",
+  "run_id": "RUN_000032",
+  "run_type": "candidate_derivation"
+}

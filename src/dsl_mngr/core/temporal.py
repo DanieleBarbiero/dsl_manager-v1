@@ -16,7 +16,11 @@ from dsl_mngr.core.candidate_import import CandidateImportResult, import_candida
 from dsl_mngr.core.canonical import canonical_json_v1, canonical_sha256_v1
 from dsl_mngr.core.config import load_config
 from dsl_mngr.core.database import open_database, resolve_database_settings, resolve_workspace_path
-from dsl_mngr.core.ooxml_preflight import ExcelLimits, acquire_source_once, preflight_ooxml
+from dsl_mngr.core.ooxml_preflight import (
+    ExcelLimits,
+    acquire_source_once,
+    preflight_ooxml_metadata,
+)
 from dsl_mngr.core.runs import next_id, timestamp_now, validate_database_migrations
 
 
@@ -100,7 +104,7 @@ def extract_ooxml_temporal_evidence(
         expected_hash=str(revision["content_hash"]),
         max_file_bytes=limits.max_file_bytes,
     )
-    preflight_ooxml(
+    preflight_ooxml_metadata(
         acquired.cursor(),
         original_name=Path(str(revision["file_path"])).name,
         source_hash=acquired.sha256,

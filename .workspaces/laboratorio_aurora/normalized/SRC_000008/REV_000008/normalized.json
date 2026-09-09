@@ -1,0 +1,131 @@
+{
+  "body": {
+    "children": [
+      {
+        "$ref": "#/groups/0"
+      }
+    ],
+    "content_layer": "body",
+    "label": "unspecified",
+    "name": "_root_",
+    "self_ref": "#/body"
+  },
+  "form_items": [],
+  "furniture": {
+    "children": [],
+    "content_layer": "furniture",
+    "label": "unspecified",
+    "name": "_root_",
+    "self_ref": "#/furniture"
+  },
+  "groups": [
+    {
+      "children": [
+        {
+          "$ref": "#/texts/0"
+        }
+      ],
+      "content_layer": "body",
+      "label": "section",
+      "name": "header-0",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "self_ref": "#/groups/0"
+    }
+  ],
+  "key_value_items": [],
+  "name": "verbale_mensa_2013",
+  "origin": {
+    "binary_hash": 13638092073857842365,
+    "filename": "verbale_mensa_2013.docx",
+    "mimetype": "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+  },
+  "pages": {},
+  "pictures": [],
+  "schema_name": "DoclingDocument",
+  "tables": [],
+  "texts": [
+    {
+      "children": [
+        {
+          "$ref": "#/texts/1"
+        },
+        {
+          "$ref": "#/texts/2"
+        },
+        {
+          "$ref": "#/texts/3"
+        }
+      ],
+      "content_layer": "body",
+      "label": "section_header",
+      "level": 1,
+      "orig": "Verbale della commissione mensa",
+      "parent": {
+        "$ref": "#/groups/0"
+      },
+      "prov": [],
+      "self_ref": "#/texts/0",
+      "text": "Verbale della commissione mensa"
+    },
+    {
+      "children": [],
+      "content_layer": "body",
+      "formatting": {
+        "bold": false,
+        "italic": false,
+        "script": "baseline",
+        "strikethrough": false,
+        "underline": false
+      },
+      "label": "text",
+      "orig": "Riunione del 14 maggio 2013.",
+      "parent": {
+        "$ref": "#/texts/0"
+      },
+      "prov": [],
+      "self_ref": "#/texts/1",
+      "text": "Riunione del 14 maggio 2013."
+    },
+    {
+      "children": [],
+      "content_layer": "body",
+      "formatting": {
+        "bold": false,
+        "italic": false,
+        "script": "baseline",
+        "strikethrough": false,
+        "underline": false
+      },
+      "label": "text",
+      "orig": "La commissione approva il menù estivo e richiede una seconda opzione vegetariana ogni mercoledì.",
+      "parent": {
+        "$ref": "#/texts/0"
+      },
+      "prov": [],
+      "self_ref": "#/texts/2",
+      "text": "La commissione approva il menù estivo e richiede una seconda opzione vegetariana ogni mercoledì."
+    },
+    {
+      "children": [],
+      "content_layer": "body",
+      "formatting": {
+        "bold": false,
+        "italic": false,
+        "script": "baseline",
+        "strikethrough": false,
+        "underline": false
+      },
+      "label": "text",
+      "orig": "Questo verbale non contiene requisiti, dati, regole o comportamenti dell'applicazione Aurora Prestiti.",
+      "parent": {
+        "$ref": "#/texts/0"
+      },
+      "prov": [],
+      "self_ref": "#/texts/3",
+      "text": "Questo verbale non contiene requisiti, dati, regole o comportamenti dell'applicazione Aurora Prestiti."
+    }
+  ],
+  "version": "1.10.0"
+}

@@ -1,0 +1,38 @@
+{
+  "chunk_count": 1,
+  "chunks": [
+    {
+      "chunk_id": "CHK_000004",
+      "end_char": 902,
+      "heading_path": [
+        "Manuale dell'ufficio crediti",
+        "Apertura della pratica",
+        "Eccezioni"
+      ],
+      "sequence": 1,
+      "start_char": 0,
+      "status": "active",
+      "text_hash": "92c82c78bfd49bd520b41b8d1ff32e950dbbe27a19bfde275bd5ba865d4215a9"
+    }
+  ],
+  "chunks_hash": "b8696855f7ae2e86aee75e3848e4db5c8ba24b3fc4e7977de23e67c30f62d0f9",
+  "input": {
+    "normalized_hash": "92c82c78bfd49bd520b41b8d1ff32e950dbbe27a19bfde275bd5ba865d4215a9",
+    "normalized_json_path": "normalized/SRC_000005/REV_000005/normalized.json",
+    "normalized_markdown_path": "normalized/SRC_000005/REV_000005/normalized.md",
+    "source_hash": "05074499275e3ddb2eea338de17ec4269772ec2e0cf4337dbdada6100ac0efc3",
+    "source_hash_path": "normalized/SRC_000005/REV_000005/source_hash.txt",
+    "source_id": "SRC_000005",
+    "source_revision_id": "REV_000005"
+  },
+  "outputs": {
+    "chunk_report_path": "chunks/SRC_000005/REV_000005/chunk_report.json",
+    "chunks_jsonl_path": "chunks/SRC_000005/REV_000005/chunks.jsonl"
+  },
+  "profile": "docling.chunking",
+  "run_id": "RUN_000011",
+  "status": "completed",
+  "strategy": "heading_paragraph",
+  "worker_name": "chunk_docling",
+  "worker_version": "1.0"
+}

@@ -1,0 +1,356 @@
+{
+  "body": {
+    "children": [
+      {
+        "$ref": "#/texts/0"
+      },
+      {
+        "$ref": "#/texts/1"
+      },
+      {
+        "$ref": "#/texts/2"
+      },
+      {
+        "$ref": "#/groups/0"
+      },
+      {
+        "$ref": "#/texts/5"
+      },
+      {
+        "$ref": "#/texts/6"
+      },
+      {
+        "$ref": "#/texts/7"
+      },
+      {
+        "$ref": "#/texts/8"
+      },
+      {
+        "$ref": "#/texts/9"
+      },
+      {
+        "$ref": "#/texts/10"
+      },
+      {
+        "$ref": "#/texts/11"
+      },
+      {
+        "$ref": "#/texts/12"
+      },
+      {
+        "$ref": "#/texts/13"
+      },
+      {
+        "$ref": "#/texts/14"
+      },
+      {
+        "$ref": "#/texts/15"
+      },
+      {
+        "$ref": "#/texts/16"
+      },
+      {
+        "$ref": "#/texts/17"
+      },
+      {
+        "$ref": "#/texts/18"
+      },
+      {
+        "$ref": "#/texts/19"
+      }
+    ],
+    "content_layer": "body",
+    "label": "unspecified",
+    "name": "_root_",
+    "self_ref": "#/body"
+  },
+  "form_items": [],
+  "furniture": {
+    "children": [],
+    "content_layer": "furniture",
+    "label": "unspecified",
+    "name": "_root_",
+    "self_ref": "#/furniture"
+  },
+  "groups": [
+    {
+      "children": [
+        {
+          "$ref": "#/texts/3"
+        },
+        {
+          "$ref": "#/texts/4"
+        }
+      ],
+      "content_layer": "body",
+      "label": "inline",
+      "name": "group",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "self_ref": "#/groups/0"
+    }
+  ],
+  "key_value_items": [],
+  "name": "requisiti_modernizzazione_2025",
+  "origin": {
+    "binary_hash": 4419385665942639526,
+    "filename": "requisiti_modernizzazione_2025.md",
+    "mimetype": "text/markdown"
+  },
+  "pages": {},
+  "pictures": [],
+  "schema_name": "DoclingDocument",
+  "tables": [],
+  "texts": [
+    {
+      "children": [],
+      "content_layer": "body",
+      "label": "title",
+      "orig": "Requisiti di modernizzazione di Aurora Prestiti",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "prov": [],
+      "self_ref": "#/texts/0",
+      "text": "Requisiti di modernizzazione di Aurora Prestiti"
+    },
+    {
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "orig": "Versione approvata il 18 novembre 2025.",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "prov": [],
+      "self_ref": "#/texts/1",
+      "text": "Versione approvata il 18 novembre 2025."
+    },
+    {
+      "captions": [],
+      "children": [],
+      "code_language": "unknown",
+      "content_layer": "body",
+      "footnotes": [],
+      "label": "code",
+      "orig": "valid_from: 2025-11-18",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "prov": [],
+      "references": [],
+      "self_ref": "#/texts/2",
+      "text": "valid_from: 2025-11-18"
+    },
+    {
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "orig": "La decorrenza e' una dichiarazione di contenuto da sottoporre a revisione: non",
+      "parent": {
+        "$ref": "#/groups/0"
+      },
+      "prov": [],
+      "self_ref": "#/texts/3",
+      "text": "La decorrenza e' una dichiarazione di contenuto da sottoporre a revisione: non"
+    },
+    {
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "orig": "trasforma automaticamente la data del documento nella validita' di ogni regola.",
+      "parent": {
+        "$ref": "#/groups/0"
+      },
+      "prov": [],
+      "self_ref": "#/texts/4",
+      "text": "trasforma automaticamente la data del documento nella validita' di ogni regola."
+    },
+    {
+      "children": [],
+      "content_layer": "body",
+      "label": "section_header",
+      "level": 1,
+      "orig": "Perimetro",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "prov": [],
+      "self_ref": "#/texts/5",
+      "text": "Perimetro"
+    },
+    {
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "orig": "Aurora Prestiti gestisce richieste di prestito personale presentate da clienti maggiorenni. Una richiesta registrata nel sistema è chiamata PraticaPrestito.",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "prov": [],
+      "self_ref": "#/texts/6",
+      "text": "Aurora Prestiti gestisce richieste di prestito personale presentate da clienti maggiorenni. Una richiesta registrata nel sistema è chiamata PraticaPrestito."
+    },
+    {
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "orig": "Ogni PraticaPrestito appartiene a un solo Cliente. Un Cliente può presentare più pratiche nel tempo.",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "prov": [],
+      "self_ref": "#/texts/7",
+      "text": "Ogni PraticaPrestito appartiene a un solo Cliente. Un Cliente può presentare più pratiche nel tempo."
+    },
+    {
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "orig": "Ogni pratica approvata genera un piano composto da una o più Rate. Un Pagamento può saldare una sola Rata; una Rata può ricevere più tentativi di pagamento, ma un solo pagamento con esito CONTABILIZZATO.",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "prov": [],
+      "self_ref": "#/texts/8",
+      "text": "Ogni pratica approvata genera un piano composto da una o più Rate. Un Pagamento può saldare una sola Rata; una Rata può ricevere più tentativi di pagamento, ma un solo pagamento con esito CONTABILIZZATO."
+    },
+    {
+      "children": [],
+      "content_layer": "body",
+      "label": "section_header",
+      "level": 1,
+      "orig": "Stati correnti",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "prov": [],
+      "self_ref": "#/texts/9",
+      "text": "Stati correnti"
+    },
+    {
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "orig": "Gli stati ammessi per una PraticaPrestito sono: INSERITA, IN_ISTRUTTORIA, APPROVATA, RIFIUTATA, EROGATA, ESTINTA.",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "prov": [],
+      "self_ref": "#/texts/10",
+      "text": "Gli stati ammessi per una PraticaPrestito sono: INSERITA, IN_ISTRUTTORIA, APPROVATA, RIFIUTATA, EROGATA, ESTINTA."
+    },
+    {
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "orig": "Il passaggio da IN_ISTRUTTORIA ad APPROVATA richiede un importo non superiore a 60000 euro e una durata compresa fra 6 e 84 mesi.",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "prov": [],
+      "self_ref": "#/texts/11",
+      "text": "Il passaggio da IN_ISTRUTTORIA ad APPROVATA richiede un importo non superiore a 60000 euro e una durata compresa fra 6 e 84 mesi."
+    },
+    {
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "orig": "Quando la pratica passa ad APPROVATA, il sistema registra la data di approvazione.",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "prov": [],
+      "self_ref": "#/texts/12",
+      "text": "Quando la pratica passa ad APPROVATA, il sistema registra la data di approvazione."
+    },
+    {
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "orig": "Una pratica RIFIUTATA non può tornare in istruttoria senza l'apertura di una nuova pratica.",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "prov": [],
+      "self_ref": "#/texts/13",
+      "text": "Una pratica RIFIUTATA non può tornare in istruttoria senza l'apertura di una nuova pratica."
+    },
+    {
+      "children": [],
+      "content_layer": "body",
+      "label": "section_header",
+      "level": 1,
+      "orig": "Regole sul cliente",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "prov": [],
+      "self_ref": "#/texts/14",
+      "text": "Regole sul cliente"
+    },
+    {
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "orig": "Il cliente è identificato dal codice fiscale. La data di nascita è obbligatoria.",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "prov": [],
+      "self_ref": "#/texts/15",
+      "text": "Il cliente è identificato dal codice fiscale. La data di nascita è obbligatoria."
+    },
+    {
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "orig": "Non è consentito approvare una pratica se il cliente ha meno di 18 anni alla data della richiesta.",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "prov": [],
+      "self_ref": "#/texts/16",
+      "text": "Non è consentito approvare una pratica se il cliente ha meno di 18 anni alla data della richiesta."
+    },
+    {
+      "children": [],
+      "content_layer": "body",
+      "label": "section_header",
+      "level": 1,
+      "orig": "Obiettivi del nuovo sistema",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "prov": [],
+      "self_ref": "#/texts/17",
+      "text": "Obiettivi del nuovo sistema"
+    },
+    {
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "orig": "Il nuovo sistema deve conservare la tracciabilità fra regola di business, dato tecnico, schermata e comportamento osservato.",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "prov": [],
+      "self_ref": "#/texts/18",
+      "text": "Il nuovo sistema deve conservare la tracciabilità fra regola di business, dato tecnico, schermata e comportamento osservato."
+    },
+    {
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "orig": "Le informazioni storiche in conflitto non devono essere cancellate: devono essere segnalate per la revisione umana.",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "prov": [],
+      "self_ref": "#/texts/19",
+      "text": "Le informazioni storiche in conflitto non devono essere cancellate: devono essere segnalate per la revisione umana."
+    }
+  ],
+  "version": "1.10.0"
+}

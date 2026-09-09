@@ -1,0 +1,616 @@
+{
+  "button_count": 2,
+  "edit_relation_count": 2,
+  "edit_relations": [
+    {
+      "field_names": [
+        "ID_PAGAMENTO",
+        "ESITO_PAGAMENTO"
+      ],
+      "relation_type": "edits",
+      "source_form": "FRM_PIANO_RATE",
+      "target_table": "PRT_PAGAMENTO"
+    },
+    {
+      "field_names": [
+        "ID_RATA",
+        "ID_PRATICA",
+        "NUMERO_RATA",
+        "DATA_SCADENZA",
+        "IMPORTO_RATA",
+        "STATO_RATA"
+      ],
+      "relation_type": "edits",
+      "source_form": "FRM_PIANO_RATE",
+      "target_table": "PRT_RATA"
+    }
+  ],
+  "exit_code": 0,
+  "field_count": 8,
+  "form_count": 1,
+  "fragment_count": 11,
+  "fragments": [
+    {
+      "char_end": 1001,
+      "char_start": 39,
+      "fragment_id": "FRAG_000054",
+      "fragment_type": "xml_form",
+      "line_end": 13,
+      "line_start": 2,
+      "metadata": {
+        "button_count": 2,
+        "edit_relations": [
+          {
+            "field_names": [
+              "ID_PAGAMENTO",
+              "ESITO_PAGAMENTO"
+            ],
+            "relation_type": "edits",
+            "source_form": "FRM_PIANO_RATE",
+            "target_table": "PRT_PAGAMENTO"
+          },
+          {
+            "field_names": [
+              "ID_RATA",
+              "ID_PRATICA",
+              "NUMERO_RATA",
+              "DATA_SCADENZA",
+              "IMPORTO_RATA",
+              "STATO_RATA"
+            ],
+            "relation_type": "edits",
+            "source_form": "FRM_PIANO_RATE",
+            "target_table": "PRT_RATA"
+          }
+        ],
+        "field_count": 8,
+        "form_name": "FRM_PIANO_RATE",
+        "object_type": "form",
+        "parser": "parse_xml_form",
+        "parser_version": "1.0",
+        "required_field_count": 6,
+        "source_hash": "c401a94ee1683638cbb391f0a52a13b118082bac19af41fd0c82729cd9a3730d",
+        "table_column_references": [
+          {
+            "column_name": "ID_RATA",
+            "field_name": "ID_RATA",
+            "table_name": "PRT_RATA"
+          },
+          {
+            "column_name": "ID_PRATICA",
+            "field_name": "ID_PRATICA",
+            "table_name": "PRT_RATA"
+          },
+          {
+            "column_name": "NUMERO_RATA",
+            "field_name": "NUMERO_RATA",
+            "table_name": "PRT_RATA"
+          },
+          {
+            "column_name": "DATA_SCADENZA",
+            "field_name": "DATA_SCADENZA",
+            "table_name": "PRT_RATA"
+          },
+          {
+            "column_name": "IMPORTO",
+            "field_name": "IMPORTO_RATA",
+            "table_name": "PRT_RATA"
+          },
+          {
+            "column_name": "STATO",
+            "field_name": "STATO_RATA",
+            "table_name": "PRT_RATA"
+          },
+          {
+            "column_name": "ID_PAGAMENTO",
+            "field_name": "ID_PAGAMENTO",
+            "table_name": "PRT_PAGAMENTO"
+          },
+          {
+            "column_name": "ESITO",
+            "field_name": "ESITO_PAGAMENTO",
+            "table_name": "PRT_PAGAMENTO"
+          }
+        ],
+        "table_references": [
+          "PRT_PAGAMENTO",
+          "PRT_RATA"
+        ],
+        "title": "Piano rate e pagamenti"
+      },
+      "path_or_selector": "/form[@name='FRM_PIANO_RATE']",
+      "sequence": 1,
+      "source_revision_id": "REV_000012",
+      "status": "active",
+      "text": "<form name=\"FRM_PIANO_RATE\" title=\"Piano rate e pagamenti\">\n  <field name=\"ID_RATA\" label=\"Identificativo rata\" table=\"PRT_RATA\" column=\"ID_RATA\" required=\"true\"/>\n  <field name=\"ID_PRATICA\" label=\"Pratica\" table=\"PRT_RATA\" column=\"ID_PRATICA\" required=\"true\"/>\n  <field name=\"NUMERO_RATA\" label=\"Numero rata\" table=\"PRT_RATA\" column=\"NUMERO_RATA\" required=\"true\"/>\n  <field name=\"DATA_SCADENZA\" label=\"Scadenza\" table=\"PRT_RATA\" column=\"DATA_SCADENZA\" required=\"true\"/>\n  <field name=\"IMPORTO_RATA\" label=\"Importo rata\" table=\"PRT_RATA\" column=\"IMPORTO\" required=\"true\"/>\n  <field name=\"STATO_RATA\" label=\"Stato rata\" table=\"PRT_RATA\" column=\"STATO\" required=\"true\"/>\n  <field name=\"ID_PAGAMENTO\" label=\"Pagamento\" table=\"PRT_PAGAMENTO\" column=\"ID_PAGAMENTO\"/>\n  <field name=\"ESITO_PAGAMENTO\" label=\"Esito pagamento\" table=\"PRT_PAGAMENTO\" column=\"ESITO\"/>\n  <button name=\"SAVE\" label=\"Salva piano\"/>\n  <button name=\"CONFIRM\" label=\"Conferma pagamento\"/>\n</form>",
+      "text_hash": "efda9f0fc55cf2f940935a8e8aca35130a616773c7d0ddbb3aa8f44c4755b9be"
+    },
+    {
+      "char_end": 202,
+      "char_start": 101,
+      "fragment_id": "FRAG_000055",
+      "fragment_type": "xml_field",
+      "line_end": 3,
+      "line_start": 3,
+      "metadata": {
+        "column_name": "ID_RATA",
+        "field_name": "ID_RATA",
+        "form_name": "FRM_PIANO_RATE",
+        "label": "Identificativo rata",
+        "mapping_type": "form_field_to_column",
+        "object_type": "field",
+        "parser": "parse_xml_form",
+        "parser_version": "1.0",
+        "required": true,
+        "source_hash": "c401a94ee1683638cbb391f0a52a13b118082bac19af41fd0c82729cd9a3730d",
+        "table_name": "PRT_RATA"
+      },
+      "path_or_selector": "/form[@name='FRM_PIANO_RATE']/field[@name='ID_RATA']",
+      "sequence": 2,
+      "source_revision_id": "REV_000012",
+      "status": "active",
+      "text": "<field name=\"ID_RATA\" label=\"Identificativo rata\" table=\"PRT_RATA\" column=\"ID_RATA\" required=\"true\"/>",
+      "text_hash": "5bf606d4b65ff3106aeeb09007846d62a97bd7c4b44063541a6c096269bd91d0"
+    },
+    {
+      "char_end": 300,
+      "char_start": 205,
+      "fragment_id": "FRAG_000056",
+      "fragment_type": "xml_field",
+      "line_end": 4,
+      "line_start": 4,
+      "metadata": {
+        "column_name": "ID_PRATICA",
+        "field_name": "ID_PRATICA",
+        "form_name": "FRM_PIANO_RATE",
+        "label": "Pratica",
+        "mapping_type": "form_field_to_column",
+        "object_type": "field",
+        "parser": "parse_xml_form",
+        "parser_version": "1.0",
+        "required": true,
+        "source_hash": "c401a94ee1683638cbb391f0a52a13b118082bac19af41fd0c82729cd9a3730d",
+        "table_name": "PRT_RATA"
+      },
+      "path_or_selector": "/form[@name='FRM_PIANO_RATE']/field[@name='ID_PRATICA']",
+      "sequence": 3,
+      "source_revision_id": "REV_000012",
+      "status": "active",
+      "text": "<field name=\"ID_PRATICA\" label=\"Pratica\" table=\"PRT_RATA\" column=\"ID_PRATICA\" required=\"true\"/>",
+      "text_hash": "2bced93ef3b19bfce5297275eb32c16567212eb43ec9a8af82aeb93e9769956d"
+    },
+    {
+      "char_end": 404,
+      "char_start": 303,
+      "fragment_id": "FRAG_000057",
+      "fragment_type": "xml_field",
+      "line_end": 5,
+      "line_start": 5,
+      "metadata": {
+        "column_name": "NUMERO_RATA",
+        "field_name": "NUMERO_RATA",
+        "form_name": "FRM_PIANO_RATE",
+        "label": "Numero rata",
+        "mapping_type": "form_field_to_column",
+        "object_type": "field",
+        "parser": "parse_xml_form",
+        "parser_version": "1.0",
+        "required": true,
+        "source_hash": "c401a94ee1683638cbb391f0a52a13b118082bac19af41fd0c82729cd9a3730d",
+        "table_name": "PRT_RATA"
+      },
+      "path_or_selector": "/form[@name='FRM_PIANO_RATE']/field[@name='NUMERO_RATA']",
+      "sequence": 4,
+      "source_revision_id": "REV_000012",
+      "status": "active",
+      "text": "<field name=\"NUMERO_RATA\" label=\"Numero rata\" table=\"PRT_RATA\" column=\"NUMERO_RATA\" required=\"true\"/>",
+      "text_hash": "75cf03dc8b79b3bac68093ab78a2ee795412d034fc7b90aca48f89476f4e3c3a"
+    },
+    {
+      "char_end": 509,
+      "char_start": 407,
+      "fragment_id": "FRAG_000058",
+      "fragment_type": "xml_field",
+      "line_end": 6,
+      "line_start": 6,
+      "metadata": {
+        "column_name": "DATA_SCADENZA",
+        "field_name": "DATA_SCADENZA",
+        "form_name": "FRM_PIANO_RATE",
+        "label": "Scadenza",
+        "mapping_type": "form_field_to_column",
+        "object_type": "field",
+        "parser": "parse_xml_form",
+        "parser_version": "1.0",
+        "required": true,
+        "source_hash": "c401a94ee1683638cbb391f0a52a13b118082bac19af41fd0c82729cd9a3730d",
+        "table_name": "PRT_RATA"
+      },
+      "path_or_selector": "/form[@name='FRM_PIANO_RATE']/field[@name='DATA_SCADENZA']",
+      "sequence": 5,
+      "source_revision_id": "REV_000012",
+      "status": "active",
+      "text": "<field name=\"DATA_SCADENZA\" label=\"Scadenza\" table=\"PRT_RATA\" column=\"DATA_SCADENZA\" required=\"true\"/>",
+      "text_hash": "f37e91f81acaacd8d81f525654c24380e8cf8b985471dead6aff955abeb16994"
+    },
+    {
+      "char_end": 611,
+      "char_start": 512,
+      "fragment_id": "FRAG_000059",
+      "fragment_type": "xml_field",
+      "line_end": 7,
+      "line_start": 7,
+      "metadata": {
+        "column_name": "IMPORTO",
+        "field_name": "IMPORTO_RATA",
+        "form_name": "FRM_PIANO_RATE",
+        "label": "Importo rata",
+        "mapping_type": "form_field_to_column",
+        "object_type": "field",
+        "parser": "parse_xml_form",
+        "parser_version": "1.0",
+        "required": true,
+        "source_hash": "c401a94ee1683638cbb391f0a52a13b118082bac19af41fd0c82729cd9a3730d",
+        "table_name": "PRT_RATA"
+      },
+      "path_or_selector": "/form[@name='FRM_PIANO_RATE']/field[@name='IMPORTO_RATA']",
+      "sequence": 6,
+      "source_revision_id": "REV_000012",
+      "status": "active",
+      "text": "<field name=\"IMPORTO_RATA\" label=\"Importo rata\" table=\"PRT_RATA\" column=\"IMPORTO\" required=\"true\"/>",
+      "text_hash": "78f5a8707a74cfaeced529fcc4e889df49e6a1753d173bf49f222a87ee9e5110"
+    },
+    {
+      "char_end": 707,
+      "char_start": 614,
+      "fragment_id": "FRAG_000060",
+      "fragment_type": "xml_field",
+      "line_end": 8,
+      "line_start": 8,
+      "metadata": {
+        "column_name": "STATO",
+        "field_name": "STATO_RATA",
+        "form_name": "FRM_PIANO_RATE",
+        "label": "Stato rata",
+        "mapping_type": "form_field_to_column",
+        "object_type": "field",
+        "parser": "parse_xml_form",
+        "parser_version": "1.0",
+        "required": true,
+        "source_hash": "c401a94ee1683638cbb391f0a52a13b118082bac19af41fd0c82729cd9a3730d",
+        "table_name": "PRT_RATA"
+      },
+      "path_or_selector": "/form[@name='FRM_PIANO_RATE']/field[@name='STATO_RATA']",
+      "sequence": 7,
+      "source_revision_id": "REV_000012",
+      "status": "active",
+      "text": "<field name=\"STATO_RATA\" label=\"Stato rata\" table=\"PRT_RATA\" column=\"STATO\" required=\"true\"/>",
+      "text_hash": "403dc0f3a0302ce487a270f2962f91b454635360dababed841dbf6db877522dd"
+    },
+    {
+      "char_end": 800,
+      "char_start": 710,
+      "fragment_id": "FRAG_000061",
+      "fragment_type": "xml_field",
+      "line_end": 9,
+      "line_start": 9,
+      "metadata": {
+        "column_name": "ID_PAGAMENTO",
+        "field_name": "ID_PAGAMENTO",
+        "form_name": "FRM_PIANO_RATE",
+        "label": "Pagamento",
+        "mapping_type": "form_field_to_column",
+        "object_type": "field",
+        "parser": "parse_xml_form",
+        "parser_version": "1.0",
+        "required": false,
+        "source_hash": "c401a94ee1683638cbb391f0a52a13b118082bac19af41fd0c82729cd9a3730d",
+        "table_name": "PRT_PAGAMENTO"
+      },
+      "path_or_selector": "/form[@name='FRM_PIANO_RATE']/field[@name='ID_PAGAMENTO']",
+      "sequence": 8,
+      "source_revision_id": "REV_000012",
+      "status": "active",
+      "text": "<field name=\"ID_PAGAMENTO\" label=\"Pagamento\" table=\"PRT_PAGAMENTO\" column=\"ID_PAGAMENTO\"/>",
+      "text_hash": "79e2ee925751033fea8d9797d60e3e8152b7a8c7d420fb1d8f3e5423d1e347b3"
+    },
+    {
+      "char_end": 895,
+      "char_start": 803,
+      "fragment_id": "FRAG_000062",
+      "fragment_type": "xml_field",
+      "line_end": 10,
+      "line_start": 10,
+      "metadata": {
+        "column_name": "ESITO",
+        "field_name": "ESITO_PAGAMENTO",
+        "form_name": "FRM_PIANO_RATE",
+        "label": "Esito pagamento",
+        "mapping_type": "form_field_to_column",
+        "object_type": "field",
+        "parser": "parse_xml_form",
+        "parser_version": "1.0",
+        "required": false,
+        "source_hash": "c401a94ee1683638cbb391f0a52a13b118082bac19af41fd0c82729cd9a3730d",
+        "table_name": "PRT_PAGAMENTO"
+      },
+      "path_or_selector": "/form[@name='FRM_PIANO_RATE']/field[@name='ESITO_PAGAMENTO']",
+      "sequence": 9,
+      "source_revision_id": "REV_000012",
+      "status": "active",
+      "text": "<field name=\"ESITO_PAGAMENTO\" label=\"Esito pagamento\" table=\"PRT_PAGAMENTO\" column=\"ESITO\"/>",
+      "text_hash": "cede9f70864bf9490e738b5a5fca10404c657b5952d9b22f1c5c682e4acadd8b"
+    },
+    {
+      "char_end": 939,
+      "char_start": 898,
+      "fragment_id": "FRAG_000063",
+      "fragment_type": "xml_button",
+      "line_end": 11,
+      "line_start": 11,
+      "metadata": {
+        "action_kind": "save",
+        "button_name": "SAVE",
+        "form_name": "FRM_PIANO_RATE",
+        "label": "Salva piano",
+        "object_type": "button",
+        "parser": "parse_xml_form",
+        "parser_version": "1.0",
+        "source_hash": "c401a94ee1683638cbb391f0a52a13b118082bac19af41fd0c82729cd9a3730d"
+      },
+      "path_or_selector": "/form[@name='FRM_PIANO_RATE']/button[@name='SAVE']",
+      "sequence": 10,
+      "source_revision_id": "REV_000012",
+      "status": "active",
+      "text": "<button name=\"SAVE\" label=\"Salva piano\"/>",
+      "text_hash": "e62018510ce39b20148ef702fb4fee41edb49f1d166694c0d0fe7375351fe105"
+    },
+    {
+      "char_end": 993,
+      "char_start": 942,
+      "fragment_id": "FRAG_000064",
+      "fragment_type": "xml_button",
+      "line_end": 12,
+      "line_start": 12,
+      "metadata": {
+        "action_kind": "confirm",
+        "button_name": "CONFIRM",
+        "form_name": "FRM_PIANO_RATE",
+        "label": "Conferma pagamento",
+        "object_type": "button",
+        "parser": "parse_xml_form",
+        "parser_version": "1.0",
+        "source_hash": "c401a94ee1683638cbb391f0a52a13b118082bac19af41fd0c82729cd9a3730d"
+      },
+      "path_or_selector": "/form[@name='FRM_PIANO_RATE']/button[@name='CONFIRM']",
+      "sequence": 11,
+      "source_revision_id": "REV_000012",
+      "status": "active",
+      "text": "<button name=\"CONFIRM\" label=\"Conferma pagamento\"/>",
+      "text_hash": "c2b410be5a6b0efdb3ec61bc2957edd4ddfa8bfde0547abb643963354acbaa78"
+    }
+  ],
+  "fragments_hash": "c406e21047e6f71cf96fa0f6cd553d634c89e6140f56b6dfcc4bb1b4358902a2",
+  "fragments_jsonl_path": "fragments/SRC_000012/REV_000012/fragments.jsonl",
+  "input_path": "corpus/active/forms/FRM_PIANO_RATE.xml",
+  "parser": "elementtree",
+  "profile": "xml_form.default",
+  "required_field_count": 6,
+  "run_id": "RUN_000023",
+  "source_hash": "c401a94ee1683638cbb391f0a52a13b118082bac19af41fd0c82729cd9a3730d",
+  "source_id": "SRC_000012",
+  "source_revision_id": "REV_000012",
+  "status": "completed",
+  "table_column_references": [
+    {
+      "column_name": "ID_RATA",
+      "field_name": "ID_RATA",
+      "table_name": "PRT_RATA"
+    },
+    {
+      "column_name": "ID_PRATICA",
+      "field_name": "ID_PRATICA",
+      "table_name": "PRT_RATA"
+    },
+    {
+      "column_name": "NUMERO_RATA",
+      "field_name": "NUMERO_RATA",
+      "table_name": "PRT_RATA"
+    },
+    {
+      "column_name": "DATA_SCADENZA",
+      "field_name": "DATA_SCADENZA",
+      "table_name": "PRT_RATA"
+    },
+    {
+      "column_name": "IMPORTO",
+      "field_name": "IMPORTO_RATA",
+      "table_name": "PRT_RATA"
+    },
+    {
+      "column_name": "STATO",
+      "field_name": "STATO_RATA",
+      "table_name": "PRT_RATA"
+    },
+    {
+      "column_name": "ID_PAGAMENTO",
+      "field_name": "ID_PAGAMENTO",
+      "table_name": "PRT_PAGAMENTO"
+    },
+    {
+      "column_name": "ESITO",
+      "field_name": "ESITO_PAGAMENTO",
+      "table_name": "PRT_PAGAMENTO"
+    }
+  ],
+  "table_reference_count": 2,
+  "warnings": [],
+  "worker_config": {
+    "name": "parse_xml_form",
+    "version": "1.0"
+  },
+  "worker_name": "parse_xml_form",
+  "worker_version": "1.0",
+  "xml_form_objects": {
+    "forms": [
+      {
+        "buttons": [
+          {
+            "action_kind": "save",
+            "label": "Salva piano",
+            "name": "SAVE"
+          },
+          {
+            "action_kind": "confirm",
+            "label": "Conferma pagamento",
+            "name": "CONFIRM"
+          }
+        ],
+        "edit_relations": [
+          {
+            "field_names": [
+              "ID_PAGAMENTO",
+              "ESITO_PAGAMENTO"
+            ],
+            "relation_type": "edits",
+            "source_form": "FRM_PIANO_RATE",
+            "target_table": "PRT_PAGAMENTO"
+          },
+          {
+            "field_names": [
+              "ID_RATA",
+              "ID_PRATICA",
+              "NUMERO_RATA",
+              "DATA_SCADENZA",
+              "IMPORTO_RATA",
+              "STATO_RATA"
+            ],
+            "relation_type": "edits",
+            "source_form": "FRM_PIANO_RATE",
+            "target_table": "PRT_RATA"
+          }
+        ],
+        "fields": [
+          {
+            "column_name": "ID_RATA",
+            "label": "Identificativo rata",
+            "name": "ID_RATA",
+            "required": true,
+            "table_name": "PRT_RATA"
+          },
+          {
+            "column_name": "ID_PRATICA",
+            "label": "Pratica",
+            "name": "ID_PRATICA",
+            "required": true,
+            "table_name": "PRT_RATA"
+          },
+          {
+            "column_name": "NUMERO_RATA",
+            "label": "Numero rata",
+            "name": "NUMERO_RATA",
+            "required": true,
+            "table_name": "PRT_RATA"
+          },
+          {
+            "column_name": "DATA_SCADENZA",
+            "label": "Scadenza",
+            "name": "DATA_SCADENZA",
+            "required": true,
+            "table_name": "PRT_RATA"
+          },
+          {
+            "column_name": "IMPORTO",
+            "label": "Importo rata",
+            "name": "IMPORTO_RATA",
+            "required": true,
+            "table_name": "PRT_RATA"
+          },
+          {
+            "column_name": "STATO",
+            "label": "Stato rata",
+            "name": "STATO_RATA",
+            "required": true,
+            "table_name": "PRT_RATA"
+          },
+          {
+            "column_name": "ID_PAGAMENTO",
+            "label": "Pagamento",
+            "name": "ID_PAGAMENTO",
+            "required": false,
+            "table_name": "PRT_PAGAMENTO"
+          },
+          {
+            "column_name": "ESITO",
+            "label": "Esito pagamento",
+            "name": "ESITO_PAGAMENTO",
+            "required": false,
+            "table_name": "PRT_PAGAMENTO"
+          }
+        ],
+        "name": "FRM_PIANO_RATE",
+        "table_column_references": [
+          {
+            "column_name": "ID_RATA",
+            "field_name": "ID_RATA",
+            "table_name": "PRT_RATA"
+          },
+          {
+            "column_name": "ID_PRATICA",
+            "field_name": "ID_PRATICA",
+            "table_name": "PRT_RATA"
+          },
+          {
+            "column_name": "NUMERO_RATA",
+            "field_name": "NUMERO_RATA",
+            "table_name": "PRT_RATA"
+          },
+          {
+            "column_name": "DATA_SCADENZA",
+            "field_name": "DATA_SCADENZA",
+            "table_name": "PRT_RATA"
+          },
+          {
+            "column_name": "IMPORTO",
+            "field_name": "IMPORTO_RATA",
+            "table_name": "PRT_RATA"
+          },
+          {
+            "column_name": "STATO",
+            "field_name": "STATO_RATA",
+            "table_name": "PRT_RATA"
+          },
+          {
+            "column_name": "ID_PAGAMENTO",
+            "field_name": "ID_PAGAMENTO",
+            "table_name": "PRT_PAGAMENTO"
+          },
+          {
+            "column_name": "ESITO",
+            "field_name": "ESITO_PAGAMENTO",
+            "table_name": "PRT_PAGAMENTO"
+          }
+        ],
+        "table_references": [
+          "PRT_PAGAMENTO",
+          "PRT_RATA"
+        ],
+        "title": "Piano rate e pagamenti"
+      }
+    ],
+    "warnings": []
+  },
+  "xml_form_options": {
+    "infer_edit_relations": true,
+    "malformed_xml_policy": "fail",
+    "output_fragments_jsonl": true,
+    "parse_buttons": true,
+    "parse_fields": true,
+    "parse_required_fields": true,
+    "parse_table_column_references": true,
+    "parser": "elementtree",
+    "require_root_form": true,
+    "strict_options_fail_on_unsupported_option": true
+  },
+  "xml_form_report_path": "fragments/SRC_000012/REV_000012/xml_form_report.json"
+}

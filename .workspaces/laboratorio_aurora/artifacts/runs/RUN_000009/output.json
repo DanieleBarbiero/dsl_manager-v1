@@ -1,0 +1,42 @@
+{
+  "chunk_count": 1,
+  "chunk_report_path": "chunks/SRC_000004/REV_000004/chunk_report.json",
+  "chunks": [
+    {
+      "chunk_id": "CHK_000003",
+      "metadata": {
+        "chunker": "chunk_docling",
+        "chunker_version": "1.0",
+        "end_char": 358,
+        "heading_path": [],
+        "normalized_hash": "2651a7a3383a84db459ecc0918bbb69633f6ccf69953ffd64d6046d015040d60",
+        "normalized_json_path": "normalized/SRC_000004/REV_000004/normalized.json",
+        "normalized_markdown_path": "normalized/SRC_000004/REV_000004/normalized.md",
+        "source_text_kind": "normalized_markdown",
+        "start_char": 0,
+        "strategy": "heading_paragraph"
+      },
+      "sequence": 1,
+      "source_revision_id": "REV_000004",
+      "status": "active",
+      "text": "ADDENDUM DI DECORRENZA - AURORA PRESTITI\n\nvalid\\_from: 2025-11-18\n\nL'addendum conferma la decorrenza della versione approvata dei requisiti di modernizzazione. Il limite massimo indicato per l'approvazione automatica e' 60000 euro. La data e' evidenza dichiarata e richiede revisione prima di essere attribuita a uno specifico fatto o relazione del dominio.\n",
+      "text_hash": "2651a7a3383a84db459ecc0918bbb69633f6ccf69953ffd64d6046d015040d60"
+    }
+  ],
+  "chunks_hash": "b3c1036ed4d6b2f1acdfe67636dbe2fe33e478d02248adbd6eacafd588321924",
+  "chunks_jsonl_path": "chunks/SRC_000004/REV_000004/chunks.jsonl",
+  "exit_code": 0,
+  "normalized_hash": "2651a7a3383a84db459ecc0918bbb69633f6ccf69953ffd64d6046d015040d60",
+  "normalized_json_path": "normalized/SRC_000004/REV_000004/normalized.json",
+  "normalized_markdown_path": "normalized/SRC_000004/REV_000004/normalized.md",
+  "profile": "docling.chunking",
+  "run_id": "RUN_000009",
+  "source_hash": "6db5de9fd04a3f3cc4160ebcbfcd7ea52dcc765dbd9882d4fe122984d9a43c3a",
+  "source_hash_path": "normalized/SRC_000004/REV_000004/source_hash.txt",
+  "source_id": "SRC_000004",
+  "source_revision_id": "REV_000004",
+  "status": "completed",
+  "strategy": "heading_paragraph",
+  "worker_name": "chunk_docling",
+  "worker_version": "1.0"
+}

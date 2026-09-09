@@ -1,0 +1,37 @@
+{
+  "chunk_count": 1,
+  "chunks": [
+    {
+      "chunk_id": "CHK_000006",
+      "end_char": 1686,
+      "heading_path": [
+        "Requisiti di modernizzazione di Aurora Prestiti",
+        "Obiettivi del nuovo sistema"
+      ],
+      "sequence": 1,
+      "start_char": 0,
+      "status": "active",
+      "text_hash": "8072b5db431726ec1b6e39971fe54fdb7fcc8caa362091cf3ac98a51ed7e9100"
+    }
+  ],
+  "chunks_hash": "ab4385a90dde502693faa50b069c8037e67c1413d61de7cfd49d019de53b9718",
+  "input": {
+    "normalized_hash": "8072b5db431726ec1b6e39971fe54fdb7fcc8caa362091cf3ac98a51ed7e9100",
+    "normalized_json_path": "normalized/SRC_000007/REV_000007/normalized.json",
+    "normalized_markdown_path": "normalized/SRC_000007/REV_000007/normalized.md",
+    "source_hash": "a7ab69c9480ac1a651fc0fe66877790c35f4439d3b4d6cf73d54cfd927f6d3a6",
+    "source_hash_path": "normalized/SRC_000007/REV_000007/source_hash.txt",
+    "source_id": "SRC_000007",
+    "source_revision_id": "REV_000007"
+  },
+  "outputs": {
+    "chunk_report_path": "chunks/SRC_000007/REV_000007/chunk_report.json",
+    "chunks_jsonl_path": "chunks/SRC_000007/REV_000007/chunks.jsonl"
+  },
+  "profile": "docling.chunking",
+  "run_id": "RUN_000015",
+  "status": "completed",
+  "strategy": "heading_paragraph",
+  "worker_name": "chunk_docling",
+  "worker_version": "1.0"
+}

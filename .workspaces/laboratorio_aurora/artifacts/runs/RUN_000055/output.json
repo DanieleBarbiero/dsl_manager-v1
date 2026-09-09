@@ -1,0 +1,72 @@
+{
+  "artifact_paths": [
+    "artifacts/runs/RUN_000055/derived_candidates.jsonl",
+    "artifacts/runs/RUN_000055/derive_report.json"
+  ],
+  "batch_id": "CBATCH_000026",
+  "candidate_ids": [
+    "DB_CODE_DEPENDENCY_FD9658FC1983920A",
+    "DB_CODE_DEPENDENCY_4DC844E163242BED",
+    "DB_CODE_DEPENDENCY_7E43E4B7AE91B6F0",
+    "DB_CODE_DEPENDENCY_EF7B311857FD3D75"
+  ],
+  "catalog_version": "result_catalog_v1",
+  "condition": "candidate_derivation",
+  "counters": {
+    "auto_confirmed": 0,
+    "deduplicated": 0,
+    "input_fragments": 1,
+    "pending": 4,
+    "produced": 4,
+    "rejected": 0
+  },
+  "derivation_id": "DERIVE_000026",
+  "derivation_rejections": [],
+  "exit_code": 0,
+  "mutations": true,
+  "outcome": "pending",
+  "payload_hashes": [
+    "8ac6de5337937f38fcccc9e0e5ed6464f77644516a23771803716af69585f3f6",
+    "109fd2d615ec118cd5938ba9fe8d7384b105930d71f9d215947b29d910500d52",
+    "5ee31eac683e26a97218e0a06eb544c919c2298d73f74f17f548d721d40fa7b1",
+    "0c2cc46fdaf89ee021417d23fc0c9e4be8ab5332ceabdb21b7478ad30c78de5c"
+  ],
+  "reason": "success",
+  "retryable": false,
+  "rule": "db_code_dependency/1",
+  "rule_contract": {
+    "assertion_type": "observed",
+    "automatic_review_allowed": true,
+    "automatic_review_policy": "observed_db_code_dependency_only/1",
+    "candidate_record_type": "candidate_relation",
+    "default_review_state": "pending",
+    "evidence_locator": "source_revision_id+fragment_id+path_or_selector+line_start+line_end",
+    "input_schema": "source_fragment/sql_function|sql_procedure|sql_trigger/1",
+    "parser_kind": "db_code",
+    "rule_id": "db_code_dependency",
+    "rule_version": "1"
+  },
+  "rule_counts": {
+    "db_code_dependency/1": {
+      "auto_confirmed": 0,
+      "deduplicated": 0,
+      "input_fragments": 1,
+      "pending": 4,
+      "produced": 4,
+      "rejected": 0
+    }
+  },
+  "rule_set_version": "1",
+  "run_id": "RUN_000055",
+  "schema_version": "1",
+  "semantic_report_hash": "5f46fbf418d49330a6491bc465a90c7434e79d157275c7f1fd9dea3f6357ee5e",
+  "severity": "info",
+  "source_revision_id": "REV_000017",
+  "status": "completed",
+  "subject_ids": [
+    "DB_CODE_DEPENDENCY_FD9658FC1983920A",
+    "DB_CODE_DEPENDENCY_4DC844E163242BED",
+    "DB_CODE_DEPENDENCY_7E43E4B7AE91B6F0",
+    "DB_CODE_DEPENDENCY_EF7B311857FD3D75"
+  ]
+}

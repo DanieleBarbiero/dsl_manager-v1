@@ -1,0 +1,109 @@
+{
+  "body": {
+    "children": [
+      {
+        "$ref": "#/texts/0"
+      },
+      {
+        "$ref": "#/texts/1"
+      }
+    ],
+    "content_layer": "body",
+    "label": "unspecified",
+    "name": "_root_",
+    "self_ref": "#/body"
+  },
+  "form_items": [],
+  "furniture": {
+    "children": [],
+    "content_layer": "furniture",
+    "label": "unspecified",
+    "name": "_root_",
+    "self_ref": "#/furniture"
+  },
+  "groups": [],
+  "key_value_items": [],
+  "name": "istruzioni_parcheggio_2025",
+  "origin": {
+    "binary_hash": 13127694925698985796,
+    "filename": "istruzioni_parcheggio_2025.html",
+    "mimetype": "text/html"
+  },
+  "pages": {},
+  "pictures": [],
+  "schema_name": "DoclingDocument",
+  "tables": [],
+  "texts": [
+    {
+      "children": [],
+      "content_layer": "furniture",
+      "label": "title",
+      "orig": "Istruzioni parcheggio sede",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "prov": [],
+      "self_ref": "#/texts/0",
+      "text": "Istruzioni parcheggio sede"
+    },
+    {
+      "children": [
+        {
+          "$ref": "#/texts/2"
+        },
+        {
+          "$ref": "#/texts/3"
+        },
+        {
+          "$ref": "#/texts/4"
+        }
+      ],
+      "content_layer": "body",
+      "label": "title",
+      "orig": "Parcheggio della sede",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "prov": [],
+      "self_ref": "#/texts/1",
+      "text": "Parcheggio della sede"
+    },
+    {
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "orig": "Dal 3 febbraio 2025 i dipendenti devono esporre il contrassegno sul cruscotto.",
+      "parent": {
+        "$ref": "#/texts/1"
+      },
+      "prov": [],
+      "self_ref": "#/texts/2",
+      "text": "Dal 3 febbraio 2025 i dipendenti devono esporre il contrassegno sul cruscotto."
+    },
+    {
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "orig": "I posti per gli ospiti si prenotano presso la reception entro le ore 16:00 del giorno precedente.",
+      "parent": {
+        "$ref": "#/texts/1"
+      },
+      "prov": [],
+      "self_ref": "#/texts/3",
+      "text": "I posti per gli ospiti si prenotano presso la reception entro le ore 16:00 del giorno precedente."
+    },
+    {
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "orig": "Questo documento non descrive funzioni, dati o vincoli dell'applicazione Aurora Prestiti.",
+      "parent": {
+        "$ref": "#/texts/1"
+      },
+      "prov": [],
+      "self_ref": "#/texts/4",
+      "text": "Questo documento non descrive funzioni, dati o vincoli dell'applicazione Aurora Prestiti."
+    }
+  ],
+  "version": "1.10.0"
+}

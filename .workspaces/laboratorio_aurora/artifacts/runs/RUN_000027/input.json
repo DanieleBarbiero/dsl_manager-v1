@@ -1,0 +1,51 @@
+{
+  "artifact_dir": "artifacts/runs/RUN_000027",
+  "db_code_options": {
+    "dialect": "generic_sql",
+    "output_fragments_jsonl": true,
+    "parse_calls": true,
+    "parse_procedures": true,
+    "parse_triggers": true,
+    "parse_update_statements": true,
+    "strict_options_fail_on_unsupported_option": true
+  },
+  "fragment_id_by_sequence": {},
+  "input": {
+    "db_code_options": {
+      "dialect": "generic_sql",
+      "output_fragments_jsonl": true,
+      "parse_calls": true,
+      "parse_procedures": true,
+      "parse_triggers": true,
+      "parse_update_statements": true,
+      "strict_options_fail_on_unsupported_option": true
+    },
+    "fragment_id_by_sequence": {},
+    "input_path": "corpus/active/plsql/PRC_GENERA_PIANO.sql",
+    "next_fragment_number": 84,
+    "output_dir": "fragments/SRC_000016/REV_000016",
+    "profile": "db_code.default",
+    "source_hash": "9e30d0e1f840718a7ac49cdd64362c555ef858f64f93a1a6daefa7484926cd48",
+    "source_id": "SRC_000016",
+    "source_revision_id": "REV_000016",
+    "worker_config": {
+      "name": "parse_db_code",
+      "version": "1.0"
+    }
+  },
+  "input_path": "corpus/active/plsql/PRC_GENERA_PIANO.sql",
+  "next_fragment_number": 84,
+  "output_dir": "fragments/SRC_000016/REV_000016",
+  "profile": "db_code.default",
+  "run_id": "RUN_000027",
+  "run_type": "parse_db_code",
+  "source_hash": "9e30d0e1f840718a7ac49cdd64362c555ef858f64f93a1a6daefa7484926cd48",
+  "source_id": "SRC_000016",
+  "source_revision_id": "REV_000016",
+  "worker_config": {
+    "name": "parse_db_code",
+    "version": "1.0"
+  },
+  "worker_name": "parse_db_code",
+  "worker_version": "1.0"
+}

@@ -1,0 +1,43 @@
+{
+  "artifact_dir": "artifacts/runs/RUN_000025",
+  "fragment_id_by_sequence": {},
+  "input": {
+    "fragment_id_by_sequence": {},
+    "input_path": "corpus/active/logs/batch_piano_rate_2025.log",
+    "log_options": {
+      "output_fragments_jsonl": true,
+      "parser": "line_regex",
+      "strict_options_fail_on_unsupported_option": true
+    },
+    "next_fragment_number": 75,
+    "output_dir": "fragments/SRC_000014/REV_000014",
+    "profile": "log.default",
+    "source_hash": "1c00ddff194038ba0546a34b4d5727d9c7f6b151b8ffb9bc9a9fe145807e42aa",
+    "source_id": "SRC_000014",
+    "source_revision_id": "REV_000014",
+    "worker_config": {
+      "name": "parse_log",
+      "version": "1.0"
+    }
+  },
+  "input_path": "corpus/active/logs/batch_piano_rate_2025.log",
+  "log_options": {
+    "output_fragments_jsonl": true,
+    "parser": "line_regex",
+    "strict_options_fail_on_unsupported_option": true
+  },
+  "next_fragment_number": 75,
+  "output_dir": "fragments/SRC_000014/REV_000014",
+  "profile": "log.default",
+  "run_id": "RUN_000025",
+  "run_type": "parse_log",
+  "source_hash": "1c00ddff194038ba0546a34b4d5727d9c7f6b151b8ffb9bc9a9fe145807e42aa",
+  "source_id": "SRC_000014",
+  "source_revision_id": "REV_000014",
+  "worker_config": {
+    "name": "parse_log",
+    "version": "1.0"
+  },
+  "worker_name": "parse_log",
+  "worker_version": "1.0"
+}

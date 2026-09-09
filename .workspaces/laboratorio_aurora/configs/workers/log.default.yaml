@@ -1,0 +1,7 @@
+worker:
+  name: parse_log
+  version: 1.0
+log:
+  parser: line_regex
+  strict_options_fail_on_unsupported_option: true
+  output_fragments_jsonl: true

@@ -1,0 +1,205 @@
+{
+  "body": {
+    "children": [
+      {
+        "$ref": "#/texts/0"
+      },
+      {
+        "$ref": "#/texts/1"
+      }
+    ],
+    "content_layer": "body",
+    "label": "unspecified",
+    "name": "_root_",
+    "self_ref": "#/body"
+  },
+  "form_items": [],
+  "furniture": {
+    "children": [],
+    "content_layer": "furniture",
+    "label": "unspecified",
+    "name": "_root_",
+    "self_ref": "#/furniture"
+  },
+  "groups": [],
+  "key_value_items": [],
+  "name": "regole_calcolo_rate_2016",
+  "origin": {
+    "binary_hash": 573774283288848797,
+    "filename": "regole_calcolo_rate_2016.html",
+    "mimetype": "text/html"
+  },
+  "pages": {},
+  "pictures": [],
+  "schema_name": "DoclingDocument",
+  "tables": [],
+  "texts": [
+    {
+      "children": [],
+      "content_layer": "furniture",
+      "label": "title",
+      "orig": "Regole di calcolo rate - archivio 2016",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "prov": [],
+      "self_ref": "#/texts/0",
+      "text": "Regole di calcolo rate - archivio 2016"
+    },
+    {
+      "children": [
+        {
+          "$ref": "#/texts/2"
+        },
+        {
+          "$ref": "#/texts/3"
+        },
+        {
+          "$ref": "#/texts/7"
+        },
+        {
+          "$ref": "#/texts/9"
+        }
+      ],
+      "content_layer": "body",
+      "label": "title",
+      "orig": "Regole di calcolo rate",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "prov": [],
+      "self_ref": "#/texts/1",
+      "text": "Regole di calcolo rate"
+    },
+    {
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "orig": "Documento tecnico archiviato il 30 settembre 2016.",
+      "parent": {
+        "$ref": "#/texts/1"
+      },
+      "prov": [],
+      "self_ref": "#/texts/2",
+      "text": "Documento tecnico archiviato il 30 settembre 2016."
+    },
+    {
+      "children": [
+        {
+          "$ref": "#/texts/4"
+        },
+        {
+          "$ref": "#/texts/5"
+        },
+        {
+          "$ref": "#/texts/6"
+        }
+      ],
+      "content_layer": "body",
+      "label": "section_header",
+      "level": 1,
+      "orig": "Composizione del piano",
+      "parent": {
+        "$ref": "#/texts/1"
+      },
+      "prov": [],
+      "self_ref": "#/texts/3",
+      "text": "Composizione del piano"
+    },
+    {
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "orig": "Il piano di rimborso è composto da rate mensili numerate progressivamente.",
+      "parent": {
+        "$ref": "#/texts/3"
+      },
+      "prov": [],
+      "self_ref": "#/texts/4",
+      "text": "Il piano di rimborso è composto da rate mensili numerate progressivamente."
+    },
+    {
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "orig": "Ogni rata contiene data di scadenza, quota capitale, quota interessi, importo totale e stato.",
+      "parent": {
+        "$ref": "#/texts/3"
+      },
+      "prov": [],
+      "self_ref": "#/texts/5",
+      "text": "Ogni rata contiene data di scadenza, quota capitale, quota interessi, importo totale e stato."
+    },
+    {
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "orig": "Gli stati storici della rata sono DA_PAGARE, PAGATA e SCADUTA.",
+      "parent": {
+        "$ref": "#/texts/3"
+      },
+      "prov": [],
+      "self_ref": "#/texts/6",
+      "text": "Gli stati storici della rata sono DA_PAGARE, PAGATA e SCADUTA."
+    },
+    {
+      "children": [
+        {
+          "$ref": "#/texts/8"
+        }
+      ],
+      "content_layer": "body",
+      "label": "section_header",
+      "level": 1,
+      "orig": "Arrotondamento",
+      "parent": {
+        "$ref": "#/texts/1"
+      },
+      "prov": [],
+      "self_ref": "#/texts/7",
+      "text": "Arrotondamento"
+    },
+    {
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "orig": "L'importo della rata viene arrotondato a due decimali. L'eventuale differenza di arrotondamento viene applicata all'ultima rata.",
+      "parent": {
+        "$ref": "#/texts/7"
+      },
+      "prov": [],
+      "self_ref": "#/texts/8",
+      "text": "L'importo della rata viene arrotondato a due decimali. L'eventuale differenza di arrotondamento viene applicata all'ultima rata."
+    },
+    {
+      "children": [
+        {
+          "$ref": "#/texts/10"
+        }
+      ],
+      "content_layer": "body",
+      "label": "section_header",
+      "level": 1,
+      "orig": "Avvertenza",
+      "parent": {
+        "$ref": "#/texts/1"
+      },
+      "prov": [],
+      "self_ref": "#/texts/9",
+      "text": "Avvertenza"
+    },
+    {
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "orig": "La formula finanziaria è ancora utile, ma i riferimenti al tasso fisso predefinito del 4,5 per cento sono obsoleti.",
+      "parent": {
+        "$ref": "#/texts/9"
+      },
+      "prov": [],
+      "self_ref": "#/texts/10",
+      "text": "La formula finanziaria è ancora utile, ma i riferimenti al tasso fisso predefinito del 4,5 per cento sono obsoleti."
+    }
+  ],
+  "version": "1.10.0"
+}

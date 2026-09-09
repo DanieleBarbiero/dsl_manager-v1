@@ -1,0 +1,72 @@
+{
+  "artifact_paths": [
+    "artifacts/runs/RUN_000052/derived_candidates.jsonl",
+    "artifacts/runs/RUN_000052/derive_report.json"
+  ],
+  "batch_id": "CBATCH_000023",
+  "candidate_ids": [
+    "LOG_EVENT_OBSERVATION_3C84AA1A11BC56D9",
+    "LOG_EVENT_OBSERVATION_3892193CC3CDC979",
+    "LOG_EVENT_OBSERVATION_46DE44857AC9FF96",
+    "LOG_EVENT_OBSERVATION_41CA6236EC3CA149"
+  ],
+  "catalog_version": "result_catalog_v1",
+  "condition": "candidate_derivation",
+  "counters": {
+    "auto_confirmed": 0,
+    "deduplicated": 0,
+    "input_fragments": 4,
+    "pending": 4,
+    "produced": 4,
+    "rejected": 0
+  },
+  "derivation_id": "DERIVE_000023",
+  "derivation_rejections": [],
+  "exit_code": 0,
+  "mutations": true,
+  "outcome": "pending",
+  "payload_hashes": [
+    "334109d1a943cee434d3f21898ad30255d7629c678d21deb8bf1dcbd25e022d7",
+    "546a22b0cd7ad32dc37128af53c50d4a512f826e4e23dbe6b813fd54814a7eb6",
+    "ef558b13830d7f49d680a6499c5aea2ef2809a6820e479b61c35e966acd7f4fc",
+    "bffda22ff19e29544a9ae118359e5c730c14ce2d076aff1c9fa587b5a53c1fb0"
+  ],
+  "reason": "success",
+  "retryable": false,
+  "rule": "log_event_observation/1",
+  "rule_contract": {
+    "assertion_type": "observed",
+    "automatic_review_allowed": true,
+    "automatic_review_policy": "named_explicit_log_policy_required/1",
+    "candidate_record_type": "candidate_fact",
+    "default_review_state": "pending",
+    "evidence_locator": "source_revision_id+fragment_id+path_or_selector+line_start+line_end",
+    "input_schema": "source_fragment/log_event/1",
+    "parser_kind": "log",
+    "rule_id": "log_event_observation",
+    "rule_version": "1"
+  },
+  "rule_counts": {
+    "log_event_observation/1": {
+      "auto_confirmed": 0,
+      "deduplicated": 0,
+      "input_fragments": 4,
+      "pending": 4,
+      "produced": 4,
+      "rejected": 0
+    }
+  },
+  "rule_set_version": "1",
+  "run_id": "RUN_000052",
+  "schema_version": "1",
+  "semantic_report_hash": "cf435261d0caa4417e648be4b88f894cf641eb3d78017c19016f0e553d3a7080",
+  "severity": "info",
+  "source_revision_id": "REV_000015",
+  "status": "completed",
+  "subject_ids": [
+    "LOG_EVENT_OBSERVATION_3C84AA1A11BC56D9",
+    "LOG_EVENT_OBSERVATION_3892193CC3CDC979",
+    "LOG_EVENT_OBSERVATION_46DE44857AC9FF96",
+    "LOG_EVENT_OBSERVATION_41CA6236EC3CA149"
+  ]
+}

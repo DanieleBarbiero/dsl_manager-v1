@@ -509,5 +509,5 @@ Il corpus completo e le guide per shell sono disponibili in:
 - [Guida CMD](../../projects/corpus%20aurora/corpus_mock_aurora_prestiti/materiale_di_supporto/guida_dsl-manager_cmd.md)
 - [Checklist risultati](../../projects/corpus%20aurora/corpus_mock_aurora_prestiti/materiale_di_supporto/checklist_risultati_attesi.md)
 
-L'[outline input-output](outline%20dsl%20manager%20flow%20from%20input%20to%20output.md)
+L'[outline input-output](outline_dsl_manager_flow_from_input_to_output_riassunto.md)
 offre una mappa più breve dell'intero viaggio.

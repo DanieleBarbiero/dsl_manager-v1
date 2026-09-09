@@ -1,0 +1,308 @@
+{
+  "button_count": 2,
+  "edit_relation_count": 1,
+  "edit_relations": [
+    {
+      "field_names": [
+        "ID_PRATICA",
+        "ID_CLIENTE",
+        "STATO",
+        "IMPORTO",
+        "DURATA_MESI",
+        "TASSO",
+        "DATA_APPROVAZIONE"
+      ],
+      "relation_type": "edits",
+      "source_form": "FRM_PRATICA",
+      "target_table": "PRT_PRATICA"
+    }
+  ],
+  "field_count": 7,
+  "form_count": 1,
+  "fragment_count": 10,
+  "fragments": [
+    {
+      "fragment_id": "FRAG_000065",
+      "fragment_type": "xml_form",
+      "path_or_selector": "/form[@name='FRM_PRATICA']",
+      "sequence": 1,
+      "status": "active",
+      "text_hash": "debf01624b31dbc6e74b2989b909379909d24927534a7dc3f89fb2d62c9930af"
+    },
+    {
+      "fragment_id": "FRAG_000066",
+      "fragment_type": "xml_field",
+      "path_or_selector": "/form[@name='FRM_PRATICA']/field[@name='ID_PRATICA']",
+      "sequence": 2,
+      "status": "active",
+      "text_hash": "3038285daf8135829b1e3cc88aabd2f40833fffb9b894a916e9955db21b39ac9"
+    },
+    {
+      "fragment_id": "FRAG_000067",
+      "fragment_type": "xml_field",
+      "path_or_selector": "/form[@name='FRM_PRATICA']/field[@name='ID_CLIENTE']",
+      "sequence": 3,
+      "status": "active",
+      "text_hash": "5d61979c3cd249c6a1b057d854fdb36554fd090a1f31f50a41326c822cbc8ab4"
+    },
+    {
+      "fragment_id": "FRAG_000068",
+      "fragment_type": "xml_field",
+      "path_or_selector": "/form[@name='FRM_PRATICA']/field[@name='STATO']",
+      "sequence": 4,
+      "status": "active",
+      "text_hash": "b75a02a56546a5cea7d024a257e924dd8d85dd3c17c887d8e4dc78610ee71d24"
+    },
+    {
+      "fragment_id": "FRAG_000069",
+      "fragment_type": "xml_field",
+      "path_or_selector": "/form[@name='FRM_PRATICA']/field[@name='IMPORTO']",
+      "sequence": 5,
+      "status": "active",
+      "text_hash": "7cddfb3694bd66d14a5e50d2f4cb97ff5e247a66a660ff58cd5132f0a03f6538"
+    },
+    {
+      "fragment_id": "FRAG_000070",
+      "fragment_type": "xml_field",
+      "path_or_selector": "/form[@name='FRM_PRATICA']/field[@name='DURATA_MESI']",
+      "sequence": 6,
+      "status": "active",
+      "text_hash": "8331051a82e79328d946107347bf264c7efb7806abb608ebe483bc0054ec11ac"
+    },
+    {
+      "fragment_id": "FRAG_000071",
+      "fragment_type": "xml_field",
+      "path_or_selector": "/form[@name='FRM_PRATICA']/field[@name='TASSO']",
+      "sequence": 7,
+      "status": "active",
+      "text_hash": "8f763c8d18710e1096d8ded3c91295c6f0fb40c63165e419b292535269d673aa"
+    },
+    {
+      "fragment_id": "FRAG_000072",
+      "fragment_type": "xml_field",
+      "path_or_selector": "/form[@name='FRM_PRATICA']/field[@name='DATA_APPROVAZIONE']",
+      "sequence": 8,
+      "status": "active",
+      "text_hash": "b9e91f5b9968ba4a9544a152fccc1ac9f8ceb986d3486d80c19d5a16359eb874"
+    },
+    {
+      "fragment_id": "FRAG_000073",
+      "fragment_type": "xml_button",
+      "path_or_selector": "/form[@name='FRM_PRATICA']/button[@name='SAVE']",
+      "sequence": 9,
+      "status": "active",
+      "text_hash": "62ff57b9bc209ecf8e6d7eb4056a1c01b7264ee8d2bb7624ec13047caeb2b925"
+    },
+    {
+      "fragment_id": "FRAG_000074",
+      "fragment_type": "xml_button",
+      "path_or_selector": "/form[@name='FRM_PRATICA']/button[@name='CONFIRM']",
+      "sequence": 10,
+      "status": "active",
+      "text_hash": "9c7b21cdcecd6abffb50a5a4c6f8bdcde9dbe80de95333e12b4be084d469b96c"
+    }
+  ],
+  "fragments_hash": "f411d5e83e50801c93aaa324acce7b014746b7ab647f1d3bd094f4a00206ba67",
+  "input": {
+    "input_path": "corpus/active/forms/FRM_PRATICA.xml",
+    "source_hash": "2f84a13e59f1bbc44b015d3991eb3f4605c78d14b6a8e64f41b84edccf08bb08",
+    "source_id": "SRC_000013",
+    "source_revision_id": "REV_000013"
+  },
+  "outputs": {
+    "fragments_jsonl_path": "fragments/SRC_000013/REV_000013/fragments.jsonl",
+    "xml_form_report_path": "fragments/SRC_000013/REV_000013/xml_form_report.json"
+  },
+  "parser": "elementtree",
+  "profile": "xml_form.default",
+  "required_field_count": 6,
+  "resolved_config": {
+    "worker": {
+      "name": "parse_xml_form",
+      "version": "1.0"
+    },
+    "xml_form": {
+      "infer_edit_relations": true,
+      "malformed_xml_policy": "fail",
+      "output_fragments_jsonl": true,
+      "parse_buttons": true,
+      "parse_fields": true,
+      "parse_required_fields": true,
+      "parse_table_column_references": true,
+      "parser": "elementtree",
+      "require_root_form": true,
+      "strict_options_fail_on_unsupported_option": true
+    }
+  },
+  "run_id": "RUN_000024",
+  "status": "completed",
+  "table_column_references": [
+    {
+      "column_name": "ID_PRATICA",
+      "field_name": "ID_PRATICA",
+      "table_name": "PRT_PRATICA"
+    },
+    {
+      "column_name": "ID_CLIENTE",
+      "field_name": "ID_CLIENTE",
+      "table_name": "PRT_PRATICA"
+    },
+    {
+      "column_name": "STATO",
+      "field_name": "STATO",
+      "table_name": "PRT_PRATICA"
+    },
+    {
+      "column_name": "IMPORTO",
+      "field_name": "IMPORTO",
+      "table_name": "PRT_PRATICA"
+    },
+    {
+      "column_name": "DURATA_MESI",
+      "field_name": "DURATA_MESI",
+      "table_name": "PRT_PRATICA"
+    },
+    {
+      "column_name": "TASSO",
+      "field_name": "TASSO",
+      "table_name": "PRT_PRATICA"
+    },
+    {
+      "column_name": "DATA_APPROVAZIONE",
+      "field_name": "DATA_APPROVAZIONE",
+      "table_name": "PRT_PRATICA"
+    }
+  ],
+  "table_reference_count": 1,
+  "warnings": [],
+  "worker_name": "parse_xml_form",
+  "worker_version": "1.0",
+  "xml_form_objects": {
+    "forms": [
+      {
+        "buttons": [
+          {
+            "action_kind": "save",
+            "label": "Salva pratica",
+            "name": "SAVE"
+          },
+          {
+            "action_kind": "confirm",
+            "label": "Conferma approvazione",
+            "name": "CONFIRM"
+          }
+        ],
+        "edit_relations": [
+          {
+            "field_names": [
+              "ID_PRATICA",
+              "ID_CLIENTE",
+              "STATO",
+              "IMPORTO",
+              "DURATA_MESI",
+              "TASSO",
+              "DATA_APPROVAZIONE"
+            ],
+            "relation_type": "edits",
+            "source_form": "FRM_PRATICA",
+            "target_table": "PRT_PRATICA"
+          }
+        ],
+        "fields": [
+          {
+            "column_name": "ID_PRATICA",
+            "label": "Numero pratica",
+            "name": "ID_PRATICA",
+            "required": true,
+            "table_name": "PRT_PRATICA"
+          },
+          {
+            "column_name": "ID_CLIENTE",
+            "label": "Cliente",
+            "name": "ID_CLIENTE",
+            "required": true,
+            "table_name": "PRT_PRATICA"
+          },
+          {
+            "column_name": "STATO",
+            "label": "Stato",
+            "name": "STATO",
+            "required": true,
+            "table_name": "PRT_PRATICA"
+          },
+          {
+            "column_name": "IMPORTO",
+            "label": "Importo richiesto",
+            "name": "IMPORTO",
+            "required": true,
+            "table_name": "PRT_PRATICA"
+          },
+          {
+            "column_name": "DURATA_MESI",
+            "label": "Durata in mesi",
+            "name": "DURATA_MESI",
+            "required": true,
+            "table_name": "PRT_PRATICA"
+          },
+          {
+            "column_name": "TASSO",
+            "label": "Tasso applicato",
+            "name": "TASSO",
+            "required": true,
+            "table_name": "PRT_PRATICA"
+          },
+          {
+            "column_name": "DATA_APPROVAZIONE",
+            "label": "Data approvazione",
+            "name": "DATA_APPROVAZIONE",
+            "required": false,
+            "table_name": "PRT_PRATICA"
+          }
+        ],
+        "name": "FRM_PRATICA",
+        "table_column_references": [
+          {
+            "column_name": "ID_PRATICA",
+            "field_name": "ID_PRATICA",
+            "table_name": "PRT_PRATICA"
+          },
+          {
+            "column_name": "ID_CLIENTE",
+            "field_name": "ID_CLIENTE",
+            "table_name": "PRT_PRATICA"
+          },
+          {
+            "column_name": "STATO",
+            "field_name": "STATO",
+            "table_name": "PRT_PRATICA"
+          },
+          {
+            "column_name": "IMPORTO",
+            "field_name": "IMPORTO",
+            "table_name": "PRT_PRATICA"
+          },
+          {
+            "column_name": "DURATA_MESI",
+            "field_name": "DURATA_MESI",
+            "table_name": "PRT_PRATICA"
+          },
+          {
+            "column_name": "TASSO",
+            "field_name": "TASSO",
+            "table_name": "PRT_PRATICA"
+          },
+          {
+            "column_name": "DATA_APPROVAZIONE",
+            "field_name": "DATA_APPROVAZIONE",
+            "table_name": "PRT_PRATICA"
+          }
+        ],
+        "table_references": [
+          "PRT_PRATICA"
+        ],
+        "title": "Istruttoria pratica di prestito"
+      }
+    ],
+    "warnings": []
+  }
+}

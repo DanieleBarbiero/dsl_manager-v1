@@ -4,7 +4,7 @@
 
 Questa edizione conserva la forma domanda/risposta dell'outline storico e la
 riallinea allo stato consegnato fino alla Slice 28. Il riferimento sintetico
-rimane l'[outline 1.1](outline%20dsl%20manager%20flow%20from%20input%20to%20output.md);
+rimane l'[outline 1.1](outline_dsl_manager_flow_from_input_to_output_riassunto.md);
 per i dettagli operativi e le invarianti vedere il
 [manuale utente](manuale_utente_dsl_manager.md),
 l'[analisi tecnica](../documenti%20tecnici/analisi_tecnica_dsl_manager.md) e i

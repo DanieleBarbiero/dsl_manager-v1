@@ -1,0 +1,2 @@
+{"event": "run_started", "level": "INFO", "message": "Run RUN_000001 started.", "run_id": "RUN_000001", "timestamp": "2026-09-09T14:58:56+02:00"}
+{"event": "run_failed", "level": "ERROR", "message": "Run RUN_000001 failed: Excel preflight requires an .xlsx or .xlsm name.", "run_id": "RUN_000001", "timestamp": "2026-09-09T15:07:07+02:00"}

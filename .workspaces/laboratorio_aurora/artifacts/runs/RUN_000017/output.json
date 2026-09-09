@@ -1,0 +1,44 @@
+{
+  "chunk_count": 1,
+  "chunk_report_path": "chunks/SRC_000008/REV_000008/chunk_report.json",
+  "chunks": [
+    {
+      "chunk_id": "CHK_000007",
+      "metadata": {
+        "chunker": "chunk_docling",
+        "chunker_version": "1.0",
+        "end_char": 267,
+        "heading_path": [
+          "Verbale della commissione mensa"
+        ],
+        "normalized_hash": "28bd0754beff515ca0ae2b043cec672448d8dff3f2caa4d7f203062490c0d86d",
+        "normalized_json_path": "normalized/SRC_000008/REV_000008/normalized.json",
+        "normalized_markdown_path": "normalized/SRC_000008/REV_000008/normalized.md",
+        "source_text_kind": "normalized_markdown",
+        "start_char": 0,
+        "strategy": "heading_paragraph"
+      },
+      "sequence": 1,
+      "source_revision_id": "REV_000008",
+      "status": "active",
+      "text": "## Verbale della commissione mensa\n\nRiunione del 14 maggio 2013.\n\nLa commissione approva il menù estivo e richiede una seconda opzione vegetariana ogni mercoledì.\n\nQuesto verbale non contiene requisiti, dati, regole o comportamenti dell'applicazione Aurora Prestiti.\n",
+      "text_hash": "28bd0754beff515ca0ae2b043cec672448d8dff3f2caa4d7f203062490c0d86d"
+    }
+  ],
+  "chunks_hash": "65fac60dae357387a31c9fbb4fca6550f056405fa559e10caa8e1b89bb1c243a",
+  "chunks_jsonl_path": "chunks/SRC_000008/REV_000008/chunks.jsonl",
+  "exit_code": 0,
+  "normalized_hash": "28bd0754beff515ca0ae2b043cec672448d8dff3f2caa4d7f203062490c0d86d",
+  "normalized_json_path": "normalized/SRC_000008/REV_000008/normalized.json",
+  "normalized_markdown_path": "normalized/SRC_000008/REV_000008/normalized.md",
+  "profile": "docling.chunking",
+  "run_id": "RUN_000017",
+  "source_hash": "b63bebe418ffdfc8f9d560112268eaa3db3be0f9413e9947bd443c7bc45dfcbd",
+  "source_hash_path": "normalized/SRC_000008/REV_000008/source_hash.txt",
+  "source_id": "SRC_000008",
+  "source_revision_id": "REV_000008",
+  "status": "completed",
+  "strategy": "heading_paragraph",
+  "worker_name": "chunk_docling",
+  "worker_version": "1.0"
+}

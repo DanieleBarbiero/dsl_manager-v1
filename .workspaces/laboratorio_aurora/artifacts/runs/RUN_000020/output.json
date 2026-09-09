@@ -1,0 +1,18 @@
+{
+  "docling_report_path": "normalized/SRC_000010/REV_000010/docling_report.json",
+  "docling_version": "2.97.0",
+  "exit_code": 0,
+  "input_path": "corpus/active/documenti/vecchi_utili/regole_calcolo_rate_2016.html",
+  "normalized_hash": "f027203745c541cec75c107eff379235a7c34b395cea24f128aaf3120c63e739",
+  "normalized_json_path": "normalized/SRC_000010/REV_000010/normalized.json",
+  "normalized_markdown_path": "normalized/SRC_000010/REV_000010/normalized.md",
+  "profile": "docling.no_images",
+  "run_id": "RUN_000020",
+  "source_hash": "fbee4084c35aec91d4e19dd9c20119092da5879d881735c107f674abb0afa99d",
+  "source_hash_path": "normalized/SRC_000010/REV_000010/source_hash.txt",
+  "source_id": "SRC_000010",
+  "source_revision_id": "REV_000010",
+  "status": "completed",
+  "worker_name": "normalize_docling",
+  "worker_version": "1.0"
+}

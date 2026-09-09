@@ -1,0 +1,18 @@
+{
+  "docling_report_path": "normalized/SRC_000009/REV_000009/docling_report.json",
+  "docling_version": "2.97.0",
+  "exit_code": 0,
+  "input_path": "corpus/active/documenti/vecchi_utili/manuale_pratiche_2012.txt",
+  "normalized_hash": "2a957a1a8fc987900813e2501d80d8397f8c4b2c2fcde8c4d0edd1c9d8447ccc",
+  "normalized_json_path": "normalized/SRC_000009/REV_000009/normalized.json",
+  "normalized_markdown_path": "normalized/SRC_000009/REV_000009/normalized.md",
+  "profile": "docling.no_images",
+  "run_id": "RUN_000018",
+  "source_hash": "03a58684f958300f92ea662eee3cf0a53bb112746c0ea214e031da684a3902f7",
+  "source_hash_path": "normalized/SRC_000009/REV_000009/source_hash.txt",
+  "source_id": "SRC_000009",
+  "source_revision_id": "REV_000009",
+  "status": "completed",
+  "worker_name": "normalize_docling",
+  "worker_version": "1.0"
+}

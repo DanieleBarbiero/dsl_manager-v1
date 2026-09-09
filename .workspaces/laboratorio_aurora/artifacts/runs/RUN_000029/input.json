@@ -1,0 +1,51 @@
+{
+  "artifact_dir": "artifacts/runs/RUN_000029",
+  "db_code_options": {
+    "dialect": "generic_sql",
+    "output_fragments_jsonl": true,
+    "parse_calls": true,
+    "parse_procedures": true,
+    "parse_triggers": true,
+    "parse_update_statements": true,
+    "strict_options_fail_on_unsupported_option": true
+  },
+  "fragment_id_by_sequence": {},
+  "input": {
+    "db_code_options": {
+      "dialect": "generic_sql",
+      "output_fragments_jsonl": true,
+      "parse_calls": true,
+      "parse_procedures": true,
+      "parse_triggers": true,
+      "parse_update_statements": true,
+      "strict_options_fail_on_unsupported_option": true
+    },
+    "fragment_id_by_sequence": {},
+    "input_path": "corpus/active/plsql/TRG_PRATICA_APPROVA.sql",
+    "next_fragment_number": 89,
+    "output_dir": "fragments/SRC_000018/REV_000018",
+    "profile": "db_code.default",
+    "source_hash": "0dcd03ae78dd674ad9967c4eb7df17e0186228784f9b0f9e1400bea6d72cc718",
+    "source_id": "SRC_000018",
+    "source_revision_id": "REV_000018",
+    "worker_config": {
+      "name": "parse_db_code",
+      "version": "1.0"
+    }
+  },
+  "input_path": "corpus/active/plsql/TRG_PRATICA_APPROVA.sql",
+  "next_fragment_number": 89,
+  "output_dir": "fragments/SRC_000018/REV_000018",
+  "profile": "db_code.default",
+  "run_id": "RUN_000029",
+  "run_type": "parse_db_code",
+  "source_hash": "0dcd03ae78dd674ad9967c4eb7df17e0186228784f9b0f9e1400bea6d72cc718",
+  "source_id": "SRC_000018",
+  "source_revision_id": "REV_000018",
+  "worker_config": {
+    "name": "parse_db_code",
+    "version": "1.0"
+  },
+  "worker_name": "parse_db_code",
+  "worker_version": "1.0"
+}

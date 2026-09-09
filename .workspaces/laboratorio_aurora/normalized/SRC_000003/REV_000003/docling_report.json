@@ -1,0 +1,83 @@
+{
+  "catalog": {
+    "artifact_paths": [
+      "normalized/SRC_000003/REV_000003/docling_report.json",
+      "normalized/SRC_000003/REV_000003/normalized.json",
+      "normalized/SRC_000003/REV_000003/normalized.md",
+      "normalized/SRC_000003/REV_000003/ooxml_preflight_report.json",
+      "normalized/SRC_000003/REV_000003/source_hash.txt",
+      "normalized/SRC_000003/REV_000003/workbook_fragments.jsonl",
+      "normalized/SRC_000003/REV_000003/workbook_manifest.json",
+      "normalized/SRC_000003/REV_000003/workbook_report.json"
+    ],
+    "catalog_version": 1,
+    "condition": "operation_completed",
+    "counters": {
+      "normalized_json_items": 13,
+      "normalized_markdown_bytes": 152
+    },
+    "exit_code": 0,
+    "mutations": "artifacts_published",
+    "outcome": null,
+    "reason": "success",
+    "retryable": false,
+    "run_id": "RUN_000006",
+    "severity": "info",
+    "status": "completed",
+    "subject_ids": {
+      "source_id": "SRC_000003",
+      "source_revision_id": "REV_000003"
+    }
+  },
+  "conversion_status": "success",
+  "docling_version": "2.97.0",
+  "input": {
+    "input_path": "corpus/active/documenti/nuovi_utili/calcolo_rate_macro_2025.xlsm",
+    "source_hash": "17f2858e53262098f899180d470a5390c3072ba5415e7d59a3cd9a4b2bd4caf4",
+    "source_id": "SRC_000003",
+    "source_revision_id": "REV_000003"
+  },
+  "outputs": {
+    "docling_report_path": "normalized/SRC_000003/REV_000003/docling_report.json",
+    "normalized_hash": "40684b75600e12a65d87fd6657a461b5fde9941ee7c16e6713c6104d29337513",
+    "normalized_json_path": "normalized/SRC_000003/REV_000003/normalized.json",
+    "normalized_markdown_path": "normalized/SRC_000003/REV_000003/normalized.md",
+    "ooxml_preflight_report_path": "normalized/SRC_000003/REV_000003/ooxml_preflight_report.json",
+    "source_hash_path": "normalized/SRC_000003/REV_000003/source_hash.txt",
+    "workbook_fragments_path": "normalized/SRC_000003/REV_000003/workbook_fragments.jsonl",
+    "workbook_manifest_path": "normalized/SRC_000003/REV_000003/workbook_manifest.json",
+    "workbook_report_path": "normalized/SRC_000003/REV_000003/workbook_report.json"
+  },
+  "profile": "docling.no_images",
+  "resolved_config": {
+    "docling": {
+      "force_full_page_ocr": false,
+      "generate_page_images": false,
+      "generate_picture_images": false,
+      "image_export_mode": "placeholder",
+      "images_enabled": false,
+      "input_formats": [
+        "PDF",
+        "DOCX",
+        "PPTX",
+        "HTML",
+        "MD",
+        "XLSX"
+      ],
+      "ocr_enabled": false,
+      "output_normalized_json": true,
+      "output_normalized_markdown": true,
+      "strict_options_fail_on_unsupported_option": true,
+      "tables_enabled": true,
+      "tables_mode": "auto"
+    },
+    "worker": {
+      "name": "normalize_docling",
+      "version": "1.0"
+    }
+  },
+  "run_id": "RUN_000006",
+  "status": "completed",
+  "worker_name": "normalize_docling",
+  "worker_version": "1.0"
+}

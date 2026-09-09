@@ -32,6 +32,7 @@ AI_PACKAGE_STATUS_IMPORTED = "imported"
 AI_PACKAGE_STATUS_STALE = "stale"
 WORKER_NAME = "build_ai_package"
 WORKER_VERSION = "1.0"
+AI_ALLOWED_RECORD_TYPES = frozenset(ALLOWED_RECORD_TYPES - {"temporal_interval"})
 
 SUPPORTED_AI_PACKAGE_OPTIONS = {
     "include_chunks",
@@ -666,7 +667,7 @@ def candidate_schema_payload() -> dict[str, Any]:
     return {
         "$schema": "https://json-schema.org/draft/2020-12/schema",
         "additionalProperties": True,
-        "allowed_record_types": sorted(ALLOWED_RECORD_TYPES),
+        "allowed_record_types": sorted(AI_ALLOWED_RECORD_TYPES),
         "anyOf": [{"required": ["chunk_id"]}, {"required": ["fragment_id"]}],
         "common_required_fields": list(common_required),
         "description": "Handoff schema aligned with dsl_mngr candidate_validation.",
@@ -677,11 +678,13 @@ def candidate_schema_payload() -> dict[str, Any]:
             "confidence": {"enum": sorted(ALLOWED_CONFIDENCE), "type": "string"},
             "evidence_text": {"type": "string"},
             "fragment_id": {"type": ["string", "null"]},
-            "record_type": {"enum": sorted(ALLOWED_RECORD_TYPES), "type": "string"},
+            "record_type": {"enum": sorted(AI_ALLOWED_RECORD_TYPES), "type": "string"},
             "source_revision_id": {"type": "string"},
         },
         "record_specific_required_fields": {
-            key: list(value) for key, value in sorted(SPECIFIC_REQUIRED_FIELDS.items())
+            key: list(value)
+            for key, value in sorted(SPECIFIC_REQUIRED_FIELDS.items())
+            if key in AI_ALLOWED_RECORD_TYPES
         },
         "required": list(common_required),
         "title": "DSL Manager AI Candidate JSONL Record",

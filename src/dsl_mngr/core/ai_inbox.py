@@ -181,6 +181,8 @@ def import_ai_candidates(
             settings.workspace_dir,
             run_id=started.record.run_id,
             input_path=candidate_input.path,
+            origin_type="ai_import",
+            origin_ref=package_id,
         )
         result = AiImportResult.from_candidate_result(
             package_id=package_id,

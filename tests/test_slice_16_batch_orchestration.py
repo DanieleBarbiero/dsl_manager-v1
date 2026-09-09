@@ -9,6 +9,7 @@ import sys
 from pathlib import Path
 
 from dsl_mngr.cli.app import main
+from tests.slice_20_test_support import confirm_materializable_candidates
 
 
 TESTS_DIR = Path(__file__).parent
@@ -246,6 +247,8 @@ def test_batch_other_commands_smoke(tmp_path, capsys):
     assert facts_before_merge == 0
     assert relations_before_merge == 0
 
+    confirm_materializable_candidates(workspace, "CBATCH_000001")
+    confirm_materializable_candidates(workspace, "CBATCH_000002")
     assert main(["facts", "merge-batch", str(workspace)]) == 0
     merge_output = capsys.readouterr().out
     assert "Run: RUN_000010" in merge_output

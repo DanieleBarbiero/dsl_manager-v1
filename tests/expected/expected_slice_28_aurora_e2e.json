@@ -1,0 +1,123 @@
+{
+  "candidates": {
+    "batch_count": 29,
+    "batch_set_hash": "5d67e7fde1949e023d8090886fc681fad49a46fa05bb360e6ccfce979d6a14fc",
+    "decision_count": 66,
+    "decision_set_hash": "1e61e788527fe6b95785ecb13779d182406f015bc107715c930ab6dce3cc5a19",
+    "payload_count": 65,
+    "payload_set_hash": "fc064c5463ca3f960ea06a879ec5d297acbe7039bf6162783680ec114871028b",
+    "review_auto_confirmed": 65,
+    "review_pending": 9,
+    "rules": [
+      "db_code_dependency/1",
+      "db_code_unit/1",
+      "ddl_column_fact/1",
+      "ddl_fk_relation/1",
+      "ddl_table_fact/1",
+      "excel_explicit_reference/1",
+      "excel_explicit_reference/1",
+      "excel_named_range_fact/1",
+      "excel_named_range_fact/1",
+      "excel_region_fact/1",
+      "excel_region_fact/1",
+      "excel_sheet_fact/1",
+      "excel_sheet_fact/1",
+      "excel_table_fact/1",
+      "excel_table_fact/1",
+      "excel_workbook_fact/1",
+      "excel_workbook_fact/1",
+      "log_event_observation/1",
+      "xml_form_structure/1",
+      "xml_table_usage/1"
+    ]
+  },
+  "dsl": {
+    "cross_schema_categories": {
+      "governance": 1,
+      "structural": 0,
+      "temporal": 1
+    },
+    "cross_schema_total_changes": 2,
+    "v1_hash": "94bdd5f5e293544b3933826ce32acb8c1acf87f8ca10e8364db318288d0de6d9",
+    "v2_hash": "0f8a303d93a8bd2be0dcbe27b7da5734d8067b58b1f0878b57bfb4d80afda305"
+  },
+  "gexf": {
+    "edge_count": 84,
+    "graph_hash": "0a279227af2f241b54764c35a61df9d3f360f26fccbfcdbff9067f35477ac3c0",
+    "node_count": 72,
+    "semantic_valid": true,
+    "timeformat": "date",
+    "xsd_valid": true
+  },
+  "merge": {
+    "facts_created": 57,
+    "relations_created": 7,
+    "skipped_pending": 9
+  },
+  "normalization": {
+    "macro": {
+      "artifact_names": [
+        "normalized.json",
+        "normalized.md",
+        "workbook_fragments.jsonl",
+        "workbook_manifest.json",
+        "workbook_report.json"
+      ],
+      "fragments_hash": "64e67350c6dc2109297464f4cf51316857696be6e13cb7bec447a02aa58ca5d2",
+      "manifest_hash": "d962d6a8711e862b239deca1664ed1748bed02a64e3585375f1992484cf0a938",
+      "normalized_hash": "5776c6f48242ebef8de03801285ea254edee73c4d6dc4341847597dfa9384239",
+      "normalized_json_sha256": "4345b4255602db87d430406d8af4c06f29c0735a38be517de260c1791cbebb53",
+      "normalized_markdown_sha256": "5776c6f48242ebef8de03801285ea254edee73c4d6dc4341847597dfa9384239",
+      "status": "completed",
+      "workbook_report_sha256": "280995047bc92672189bf128a38955f30107907e2464ec42a7f2a35c7cd5cb16"
+    },
+    "main": {
+      "artifact_names": [
+        "normalized.json",
+        "normalized.md",
+        "workbook_fragments.jsonl",
+        "workbook_manifest.json",
+        "workbook_report.json"
+      ],
+      "fragments_hash": "ed767c44821e91792ad16f1f4a176f90746de3614d5e4cc0cf966adfc755474e",
+      "manifest_hash": "a7c1243b38eb428f316136c2ac572777f813e7977e219339ed8151a619202227",
+      "normalized_hash": "256996a9b5d0e1cf319e638538eebc480ab4a3f4ddecdf2bf8ae1c9b523faffd",
+      "normalized_json_sha256": "56009d5c8f071735022a19eaa9717ab91081955f4bb1ade160f4c867cbcdcf44",
+      "normalized_markdown_sha256": "256996a9b5d0e1cf319e638538eebc480ab4a3f4ddecdf2bf8ae1c9b523faffd",
+      "status": "completed",
+      "workbook_report_sha256": "1e4821ecf4d19392b0e558af45baed577234e29aa313d28b564b22bf53c9aab1"
+    }
+  },
+  "parsers": {
+    "parse_db_code": {
+      "fragment_count": 2,
+      "fragments_hash": "575567341cea6e6d85b499205f638d40d0ce695bc9792c03b894463037cc3416"
+    },
+    "parse_ddl": {
+      "fragment_count": 38,
+      "fragments_hash": "0a9311a43c6e9cd24011088d86bae181b34af04cfc8ad05f7608841a0b47c8c0"
+    },
+    "parse_log": {
+      "fragment_count": 5,
+      "fragments_hash": "5bb9a8ee1754a10caa3c82e353f8b2ab716128c4e9d4c6c76a4459354117a3eb"
+    },
+    "parse_xml_form": {
+      "fragment_count": 9,
+      "fragments_hash": "76c0f6a93fc2fa137898870bd57b144f79977356a8f7a0a163c590ec7f54d610"
+    }
+  },
+  "sources": {
+    "active_count": 18,
+    "content_hash": "c830d6a61fa1ee3af67151f1fd65d06459114620db56aa2449b111bfdf8f3806",
+    "second_scan_unchanged": 18
+  },
+  "temporal": {
+    "concordant_assessment": "concordant",
+    "concordant_group_hash": "ca768a33f3c04b8c8dae95df91ecc0b576a258ac6fc39baa338abf68d170b5c1",
+    "conflict_assessment": "conflicted",
+    "conflict_group_hash": "4067ed8b309cca280f9f65f251abd8ab306c10a54f4a10deb6dde2157f6e0532",
+    "conflict_status": "open",
+    "conflicted_intervals": 0,
+    "pending_conflict_candidates": 2
+  }
+}

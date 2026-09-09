@@ -13,7 +13,12 @@ from dsl_mngr.core.chunk_registry import (
     persist_worker_chunks,
 )
 from dsl_mngr.core.chunking import normalize_markdown_newlines, sha256_text
-from dsl_mngr.core.config import WorkerProfileError, load_config, load_worker_profile
+from dsl_mngr.core.config import (
+    ProjectConfigError,
+    WorkerProfileError,
+    load_config,
+    load_worker_profile,
+)
 from dsl_mngr.core.database import (
     DatabaseConfigurationError,
     DatabaseSettings,
@@ -39,7 +44,13 @@ from dsl_mngr.core.runs import (
     validate_database_migrations,
 )
 from dsl_mngr.core.source_registry import CorpusScanError, scan_corpus
-from dsl_mngr.core.worker_runner import WorkerRunResult, WorkerRunnerError, run_worker
+from dsl_mngr.core.worker_runner import (
+    WorkerRunResult,
+    WorkerRunnerError,
+    memory_limit_mode,
+    run_worker,
+)
+from dsl_mngr.core.workbook_registry import persist_workbook_output
 from dsl_mngr.workers import chunk_docling, normalize_docling, parse_ddl, parse_xml_form
 from dsl_mngr.workers import parse_db_code, parse_log
 
@@ -89,6 +100,11 @@ class NormalizeResult:
     normalized_markdown_path: str
     normalized_json_path: str
     docling_report_path: str
+    ooxml_preflight_report_path: str
+    workbook_manifest_path: str
+    workbook_fragments_path: str
+    workbook_report_path: str
+    is_excel: bool
     worker_result: WorkerRunResult
 
 
@@ -273,6 +289,7 @@ def run_corpus_normalize_command(args: object) -> int:
         DatabaseConfigurationError,
         DatabaseNotReadyError,
         RunLifecycleError,
+        ProjectConfigError,
         WorkerProfileError,
         WorkerRunnerError,
         WorkspaceNotInitializedError,
@@ -280,12 +297,14 @@ def run_corpus_normalize_command(args: object) -> int:
         print(f"Error: {exc}", file=sys.stderr)
         return 2
 
-    if result.worker_result.status != "completed":
+    if result.worker_result.status not in {"completed", "partial"}:
         print(
             "Error: Normalization failed for "
             f"{revision_id}; run={result.run_id}; exit_code={result.worker_result.exit_code}.",
             file=sys.stderr,
         )
+        if result.is_excel and result.worker_result.exit_code in {3, 4, 5, 6}:
+            return int(result.worker_result.exit_code)
         return 2
 
     print(f"Run: {result.run_id}")
@@ -295,6 +314,17 @@ def run_corpus_normalize_command(args: object) -> int:
     print(f"Markdown: {result.normalized_markdown_path}")
     print(f"JSON: {result.normalized_json_path}")
     print(f"Report: {result.docling_report_path}")
+    if result.is_excel:
+        print(f"Workbook manifest: {result.workbook_manifest_path}")
+        print(f"Workbook fragments: {result.workbook_fragments_path}")
+        print(f"Workbook report: {result.workbook_report_path}")
+    if result.worker_result.status == "partial":
+        print(
+            "Warning: Normalization completed partially for "
+            f"{revision_id}; run={result.run_id}; exit_code=6.",
+            file=sys.stderr,
+        )
+        return 6
     return 0
 
 
@@ -536,10 +566,13 @@ def normalize_source_revision(
     settings = resolve_database_settings(workspace_dir)
     revision = _load_revision_context(settings, source_revision_id)
     input_path = _resolve_revision_file(settings.workspace_dir, revision.file_path)
+    is_excel = input_path.suffix.lower() in {".xlsx", ".xlsm"}
     profile_config = load_worker_profile(settings.workspace_dir, profile)
     worker_config = dict(profile_config["worker"])
     docling_options = dict(profile_config["docling"])
     worker_version = str(worker_config.get("version", "1.0"))
+    project_config = load_config(settings.workspace_dir)
+    excel_limits = dict(project_config["excel"])
 
     output_dir = f"normalized/{revision.source_id}/{revision.source_revision_id}"
     worker_input = {
@@ -551,6 +584,22 @@ def normalize_source_revision(
         "source_revision_id": revision.source_revision_id,
         "worker_config": worker_config,
     }
+    if is_excel:
+        fragment_seed = _load_fragment_id_seed(settings, revision.source_revision_id)
+        worker_input.update(
+            {
+                "excel_limits": excel_limits,
+                "expected_source_hash": revision.content_hash,
+                "fragment_id_by_sequence": {
+                    str(key): value
+                    for key, value in fragment_seed.fragment_id_by_sequence.items()
+                },
+                "memory_limit_mode": memory_limit_mode(
+                    int(excel_limits["worker_memory_bytes"])
+                ),
+                "next_fragment_number": fragment_seed.next_fragment_number,
+            }
+        )
     started = start_run(
         settings.workspace_dir,
         run_type="normalize",
@@ -564,6 +613,14 @@ def normalize_source_revision(
     )
 
     try:
+        excel_runner_options: dict[str, Any] = {}
+        if is_excel:
+            excel_runner_options = {
+                "accepted_exit_codes": (0, 6),
+                "max_output_bytes": int(excel_limits["max_output_bytes"]),
+                "memory_limit_bytes": int(excel_limits["worker_memory_bytes"]),
+                "timeout_seconds": float(excel_limits["worker_timeout_seconds"]),
+            }
         worker_result = run_worker(
             settings.workspace_dir,
             run_id=started.record.run_id,
@@ -571,7 +628,12 @@ def normalize_source_revision(
             worker_path=Path(normalize_docling.__file__).resolve(),
             worker_version=worker_version,
             input_payload=worker_input,
-            apply_mutations=_update_normalized_hash_mutation(revision),
+            apply_mutations=_update_normalized_hash_mutation(
+                settings.workspace_dir,
+                revision,
+                is_excel=is_excel,
+            ),
+            **excel_runner_options,
         )
     except Exception as exc:
         fail_run(
@@ -582,7 +644,7 @@ def normalize_source_revision(
         raise
 
     app_log_path = _resolve_app_log_path(settings.workspace_dir)
-    if worker_result.status != "completed":
+    if worker_result.status not in {"completed", "partial"}:
         log_event(
             app_log_path,
             level="ERROR",
@@ -602,6 +664,11 @@ def normalize_source_revision(
             normalized_markdown_path="",
             normalized_json_path="",
             docling_report_path="",
+            ooxml_preflight_report_path="",
+            workbook_manifest_path="",
+            workbook_fragments_path="",
+            workbook_report_path="",
+            is_excel=is_excel,
             worker_result=worker_result,
         )
 
@@ -610,10 +677,25 @@ def normalize_source_revision(
     normalized_markdown_path = _required_output_path(output, "normalized_markdown_path")
     normalized_json_path = _required_output_path(output, "normalized_json_path")
     docling_report_path = _required_output_path(output, "docling_report_path")
+    ooxml_preflight_report_path = ""
+    workbook_manifest_path = ""
+    workbook_fragments_path = ""
+    workbook_report_path = ""
+    if is_excel:
+        ooxml_preflight_report_path = _required_output_path(
+            output, "ooxml_preflight_report_path"
+        )
+        workbook_manifest_path = _required_output_path(output, "workbook_manifest_path")
+        workbook_fragments_path = _required_output_path(output, "workbook_fragments_path")
+        workbook_report_path = _required_output_path(output, "workbook_report_path")
     log_event(
         app_log_path,
-        level="INFO",
-        event="corpus_normalization_completed",
+        level="WARNING" if worker_result.status == "partial" else "INFO",
+        event=(
+            "corpus_normalization_partial"
+            if worker_result.status == "partial"
+            else "corpus_normalization_completed"
+        ),
         message=(
             f"Normalization completed for revision {source_revision_id}; "
             f"source={revision.source_id}; normalized_hash={normalized_hash}"
@@ -629,6 +711,11 @@ def normalize_source_revision(
         normalized_markdown_path=normalized_markdown_path,
         normalized_json_path=normalized_json_path,
         docling_report_path=docling_report_path,
+        ooxml_preflight_report_path=ooxml_preflight_report_path,
+        workbook_manifest_path=workbook_manifest_path,
+        workbook_fragments_path=workbook_fragments_path,
+        workbook_report_path=workbook_report_path,
+        is_excel=is_excel,
         worker_result=worker_result,
     )
 
@@ -1870,7 +1957,12 @@ def _validate_log_source_hash(revision: LogRevisionContext, input_path: Path) ->
         )
 
 
-def _update_normalized_hash_mutation(revision: RevisionContext):
+def _update_normalized_hash_mutation(
+    workspace_dir: Path,
+    revision: RevisionContext,
+    *,
+    is_excel: bool,
+):
     def apply(connection: sqlite3.Connection, output: dict[str, Any]) -> None:
         if output.get("source_id") != revision.source_id:
             raise CorpusNormalizeError("Worker output source_id is incoherent.")
@@ -1888,6 +1980,21 @@ def _update_normalized_hash_mutation(revision: RevisionContext):
             "source_hash_path",
         ):
             _required_output_path(output, key)
+        if is_excel:
+            _required_output_path(output, "ooxml_preflight_report_path")
+            persist_workbook_output(
+                connection,
+                workspace_dir=workspace_dir,
+                output=output,
+                expected_source_id=revision.source_id,
+                expected_source_revision_id=revision.source_revision_id,
+                expected_source_hash=revision.content_hash,
+                timestamp=timestamp_now(None),
+            )
+        status = output.get("status")
+        exit_code = output.get("exit_code")
+        if (status, exit_code) not in {("completed", 0), ("partial", 6)}:
+            raise CorpusNormalizeError("Worker output normalization status is incoherent.")
 
         connection.execute(
             """

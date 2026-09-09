@@ -100,7 +100,9 @@ def test_build_ai_package(tmp_path, capsys):
 
     with _connect(workspace) as connection:
         for record in template_records:
-            assert validate_candidate_payload(connection, record) is None
+            failure = validate_candidate_payload(connection, record)
+            assert failure is not None
+            assert failure.reason == "unresolved_template_placeholder"
         package_row = connection.execute("SELECT * FROM ai_packages").fetchone()
         run = connection.execute("SELECT run_type, status FROM runs").fetchone()
         worker = connection.execute(

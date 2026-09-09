@@ -3,6 +3,7 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 
+from dsl_mngr.core.canonical import canonical_json_artifact_v1
 from dsl_mngr.core.batch import BatchError, batch_cli_lines, facts_merge_batch
 from dsl_mngr.core.config import load_config
 from dsl_mngr.core.database import (
@@ -19,6 +20,7 @@ from dsl_mngr.core.merge import (
     merge_candidate_batch,
     write_merge_artifacts,
 )
+from dsl_mngr.core.reconciliation import ReconciliationError, reconcile_required
 from dsl_mngr.core.runs import (
     DatabaseNotReadyError,
     RunLifecycleError,
@@ -31,9 +33,12 @@ from dsl_mngr.core.runs import (
 def run_facts_merge_command(args: object) -> int:
     workspace = Path(getattr(args, "workspace"))
     batch_id = str(getattr(args, "batch_id"))
+    strict_review = bool(getattr(args, "strict_review", False))
 
     try:
-        result = merge_facts_candidate_batch(workspace, batch_id=batch_id)
+        result = merge_facts_candidate_batch(
+            workspace, batch_id=batch_id, strict_review=strict_review
+        )
     except (
         DatabaseConfigurationError,
         DatabaseNotReadyError,
@@ -43,7 +48,7 @@ def run_facts_merge_command(args: object) -> int:
         WorkspaceNotInitializedError,
     ) as exc:
         print(f"Error: {exc}", file=sys.stderr)
-        return 2
+        return int(getattr(exc, "exit_code", 2))
 
     print(f"Run: {result.run_id}")
     print(f"Batch: {result.batch_id}")
@@ -55,7 +60,47 @@ def run_facts_merge_command(args: object) -> int:
     print(f"Conflicts created: {result.conflicts_created}")
     print(f"Conflicts existing: {result.conflicts_existing}")
     print(f"Skipped: {result.skipped_records}")
+    print(f"Skipped pending: {result.skipped_pending}")
+    print(f"Skipped rejected: {result.skipped_rejected}")
+    print(f"Skipped superseded: {result.skipped_superseded}")
+    print(f"Skipped non-leaf: {result.skipped_non_leaf}")
     return 0
+
+
+def run_facts_reconcile_command(args: object) -> int:
+    workspace = Path(getattr(args, "workspace"))
+    reconciliation_id = getattr(args, "reconciliation_id", None)
+    strict = bool(getattr(args, "strict", False))
+    try:
+        started = start_run(
+            workspace,
+            run_type="reconciliation",
+            input_payload={
+                "reconciliation_id": reconciliation_id,
+                "strict": strict,
+            },
+        )
+        result = reconcile_required(
+            workspace,
+            run_id=started.record.run_id,
+            reconciliation_id=reconciliation_id,
+            strict=strict,
+        )
+        payload = result.to_payload()
+        complete_run(workspace, started.record.run_id, output_payload=payload)
+    except (
+        DatabaseConfigurationError,
+        DatabaseNotReadyError,
+        ReconciliationError,
+        RunLifecycleError,
+        WorkspaceNotInitializedError,
+    ) as exc:
+        if "started" in locals():
+            _mark_started_run_failed(workspace, started.record.run_id, str(exc))
+        print(f"Error: {exc}", file=sys.stderr)
+        return int(getattr(exc, "exit_code", 2))
+    print(canonical_json_artifact_v1(payload), end="")
+    return int(payload["exit_code"])
 
 
 def run_facts_merge_batch_command(args: object) -> int:
@@ -89,6 +134,7 @@ def merge_facts_candidate_batch(
     workspace_dir: str | Path,
     *,
     batch_id: str,
+    strict_review: bool = False,
     parent_run_id: str | None = None,
 ) -> MergeResult:
     workspace = Path(workspace_dir)
@@ -105,6 +151,7 @@ def merge_facts_candidate_batch(
             workspace,
             run_id=started.record.run_id,
             batch_id=batch_id,
+            strict_review=strict_review,
         )
         complete_run(
             workspace,

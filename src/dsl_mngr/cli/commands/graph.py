@@ -19,6 +19,7 @@ from dsl_mngr.core.graph_export import (
     write_graph_export_artifacts,
 )
 from dsl_mngr.core.logging_setup import log_event
+from dsl_mngr.core.reconciliation import ReconciliationError
 from dsl_mngr.core.runs import (
     DatabaseNotReadyError,
     RunLifecycleError,
@@ -34,6 +35,10 @@ def run_graph_export_command(args: object) -> int:
     output_dir = getattr(args, "output_dir", None)
     export_format = getattr(args, "format", "gexf")
     strict_orphans = bool(getattr(args, "strict_orphans", False))
+    dynamic = bool(getattr(args, "dynamic", False))
+    timeformat = getattr(args, "timeformat", None)
+    allow_incomplete = bool(getattr(args, "allow_incomplete", False))
+    temporal_output_mode = str(getattr(args, "temporal_output_mode", "strict"))
 
     if export_format != "gexf":
         print(
@@ -43,8 +48,19 @@ def run_graph_export_command(args: object) -> int:
         return 2
 
     try:
-        ensure_graph_export_database_ready(workspace)
-        options = _load_graph_options(workspace, strict_orphans=strict_orphans)
+        ensure_graph_export_database_ready(
+            workspace,
+            dynamic=dynamic,
+            allow_incomplete=allow_incomplete,
+        )
+        options = _load_graph_options(
+            workspace,
+            strict_orphans=strict_orphans,
+            dynamic=dynamic,
+            timeformat=timeformat,
+            allow_incomplete=allow_incomplete,
+            temporal_output_mode=temporal_output_mode,
+        )
         started = start_run(
             workspace,
             run_type="gexf_export",
@@ -60,12 +76,13 @@ def run_graph_export_command(args: object) -> int:
         DatabaseNotReadyError,
         GraphExportDatabaseNotReadyError,
         GraphExportError,
+        ReconciliationError,
         RunLifecycleError,
         WorkerProfileError,
         WorkspaceNotInitializedError,
     ) as exc:
         print(f"Error: {exc}", file=sys.stderr)
-        return 2
+        return int(getattr(exc, "exit_code", 2))
 
     try:
         result = export_gexf_from_snapshot(
@@ -87,23 +104,38 @@ def run_graph_export_command(args: object) -> int:
         DatabaseNotReadyError,
         GraphExportDatabaseNotReadyError,
         GraphExportError,
+        ReconciliationError,
         RunLifecycleError,
         WorkspaceNotInitializedError,
     ) as exc:
         _mark_started_run_failed(workspace, started.record.run_id, str(exc))
         _log_graph_export_failed(started.artifacts.workspace_dir, started.record.run_id, str(exc))
         print(f"Error: {exc}", file=sys.stderr)
-        return 2
+        return int(getattr(exc, "exit_code", 2))
 
     _log_graph_export_completed(started.artifacts.workspace_dir, result)
     _print_result(result)
     return 0
 
 
-def _load_graph_options(workspace: Path, *, strict_orphans: bool) -> GraphExportOptions:
+def _load_graph_options(
+    workspace: Path,
+    *,
+    strict_orphans: bool,
+    dynamic: bool,
+    timeformat: str | None,
+    allow_incomplete: bool,
+    temporal_output_mode: str,
+) -> GraphExportOptions:
     profile_path = workspace / "configs" / "workers" / "gexf.default.yaml"
     if not profile_path.is_file():
-        return GraphExportOptions(strict_orphans=strict_orphans)
+        return GraphExportOptions(
+            strict_orphans=strict_orphans,
+            dynamic=dynamic,
+            timeformat=timeformat,
+            allow_incomplete=allow_incomplete,
+            temporal_output_mode=temporal_output_mode,
+        )
 
     profile = load_worker_profile(
         workspace,
@@ -118,6 +150,10 @@ def _load_graph_options(workspace: Path, *, strict_orphans: bool) -> GraphExport
         strict_orphans=strict_orphans or bool(graph.get("strict_orphans", False)),
         directed=bool(graph.get("directed", True)),
         node_label_strategy=str(graph.get("node_label_strategy", "readable")),
+        dynamic=dynamic,
+        timeformat=timeformat,
+        allow_incomplete=allow_incomplete,
+        temporal_output_mode=temporal_output_mode,
     )
 
 
@@ -134,6 +170,8 @@ def _print_result(result: GraphExportResult) -> None:
     print(f"Warnings: {result.warning_count}")
     print(f"GEXF: {result.graph_path}")
     print(f"Report: {result.report_path}")
+    for path in result.separated_graph_paths:
+        print(f"Separated GEXF: {path}")
     if result.warnings:
         print("Warnings:")
         for warning in result.warnings:

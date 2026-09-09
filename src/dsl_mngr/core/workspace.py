@@ -38,7 +38,7 @@ DEFAULT_DOCLING_NO_IMAGES_PROFILE = """worker:
   name: normalize_docling
   version: 1.0
 docling:
-  input_formats: pdf,docx,pptx,html,md,txt
+  input_formats: pdf,docx,pptx,html,md,txt,xlsx,xlsm
   output_normalized_markdown: true
   output_normalized_json: true
   images_enabled: false

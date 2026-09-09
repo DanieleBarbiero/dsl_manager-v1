@@ -26,6 +26,7 @@ from dsl_mngr.core.dsl_diff import (
     write_dsl_diff_artifacts,
 )
 from dsl_mngr.core.logging_setup import log_event
+from dsl_mngr.core.reconciliation import ReconciliationError
 from dsl_mngr.core.runs import (
     DatabaseNotReadyError,
     RunLifecycleError,
@@ -38,30 +39,43 @@ from dsl_mngr.core.runs import (
 def run_dsl_render_command(args: object) -> int:
     workspace = Path(getattr(args, "workspace"))
     output_dir = getattr(args, "output_dir", None)
+    schema_version = str(getattr(args, "schema_version", "1"))
+    allow_incomplete = bool(getattr(args, "allow_incomplete", False))
 
     try:
-        ensure_dsl_render_database_ready(workspace)
+        ensure_dsl_render_database_ready(
+            workspace,
+            schema_version=schema_version,
+            allow_incomplete=allow_incomplete,
+        )
         started = start_run(
             workspace,
             run_type="dsl_render",
-            input_payload={"output_dir": output_dir or "exports/dsl"},
+            input_payload={
+                "allow_incomplete": allow_incomplete,
+                "output_dir": output_dir or "exports/dsl",
+                "schema_version": schema_version,
+            },
         )
     except (
         DatabaseConfigurationError,
         DatabaseNotReadyError,
         DslRenderDatabaseNotReadyError,
         DslRenderError,
+        ReconciliationError,
         RunLifecycleError,
         WorkspaceNotInitializedError,
     ) as exc:
         print(f"Error: {exc}", file=sys.stderr)
-        return 2
+        return int(getattr(exc, "exit_code", 2))
 
     try:
         result = render_dsl_snapshot(
             workspace,
             run_id=started.record.run_id,
             output_dir=output_dir,
+            schema_version=schema_version,
+            allow_incomplete=allow_incomplete,
         )
         complete_run(
             workspace,
@@ -74,13 +88,14 @@ def run_dsl_render_command(args: object) -> int:
         DatabaseNotReadyError,
         DslRenderDatabaseNotReadyError,
         DslRenderError,
+        ReconciliationError,
         RunLifecycleError,
         WorkspaceNotInitializedError,
     ) as exc:
         _mark_started_run_failed(workspace, started.record.run_id, str(exc))
         _log_render_failed(started.artifacts.workspace_dir, started.record.run_id, str(exc))
         print(f"Error: {exc}", file=sys.stderr)
-        return 2
+        return int(getattr(exc, "exit_code", 2))
 
     _log_render_completed(started.artifacts.workspace_dir, result)
 
@@ -101,6 +116,7 @@ def run_dsl_diff_command(args: object) -> int:
     from_snapshot_id = getattr(args, "from_snapshot_id")
     to_snapshot_id = getattr(args, "to_snapshot_id")
     output_dir = getattr(args, "output_dir", None)
+    cross_schema = bool(getattr(args, "cross_schema", False))
 
     try:
         ensure_dsl_diff_database_ready(workspace)
@@ -111,6 +127,7 @@ def run_dsl_diff_command(args: object) -> int:
                 "from_snapshot_id": from_snapshot_id,
                 "output_dir": output_dir or "exports/dsl_diff",
                 "to_snapshot_id": to_snapshot_id,
+                "cross_schema": cross_schema,
             },
         )
     except (
@@ -118,11 +135,12 @@ def run_dsl_diff_command(args: object) -> int:
         DatabaseNotReadyError,
         DslDiffDatabaseNotReadyError,
         DslDiffError,
+        ReconciliationError,
         RunLifecycleError,
         WorkspaceNotInitializedError,
     ) as exc:
         print(f"Error: {exc}", file=sys.stderr)
-        return 2
+        return int(getattr(exc, "exit_code", 2))
 
     try:
         result = diff_dsl_snapshots(
@@ -131,6 +149,7 @@ def run_dsl_diff_command(args: object) -> int:
             from_snapshot_id=from_snapshot_id,
             to_snapshot_id=to_snapshot_id,
             output_dir=output_dir,
+            cross_schema=cross_schema,
         )
         complete_run(
             workspace,
@@ -143,13 +162,14 @@ def run_dsl_diff_command(args: object) -> int:
         DatabaseNotReadyError,
         DslDiffDatabaseNotReadyError,
         DslDiffError,
+        ReconciliationError,
         RunLifecycleError,
         WorkspaceNotInitializedError,
     ) as exc:
         _mark_started_run_failed(workspace, started.record.run_id, str(exc))
         _log_diff_failed(started.artifacts.workspace_dir, started.record.run_id, str(exc))
         print(f"Error: {exc}", file=sys.stderr)
-        return 2
+        return int(getattr(exc, "exit_code", 2))
 
     _log_diff_completed(started.artifacts.workspace_dir, result)
 

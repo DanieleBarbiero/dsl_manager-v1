@@ -1,6 +1,9 @@
 MANUALE OPERATIVO PRATICHE PRESTITO
 Edizione 4 - giugno 2012
 
+valid_from: 2012-06-01
+valid_to: 2016-12-31
+
 La pratica di prestito è associata alla posizione anagrafica del richiedente.
 
 Gli stati previsti dalla procedura sono BOZZA, VALIDATA, DELIBERATA e ANNULLATA.
@@ -14,4 +17,3 @@ Alla delibera positiva l'operatore deve annotare manualmente la data nel campo D
 Il piano rate viene prodotto dal programma notturno PRC_GENERA_PIANO.
 
 Nota storica: i nomi BOZZA, VALIDATA e DELIBERATA sono riferiti alla versione precedente del flusso. Verificare la documentazione corrente prima di riutilizzarli.
-

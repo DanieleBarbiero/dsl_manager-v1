@@ -14,6 +14,7 @@ from dsl_mngr.core.database import (
     resolve_database_settings,
     resolve_workspace_path,
 )
+from dsl_mngr.core.reconciliation import assert_no_open_reconciliation
 from dsl_mngr.core.runs import (
     DatabaseNotReadyError,
     canonical_json,
@@ -36,6 +37,9 @@ CHANGE_TYPE_ORDER = (
     "added_conflict",
     "removed_conflict",
     "modified_conflict",
+    "modified_structural",
+    "modified_governance",
+    "modified_temporal",
 )
 CHANGE_TYPE_INDEX = {change_type: index for index, change_type in enumerate(CHANGE_TYPE_ORDER)}
 
@@ -116,6 +120,7 @@ class _Snapshot:
     snapshot_id: str
     dsl_hash: str
     registry_hash: str
+    schema_version: str
     content: dict[str, Any]
 
 
@@ -139,6 +144,7 @@ def ensure_dsl_diff_database_ready(workspace_dir: str | Path) -> DatabaseSetting
     try:
         try:
             validate_database_migrations(connection)
+            assert_no_open_reconciliation(connection)
         except DatabaseNotReadyError as exc:
             message = str(exc).replace("dsl-manager run", "dsl-manager dsl diff")
             raise DslDiffDatabaseNotReadyError(message) from exc
@@ -154,6 +160,7 @@ def diff_dsl_snapshots(
     from_snapshot_id: str,
     to_snapshot_id: str,
     output_dir: str | Path | None = None,
+    cross_schema: bool = False,
 ) -> DslDiffResult:
     settings = ensure_dsl_diff_database_ready(workspace_dir)
     export_dir = _resolve_output_dir(settings.workspace_dir, output_dir)
@@ -162,12 +169,17 @@ def diff_dsl_snapshots(
     connection = open_database(settings.database_path, enable_wal=settings.wal_enabled)
     try:
         validate_database_migrations(connection)
+        assert_no_open_reconciliation(connection)
         from_snapshot = _load_snapshot(connection, from_snapshot_id)
         to_snapshot = _load_snapshot(connection, to_snapshot_id)
     finally:
         connection.close()
 
-    diff_payload = build_dsl_diff(from_snapshot, to_snapshot)
+    diff_payload = build_dsl_diff(
+        from_snapshot,
+        to_snapshot,
+        cross_schema=cross_schema,
+    )
     markdown = render_dsl_diff_markdown(diff_payload)
 
     export_dir.mkdir(parents=True, exist_ok=True)
@@ -193,7 +205,18 @@ def diff_dsl_snapshots(
     )
 
 
-def build_dsl_diff(from_snapshot: _Snapshot, to_snapshot: _Snapshot) -> dict[str, Any]:
+def build_dsl_diff(
+    from_snapshot: _Snapshot,
+    to_snapshot: _Snapshot,
+    *,
+    cross_schema: bool = False,
+) -> dict[str, Any]:
+    if from_snapshot.schema_version != to_snapshot.schema_version:
+        if not cross_schema:
+            raise DslDiffError(
+                "Cross-schema diff requires the explicit --cross-schema option."
+            )
+        return _build_cross_schema_diff(from_snapshot, to_snapshot)
     from_entities = _entities_by_key(from_snapshot.content)
     to_entities = _entities_by_key(to_snapshot.content)
 
@@ -211,7 +234,7 @@ def build_dsl_diff(from_snapshot: _Snapshot, to_snapshot: _Snapshot) -> dict[str
     changes = _finalize_changes(raw_changes)
     return {
         "metadata": {
-            "schema_version": "1",
+            "schema_version": from_snapshot.schema_version,
             "from_snapshot_id": from_snapshot.snapshot_id,
             "to_snapshot_id": to_snapshot.snapshot_id,
             "from_dsl_hash": from_snapshot.dsl_hash,
@@ -223,6 +246,131 @@ def build_dsl_diff(from_snapshot: _Snapshot, to_snapshot: _Snapshot) -> dict[str
         "summary": summary,
         "changes": changes,
     }
+
+
+def _build_cross_schema_diff(
+    from_snapshot: _Snapshot,
+    to_snapshot: _Snapshot,
+) -> dict[str, Any]:
+    causes = _sort_causes(
+        [
+            *_all_snapshot_causes(from_snapshot, "before"),
+            *_all_snapshot_causes(to_snapshot, "after"),
+        ]
+    )
+    if not causes:
+        raise MissingTraceabilityError(
+            "missing_traceability: cross-schema comparison has no evidence causes."
+        )
+
+    changes: list[dict[str, Any]] = []
+    structural_before = _cross_schema_structural_projection(from_snapshot.content)
+    structural_after = _cross_schema_structural_projection(to_snapshot.content)
+    if structural_before != structural_after:
+        changes.append(
+            {
+                "change_type": "modified_structural",
+                "category": "structural",
+                "path": "/cross_schema/structural",
+                "before": structural_before,
+                "after": structural_after,
+                "causes": causes,
+                "_stable_id": "structural",
+            }
+        )
+    changes.append(
+        {
+            "change_type": "modified_governance",
+            "category": "governance",
+            "path": "/metadata/schema_version",
+            "before": from_snapshot.schema_version,
+            "after": to_snapshot.schema_version,
+            "causes": causes,
+            "_stable_id": "schema_version",
+        }
+    )
+    temporal_before = _cross_schema_temporal_projection(from_snapshot.content)
+    temporal_after = _cross_schema_temporal_projection(to_snapshot.content)
+    if temporal_before != temporal_after:
+        temporal_causes = [
+            cause
+            for cause in causes
+            if cause.get("owner_type") in {"fact_temporal", "relation_temporal"}
+        ] or causes
+        changes.append(
+            {
+                "change_type": "modified_temporal",
+                "category": "temporal",
+                "path": "/cross_schema/temporal",
+                "before": temporal_before,
+                "after": temporal_after,
+                "causes": temporal_causes,
+                "_stable_id": "temporal",
+            }
+        )
+
+    summary = _build_summary(changes)
+    summary["categories"] = {
+        category: sum(change.get("category") == category for change in changes)
+        for category in ("structural", "governance", "temporal")
+    }
+    finalized = _finalize_changes(changes)
+    return {
+        "metadata": {
+            "schema_version": "cross",
+            "from_schema_version": from_snapshot.schema_version,
+            "to_schema_version": to_snapshot.schema_version,
+            "cross_schema": True,
+            "from_snapshot_id": from_snapshot.snapshot_id,
+            "to_snapshot_id": to_snapshot.snapshot_id,
+            "from_dsl_hash": from_snapshot.dsl_hash,
+            "to_dsl_hash": to_snapshot.dsl_hash,
+            "from_registry_hash": from_snapshot.registry_hash,
+            "to_registry_hash": to_snapshot.registry_hash,
+            "has_changes": bool(finalized),
+        },
+        "summary": summary,
+        "changes": finalized,
+    }
+
+
+def _cross_schema_structural_projection(content: dict[str, Any]) -> dict[str, Any]:
+    projected = {
+        "conflicts": copy.deepcopy(content.get("conflicts", [])),
+        "entities": copy.deepcopy(content.get("entities", [])),
+        "relations": copy.deepcopy(content.get("relations", [])),
+    }
+    for entity in projected["entities"]:
+        for fact in entity.get("facts", []):
+            fact.pop("intervals", None)
+    for relation in projected["relations"]:
+        relation.pop("intervals", None)
+    return projected
+
+
+def _cross_schema_temporal_projection(content: dict[str, Any]) -> dict[str, Any]:
+    fact_intervals: dict[str, Any] = {}
+    for entity in content.get("entities", []):
+        for fact in entity.get("facts", []):
+            intervals = fact.get("intervals", [])
+            if intervals:
+                fact_intervals[str(fact.get("fact_id"))] = copy.deepcopy(intervals)
+    relation_intervals = {
+        str(relation.get("relation_id")): copy.deepcopy(relation.get("intervals", []))
+        for relation in content.get("relations", [])
+        if relation.get("intervals")
+    }
+    return {"facts": fact_intervals, "relations": relation_intervals}
+
+
+def _all_snapshot_causes(snapshot: _Snapshot, side: str) -> list[dict[str, Any]]:
+    causes: list[dict[str, Any]] = []
+    for entity in snapshot.content.get("entities", []):
+        for fact in entity.get("facts", []):
+            causes.extend(_causes_for_fact(snapshot, side, fact))
+    for relation in snapshot.content.get("relations", []):
+        causes.extend(_causes_for_relation(snapshot, side, relation))
+    return causes
 
 
 def write_dsl_diff_artifacts(workspace_dir: str | Path, result: DslDiffResult) -> None:
@@ -291,6 +439,15 @@ def render_dsl_diff_markdown(diff_payload: dict[str, Any]) -> str:
         "",
         "## Changes",
     ]
+    if "categories" in summary:
+        changes_index = lines.index("## Changes")
+        lines[changes_index:changes_index] = [
+            "## Cross-schema categories",
+            f"- structural: `{summary['categories']['structural']}`",
+            f"- governance: `{summary['categories']['governance']}`",
+            f"- temporal: `{summary['categories']['temporal']}`",
+            "",
+        ]
 
     changes = diff_payload["changes"]
     if not changes:
@@ -388,16 +545,27 @@ def _load_snapshot(connection: sqlite3.Connection, snapshot_id: str) -> _Snapsho
     if not isinstance(registry_hash, str):
         raise DslDiffError(f"Snapshot {snapshot_id} metadata.registry_hash is missing.")
 
-    _validate_dsl_sections(snapshot_id, content)
+    schema_version = metadata.get("schema_version")
+    if schema_version not in {"1", "2"}:
+        raise DslDiffError(
+            f"Snapshot {snapshot_id} has unsupported metadata.schema_version."
+        )
+    _validate_dsl_sections(snapshot_id, content, schema_version=schema_version)
     return _Snapshot(
         snapshot_id=row["snapshot_id"],
         dsl_hash=row["dsl_hash"],
         registry_hash=registry_hash,
+        schema_version=schema_version,
         content=content,
     )
 
 
-def _validate_dsl_sections(snapshot_id: str, content: dict[str, Any]) -> None:
+def _validate_dsl_sections(
+    snapshot_id: str,
+    content: dict[str, Any],
+    *,
+    schema_version: str,
+) -> None:
     for section_name in ("entities", "relations", "conflicts"):
         if not isinstance(content.get(section_name), list):
             raise DslDiffError(f"Snapshot {snapshot_id} section {section_name} must be a list.")
@@ -409,6 +577,10 @@ def _validate_dsl_sections(snapshot_id: str, content: dict[str, Any]) -> None:
             raise DslDiffError(
                 f"Snapshot {snapshot_id} traceability.{section_name} must be an object."
             )
+    if schema_version == "2" and not isinstance(traceability.get("temporal"), dict):
+        raise DslDiffError(
+            f"Snapshot {snapshot_id} traceability.temporal must be an object."
+        )
 
 
 def _diff_entities(
@@ -453,6 +625,11 @@ def _diff_facts(
     to_snapshot: _Snapshot,
     common_entity_keys: list[str],
 ) -> list[dict[str, Any]]:
+    compare_fields = (
+        (*FACT_COMPARE_FIELDS, "intervals")
+        if from_snapshot.schema_version == "2"
+        else FACT_COMPARE_FIELDS
+    )
     from_facts = _facts_by_key(from_snapshot.content, common_entity_keys)
     to_facts = _facts_by_key(to_snapshot.content, common_entity_keys)
     changes: list[dict[str, Any]] = []
@@ -473,7 +650,7 @@ def _diff_facts(
         if len(before_group) == 1 and len(after_group) == 1:
             before_fact = before_group[0]
             after_fact = after_group[0]
-            if _changed(before_fact, after_fact, FACT_COMPARE_FIELDS):
+            if _changed(before_fact, after_fact, compare_fields):
                 change = {
                     "change_type": "modified_fact",
                     "path": path,
@@ -489,9 +666,9 @@ def _diff_facts(
                 changes.append(change)
             continue
 
-        if _semantic_signatures(before_group, FACT_COMPARE_FIELDS) == _semantic_signatures(
+        if _semantic_signatures(before_group, compare_fields) == _semantic_signatures(
             after_group,
-            FACT_COMPARE_FIELDS,
+            compare_fields,
         ):
             continue
         for fact in before_group:
@@ -503,6 +680,11 @@ def _diff_facts(
 
 
 def _diff_relations(from_snapshot: _Snapshot, to_snapshot: _Snapshot) -> list[dict[str, Any]]:
+    compare_fields = (
+        (*RELATION_COMPARE_FIELDS, "intervals")
+        if from_snapshot.schema_version == "2"
+        else RELATION_COMPARE_FIELDS
+    )
     from_relations = _relations_by_key(from_snapshot.content)
     to_relations = _relations_by_key(to_snapshot.content)
     changes: list[dict[str, Any]] = []
@@ -523,7 +705,7 @@ def _diff_relations(from_snapshot: _Snapshot, to_snapshot: _Snapshot) -> list[di
         if len(before_group) == 1 and len(after_group) == 1:
             before_relation = before_group[0]
             after_relation = after_group[0]
-            if _changed(before_relation, after_relation, RELATION_COMPARE_FIELDS):
+            if _changed(before_relation, after_relation, compare_fields):
                 change = {
                     "change_type": "modified_relation",
                     "path": path,
@@ -541,9 +723,9 @@ def _diff_relations(from_snapshot: _Snapshot, to_snapshot: _Snapshot) -> list[di
                 changes.append(change)
             continue
 
-        if _semantic_signatures(before_group, RELATION_COMPARE_FIELDS) == _semantic_signatures(
+        if _semantic_signatures(before_group, compare_fields) == _semantic_signatures(
             after_group,
-            RELATION_COMPARE_FIELDS,
+            compare_fields,
         ):
             continue
         for relation in before_group:
@@ -801,9 +983,9 @@ def _causes_for_fact(
         raise MissingTraceabilityError(
             f"missing_traceability: traceability.facts[{fact_id}] must be a list."
         )
-    return _sort_causes(
-        [_cause(side, "fact", fact_id, evidence) for evidence in evidence_items]
-    )
+    causes = [_cause(side, "fact", fact_id, evidence) for evidence in evidence_items]
+    causes.extend(_temporal_causes(snapshot, side, "fact", fact_id))
+    return _sort_causes(causes)
 
 
 def _causes_for_relation(
@@ -817,9 +999,32 @@ def _causes_for_relation(
         raise MissingTraceabilityError(
             f"missing_traceability: traceability.relations[{relation_id}] must be a list."
         )
-    return _sort_causes(
-        [_cause(side, "relation", relation_id, evidence) for evidence in evidence_items]
-    )
+    causes = [
+        _cause(side, "relation", relation_id, evidence) for evidence in evidence_items
+    ]
+    causes.extend(_temporal_causes(snapshot, side, "relation", relation_id))
+    return _sort_causes(causes)
+
+
+def _temporal_causes(
+    snapshot: _Snapshot,
+    side: str,
+    owner_type: str,
+    owner_id: str,
+) -> list[dict[str, Any]]:
+    if snapshot.schema_version != "2":
+        return []
+    temporal = snapshot.content["traceability"]["temporal"]
+    key = f"{owner_type}:{owner_id}"
+    evidence_items = temporal.get(key, [])
+    if not isinstance(evidence_items, list):
+        raise MissingTraceabilityError(
+            f"missing_traceability: traceability.temporal[{key}] must be a list."
+        )
+    return [
+        _cause(side, f"{owner_type}_temporal", owner_id, evidence)
+        for evidence in evidence_items
+    ]
 
 
 def _causes_for_conflict(
@@ -871,6 +1076,8 @@ def _cause(
         "fragment_id": evidence.get("fragment_id"),
         "evidence_text_hash": evidence["evidence_text_hash"],
     }
+    if evidence.get("temporal_evidence_id") not in (None, ""):
+        cause["temporal_evidence_id"] = evidence["temporal_evidence_id"]
     for field in CAUSE_ALL_FIELDS:
         if field not in cause:
             raise MissingTraceabilityError(
@@ -940,6 +1147,11 @@ def _finalize_changes(changes: list[dict[str, Any]]) -> list[dict[str, Any]]:
             "before": public_change["before"],
             "after": public_change["after"],
             "causes": public_change["causes"],
+            **(
+                {"category": public_change["category"]}
+                if "category" in public_change
+                else {}
+            ),
         }
         final_changes.append(public_change)
     return final_changes
@@ -989,7 +1201,16 @@ def _semantic_signatures(
     values: list[dict[str, Any]],
     compare_fields: tuple[str, ...],
 ) -> list[tuple[Any, ...]]:
-    return sorted(tuple(value.get(field) for field in compare_fields) for value in values)
+    return sorted(
+        tuple(_signature_value(value.get(field)) for field in compare_fields)
+        for value in values
+    )
+
+
+def _signature_value(value: Any) -> Any:
+    if isinstance(value, (dict, list)):
+        return json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
+    return value
 
 
 def _sort_facts(facts: list[dict[str, Any]]) -> list[dict[str, Any]]:

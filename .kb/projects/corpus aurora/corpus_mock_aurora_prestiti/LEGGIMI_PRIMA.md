@@ -1,37 +1,46 @@
 # Corpus dimostrativo «Aurora Prestiti»
 
-Questo archivio rappresenta una piccola applicazione legacy immaginaria per la gestione di prestiti personali.
-
-Il sistema originale usa:
-
-- Oracle Database;
-- semplici schermate assimilabili a Oracle Forms, esportate in XML;
-- procedure e trigger PL/SQL;
-- batch notturni con log testuali;
-- documentazione accumulata in anni diversi e con attendibilità diversa.
-
-Tutti i nomi di persone, codici, importi ed eventi sono inventati. Il corpus non contiene dati reali.
+Questo corpus descrive una piccola applicazione legacy Oracle Forms/PL/SQL per
+la gestione di prestiti personali. E' una fixture locale: non contiene dati
+personali reali, non richiede rete e non autorizza l'esecuzione di macro.
 
 ## Obiettivo della modernizzazione
 
-Ricostruire un DSL tracciabile che descriva almeno:
-
-- le entità `Cliente`, `PraticaPrestito`, `Rata` e `Pagamento`;
-- gli stati e le regole principali delle pratiche;
-- le tabelle Oracle e i relativi collegamenti;
-- le form che modificano le tabelle;
-- le procedure, i trigger e i comportamenti osservati nei log;
-- i conflitti fra documentazione storica e corrente.
+Il corpus serve a ricostruire entita', regole, relazioni e temporalita' con
+evidenza verificabile. Conserva fonti correnti, fonti storiche in conflitto e
+rumore intenzionale, cosi' da distinguere fatti confermati, candidati pending e
+contraddizioni che richiedono revisione umana.
 
 ## Struttura
 
-La directory `corpus/active` contiene le fonti da far acquisire a `dsl-manager`.
+- `corpus/active/`: 18 fonti originali immutabili da registrare nel workspace;
+- `corpus/active/documenti/nuovi_utili/matrice_stati_2025.xlsx`: workbook
+  multi-sheet e multi-region con formula e cached value, celle eterogenee,
+  merged range, named range, fogli visible/hidden/veryHidden ed external link;
+- `corpus/active/documenti/nuovi_utili/calcolo_rate_macro_2025.xlsm`: workbook
+  macro-enabled inerte, da rilevare senza eseguire VBA;
+- `materiale_di_supporto/fixture_controllate/`: un package malformed e un
+  workbook valido destinato al percorso controllato `partial`;
+- `materiale_di_supporto/checksums.json`: SHA-256 immutabili delle 18 fonti
+  attive e delle due fixture controllate;
+- `materiale_di_supporto/inventario_fonti.csv`: ruolo e azione attesa per ogni
+  file;
+- `materiale_di_supporto/checklist_risultati_attesi.md`: contratto E2E;
+- `materiale_di_supporto/matrice_fixture_attesi.md`: tracciabilita' fra fixture,
+  requisito ed expected/test;
+- `materiale_di_supporto/guida_dsl-manager-powershell.md` e
+  `materiale_di_supporto/guida_dsl-manager_cmd.md`: le due guide operative reali.
 
-La directory `materiale_di_supporto` non deve essere copiata nel corpus attivo. Contiene:
+## Regole di uso
 
-- l'inventario ragionato delle fonti;
-- le limitazioni intenzionali dell'esempio;
-- una checklist dei risultati attesi.
+1. Verificare `checksums.json` prima dello scan.
+2. Copiare soltanto `corpus/active/` nel workspace e conservarne i byte.
+3. Usare le fixture controllate con comandi o test dedicati: il malformed deve
+   fallire in preflight; il partial deve produrre artefatti con stato distinto.
+4. Non dereferenziare external link, non eseguire macro e non chiamare servizi
+   di rete o AI reali.
+5. Non promuovere date di documento o segnali discordanti a validita' del
+   dominio senza una decisione di review.
 
-Per il ciclo completo seguire la guida `guida_dsl-manager.md` distribuita insieme allo ZIP nella root del progetto.
-
+Per il ciclo completo seguire una delle due guide presenti in
+`materiale_di_supporto/`, in base alla shell utilizzata.

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from io import BytesIO
 from importlib.metadata import PackageNotFoundError, version
 from pathlib import Path
 from typing import Any
@@ -26,6 +27,8 @@ INPUT_FORMAT_ALIASES = {
     "docx": "DOCX",
     "html": "HTML",
     "htm": "HTML",
+    "xlsm": "XLSX",
+    "xlsx": "XLSX",
     "md": "MD",
     "pdf": "PDF",
     "pptx": "PPTX",
@@ -52,20 +55,58 @@ class DoclingNormalizationResult:
     document: dict[str, Any]
     docling_version: str
     resolved_options: dict[str, Any]
+    conversion_status: str
 
 
 def normalize_document_with_docling(
     input_path: str | Path,
     docling_options: dict[str, Any],
 ) -> DoclingNormalizationResult:
+    return _normalize_docling_source(Path(input_path), docling_options)
+
+
+def normalize_excel_stream_with_docling(
+    source_cursor: BytesIO,
+    *,
+    original_name: str,
+    docling_options: dict[str, Any],
+) -> DoclingNormalizationResult:
+    imports = _load_docling_imports()
+    document_stream = imports["DocumentStream"](
+        name=original_name,
+        stream=source_cursor,
+    )
+    return _normalize_docling_source(
+        document_stream,
+        docling_options,
+        imports=imports,
+        force_excel=True,
+    )
+
+
+def _normalize_docling_source(
+    source: Any,
+    docling_options: dict[str, Any],
+    *,
+    imports: dict[str, Any] | None = None,
+    force_excel: bool = False,
+) -> DoclingNormalizationResult:
     resolved_options = resolve_docling_options(docling_options)
 
-    imports = _load_docling_imports()
+    imports = imports or _load_docling_imports()
+    if force_excel and "XLSX" not in resolved_options["input_formats"]:
+        resolved_options = {
+            **resolved_options,
+            "input_formats": [*resolved_options["input_formats"], "XLSX"],
+        }
+    allowed_formats = _allowed_input_formats(imports["InputFormat"], resolved_options)
+    if force_excel:
+        allowed_formats = [imports["InputFormat"].XLSX]
     converter = imports["DocumentConverter"](
-        allowed_formats=_allowed_input_formats(imports["InputFormat"], resolved_options),
+        allowed_formats=allowed_formats,
         format_options=_format_options(imports, resolved_options),
     )
-    result = converter.convert(Path(input_path))
+    result = converter.convert(source)
     markdown = normalize_markdown(result.document.export_to_markdown())
     document = result.document.export_to_dict()
 
@@ -74,6 +115,7 @@ def normalize_document_with_docling(
         document=document,
         docling_version=_docling_version(),
         resolved_options=resolved_options,
+        conversion_status=str(getattr(result.status, "value", result.status)),
     )
 
 
@@ -156,39 +198,46 @@ def _format_options(imports: dict[str, Any], resolved_options: dict[str, Any]) -
         do_picture_description=False,
         enable_remote_services=False,
     )
-    pdf_options = imports["PdfPipelineOptions"](
-        allow_external_plugins=False,
-        do_chart_extraction=False,
-        do_code_enrichment=False,
-        do_formula_enrichment=False,
-        do_ocr=resolved_options["ocr_enabled"],
-        do_picture_classification=False,
-        do_picture_description=False,
-        do_table_structure=resolved_options["tables_enabled"],
-        enable_remote_services=False,
-        generate_page_images=False,
-        generate_picture_images=False,
-    )
-    if hasattr(pdf_options, "generate_table_images"):
-        pdf_options.generate_table_images = False
-    if hasattr(pdf_options, "generate_parsed_pages"):
-        pdf_options.generate_parsed_pages = False
-    if hasattr(pdf_options, "ocr_options") and hasattr(pdf_options.ocr_options, "force_full_page_ocr"):
-        pdf_options.ocr_options.force_full_page_ocr = resolved_options["force_full_page_ocr"]
-
-    _apply_table_mode(imports, pdf_options, resolved_options["tables_mode"])
-
+    allowed_formats = _allowed_input_formats(input_format, resolved_options)
     options: dict[Any, Any] = {}
-    if input_format.PDF in _allowed_input_formats(input_format, resolved_options):
+    if input_format.PDF in allowed_formats:
+        pdf_options = imports["PdfPipelineOptions"](
+            allow_external_plugins=False,
+            do_chart_extraction=False,
+            do_code_enrichment=False,
+            do_formula_enrichment=False,
+            do_ocr=resolved_options["ocr_enabled"],
+            do_picture_classification=False,
+            do_picture_description=False,
+            do_table_structure=resolved_options["tables_enabled"],
+            enable_remote_services=False,
+            generate_page_images=False,
+            generate_picture_images=False,
+        )
+        if hasattr(pdf_options, "generate_table_images"):
+            pdf_options.generate_table_images = False
+        if hasattr(pdf_options, "generate_parsed_pages"):
+            pdf_options.generate_parsed_pages = False
+        if hasattr(pdf_options, "ocr_options") and hasattr(
+            pdf_options.ocr_options, "force_full_page_ocr"
+        ):
+            pdf_options.ocr_options.force_full_page_ocr = resolved_options[
+                "force_full_page_ocr"
+            ]
+        _apply_table_mode(imports, pdf_options, resolved_options["tables_mode"])
         options[input_format.PDF] = imports["PdfFormatOption"](pipeline_options=pdf_options)
-    if input_format.DOCX in _allowed_input_formats(input_format, resolved_options):
+    if input_format.DOCX in allowed_formats:
         options[input_format.DOCX] = imports["WordFormatOption"](pipeline_options=simple_options)
-    if input_format.PPTX in _allowed_input_formats(input_format, resolved_options):
+    if input_format.PPTX in allowed_formats:
         options[input_format.PPTX] = imports["PowerpointFormatOption"](pipeline_options=simple_options)
-    if input_format.HTML in _allowed_input_formats(input_format, resolved_options):
+    if input_format.HTML in allowed_formats:
         options[input_format.HTML] = imports["HTMLFormatOption"](pipeline_options=simple_options)
-    if input_format.MD in _allowed_input_formats(input_format, resolved_options):
+    if input_format.MD in allowed_formats:
         options[input_format.MD] = imports["MarkdownFormatOption"](pipeline_options=simple_options)
+    if input_format.XLSX in allowed_formats:
+        options[input_format.XLSX] = imports["ExcelFormatOption"](
+            pipeline_options=simple_options
+        )
     return options
 
 
@@ -209,7 +258,7 @@ def _apply_table_mode(imports: dict[str, Any], pdf_options: Any, mode: str) -> N
 
 def _load_docling_imports() -> dict[str, Any]:
     try:
-        from docling.datamodel.base_models import InputFormat
+        from docling.datamodel.base_models import DocumentStream, InputFormat
         from docling.datamodel.pipeline_options import (
             ConvertPipelineOptions,
             PdfPipelineOptions,
@@ -217,6 +266,7 @@ def _load_docling_imports() -> dict[str, Any]:
         )
         from docling.document_converter import (
             DocumentConverter,
+            ExcelFormatOption,
             HTMLFormatOption,
             MarkdownFormatOption,
             PdfFormatOption,
@@ -229,6 +279,8 @@ def _load_docling_imports() -> dict[str, Any]:
     return {
         "ConvertPipelineOptions": ConvertPipelineOptions,
         "DocumentConverter": DocumentConverter,
+        "DocumentStream": DocumentStream,
+        "ExcelFormatOption": ExcelFormatOption,
         "HTMLFormatOption": HTMLFormatOption,
         "InputFormat": InputFormat,
         "MarkdownFormatOption": MarkdownFormatOption,

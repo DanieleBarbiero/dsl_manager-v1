@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import os
 import sqlite3
 import subprocess
 import sys
@@ -56,6 +57,15 @@ class WorkerRunResult:
     report_path: Path
 
 
+@dataclass(frozen=True)
+class _ProcessExecution:
+    exit_code: int | None
+    stdout: str
+    stderr: str
+    error: str | None
+    resource_limits: dict[str, Any]
+
+
 def run_worker(
     workspace_dir: str | Path,
     *,
@@ -67,6 +77,9 @@ def run_worker(
     apply_mutations: MutationApplier | None = None,
     clock: Clock | None = None,
     timeout_seconds: float | None = None,
+    max_output_bytes: int | None = None,
+    memory_limit_bytes: int | None = None,
+    accepted_exit_codes: tuple[int, ...] = (0,),
 ) -> WorkerRunResult:
     settings = resolve_database_settings(workspace_dir)
     ensure_workspace_database_ready(settings)
@@ -163,23 +176,28 @@ def run_worker(
             str(artifacts.output_path),
         ]
         process_started = time.perf_counter()
-        try:
-            completed = subprocess.run(
-                command,
-                capture_output=True,
-                text=True,
-                timeout=timeout_seconds,
-                check=False,
-            )
-            exit_code: int | None = completed.returncode
-            stdout = completed.stdout
-            stderr = completed.stderr
-            process_error: str | None = None
-        except subprocess.TimeoutExpired as exc:
-            exit_code = None
-            stdout = _coerce_process_text(exc.stdout)
-            stderr = _coerce_process_text(exc.stderr)
-            process_error = f"Worker timed out after {timeout_seconds} seconds."
+        execution = _execute_worker_process(
+            command,
+            artifact_dir=artifacts.artifact_dir,
+            timeout_seconds=timeout_seconds,
+            max_output_bytes=max_output_bytes,
+            memory_limit_bytes=memory_limit_bytes,
+        )
+        exit_code = execution.exit_code
+        stdout = execution.stdout
+        stderr = execution.stderr
+        process_error = execution.error
+        execution_catalog = execution.resource_limits.get("catalog")
+        if isinstance(execution_catalog, dict):
+            execution_catalog["artifact_paths"] = [
+                artifacts.process_report_path_relative
+            ]
+            execution_catalog["run_id"] = run_id
+            execution_catalog["subject_ids"] = {
+                key: worker_parameters[key]
+                for key in ("source_id", "source_revision_id")
+                if isinstance(worker_parameters.get(key), str)
+            }
 
         duration_ms = max(0, int((time.perf_counter() - process_started) * 1000))
         finished_at = timestamp_now(clock)
@@ -202,9 +220,10 @@ def run_worker(
                 stderr=stderr,
                 error=process_error,
                 clock=clock,
+                resource_limits=execution.resource_limits,
             )
 
-        if exit_code != 0:
+        if exit_code not in accepted_exit_codes:
             return _record_worker_failure(
                 connection,
                 artifacts=artifacts,
@@ -222,6 +241,7 @@ def run_worker(
                 stderr=stderr,
                 error=f"Worker exited with code {exit_code}.",
                 clock=clock,
+                resource_limits=execution.resource_limits,
             )
 
         try:
@@ -244,10 +264,15 @@ def run_worker(
                 stderr=stderr,
                 error=str(exc),
                 clock=clock,
+                resource_limits=execution.resource_limits,
             )
 
         output_json = canonical_json(output_payload)
-        artifacts.output_path.write_text(output_json, encoding="utf-8", newline="\n")
+        _atomic_write_text(artifacts.output_path, output_json)
+
+        semantic_status = (
+            "partial" if output_payload.get("status") == "partial" else "completed"
+        )
 
         connection.execute("BEGIN")
         try:
@@ -289,6 +314,7 @@ def run_worker(
                 stderr=stderr,
                 error=f"Failed to apply worker mutations: {exc}",
                 clock=clock,
+                resource_limits=execution.resource_limits,
             )
         else:
             connection.commit()
@@ -297,7 +323,7 @@ def run_worker(
             worker_run_id=worker_run_id,
             worker_name=worker_name,
             worker_version=worker_version,
-            status="completed",
+            status=semantic_status,
             started_at=started_at,
             finished_at=finished_at,
             exit_code=exit_code,
@@ -305,13 +331,14 @@ def run_worker(
             stdout=stdout,
             stderr=stderr,
             error=None,
+            resource_limits=execution.resource_limits,
         )
         write_process_report(
             artifacts.process_report_path,
             base_process_report(
                 run_id=run_id,
                 run_type=run_record.run_type,
-                status="completed",
+                status=semantic_status,
                 started_at=run_record.started_at,
                 finished_at=finished_at,
                 artifact_dir=artifacts.artifact_dir_relative,
@@ -340,7 +367,7 @@ def run_worker(
             run_id=run_id,
             worker_run_id=worker_run_id,
             worker_name=worker_name,
-            status="completed",
+            status=semantic_status,
             exit_code=exit_code,
             duration_ms=duration_ms,
             output=output_payload,
@@ -391,6 +418,7 @@ def _record_worker_failure(
     stderr: str,
     error: str,
     clock: Clock | None,
+    resource_limits: dict[str, Any] | None = None,
 ) -> WorkerRunResult:
     connection.execute("BEGIN")
     try:
@@ -424,6 +452,7 @@ def _record_worker_failure(
         stdout=stdout,
         stderr=stderr,
         error=error,
+        resource_limits=resource_limits,
     )
     write_process_report(
         artifacts.process_report_path,
@@ -482,8 +511,9 @@ def _worker_report(
     stdout: str,
     stderr: str,
     error: str | None,
+    resource_limits: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
-    return {
+    report = {
         "duration_ms": duration_ms,
         "error": error,
         "exit_code": exit_code,
@@ -496,6 +526,9 @@ def _worker_report(
         "worker_run_id": worker_run_id,
         "worker_version": worker_version,
     }
+    if resource_limits:
+        report["resource_limits"] = resource_limits
+    return report
 
 
 def _truncate(value: str, *, limit: int = 4000) -> str:
@@ -510,3 +543,214 @@ def _coerce_process_text(value: str | bytes | None) -> str:
     if isinstance(value, bytes):
         return value.decode("utf-8", errors="replace")
     return value
+
+
+def memory_limit_mode(memory_limit_bytes: int | None) -> str:
+    if memory_limit_bytes is None:
+        return "not_configured"
+    return "monitored" if os.name == "nt" else "hard"
+
+
+def _execute_worker_process(
+    command: list[str],
+    *,
+    artifact_dir: Path,
+    timeout_seconds: float | None,
+    max_output_bytes: int | None,
+    memory_limit_bytes: int | None,
+) -> _ProcessExecution:
+    mode = memory_limit_mode(memory_limit_bytes)
+    resource_limits: dict[str, Any] = {
+        "max_output_bytes": max_output_bytes,
+        "memory_limit_bytes": memory_limit_bytes,
+        "memory_limit_mode": mode,
+        "peak_memory_bytes": None,
+        "termination_reason": None,
+        "timeout_seconds": timeout_seconds,
+    }
+    if max_output_bytes is None and memory_limit_bytes is None:
+        try:
+            completed = subprocess.run(
+                command,
+                capture_output=True,
+                text=True,
+                timeout=timeout_seconds,
+                check=False,
+            )
+            return _ProcessExecution(
+                completed.returncode,
+                completed.stdout,
+                completed.stderr,
+                None,
+                resource_limits,
+            )
+        except subprocess.TimeoutExpired as exc:
+            resource_limits["termination_reason"] = "timeout"
+            resource_limits["catalog"] = _operational_failure_catalog()
+            return _ProcessExecution(
+                5,
+                _coerce_process_text(exc.stdout),
+                _coerce_process_text(exc.stderr),
+                f"Worker timed out after {timeout_seconds} seconds.",
+                resource_limits,
+            )
+
+    stdout_path = artifact_dir / ".worker_stdout.tmp"
+    stderr_path = artifact_dir / ".worker_stderr.tmp"
+    for path in (stdout_path, stderr_path):
+        if path.exists():
+            path.unlink()
+    preexec_fn = _hard_memory_limiter(memory_limit_bytes) if os.name != "nt" else None
+    peak_memory = 0
+    process: subprocess.Popen[bytes] | None = None
+    try:
+        with stdout_path.open("wb") as stdout_file, stderr_path.open("wb") as stderr_file:
+            process = subprocess.Popen(
+                command,
+                stdout=stdout_file,
+                stderr=stderr_file,
+                preexec_fn=preexec_fn,
+            )
+            started = time.monotonic()
+            process_error: str | None = None
+            while process.poll() is None:
+                elapsed = time.monotonic() - started
+                if timeout_seconds is not None and elapsed > timeout_seconds:
+                    resource_limits["termination_reason"] = "timeout"
+                    process_error = f"Worker timed out after {timeout_seconds} seconds."
+                    process.kill()
+                    break
+                captured_bytes = _file_size(stdout_path) + _file_size(stderr_path)
+                if max_output_bytes is not None and captured_bytes > max_output_bytes:
+                    resource_limits["termination_reason"] = "output_limit"
+                    process_error = (
+                        f"Worker process output exceeded {max_output_bytes} bytes."
+                    )
+                    process.kill()
+                    break
+                if os.name == "nt" and memory_limit_bytes is not None:
+                    current_memory = _windows_process_memory_bytes(process.pid)
+                    peak_memory = max(peak_memory, current_memory or 0)
+                    if current_memory is not None and current_memory > memory_limit_bytes:
+                        resource_limits["termination_reason"] = "memory_limit"
+                        process_error = (
+                            f"Worker memory exceeded {memory_limit_bytes} bytes "
+                            "under monitored+kill enforcement."
+                        )
+                        process.kill()
+                        break
+                time.sleep(0.05)
+            process.wait()
+        resource_limits["peak_memory_bytes"] = peak_memory or None
+        if process_error is not None:
+            resource_limits["catalog"] = _operational_failure_catalog()
+        stdout = _read_process_file(stdout_path, max_output_bytes)
+        stderr = _read_process_file(stderr_path, max_output_bytes)
+        exit_code = 5 if process_error is not None else process.returncode
+        return _ProcessExecution(
+            exit_code,
+            stdout,
+            stderr,
+            process_error,
+            resource_limits,
+        )
+    finally:
+        if process is not None and process.poll() is None:
+            process.kill()
+            process.wait()
+        for path in (stdout_path, stderr_path):
+            if path.exists():
+                path.unlink()
+
+
+def _hard_memory_limiter(memory_limit_bytes: int | None) -> Callable[[], None] | None:
+    if memory_limit_bytes is None:
+        return None
+
+    def set_limit() -> None:
+        import resource
+
+        resource.setrlimit(resource.RLIMIT_AS, (memory_limit_bytes, memory_limit_bytes))
+
+    return set_limit
+
+
+def _windows_process_memory_bytes(process_id: int) -> int | None:
+    try:
+        import ctypes
+        from ctypes import wintypes
+
+        class ProcessMemoryCounters(ctypes.Structure):
+            _fields_ = [
+                ("cb", wintypes.DWORD),
+                ("PageFaultCount", wintypes.DWORD),
+                ("PeakWorkingSetSize", ctypes.c_size_t),
+                ("WorkingSetSize", ctypes.c_size_t),
+                ("QuotaPeakPagedPoolUsage", ctypes.c_size_t),
+                ("QuotaPagedPoolUsage", ctypes.c_size_t),
+                ("QuotaPeakNonPagedPoolUsage", ctypes.c_size_t),
+                ("QuotaNonPagedPoolUsage", ctypes.c_size_t),
+                ("PagefileUsage", ctypes.c_size_t),
+                ("PeakPagefileUsage", ctypes.c_size_t),
+            ]
+
+        process_handle = ctypes.windll.kernel32.OpenProcess(0x0410, False, process_id)
+        if not process_handle:
+            return None
+        try:
+            counters = ProcessMemoryCounters()
+            counters.cb = ctypes.sizeof(counters)
+            if not ctypes.windll.psapi.GetProcessMemoryInfo(
+                process_handle, ctypes.byref(counters), counters.cb
+            ):
+                return None
+            return int(counters.WorkingSetSize)
+        finally:
+            ctypes.windll.kernel32.CloseHandle(process_handle)
+    except (AttributeError, OSError):
+        return None
+
+
+def _file_size(path: Path) -> int:
+    try:
+        return path.stat().st_size
+    except FileNotFoundError:
+        return 0
+
+
+def _read_process_file(path: Path, limit: int | None) -> str:
+    report_limit = min(limit or 65536, 65536)
+    with path.open("rb") as stream:
+        size = _file_size(path)
+        if size > report_limit:
+            stream.seek(size - report_limit)
+        data = stream.read(report_limit)
+    return data.decode("utf-8", errors="replace")
+
+
+def _operational_failure_catalog() -> dict[str, Any]:
+    return {
+        "artifact_paths": [],
+        "catalog_version": 1,
+        "condition": "docling_timeout_or_error",
+        "counters": {},
+        "exit_code": 5,
+        "mutations": "partial_artifacts_discarded",
+        "outcome": None,
+        "reason": "normalization_operational_failure",
+        "retryable": True,
+        "run_id": None,
+        "severity": "error",
+        "status": "failed",
+        "subject_ids": {},
+    }
+
+
+def _atomic_write_text(path: Path, text: str) -> None:
+    temporary = path.with_name(f".{path.name}.{os.getpid()}.{time.time_ns()}.tmp")
+    try:
+        temporary.write_text(text, encoding="utf-8", newline="\n")
+        os.replace(temporary, path)
+    finally:
+        if temporary.exists():
+            temporary.unlink()

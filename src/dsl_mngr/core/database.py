@@ -5,7 +5,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
-from dsl_mngr.core.config import load_config
+from dsl_mngr.core.config import ProjectConfigError, load_config
 
 
 class WorkspaceNotInitializedError(RuntimeError):
@@ -43,7 +43,10 @@ def resolve_database_settings(
     cli_options: dict[str, Any] | None = None,
 ) -> DatabaseSettings:
     workspace_path = ensure_workspace_initialized(workspace_dir)
-    config = load_config(workspace_path, cli_options=cli_options)
+    try:
+        config = load_config(workspace_path, cli_options=cli_options)
+    except ProjectConfigError as exc:
+        raise DatabaseConfigurationError(f"Invalid project configuration: {exc}") from exc
     database_config = config.get("database", {})
 
     configured_path = database_config.get("path", "workspace.sqlite")

@@ -8,10 +8,12 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any
 
+from dsl_mngr.core.canonical import canonical_json_v1, canonical_sha256_v1
 from dsl_mngr.core.database import DatabaseSettings, open_database, resolve_database_settings
 
 
 Clock = Callable[[], datetime]
+MigrationRunner = Callable[[sqlite3.Connection, str], None]
 
 
 class MigrationError(RuntimeError):
@@ -23,10 +25,17 @@ class Migration:
     version: int
     name: str
     statements: tuple[str, ...]
+    runner: MigrationRunner | None = None
+    requires_foreign_keys_disabled: bool = False
 
     @property
     def checksum(self) -> str:
-        payload = "\n".join((self.name, *self.statements))
+        parts = [self.name, *self.statements]
+        if self.runner is not None:
+            parts.append(f"runner:{self.runner.__name__}")
+        if self.requires_foreign_keys_disabled:
+            parts.append("requires_foreign_keys_disabled:true")
+        payload = "\n".join(parts)
         return hashlib.sha256(payload.encode("utf-8")).hexdigest()
 
 
@@ -71,6 +80,143 @@ CREATE TABLE IF NOT EXISTS schema_migrations (
     applied_at TEXT NOT NULL
 )
 """
+
+
+def _run_v7_backfill(connection: sqlite3.Connection, applied_at: str) -> None:
+    candidate_rows = connection.execute(
+        """
+        SELECT candidate_record_id
+        FROM candidate_records
+        ORDER BY candidate_record_id
+        """
+    ).fetchall()
+    for row in candidate_rows:
+        candidate_record_id = str(row["candidate_record_id"])
+        connection.execute(
+            """
+            INSERT INTO candidate_lineage (
+                candidate_record_id,
+                root_candidate_record_id,
+                parent_candidate_record_id,
+                correction_group_id
+            )
+            VALUES (?, ?, NULL, NULL)
+            """,
+            (candidate_record_id, candidate_record_id),
+        )
+
+    materialized_rows = connection.execute(
+        """
+        SELECT DISTINCT
+            cr.candidate_record_id,
+            cr.run_id,
+            cr.payload_json,
+            cr.chunk_id,
+            cr.fragment_id
+        FROM candidate_records cr
+        WHERE cr.assertion_type IN ('explicit', 'observed')
+          AND (
+              EXISTS (
+                  SELECT 1
+                  FROM fact_evidence fe
+                  JOIN facts f ON f.fact_id = fe.fact_id
+                  WHERE fe.candidate_record_id = cr.candidate_record_id
+                    AND f.status = 'active'
+              )
+              OR EXISTS (
+                  SELECT 1
+                  FROM relation_evidence re
+                  JOIN relations r ON r.relation_id = re.relation_id
+                  WHERE re.candidate_record_id = cr.candidate_record_id
+                    AND r.status = 'active'
+              )
+          )
+        ORDER BY cr.candidate_record_id
+        """
+    ).fetchall()
+    for row in materialized_rows:
+        candidate_record_id = str(row["candidate_record_id"])
+        decision_id = f"RDEC_LEGACY_{candidate_record_id}"
+        evidence_refs = [
+            value
+            for value in (row["chunk_id"], row["fragment_id"])
+            if value is not None
+        ]
+        candidate_payload = _json_object(row["payload_json"])
+        request_payload = {
+            "actor": {"actor_id": "migration", "actor_type": "system"},
+            "candidate_payload": candidate_payload,
+            "evidence_refs": evidence_refs,
+            "expected_head_decision_id": None,
+            "operation": "legacy_backfill",
+            "outcome": "confirmed",
+            "policy": {"policy_id": "legacy_backfill", "policy_version": "1"},
+            "reason": "legacy_backfill",
+            "subject": {
+                "subject_id": candidate_record_id,
+                "subject_type": "candidate_record",
+            },
+        }
+        semantic_payload = {
+            "candidate_payload": candidate_payload,
+            "evidence_refs": evidence_refs,
+            "outcome": "confirmed",
+            "policy": {"policy_id": "legacy_backfill", "policy_version": "1"},
+            "subject": {
+                "subject_id": candidate_record_id,
+                "subject_type": "candidate_record",
+            },
+        }
+        connection.execute(
+            """
+            INSERT INTO review_decisions (
+                decision_id, subject_type, subject_id, actor_type, actor_id,
+                outcome, reason, run_id, created_at, supersedes_decision_id,
+                expected_head_decision_id, idempotency_key,
+                request_payload_hash, semantic_payload_hash,
+                policy_id, policy_version,
+                request_payload_json, semantic_payload_json
+            )
+            VALUES (?, 'candidate_record', ?, 'system', 'migration',
+                    'confirmed', 'legacy_backfill', ?, ?, NULL,
+                    NULL, ?, ?, ?, 'legacy_backfill', '1', ?, ?)
+            """,
+            (
+                decision_id,
+                candidate_record_id,
+                row["run_id"],
+                applied_at,
+                f"legacy_backfill:{candidate_record_id}",
+                canonical_sha256_v1(request_payload),
+                canonical_sha256_v1(semantic_payload),
+                canonical_json_v1(request_payload),
+                canonical_json_v1(semantic_payload),
+            ),
+        )
+        for ordinal, evidence_ref in enumerate(evidence_refs, start=1):
+            connection.execute(
+                """
+                INSERT INTO review_decision_evidence (decision_id, evidence_ref, ordinal)
+                VALUES (?, ?, ?)
+                """,
+                (decision_id, evidence_ref, ordinal),
+            )
+        connection.execute(
+            """
+            INSERT INTO review_subject_heads (
+                subject_type, subject_id, decision_id, updated_at
+            )
+            VALUES ('candidate_record', ?, ?, ?)
+            """,
+            (candidate_record_id, decision_id, applied_at),
+        )
+
+
+def _json_object(value: str) -> dict[str, Any]:
+    import json
+
+    payload = json.loads(value)
+    return payload if isinstance(payload, dict) else {}
 
 
 MIGRATIONS: tuple[Migration, ...] = (
@@ -518,6 +664,679 @@ MIGRATIONS: tuple[Migration, ...] = (
             """,
         ),
     ),
+    Migration(
+        version=7,
+        name="create_candidate_review_lineage_schema",
+        statements=(
+            "PRAGMA defer_foreign_keys = ON",
+            """
+            CREATE TABLE candidate_batches_v7 (
+                batch_id TEXT PRIMARY KEY,
+                run_id TEXT NOT NULL,
+                input_path TEXT,
+                origin_type TEXT NOT NULL,
+                origin_ref TEXT,
+                total_records INTEGER NOT NULL,
+                accepted_count INTEGER NOT NULL,
+                rejected_count INTEGER NOT NULL,
+                status TEXT NOT NULL,
+                created_at TEXT NOT NULL,
+                updated_at TEXT NOT NULL,
+                CHECK (
+                    (origin_type IN ('file_import', 'ai_import') AND input_path IS NOT NULL)
+                    OR
+                    (origin_type IN ('human_correction', 'deterministic_derivation')
+                     AND input_path IS NULL AND origin_ref IS NOT NULL)
+                ),
+                FOREIGN KEY (run_id) REFERENCES runs(run_id)
+            )
+            """,
+            """
+            INSERT INTO candidate_batches_v7 (
+                batch_id, run_id, input_path, origin_type, origin_ref,
+                total_records, accepted_count, rejected_count, status,
+                created_at, updated_at
+            )
+            SELECT
+                batch_id, run_id, input_path, 'file_import', NULL,
+                total_records, accepted_count, rejected_count, status,
+                created_at, updated_at
+            FROM candidate_batches
+            """,
+            "DROP TABLE candidate_batches",
+            "ALTER TABLE candidate_batches_v7 RENAME TO candidate_batches",
+            """
+            CREATE INDEX idx_candidate_batches_origin
+            ON candidate_batches(origin_type, origin_ref)
+            """,
+            """
+            ALTER TABLE candidate_records
+            ADD COLUMN supersedes_candidate_record_id TEXT
+                REFERENCES candidate_records(candidate_record_id)
+            """,
+            """
+            CREATE UNIQUE INDEX idx_candidate_records_supersedes
+            ON candidate_records(supersedes_candidate_record_id)
+            WHERE supersedes_candidate_record_id IS NOT NULL
+            """,
+            """
+            CREATE TABLE review_decisions (
+                decision_id TEXT PRIMARY KEY,
+                subject_type TEXT NOT NULL,
+                subject_id TEXT NOT NULL,
+                actor_type TEXT NOT NULL,
+                actor_id TEXT NOT NULL,
+                outcome TEXT NOT NULL CHECK (outcome IN ('confirmed', 'rejected', 'superseded')),
+                reason TEXT NOT NULL,
+                run_id TEXT,
+                created_at TEXT NOT NULL,
+                supersedes_decision_id TEXT,
+                expected_head_decision_id TEXT,
+                idempotency_key TEXT NOT NULL,
+                request_payload_hash TEXT NOT NULL,
+                semantic_payload_hash TEXT NOT NULL,
+                policy_id TEXT,
+                policy_version TEXT,
+                request_payload_json TEXT NOT NULL,
+                semantic_payload_json TEXT NOT NULL,
+                UNIQUE (actor_type, actor_id, idempotency_key),
+                FOREIGN KEY (run_id) REFERENCES runs(run_id),
+                FOREIGN KEY (supersedes_decision_id) REFERENCES review_decisions(decision_id),
+                FOREIGN KEY (expected_head_decision_id) REFERENCES review_decisions(decision_id),
+                CHECK (actor_type IN ('human', 'automatic', 'system')),
+                CHECK (
+                    (actor_type = 'automatic'
+                     AND policy_id IS NOT NULL AND policy_version IS NOT NULL)
+                    OR
+                    (actor_type = 'human'
+                     AND policy_id IS NULL AND policy_version IS NULL)
+                    OR actor_type = 'system'
+                )
+            )
+            """,
+            """
+            CREATE TABLE review_subject_heads (
+                subject_type TEXT NOT NULL,
+                subject_id TEXT NOT NULL,
+                decision_id TEXT NOT NULL UNIQUE,
+                updated_at TEXT NOT NULL,
+                PRIMARY KEY (subject_type, subject_id),
+                FOREIGN KEY (decision_id) REFERENCES review_decisions(decision_id)
+            )
+            """,
+            """
+            CREATE TABLE review_decision_evidence (
+                decision_id TEXT NOT NULL,
+                evidence_ref TEXT NOT NULL,
+                ordinal INTEGER NOT NULL,
+                PRIMARY KEY (decision_id, ordinal),
+                FOREIGN KEY (decision_id) REFERENCES review_decisions(decision_id)
+            )
+            """,
+            """
+            CREATE TABLE review_audit_notes (
+                note_id TEXT PRIMARY KEY,
+                subject_type TEXT NOT NULL,
+                subject_id TEXT NOT NULL,
+                actor_type TEXT NOT NULL,
+                actor_id TEXT NOT NULL,
+                reason TEXT NOT NULL,
+                request_payload_hash TEXT NOT NULL,
+                idempotency_key TEXT NOT NULL,
+                run_id TEXT,
+                created_at TEXT NOT NULL,
+                FOREIGN KEY (run_id) REFERENCES runs(run_id)
+            )
+            """,
+            """
+            CREATE TABLE candidate_lineage (
+                candidate_record_id TEXT PRIMARY KEY,
+                root_candidate_record_id TEXT NOT NULL,
+                parent_candidate_record_id TEXT UNIQUE,
+                correction_group_id TEXT,
+                FOREIGN KEY (candidate_record_id) REFERENCES candidate_records(candidate_record_id),
+                FOREIGN KEY (root_candidate_record_id) REFERENCES candidate_records(candidate_record_id),
+                FOREIGN KEY (parent_candidate_record_id) REFERENCES candidate_records(candidate_record_id)
+            )
+            """,
+            """
+            CREATE TABLE candidate_corrections (
+                correction_id TEXT PRIMARY KEY,
+                correction_group_id TEXT NOT NULL UNIQUE,
+                original_candidate_record_id TEXT NOT NULL,
+                replacement_candidate_record_id TEXT NOT NULL UNIQUE,
+                delta_json TEXT NOT NULL,
+                correction_evidence_refs_json TEXT NOT NULL,
+                reason TEXT NOT NULL,
+                created_at TEXT NOT NULL,
+                FOREIGN KEY (original_candidate_record_id)
+                    REFERENCES candidate_records(candidate_record_id),
+                FOREIGN KEY (replacement_candidate_record_id)
+                    REFERENCES candidate_records(candidate_record_id)
+            )
+            """,
+            """
+            CREATE TABLE reconciliation_required (
+                reconciliation_id TEXT PRIMARY KEY,
+                subject_type TEXT NOT NULL,
+                subject_id TEXT NOT NULL,
+                replacement_subject_id TEXT,
+                reason TEXT NOT NULL,
+                opened_by_decision_id TEXT NOT NULL,
+                status TEXT NOT NULL CHECK (status IN ('open', 'closed')),
+                opened_at TEXT NOT NULL,
+                closed_at TEXT,
+                closed_by_run_id TEXT,
+                FOREIGN KEY (opened_by_decision_id) REFERENCES review_decisions(decision_id),
+                FOREIGN KEY (closed_by_run_id) REFERENCES runs(run_id)
+            )
+            """,
+            """
+            CREATE UNIQUE INDEX idx_reconciliation_open_subject
+            ON reconciliation_required(subject_type, subject_id)
+            WHERE status = 'open'
+            """,
+            """
+            CREATE TABLE candidate_derivation_runs (
+                derivation_id TEXT PRIMARY KEY,
+                run_id TEXT NOT NULL,
+                rule_set_version TEXT NOT NULL,
+                source_revision_id TEXT,
+                batch_id TEXT,
+                status TEXT NOT NULL,
+                counters_json TEXT NOT NULL,
+                report_path TEXT NOT NULL,
+                created_at TEXT NOT NULL,
+                completed_at TEXT,
+                FOREIGN KEY (run_id) REFERENCES runs(run_id),
+                FOREIGN KEY (source_revision_id)
+                    REFERENCES source_revisions(source_revision_id),
+                FOREIGN KEY (batch_id) REFERENCES candidate_batches(batch_id)
+            )
+            """,
+            """
+            CREATE TRIGGER review_decisions_no_update
+            BEFORE UPDATE ON review_decisions
+            BEGIN
+                SELECT RAISE(ABORT, 'review_decisions_append_only');
+            END
+            """,
+            """
+            CREATE TRIGGER review_decisions_no_delete
+            BEFORE DELETE ON review_decisions
+            BEGIN
+                SELECT RAISE(ABORT, 'review_decisions_append_only');
+            END
+            """,
+            """
+            CREATE TRIGGER review_decisions_same_subject
+            BEFORE INSERT ON review_decisions
+            WHEN NEW.supersedes_decision_id IS NOT NULL
+            BEGIN
+                SELECT CASE WHEN NOT EXISTS (
+                    SELECT 1
+                    FROM review_decisions previous
+                    WHERE previous.decision_id = NEW.supersedes_decision_id
+                      AND previous.subject_type = NEW.subject_type
+                      AND previous.subject_id = NEW.subject_id
+                ) THEN RAISE(ABORT, 'review_decision_subject_mismatch') END;
+            END
+            """,
+            """
+            CREATE TRIGGER review_decisions_acyclic
+            BEFORE INSERT ON review_decisions
+            WHEN NEW.supersedes_decision_id IS NOT NULL
+            BEGIN
+                SELECT CASE WHEN NEW.supersedes_decision_id = NEW.decision_id
+                    THEN RAISE(ABORT, 'review_decision_cycle') END;
+                WITH RECURSIVE ancestors(decision_id) AS (
+                    SELECT NEW.supersedes_decision_id
+                    UNION ALL
+                    SELECT rd.supersedes_decision_id
+                    FROM review_decisions rd
+                    JOIN ancestors a ON rd.decision_id = a.decision_id
+                    WHERE rd.supersedes_decision_id IS NOT NULL
+                )
+                SELECT CASE WHEN EXISTS (
+                    SELECT 1 FROM ancestors WHERE decision_id = NEW.decision_id
+                ) THEN RAISE(ABORT, 'review_decision_cycle') END;
+            END
+            """,
+            """
+            CREATE TRIGGER review_subject_heads_subject_insert
+            BEFORE INSERT ON review_subject_heads
+            BEGIN
+                SELECT CASE WHEN NOT EXISTS (
+                    SELECT 1 FROM review_decisions rd
+                    WHERE rd.decision_id = NEW.decision_id
+                      AND rd.subject_type = NEW.subject_type
+                      AND rd.subject_id = NEW.subject_id
+                ) THEN RAISE(ABORT, 'review_head_subject_mismatch') END;
+            END
+            """,
+            """
+            CREATE TRIGGER review_subject_heads_subject_update
+            BEFORE UPDATE ON review_subject_heads
+            BEGIN
+                SELECT CASE WHEN NOT EXISTS (
+                    SELECT 1 FROM review_decisions rd
+                    WHERE rd.decision_id = NEW.decision_id
+                      AND rd.subject_type = NEW.subject_type
+                      AND rd.subject_id = NEW.subject_id
+                ) THEN RAISE(ABORT, 'review_head_subject_mismatch') END;
+            END
+            """,
+            """
+            CREATE TRIGGER candidate_lineage_cycle_insert
+            BEFORE INSERT ON candidate_lineage
+            WHEN NEW.parent_candidate_record_id IS NOT NULL
+            BEGIN
+                WITH RECURSIVE ancestors(candidate_record_id) AS (
+                    SELECT NEW.parent_candidate_record_id
+                    UNION ALL
+                    SELECT cl.parent_candidate_record_id
+                    FROM candidate_lineage cl
+                    JOIN ancestors a
+                      ON cl.candidate_record_id = a.candidate_record_id
+                    WHERE cl.parent_candidate_record_id IS NOT NULL
+                )
+                SELECT CASE WHEN EXISTS (
+                    SELECT 1 FROM ancestors
+                    WHERE candidate_record_id = NEW.candidate_record_id
+                ) THEN RAISE(ABORT, 'candidate_lineage_cycle') END;
+                SELECT CASE WHEN NOT EXISTS (
+                    SELECT 1 FROM candidate_lineage parent
+                    WHERE parent.candidate_record_id = NEW.parent_candidate_record_id
+                      AND parent.root_candidate_record_id = NEW.root_candidate_record_id
+                ) THEN RAISE(ABORT, 'candidate_lineage_root_mismatch') END;
+                SELECT CASE WHEN NOT EXISTS (
+                    SELECT 1 FROM candidate_records candidate
+                    WHERE candidate.candidate_record_id = NEW.candidate_record_id
+                      AND candidate.supersedes_candidate_record_id
+                          = NEW.parent_candidate_record_id
+                ) THEN RAISE(ABORT, 'candidate_lineage_parent_mismatch') END;
+            END
+            """,
+            """
+            CREATE TRIGGER candidate_lineage_root_insert
+            BEFORE INSERT ON candidate_lineage
+            WHEN NEW.parent_candidate_record_id IS NULL
+            BEGIN
+                SELECT CASE WHEN NEW.root_candidate_record_id <> NEW.candidate_record_id
+                    THEN RAISE(ABORT, 'candidate_lineage_root_mismatch') END;
+            END
+            """,
+            """
+            CREATE TRIGGER candidate_lineage_no_update
+            BEFORE UPDATE ON candidate_lineage
+            BEGIN
+                SELECT RAISE(ABORT, 'candidate_lineage_append_only');
+            END
+            """,
+            """
+            CREATE TRIGGER candidate_lineage_no_delete
+            BEFORE DELETE ON candidate_lineage
+            BEGIN
+                SELECT RAISE(ABORT, 'candidate_lineage_append_only');
+            END
+            """,
+            """
+            CREATE VIEW effective_fact_evidence AS
+            SELECT
+                fe.*,
+                rd.decision_id AS review_decision_id,
+                rd.semantic_payload_hash AS review_semantic_payload_hash,
+                rd.policy_id AS review_policy_id,
+                rd.policy_version AS review_policy_version
+            FROM fact_evidence fe
+            JOIN candidate_lineage cl
+              ON cl.candidate_record_id = fe.candidate_record_id
+            JOIN review_subject_heads h
+              ON h.subject_type = 'candidate_record'
+             AND h.subject_id = fe.candidate_record_id
+            JOIN review_decisions rd ON rd.decision_id = h.decision_id
+            WHERE rd.outcome = 'confirmed'
+              AND NOT EXISTS (
+                  SELECT 1 FROM candidate_lineage child
+                  WHERE child.parent_candidate_record_id = fe.candidate_record_id
+              )
+            """,
+            """
+            CREATE VIEW effective_relation_evidence AS
+            SELECT
+                re.*,
+                rd.decision_id AS review_decision_id,
+                rd.semantic_payload_hash AS review_semantic_payload_hash,
+                rd.policy_id AS review_policy_id,
+                rd.policy_version AS review_policy_version
+            FROM relation_evidence re
+            JOIN candidate_lineage cl
+              ON cl.candidate_record_id = re.candidate_record_id
+            JOIN review_subject_heads h
+              ON h.subject_type = 'candidate_record'
+             AND h.subject_id = re.candidate_record_id
+            JOIN review_decisions rd ON rd.decision_id = h.decision_id
+            WHERE rd.outcome = 'confirmed'
+              AND NOT EXISTS (
+                  SELECT 1 FROM candidate_lineage child
+                  WHERE child.parent_candidate_record_id = re.candidate_record_id
+              )
+            """,
+            """
+            CREATE VIEW effective_facts AS
+            SELECT f.*
+            FROM facts f
+            WHERE EXISTS (
+                SELECT 1 FROM effective_fact_evidence efe
+                WHERE efe.fact_id = f.fact_id
+            )
+            """,
+            """
+            CREATE VIEW effective_relations AS
+            SELECT r.*
+            FROM relations r
+            WHERE EXISTS (
+                SELECT 1 FROM effective_relation_evidence ere
+                WHERE ere.relation_id = r.relation_id
+            )
+            """,
+        ),
+        runner=_run_v7_backfill,
+        requires_foreign_keys_disabled=True,
+    ),
+    Migration(
+        version=8,
+        name="create_workbook_manifest_schema",
+        statements=(
+            """
+            CREATE TABLE workbook_manifests (
+                manifest_id TEXT PRIMARY KEY,
+                source_revision_id TEXT NOT NULL UNIQUE,
+                schema_version TEXT NOT NULL,
+                content_hash TEXT NOT NULL,
+                manifest_hash TEXT NOT NULL,
+                artifact_path TEXT NOT NULL,
+                status TEXT NOT NULL,
+                warnings_json TEXT NOT NULL,
+                FOREIGN KEY (source_revision_id)
+                    REFERENCES source_revisions(source_revision_id)
+            )
+            """,
+            """
+            CREATE TABLE workbook_sheets (
+                sheet_id TEXT PRIMARY KEY,
+                manifest_id TEXT NOT NULL,
+                sheet_index INTEGER NOT NULL,
+                name TEXT NOT NULL,
+                visibility TEXT NOT NULL,
+                relationship_id TEXT NOT NULL,
+                part_name TEXT NOT NULL,
+                max_row INTEGER NOT NULL,
+                max_column INTEGER NOT NULL,
+                UNIQUE (manifest_id, sheet_index),
+                UNIQUE (manifest_id, name),
+                FOREIGN KEY (manifest_id)
+                    REFERENCES workbook_manifests(manifest_id)
+            )
+            """,
+            """
+            CREATE TABLE workbook_regions (
+                region_id TEXT PRIMARY KEY,
+                sheet_id TEXT NOT NULL,
+                ordinal INTEGER NOT NULL,
+                start_cell TEXT NOT NULL,
+                end_cell TEXT NOT NULL,
+                region_kind TEXT NOT NULL,
+                region_hash TEXT NOT NULL,
+                fragment_id TEXT,
+                UNIQUE (sheet_id, ordinal),
+                FOREIGN KEY (sheet_id) REFERENCES workbook_sheets(sheet_id),
+                FOREIGN KEY (fragment_id) REFERENCES source_fragments(fragment_id)
+            )
+            """,
+            """
+            CREATE INDEX idx_workbook_manifests_hash
+            ON workbook_manifests(manifest_hash)
+            """,
+            """
+            CREATE INDEX idx_workbook_sheets_manifest
+            ON workbook_sheets(manifest_id, sheet_index)
+            """,
+            """
+            CREATE INDEX idx_workbook_regions_sheet
+            ON workbook_regions(sheet_id, ordinal)
+            """,
+            """
+            CREATE UNIQUE INDEX idx_workbook_regions_fragment
+            ON workbook_regions(fragment_id)
+            WHERE fragment_id IS NOT NULL
+            """,
+        ),
+    ),
+    Migration(
+        version=9,
+        name="create_temporal_core_schema",
+        statements=(
+            """
+            CREATE TABLE raw_temporal_evidence (
+                temporal_evidence_id TEXT PRIMARY KEY,
+                target_subject_type TEXT NOT NULL CHECK (
+                    target_subject_type IN (
+                        'source_revision', 'source_fragment', 'candidate_record',
+                        'fact', 'relation'
+                    )
+                ),
+                target_subject_id TEXT NOT NULL,
+                source_revision_id TEXT NOT NULL,
+                source_fragment_id TEXT,
+                source_key TEXT NOT NULL,
+                source_format TEXT NOT NULL,
+                raw_value TEXT NOT NULL,
+                extraction_method TEXT NOT NULL,
+                extraction_version TEXT NOT NULL,
+                precision TEXT NOT NULL,
+                timezone_status TEXT NOT NULL CHECK (
+                    timezone_status IN ('explicit', 'resolved', 'unknown', 'incompatible')
+                ),
+                timezone_value TEXT,
+                initial_reliability TEXT NOT NULL CHECK (
+                    initial_reliability IN ('high', 'medium', 'low', 'unknown')
+                ),
+                warnings_json TEXT NOT NULL,
+                evidence_hash TEXT NOT NULL UNIQUE,
+                created_at TEXT NOT NULL,
+                FOREIGN KEY (source_revision_id)
+                    REFERENCES source_revisions(source_revision_id),
+                FOREIGN KEY (source_fragment_id)
+                    REFERENCES source_fragments(fragment_id)
+            )
+            """,
+            """
+            CREATE TABLE temporal_candidate_details (
+                candidate_record_id TEXT PRIMARY KEY,
+                target_subject_type TEXT NOT NULL CHECK (
+                    target_subject_type IN (
+                        'source_revision', 'source_fragment', 'candidate_record',
+                        'fact', 'relation'
+                    )
+                ),
+                target_subject_id TEXT NOT NULL,
+                normalized_start TEXT,
+                normalized_end TEXT,
+                original_precision TEXT NOT NULL,
+                timezone_status TEXT NOT NULL CHECK (
+                    timezone_status IN ('explicit', 'resolved', 'unknown', 'incompatible')
+                ),
+                timezone_value TEXT,
+                bounds_semantics TEXT NOT NULL CHECK (
+                    bounds_semantics IN ('inclusive', 'coverage_envelope')
+                ),
+                derivation_policy_id TEXT NOT NULL,
+                derivation_policy_version TEXT NOT NULL,
+                FOREIGN KEY (candidate_record_id)
+                    REFERENCES candidate_records(candidate_record_id)
+            )
+            """,
+            """
+            CREATE TABLE temporal_candidate_evidence (
+                candidate_record_id TEXT NOT NULL,
+                temporal_evidence_id TEXT NOT NULL,
+                ordinal INTEGER NOT NULL CHECK (ordinal > 0),
+                PRIMARY KEY (candidate_record_id, ordinal),
+                UNIQUE (candidate_record_id, temporal_evidence_id),
+                FOREIGN KEY (candidate_record_id)
+                    REFERENCES temporal_candidate_details(candidate_record_id),
+                FOREIGN KEY (temporal_evidence_id)
+                    REFERENCES raw_temporal_evidence(temporal_evidence_id)
+            )
+            """,
+            """
+            CREATE TABLE temporal_intervals (
+                interval_id TEXT PRIMARY KEY,
+                subject_type TEXT NOT NULL CHECK (
+                    subject_type IN (
+                        'source_revision', 'source_fragment', 'candidate_record',
+                        'fact', 'relation'
+                    )
+                ),
+                subject_id TEXT NOT NULL,
+                start_value TEXT,
+                end_value TEXT,
+                timeformat TEXT NOT NULL CHECK (timeformat IN ('date', 'dateTime')),
+                timezone_value TEXT,
+                original_precision TEXT NOT NULL,
+                bounds_semantics TEXT NOT NULL CHECK (
+                    bounds_semantics IN ('inclusive', 'coverage_envelope')
+                ),
+                decision_id TEXT NOT NULL,
+                source_candidate_record_id TEXT NOT NULL,
+                interval_hash TEXT NOT NULL,
+                created_at TEXT NOT NULL,
+                UNIQUE (subject_type, subject_id, interval_hash),
+                UNIQUE (source_candidate_record_id),
+                FOREIGN KEY (decision_id) REFERENCES review_decisions(decision_id),
+                FOREIGN KEY (source_candidate_record_id)
+                    REFERENCES temporal_candidate_details(candidate_record_id)
+            )
+            """,
+            """
+            CREATE INDEX idx_raw_temporal_evidence_target
+            ON raw_temporal_evidence(target_subject_type, target_subject_id)
+            """,
+            """
+            CREATE INDEX idx_raw_temporal_evidence_revision
+            ON raw_temporal_evidence(source_revision_id, temporal_evidence_id)
+            """,
+            """
+            CREATE INDEX idx_temporal_intervals_subject
+            ON temporal_intervals(subject_type, subject_id)
+            """,
+            """
+            CREATE TRIGGER raw_temporal_evidence_no_update
+            BEFORE UPDATE ON raw_temporal_evidence
+            BEGIN
+                SELECT RAISE(ABORT, 'raw_temporal_evidence_append_only');
+            END
+            """,
+            """
+            CREATE TRIGGER raw_temporal_evidence_no_delete
+            BEFORE DELETE ON raw_temporal_evidence
+            BEGIN
+                SELECT RAISE(ABORT, 'raw_temporal_evidence_append_only');
+            END
+            """,
+            """
+            CREATE TRIGGER temporal_intervals_no_update
+            BEFORE UPDATE ON temporal_intervals
+            BEGIN
+                SELECT RAISE(ABORT, 'temporal_intervals_append_only');
+            END
+            """,
+            """
+            CREATE TRIGGER temporal_intervals_no_delete
+            BEFORE DELETE ON temporal_intervals
+            BEGIN
+                SELECT RAISE(ABORT, 'temporal_intervals_append_only');
+            END
+            """,
+        ),
+    ),
+    Migration(
+        version=10,
+        name="create_temporal_consolidation_schema",
+        statements=(
+            """
+            CREATE TABLE temporal_evidence_groups (
+                group_id TEXT PRIMARY KEY,
+                target_subject_type TEXT NOT NULL CHECK (
+                    target_subject_type IN (
+                        'source_revision', 'source_fragment', 'candidate_record',
+                        'fact', 'relation'
+                    )
+                ),
+                target_subject_id TEXT NOT NULL,
+                policy_id TEXT NOT NULL,
+                policy_version TEXT NOT NULL,
+                group_hash TEXT NOT NULL UNIQUE,
+                assessment TEXT NOT NULL CHECK (
+                    assessment IN (
+                        'concordant', 'single_source', 'ambiguous',
+                        'conflicted', 'low_quality'
+                    )
+                ),
+                created_at TEXT NOT NULL
+            )
+            """,
+            """
+            CREATE TABLE temporal_evidence_group_members (
+                group_id TEXT NOT NULL,
+                temporal_evidence_id TEXT NOT NULL,
+                independence_class TEXT NOT NULL CHECK (
+                    independence_class IN (
+                        'independent', 'correlated', 'duplicate', 'low_quality'
+                    )
+                ),
+                ordinal INTEGER NOT NULL CHECK (ordinal > 0),
+                PRIMARY KEY (group_id, temporal_evidence_id),
+                UNIQUE (group_id, ordinal),
+                FOREIGN KEY (group_id)
+                    REFERENCES temporal_evidence_groups(group_id),
+                FOREIGN KEY (temporal_evidence_id)
+                    REFERENCES raw_temporal_evidence(temporal_evidence_id)
+            )
+            """,
+            """
+            CREATE TABLE temporal_conflicts (
+                conflict_id TEXT PRIMARY KEY,
+                target_subject_type TEXT NOT NULL CHECK (
+                    target_subject_type IN (
+                        'source_revision', 'source_fragment', 'candidate_record',
+                        'fact', 'relation'
+                    )
+                ),
+                target_subject_id TEXT NOT NULL,
+                group_id TEXT NOT NULL,
+                reason TEXT NOT NULL,
+                status TEXT NOT NULL CHECK (status IN ('open', 'resolved')),
+                created_at TEXT NOT NULL,
+                resolved_by_decision_id TEXT,
+                UNIQUE (group_id, reason),
+                FOREIGN KEY (group_id)
+                    REFERENCES temporal_evidence_groups(group_id),
+                FOREIGN KEY (resolved_by_decision_id)
+                    REFERENCES review_decisions(decision_id)
+            )
+            """,
+            """
+            CREATE INDEX idx_temporal_evidence_groups_target
+            ON temporal_evidence_groups(target_subject_type, target_subject_id)
+            """,
+            """
+            CREATE INDEX idx_temporal_conflicts_target_status
+            ON temporal_conflicts(target_subject_type, target_subject_id, status)
+            """,
+        ),
+    ),
 )
 
 
@@ -562,10 +1381,23 @@ def apply_migrations(
             continue
 
         applied_at = _timestamp(clock)
+        foreign_keys_were_enabled = bool(connection.execute("PRAGMA foreign_keys").fetchone()[0])
+        if migration.requires_foreign_keys_disabled and foreign_keys_were_enabled:
+            connection.execute("PRAGMA foreign_keys = OFF")
         connection.execute("BEGIN")
         try:
             for statement in migration.statements:
                 connection.execute(statement)
+            if migration.runner is not None:
+                migration.runner(connection, applied_at)
+            if migration.requires_foreign_keys_disabled:
+                violations = connection.execute("PRAGMA foreign_key_check").fetchall()
+                if violations:
+                    first = violations[0]
+                    raise MigrationError(
+                        "Migration produced a foreign-key violation: "
+                        f"table={first[0]}, rowid={first[1]}, parent={first[2]}."
+                    )
             connection.execute(
                 """
                 INSERT INTO schema_migrations (version, name, checksum, applied_at)
@@ -578,6 +1410,9 @@ def apply_migrations(
             raise
         else:
             connection.commit()
+        finally:
+            if migration.requires_foreign_keys_disabled and foreign_keys_were_enabled:
+                connection.execute("PRAGMA foreign_keys = ON")
         applied.append(migration)
 
     return MigrationResult(applied=tuple(applied), skipped=tuple(skipped))

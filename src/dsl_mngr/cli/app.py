@@ -11,10 +11,19 @@ from dsl_mngr.cli.commands.ai import (
 )
 from dsl_mngr.cli.commands.batch import (
     run_batch_chunk_dir_command,
+    run_batch_consolidate_command,
     run_batch_process_dir_command,
 )
-from dsl_mngr.cli.commands.candidates import run_candidates_validate_command
-from dsl_mngr.cli.commands.candidates import run_candidates_validate_batch_command
+from dsl_mngr.cli.commands.candidates import (
+    run_candidates_derive_command,
+    run_candidates_review_confirm_command,
+    run_candidates_review_correct_command,
+    run_candidates_review_list_command,
+    run_candidates_review_reject_command,
+    run_candidates_review_show_command,
+    run_candidates_validate_batch_command,
+    run_candidates_validate_command,
+)
 from dsl_mngr.cli.commands.corpus import (
     run_corpus_chunk_command,
     run_corpus_normalize_command,
@@ -26,8 +35,11 @@ from dsl_mngr.cli.commands.corpus import (
 )
 from dsl_mngr.cli.commands.db import run_db_init_command
 from dsl_mngr.cli.commands.dsl import run_dsl_diff_command, run_dsl_render_command
-from dsl_mngr.cli.commands.facts import run_facts_merge_command
-from dsl_mngr.cli.commands.facts import run_facts_merge_batch_command
+from dsl_mngr.cli.commands.facts import (
+    run_facts_merge_batch_command,
+    run_facts_merge_command,
+    run_facts_reconcile_command,
+)
 from dsl_mngr.cli.commands.graph import run_graph_export_command
 from dsl_mngr.cli.commands.init import run_init_command
 from dsl_mngr.cli.commands.log import run_log_csv_command, run_log_table_command
@@ -232,6 +244,39 @@ def build_parser() -> argparse.ArgumentParser:
     )
     batch_chunk_parser.set_defaults(func=run_batch_chunk_dir_command)
 
+    batch_consolidate_parser = batch_subparsers.add_parser(
+        "consolidate",
+        help="Run or resume parse, derive, automatic review, merge, and reconcile.",
+    )
+    batch_consolidate_parser.add_argument("workspace", help="Workspace directory.")
+    batch_consolidate_parser.add_argument(
+        "--path",
+        dest="corpus_path",
+        default="corpus/active",
+        help="Corpus directory path relative to the workspace. Defaults to corpus/active.",
+    )
+    batch_consolidate_parser.add_argument(
+        "--strict-review",
+        action="store_true",
+        help="Roll back the merge when any candidate is not eligible.",
+    )
+    batch_consolidate_parser.add_argument(
+        "--reconcile",
+        action="store_true",
+        help="Run a final reconciliation pass after a successful merge.",
+    )
+    batch_consolidate_parser.add_argument(
+        "--stop-on-error",
+        action="store_true",
+        help="Stop parsing at the first failed source item.",
+    )
+    batch_consolidate_parser.add_argument(
+        "--resume",
+        dest="resume_run_id",
+        help="Resume or retry a prior consolidated batch run id.",
+    )
+    batch_consolidate_parser.set_defaults(func=run_batch_consolidate_command)
+
     candidates_parser = subparsers.add_parser("candidates", help="Validate candidate records.")
     candidates_subparsers = candidates_parser.add_subparsers(
         dest="candidates_command",
@@ -273,6 +318,107 @@ def build_parser() -> argparse.ArgumentParser:
         help="Stop the batch at the first failed item.",
     )
     validate_batch_parser.set_defaults(func=run_candidates_validate_batch_command)
+
+    review_parser = candidates_subparsers.add_parser(
+        "review",
+        help="Review pending candidate records.",
+    )
+    review_subparsers = review_parser.add_subparsers(
+        dest="review_command",
+        required=True,
+    )
+    review_list_parser = review_subparsers.add_parser(
+        "list",
+        help="List candidates by current review outcome.",
+    )
+    review_list_parser.add_argument("workspace", help="Workspace directory.")
+    review_list_parser.add_argument(
+        "--outcome",
+        choices=("pending", "confirmed", "rejected", "superseded"),
+        default="pending",
+        help="Current review outcome. Defaults to pending.",
+    )
+    review_list_parser.set_defaults(func=run_candidates_review_list_command)
+
+    review_show_parser = review_subparsers.add_parser(
+        "show",
+        help="Show a candidate, evidence, review chain, and lineage.",
+    )
+    review_show_parser.add_argument("workspace", help="Workspace directory.")
+    review_show_parser.add_argument("candidate_record_id", help="Candidate record id.")
+    review_show_parser.set_defaults(func=run_candidates_review_show_command)
+
+    def add_review_mutation_arguments(
+        command_parser: argparse.ArgumentParser,
+        *,
+        reason_required: bool,
+    ) -> None:
+        command_parser.add_argument("workspace", help="Workspace directory.")
+        command_parser.add_argument("candidate_record_id", help="Candidate record id.")
+        command_parser.add_argument(
+            "--reason",
+            required=reason_required,
+            help="Human review reason.",
+        )
+        command_parser.add_argument(
+            "--actor-id",
+            help="Stable human actor id; falls back to review.default_actor_id.",
+        )
+        command_parser.add_argument(
+            "--expected-head-decision-id",
+            help="Expected review head decision id for optimistic concurrency.",
+        )
+        command_parser.add_argument(
+            "--idempotency-key",
+            help="Caller-provided idempotency key.",
+        )
+
+    review_confirm_parser = review_subparsers.add_parser(
+        "confirm",
+        help="Append a confirmed review decision.",
+    )
+    add_review_mutation_arguments(review_confirm_parser, reason_required=False)
+    review_confirm_parser.set_defaults(func=run_candidates_review_confirm_command)
+
+    review_reject_parser = review_subparsers.add_parser(
+        "reject",
+        help="Append a rejected review decision.",
+    )
+    add_review_mutation_arguments(review_reject_parser, reason_required=True)
+    review_reject_parser.set_defaults(func=run_candidates_review_reject_command)
+
+    review_correct_parser = review_subparsers.add_parser(
+        "correct",
+        help="Atomically supersede and replace a candidate.",
+    )
+    add_review_mutation_arguments(review_correct_parser, reason_required=True)
+    review_correct_parser.add_argument(
+        "--payload",
+        required=True,
+        help="Corrected candidate JSON object or workspace-relative JSON path.",
+    )
+    review_correct_parser.add_argument(
+        "--evidence-ref",
+        action="append",
+        help="Evidence reference for the correction. Can be repeated.",
+    )
+    review_correct_parser.set_defaults(func=run_candidates_review_correct_command)
+
+    derive_parser = candidates_subparsers.add_parser(
+        "derive",
+        help="Derive pending candidates from structural evidence.",
+    )
+    derive_parser.add_argument("workspace", help="Workspace directory.")
+    derive_parser.add_argument(
+        "--source-revision-id",
+        help="Optional source revision id filter.",
+    )
+    derive_parser.add_argument(
+        "--rule",
+        default="ddl_table_fact/1",
+        help="Versioned deterministic derivation rule (default: ddl_table_fact/1).",
+    )
+    derive_parser.set_defaults(func=run_candidates_derive_command)
 
     ai_parser = subparsers.add_parser("ai", help="Prepare and import AI handoff packages.")
     ai_subparsers = ai_parser.add_subparsers(dest="ai_command", required=True)
@@ -374,6 +520,11 @@ def build_parser() -> argparse.ArgumentParser:
         required=True,
         help="Candidate batch id, for example CBATCH_000001.",
     )
+    facts_merge_parser.add_argument(
+        "--strict-review",
+        action="store_true",
+        help="Rollback if any candidate is not merge-eligible.",
+    )
     facts_merge_parser.set_defaults(func=run_facts_merge_command)
     facts_merge_batch_parser = facts_subparsers.add_parser(
         "merge-batch",
@@ -393,6 +544,22 @@ def build_parser() -> argparse.ArgumentParser:
     )
     facts_merge_batch_parser.set_defaults(func=run_facts_merge_batch_command)
 
+    facts_reconcile_parser = facts_subparsers.add_parser(
+        "reconcile",
+        help="Compensate supports made stale by review decisions.",
+    )
+    facts_reconcile_parser.add_argument("workspace", help="Workspace directory.")
+    facts_reconcile_parser.add_argument(
+        "--reconciliation-id",
+        help="Optional reconciliation queue item id.",
+    )
+    facts_reconcile_parser.add_argument(
+        "--strict",
+        action="store_true",
+        help="Rollback if a replacement candidate is not yet materialized.",
+    )
+    facts_reconcile_parser.set_defaults(func=run_facts_reconcile_command)
+
     dsl_parser = subparsers.add_parser("dsl", help="Render DSL snapshots.")
     dsl_subparsers = dsl_parser.add_subparsers(dest="dsl_command", required=True)
     dsl_render_parser = dsl_subparsers.add_parser(
@@ -406,6 +573,17 @@ def build_parser() -> argparse.ArgumentParser:
     dsl_render_parser.add_argument(
         "--output-dir",
         help="Optional output directory inside the workspace. Defaults to exports/dsl.",
+    )
+    dsl_render_parser.add_argument(
+        "--schema-version",
+        choices=("1", "2"),
+        default="1",
+        help="DSL schema version. Defaults to 1.",
+    )
+    dsl_render_parser.add_argument(
+        "--allow-incomplete",
+        action="store_true",
+        help="Allow governed omissions while rendering schema 2 only.",
     )
     dsl_render_parser.set_defaults(func=run_dsl_render_command)
     dsl_diff_parser = dsl_subparsers.add_parser(
@@ -432,6 +610,11 @@ def build_parser() -> argparse.ArgumentParser:
         "--output-dir",
         help="Optional output directory inside the workspace. Defaults to exports/dsl_diff.",
     )
+    dsl_diff_parser.add_argument(
+        "--cross-schema",
+        action="store_true",
+        help="Explicitly compare schema 1 and schema 2 with separate change categories.",
+    )
     dsl_diff_parser.set_defaults(func=run_dsl_diff_command)
 
     graph_parser = subparsers.add_parser("graph", help="Export graph views from DSL snapshots.")
@@ -445,6 +628,7 @@ def build_parser() -> argparse.ArgumentParser:
         help="Workspace directory.",
     )
     graph_export_parser.add_argument(
+        "--snapshot-id",
         "--snapshot",
         dest="snapshot_id",
         required=True,
@@ -463,6 +647,27 @@ def build_parser() -> argparse.ArgumentParser:
         "--strict-orphans",
         action="store_true",
         help="Fail when a relation references a missing entity.",
+    )
+    graph_export_parser.add_argument(
+        "--dynamic",
+        action="store_true",
+        help="Export a DSL schema 2 snapshot as dynamic GEXF 1.3.",
+    )
+    graph_export_parser.add_argument(
+        "--timeformat",
+        choices=("date", "dateTime"),
+        help="Required temporal profile for a dynamic export.",
+    )
+    graph_export_parser.add_argument(
+        "--allow-incomplete",
+        action="store_true",
+        help="Allow explicit temporal omissions for a dynamic schema 2 export.",
+    )
+    graph_export_parser.add_argument(
+        "--temporal-output-mode",
+        choices=("omit", "separate", "strict"),
+        default="strict",
+        help="Handle intervals outside the selected date/dateTime profile.",
     )
     graph_export_parser.set_defaults(func=run_graph_export_command)
 

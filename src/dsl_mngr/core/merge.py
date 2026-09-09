@@ -15,6 +15,7 @@ from dsl_mngr.core.database import (
     open_database,
     resolve_database_settings,
 )
+from dsl_mngr.core.canonical import canonical_sha256_v1
 from dsl_mngr.core.runs import (
     DatabaseNotReadyError,
     canonical_json,
@@ -24,17 +25,27 @@ from dsl_mngr.core.runs import (
     validate_database_migrations,
     write_process_report,
 )
+from dsl_mngr.core.reconciliation import finalize_reconciliation_for_replacement
 
 
 Clock = Callable[[], datetime]
 
-SKIPPED_RECORD_TYPES = {
-    "candidate_conflict",
-    "candidate_mapping",
-    "candidate_question",
-}
+
 class MergeError(RuntimeError):
     """Raised when candidate records cannot be merged."""
+
+    reason = "merge_failed"
+    exit_code = 2
+
+
+class NoMergeEligibleCandidatesError(MergeError):
+    reason = "no_merge_eligible_candidates"
+    exit_code = 4
+
+
+class MergeReviewPreconditionError(MergeError):
+    reason = "merge_review_precondition_failed"
+    exit_code = 4
 
 
 class MergeDatabaseNotReadyError(MergeError):
@@ -72,19 +83,149 @@ class MergeResult:
     conflicts_created: int
     conflicts_existing: int
     skipped_records: int
+    skipped_pending: int = 0
+    skipped_rejected: int = 0
+    skipped_superseded: int = 0
+    skipped_no_positive_head: int = 0
+    skipped_non_leaf: int = 0
+    merged_candidate_record_ids: tuple[str, ...] = ()
+    merged_candidates: tuple[dict[str, Any], ...] = ()
+    skipped_candidates: tuple[dict[str, Any], ...] = ()
+    reconciliation_closed: int = 0
+    reconciled_supports_removed: int = 0
 
     def to_artifact_payload(self) -> dict[str, Any]:
-        return {
-            "batch_id": self.batch_id,
-            "candidate_record_count": self.candidate_record_count,
+        counters = {
+            "candidate_records": self.candidate_record_count,
             "conflicts_created": self.conflicts_created,
             "conflicts_existing": self.conflicts_existing,
             "facts_created": self.facts_created,
             "facts_existing": self.facts_existing,
+            "reconciliation_closed": self.reconciliation_closed,
+            "reconciled_supports_removed": self.reconciled_supports_removed,
             "relations_created": self.relations_created,
             "relations_existing": self.relations_existing,
-            "run_id": self.run_id,
+            "skipped_no_positive_head": self.skipped_no_positive_head,
+            "skipped_non_leaf": self.skipped_non_leaf,
+            "skipped_pending": self.skipped_pending,
+            "skipped_rejected": self.skipped_rejected,
             "skipped_records": self.skipped_records,
+            "skipped_superseded": self.skipped_superseded,
+        }
+        return {
+            "artifact_paths": [],
+            "batch_id": self.batch_id,
+            "catalog_version": "result_catalog_v1",
+            "candidate_record_count": self.candidate_record_count,
+            "condition": "merge",
+            "conflicts_created": self.conflicts_created,
+            "conflicts_existing": self.conflicts_existing,
+            "counters": counters,
+            "exit_code": 0,
+            "facts_created": self.facts_created,
+            "facts_existing": self.facts_existing,
+            "mutations": bool(
+                self.facts_created
+                or self.relations_created
+                or self.reconciliation_closed
+                or self.reconciled_supports_removed
+            ),
+            "outcome": None,
+            "relations_created": self.relations_created,
+            "relations_existing": self.relations_existing,
+            "retryable": False,
+            "run_id": self.run_id,
+            "merged_candidate_record_ids": list(self.merged_candidate_record_ids),
+            "merged_candidates": list(self.merged_candidates),
+            "reason": "merge_completed_with_skips" if self.skipped_records else "success",
+            "reconciliation_closed": self.reconciliation_closed,
+            "reconciled_supports_removed": self.reconciled_supports_removed,
+            "skipped_candidates": list(self.skipped_candidates),
+            "skipped_no_positive_head": self.skipped_no_positive_head,
+            "skipped_non_leaf": self.skipped_non_leaf,
+            "skipped_pending": self.skipped_pending,
+            "skipped_rejected": self.skipped_rejected,
+            "skipped_records": self.skipped_records,
+            "skipped_superseded": self.skipped_superseded,
+            "schema_version": "1",
+            "severity": "info",
+            "status": "completed",
+            "subject_ids": list(self.merged_candidate_record_ids),
+        }
+
+
+@dataclass(frozen=True)
+class MergeCollectionResult:
+    """Result of one atomic merge attempt across one or more candidate batches."""
+
+    run_id: str
+    batch_ids: tuple[str, ...]
+    status: str
+    reason: str
+    exit_code: int
+    candidate_record_count: int
+    facts_created: int
+    facts_existing: int
+    relations_created: int
+    relations_existing: int
+    conflicts_created: int
+    conflicts_existing: int
+    skipped_records: int
+    skipped_pending: int = 0
+    skipped_rejected: int = 0
+    skipped_superseded: int = 0
+    skipped_no_positive_head: int = 0
+    skipped_non_leaf: int = 0
+    merged_candidate_record_ids: tuple[str, ...] = ()
+    merged_candidates: tuple[dict[str, Any], ...] = ()
+    skipped_candidates: tuple[dict[str, Any], ...] = ()
+    reconciliation_closed: int = 0
+    reconciled_supports_removed: int = 0
+
+    def to_artifact_payload(self) -> dict[str, Any]:
+        counters = {
+            "candidate_records": self.candidate_record_count,
+            "conflicts_created": self.conflicts_created,
+            "conflicts_existing": self.conflicts_existing,
+            "facts_created": self.facts_created,
+            "facts_existing": self.facts_existing,
+            "merged_candidates": len(self.merged_candidate_record_ids),
+            "reconciliation_closed": self.reconciliation_closed,
+            "reconciled_supports_removed": self.reconciled_supports_removed,
+            "relations_created": self.relations_created,
+            "relations_existing": self.relations_existing,
+            "skipped_no_positive_head": self.skipped_no_positive_head,
+            "skipped_non_leaf": self.skipped_non_leaf,
+            "skipped_pending": self.skipped_pending,
+            "skipped_records": self.skipped_records,
+            "skipped_rejected": self.skipped_rejected,
+            "skipped_superseded": self.skipped_superseded,
+        }
+        return {
+            "artifact_paths": [],
+            "batch_ids": list(self.batch_ids),
+            "catalog_version": "result_catalog_v1",
+            "condition": "merge",
+            "counters": counters,
+            "exit_code": self.exit_code,
+            "merged_candidate_record_ids": list(self.merged_candidate_record_ids),
+            "merged_candidates": list(self.merged_candidates),
+            "mutations": self.exit_code == 0
+            and bool(
+                self.facts_created
+                or self.relations_created
+                or self.reconciliation_closed
+                or self.reconciled_supports_removed
+            ),
+            "outcome": None,
+            "reason": self.reason,
+            "retryable": self.exit_code == 4,
+            "run_id": self.run_id,
+            "schema_version": "1",
+            "severity": "info" if self.exit_code == 0 else "warning",
+            "skipped_candidates": list(self.skipped_candidates),
+            "status": self.status,
+            "subject_ids": list(self.merged_candidate_record_ids),
         }
 
 
@@ -97,6 +238,16 @@ class _MergeCounters:
     conflicts_created: int = 0
     conflicts_existing: int = 0
     skipped_records: int = 0
+    skipped_pending: int = 0
+    skipped_rejected: int = 0
+    skipped_superseded: int = 0
+    skipped_no_positive_head: int = 0
+    skipped_non_leaf: int = 0
+    reconciliation_closed: int = 0
+    reconciled_supports_removed: int = 0
+    merged_candidate_record_ids: list[str] = field(default_factory=list)
+    merged_candidates: list[dict[str, Any]] = field(default_factory=list)
+    skipped_candidates: list[dict[str, Any]] = field(default_factory=list)
     created_conflict_hashes: set[str] = field(default_factory=set)
     existing_conflict_hashes: set[str] = field(default_factory=set)
 
@@ -162,30 +313,168 @@ def merge_candidate_batch(
     *,
     run_id: str,
     batch_id: str,
+    strict_review: bool = False,
     clock: Clock | None = None,
 ) -> MergeResult:
+    collection = merge_candidate_batches(
+        workspace_dir,
+        run_id=run_id,
+        batch_ids=(batch_id,),
+        strict_review=strict_review,
+        clock=clock,
+    )
+    if collection.reason == "merge_review_precondition_failed":
+        raise MergeReviewPreconditionError(
+            "merge_review_precondition_failed: strict review encountered skipped candidates."
+        )
+    if collection.reason == "no_merge_eligible_candidates":
+        raise NoMergeEligibleCandidatesError(
+            "no_merge_eligible_candidates: the batch has no confirmed current leaf."
+        )
+
+    return MergeResult(
+        run_id=run_id,
+        batch_id=batch_id,
+        candidate_record_count=collection.candidate_record_count,
+        facts_created=collection.facts_created,
+        facts_existing=collection.facts_existing,
+        relations_created=collection.relations_created,
+        relations_existing=collection.relations_existing,
+        conflicts_created=collection.conflicts_created,
+        conflicts_existing=collection.conflicts_existing,
+        skipped_records=collection.skipped_records,
+        skipped_pending=collection.skipped_pending,
+        skipped_rejected=collection.skipped_rejected,
+        skipped_superseded=collection.skipped_superseded,
+        skipped_no_positive_head=collection.skipped_no_positive_head,
+        skipped_non_leaf=collection.skipped_non_leaf,
+        merged_candidate_record_ids=collection.merged_candidate_record_ids,
+        merged_candidates=collection.merged_candidates,
+        skipped_candidates=collection.skipped_candidates,
+        reconciliation_closed=collection.reconciliation_closed,
+        reconciled_supports_removed=collection.reconciled_supports_removed,
+    )
+
+
+def merge_candidate_batches(
+    workspace_dir: str | Path,
+    *,
+    run_id: str,
+    batch_ids: tuple[str, ...],
+    strict_review: bool = False,
+    clock: Clock | None = None,
+) -> MergeCollectionResult:
+    """Merge an ordered set of batches in one transaction.
+
+    The eligibility check and the materialization happen under the same
+    ``BEGIN IMMEDIATE`` transaction.  Strict mode therefore rolls back the
+    complete collection, not merely the batch that first exposes a skip.
+    """
+
     settings = ensure_merge_database_ready(workspace_dir)
     timestamp = timestamp_now(clock)
+    ordered_batch_ids = tuple(sorted(dict.fromkeys(batch_ids)))
     connection = open_database(settings.database_path, enable_wal=settings.wal_enabled)
     counters = _MergeCounters()
+    records: list[sqlite3.Row] = []
+    eligible: list[tuple[sqlite3.Row, str]] = []
 
     try:
         validate_database_migrations(connection)
-        _require_batch(connection, batch_id)
-        records = _load_candidate_records(connection, batch_id)
-
-        connection.execute("BEGIN")
+        connection.execute("BEGIN IMMEDIATE")
         try:
+            for batch_id in ordered_batch_ids:
+                _require_batch(connection, batch_id)
+                records.extend(_load_candidate_records(connection, batch_id))
+            records.sort(key=lambda row: (row["batch_id"], row["line_number"], row["candidate_record_id"]))
+
             for record in records:
-                record_type = record["record_type"]
-                if record_type == "candidate_fact":
+                eligibility_reason, decision_id = _merge_eligibility(connection, record)
+                if eligibility_reason is not None:
+                    _count_review_skip(
+                        counters,
+                        record,
+                        reason=eligibility_reason,
+                        decision_id=decision_id,
+                    )
+                    continue
+                if record["record_type"] not in {
+                    "candidate_fact",
+                    "candidate_relation",
+                    "temporal_interval",
+                }:
+                    counters.skipped_records += 1
+                    counters.skipped_no_positive_head += 1
+                    counters.skipped_candidates.append(
+                        {
+                            "candidate_record_id": record["candidate_record_id"],
+                            "decision_id": decision_id,
+                            "reason": "unsupported_record_type",
+                        }
+                    )
+                    continue
+                if decision_id is None:
+                    raise MergeError(
+                        f"Eligible candidate has no observed decision: {record['candidate_record_id']}."
+                    )
+                eligible.append((record, decision_id))
+
+            if strict_review and counters.skipped_records:
+                connection.rollback()
+                return _collection_result(
+                    run_id,
+                    ordered_batch_ids,
+                    records,
+                    counters,
+                    status="failed",
+                    reason="merge_review_precondition_failed",
+                    exit_code=4,
+                )
+            if not eligible:
+                connection.rollback()
+                return _collection_result(
+                    run_id,
+                    ordered_batch_ids,
+                    records,
+                    counters,
+                    status="blocked",
+                    reason="no_merge_eligible_candidates",
+                    exit_code=4,
+                )
+
+            for record, decision_id in eligible:
+                closed, removed = finalize_reconciliation_for_replacement(
+                    connection,
+                    record["candidate_record_id"],
+                    run_id=run_id,
+                    timestamp=timestamp,
+                )
+                counters.reconciliation_closed += closed
+                counters.reconciled_supports_removed += removed
+                if record["record_type"] == "candidate_fact":
                     _merge_fact(connection, record, timestamp=timestamp, counters=counters)
-                elif record_type == "candidate_relation":
+                elif record["record_type"] == "candidate_relation":
                     _merge_relation(connection, record, timestamp=timestamp, counters=counters)
-                elif record_type in SKIPPED_RECORD_TYPES:
-                    counters.skipped_records += 1
                 else:
-                    counters.skipped_records += 1
+                    materialized = connection.execute(
+                        """
+                        SELECT 1 FROM temporal_intervals
+                        WHERE source_candidate_record_id = ?
+                        """,
+                        (record["candidate_record_id"],),
+                    ).fetchone()
+                    if materialized is None:
+                        raise MergeError(
+                            "Confirmed temporal candidate has no materialized interval: "
+                            f"{record['candidate_record_id']}."
+                        )
+                counters.merged_candidate_record_ids.append(record["candidate_record_id"])
+                counters.merged_candidates.append(
+                    {
+                        "candidate_record_id": record["candidate_record_id"],
+                        "decision_id": decision_id,
+                    }
+                )
             connection.commit()
         except Exception:
             connection.rollback()
@@ -193,9 +482,33 @@ def merge_candidate_batch(
     finally:
         connection.close()
 
-    return MergeResult(
+    return _collection_result(
+        run_id,
+        ordered_batch_ids,
+        records,
+        counters,
+        status="completed",
+        reason="merge_completed_with_skips" if counters.skipped_records else "success",
+        exit_code=0,
+    )
+
+
+def _collection_result(
+    run_id: str,
+    batch_ids: tuple[str, ...],
+    records: list[sqlite3.Row],
+    counters: _MergeCounters,
+    *,
+    status: str,
+    reason: str,
+    exit_code: int,
+) -> MergeCollectionResult:
+    return MergeCollectionResult(
         run_id=run_id,
-        batch_id=batch_id,
+        batch_ids=batch_ids,
+        status=status,
+        reason=reason,
+        exit_code=exit_code,
         candidate_record_count=len(records),
         facts_created=counters.facts_created,
         facts_existing=counters.facts_existing,
@@ -204,6 +517,16 @@ def merge_candidate_batch(
         conflicts_created=counters.conflicts_created,
         conflicts_existing=counters.conflicts_existing,
         skipped_records=counters.skipped_records,
+        skipped_pending=counters.skipped_pending,
+        skipped_rejected=counters.skipped_rejected,
+        skipped_superseded=counters.skipped_superseded,
+        skipped_no_positive_head=counters.skipped_no_positive_head,
+        skipped_non_leaf=counters.skipped_non_leaf,
+        merged_candidate_record_ids=tuple(counters.merged_candidate_record_ids),
+        merged_candidates=tuple(counters.merged_candidates),
+        skipped_candidates=tuple(counters.skipped_candidates),
+        reconciliation_closed=counters.reconciliation_closed,
+        reconciled_supports_removed=counters.reconciled_supports_removed,
     )
 
 
@@ -262,6 +585,69 @@ def _load_candidate_records(
         """,
         (batch_id,),
     ).fetchall()
+
+
+def _merge_eligibility(
+    connection: sqlite3.Connection,
+    record: sqlite3.Row,
+) -> tuple[str | None, str | None]:
+    candidate_record_id = record["candidate_record_id"]
+    child = connection.execute(
+        """
+        SELECT candidate_record_id
+        FROM candidate_lineage
+        WHERE parent_candidate_record_id = ?
+        """,
+        (candidate_record_id,),
+    ).fetchone()
+    head = connection.execute(
+        """
+        SELECT rd.decision_id, rd.outcome
+        FROM review_subject_heads h
+        JOIN review_decisions rd ON rd.decision_id = h.decision_id
+        WHERE h.subject_type = 'candidate_record' AND h.subject_id = ?
+        """,
+        (candidate_record_id,),
+    ).fetchone()
+    decision_id = head["decision_id"] if head else None
+    if child is not None:
+        return "non_leaf", decision_id
+    if head is None:
+        return "pending", None
+    if head["outcome"] == "rejected":
+        return "rejected", decision_id
+    if head["outcome"] == "superseded":
+        return "superseded", decision_id
+    if head["outcome"] != "confirmed":
+        return "no_positive_head", decision_id
+    return None, decision_id
+
+
+def _count_review_skip(
+    counters: _MergeCounters,
+    record: sqlite3.Row,
+    *,
+    reason: str,
+    decision_id: str | None,
+) -> None:
+    counters.skipped_records += 1
+    if reason == "pending":
+        counters.skipped_pending += 1
+    elif reason == "rejected":
+        counters.skipped_rejected += 1
+    elif reason == "superseded":
+        counters.skipped_superseded += 1
+    elif reason == "non_leaf":
+        counters.skipped_non_leaf += 1
+    else:
+        counters.skipped_no_positive_head += 1
+    counters.skipped_candidates.append(
+        {
+            "candidate_record_id": record["candidate_record_id"],
+            "decision_id": decision_id,
+            "reason": reason,
+        }
+    )
 
 
 def _merge_fact(
@@ -542,6 +928,7 @@ def _ensure_fact_conflicts(
         FROM facts
         WHERE canonical_entity_name = ?
           AND fact_id <> ?
+          AND status <> 'unsupported'
         ORDER BY fact_id
         """,
         (fact["canonical_entity_name"], fact["fact_id"]),
@@ -762,13 +1149,7 @@ def _clean_text(value: Any) -> str:
 
 
 def _stable_hash(payload: list[str]) -> str:
-    data = json.dumps(
-        payload,
-        ensure_ascii=False,
-        separators=(",", ":"),
-        sort_keys=True,
-    )
-    return hashlib.sha256(data.encode("utf-8")).hexdigest()
+    return canonical_sha256_v1(payload)
 
 
 def _text_hash(text: str) -> str:

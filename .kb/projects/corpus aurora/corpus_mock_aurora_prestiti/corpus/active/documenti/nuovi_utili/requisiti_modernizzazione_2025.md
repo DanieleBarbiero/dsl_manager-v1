@@ -2,6 +2,11 @@
 
 Versione approvata il 18 novembre 2025.
 
+`valid_from: 2025-11-18`
+
+La decorrenza e' una dichiarazione di contenuto da sottoporre a revisione: non
+trasforma automaticamente la data del documento nella validita' di ogni regola.
+
 ## Perimetro
 
 Aurora Prestiti gestisce richieste di prestito personale presentate da clienti maggiorenni. Una richiesta registrata nel sistema è chiamata PraticaPrestito.
@@ -31,4 +36,3 @@ Non è consentito approvare una pratica se il cliente ha meno di 18 anni alla da
 Il nuovo sistema deve conservare la tracciabilità fra regola di business, dato tecnico, schermata e comportamento osservato.
 
 Le informazioni storiche in conflitto non devono essere cancellate: devono essere segnalate per la revisione umana.
-

@@ -1,0 +1,187 @@
+{
+  "manifest": {
+    "external_links": 1,
+    "named_ranges": [
+      ["workbook", null, "GlobalBlock", "Main!$A$1:$B$3"],
+      ["workbook", null, "LocalBlock", "Main!$A$2:$B$3"],
+      ["sheet", "Main", "LocalBlock", "Main!$E$2:$F$3"]
+    ],
+    "sheets": [
+      [0, "Main", "visible"],
+      [1, "Hidden", "hidden"],
+      [2, "VeryHidden", "very_hidden"]
+    ],
+    "tables": [["Main", "Orders", "A1:B3"]]
+  },
+  "rules": {
+    "excel_explicit_reference/1": {
+      "automatic_review_allowed": false,
+      "automatic_review_policy": "explicit_excel_reference_pending/1",
+      "candidates": [
+        {
+          "candidate_id": "EXCEL_EXPLICIT_REFERENCE_F31373DCBCED3306",
+          "coordinate": "H1",
+          "record_type": "candidate_relation",
+          "semantic_type": "references",
+          "sheet_name": "Main"
+        },
+        {
+          "candidate_id": "EXCEL_EXPLICIT_REFERENCE_A75C87DCCA15F6D0",
+          "coordinate": "H3",
+          "record_type": "candidate_relation",
+          "semantic_type": "references",
+          "sheet_name": "Main"
+        },
+        {
+          "candidate_id": "EXCEL_EXPLICIT_REFERENCE_E1AA068E68D6968A",
+          "coordinate": "H5",
+          "record_type": "candidate_relation",
+          "semantic_type": "references",
+          "sheet_name": "Main"
+        }
+      ]
+    },
+    "excel_named_range_fact/1": {
+      "automatic_review_allowed": true,
+      "automatic_review_policy": "explicit_excel_named_range_only/1",
+      "candidates": [
+        {
+          "candidate_id": "EXCEL_NAMED_RANGE_FACT_104683DFEA91D17E",
+          "coordinate": "E2:F3",
+          "record_type": "candidate_fact",
+          "semantic_type": "excel_named_range",
+          "sheet_name": "Main"
+        },
+        {
+          "candidate_id": "EXCEL_NAMED_RANGE_FACT_C03571DCFB970804",
+          "coordinate": "A1:B3",
+          "record_type": "candidate_fact",
+          "semantic_type": "excel_named_range",
+          "sheet_name": "Main"
+        },
+        {
+          "candidate_id": "EXCEL_NAMED_RANGE_FACT_6A0D47E46081D075",
+          "coordinate": "A2:B3",
+          "record_type": "candidate_fact",
+          "semantic_type": "excel_named_range",
+          "sheet_name": "Main"
+        }
+      ]
+    },
+    "excel_region_fact/1": {
+      "automatic_review_allowed": true,
+      "automatic_review_policy": "explicit_excel_region_only/1",
+      "candidates": [
+        {
+          "candidate_id": "EXCEL_REGION_FACT_CFD9612DE9C9F15F",
+          "coordinate": "A1:B3",
+          "record_type": "candidate_fact",
+          "semantic_type": "excel_region",
+          "sheet_name": "Main"
+        },
+        {
+          "candidate_id": "EXCEL_REGION_FACT_E07CE42C3A31F7A8",
+          "coordinate": "E1:F3",
+          "record_type": "candidate_fact",
+          "semantic_type": "excel_region",
+          "sheet_name": "Main"
+        },
+        {
+          "candidate_id": "EXCEL_REGION_FACT_0085B6E3D9753BCC",
+          "coordinate": "H1",
+          "record_type": "candidate_fact",
+          "semantic_type": "excel_region",
+          "sheet_name": "Main"
+        },
+        {
+          "candidate_id": "EXCEL_REGION_FACT_ED50AEECF0C9B229",
+          "coordinate": "H3",
+          "record_type": "candidate_fact",
+          "semantic_type": "excel_region",
+          "sheet_name": "Main"
+        },
+        {
+          "candidate_id": "EXCEL_REGION_FACT_63E3D5809441597B",
+          "coordinate": "H5",
+          "record_type": "candidate_fact",
+          "semantic_type": "excel_region",
+          "sheet_name": "Main"
+        },
+        {
+          "candidate_id": "EXCEL_REGION_FACT_07CB7DC2B91787D3",
+          "coordinate": "H7",
+          "record_type": "candidate_fact",
+          "semantic_type": "excel_region",
+          "sheet_name": "Main"
+        },
+        {
+          "candidate_id": "EXCEL_REGION_FACT_712E7A207B3D2F76",
+          "coordinate": "A1",
+          "record_type": "candidate_fact",
+          "semantic_type": "excel_region",
+          "sheet_name": "Hidden"
+        },
+        {
+          "candidate_id": "EXCEL_REGION_FACT_E3ADEC1BA8DDF8FA",
+          "coordinate": "B2",
+          "record_type": "candidate_fact",
+          "semantic_type": "excel_region",
+          "sheet_name": "VeryHidden"
+        }
+      ]
+    },
+    "excel_sheet_fact/1": {
+      "automatic_review_allowed": true,
+      "automatic_review_policy": "explicit_excel_sheet_only/1",
+      "candidates": [
+        {
+          "candidate_id": "EXCEL_SHEET_FACT_83722456A1BFA61E",
+          "coordinate": "A1:B3",
+          "record_type": "candidate_fact",
+          "semantic_type": "excel_sheet",
+          "sheet_name": "Main"
+        },
+        {
+          "candidate_id": "EXCEL_SHEET_FACT_4ABC3886D5394A64",
+          "coordinate": "A1",
+          "record_type": "candidate_fact",
+          "semantic_type": "excel_sheet",
+          "sheet_name": "Hidden"
+        },
+        {
+          "candidate_id": "EXCEL_SHEET_FACT_F77D0F71E45A7D76",
+          "coordinate": "B2",
+          "record_type": "candidate_fact",
+          "semantic_type": "excel_sheet",
+          "sheet_name": "VeryHidden"
+        }
+      ]
+    },
+    "excel_table_fact/1": {
+      "automatic_review_allowed": true,
+      "automatic_review_policy": "explicit_excel_table_only/1",
+      "candidates": [
+        {
+          "candidate_id": "EXCEL_TABLE_FACT_C5A6C40EC8FE0F0B",
+          "coordinate": "A1:B3",
+          "record_type": "candidate_fact",
+          "semantic_type": "excel_table",
+          "sheet_name": "Main"
+        }
+      ]
+    },
+    "excel_workbook_fact/1": {
+      "automatic_review_allowed": true,
+      "automatic_review_policy": "explicit_excel_workbook_only/1",
+      "candidates": [
+        {
+          "candidate_id": "EXCEL_WORKBOOK_FACT_0B11B47F478A7F84",
+          "coordinate": "A1:B3",
+          "record_type": "candidate_fact",
+          "semantic_type": "excel_workbook",
+          "sheet_name": "Main"
+        }
+      ]
+    }
+  }
+}

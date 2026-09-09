@@ -2,20 +2,35 @@
 
 ## Oracle Forms
 
-I file XML simulano una semplice esportazione leggibile di form Oracle. Non sono file binari `.fmb`.
-
-Il parser v1 di `dsl-manager` riconosce un elemento radice `<form>` con figli `<field>` e `<button>`. Per questo motivo le fixture sono volutamente semplici.
+I file XML sono facsimili leggibili, non file binari `.fmb`. Il parser riconosce
+il sottoinsieme con radice `<form>`, campi e pulsanti usato dalle fixture.
 
 ## SQL e PL/SQL
 
-Il DDL usa tipi Oracle come `NUMBER` e `VARCHAR2`, ma mantiene i vincoli dentro `CREATE TABLE`, forma gestita dal parser minimale. Gli indici Oracle sono volutamente omessi perché il parser DDL v1 non gestisce ancora in modo affidabile `CREATE INDEX`.
+Il DDL usa tipi Oracle ma mantiene i vincoli dentro `CREATE TABLE`. Il parser
+del codice database non e' un parser PL/SQL generale: procedure e trigger usano
+il sottoinsieme coperto da `CREATE PROCEDURE`, `CREATE TRIGGER`, `UPDATE` e
+`CALL`.
 
-Il parser del codice database non è un parser PL/SQL generale. Le procedure e i trigger usano il sottoinsieme coperto dalla v1: `CREATE PROCEDURE`, `CREATE TRIGGER`, `UPDATE` e `CALL`.
+## Documenti ed Excel
 
-## Documenti
+Markdown, testo, HTML, DOCX, XLSX e XLSM sono normalizzabili. L'analisi Excel e'
+strutturale e offline: l'external link e' inventariato ma non dereferenziato; il
+VBA e' rilevato e sottoposto a hash ma mai eseguito.
 
-Markdown, testo, HTML e DOCX sono fonti normalizzabili. Il foglio XLSX è incluso per mostrare un formato utile ma non supportato dal batch v1: deve risultare `skipped`, non va forzato nel parser sbagliato.
+Il malformed e il partial sono fixture controllate fuori da `corpus/active`:
+non rappresentano fonti operative. Il primo verifica il rifiuto di sicurezza;
+il secondo richiede l'iniezione test di un esito Docling `partial_success` e non
+simula un file corrotto.
 
-## Dati
+## Temporalita'
 
-Non sono presenti dati personali reali. Gli identificativi nei log sono fittizi.
+Le date nei nomi file, nei metadata OOXML e nei contenuti sono evidenze, non
+verita' effettive. Segnali concordanti possono alzare la confidenza ma restano
+soggetti a review; segnali discordanti devono restare pending/conflicted.
+
+## Dati e rete
+
+Non sono presenti dati personali reali. Gli identificativi nei log sono
+fittizi. Tutti gli scenari del corpus sono eseguibili senza rete e senza una AI
+reale.

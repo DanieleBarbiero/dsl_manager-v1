@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 from copy import deepcopy
 from pathlib import Path
 from typing import Any
@@ -33,11 +34,67 @@ DEFAULT_CONFIG: dict[str, Any] = {
         "inbox_dir": "ai/inbox",
         "package_format": "markdown_plus_json",
     },
+    "review": {
+        "default_actor_id": "",
+        "automatic_policies": [],
+    },
+    "derive": {
+        "rule_set_version": "1",
+    },
+    "excel": {
+        "max_file_bytes": 67108864,
+        "max_zip_entries": 20000,
+        "max_uncompressed_bytes": 536870912,
+        "max_compression_ratio": 100,
+        "max_xml_part_bytes": 33554432,
+        "max_sheets": 256,
+        "max_cells": 2000000,
+        "max_regions": 10000,
+        "max_relationships": 50000,
+        "max_output_bytes": 268435456,
+        "worker_timeout_seconds": 120,
+        "worker_memory_bytes": 1073741824,
+    },
+    "temporal": {
+        "max_evidence_per_source": 100000,
+        "max_intervals_per_subject": 1000,
+        "default_timeformat": "date",
+        "unknown_timezone_policy": "pending",
+    },
+    "gexf": {
+        "schema_version": "1.3",
+        "validator_dependency": "lxml==6.1.2",
+    },
+}
+
+
+EXCEL_HARD_MAXIMA = {
+    "max_file_bytes": 268435456,
+    "max_zip_entries": 100000,
+    "max_uncompressed_bytes": 2147483648,
+    "max_compression_ratio": 1000,
+    "max_xml_part_bytes": 134217728,
+    "max_sheets": 1024,
+    "max_cells": 10000000,
+    "max_regions": 50000,
+    "max_relationships": 250000,
+    "max_output_bytes": 1073741824,
+    "worker_timeout_seconds": 600,
+    "worker_memory_bytes": 4294967296,
+}
+
+TEMPORAL_HARD_MAXIMA = {
+    "max_evidence_per_source": 1000000,
+    "max_intervals_per_subject": 10000,
 }
 
 
 class WorkerProfileError(RuntimeError):
     """Raised when a worker profile cannot be loaded safely."""
+
+
+class ProjectConfigError(RuntimeError):
+    """Raised when project configuration violates a typed contract."""
 
 
 ENV_TO_CONFIG_PATH = {
@@ -69,6 +126,10 @@ def load_config(
     if cli_options:
         _deep_merge(config, cli_options)
 
+    _validate_slice_20_config(config)
+    _validate_excel_config(config)
+    _validate_temporal_config(config)
+    _validate_gexf_config(config)
     return config
 
 
@@ -177,6 +238,13 @@ def _set_nested(target: dict[str, Any], keys: tuple[str, ...], value: Any) -> No
 
 
 def _parse_scalar(value: str) -> Any:
+    if len(value) >= 2 and value[0] == value[-1] == '"':
+        try:
+            parsed_string = json.loads(value)
+        except json.JSONDecodeError:
+            return value
+        if isinstance(parsed_string, str):
+            return parsed_string
     lowered = value.lower()
     if lowered == "true":
         return True
@@ -184,6 +252,13 @@ def _parse_scalar(value: str) -> Any:
         return False
     if lowered in {"null", "none"}:
         return None
+    if value.startswith("[") and value.endswith("]"):
+        try:
+            parsed = json.loads(value)
+        except json.JSONDecodeError:
+            return value
+        if isinstance(parsed, list):
+            return parsed
     try:
         return int(value)
     except ValueError:
@@ -195,4 +270,77 @@ def _format_scalar(value: Any) -> str:
         return "true" if value else "false"
     if value is None:
         return "null"
+    if isinstance(value, list):
+        return json.dumps(value, ensure_ascii=False, separators=(",", ":"))
+    if isinstance(value, str):
+        try:
+            int(value)
+        except ValueError:
+            return value
+        return json.dumps(value)
     return str(value)
+
+
+def _validate_slice_20_config(config: dict[str, Any]) -> None:
+    review = config.get("review")
+    derive = config.get("derive")
+    if not isinstance(review, dict):
+        raise ProjectConfigError("review configuration must be a mapping.")
+    if not isinstance(review.get("default_actor_id"), str):
+        raise ProjectConfigError("review.default_actor_id must be a string.")
+    policies = review.get("automatic_policies")
+    if not isinstance(policies, list) or not all(
+        isinstance(item, str) and item.strip() for item in policies
+    ):
+        raise ProjectConfigError(
+            "review.automatic_policies must be a list of non-empty policy identifiers."
+        )
+    if not isinstance(derive, dict):
+        raise ProjectConfigError("derive configuration must be a mapping.")
+    rule_set_version = derive.get("rule_set_version")
+    if not isinstance(rule_set_version, str) or not rule_set_version.strip():
+        raise ProjectConfigError("derive.rule_set_version must be a non-empty string.")
+
+
+def _validate_excel_config(config: dict[str, Any]) -> None:
+    excel = config.get("excel")
+    if not isinstance(excel, dict):
+        raise ProjectConfigError("excel configuration must be a mapping.")
+    for key, hard_maximum in EXCEL_HARD_MAXIMA.items():
+        value = excel.get(key)
+        if isinstance(value, bool) or not isinstance(value, int) or value <= 0:
+            raise ProjectConfigError(f"excel.{key} must be a positive integer.")
+        if value > hard_maximum:
+            raise ProjectConfigError(
+                f"excel.{key} exceeds the hard maximum of {hard_maximum}."
+            )
+
+
+def _validate_temporal_config(config: dict[str, Any]) -> None:
+    temporal = config.get("temporal")
+    if not isinstance(temporal, dict):
+        raise ProjectConfigError("temporal configuration must be a mapping.")
+    for key, hard_maximum in TEMPORAL_HARD_MAXIMA.items():
+        value = temporal.get(key)
+        if isinstance(value, bool) or not isinstance(value, int) or value <= 0:
+            raise ProjectConfigError(f"temporal.{key} must be a positive integer.")
+        if value > hard_maximum:
+            raise ProjectConfigError(
+                f"temporal.{key} exceeds the hard maximum of {hard_maximum}."
+            )
+    if temporal.get("default_timeformat") not in {"date", "dateTime"}:
+        raise ProjectConfigError("temporal.default_timeformat must be date or dateTime.")
+    if temporal.get("unknown_timezone_policy") != "pending":
+        raise ProjectConfigError(
+            "temporal.unknown_timezone_policy must remain pending in schema 2."
+        )
+
+
+def _validate_gexf_config(config: dict[str, Any]) -> None:
+    gexf = config.get("gexf")
+    if not isinstance(gexf, dict):
+        raise ProjectConfigError("gexf configuration must be a mapping.")
+    if gexf.get("schema_version") != "1.3":
+        raise ProjectConfigError("gexf.schema_version must be 1.3.")
+    if gexf.get("validator_dependency") != "lxml==6.1.2":
+        raise ProjectConfigError("gexf.validator_dependency must be lxml==6.1.2.")

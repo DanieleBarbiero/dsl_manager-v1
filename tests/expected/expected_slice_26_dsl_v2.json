@@ -1,0 +1,182 @@
+{
+  "conflicts": [
+    {
+      "canonical_entity_name": "cliente",
+      "conflict_id": "CONFLICT_000001",
+      "conflict_type": "different_values_same_property",
+      "entity_name": "Cliente",
+      "left_fact_id": "FACT_000002",
+      "left_value": "ATTIVO",
+      "property_name": "status",
+      "right_fact_id": "FACT_000003",
+      "right_value": "BLOCCATO",
+      "status": "open"
+    }
+  ],
+  "entities": [
+    {
+      "canonical_name": "cliente",
+      "facts": [
+        {
+          "assertion_type": "explicit",
+          "confidence": "high",
+          "fact_id": "FACT_000001",
+          "fact_type": "business_entity",
+          "intervals": [
+            {
+              "bounds_semantics": "inclusive",
+              "end": "2025-12-31",
+              "original_precision": "day",
+              "start": "2025-01-01",
+              "timeformat": "date",
+              "timezone": "Europe/Rome"
+            }
+          ],
+          "property_name": "description",
+          "property_value": "Anagrafica clienti gestita dal sistema",
+          "status": "active"
+        },
+        {
+          "assertion_type": "explicit",
+          "confidence": "high",
+          "fact_id": "FACT_000002",
+          "fact_type": "business_rule",
+          "intervals": [],
+          "property_name": "status",
+          "property_value": "ATTIVO",
+          "status": "conflicted"
+        },
+        {
+          "assertion_type": "explicit",
+          "confidence": "high",
+          "fact_id": "FACT_000003",
+          "fact_type": "business_rule",
+          "intervals": [],
+          "property_name": "status",
+          "property_value": "BLOCCATO",
+          "status": "conflicted"
+        }
+      ],
+      "name": "Cliente"
+    }
+  ],
+  "metadata": {
+    "counts": {
+      "conflicts": 1,
+      "entities": 1,
+      "facts": 3,
+      "relations": 1
+    },
+    "dsl_hash": "83e630d881111aaca0c806eafcccfea66c9ff435cd81d3c6a006513ccc2b5860",
+    "registry_hash": "cefa85a8a75817221152ce024b4ffad00e42b83138de4d9e6a40d4c09a43692f",
+    "schema_version": "2",
+    "temporal": {
+      "base": "day",
+      "gexf_timeformat": "date",
+      "representation": "interval",
+      "timezone": "Europe/Rome"
+    }
+  },
+  "relations": [
+    {
+      "assertion_type": "explicit",
+      "canonical_source_entity": "cliente",
+      "canonical_target_entity": "ordine",
+      "confidence": "high",
+      "intervals": [],
+      "relation_id": "REL_000001",
+      "relation_type": "places",
+      "source_entity": "Cliente",
+      "status": "active",
+      "target_entity": "Ordine"
+    }
+  ],
+  "traceability": {
+    "facts": {
+      "FACT_000001": [
+        {
+          "candidate_record_id": "CREC_000001",
+          "chunk_id": "CHK_000001",
+          "evidence_text_hash": "971b1c4bc17228ace8d8afb5e95cb45a9833fdd3bed6c6650ceda1f7be9f15ea",
+          "file_path": "corpus/active/manuale_clienti.txt",
+          "fragment_id": null,
+          "review": {
+            "outcome": "confirmed",
+            "policy_id": null,
+            "policy_version": null,
+            "semantic_payload_hash": "91877f8d9b8ea96dd1b83aa1aef927da4d97f0f3890d84852a98505bdc3627ff"
+          },
+          "source_id": "SRC_000001",
+          "source_revision_id": "REV_000001"
+        }
+      ],
+      "FACT_000002": [
+        {
+          "candidate_record_id": "CREC_000002",
+          "chunk_id": "CHK_000001",
+          "evidence_text_hash": "cd846dbf0c9337f931544c204e39abb85481200f753891f5067c43f58ff12dac",
+          "file_path": "corpus/active/manuale_clienti.txt",
+          "fragment_id": null,
+          "review": {
+            "outcome": "confirmed",
+            "policy_id": null,
+            "policy_version": null,
+            "semantic_payload_hash": "ba00a1522c7cb5010f610f1df1f20e000c1c51b7208c255c1789daed49725950"
+          },
+          "source_id": "SRC_000001",
+          "source_revision_id": "REV_000001"
+        }
+      ],
+      "FACT_000003": [
+        {
+          "candidate_record_id": "CREC_000003",
+          "chunk_id": "CHK_000001",
+          "evidence_text_hash": "ef5487b89a0bca8bf26ec547abd409c92a3ef98fdf436b9e14748c113fa91bb2",
+          "file_path": "corpus/active/manuale_clienti.txt",
+          "fragment_id": null,
+          "review": {
+            "outcome": "confirmed",
+            "policy_id": null,
+            "policy_version": null,
+            "semantic_payload_hash": "36b460db41bfc6d4e40992f89a5fb6ed3be255e5eacf644fcc807100dec30d9b"
+          },
+          "source_id": "SRC_000001",
+          "source_revision_id": "REV_000001"
+        }
+      ]
+    },
+    "relations": {
+      "REL_000001": [
+        {
+          "candidate_record_id": "CREC_000004",
+          "chunk_id": "CHK_000001",
+          "evidence_text_hash": "e93902dfba95fdc2747e7ba21457bec4d18ee4d1ca00c01070ca75855fdf41f3",
+          "file_path": "corpus/active/manuale_clienti.txt",
+          "fragment_id": null,
+          "review": {
+            "outcome": "confirmed",
+            "policy_id": null,
+            "policy_version": null,
+            "semantic_payload_hash": "ecae1a3ffc2a831808d5528bfc4f93fd8887a2cd99df6b438e2856e49708c289"
+          },
+          "source_id": "SRC_000001",
+          "source_revision_id": "REV_000001"
+        }
+      ]
+    },
+    "temporal": {
+      "fact:FACT_000001": [
+        {
+          "candidate_record_id": "CREC_000005",
+          "chunk_id": null,
+          "evidence_text_hash": "2c3d1a4e2b4e7c7ce561e7bbf95fd97dcde599a9be89d6f9a9682a9980a618c7",
+          "file_path": "corpus/active/manuale_clienti.txt",
+          "fragment_id": null,
+          "source_id": "SRC_000001",
+          "source_revision_id": "REV_000001",
+          "temporal_evidence_id": "TEV_900001"
+        }
+      ]
+    }
+  }
+}

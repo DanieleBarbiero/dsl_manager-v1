@@ -101,6 +101,7 @@ def process_dir(
     *,
     corpus_path: str | Path | None = None,
     stop_on_error: bool = False,
+    parent_run_id: str | None = None,
 ) -> BatchResult:
     settings = _require_database_ready(workspace_dir)
     scan_result = scan_corpus(settings.workspace_dir, corpus_path=corpus_path)
@@ -128,6 +129,7 @@ def process_dir(
         input_payload=input_payload,
         items=items,
         executor=_execute_process_dir_item,
+        parent_run_id=parent_run_id,
     )
 
 
@@ -328,10 +330,12 @@ def _execute_batch(
     input_payload: dict[str, Any],
     items: list[BatchItem],
     executor: Any,
+    parent_run_id: str | None = None,
 ) -> BatchResult:
     started = start_run(
         settings.workspace_dir,
         run_type="batch",
+        parent_run_id=parent_run_id,
         input_payload=input_payload,
         cli_options={"batch": {"command": batch_command, "stop_on_error": stop_on_error}},
     )
@@ -479,6 +483,7 @@ def _execute_process_dir_item(item: BatchItem, parent_run_id: str) -> None:
             run_id=result.run_id,
             worker_result=result.worker_result,
             outputs={
+                "is_excel": result.is_excel,
                 "normalized_hash": result.normalized_hash,
                 "normalized_markdown_path": result.normalized_markdown_path,
             },
@@ -723,6 +728,8 @@ def _actions_for_revision(workspace_dir: Path, revision: sqlite3.Row) -> list[st
         ".pdf",
         ".pptx",
         ".txt",
+        ".xlsx",
+        ".xlsm",
     }:
         return ["normalize", "chunk"]
     if source_type == "xml_form" or suffix == ".xml":

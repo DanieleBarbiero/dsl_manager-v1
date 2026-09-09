@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import copy
-import hashlib
 import json
 import sqlite3
 from collections.abc import Callable
@@ -17,6 +16,9 @@ from dsl_mngr.core.database import (
     resolve_database_settings,
     resolve_workspace_path,
 )
+from dsl_mngr.core.canonical import canonical_sha256_v1
+from dsl_mngr.core.config import load_config
+from dsl_mngr.core.reconciliation import assert_no_open_reconciliation
 from dsl_mngr.core.runs import (
     DatabaseNotReadyError,
     canonical_json,
@@ -81,6 +83,7 @@ class _RegistryView:
     conflicts: list[dict[str, Any]]
     fact_traceability: dict[str, list[dict[str, Any]]]
     relation_traceability: dict[str, list[dict[str, Any]]]
+    temporal_traceability: dict[str, list[dict[str, Any]]]
     registry_payload: dict[str, Any]
 
 
@@ -94,7 +97,13 @@ class _SnapshotPaths:
     markdown_path: str
 
 
-def ensure_dsl_render_database_ready(workspace_dir: str | Path) -> DatabaseSettings:
+def ensure_dsl_render_database_ready(
+    workspace_dir: str | Path,
+    *,
+    schema_version: str = "1",
+    allow_incomplete: bool = False,
+) -> DatabaseSettings:
+    _validate_render_profile(schema_version, allow_incomplete)
     settings = resolve_database_settings(workspace_dir)
     if not settings.database_path.is_file():
         raise DslRenderDatabaseNotReadyError(
@@ -106,6 +115,8 @@ def ensure_dsl_render_database_ready(workspace_dir: str | Path) -> DatabaseSetti
     try:
         try:
             validate_database_migrations(connection)
+            if not allow_incomplete:
+                assert_no_open_reconciliation(connection)
         except DatabaseNotReadyError as exc:
             message = str(exc).replace("dsl-manager run", "dsl-manager dsl render")
             raise DslRenderDatabaseNotReadyError(message) from exc
@@ -119,22 +130,48 @@ def render_dsl_snapshot(
     *,
     run_id: str,
     output_dir: str | Path | None = None,
+    schema_version: str = "1",
+    allow_incomplete: bool = False,
     clock: Clock | None = None,
 ) -> DslRenderResult:
-    settings = ensure_dsl_render_database_ready(workspace_dir)
+    settings = ensure_dsl_render_database_ready(
+        workspace_dir,
+        schema_version=schema_version,
+        allow_incomplete=allow_incomplete,
+    )
     export_dir = _resolve_output_dir(settings.workspace_dir, output_dir)
     timestamp = timestamp_now(clock)
 
     connection = open_database(settings.database_path, enable_wal=settings.wal_enabled)
     try:
         validate_database_migrations(connection)
-        registry = _load_registry_view(connection)
+        if not allow_incomplete:
+            assert_no_open_reconciliation(connection)
+        reconciliation_count = _open_reconciliation_count(connection)
+        registry = (
+            _load_registry_view(connection)
+            if schema_version == "1"
+            else _load_registry_view_v2(connection)
+        )
         registry_hash = _stable_json_hash(registry.registry_payload)
 
         snapshot_id = next_id(connection, "dsl_snapshots", "snapshot_id", "DSL")
         paths = _snapshot_paths(settings.workspace_dir, export_dir, snapshot_id)
 
-        content_without_hash = _build_dsl_content(registry, registry_hash=registry_hash)
+        content_without_hash = (
+            _build_dsl_content(registry, registry_hash=registry_hash)
+            if schema_version == "1"
+            else _build_dsl_content_v2(
+                connection,
+                registry,
+                registry_hash=registry_hash,
+                default_timeformat=str(
+                    load_config(settings.workspace_dir)["temporal"]["default_timeformat"]
+                ),
+                allow_incomplete=allow_incomplete,
+                reconciliation_count=reconciliation_count,
+            )
+        )
         dsl_hash = _hash_dsl_content(content_without_hash)
         content = _with_dsl_hash(content_without_hash, dsl_hash)
         content_json = canonical_json(content)
@@ -181,11 +218,49 @@ def render_dsl_snapshot(
                     timestamp,
                 ),
             )
+            if schema_version == "2":
+                persisted = connection.execute(
+                    """
+                    SELECT dsl_hash, registry_hash, content_json, json_path
+                    FROM dsl_snapshots WHERE snapshot_id = ?
+                    """,
+                    (snapshot_id,),
+                ).fetchone()
+                disk_content = paths.json_file.read_text(encoding="utf-8")
+                if (
+                    persisted is None
+                    or persisted["dsl_hash"] != dsl_hash
+                    or persisted["registry_hash"] != registry_hash
+                    or persisted["content_json"] != content_json
+                    or persisted["json_path"] != paths.json_path
+                    or disk_content != content_json
+                    or json.loads(persisted["content_json"]) != content
+                ):
+                    raise DslRenderError("DSL schema 2 snapshot roundtrip verification failed.")
         except Exception:
             connection.rollback()
             raise
         else:
             connection.commit()
+        if schema_version == "2":
+            committed = connection.execute(
+                """
+                SELECT dsl_hash, registry_hash, content_json, json_path
+                FROM dsl_snapshots WHERE snapshot_id = ?
+                """,
+                (snapshot_id,),
+            ).fetchone()
+            if (
+                committed is None
+                or committed["dsl_hash"] != dsl_hash
+                or committed["registry_hash"] != registry_hash
+                or committed["content_json"] != content_json
+                or committed["json_path"] != paths.json_path
+                or json.loads(committed["content_json"]) != content
+            ):
+                raise DslRenderError(
+                    "DSL schema 2 committed snapshot roundtrip verification failed."
+                )
 
         return DslRenderResult(
             run_id=run_id,
@@ -362,8 +437,153 @@ def _load_registry_view(connection: sqlite3.Connection) -> _RegistryView:
         conflicts=conflicts,
         fact_traceability=fact_traceability,
         relation_traceability=relation_traceability,
+        temporal_traceability={},
         registry_payload=registry_payload,
     )
+
+
+def _load_registry_view_v2(connection: sqlite3.Connection) -> _RegistryView:
+    facts = [_fact_payload(row) for row in _load_fact_rows_v2(connection)]
+    relations = [_relation_payload(row) for row in _load_relation_rows_v2(connection)]
+    conflicts = [_conflict_payload(row) for row in _load_conflict_rows_v2(connection)]
+    fact_ids = [fact["fact_id"] for fact in facts]
+    relation_ids = [relation["relation_id"] for relation in relations]
+    fact_evidence_rows = _load_fact_evidence_rows_v2(connection, fact_ids)
+    relation_evidence_rows = _load_relation_evidence_rows_v2(connection, relation_ids)
+    fact_traceability = _traceability_by_owner_v2(fact_evidence_rows, "fact_id")
+    relation_traceability = _traceability_by_owner_v2(
+        relation_evidence_rows, "relation_id"
+    )
+    sources, source_revisions = _source_payloads(
+        [*fact_evidence_rows, *relation_evidence_rows]
+    )
+    intervals = _effective_interval_registry_payload(connection, fact_ids, relation_ids)
+    temporal_traceability = _load_temporal_traceability(
+        connection, fact_ids, relation_ids
+    )
+    registry_payload = {
+        "conflicts": conflicts,
+        "fact_evidence": [
+            _evidence_registry_payload_v2(row, "fact_id") for row in fact_evidence_rows
+        ],
+        "facts": facts,
+        "relation_evidence": [
+            _evidence_registry_payload_v2(row, "relation_id")
+            for row in relation_evidence_rows
+        ],
+        "relations": relations,
+        "source_revisions": source_revisions,
+        "sources": sources,
+        "temporal_intervals": intervals,
+    }
+    return _RegistryView(
+        facts=facts,
+        relations=relations,
+        conflicts=conflicts,
+        fact_traceability=fact_traceability,
+        relation_traceability=relation_traceability,
+        temporal_traceability=temporal_traceability,
+        registry_payload=registry_payload,
+    )
+
+
+def _load_fact_rows_v2(connection: sqlite3.Connection) -> list[sqlite3.Row]:
+    return connection.execute(
+        """
+        SELECT
+            fact_id, fact_identity_hash, fact_type, entity_name,
+            canonical_entity_name, property_name, property_value,
+            normalized_property_value, assertion_type, confidence, status,
+            first_candidate_record_id
+        FROM effective_facts
+        ORDER BY canonical_entity_name, property_name, normalized_property_value, fact_id
+        """
+    ).fetchall()
+
+
+def _load_relation_rows_v2(connection: sqlite3.Connection) -> list[sqlite3.Row]:
+    return connection.execute(
+        """
+        SELECT
+            relation_id, relation_identity_hash, source_entity,
+            canonical_source_entity, relation_type, target_entity,
+            canonical_target_entity, assertion_type, confidence, status,
+            first_candidate_record_id
+        FROM effective_relations
+        ORDER BY canonical_source_entity, relation_type, canonical_target_entity, relation_id
+        """
+    ).fetchall()
+
+
+def _load_conflict_rows_v2(connection: sqlite3.Connection) -> list[sqlite3.Row]:
+    return connection.execute(
+        """
+        SELECT
+            c.conflict_id, c.conflict_key_hash, c.conflict_type, c.entity_name,
+            c.canonical_entity_name, c.property_name, c.left_fact_id,
+            c.right_fact_id, c.left_value, c.right_value, c.status
+        FROM conflicts c
+        JOIN effective_facts lf ON lf.fact_id = c.left_fact_id
+        JOIN effective_facts rf ON rf.fact_id = c.right_fact_id
+        ORDER BY c.conflict_id
+        """
+    ).fetchall()
+
+
+def _load_fact_evidence_rows_v2(
+    connection: sqlite3.Connection,
+    fact_ids: list[str],
+) -> list[sqlite3.Row]:
+    if not fact_ids:
+        return []
+    return connection.execute(
+        f"""
+        SELECT
+            efe.fact_id AS owner_id, efe.fact_id, efe.candidate_record_id,
+            efe.source_revision_id, efe.chunk_id, efe.fragment_id,
+            efe.evidence_text_hash, efe.review_decision_id,
+            efe.review_semantic_payload_hash, efe.review_policy_id,
+            efe.review_policy_version, sr.source_id, sr.revision_number,
+            sr.content_hash, sr.normalized_hash, sr.file_path, sr.file_size,
+            sr.status AS source_revision_status, s.logical_name, s.source_type,
+            s.source_subtype, s.authority_level, s.current_revision_id,
+            s.status AS source_status
+        FROM effective_fact_evidence efe
+        JOIN source_revisions sr ON sr.source_revision_id = efe.source_revision_id
+        JOIN sources s ON s.source_id = sr.source_id
+        WHERE efe.fact_id IN ({_placeholders(fact_ids)})
+        ORDER BY efe.fact_id, efe.candidate_record_id
+        """,
+        fact_ids,
+    ).fetchall()
+
+
+def _load_relation_evidence_rows_v2(
+    connection: sqlite3.Connection,
+    relation_ids: list[str],
+) -> list[sqlite3.Row]:
+    if not relation_ids:
+        return []
+    return connection.execute(
+        f"""
+        SELECT
+            ere.relation_id AS owner_id, ere.relation_id,
+            ere.candidate_record_id, ere.source_revision_id, ere.chunk_id,
+            ere.fragment_id, ere.evidence_text_hash, ere.review_decision_id,
+            ere.review_semantic_payload_hash, ere.review_policy_id,
+            ere.review_policy_version, sr.source_id, sr.revision_number,
+            sr.content_hash, sr.normalized_hash, sr.file_path, sr.file_size,
+            sr.status AS source_revision_status, s.logical_name, s.source_type,
+            s.source_subtype, s.authority_level, s.current_revision_id,
+            s.status AS source_status
+        FROM effective_relation_evidence ere
+        JOIN source_revisions sr ON sr.source_revision_id = ere.source_revision_id
+        JOIN sources s ON s.source_id = sr.source_id
+        WHERE ere.relation_id IN ({_placeholders(relation_ids)})
+        ORDER BY ere.relation_id, ere.candidate_record_id
+        """,
+        relation_ids,
+    ).fetchall()
 
 
 def _load_fact_rows(connection: sqlite3.Connection) -> list[sqlite3.Row]:
@@ -406,6 +626,7 @@ def _load_relation_rows(connection: sqlite3.Connection) -> list[sqlite3.Row]:
             status,
             first_candidate_record_id
         FROM relations
+        WHERE status != 'unsupported'
         ORDER BY canonical_source_entity, relation_type, canonical_target_entity, relation_id
         """
     ).fetchall()
@@ -646,32 +867,208 @@ def _build_dsl_content(registry: _RegistryView, *, registry_hash: str) -> dict[s
     }
 
 
+def _build_dsl_content_v2(
+    connection: sqlite3.Connection,
+    registry: _RegistryView,
+    *,
+    registry_hash: str,
+    default_timeformat: str,
+    allow_incomplete: bool,
+    reconciliation_count: int,
+) -> dict[str, Any]:
+    all_intervals = _load_effective_intervals(
+        connection,
+        [fact["fact_id"] for fact in registry.facts],
+        [relation["relation_id"] for relation in registry.relations],
+    )
+    formats = sorted({interval["timeformat"] for interval in all_intervals})
+    omitted_intervals = 0
+    if len(formats) > 1:
+        if not allow_incomplete:
+            raise DslRenderError(
+                "temporal_profile_incompatible: effective intervals use both date and dateTime."
+            )
+        selected_timeformat = default_timeformat
+        profile_intervals = [
+            interval for interval in all_intervals if interval["timeformat"] == selected_timeformat
+        ]
+        omitted_intervals = len(all_intervals) - len(profile_intervals)
+        # Keep every effective interval in DSL v2. The chosen profile controls
+        # one GEXF output; omit/separate is an explicit export policy.
+        selected_intervals = all_intervals
+    else:
+        selected_timeformat = formats[0] if formats else default_timeformat
+        selected_intervals = all_intervals
+        profile_intervals = all_intervals
+    interval_by_subject: dict[tuple[str, str], list[dict[str, Any]]] = {}
+    for interval in selected_intervals:
+        interval_by_subject.setdefault(
+            (interval["subject_type"], interval["subject_id"]), []
+        ).append(_dsl_interval(interval))
+
+    entities_by_canonical: dict[str, dict[str, Any]] = {}
+    for fact in registry.facts:
+        entity = entities_by_canonical.setdefault(
+            fact["canonical_entity_name"],
+            {
+                "name": fact["entity_name"],
+                "canonical_name": fact["canonical_entity_name"],
+                "facts": [],
+            },
+        )
+        entity["facts"].append(
+            {
+                "assertion_type": fact["assertion_type"],
+                "confidence": fact["confidence"],
+                "fact_id": fact["fact_id"],
+                "fact_type": fact["fact_type"],
+                "intervals": interval_by_subject.get(("fact", fact["fact_id"]), []),
+                "property_name": fact["property_name"],
+                "property_value": fact["property_value"],
+                "status": fact["status"],
+            }
+        )
+    relations = []
+    for relation in registry.relations:
+        relations.append(
+            {
+                "assertion_type": relation["assertion_type"],
+                "canonical_source_entity": relation["canonical_source_entity"],
+                "canonical_target_entity": relation["canonical_target_entity"],
+                "confidence": relation["confidence"],
+                "intervals": interval_by_subject.get(
+                    ("relation", relation["relation_id"]), []
+                ),
+                "relation_id": relation["relation_id"],
+                "relation_type": relation["relation_type"],
+                "source_entity": relation["source_entity"],
+                "status": relation["status"],
+                "target_entity": relation["target_entity"],
+            }
+        )
+    conflicts = [
+        {
+            "canonical_entity_name": conflict["canonical_entity_name"],
+            "conflict_id": conflict["conflict_id"],
+            "conflict_type": conflict["conflict_type"],
+            "entity_name": conflict["entity_name"],
+            "left_fact_id": conflict["left_fact_id"],
+            "left_value": conflict["left_value"],
+            "property_name": conflict["property_name"],
+            "right_fact_id": conflict["right_fact_id"],
+            "right_value": conflict["right_value"],
+            "status": conflict["status"],
+        }
+        for conflict in registry.conflicts
+    ]
+    entities = list(entities_by_canonical.values())
+    timezones = sorted(
+        {
+            str(interval["timezone_value"])
+            for interval in profile_intervals
+            if interval["timezone_value"] is not None
+        }
+    )
+    warnings: list[dict[str, Any]] = []
+    if reconciliation_count:
+        warnings.append(
+            {
+                "count": reconciliation_count,
+                "reason": "reconciliation_required",
+            }
+        )
+    if omitted_intervals:
+        warnings.append(
+            {
+                "count": omitted_intervals,
+                "reason": "temporal_profile_incompatible",
+            }
+        )
+    metadata: dict[str, Any] = {
+        "schema_version": "2",
+        "registry_hash": registry_hash,
+        "counts": {
+            "conflicts": len(conflicts),
+            "entities": len(entities),
+            "facts": len(registry.facts),
+            "relations": len(relations),
+        },
+        "temporal": {
+            "representation": "interval",
+            "base": "day" if selected_timeformat == "date" else "timestamp",
+            "gexf_timeformat": selected_timeformat,
+            "timezone": timezones[0] if len(timezones) == 1 else "unknown",
+        },
+    }
+    if allow_incomplete:
+        metadata["incomplete"] = {
+            "allowed": True,
+            "omitted_intervals": omitted_intervals,
+            "open_reconciliations": reconciliation_count,
+        }
+        metadata["warnings"] = warnings
+    return {
+        "metadata": metadata,
+        "entities": entities,
+        "relations": relations,
+        "conflicts": conflicts,
+        "traceability": {
+            "facts": {
+                fact["fact_id"]: registry.fact_traceability.get(fact["fact_id"], [])
+                for fact in registry.facts
+            },
+            "relations": {
+                relation["relation_id"]: registry.relation_traceability.get(
+                    relation["relation_id"], []
+                )
+                for relation in registry.relations
+            },
+            "temporal": registry.temporal_traceability,
+        },
+    }
+
+
 def _with_dsl_hash(content: dict[str, Any], dsl_hash: str) -> dict[str, Any]:
     content_with_hash = copy.deepcopy(content)
     metadata = content_with_hash["metadata"]
-    content_with_hash["metadata"] = {
-        "schema_version": metadata["schema_version"],
-        "dsl_hash": dsl_hash,
-        "registry_hash": metadata["registry_hash"],
-        "counts": metadata["counts"],
-    }
+    if metadata["schema_version"] == "1":
+        content_with_hash["metadata"] = {
+            "schema_version": metadata["schema_version"],
+            "dsl_hash": dsl_hash,
+            "registry_hash": metadata["registry_hash"],
+            "counts": metadata["counts"],
+        }
+    else:
+        content_with_hash["metadata"] = {
+            "schema_version": "2",
+            "dsl_hash": dsl_hash,
+            "registry_hash": metadata["registry_hash"],
+            "counts": metadata["counts"],
+            "temporal": metadata["temporal"],
+            **(
+                {
+                    "incomplete": metadata["incomplete"],
+                    "warnings": metadata["warnings"],
+                }
+                if "incomplete" in metadata
+                else {}
+            ),
+        }
     return content_with_hash
 
 
 def _hash_dsl_content(content: dict[str, Any]) -> str:
     content_for_hash = copy.deepcopy(content)
     content_for_hash.get("metadata", {}).pop("dsl_hash", None)
+    if content_for_hash.get("metadata", {}).get("schema_version") == "2":
+        traceability = content_for_hash.get("traceability")
+        if isinstance(traceability, dict):
+            traceability.pop("temporal", None)
     return _stable_json_hash(content_for_hash)
 
 
 def _stable_json_hash(payload: Any) -> str:
-    text = json.dumps(
-        payload,
-        ensure_ascii=False,
-        separators=(",", ":"),
-        sort_keys=True,
-    )
-    return hashlib.sha256(text.encode("utf-8")).hexdigest()
+    return canonical_sha256_v1(payload)
 
 
 def _traceability_by_owner(
@@ -681,6 +1078,26 @@ def _traceability_by_owner(
     traceability: dict[str, list[dict[str, Any]]] = {}
     for row in rows:
         traceability.setdefault(row[owner_column], []).append(_traceability_payload(row))
+    return traceability
+
+
+def _traceability_by_owner_v2(
+    rows: list[sqlite3.Row],
+    owner_column: str,
+) -> dict[str, list[dict[str, Any]]]:
+    traceability: dict[str, list[dict[str, Any]]] = {}
+    for row in rows:
+        traceability.setdefault(row[owner_column], []).append(
+            {
+                **_traceability_payload(row),
+                "review": {
+                    "outcome": "confirmed",
+                    "policy_id": row["review_policy_id"],
+                    "policy_version": row["review_policy_version"],
+                    "semantic_payload_hash": row["review_semantic_payload_hash"],
+                },
+            }
+        )
     return traceability
 
 
@@ -705,6 +1122,187 @@ def _evidence_registry_payload(row: sqlite3.Row, owner_column: str) -> dict[str,
         "fragment_id": row["fragment_id"],
         "source_revision_id": row["source_revision_id"],
     }
+
+
+def _evidence_registry_payload_v2(
+    row: sqlite3.Row,
+    owner_column: str,
+) -> dict[str, Any]:
+    return {
+        **_evidence_registry_payload(row, owner_column),
+        "review_outcome": "confirmed",
+        "review_policy_id": row["review_policy_id"],
+        "review_policy_version": row["review_policy_version"],
+        "review_semantic_payload_hash": row["review_semantic_payload_hash"],
+    }
+
+
+def _effective_interval_registry_payload(
+    connection: sqlite3.Connection,
+    fact_ids: list[str],
+    relation_ids: list[str],
+) -> list[dict[str, Any]]:
+    return [
+        {
+            "bounds_semantics": row["bounds_semantics"],
+            "end_value": row["end_value"],
+            "original_precision": row["original_precision"],
+            "start_value": row["start_value"],
+            "subject_id": row["subject_id"],
+            "subject_type": row["subject_type"],
+            "timeformat": row["timeformat"],
+            "timezone_value": row["timezone_value"],
+            "review": {
+                "outcome": "confirmed",
+                "policy_id": row["review_policy_id"],
+                "policy_version": row["review_policy_version"],
+                "semantic_payload_hash": row["review_semantic_payload_hash"],
+            },
+        }
+        for row in _query_effective_interval_rows(connection, fact_ids, relation_ids)
+    ]
+
+
+def _load_effective_intervals(
+    connection: sqlite3.Connection,
+    fact_ids: list[str],
+    relation_ids: list[str],
+) -> list[dict[str, Any]]:
+    return [dict(row) for row in _query_effective_interval_rows(connection, fact_ids, relation_ids)]
+
+
+def _query_effective_interval_rows(
+    connection: sqlite3.Connection,
+    fact_ids: list[str],
+    relation_ids: list[str],
+) -> list[sqlite3.Row]:
+    clauses: list[str] = []
+    parameters: list[str] = []
+    if fact_ids:
+        clauses.append(f"(ti.subject_type = 'fact' AND ti.subject_id IN ({_placeholders(fact_ids)}))")
+        parameters.extend(fact_ids)
+    if relation_ids:
+        clauses.append(
+            f"(ti.subject_type = 'relation' AND ti.subject_id IN ({_placeholders(relation_ids)}))"
+        )
+        parameters.extend(relation_ids)
+    if not clauses:
+        return []
+    return connection.execute(
+        f"""
+        SELECT
+            ti.subject_type, ti.subject_id, ti.start_value, ti.end_value,
+            ti.timeformat, ti.timezone_value, ti.original_precision,
+            ti.bounds_semantics, ti.source_candidate_record_id,
+            rd.semantic_payload_hash AS review_semantic_payload_hash,
+            rd.policy_id AS review_policy_id,
+            rd.policy_version AS review_policy_version
+        FROM temporal_intervals ti
+        JOIN review_subject_heads h
+          ON h.subject_type = 'candidate_record'
+         AND h.subject_id = ti.source_candidate_record_id
+        JOIN review_decisions rd ON rd.decision_id = h.decision_id
+        WHERE rd.outcome = 'confirmed'
+          AND NOT EXISTS (
+              SELECT 1 FROM candidate_lineage child
+              WHERE child.parent_candidate_record_id = ti.source_candidate_record_id
+          )
+          AND ({' OR '.join(clauses)})
+        ORDER BY ti.subject_type, ti.subject_id, ti.start_value, ti.end_value
+        """,
+        parameters,
+    ).fetchall()
+
+
+def _load_temporal_traceability(
+    connection: sqlite3.Connection,
+    fact_ids: list[str],
+    relation_ids: list[str],
+) -> dict[str, list[dict[str, Any]]]:
+    clauses: list[str] = []
+    parameters: list[str] = []
+    if fact_ids:
+        clauses.append(f"(ti.subject_type = 'fact' AND ti.subject_id IN ({_placeholders(fact_ids)}))")
+        parameters.extend(fact_ids)
+    if relation_ids:
+        clauses.append(
+            f"(ti.subject_type = 'relation' AND ti.subject_id IN ({_placeholders(relation_ids)}))"
+        )
+        parameters.extend(relation_ids)
+    if not clauses:
+        return {}
+    rows = connection.execute(
+        f"""
+        SELECT
+            ti.subject_type, ti.subject_id, ti.source_candidate_record_id,
+            rte.temporal_evidence_id, rte.evidence_hash,
+            rte.source_revision_id, rte.source_fragment_id,
+            sr.file_path, s.source_id, tce.ordinal
+        FROM temporal_intervals ti
+        JOIN review_subject_heads h
+          ON h.subject_type = 'candidate_record'
+         AND h.subject_id = ti.source_candidate_record_id
+        JOIN review_decisions rd ON rd.decision_id = h.decision_id
+        JOIN temporal_candidate_evidence tce
+          ON tce.candidate_record_id = ti.source_candidate_record_id
+        JOIN raw_temporal_evidence rte
+          ON rte.temporal_evidence_id = tce.temporal_evidence_id
+        JOIN source_revisions sr ON sr.source_revision_id = rte.source_revision_id
+        JOIN sources s ON s.source_id = sr.source_id
+        WHERE rd.outcome = 'confirmed'
+          AND NOT EXISTS (
+              SELECT 1 FROM candidate_lineage child
+              WHERE child.parent_candidate_record_id = ti.source_candidate_record_id
+          )
+          AND ({' OR '.join(clauses)})
+        ORDER BY ti.subject_type, ti.subject_id, tce.ordinal
+        """,
+        parameters,
+    ).fetchall()
+    result: dict[str, list[dict[str, Any]]] = {}
+    for row in rows:
+        key = f"{row['subject_type']}:{row['subject_id']}"
+        result.setdefault(key, []).append(
+            {
+                "candidate_record_id": row["source_candidate_record_id"],
+                "chunk_id": None,
+                "evidence_text_hash": row["evidence_hash"],
+                "file_path": row["file_path"],
+                "fragment_id": row["source_fragment_id"],
+                "source_id": row["source_id"],
+                "source_revision_id": row["source_revision_id"],
+                "temporal_evidence_id": row["temporal_evidence_id"],
+            }
+        )
+    return result
+
+
+def _dsl_interval(interval: dict[str, Any]) -> dict[str, Any]:
+    return {
+        "start": interval["start_value"],
+        "end": interval["end_value"],
+        "timeformat": interval["timeformat"],
+        "timezone": interval["timezone_value"],
+        "original_precision": interval["original_precision"],
+        "bounds_semantics": interval["bounds_semantics"],
+    }
+
+
+def _open_reconciliation_count(connection: sqlite3.Connection) -> int:
+    return int(
+        connection.execute(
+            "SELECT COUNT(*) FROM reconciliation_required WHERE status = 'open'"
+        ).fetchone()[0]
+    )
+
+
+def _validate_render_profile(schema_version: str, allow_incomplete: bool) -> None:
+    if schema_version not in {"1", "2"}:
+        raise DslRenderError(
+            f"Unsupported DSL schema version: {schema_version}. Expected 1 or 2."
+        )
+    if schema_version == "1" and allow_incomplete:
+        raise DslRenderError("--allow-incomplete is supported only for DSL schema 2.")
 
 
 def _source_payloads(rows: list[sqlite3.Row]) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:

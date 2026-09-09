@@ -1,18 +1,21 @@
-percorso;periodo;utilita_modernizzazione;tipo;azione_attesa;motivazione
-corpus/active/documenti/nuovi_utili/requisiti_modernizzazione_2025.md;nuovo;alta;documento;normalize+chunk;Fonte funzionale corrente e autorevole
-corpus/active/documenti/nuovi_utili/manuale_ufficio_crediti_2024.docx;nuovo;alta;documento;normalize+chunk;Descrive il lavoro degli operatori
-corpus/active/documenti/nuovi_utili/matrice_stati_2025.xlsx;nuovo;alta;foglio elettronico;skipped;Utile all'analisi ma XLSX non è gestito dal batch v1
-corpus/active/documenti/vecchi_utili/manuale_pratiche_2012.txt;vecchio;media;documento;normalize+chunk;Contiene regole storiche e conflitti da preservare
-corpus/active/documenti/vecchi_utili/regole_calcolo_rate_2016.html;vecchio;media;documento;normalize+chunk;Contiene dettagli ancora parzialmente validi
-corpus/active/documenti/vecchi_non_utili/verbale_mensa_2013.docx;vecchio;nessuna;documento;normalize+chunk;Rumore intenzionale da non trasformare in fatti di dominio
-corpus/active/documenti/nuovi_non_utili/istruzioni_parcheggio_2025.html;nuovo;nessuna;documento;normalize+chunk;Rumore intenzionale da non trasformare in fatti di dominio
-corpus/active/database/dump_oracle_ddl.sql;corrente;alta;DDL;parse-ddl;Struttura tecnica Oracle
-corpus/active/forms/FRM_CLIENTE.xml;corrente;alta;XML form;parse-xml-form;Campi e mapping della form cliente
-corpus/active/forms/FRM_PRATICA.xml;corrente;alta;XML form;parse-xml-form;Campi e mapping della form pratica
-corpus/active/forms/FRM_PIANO_RATE.xml;corrente;alta;XML form;parse-xml-form;Campi e mapping di rate e pagamenti
-corpus/active/plsql/TRG_PRATICA_APPROVA.sql;corrente;alta;codice database;parse-db-code;Comportamento automatico di approvazione
-corpus/active/plsql/PRC_GENERA_PIANO.sql;corrente;alta;codice database;parse-db-code;Generazione del piano rate
-corpus/active/plsql/PRC_REGISTRA_PAGAMENTO.sql;corrente;alta;codice database;parse-db-code;Aggiornamento pagamento e rata
-corpus/active/logs/batch_piano_rate_2025.log;corrente;alta;log;parse-log;Comportamento osservato del batch rate
-corpus/active/logs/pagamenti_2025.log;corrente;alta;log;parse-log;Comportamento osservato dei pagamenti
-
+percorso;periodo;utilita_modernizzazione;tipo;azione_attesa;sha256;motivazione
+corpus/active/documenti/nuovi_utili/requisiti_modernizzazione_2025.md;nuovo;alta;documento;normalize+chunk+temporal;a7ab69c9480ac1a651fc0fe66877790c35f4439d3b4d6cf73d54cfd927f6d3a6;Fonte corrente con decorrenza dichiarata da sottoporre a review
+corpus/active/documenti/nuovi_utili/decorrenza_modernizzazione_2025.txt;nuovo;alta;documento;normalize+chunk+temporal;6db5de9fd04a3f3cc4160ebcbfcd7ea52dcc765dbd9882d4fe122984d9a43c3a;Seconda evidenza indipendente concordante sulla decorrenza corrente
+corpus/active/documenti/nuovi_utili/manuale_ufficio_crediti_2024.docx;nuovo;alta;documento;normalize+chunk+temporal;05074499275e3ddb2eea338de17ec4269772ec2e0cf4337dbdada6100ac0efc3;Descrive il lavoro degli operatori e contiene metadata discordanti da non promuovere
+corpus/active/documenti/nuovi_utili/matrice_stati_2025.xlsx;nuovo;alta;foglio elettronico;normalize+chunk+derive+temporal;8691d24f3b6748d76a51731e6dfe362733cc26c2b8ea84769339832346754081;Workbook strutturale completo con formula e cached value
+corpus/active/documenti/nuovi_utili/calcolo_rate_macro_2025.xlsm;nuovo;media;foglio elettronico macro-enabled;normalize+chunk+derive+temporal;17f2858e53262098f899180d470a5390c3072ba5415e7d59a3cd9a4b2bd4caf4;Macro inerte presente e rilevata ma mai eseguita
+corpus/active/documenti/vecchi_utili/manuale_pratiche_2012.txt;vecchio;media;documento;normalize+chunk+temporal;03a58684f958300f92ea662eee3cf0a53bb112746c0ea214e031da684a3902f7;Regole storiche e intervallo dichiarato in conflitto con il corrente
+corpus/active/documenti/vecchi_utili/regole_calcolo_rate_2016.html;vecchio;media;documento;normalize+chunk+temporal;fbee4084c35aec91d4e19dd9c20119092da5879d881735c107f674abb0afa99d;Dettagli storici ancora parzialmente validi
+corpus/active/documenti/vecchi_non_utili/verbale_mensa_2013.docx;vecchio;nessuna;documento;normalize+chunk;b63bebe418ffdfc8f9d560112268eaa3db3be0f9413e9947bd443c7bc45dfcbd;Rumore intenzionale da non trasformare in fatti di dominio
+corpus/active/documenti/nuovi_non_utili/istruzioni_parcheggio_2025.html;nuovo;nessuna;documento;normalize+chunk;ac2a9c910463cdafcd000b2ae81155652ca272b19a29de8db62ef0fb3dfc6f44;Rumore intenzionale da non trasformare in fatti di dominio
+corpus/active/database/dump_oracle_ddl.sql;corrente;alta;DDL;parse-ddl+derive+temporal;43f6797251a710b425c9e00b3aba016d1720a5bf3a544b7b3f12c3bdca4c6cfc;Struttura tecnica Oracle
+corpus/active/forms/FRM_CLIENTE.xml;corrente;alta;XML form;parse-xml-form+derive;5b5e0f9c41c378a188174e3f3e1b9f2ec3cbe1fc0c705a4d4507fe3e02a80ca9;Campi e mapping della form cliente
+corpus/active/forms/FRM_PRATICA.xml;corrente;alta;XML form;parse-xml-form+derive;2f84a13e59f1bbc44b015d3991eb3f4605c78d14b6a8e64f41b84edccf08bb08;Campi e mapping della form pratica
+corpus/active/forms/FRM_PIANO_RATE.xml;corrente;alta;XML form;parse-xml-form+derive;c401a94ee1683638cbb391f0a52a13b118082bac19af41fd0c82729cd9a3730d;Campi e mapping di rate e pagamenti
+corpus/active/plsql/TRG_PRATICA_APPROVA.sql;corrente;alta;codice database;parse-db-code+derive;0dcd03ae78dd674ad9967c4eb7df17e0186228784f9b0f9e1400bea6d72cc718;Comportamento automatico di approvazione
+corpus/active/plsql/PRC_GENERA_PIANO.sql;corrente;alta;codice database;parse-db-code+derive;9e30d0e1f840718a7ac49cdd64362c555ef858f64f93a1a6daefa7484926cd48;Generazione del piano rate
+corpus/active/plsql/PRC_REGISTRA_PAGAMENTO.sql;corrente;alta;codice database;parse-db-code+derive;bf8fe7a0800798d47345acc1668c0fae7384fc3d3ceca80cb6e81f62fa52d8d7;Aggiornamento pagamento e rata
+corpus/active/logs/batch_piano_rate_2025.log;corrente;alta;log;parse-log+derive+temporal;1c00ddff194038ba0546a34b4d5727d9c7f6b151b8ffb9bc9a9fe145807e42aa;Comportamento osservato del batch rate
+corpus/active/logs/pagamenti_2025.log;corrente;alta;log;parse-log+derive+temporal;d04529bddb6567abf9dc60874046912ffe741cea523088bc1495ae0d27e55008;Comportamento osservato dei pagamenti
+materiale_di_supporto/fixture_controllate/workbook_partial_controllato.xlsx;controllato;test;foglio elettronico;normalize-partial;751848e1c7c91bf7406a35a88d23b62c2b4f6923fcd5fd5db77290e26b6e0498;Package valido con conversione partial iniettata e artefatti ispezionabili
+materiale_di_supporto/fixture_controllate/workbook_malformed_controllato.xlsx;controllato;test;package OOXML malformed;preflight-failed;cf680ce352c7682c2180aa03c07f66dd2ee4b16420408bdb03c4095266bdfdbe;Byte non ZIP per distinguere rifiuto strutturale da partial operativo

@@ -7,6 +7,7 @@ import sqlite3
 from pathlib import Path
 
 from dsl_mngr.cli.app import main
+from tests.slice_20_test_support import confirm_materializable_candidates
 
 
 TESTS_DIR = Path(__file__).parent
@@ -56,6 +57,7 @@ def test_golden_full_pipeline(tmp_path, capsys):
     assert "Rejected: 0" in validation_output
     _assert_candidate_validation(workspace, total_records)
 
+    confirm_materializable_candidates(workspace, "CBATCH_000001")
     assert main(["facts", "merge", str(workspace), "--batch", "CBATCH_000001"]) == 0
     merge_output = capsys.readouterr().out
     assert "Candidate records: 8" in merge_output

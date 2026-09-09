@@ -10,6 +10,7 @@ from pathlib import Path
 from dsl_mngr.cli.app import main
 from dsl_mngr.core.migrations import migrate_workspace_database
 from dsl_mngr.core.workspace import initialize_workspace
+from tests.slice_20_test_support import confirm_materializable_candidates
 
 
 TIMESTAMP = "2026-05-29T12:00:00+00:00"
@@ -195,6 +196,7 @@ def _ready_workspace_with_registry(tmp_path: Path) -> Path:
     migrate_workspace_database(workspace)
     _insert_source_revision_and_chunk(workspace)
     batch_id = _validate_candidates(workspace)
+    confirm_materializable_candidates(workspace, batch_id)
     assert main(["facts", "merge", str(workspace), "--batch", batch_id]) == 0
     return workspace
 

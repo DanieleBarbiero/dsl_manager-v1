@@ -1,0 +1,1 @@
+"""Vendored GEXF schema resources."""

@@ -55,7 +55,9 @@ class CandidateInputFile:
 class CandidateImportResult:
     run_id: str
     batch_id: str
-    input_path: str
+    input_path: str | None
+    origin_type: str
+    origin_ref: str | None
     total_records: int
     accepted_count: int
     rejected_count: int
@@ -66,6 +68,8 @@ class CandidateImportResult:
             "accepted_count": self.accepted_count,
             "batch_id": self.batch_id,
             "input_path": self.input_path,
+            "origin_ref": self.origin_ref,
+            "origin_type": self.origin_type,
             "rejected": self.rejected_count,
             "rejected_count": self.rejected_count,
             "run_id": self.run_id,
@@ -121,6 +125,8 @@ def import_candidate_file(
     *,
     run_id: str,
     input_path: str | Path,
+    origin_type: str = "file_import",
+    origin_ref: str | None = None,
     clock: Clock | None = None,
 ) -> CandidateImportResult:
     settings = ensure_candidate_database_ready(workspace_dir)
@@ -140,13 +146,20 @@ def import_candidate_file(
         accepted_count = 0
         rejected_count = 0
 
+        stored_input_path = (
+            None
+            if origin_type in {"human_correction", "deterministic_derivation"}
+            else input_file.relative_path
+        )
         connection.execute("BEGIN")
         try:
             _insert_batch(
                 connection,
                 batch_id=batch_id,
                 run_id=run_id,
-                input_path=input_file.relative_path,
+                input_path=stored_input_path,
+                origin_type=origin_type,
+                origin_ref=origin_ref,
                 timestamp=timestamp,
             )
 
@@ -204,8 +217,89 @@ def import_candidate_file(
     return CandidateImportResult(
         run_id=run_id,
         batch_id=batch_id,
-        input_path=input_file.relative_path,
+        input_path=stored_input_path,
+        origin_type=origin_type,
+        origin_ref=origin_ref,
         total_records=total_records,
+        accepted_count=accepted_count,
+        rejected_count=rejected_count,
+    )
+
+
+def import_candidate_payloads(
+    workspace_dir: str | Path,
+    *,
+    run_id: str,
+    payloads: list[dict[str, Any]],
+    origin_ref: str,
+    clock: Clock | None = None,
+) -> CandidateImportResult:
+    """Import deterministic in-memory payloads through the common candidate contract."""
+    settings = ensure_candidate_database_ready(workspace_dir)
+    timestamp = timestamp_now(clock)
+    connection = open_database(settings.database_path, enable_wal=settings.wal_enabled)
+    try:
+        validate_database_migrations(connection)
+        batch_id = next_id(connection, "candidate_batches", "batch_id", "CBATCH")
+        accepted_count = 0
+        rejected_count = 0
+        connection.execute("BEGIN")
+        try:
+            _insert_batch(
+                connection,
+                batch_id=batch_id,
+                run_id=run_id,
+                input_path=None,
+                origin_type="deterministic_derivation",
+                origin_ref=origin_ref,
+                timestamp=timestamp,
+            )
+            for line_number, payload in enumerate(payloads, start=1):
+                failure = validate_candidate_payload(connection, payload)
+                if failure is None:
+                    _insert_candidate_record(
+                        connection,
+                        batch_id=batch_id,
+                        run_id=run_id,
+                        line_number=line_number,
+                        payload=payload,
+                        timestamp=timestamp,
+                    )
+                    accepted_count += 1
+                else:
+                    _insert_rejected_candidate(
+                        connection,
+                        batch_id=batch_id,
+                        run_id=run_id,
+                        line_number=line_number,
+                        raw_line=canonical_json(payload).rstrip("\n"),
+                        payload=payload,
+                        failure=failure,
+                        timestamp=timestamp,
+                    )
+                    rejected_count += 1
+            _complete_batch(
+                connection,
+                batch_id=batch_id,
+                total_records=len(payloads),
+                accepted_count=accepted_count,
+                rejected_count=rejected_count,
+                timestamp=timestamp,
+            )
+        except Exception:
+            connection.rollback()
+            raise
+        else:
+            connection.commit()
+    finally:
+        connection.close()
+    return CandidateImportResult(
+        run_id=run_id,
+        batch_id=batch_id,
+        input_path=None,
+        origin_type="deterministic_derivation",
+        origin_ref=origin_ref,
+        total_records=len(payloads),
         accepted_count=accepted_count,
         rejected_count=rejected_count,
     )
@@ -236,7 +330,9 @@ def _insert_batch(
     *,
     batch_id: str,
     run_id: str,
-    input_path: str,
+    input_path: str | None,
+    origin_type: str,
+    origin_ref: str | None,
     timestamp: str,
 ) -> None:
     connection.execute(
@@ -245,6 +341,8 @@ def _insert_batch(
             batch_id,
             run_id,
             input_path,
+            origin_type,
+            origin_ref,
             total_records,
             accepted_count,
             rejected_count,
@@ -252,9 +350,18 @@ def _insert_batch(
             created_at,
             updated_at
         )
-        VALUES (?, ?, ?, 0, 0, 0, ?, ?, ?)
+        VALUES (?, ?, ?, ?, ?, 0, 0, 0, ?, ?, ?)
         """,
-        (batch_id, run_id, input_path, "running", timestamp, timestamp),
+        (
+            batch_id,
+            run_id,
+            input_path,
+            origin_type,
+            origin_ref,
+            "running",
+            timestamp,
+            timestamp,
+        ),
     )
 
 
@@ -296,7 +403,7 @@ def _insert_candidate_record(
     line_number: int,
     payload: dict[str, Any],
     timestamp: str,
-) -> None:
+) -> str:
     record_id = next_id(connection, "candidate_records", "candidate_record_id", "CREC")
     connection.execute(
         """
@@ -335,6 +442,62 @@ def _insert_candidate_record(
             timestamp,
         ),
     )
+    connection.execute(
+        """
+        INSERT INTO candidate_lineage (
+            candidate_record_id,
+            root_candidate_record_id,
+            parent_candidate_record_id,
+            correction_group_id
+        )
+        VALUES (?, ?, NULL, NULL)
+        """,
+        (record_id, record_id),
+    )
+    if payload.get("record_type") == "temporal_interval":
+        persist_temporal_candidate_details(connection, record_id, payload)
+    return record_id
+
+
+def persist_temporal_candidate_details(
+    connection: sqlite3.Connection,
+    candidate_record_id: str,
+    payload: dict[str, Any],
+) -> None:
+    connection.execute(
+        """
+        INSERT INTO temporal_candidate_details (
+            candidate_record_id, target_subject_type, target_subject_id,
+            normalized_start, normalized_end, original_precision,
+            timezone_status, timezone_value, bounds_semantics,
+            derivation_policy_id, derivation_policy_version
+        )
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        """,
+        (
+            candidate_record_id,
+            value_as_text(payload.get("target_subject_type")),
+            value_as_text(payload.get("target_subject_id")),
+            optional_text(payload.get("normalized_start")),
+            optional_text(payload.get("normalized_end")),
+            value_as_text(payload.get("original_precision")),
+            value_as_text(payload.get("timezone_status")),
+            optional_text(payload.get("timezone_value")),
+            value_as_text(payload.get("bounds_semantics")),
+            value_as_text(payload.get("derivation_policy_id")),
+            value_as_text(payload.get("derivation_policy_version")),
+        ),
+    )
+    for ordinal, evidence_id in enumerate(payload.get("temporal_evidence_ids", []), start=1):
+        connection.execute(
+            """
+            INSERT INTO temporal_candidate_evidence (
+                candidate_record_id, temporal_evidence_id, ordinal
+            )
+            VALUES (?, ?, ?)
+            """,
+            (candidate_record_id, evidence_id, ordinal),
+        )
 
 
 def _insert_rejected_candidate(

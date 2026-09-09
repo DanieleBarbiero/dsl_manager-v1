@@ -26,6 +26,9 @@ def test_init_workspace(tmp_path):
     project_config = (workspace / "configs" / "project.yaml").read_text(encoding="utf-8")
     assert "project:" in project_config
     assert "ai_handoff:" in project_config
+    config = load_config(workspace)
+    assert config["review"] == {"default_actor_id": "", "automatic_policies": []}
+    assert config["derive"] == {"rule_set_version": "1"}
 
 
 def test_load_config_precedence(tmp_path):

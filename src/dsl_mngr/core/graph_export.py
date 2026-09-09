@@ -6,7 +6,7 @@ import json
 import sqlite3
 import xml.etree.ElementTree as ET
 from collections.abc import Iterable
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from pathlib import Path
 from typing import Any
 
@@ -17,6 +17,12 @@ from dsl_mngr.core.database import (
     resolve_database_settings,
     resolve_workspace_path,
 )
+from dsl_mngr.core.gexf_validation import (
+    GEXF_NAMESPACE,
+    GexfValidationError,
+    validate_dynamic_gexf,
+)
+from dsl_mngr.core.reconciliation import assert_no_open_reconciliation
 from dsl_mngr.core.runs import (
     DatabaseNotReadyError,
     canonical_json,
@@ -30,7 +36,7 @@ from dsl_mngr.core.runs import (
 
 
 GEXF_NS = "http://www.gexf.net/1.2draft"
-SUPPORTED_SCHEMA_VERSIONS = {"1"}
+SUPPORTED_SCHEMA_VERSIONS = {"1", "2"}
 
 NODE_ATTRIBUTES: tuple[tuple[str, str], ...] = (
     ("node_id", "string"),
@@ -80,6 +86,17 @@ EDGE_ATTRIBUTES: tuple[tuple[str, str], ...] = (
 class GraphExportError(RuntimeError):
     """Raised when a DSL snapshot cannot be exported as GEXF."""
 
+    def __init__(
+        self,
+        message: str,
+        *,
+        reason: str = "graph_export_invalid",
+        exit_code: int = 2,
+    ) -> None:
+        super().__init__(message)
+        self.reason = reason
+        self.exit_code = exit_code
+
 
 class GraphExportDatabaseNotReadyError(GraphExportError):
     """Raised when GEXF export needs a migrated database."""
@@ -93,9 +110,13 @@ class GraphExportOptions:
     strict_orphans: bool = False
     directed: bool = True
     node_label_strategy: str = "readable"
+    dynamic: bool = False
+    timeformat: str | None = None
+    allow_incomplete: bool = False
+    temporal_output_mode: str = "strict"
 
     def to_payload(self) -> dict[str, Any]:
-        return {
+        payload = {
             "directed": self.directed,
             "include_conflicts": self.include_conflicts,
             "include_fact_nodes": self.include_fact_nodes,
@@ -103,6 +124,21 @@ class GraphExportOptions:
             "node_label_strategy": self.node_label_strategy,
             "strict_orphans": self.strict_orphans,
         }
+        if (
+            self.dynamic
+            or self.timeformat is not None
+            or self.allow_incomplete
+            or self.temporal_output_mode != "strict"
+        ):
+            payload.update(
+                {
+                    "allow_incomplete": self.allow_incomplete,
+                    "dynamic": self.dynamic,
+                    "temporal_output_mode": self.temporal_output_mode,
+                    "timeformat": self.timeformat,
+                }
+            )
+        return payload
 
 
 @dataclass(frozen=True)
@@ -122,6 +158,7 @@ class GraphExportResult:
     warning_count: int
     options: GraphExportOptions
     warnings: tuple[dict[str, Any], ...]
+    separated_graph_paths: tuple[str, ...] = ()
 
     def to_artifact_payload(self) -> dict[str, Any]:
         return {
@@ -140,6 +177,7 @@ class GraphExportResult:
             "snapshot_id": self.snapshot_id,
             "warning_count": self.warning_count,
             "warnings": list(self.warnings),
+            "separated_graph_paths": list(self.separated_graph_paths),
         }
 
 
@@ -201,6 +239,55 @@ class _GraphModel:
 
 
 @dataclass(frozen=True)
+class _DynamicInterval:
+    start: str | None
+    end: str | None
+
+    def payload(self) -> dict[str, Any]:
+        return {"end": self.end, "start": self.start}
+
+
+@dataclass(frozen=True)
+class _DynamicNode:
+    node: _GraphNode
+    intervals: tuple[_DynamicInterval, ...]
+
+    def payload(self) -> dict[str, Any]:
+        return {**self.node.payload(), "intervals": [item.payload() for item in self.intervals]}
+
+
+@dataclass(frozen=True)
+class _DynamicEdge:
+    edge: _GraphEdge
+    intervals: tuple[_DynamicInterval, ...]
+
+    def payload(self) -> dict[str, Any]:
+        return {**self.edge.payload(), "intervals": [item.payload() for item in self.intervals]}
+
+
+@dataclass(frozen=True)
+class _DynamicGraphModel:
+    nodes: tuple[_DynamicNode, ...]
+    edges: tuple[_DynamicEdge, ...]
+    warnings: tuple[dict[str, Any], ...]
+    orphan_count: int
+    timeformat: str
+    timezone: str | None
+
+    def payload(self) -> dict[str, Any]:
+        return {
+            "directed": True,
+            "dynamic": True,
+            "edges": [edge.payload() for edge in self.edges],
+            "nodes": [node.payload() for node in self.nodes],
+            "orphan_count": self.orphan_count,
+            "timeformat": self.timeformat,
+            "timezone": self.timezone,
+            "warnings": list(self.warnings),
+        }
+
+
+@dataclass(frozen=True)
 class _GraphPaths:
     graph_file: Path
     report_file: Path
@@ -208,7 +295,14 @@ class _GraphPaths:
     report_path: str
 
 
-def ensure_graph_export_database_ready(workspace_dir: str | Path) -> DatabaseSettings:
+def ensure_graph_export_database_ready(
+    workspace_dir: str | Path,
+    *,
+    dynamic: bool = False,
+    allow_incomplete: bool = False,
+) -> DatabaseSettings:
+    if allow_incomplete and not dynamic:
+        raise GraphExportError("--allow-incomplete is supported only with --dynamic.")
     settings = resolve_database_settings(workspace_dir)
     if not settings.database_path.is_file():
         raise GraphExportDatabaseNotReadyError(
@@ -220,6 +314,8 @@ def ensure_graph_export_database_ready(workspace_dir: str | Path) -> DatabaseSet
     try:
         try:
             validate_database_migrations(connection)
+            if not allow_incomplete:
+                assert_no_open_reconciliation(connection)
         except DatabaseNotReadyError as exc:
             message = str(exc).replace("dsl-manager run", "dsl-manager graph export")
             raise GraphExportDatabaseNotReadyError(message) from exc
@@ -243,22 +339,86 @@ def export_gexf_from_snapshot(
     options = options or GraphExportOptions()
     if not options.directed:
         raise GraphExportError("GEXF export supports only directed graphs in v1.")
+    if options.temporal_output_mode not in {"omit", "separate", "strict"}:
+        raise GraphExportError(
+            "temporal_output_mode must be omit, separate, or strict.",
+            reason="temporal_output_mode_invalid",
+        )
+    if options.temporal_output_mode != "strict" and not options.dynamic:
+        raise GraphExportError("Temporal output modes are supported only with --dynamic.")
 
-    settings = ensure_graph_export_database_ready(workspace_dir)
+    settings = ensure_graph_export_database_ready(
+        workspace_dir,
+        dynamic=options.dynamic,
+        allow_incomplete=options.allow_incomplete,
+    )
     export_dir = _resolve_output_dir(settings.workspace_dir, output_dir)
     paths = _graph_paths(settings.workspace_dir, export_dir, snapshot_id)
 
     connection = open_database(settings.database_path, enable_wal=settings.wal_enabled)
     try:
         validate_database_migrations(connection)
+        if not options.allow_incomplete:
+            assert_no_open_reconciliation(connection)
+        open_reconciliation_count = int(
+            connection.execute(
+                "SELECT COUNT(*) FROM reconciliation_required WHERE status = 'open'"
+            ).fetchone()[0]
+        )
         snapshot = _load_snapshot(connection, snapshot_id)
         graph_export_id = next_id(connection, "graph_exports", "graph_export_id", "GEXF")
     finally:
         connection.close()
 
-    graph = build_graph_model(snapshot.content, options=options)
+    snapshot_schema = str(snapshot.content["metadata"]["schema_version"])
+    if options.dynamic and snapshot_schema != "2":
+        raise GraphExportError("--dynamic requires a DSL schema 2 snapshot.")
+    if not options.dynamic and snapshot_schema != "1":
+        raise GraphExportError("DSL schema 2 snapshots require --dynamic.")
+    graph = (
+        build_dynamic_graph_model(
+            snapshot.content,
+            options=options,
+            open_reconciliation_count=open_reconciliation_count,
+        )
+        if options.dynamic
+        else build_graph_model(snapshot.content, options=options)
+    )
     graph_hash = _graph_hash(snapshot, graph, options=options, format=format)
-    gexf_text = render_gexf(graph)
+    gexf_text = render_dynamic_gexf(graph) if options.dynamic else render_gexf(graph)
+    separated_outputs: list[tuple[Path, str, str]] = []
+    if options.dynamic:
+        try:
+            validate_dynamic_gexf(gexf_text)
+            if options.temporal_output_mode == "separate":
+                selected = str(graph.timeformat)
+                for profile in sorted(_content_timeformats(snapshot.content) - {selected}):
+                    profile_options = replace(
+                        options,
+                        timeformat=profile,
+                        temporal_output_mode="omit",
+                    )
+                    profile_graph = build_dynamic_graph_model(
+                        snapshot.content,
+                        options=profile_options,
+                        open_reconciliation_count=open_reconciliation_count,
+                    )
+                    profile_text = render_dynamic_gexf(profile_graph)
+                    validate_dynamic_gexf(profile_text)
+                    profile_file = export_dir / f"{snapshot_id}.{profile}.gexf"
+                    separated_outputs.append(
+                        (
+                            profile_file,
+                            relative_workspace_path(settings.workspace_dir, profile_file),
+                            profile_text,
+                        )
+                    )
+        except GexfValidationError as exc:
+            raise GraphExportError(
+                str(exc),
+                reason=exc.reason,
+                exit_code=exc.exit_code,
+            ) from exc
     report = _build_report(
         graph_export_id=graph_export_id,
         run_id=run_id,
@@ -269,15 +429,20 @@ def export_gexf_from_snapshot(
         graph=graph,
         options=options,
     )
+    report["separated_graph_paths"] = [value[1] for value in separated_outputs]
 
     export_dir.mkdir(parents=True, exist_ok=True)
     paths.graph_file.write_text(gexf_text, encoding="utf-8", newline="\n")
+    for profile_file, _, profile_text in separated_outputs:
+        profile_file.write_text(profile_text, encoding="utf-8", newline="\n")
     paths.report_file.write_text(canonical_json(report), encoding="utf-8", newline="\n")
 
     timestamp = timestamp_now(None)
     connection = open_database(settings.database_path, enable_wal=settings.wal_enabled)
     try:
         validate_database_migrations(connection)
+        if not options.allow_incomplete:
+            assert_no_open_reconciliation(connection)
         connection.execute("BEGIN")
         try:
             connection.execute(
@@ -341,6 +506,7 @@ def export_gexf_from_snapshot(
         warning_count=len(graph.warnings),
         options=options,
         warnings=graph.warnings,
+        separated_graph_paths=tuple(value[1] for value in separated_outputs),
     )
 
 
@@ -396,7 +562,7 @@ def build_graph_model(content: dict[str, Any], *, options: GraphExportOptions) -
             canonical_name = _required_string(entity, "canonical_name", "entity")
             entity_label = _entity_label(entity)
             for fact in _sorted_facts(_entity_facts(entity)):
-                if not _include_fact_node(fact):
+                if not _include_fact_node(fact, include_temporal=options.dynamic):
                     continue
                 fact_id = _required_string(fact, "fact_id", "fact")
                 _add_fact_node(nodes, fact, canonical_name, entity_label, fact_traceability)
@@ -498,6 +664,276 @@ def build_graph_model(content: dict[str, Any], *, options: GraphExportOptions) -
         warnings=tuple(_sorted_warnings(warnings)),
         orphan_count=len(orphan_nodes),
     )
+
+
+def build_dynamic_graph_model(
+    content: dict[str, Any],
+    *,
+    options: GraphExportOptions,
+    open_reconciliation_count: int = 0,
+) -> _DynamicGraphModel:
+    _validate_dsl_content(content)
+    metadata = content["metadata"]
+    if metadata.get("schema_version") != "2":
+        raise GraphExportError("Dynamic GEXF export requires DSL schema 2.")
+    temporal = metadata.get("temporal")
+    if not isinstance(temporal, dict):
+        raise GraphExportError("DSL schema 2 metadata.temporal is missing.")
+    declared_timeformat = temporal.get("gexf_timeformat")
+    if declared_timeformat not in {"date", "dateTime"}:
+        raise GraphExportError("DSL schema 2 temporal timeformat is invalid.")
+    timeformat = options.timeformat or str(declared_timeformat)
+    profile_differs = timeformat != declared_timeformat
+    allow_temporal_omission = (
+        options.allow_incomplete or options.temporal_output_mode in {"omit", "separate"}
+    )
+    if profile_differs and not allow_temporal_omission:
+        raise GraphExportError(
+            "temporal_profile_incompatible: requested timeformat differs from the snapshot profile.",
+            reason="temporal_profile_incompatible",
+            exit_code=3,
+        )
+
+    base = build_graph_model(content, options=options)
+    warnings = list(base.warnings)
+    fact_intervals: dict[str, tuple[_DynamicInterval, ...]] = {}
+    relation_intervals: dict[str, tuple[_DynamicInterval, ...]] = {}
+    omitted = 0
+    for entity in _sorted_entities(content["entities"]):
+        for fact in _sorted_facts(_entity_facts(entity)):
+            fact_id = _required_string(fact, "fact_id", "fact")
+            intervals, count = _dynamic_intervals(
+                fact.get("intervals"),
+                timeformat=timeformat,
+                allow_incomplete=allow_temporal_omission,
+                omit_all=False,
+                owner=f"fact/{fact_id}",
+            )
+            fact_intervals[fact_id] = intervals
+            omitted += count
+    for relation in _sorted_relations(content["relations"]):
+        relation_id = _required_string(relation, "relation_id", "relation")
+        intervals, count = _dynamic_intervals(
+            relation.get("intervals"),
+            timeformat=timeformat,
+            allow_incomplete=allow_temporal_omission,
+            omit_all=False,
+            owner=f"relation/{relation_id}",
+        )
+        relation_intervals[relation_id] = intervals
+        omitted += count
+    if omitted:
+        warnings.append(
+            {
+                "code": "temporal_profile_incompatible",
+                "message": f"Omitted {omitted} interval(s) from the dynamic export.",
+                "omitted_intervals": omitted,
+            }
+        )
+    incomplete = metadata.get("incomplete")
+    if isinstance(incomplete, dict) and incomplete.get("open_reconciliations"):
+        warnings.append(
+            {
+                "code": "reconciliation_required",
+                "message": (
+                    "Dynamic export is based on effective state while reconciliation "
+                    f"remains open ({incomplete['open_reconciliations']})."
+                ),
+            }
+        )
+    elif open_reconciliation_count:
+        warnings.append(
+            {
+                "code": "reconciliation_required",
+                "message": (
+                    "Dynamic export was explicitly allowed while reconciliation "
+                    f"remains open ({open_reconciliation_count})."
+                ),
+            }
+        )
+
+    dynamic_nodes = []
+    for node in base.nodes:
+        intervals: tuple[_DynamicInterval, ...] = ()
+        if node.node_id.startswith("fact:"):
+            intervals = fact_intervals.get(node.node_id.removeprefix("fact:"), ())
+        dynamic_nodes.append(_DynamicNode(node=node, intervals=intervals))
+    dynamic_edges = []
+    for edge in base.edges:
+        intervals = ()
+        if edge.edge_id.startswith("relation:"):
+            intervals = relation_intervals.get(edge.edge_id.removeprefix("relation:"), ())
+        elif edge.edge_id.startswith("mentions:"):
+            intervals = fact_intervals.get(edge.edge_id.removeprefix("mentions:"), ())
+        dynamic_edges.append(_DynamicEdge(edge=edge, intervals=intervals))
+    timezone = temporal.get("timezone")
+    return _DynamicGraphModel(
+        nodes=tuple(dynamic_nodes),
+        edges=tuple(dynamic_edges),
+        warnings=tuple(_sorted_warnings(warnings)),
+        orphan_count=base.orphan_count,
+        timeformat=timeformat,
+        timezone=(str(timezone) if timezone not in {None, "unknown"} else None),
+    )
+
+
+def _dynamic_intervals(
+    raw_intervals: Any,
+    *,
+    timeformat: str,
+    allow_incomplete: bool,
+    omit_all: bool,
+    owner: str,
+) -> tuple[tuple[_DynamicInterval, ...], int]:
+    if not isinstance(raw_intervals, list):
+        raise GraphExportError(f"DSL schema 2 {owner} intervals must be a list.")
+    result: list[_DynamicInterval] = []
+    omitted = 0
+    for value in raw_intervals:
+        if not isinstance(value, dict):
+            raise GraphExportError(f"DSL schema 2 {owner} interval must be an object.")
+        is_date = value.get("timeformat") == "date"
+        compatible = (
+            not omit_all
+            and value.get("timeformat") == timeformat
+            and value.get("bounds_semantics") in {"inclusive", "coverage_envelope"}
+            and (
+                is_date
+                or value.get("timezone") not in {None, "unknown", "incompatible"}
+            )
+        )
+        if not compatible:
+            if allow_incomplete:
+                omitted += 1
+                continue
+            raise GraphExportError(
+                f"temporal_profile_incompatible: {owner} interval is unresolved or incompatible.",
+                reason="temporal_profile_incompatible",
+                exit_code=3,
+            )
+        start = value.get("start")
+        end = value.get("end")
+        if start is None and end is None:
+            raise GraphExportError(f"DSL schema 2 {owner} interval has no bounds.")
+        result.append(
+            _DynamicInterval(
+                start=str(start) if start is not None else None,
+                end=str(end) if end is not None else None,
+            )
+        )
+    return tuple(sorted(result, key=lambda value: (value.start or "", value.end or ""))), omitted
+
+
+def render_dynamic_gexf(graph: _DynamicGraphModel) -> str:
+    ET.register_namespace("", GEXF_NAMESPACE)
+    qname = lambda name: f"{{{GEXF_NAMESPACE}}}{name}"
+    root = ET.Element(qname("gexf"), {"version": "1.3"})
+    graph_attributes = {
+        "defaultedgetype": "directed",
+        "mode": "dynamic",
+        "timeformat": graph.timeformat,
+        "timerepresentation": "interval",
+    }
+    if graph.timezone is not None:
+        graph_attributes["timezone"] = graph.timezone
+    graph_element = ET.SubElement(root, qname("graph"), graph_attributes)
+    _append_attributes_ns(graph_element, "node", NODE_ATTRIBUTES, qname)
+    _append_attributes_ns(graph_element, "edge", EDGE_ATTRIBUTES, qname)
+    nodes_element = ET.SubElement(graph_element, qname("nodes"))
+    node_attr_ids = _attribute_ids("node", NODE_ATTRIBUTES)
+    for item in graph.nodes:
+        node_element = ET.SubElement(
+            nodes_element,
+            qname("node"),
+            _dynamic_element_attributes(item.node.node_id, item.node.label, item.intervals),
+        )
+        _append_attvalues_ns(
+            node_element,
+            item.node.attributes,
+            node_attr_ids,
+            NODE_ATTRIBUTES,
+            qname,
+        )
+        _append_spells_ns(node_element, item.intervals, qname)
+    edges_element = ET.SubElement(graph_element, qname("edges"))
+    edge_attr_ids = _attribute_ids("edge", EDGE_ATTRIBUTES)
+    for item in graph.edges:
+        attributes = {
+            "id": item.edge.edge_id,
+            "label": item.edge.label,
+            "source": item.edge.source,
+            "target": item.edge.target,
+            "type": "directed",
+        }
+        attributes.update(_interval_attributes(item.intervals))
+        edge_element = ET.SubElement(edges_element, qname("edge"), attributes)
+        _append_attvalues_ns(
+            edge_element,
+            item.edge.attributes,
+            edge_attr_ids,
+            EDGE_ATTRIBUTES,
+            qname,
+        )
+        _append_spells_ns(edge_element, item.intervals, qname)
+    ET.indent(root, space="  ")
+    return ET.tostring(root, encoding="unicode", xml_declaration=True) + "\n"
+
+
+def _dynamic_element_attributes(
+    identifier: str,
+    label: str,
+    intervals: tuple[_DynamicInterval, ...],
+) -> dict[str, str]:
+    result = {"id": identifier, "label": label}
+    result.update(_interval_attributes(intervals))
+    return result
+
+
+def _interval_attributes(intervals: tuple[_DynamicInterval, ...]) -> dict[str, str]:
+    if len(intervals) != 1:
+        return {}
+    interval = intervals[0]
+    return {
+        **({"start": interval.start} if interval.start is not None else {}),
+        **({"end": interval.end} if interval.end is not None else {}),
+    }
+
+
+def _append_spells_ns(
+    parent: ET.Element,
+    intervals: tuple[_DynamicInterval, ...],
+    qname: Any,
+) -> None:
+    if len(intervals) <= 1:
+        return
+    spells = ET.SubElement(parent, qname("spells"))
+    for interval in intervals:
+        ET.SubElement(
+            spells,
+            qname("spell"),
+            {
+                **({"start": interval.start} if interval.start is not None else {}),
+                **({"end": interval.end} if interval.end is not None else {}),
+            },
+        )
+
+
+def _content_timeformats(content: dict[str, Any]) -> set[str]:
+    formats: set[str] = set()
+    for entity in content.get("entities", []):
+        for fact in entity.get("facts", []):
+            formats.update(
+                str(value["timeformat"])
+                for value in fact.get("intervals", [])
+                if isinstance(value, dict) and value.get("timeformat") in {"date", "dateTime"}
+            )
+    for relation in content.get("relations", []):
+        formats.update(
+            str(value["timeformat"])
+            for value in relation.get("intervals", [])
+            if isinstance(value, dict) and value.get("timeformat") in {"date", "dateTime"}
+        )
+    return formats
 
 
 def render_gexf(graph: _GraphModel) -> str:
@@ -645,6 +1081,33 @@ def _validate_dsl_content(content: dict[str, Any], *, snapshot_id: str | None = 
     for section_name in ("facts", "relations"):
         if not isinstance(traceability.get(section_name), dict):
             raise GraphExportError(f"{label} traceability.{section_name} must be an object.")
+    if schema_version == "2":
+        if not isinstance(traceability.get("temporal"), dict):
+            raise GraphExportError(f"{label} traceability.temporal must be an object.")
+        temporal = metadata.get("temporal")
+        if not isinstance(temporal, dict):
+            raise GraphExportError(f"{label} metadata.temporal is missing.")
+        if (
+            temporal.get("representation") != "interval"
+            or temporal.get("base") not in {"day", "timestamp"}
+            or temporal.get("gexf_timeformat") not in {"date", "dateTime"}
+            or temporal.get("timezone") in {None, ""}
+        ):
+            raise GraphExportError(f"{label} metadata.temporal is invalid.")
+        expected_format = "date" if temporal["base"] == "day" else "dateTime"
+        if temporal["gexf_timeformat"] != expected_format:
+            raise GraphExportError(f"{label} metadata.temporal mapping is inconsistent.")
+        for entity in content["entities"]:
+            if not isinstance(entity, dict):
+                raise GraphExportError(f"{label} entity items must be objects.")
+            for fact in _entity_facts(entity):
+                if not isinstance(fact, dict) or not isinstance(fact.get("intervals"), list):
+                    raise GraphExportError(f"{label} schema 2 facts require intervals lists.")
+        for relation in content["relations"]:
+            if not isinstance(relation, dict) or not isinstance(
+                relation.get("intervals"), list
+            ):
+                raise GraphExportError(f"{label} schema 2 relations require intervals lists.")
 
 
 def _add_source_graph_items(
@@ -903,6 +1366,25 @@ def _append_attributes(
         )
 
 
+def _append_attributes_ns(
+    graph_element: ET.Element,
+    klass: str,
+    attributes: tuple[tuple[str, str], ...],
+    qname: Any,
+) -> None:
+    attrs_element = ET.SubElement(
+        graph_element,
+        qname("attributes"),
+        {"class": klass, "mode": "static"},
+    )
+    for index, (title, attr_type) in enumerate(attributes):
+        ET.SubElement(
+            attrs_element,
+            qname("attribute"),
+            {"id": f"{klass}_{index}", "title": title, "type": attr_type},
+        )
+
+
 def _append_attvalues(
     element: ET.Element,
     values: dict[str, Any],
@@ -922,6 +1404,29 @@ def _append_attvalues(
         ET.SubElement(
             attvalues,
             _qname("attvalue"),
+            {"for": attr_ids[title], "value": _xml_value(present_values[title])},
+        )
+
+
+def _append_attvalues_ns(
+    element: ET.Element,
+    values: dict[str, Any],
+    attr_ids: dict[str, str],
+    attributes: tuple[tuple[str, str], ...],
+    qname: Any,
+) -> None:
+    present_values = {
+        title: values[title]
+        for title, _attr_type in attributes
+        if title in values and values[title] is not None
+    }
+    if not present_values:
+        return
+    attvalues = ET.SubElement(element, qname("attvalues"))
+    for title in present_values:
+        ET.SubElement(
+            attvalues,
+            qname("attvalue"),
             {"for": attr_ids[title], "value": _xml_value(present_values[title])},
         )
 
@@ -948,7 +1453,7 @@ def _build_report(
     format: str,
     graph_hash: str,
     paths: _GraphPaths,
-    graph: _GraphModel,
+    graph: _GraphModel | _DynamicGraphModel,
     options: GraphExportOptions,
 ) -> dict[str, Any]:
     return {
@@ -972,7 +1477,7 @@ def _build_report(
 
 def _graph_hash(
     snapshot: _Snapshot,
-    graph: _GraphModel,
+    graph: _GraphModel | _DynamicGraphModel,
     *,
     options: GraphExportOptions,
     format: str,
@@ -983,8 +1488,9 @@ def _graph_hash(
         "graph": graph.payload(),
         "options": options.to_payload(),
         "schema_version": snapshot.content["metadata"]["schema_version"],
-        "snapshot_id": snapshot.snapshot_id,
     }
+    if not options.dynamic:
+        payload["snapshot_id"] = snapshot.snapshot_id
     return hashlib.sha256(canonical_json(payload).encode("utf-8")).hexdigest()
 
 
@@ -1082,8 +1588,14 @@ def _entity_label(entity: dict[str, Any]) -> str:
     return _required_string(entity, "canonical_name", "entity")
 
 
-def _include_fact_node(fact: dict[str, Any]) -> bool:
-    return fact.get("fact_type") == "business_rule"
+def _include_fact_node(
+    fact: dict[str, Any],
+    *,
+    include_temporal: bool = False,
+) -> bool:
+    return fact.get("fact_type") == "business_rule" or (
+        include_temporal and bool(fact.get("intervals"))
+    )
 
 
 def _source_ids_for_facts(traceability: dict[str, Any], fact_ids: Iterable[str]) -> list[str]:

@@ -9,6 +9,7 @@ import sys
 from pathlib import Path
 
 from dsl_mngr.cli.app import main
+from tests.slice_20_test_support import confirm_materializable_candidates
 
 
 TESTS_DIR = Path(__file__).parent
@@ -204,6 +205,7 @@ def test_form_edits_table_relation(tmp_path, capsys):
     assert accepted["chunk_id"] is None
     assert rejected_count == 0
 
+    confirm_materializable_candidates(workspace, "CBATCH_000001")
     assert main(["facts", "merge", str(workspace), "--batch", "CBATCH_000001"]) == 0
     merge_output = capsys.readouterr().out
     assert "Relations created: 1" in merge_output

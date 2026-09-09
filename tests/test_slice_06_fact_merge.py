@@ -10,6 +10,7 @@ from pathlib import Path
 from dsl_mngr.cli.app import main
 from dsl_mngr.core.migrations import migrate_workspace_database
 from dsl_mngr.core.workspace import initialize_workspace
+from tests.slice_20_test_support import confirm_materializable_candidates
 
 
 TIMESTAMP = "2026-05-29T12:00:00+00:00"
@@ -42,6 +43,7 @@ def test_merge_facts_idempotent(tmp_path):
             )
         ],
     )
+    confirm_materializable_candidates(workspace, batch_id)
 
     first = subprocess.run(
         [
@@ -143,6 +145,7 @@ def test_merge_relation(tmp_path):
         ],
         raw_lines=("{invalid json",),
     )
+    confirm_materializable_candidates(workspace, batch_id)
 
     assert main(["facts", "merge", str(workspace), "--batch", batch_id]) == 0
     assert main(["facts", "merge", str(workspace), "--batch", batch_id]) == 0
@@ -222,6 +225,7 @@ def test_merge_conflict(tmp_path):
             ),
         ],
     )
+    confirm_materializable_candidates(workspace, batch_id)
 
     assert main(["facts", "merge", str(workspace), "--batch", batch_id]) == 0
     assert main(["facts", "merge", str(workspace), "--batch", batch_id]) == 0

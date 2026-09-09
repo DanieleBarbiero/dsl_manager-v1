@@ -9,6 +9,7 @@ import sys
 from pathlib import Path
 
 from dsl_mngr.cli.app import main
+from tests.slice_20_test_support import confirm_materializable_candidates
 
 
 TESTS_DIR = Path(__file__).parent
@@ -199,6 +200,7 @@ def test_parse_db_code_trigger(tmp_path, capsys):
     assert "Batch: CBATCH_000001" in validation_output
     assert "Accepted: 1" in validation_output
     assert "Rejected: 0" in validation_output
+    confirm_materializable_candidates(workspace, "CBATCH_000001")
     assert main(["facts", "merge", str(workspace), "--batch", "CBATCH_000001"]) == 0
     merge_output = capsys.readouterr().out
     assert "Facts created: 1" in merge_output
@@ -387,6 +389,7 @@ def test_parse_log(tmp_path, capsys):
     assert "Batch: CBATCH_000001" in validation_output
     assert "Accepted: 2" in validation_output
     assert "Rejected: 0" in validation_output
+    confirm_materializable_candidates(workspace, "CBATCH_000001")
     assert main(["facts", "merge", str(workspace), "--batch", "CBATCH_000001"]) == 0
     merge_output = capsys.readouterr().out
     assert "Facts created: 1" in merge_output

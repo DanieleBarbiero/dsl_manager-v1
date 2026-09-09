@@ -345,6 +345,8 @@ def _insert_candidates(connection: sqlite3.Connection) -> None:
             batch_id,
             run_id,
             input_path,
+            origin_type,
+            origin_ref,
             total_records,
             accepted_count,
             rejected_count,
@@ -352,12 +354,14 @@ def _insert_candidates(connection: sqlite3.Connection) -> None:
             created_at,
             updated_at
         )
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         """,
         (
             "CBATCH_000001",
             "RUN_000001",
             "ai/inbox/candidates.jsonl",
+            "file_import",
+            None,
             3,
             2,
             1,
@@ -402,6 +406,15 @@ def _insert_candidates(connection: sqlite3.Connection) -> None:
                 "{}",
                 TIMESTAMP,
             ),
+        )
+        connection.execute(
+            """
+            INSERT INTO candidate_lineage (
+                candidate_record_id, root_candidate_record_id,
+                parent_candidate_record_id, correction_group_id
+            ) VALUES (?, ?, NULL, NULL)
+            """,
+            (f"CREC_00000{index}", f"CREC_00000{index}"),
         )
     connection.execute(
         """

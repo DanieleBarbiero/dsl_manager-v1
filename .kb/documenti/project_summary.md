@@ -1,6 +1,6 @@
 # DSL Manager — project summary
 
-Ultimo aggiornamento: **2026-09-09**.
+Ultimo aggiornamento: **2026-09-10**.
 
 Questo documento è il punto di ingresso sintetico per persone e assistenti AI.
 Riassume identità, vincoli, architettura, workflow e storia delle correzioni. Non
@@ -121,8 +121,8 @@ Per orientarsi rapidamente:
    implementata;
 5. `documenti/documenti tecnici/contratti_manifest_dsl_manager.md` — contratti
    dati e artefatti;
-6. `projects/corpus aurora/.../materiale_di_supporto/guida_dsl-manager_cmd.md` —
-   scenario Aurora riproducibile;
+6. `projects/corpus aurora/.../materiale_di_supporto/guida_dsl_manager_powershell_v_02.md`
+   e `guida_dsl_manager_cmd_v_02.md` — scenario Aurora completo e riproducibile;
 7. `documenti/bugfixes/` — diagnosi e correzioni storiche.
 
 ## Scenari e verifica
@@ -149,6 +149,11 @@ dettagli sono nei report dei bugfix.
 
 ## Osservazioni aperte
 
+- Le guide Aurora storiche `guida_dsl-manager-powershell.md` e
+  `guida_dsl-manager_cmd.md` hanno riferimenti attivi in prompt, manuali, test e
+  report di slice. Restano quindi con il nome corrente. È sospesa la loro
+  eventuale rinomina a versioni `v_01`, da eseguire in una modifica coordinata
+  di tutti i riferimenti.
 - Aggiungere in futuro una fixture PPTX binaria per coprire esplicitamente il
   ramo introdotto insieme al supporto DOCX.
 - Valutare l'aggiunta di `source_revision_id` e `file_path` ai report di errore

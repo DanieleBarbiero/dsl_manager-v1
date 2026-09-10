@@ -22,6 +22,14 @@ ACTIVE_DOCUMENTS = (
         ".kb/projects/corpus aurora/corpus_mock_aurora_prestiti/"
         "materiale_di_supporto/guida_dsl-manager_cmd.md"
     ),
+    Path(
+        ".kb/projects/corpus aurora/corpus_mock_aurora_prestiti/"
+        "materiale_di_supporto/guida_dsl_manager_powershell_v_02.md"
+    ),
+    Path(
+        ".kb/projects/corpus aurora/corpus_mock_aurora_prestiti/"
+        "materiale_di_supporto/guida_dsl_manager_cmd_v_02.md"
+    ),
     Path(".kb/projects/corpus aurora/prompt_aurora+guida.md"),
     Path(".kb/projects/slicing/slice_29/dsl_manager_slice_29_report.md"),
 )

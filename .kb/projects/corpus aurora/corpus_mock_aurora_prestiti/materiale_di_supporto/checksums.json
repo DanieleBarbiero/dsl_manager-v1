@@ -73,6 +73,10 @@
       "bytes": 223,
       "sha256": "0dcd03ae78dd674ad9967c4eb7df17e0186228784f9b0f9e1400bea6d72cc718"
     },
+    "materiale_di_supporto/fixture_controllate/ai_response_aurora_controllata.jsonl": {
+      "bytes": 771,
+      "sha256": "9db0a0800b225cea5ecfa13f8a5934605ecaa4374617c3a4e0455bc216c5a626"
+    },
     "materiale_di_supporto/fixture_controllate/workbook_malformed_controllato.xlsx": {
       "bytes": 27,
       "sha256": "cf680ce352c7682c2180aa03c07f66dd2ee4b16420408bdb03c4095266bdfdbe"

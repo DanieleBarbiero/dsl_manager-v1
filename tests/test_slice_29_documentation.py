@@ -107,6 +107,8 @@ def test_slice_29_documented_options_exist_in_help() -> None:
             "--payload",
             "--evidence-ref",
         },
+        "ai package": {"--revision", "--profile"},
+        "ai package-batch": {"--revision", "--profile", "--stop-on-error"},
         "ai import": {"--package", "--input", "--allow-stale"},
         "facts merge": {"--batch", "--strict-review"},
         "facts reconcile": {"--reconciliation-id", "--strict"},
@@ -150,3 +152,35 @@ def test_slice_29_normative_safety_statements_and_known_gaps() -> None:
     normalized_prompt = re.sub(r"\s+", " ", historical_prompt)
     assert "questo file conserva la richiesta che ha originato" in normalized_prompt
     assert "riferimenti sotto" in normalized_prompt
+
+
+def test_slice_29_aurora_v2_guides_cover_governed_ai_handoff() -> None:
+    guide_paths = (
+        Path(
+            ".kb/projects/corpus aurora/corpus_mock_aurora_prestiti/"
+            "materiale_di_supporto/guida_dsl_manager_powershell_v_02.md"
+        ),
+        Path(
+            ".kb/projects/corpus aurora/corpus_mock_aurora_prestiti/"
+            "materiale_di_supporto/guida_dsl_manager_cmd_v_02.md"
+        ),
+    )
+    required = (
+        "ai package",
+        "waiting_for_ai_candidates",
+        "candidate_schema.json",
+        "source_manifest.json",
+        "ai_response_aurora_controllata.jsonl",
+        "ai inbox scan",
+        "ai import",
+        "stale allowed: false",
+        "cand_aurora_ai_ddl_table_001",
+        "cand_aurora_ai_ddl_question_001",
+        "aurora-ai-reviewer",
+        "facts merge",
+        "non esegue questo invio",
+    )
+    for guide_path in guide_paths:
+        guide = _read(guide_path).lower()
+        for statement in required:
+            assert statement in guide, (guide_path.as_posix(), statement)

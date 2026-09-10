@@ -14,6 +14,7 @@ from typing import Any
 
 import pytest
 
+from dsl_mngr.cli.app import main
 from dsl_mngr.cli.commands.corpus import (
     parse_db_code_source_revision,
     parse_ddl_source_revision,
@@ -68,7 +69,9 @@ ACTIVE = AURORA_ROOT / "corpus" / "active"
 SUPPORT = AURORA_ROOT / "materiale_di_supporto"
 CONTROLLED = SUPPORT / "fixture_controllate"
 CHECKSUMS = SUPPORT / "checksums.json"
+AI_RESPONSE = CONTROLLED / "ai_response_aurora_controllata.jsonl"
 EXPECTED = REPOSITORY_ROOT / "tests" / "expected" / "expected_slice_28_aurora_e2e.json"
+DDL_SOURCE = "database/dump_oracle_ddl.sql"
 MAIN_WORKBOOK = "documenti/nuovi_utili/matrice_stati_2025.xlsx"
 MACRO_WORKBOOK = "documenti/nuovi_utili/calcolo_rate_macro_2025.xlsm"
 CURRENT_REQUIREMENTS = "documenti/nuovi_utili/requisiti_modernizzazione_2025.md"
@@ -166,6 +169,208 @@ def test_slice_28_aurora_e2e(tmp_path, monkeypatch):
         indent=2,
         sort_keys=True,
     )
+
+
+def test_slice_28_aurora_ai_handoff_is_governed_and_offline(
+    tmp_path, monkeypatch, capsys
+):
+    _forbid_network(monkeypatch)
+    workspace = _workspace_with_tree(tmp_path / "ai_handoff")
+    scan = scan_corpus(workspace, clock=lambda: FIXED_TIME)
+    assert scan.added == 18
+
+    ddl_revision_id = _revisions_by_path(workspace)[DDL_SOURCE]
+    parsed = parse_ddl_source_revision(
+        workspace,
+        source_revision_id=ddl_revision_id,
+        profile="ddl.default",
+    )
+    assert parsed.worker_result.status == "completed"
+    assert parsed.fragment_count == 38
+    capsys.readouterr()
+
+    assert (
+        main(
+            [
+                "ai",
+                "package",
+                str(workspace),
+                "--revision",
+                ddl_revision_id,
+                "--profile",
+                "ai_package.default",
+            ]
+        )
+        == 0
+    )
+    package_output = capsys.readouterr().out
+    assert "Package: AIPKG_000001" in package_output
+    assert "Status: waiting_for_ai_candidates" in package_output
+    assert "Sources: 1" in package_output
+    assert "Chunks: 0" in package_output
+    assert "Fragments: 38" in package_output
+
+    package_id = "AIPKG_000001"
+    package_dir = workspace / "ai" / "outbox" / package_id
+    assert {path.name for path in package_dir.iterdir() if path.is_file()} == {
+        "candidate_schema.json",
+        "content.md",
+        "instructions.md",
+        "output_template.jsonl",
+        "package_manifest.json",
+        "source_manifest.json",
+    }
+    source_manifest = json.loads(
+        (package_dir / "source_manifest.json").read_text(encoding="utf-8")
+    )
+    package_manifest = json.loads(
+        (package_dir / "package_manifest.json").read_text(encoding="utf-8")
+    )
+    assert package_manifest["status"] == "waiting_for_ai_candidates"
+    assert package_manifest["stale_check"]["is_stale"] is False
+    assert source_manifest["counts"] == {
+        "chunks": 0,
+        "fragments": 38,
+        "source_revisions": 1,
+    }
+    assert source_manifest["source_revisions"][0]["file_path"] == (
+        f"corpus/active/{DDL_SOURCE}"
+    )
+    assert source_manifest["source_revisions"][0]["source_revision_id"] == (
+        ddl_revision_id
+    )
+    assert {item["fragment_id"] for item in source_manifest["fragments"]} >= {
+        "FRAG_000001",
+        "FRAG_000009",
+    }
+
+    candidate_path = workspace / "ai" / "inbox" / f"{package_id}_candidates.jsonl"
+    shutil.copyfile(AI_RESPONSE, candidate_path)
+
+    assert main(["ai", "inbox", "scan", str(workspace)]) == 0
+    inbox_output = capsys.readouterr().out
+    assert package_id in inbox_output
+    assert "exists" in inbox_output
+    assert "not stale" in inbox_output
+
+    assert main(["ai", "import", str(workspace), "--package", package_id]) == 0
+    import_output = capsys.readouterr().out
+    assert f"Package: {package_id}" in import_output
+    assert "Total: 2" in import_output
+    assert "Accepted: 2" in import_output
+    assert "Rejected: 0" in import_output
+    assert "Stale allowed: false" in import_output
+
+    with _connect(workspace) as connection:
+        package = connection.execute(
+            "SELECT status, stale_reason FROM ai_packages WHERE package_id = ?",
+            (package_id,),
+        ).fetchone()
+        batch = connection.execute(
+            "SELECT batch_id, origin_type, origin_ref, total_records, "
+            "accepted_count, rejected_count FROM candidate_batches"
+        ).fetchone()
+        candidates = connection.execute(
+            "SELECT candidate_record_id, candidate_id, record_type "
+            "FROM candidate_records ORDER BY candidate_id"
+        ).fetchall()
+        facts_before_review = connection.execute(
+            "SELECT COUNT(*) FROM facts"
+        ).fetchone()[0]
+        decisions_before_review = connection.execute(
+            "SELECT COUNT(*) FROM review_decisions"
+        ).fetchone()[0]
+
+    assert tuple(package) == ("imported", None)
+    assert dict(batch) == {
+        "batch_id": "CBATCH_000001",
+        "origin_type": "ai_import",
+        "origin_ref": package_id,
+        "total_records": 2,
+        "accepted_count": 2,
+        "rejected_count": 0,
+    }
+    assert facts_before_review == 0
+    assert decisions_before_review == 0
+    assert {row["record_type"] for row in candidates} == {
+        "candidate_fact",
+        "candidate_question",
+    }
+
+    record_ids = {
+        row["candidate_id"]: row["candidate_record_id"] for row in candidates
+    }
+    fact_record_id = record_ids["CAND_AURORA_AI_DDL_TABLE_001"]
+    question_record_id = record_ids["CAND_AURORA_AI_DDL_QUESTION_001"]
+
+    assert (
+        main(
+            [
+                "candidates",
+                "review",
+                "confirm",
+                str(workspace),
+                fact_record_id,
+                "--actor-id",
+                "aurora-ai-reviewer",
+                "--reason",
+                "Fatto tecnico verificato sul frammento DDL",
+            ]
+        )
+        == 0
+    )
+    assert json.loads(capsys.readouterr().out)["outcome"] == "confirmed"
+
+    assert (
+        main(
+            [
+                "candidates",
+                "review",
+                "reject",
+                str(workspace),
+                question_record_id,
+                "--actor-id",
+                "aurora-ai-reviewer",
+                "--reason",
+                "La fonte tecnica non dimostra una regola di dominio",
+            ]
+        )
+        == 0
+    )
+    assert json.loads(capsys.readouterr().out)["outcome"] == "rejected"
+
+    assert (
+        main(
+            [
+                "facts",
+                "merge",
+                str(workspace),
+                "--batch",
+                str(batch["batch_id"]),
+            ]
+        )
+        == 0
+    )
+    merge_output = capsys.readouterr().out
+    assert "Facts created: 1" in merge_output
+    assert "Skipped rejected: 1" in merge_output
+
+    with _connect(workspace) as connection:
+        fact = connection.execute("SELECT * FROM facts").fetchone()
+        support = connection.execute("SELECT * FROM fact_evidence").fetchone()
+        decision_outcomes = {
+            str(row[0])
+            for row in connection.execute(
+                "SELECT outcome FROM review_decisions ORDER BY outcome"
+            ).fetchall()
+        }
+    assert fact["canonical_entity_name"] == "cli_cliente"
+    assert fact["property_name"] == "object_type"
+    assert fact["normalized_property_value"] == "database_table"
+    assert support["candidate_record_id"] == fact_record_id
+    assert support["source_revision_id"] == ddl_revision_id
+    assert support["fragment_id"] == "FRAG_000001"
+    assert decision_outcomes == {"confirmed", "rejected"}
 
 
 def test_slice_28_malformed_partial_budget_and_no_network(tmp_path, monkeypatch):

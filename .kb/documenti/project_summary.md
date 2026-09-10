@@ -72,7 +72,8 @@ corpus/active
   -> scan e source registry
   -> parser/normalizzazione isolata
   -> frammenti e manifest tecnici
-  -> candidati deterministici
+  -> candidati deterministici oppure package AI opzionale
+  -> import di output AI esterno come candidati pending
   -> review governata
   -> merge e riconciliazione
   -> snapshot DSL v1/v2
@@ -101,6 +102,9 @@ Responsabilità principali:
   dominio.
 - Candidati `pending`, `rejected` o `superseded` non diventano fatti o relazioni
   effettivi. La review comune è il confine di governance.
+- L'handoff AI è locale: DSL Manager crea package deterministici e importa
+  JSONL dall'inbox, ma non invoca autonomamente modelli o servizi di rete. Anche
+  i candidati AI restano pending fino alla review applicabile.
 - Correzioni di candidati creano nuove foglie e possono richiedere
   riconciliazione; la storia append-only non viene riscritta.
 - DSL schema 1 preserva il profilo legacy/statico. DSL schema 2 rappresenta la
@@ -131,18 +135,20 @@ Il corpus Aurora sotto
 `.kb/projects/corpus aurora/corpus_mock_aurora_prestiti/` è lo scenario E2E
 principale. Solo le 18 fonti sotto `corpus/active` sono input operativi; le
 fixture sotto `materiale_di_supporto/fixture_controllate` sono casi di test
-negativi o controllati.
+negativi o controllati. Fra questi, `ai_response_aurora_controllata.jsonl`
+permette di esercitare offline package DDL, inbox, import, review e merge senza
+attribuire all'output simulato alcuna autorità speciale.
 
 Le guide operative Aurora sono le versioni 02. Le versioni 01 sono archiviate
 con nomi esplicitamente versionati e rimandano alle guide correnti; tutti i
 riferimenti operativi del repository puntano alle versioni 02.
 
 La suite canonica è `python -m pytest` con l'interprete corretto. L'ultima
-esecuzione completa, dopo l'aggiornamento delle guide Aurora, ha raccolto e
-superato tutti i 179 test in 393.02 secondi. Il worker Docling, che in una precedente
-esecuzione aveva mostrato un lock Windows transitorio durante il cleanup, è
-passato sia al rerun isolato sia nelle esecuzioni complete successive. I
-dettagli sono nei report dei bugfix.
+esecuzione completa, dopo l'aggiunta dello scenario AI Aurora e l'aggiornamento
+delle guide v02, ha raccolto e superato tutti i 181 test in 416.30 secondi. Il
+worker Docling, che in una precedente esecuzione aveva mostrato un lock Windows
+transitorio durante il cleanup, è passato sia al rerun isolato sia nelle
+esecuzioni complete successive. I dettagli storici sono nei report dei bugfix.
 
 ## Registro bug corretti
 

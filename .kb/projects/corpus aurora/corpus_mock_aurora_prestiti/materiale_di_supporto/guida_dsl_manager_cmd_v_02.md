@@ -17,7 +17,8 @@ Il flusso è governato:
 file del corpus
   -> sorgente e revisione identificata da hash
   -> testo normalizzato o frammenti strutturali
-  -> candidati pending
+  -> derivazione deterministica oppure package AI opzionale
+  -> candidati pending, anche quando provengono da AI
   -> decisione automatica autorizzata oppure review umana
   -> merge di fatti e relazioni confermati
   -> snapshot DSL
@@ -31,7 +32,9 @@ Al termine saprai:
 - configurare consapevolmente le policy automatiche previste dallo scenario;
 - eseguire una sola elaborazione completa e riprenderla senza duplicazioni;
 - distinguere testo Docling, manifest Excel, frammenti e fatti approvati;
-- distinguere gli ID prodotti dal programma e sostituire i segnaposto;
+- creare e ispezionare un package AI, importare una risposta controllata e
+  mantenerla dentro lo stesso confine di review degli altri candidati;
+- leggere gli ID prodotti dal programma senza riutilizzare i segnaposto;
 - revisionare soltanto i candidati che richiedono davvero giudizio umano;
 - eseguire merge, reconcile, render DSL, diff ed export GEXF;
 - diagnosticare gli esiti più comuni senza cancellare dati alla cieca.
@@ -64,6 +67,9 @@ I comandi sono mostrati per una sessione interattiva di `cmd.exe`.
 | `candidate_id` | identità semantica deterministica della proposta |
 | `candidate_record_id` | record persistito da revisionare, con forma `CREC_...` |
 | candidate batch | gruppo di candidati, con forma `CBATCH_...` |
+| AI package | cartella di handoff in `ai\outbox\AIPKG_...` contenente evidenze e contratti per uno strumento esterno |
+| AI inbox | directory `ai\inbox` dalla quale DSL Manager importa il JSONL restituito |
+| stale | package non più allineato alla revisione corrente di almeno una fonte |
 | review | decisione `confirmed`, `rejected` o `superseded` |
 | pending | candidato privo di una decisione corrente; non è mergeabile |
 | merge | materializzazione dei candidati confermati in fatti o relazioni |
@@ -78,7 +84,8 @@ dal tuo workspace.
 
 Lo scenario è locale e usa dati fittizi:
 
-- non chiama servizi AI;
+- non chiama automaticamente servizi AI; nel percorso controllato la risposta
+  esterna è simulata da una fixture deterministica;
 - non richiede accesso alla rete durante l'elaborazione;
 - non dereferenzia gli external link Excel;
 - non esegue macro VBA;
@@ -89,6 +96,10 @@ Lo scenario è locale e usa dati fittizi:
 
 Il file `.xlsm` viene letto direttamente. Non viene convertito in `.xlsx`. Il
 VBA viene soltanto rilevato e sottoposto a hash.
+
+DSL Manager prepara il materiale per un eventuale modello esterno, ma non lo
+invia. Usare una AI reale sarebbe un'operazione separata, soggetta alle regole
+aziendali su rete, riservatezza, logging e costi.
 
 Non riutilizzare un workspace già popolato per seguire questa guida dall'inizio.
 Una nuova esecuzione completa sullo stesso workspace può creare nuovi record e
@@ -273,7 +284,7 @@ dir /s /b /a-d "%WS%\corpus\active"
 
 ### 10.1 Verifica canonica dei file originali
 
-Il test checksum legge `checksums.json` e controlla le 18 fonti e le due fixture
+Il test checksum legge `checksums.json` e controlla le 18 fonti e le tre fixture
 controllate:
 
 ```bat
@@ -289,7 +300,7 @@ CMD non ha un parser JSON nativo. Il comando seguente usa PowerShell soltanto
 per leggere il manifest e confrontare gli SHA-256 delle 18 copie:
 
 ```bat
-powershell -NoProfile -Command "$m=Get-Content -Raw -LiteralPath (Join-Path $env:SUPPORT 'checksums.json') | ConvertFrom-Json; foreach($p in $m.files.PSObject.Properties){$r=$p.Name; if($r.StartsWith('corpus/active/')){$a=(Get-FileHash -Algorithm SHA256 -LiteralPath (Join-Path $env:WS $r)).Hash.ToLowerInvariant(); if($a -ne $p.Value.sha256){throw ('Checksum copia non valido: '+$r)}}}; 'Checksum copie operative: OK'"
+powershell -NoProfile -Command "function Get-Sha256([string]$Path){$sha=[Security.Cryptography.SHA256]::Create(); try{$bytes=[IO.File]::ReadAllBytes($Path); return ([BitConverter]::ToString($sha.ComputeHash($bytes))).Replace('-','').ToLowerInvariant()} finally{$sha.Dispose()}}; $m=Get-Content -Raw -LiteralPath (Join-Path $env:SUPPORT 'checksums.json')|ConvertFrom-Json; foreach($p in $m.files.PSObject.Properties){$r=$p.Name; if($r.StartsWith('corpus/active/')){$a=Get-Sha256 (Join-Path $env:WS $r); if($a -ne $p.Value.sha256){throw ('Checksum copia non valido: '+$r)}}}; 'Checksum copie operative: OK'"
 ```
 
 Controlli puntuali leggibili anche con `certutil`:
@@ -549,9 +560,9 @@ Il report deve dichiarare anche `network_accessed: false` e
 "%PY%" -m pytest -q tests\test_slice_28_aurora_e2e.py
 ```
 
-Il test verifica checksum, scenario E2E, malformed, partial, budget e assenza di
-rete in workspace temporanei. Non sostituisce il controllo degli artefatti del
-tuo `%WS%`.
+Il test verifica checksum, scenario E2E, malformed, partial, budget, handoff AI
+controllato e assenza di rete in workspace temporanei. Non sostituisce il
+controllo degli artefatti del tuo `%WS%`.
 
 Le fixture:
 
@@ -559,11 +570,267 @@ Le fixture:
   reason `ooxml_security_violation`;
 - `workbook_partial_controllato.xlsx` è un package valido usato per iniettare
   nel test un `partial_success`, con status `partial` ed exit code `6`;
-- nessuna delle due va copiata in `corpus\active`.
+- `ai_response_aurora_controllata.jsonl` simula due record restituiti da una AI
+  esterna e permette di provare package, inbox, import, review e merge;
+- nessuna delle tre va copiata in `corpus\active`.
 
-## 18. Capire e salvare la lista dei candidati
+## 18. Percorso AI controllato, governato e offline
 
-### 18.1 Il comando non crea un file
+### 18.1 Che cosa è reale e che cosa è simulato
+
+Questo laboratorio è un ramo aggiuntivo del percorso già eseguito:
+
+```text
+frammenti DDL già registrati
+  -> package reale creato da DSL Manager
+  -> risposta esterna simulata dalla fixture controllata
+  -> inbox e import reali
+  -> due candidati pending reali
+  -> review umana simulata con actor esplicito
+  -> merge reale del solo candidato confermato
+```
+
+La fixture sostituisce esclusivamente la chiamata a un modello. Non sostituisce
+nessuna funzione di DSL Manager. Serve a rendere il test ripetibile, gratuito e
+senza rete. In un utilizzo reale devi considerare l'output del modello non
+fidato fino a validazione e review.
+
+Il package standard consente `candidate_fact`, `candidate_relation`,
+`candidate_mapping`, `candidate_conflict` e `candidate_question`. Non consente
+attualmente `temporal_interval`.
+
+### 18.2 Individuare la revisione DDL
+
+Il dump DDL non produce un `docling_report.json`: usa il suo `ddl_report.json`,
+creato dal batch nella directory `fragments`. I comandi `for` seguenti sono per
+una sessione interattiva; in un file `.bat` devi raddoppiare `%F` e `%I`:
+
+```bat
+set "DDL_REPORT="
+set /a DDL_MATCH_COUNT=0
+for /r "%WS%\fragments" %F in (*ddl_report.json) do @findstr /i /m /c:"corpus/active/database/dump_oracle_ddl.sql" "%F" >nul && (set /a DDL_MATCH_COUNT+=1 >nul & set "DDL_REPORT=%F")
+echo Report DDL trovati: %DDL_MATCH_COUNT%
+if not "%DDL_MATCH_COUNT%"=="1" echo ERRORE: revisione DDL non individuata in modo univoco. Fermarsi.
+if not defined DDL_REPORT echo ERRORE: ddl_report.json non trovato. Fermarsi.
+```
+
+Se è comparso un errore, non proseguire. Altrimenti leggi e verifica il report,
+poi ricava l'ID senza scriverlo a mano:
+
+```bat
+powershell -NoProfile -Command "$r=Get-Content -Raw -LiteralPath $env:DDL_REPORT|ConvertFrom-Json; if($r.input.input_path -ne 'corpus/active/database/dump_oracle_ddl.sql'){throw 'input_path DDL inatteso'}; [pscustomobject]@{InputPath=$r.input.input_path;SourceId=$r.input.source_id;RevisionId=$r.input.source_revision_id;Fragments=$r.fragment_count;Report=$env:DDL_REPORT}|Format-List"
+for /f "usebackq delims=" %I in (`powershell -NoProfile -Command "(Get-Content -Raw -LiteralPath $env:DDL_REPORT|ConvertFrom-Json).input.source_revision_id"`) do set "DDL_REV=%I"
+echo Revisione DDL: %DDL_REV%
+```
+
+Nel workspace pulito di questa guida deve risultare `REV_000001` e il report
+deve indicare 38 frammenti. La risposta controllata è deliberatamente ancorata
+a `REV_000001`, `FRAG_000001` e `FRAG_000009`. Non adattare quegli ID a intuito:
+fra poco controllerai che il package contenga esattamente quelle evidenze. Se
+la precondizione non è rispettata, usa un workspace nuovo oppure produci un vero
+output AI basato sugli ID presenti nel suo package.
+
+### 18.3 Creare il package
+
+Esegui il comando una volta sola e salva l'output:
+
+```bat
+set "AI_PACKAGE_OUTPUT=%WS%\ai_package_output.txt"
+"%PY%" -m dsl_mngr ai package "%WS%" --revision %DDL_REV% --profile ai_package.default > "%AI_PACKAGE_OUTPUT%"
+set "AI_PACKAGE_EXIT=%ERRORLEVEL%"
+type "%AI_PACKAGE_OUTPUT%"
+echo Exit code package AI: %AI_PACKAGE_EXIT%
+if not "%AI_PACKAGE_EXIT%"=="0" echo ERRORE: creazione AI package fallita. Fermarsi.
+```
+
+L'output contiene `Run:`, `Package:`, `Status:`, `Sources:`, `Chunks:`,
+`Fragments:`, `Outbox:` e `Manifest:`. Se l'exit code è zero, estrai l'ID
+stampato senza presumere che sia `AIPKG_000001`:
+
+```bat
+set "AIPKG="
+for /f "tokens=2" %I in ('findstr /b /c:"Package:" "%AI_PACKAGE_OUTPUT%"') do set "AIPKG=%I"
+if not defined AIPKG echo ERRORE: ID package non trovato. Fermarsi.
+set "AI_PACKAGE_DIR=%WS%\ai\outbox\%AIPKG%"
+echo Package AI: %AIPKG%
+echo Directory: %AI_PACKAGE_DIR%
+```
+
+In un file `.bat`, anche qui devi usare `%%I`. Creare un altro package non
+aggiorna il precedente: produce un nuovo `AIPKG_...`. Non ripetere il comando
+per correggere un output esterno.
+
+### 18.4 Ispezionare e verificare il package
+
+Devono esistere sei file:
+
+```bat
+for %F in (candidate_schema.json content.md instructions.md output_template.jsonl package_manifest.json source_manifest.json) do @if not exist "%AI_PACKAGE_DIR%\%F" echo ERRORE: file AI package mancante: %F
+dir /b "%AI_PACKAGE_DIR%"
+```
+
+In un file `.bat` usa `%%F`. Il controllo seguente fallisce se stato, conteggi,
+revisione o frammenti non sono quelli richiesti dalla fixture:
+
+```bat
+powershell -NoProfile -Command "$p=Get-Content -Raw -LiteralPath (Join-Path $env:AI_PACKAGE_DIR 'package_manifest.json')|ConvertFrom-Json; $s=Get-Content -Raw -LiteralPath (Join-Path $env:AI_PACKAGE_DIR 'source_manifest.json')|ConvertFrom-Json; $c=Get-Content -Raw -LiteralPath (Join-Path $env:AI_PACKAGE_DIR 'candidate_schema.json')|ConvertFrom-Json; if($p.status -ne 'waiting_for_ai_candidates'){throw ('Stato package inatteso: '+$p.status)}; if($p.stale_check.is_stale -ne $false){throw 'Package stale appena creato'}; if($s.counts.source_revisions -ne 1 -or $s.counts.chunks -ne 0 -or $s.counts.fragments -ne 38){throw 'Conteggi package DDL inattesi'}; if($env:DDL_REV -ne 'REV_000001' -or $s.source_revisions[0].source_revision_id -ne $env:DDL_REV){throw 'La fixture richiede REV_000001 nello stesso package'}; $ids=@($s.fragments.fragment_id); foreach($id in @('FRAG_000001','FRAG_000009')){if($id -notin $ids){throw ('Evidenza assente: '+$id)}}; [pscustomobject]@{Status=$p.status;Stale=$p.stale_check.is_stale;Revisions=$s.counts.source_revisions;Chunks=$s.counts.chunks;Fragments=$s.counts.fragments}|Format-List; 'Record type ammessi:'; $c.allowed_record_types"
+if errorlevel 1 echo ERRORE: verifica del package fallita. Fermarsi.
+```
+
+Leggi sempre istruzioni e contenuto consegnabile:
+
+```bat
+type "%AI_PACKAGE_DIR%\instructions.md"
+more < "%AI_PACKAGE_DIR%\content.md"
+type "%AI_PACKAGE_DIR%\output_template.jsonl"
+```
+
+`output_template.jsonl` mostra la forma dei record, ma contiene segnaposti
+intenzionalmente invalidi: non va copiato invariato nell'inbox.
+
+### 18.5 Dove entrerebbe una AI reale
+
+Solo a questo punto, in un processo aziendalmente autorizzato, si potrebbe dare
+la cartella del package a uno strumento esterno. Lo strumento deve:
+
+1. trattare il package come sola lettura;
+2. usare soltanto le evidenze in `content.md`;
+3. rispettare `candidate_schema.json` e `instructions.md`;
+4. copiare esattamente revision, chunk o fragment ID;
+5. produrre un oggetto JSON completo per riga;
+6. non modificare database, registry, snapshot o file del progetto.
+
+DSL Manager non esegue questo invio. Prima di usare un servizio reale devi
+valutare riservatezza, autorizzazioni, localizzazione dei dati, logging e costi.
+Il laboratorio resta invece interamente offline.
+
+### 18.6 Simulare la risposta esterna con la fixture controllata
+
+La fixture contiene un fatto tecnico esplicito e una domanda ambigua. Copiala
+con il nome che DSL Manager associa al package:
+
+```bat
+set "AI_FIXTURE=%SUPPORT%\fixture_controllate\ai_response_aurora_controllata.jsonl"
+set "AI_CANDIDATE_FILE=%WS%\ai\inbox\%AIPKG%_candidates.jsonl"
+if not exist "%AI_FIXTURE%" echo ERRORE: fixture AI controllata mancante. Fermarsi.
+copy /y "%AI_FIXTURE%" "%AI_CANDIDATE_FILE%"
+powershell -NoProfile -Command "function Get-Sha256([string]$Path){$sha=[Security.Cryptography.SHA256]::Create(); try{$bytes=[IO.File]::ReadAllBytes($Path); return ([BitConverter]::ToString($sha.ComputeHash($bytes))).Replace('-','')} finally{$sha.Dispose()}}; $a=Get-Sha256 $env:AI_FIXTURE; $b=Get-Sha256 $env:AI_CANDIDATE_FILE; if($a -ne $b){throw 'Checksum copia AI non valido'}; 'Checksum copia AI: OK'"
+type "%AI_CANDIDATE_FILE%"
+```
+
+Non modificare la fixture canonica. La copia nell'inbox è un output simulato e
+non deve mai essere collocata in `corpus\active`.
+
+### 18.7 Scansionare l'inbox e importare
+
+Salva anche l'esito della scansione, perché il comando normalmente stampa
+soltanto sul terminale:
+
+```bat
+set "AI_INBOX_SCAN_OUTPUT=%WS%\ai_inbox_scan_output.txt"
+"%PY%" -m dsl_mngr ai inbox scan "%WS%" > "%AI_INBOX_SCAN_OUTPUT%"
+set "AI_INBOX_EXIT=%ERRORLEVEL%"
+type "%AI_INBOX_SCAN_OUTPUT%"
+echo Exit code scansione inbox: %AI_INBOX_EXIT%
+if not "%AI_INBOX_EXIT%"=="0" echo ERRORE: scansione AI inbox fallita. Fermarsi.
+```
+
+La riga deve mostrare `%AIPKG%`, il file candidato, `exists`, `not stale` e
+reason `-`. Se mostra `stale`, non importare: la revisione corrente non coincide
+più con quella consegnata al modello.
+
+Importa una sola volta e conserva l'output:
+
+```bat
+set "AI_IMPORT_OUTPUT=%WS%\ai_import_output.txt"
+"%PY%" -m dsl_mngr ai import "%WS%" --package %AIPKG% > "%AI_IMPORT_OUTPUT%"
+set "AI_IMPORT_EXIT=%ERRORLEVEL%"
+type "%AI_IMPORT_OUTPUT%"
+echo Exit code import AI: %AI_IMPORT_EXIT%
+if not "%AI_IMPORT_EXIT%"=="0" echo ERRORE: import AI fallito. Fermarsi.
+
+set "AI_BATCH="
+for /f "tokens=2" %I in ('findstr /b /c:"Batch:" "%AI_IMPORT_OUTPUT%"') do set "AI_BATCH=%I"
+if not defined AI_BATCH echo ERRORE: batch AI non trovato. Fermarsi.
+echo Batch AI: %AI_BATCH%
+```
+
+In un file `.bat` usa `%%I`. L'attesa è `Total: 2`, `Accepted: 2`,
+`Rejected: 0` e `Stale allowed: false`. Qui `Accepted` significa soltanto che
+schema, revisione, fragment ID ed evidence text sono validi. Non significa
+`confirmed`.
+
+`--allow-stale` esiste come eccezione auditabile, ma questo laboratorio non lo
+usa. Non applicarlo per far passare un package obsoleto senza una decisione
+esplicita di governance.
+
+### 18.8 Verificare e decidere i due candidati AI
+
+L'import crea due candidati pending: non crea fatti e non prende decisioni.
+Salva la lista corrente e isola soltanto i due `candidate_id` controllati:
+
+```bat
+set "AI_PENDING_FILE=%WS%\ai_pending_candidates.json"
+"%PY%" -m dsl_mngr candidates review list "%WS%" --outcome pending > "%AI_PENDING_FILE%"
+if errorlevel 1 echo ERRORE: lettura pending dopo import AI fallita. Fermarsi.
+
+set "AI_IDS_FILE=%WS%\ai_candidate_ids.txt"
+powershell -NoProfile -Command "$r=Get-Content -Raw -LiteralPath $env:AI_PENDING_FILE|ConvertFrom-Json; $f=@($r.candidates).Where({$_.candidate_id -eq 'CAND_AURORA_AI_DDL_TABLE_001'}); $q=@($r.candidates).Where({$_.candidate_id -eq 'CAND_AURORA_AI_DDL_QUESTION_001'}); if($f.Count -ne 1 -or $q.Count -ne 1){throw ('Attesi due candidati AI univoci; fatto='+$f.Count+' domanda='+$q.Count)}; @(('AI_FACT_CREC='+$f[0].candidate_record_id),('AI_QUESTION_CREC='+$q[0].candidate_record_id))|Set-Content -Encoding ascii -LiteralPath $env:AI_IDS_FILE; @($f[0],$q[0])|Select-Object candidate_record_id,batch_id,candidate_id,record_type,outcome|Format-Table -AutoSize"
+if errorlevel 1 echo ERRORE: candidati AI non individuati in modo univoco. Fermarsi.
+type "%AI_IDS_FILE%"
+for /f "usebackq tokens=1,* delims==" %I in ("%AI_IDS_FILE%") do set "%I=%J"
+echo Candidate record fatto: %AI_FACT_CREC%
+echo Candidate record domanda: %AI_QUESTION_CREC%
+```
+
+In un file `.bat` l'ultimo `for` usa `%%I` e `%%J`. Usa i `CREC_...` appena
+trovati, non quelli di un altro workspace:
+
+```bat
+"%PY%" -m dsl_mngr candidates review show "%WS%" %AI_FACT_CREC%
+"%PY%" -m dsl_mngr candidates review show "%WS%" %AI_QUESTION_CREC%
+```
+
+Entrambi devono essere pending. Nel laboratorio si conferma il fatto tecnico,
+che coincide con la struttura DDL, e si rifiuta la domanda perché il vincolo
+tecnico non basta a dimostrare una regola di dominio:
+
+```bat
+"%PY%" -m dsl_mngr candidates review confirm "%WS%" %AI_FACT_CREC% ^
+  --actor-id aurora-ai-reviewer ^
+  --reason "Fatto tecnico verificato sul frammento DDL"
+if errorlevel 1 echo ERRORE: conferma del candidato AI fallita. Fermarsi.
+
+"%PY%" -m dsl_mngr candidates review reject "%WS%" %AI_QUESTION_CREC% ^
+  --actor-id aurora-ai-reviewer ^
+  --reason "La fonte tecnica non dimostra una regola di dominio"
+if errorlevel 1 echo ERRORE: rifiuto della domanda AI fallito. Fermarsi.
+```
+
+Infine esegui il merge del solo batch stampato da `ai import` e conserva il
+report:
+
+```bat
+set "AI_MERGE_OUTPUT=%WS%\ai_merge_output.txt"
+"%PY%" -m dsl_mngr facts merge "%WS%" --batch %AI_BATCH% > "%AI_MERGE_OUTPUT%"
+set "AI_MERGE_EXIT=%ERRORLEVEL%"
+type "%AI_MERGE_OUTPUT%"
+echo Exit code merge AI: %AI_MERGE_EXIT%
+```
+
+La domanda rifiutata viene conteggiata in `Skipped rejected`. Il fatto può
+risultare in `Facts created` in uno scenario AI isolato oppure in
+`Facts existing` se il precedente percorso deterministico aveva già
+materializzato lo stesso fatto. In entrambi i casi l'evidenza AI confermata è
+governata e non nasce alcun fatto dalla domanda.
+
+Per più revisioni puoi ripetere `--revision` con `ai package`, oppure usare
+`ai package-batch`, che crea un package distinto per ogni revisione. Non farlo
+nel laboratorio controllato: la fixture presente riguarda soltanto il DDL.
+
+## 19. Capire e salvare la lista dei candidati
+
+### 19.1 Il comando non crea un file
 
 ```bat
 "%PY%" -m dsl_mngr candidates review list "%WS%" --outcome pending
@@ -589,7 +856,7 @@ Mostra una tabella leggibile:
 powershell -NoProfile -Command "$r=Get-Content -Raw -LiteralPath $env:PENDING_FILE|ConvertFrom-Json;'Pending: '+$r.count;$r.candidates|Select-Object candidate_record_id,batch_id,candidate_id,record_type,assertion_type,confidence|Format-Table -AutoSize"
 ```
 
-### 18.2 Cosa significano i tre ID
+### 19.2 Cosa significano i tre ID
 
 Per una riga della lista:
 
@@ -600,7 +867,7 @@ Per una riga della lista:
 
 Non passare un `candidate_id` deterministico al posto di un `CREC_...`.
 
-### 18.3 La lista non obbliga a revisionare tutto
+### 19.3 La lista non obbliga a revisionare tutto
 
 Ogni candidato che vuoi rendere effettivo deve essere confermato, manualmente o
 da una policy autorizzata. Non devi però decidere ogni pending per poter
@@ -618,7 +885,7 @@ manuale. Devono restare manuali soprattutto:
 La CLI non offre una conferma manuale massiva: è una scelta di governance. Non
 automatizzare un ciclo di `confirm` per aggirarla.
 
-### 18.4 Raggruppare e rilevare duplicazioni
+### 19.4 Raggruppare e rilevare duplicazioni
 
 ```bat
 powershell -NoProfile -Command "$r=Get-Content -Raw -LiteralPath $env:PENDING_FILE|ConvertFrom-Json;$r.candidates|Group-Object record_type|Sort-Object Count -Descending|Select-Object Count,Name|Format-Table; 'Duplicati candidate_id:'; $r.candidates|Group-Object candidate_id|Where-Object Count -gt 1|Select-Object Count,Name|Format-Table"
@@ -630,7 +897,7 @@ duplicazioni, fermati: probabilmente `batch consolidate` è stato avviato più
 volte come nuova run. Non revisionare entrambe le copie. Conserva il workspace
 per audit e riparti con un nuovo nome, oppure analizza i batch prima di agire.
 
-## 19. Ispezionare un candidato correttamente
+## 20. Ispezionare un candidato correttamente
 
 Scegli una riga dalla tabella e copia i due ID della stessa riga:
 
@@ -665,9 +932,9 @@ Prima della decisione controlla:
 `Accepted` in un report di import significa soltanto valido rispetto allo
 schema. Non significa `confirmed`.
 
-## 20. Confermare, rifiutare o correggere
+## 21. Confermare, rifiutare o correggere
 
-### 20.1 Confermare
+### 21.1 Confermare
 
 ```bat
 "%PY%" -m dsl_mngr candidates review confirm "%WS%" %CREC% ^
@@ -675,7 +942,7 @@ schema. Non significa `confirmed`.
   --reason "Evidenza e locator verificati sulla fonte"
 ```
 
-### 20.2 Rifiutare
+### 21.2 Rifiutare
 
 ```bat
 "%PY%" -m dsl_mngr candidates review reject "%WS%" %CREC% ^
@@ -686,7 +953,7 @@ schema. Non significa `confirmed`.
 La reason è obbligatoria per `reject` e `correct`; è consigliata anche per
 `confirm`.
 
-### 20.3 Correggere
+### 21.3 Correggere
 
 La correzione non modifica il candidato originale. Crea una nuova foglia già
 confermata, collega la lineage e rende l'originale superseded.
@@ -719,7 +986,7 @@ Esempio:
   --payload "corrections\candidate_corretto.json"
 ```
 
-### 20.4 Retry e concorrenza
+### 21.4 Retry e concorrenza
 
 ```bat
 "%PY%" -m dsl_mngr candidates review confirm "%WS%" %CREC% ^
@@ -732,7 +999,7 @@ Un replay identico riusa la decisione. La stessa chiave con payload diverso
 produce `idempotency_payload_conflict`. `--expected-head-decision-id` protegge
 da una decisione concorrente quando conosci la testa corrente `RDEC_...`.
 
-## 21. Eseguire il merge dei batch revisionati
+## 22. Eseguire il merge dei batch revisionati
 
 Dopo aver confermato uno o più candidati, usa il `batch_id` associato nella
 lista:
@@ -776,7 +1043,7 @@ Puoi salvare liste separate per outcome:
 "%PY%" -m dsl_mngr candidates review list "%WS%" --outcome superseded > "%WS%\superseded_candidates.json"
 ```
 
-## 22. Temporalità e conflitti Aurora
+## 23. Temporalità e conflitti Aurora
 
 L'estrazione temporale è integrata nel batch; non esiste un comando leaf
 `temporal` autonomo.
@@ -794,7 +1061,7 @@ solo il candidato `temporal_interval`. Il conflitto storico/corrente deve restar
 aperto finché manca una decisione motivata e non deve creare un falso intervallo
 effettivo.
 
-## 23. Reconcile dopo una correzione
+## 24. Reconcile dopo una correzione
 
 Se correggi o sostituisci un candidato già materializzato può aprirsi una
 richiesta di riconciliazione:
@@ -815,9 +1082,9 @@ Sostituisci l'ID. Con una riconciliazione aperta, render, diff ed export sono
 bloccati per default. La storia non viene cancellata: vengono riallineati i
 supporti effettivi.
 
-## 24. Creare snapshot DSL senza indovinare gli ID
+## 25. Creare snapshot DSL senza indovinare gli ID
 
-### 24.1 Schema 1
+### 25.1 Schema 1
 
 ```bat
 set "DSL1_OUTPUT=%WS%\dsl_schema_01_output.txt"
@@ -827,7 +1094,7 @@ for /f "tokens=2" %I in ('findstr /b /c:"Snapshot:" "%DSL1_OUTPUT%"') do set "DS
 echo Snapshot schema 1: %DSL1%
 ```
 
-### 24.2 Schema 2
+### 25.2 Schema 2
 
 ```bat
 set "DSL2_OUTPUT=%WS%\dsl_schema_02_output.txt"
@@ -853,7 +1120,7 @@ incompleta, solo schema 2 permette:
 `--allow-incomplete` omette oggetti non effettivi con warning. Non approva
 pending. Schema 1 rifiuta questa opzione.
 
-## 25. Confrontare gli snapshot
+## 26. Confrontare gli snapshot
 
 Per confrontare schema 1 e schema 2 devi dichiararlo esplicitamente:
 
@@ -865,15 +1132,15 @@ Il report separa cambiamenti `structural`, `governance` e `temporal`. Senza
 `--cross-schema`, il confronto richiede snapshot dello stesso schema. Gli
 artefatti vengono scritti per default in `exports\dsl_diff\`.
 
-## 26. Esportare grafi GEXF
+## 27. Esportare grafi GEXF
 
-### 26.1 Grafo statico da schema 1
+### 27.1 Grafo statico da schema 1
 
 ```bat
 "%PY%" -m dsl_mngr graph export "%WS%" --snapshot-id %DSL1%
 ```
 
-### 26.2 Grafo dinamico da schema 2
+### 27.2 Grafo dinamico da schema 2
 
 ```bat
 "%PY%" -m dsl_mngr graph export "%WS%" ^
@@ -903,7 +1170,7 @@ Se intervalli con profili incompatibili sono previsti e documentati:
 Verifica nel `.graph_report.json` almeno validità XSD, validità semantica,
 `timeformat`, numero di nodi, archi, orphan e warning.
 
-## 27. Consultare run, log e UI locale
+## 28. Consultare run, log e UI locale
 
 ```bat
 "%PY%" -m dsl_mngr run status "%WS%" RUN_000001
@@ -921,7 +1188,7 @@ Apri `http://127.0.0.1:8765/` e usa `Ctrl+C` per arrestare il server. La UI
 permette di consultare workspace, run, log, candidati rifiutati, conflitti,
 snapshot e diff; non esegue review.
 
-## 28. Exit code e diagnosi rapida
+## 29. Exit code e diagnosi rapida
 
 | Exit | Significato pratico |
 |---:|---|
@@ -959,7 +1226,7 @@ Se `automatic_policies` è vuoto, aggiungi l'allowlist Aurora e riprendi il
 
 ### La lista contiene centinaia di duplicati
 
-Raggruppa per `candidate_id` come nella sezione 18. Se ogni identità compare in
+Raggruppa per `candidate_id` come nella sezione 19. Se ogni identità compare in
 più batch, hai eseguito più consolidamenti nuovi. Non esiste un comando di
 pulizia selettiva documentato per cancellare quei record. La soluzione sicura
 per il laboratorio è conservare il workspace e crearne uno nuovo con nome
@@ -976,7 +1243,7 @@ Verifica il path completo della scheda, chiudi e riapri il file e controlla
 `input.input_path`, `source_id` e `source_revision_id` nel
 `docling_report.json`. Un editor può mantenere una vista non aggiornata.
 
-## 29. Checklist finale del laboratorio
+## 30. Checklist finale del laboratorio
 
 - [ ] È stato usato un workspace nuovo e separato.
 - [ ] Python è 3.12 ed è quello di `.venv`.
@@ -991,6 +1258,14 @@ Verifica il path completo della scheda, chiudi e riapri il file e controlla
 - [ ] Formula/cache, merged range, named range ed external link coincidono.
 - [ ] Il file XLSM contiene VBA ma dichiara macro e rete non eseguite.
 - [ ] Nessun testo Docling o formula è stato assunto come verità di dominio.
+- [ ] Il package AI DDL è `waiting_for_ai_candidates`, non stale e contiene
+  una revisione, zero chunk e 38 frammenti.
+- [ ] La fixture AI è stata copiata soltanto in `ai\inbox`, mai nel corpus.
+- [ ] L'import AI ha creato due pending senza fatti né decisioni automatiche.
+- [ ] Il fatto tecnico è stato confermato, la domanda ambigua rifiutata e il
+  merge ha saltato il record rifiutato.
+- [ ] Nessuna AI reale e nessun accesso di rete sono stati usati nel percorso
+  controllato.
 - [ ] Gli ID `CREC`, `CBATCH`, `RUN` e `DSL` sono quelli del workspace.
 - [ ] Ogni decisione umana è motivata da evidence, locator e fonte.
 - [ ] I pending non sono stati trattati come mergeabili.
@@ -1000,7 +1275,7 @@ Verifica il path completo della scheda, chiudi e riapri il file e controlla
 - [ ] Il diff cross-schema usa `--cross-schema`.
 - [ ] Il GEXF dinamico ha superato XSD e validazione semantica offline.
 
-## 30. Riferimenti
+## 31. Riferimenti
 
 - [LEGGIMI del corpus Aurora](../LEGGIMI_PRIMA.md)
 - [Checklist dei risultati attesi](checklist_risultati_attesi.md)

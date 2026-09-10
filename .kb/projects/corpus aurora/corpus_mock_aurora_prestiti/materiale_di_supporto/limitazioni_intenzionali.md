@@ -23,6 +23,17 @@ non rappresentano fonti operative. Il primo verifica il rifiuto di sicurezza;
 il secondo richiede l'iniezione test di un esito Docling `partial_success` e non
 simula un file corrotto.
 
+## Handoff AI
+
+DSL Manager crea package e importa candidati, ma non invoca direttamente un
+modello. `ai_response_aurora_controllata.jsonl` è una risposta deterministica
+di test: simula l'output esterno senza simulare package, inbox, import, review o
+merge. Contiene soltanto riferimenti a evidenze già presenti nel DDL Aurora.
+
+Il package AI standard ammette fact, relation, mapping, conflict e question;
+non ammette attualmente `temporal_interval`. Un import valido crea candidati,
+non fatti approvati: la review resta obbligatoria.
+
 ## Temporalita'
 
 Le date nei nomi file, nei metadata OOXML e nei contenuti sono evidenze, non

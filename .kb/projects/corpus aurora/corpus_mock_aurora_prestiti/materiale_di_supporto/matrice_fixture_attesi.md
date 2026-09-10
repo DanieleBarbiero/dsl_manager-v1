@@ -7,6 +7,7 @@
 | `calcolo_rate_macro_2025.xlsm` | `.xlsm` reale inerte | macro presente, hash VBA noto, `executed: false` | `test_slice_28_aurora_e2e` |
 | `workbook_malformed_controllato.xlsx` | malformed distinto dal partial | preflight `rejected`, reason `ooxml_security_violation`, nessun normalized | `test_slice_28_malformed_partial_budget_and_no_network` |
 | `workbook_partial_controllato.xlsx` | partial controllato e ispezionabile | package valido, status `partial`, exit 6, normalized + manifest/fragments/report | `test_slice_28_malformed_partial_budget_and_no_network` |
+| `ai_response_aurora_controllata.jsonl` + DDL Aurora | handoff AI locale e governato | package offline con 38 frammenti; 2 candidati importati ancora pending; review umana; 1 fatto creato e 1 domanda rifiutata | `test_slice_28_aurora_ai_handoff_is_governed_and_offline` |
 | DDL, tre form, tre PL/SQL e due log | candidati deterministici strutturati | batch per regola, payload/evidence hash stabili, review prima del merge | `test_slice_28_aurora_e2e` |
 | requisiti + addendum 2025 | evidenza temporale concordante significativa | assessment concordant; candidato medium ma pending fino a review | `test_slice_28_aurora_e2e` |
 | manuale 2012 + requisiti 2025 | evidenza temporale discordante significativa | conflict open, zero intervalli effettivi e nessuna falsa promozione | `test_slice_28_aurora_e2e` |

@@ -6,7 +6,7 @@ copiati da un output corrente per rendere verde un test.
 
 ## Integrita' e ingest
 
-- [ ] `checksums.json` valida tutte le 18 fonti attive e le due fixture
+- [ ] `checksums.json` valida tutte le 18 fonti attive e le tre fixture
   controllate senza file mancanti o file extra nel perimetro dichiarato.
 - [ ] Due scan di uno stesso corpus assegnano lo stesso ordine alle revisioni;
   il secondo scan non crea nuove revisioni.
@@ -43,6 +43,23 @@ copiati da un output corrente per rendere verde un test.
   duplica supporti dopo retry o inversione dell'ordine di input.
 - [ ] Restano visibili i conflitti legacy: 50000 contro 60000 euro, stati
   storici contro correnti e annotazione manuale contro trigger automatico.
+
+## Handoff AI controllato
+
+- [ ] `ai package` crea offline un package per `REV_000001` con una revisione,
+  zero chunk e 38 frammenti DDL, in stato `waiting_for_ai_candidates`.
+- [ ] Il package contiene manifest, istruzioni, evidenze, schema candidati e
+  template; tutti i path pubblicati sono relativi al workspace.
+- [ ] `ai_response_aurora_controllata.jsonl` simula esclusivamente l'output di
+  un modello esterno e non viene mai copiata in `corpus/active`.
+- [ ] `ai inbox scan` riconosce il package esistente e non stale; `ai import`
+  accetta due record e li registra con origine `ai_import/AIPKG_000001`.
+- [ ] Dopo l'import esistono ancora zero fatti e zero decisioni: un candidato
+  AI valido non è automaticamente una verità di dominio.
+- [ ] La review umana conferma il fatto tecnico e rifiuta la domanda ambigua;
+  il merge crea un solo fatto e registra un candidato rifiutato saltato.
+- [ ] L'intero scenario controllato non contatta una AI reale e non accede alla
+  rete.
 
 ## Temporalita', DSL ed export
 

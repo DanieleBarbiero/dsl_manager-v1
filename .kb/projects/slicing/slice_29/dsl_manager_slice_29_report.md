@@ -22,8 +22,8 @@ dipendenza delle slice precedenti: il budget nodi+archi GEXF non è applicato e
   [outline input-output](../../../documenti/manuali/outline_dsl_manager_flow_from_input_to_output_riassunto.md)
   conciso e coerente.
 - Integrate le guide Aurora
-  [PowerShell](../../../projects/corpus%20aurora/corpus_mock_aurora_prestiti/materiale_di_supporto/guida_dsl-manager-powershell.md)
-  e [CMD](../../../projects/corpus%20aurora/corpus_mock_aurora_prestiti/materiale_di_supporto/guida_dsl-manager_cmd.md)
+  [PowerShell v02](../../../projects/corpus%20aurora/corpus_mock_aurora_prestiti/materiale_di_supporto/guida_dsl_manager_powershell_v_02.md)
+  e [CMD v02](../../../projects/corpus%20aurora/corpus_mock_aurora_prestiti/materiale_di_supporto/guida_dsl_manager_cmd_v_02.md)
   con correzione/reconcile, incomplete e modalità temporali.
 - Marcato il [prompt Aurora](../../../projects/corpus%20aurora/prompt_aurora+guida.md)
   come fonte storica; i riferimenti superati a ZIP e guida in root sono
@@ -127,8 +127,8 @@ M  .kb/documenti/documenti tecnici/analisi_tecnica_dsl_manager.md
 M  .kb/documenti/documenti tecnici/contratti_manifest_dsl_manager.md
 M  .kb/documenti/manuali/manuale_utente_dsl_manager.md
 M  .kb/documenti/manuali/outline dsl manager flow from input to output.md
-M  .kb/projects/corpus aurora/corpus_mock_aurora_prestiti/materiale_di_supporto/guida_dsl-manager-powershell.md
-M  .kb/projects/corpus aurora/corpus_mock_aurora_prestiti/materiale_di_supporto/guida_dsl-manager_cmd.md
+M  .kb/projects/corpus aurora/corpus_mock_aurora_prestiti/materiale_di_supporto/guida_dsl_manager_powershell_v_01.md
+M  .kb/projects/corpus aurora/corpus_mock_aurora_prestiti/materiale_di_supporto/guida_dsl_manager_cmd_v_01.md
 M  .kb/projects/corpus aurora/prompt_aurora+guida.md
 ?? tests/test_slice_29_documentation.py
 ?? .kb/projects/slicing/slice_29/dsl_manager_slice_29_report.md

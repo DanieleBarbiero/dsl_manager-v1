@@ -127,8 +127,10 @@ def test_slice_28_checksum_inventory_and_references():
     real_support_files = {
         "checksums.json",
         "checklist_risultati_attesi.md",
-        "guida_dsl-manager-powershell.md",
-        "guida_dsl-manager_cmd.md",
+        "guida_dsl_manager_powershell_v_01.md",
+        "guida_dsl_manager_cmd_v_01.md",
+        "guida_dsl_manager_powershell_v_02.md",
+        "guida_dsl_manager_cmd_v_02.md",
         "inventario_fonti.csv",
         "limitazioni_intenzionali.md",
         "matrice_fixture_attesi.md",

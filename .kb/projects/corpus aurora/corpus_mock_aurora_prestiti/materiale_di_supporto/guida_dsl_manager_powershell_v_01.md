@@ -1,4 +1,7 @@
-# Guida Aurora per `dsl-manager` — PowerShell
+# Guida Aurora per `dsl-manager` — PowerShell — versione 01 (storica)
+
+> Questa versione è conservata per tracciabilità. Per l'uso corrente seguire
+> [la guida PowerShell versione 02](guida_dsl_manager_powershell_v_02.md).
 
 Questa guida usa la directory reale del corpus nel repository. Tutte le
 operazioni sono locali: gli external link Excel non vengono aperti, le macro

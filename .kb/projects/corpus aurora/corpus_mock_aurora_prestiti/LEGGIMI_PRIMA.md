@@ -28,8 +28,9 @@ contraddizioni che richiedono revisione umana.
 - `materiale_di_supporto/checklist_risultati_attesi.md`: contratto E2E;
 - `materiale_di_supporto/matrice_fixture_attesi.md`: tracciabilita' fra fixture,
   requisito ed expected/test;
-- `materiale_di_supporto/guida_dsl-manager-powershell.md` e
-  `materiale_di_supporto/guida_dsl-manager_cmd.md`: le due guide operative reali.
+- `materiale_di_supporto/guida_dsl_manager_powershell_v_02.md` e
+  `materiale_di_supporto/guida_dsl_manager_cmd_v_02.md`: le due guide operative
+  correnti, complete e destinate anche a chi non conosce DSL Manager.
 
 ## Regole di uso
 

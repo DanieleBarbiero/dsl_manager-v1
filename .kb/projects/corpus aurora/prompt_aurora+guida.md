@@ -6,8 +6,8 @@
 > versionato e' in
 > [corpus_mock_aurora_prestiti](corpus_mock_aurora_prestiti/LEGGIMI_PRIMA.md) e
 > le guide aggiornate sono
-> [PowerShell](corpus_mock_aurora_prestiti/materiale_di_supporto/guida_dsl-manager-powershell.md)
-> e [CMD](corpus_mock_aurora_prestiti/materiale_di_supporto/guida_dsl-manager_cmd.md).
+> [PowerShell](corpus_mock_aurora_prestiti/materiale_di_supporto/guida_dsl_manager_powershell_v_02.md)
+> e [CMD](corpus_mock_aurora_prestiti/materiale_di_supporto/guida_dsl_manager_cmd_v_02.md).
 > Il testo successivo va letto esclusivamente come provenienza progettuale.
 
 leggi i seguenti file:

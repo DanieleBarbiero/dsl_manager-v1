@@ -505,8 +505,8 @@ negli hash semantici.
 Il corpus completo e le guide per shell sono disponibili in:
 
 - [LEGGIMI Aurora](../../projects/corpus%20aurora/corpus_mock_aurora_prestiti/LEGGIMI_PRIMA.md)
-- [Guida PowerShell](../../projects/corpus%20aurora/corpus_mock_aurora_prestiti/materiale_di_supporto/guida_dsl-manager-powershell.md)
-- [Guida CMD](../../projects/corpus%20aurora/corpus_mock_aurora_prestiti/materiale_di_supporto/guida_dsl-manager_cmd.md)
+- [Guida PowerShell v02](../../projects/corpus%20aurora/corpus_mock_aurora_prestiti/materiale_di_supporto/guida_dsl_manager_powershell_v_02.md)
+- [Guida CMD v02](../../projects/corpus%20aurora/corpus_mock_aurora_prestiti/materiale_di_supporto/guida_dsl_manager_cmd_v_02.md)
 - [Checklist risultati](../../projects/corpus%20aurora/corpus_mock_aurora_prestiti/materiale_di_supporto/checklist_risultati_attesi.md)
 
 L'[outline input-output](outline_dsl_manager_flow_from_input_to_output_riassunto.md)

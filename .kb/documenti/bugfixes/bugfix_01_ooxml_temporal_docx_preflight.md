@@ -249,7 +249,7 @@ correzione, per non mutare dati operativi senza una richiesta esplicita.
 | Tipo | Riferimento |
 |---|---|
 | Design | `../../documenti di design/run 2/design_document_v_02.md`, sezione 12 |
-| Guida scenario | `../../projects/corpus aurora/corpus_mock_aurora_prestiti/materiale_di_supporto/guida_dsl-manager_cmd.md` |
+| Guida scenario | `../../projects/corpus aurora/corpus_mock_aurora_prestiti/materiale_di_supporto/guida_dsl_manager_cmd_v_02.md` |
 | Codice | `../../../src/dsl_mngr/core/ooxml_preflight.py`; `../../../src/dsl_mngr/core/temporal.py` |
 | Test | `../../../tests/test_slice_28_aurora_e2e.py::test_slice_28_batch_derive_accepts_docx_temporal_metadata` |
 | Report runtime | `../../../.workspaces/laboratorio_aurora/artifacts/runs/RUN_000001/batch_report.json` |

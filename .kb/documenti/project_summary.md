@@ -133,9 +133,13 @@ principale. Solo le 18 fonti sotto `corpus/active` sono input operativi; le
 fixture sotto `materiale_di_supporto/fixture_controllate` sono casi di test
 negativi o controllati.
 
+Le guide operative Aurora sono le versioni 02. Le versioni 01 sono archiviate
+con nomi esplicitamente versionati e rimandano alle guide correnti; tutti i
+riferimenti operativi del repository puntano alle versioni 02.
+
 La suite canonica è `python -m pytest` con l'interprete corretto. L'ultima
-esecuzione completa, dopo `BUGFIX_01` e `BUGFIX_02`, ha raccolto e superato tutti
-i 179 test in 330.96 secondi. Il worker Docling, che in una precedente
+esecuzione completa, dopo l'aggiornamento delle guide Aurora, ha raccolto e
+superato tutti i 179 test in 393.02 secondi. Il worker Docling, che in una precedente
 esecuzione aveva mostrato un lock Windows transitorio durante il cleanup, è
 passato sia al rerun isolato sia nelle esecuzioni complete successive. I
 dettagli sono nei report dei bugfix.
@@ -149,11 +153,6 @@ dettagli sono nei report dei bugfix.
 
 ## Osservazioni aperte
 
-- Le guide Aurora storiche `guida_dsl-manager-powershell.md` e
-  `guida_dsl-manager_cmd.md` hanno riferimenti attivi in prompt, manuali, test e
-  report di slice. Restano quindi con il nome corrente. È sospesa la loro
-  eventuale rinomina a versioni `v_01`, da eseguire in una modifica coordinata
-  di tutti i riferimenti.
 - Aggiungere in futuro una fixture PPTX binaria per coprire esplicitamente il
   ramo introdotto insieme al supporto DOCX.
 - Valutare l'aggiunta di `source_revision_id` e `file_path` ai report di errore

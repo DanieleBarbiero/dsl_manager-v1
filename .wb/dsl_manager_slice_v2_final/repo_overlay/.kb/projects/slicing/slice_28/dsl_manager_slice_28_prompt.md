@@ -59,8 +59,8 @@ Leggi integralmente, nell'ordine utile al task:
 - `.kb/projects/corpus aurora/corpus_mock_aurora_prestiti/LEGGIMI_PRIMA.md`
 - `.kb/projects/corpus aurora/corpus_mock_aurora_prestiti/materiale_di_supporto/inventario_fonti.csv`
 - `.kb/projects/corpus aurora/corpus_mock_aurora_prestiti/materiale_di_supporto/checklist_risultati_attesi.md`
-- `.kb/projects/corpus aurora/corpus_mock_aurora_prestiti/materiale_di_supporto/guida_dsl-manager-powershell.md`
-- `.kb/projects/corpus aurora/corpus_mock_aurora_prestiti/materiale_di_supporto/guida_dsl-manager_cmd.md`
+- `.kb/projects/corpus aurora/corpus_mock_aurora_prestiti/materiale_di_supporto/guida_dsl_manager_powershell_v_02.md`
+- `.kb/projects/corpus aurora/corpus_mock_aurora_prestiti/materiale_di_supporto/guida_dsl_manager_cmd_v_02.md`
 
 Leggi inoltre **integralmente tutti i report precedenti**, in ordine numerico, usando esattamente questi file:
 

@@ -16,14 +16,6 @@ ACTIVE_DOCUMENTS = (
     Path(".kb/documenti/manuali/outline_dsl_manager_flow_from_input_to_output_riassunto.md"),
     Path(
         ".kb/projects/corpus aurora/corpus_mock_aurora_prestiti/"
-        "materiale_di_supporto/guida_dsl-manager-powershell.md"
-    ),
-    Path(
-        ".kb/projects/corpus aurora/corpus_mock_aurora_prestiti/"
-        "materiale_di_supporto/guida_dsl-manager_cmd.md"
-    ),
-    Path(
-        ".kb/projects/corpus aurora/corpus_mock_aurora_prestiti/"
         "materiale_di_supporto/guida_dsl_manager_powershell_v_02.md"
     ),
     Path(
@@ -140,7 +132,7 @@ def test_slice_29_normative_safety_statements_and_known_gaps() -> None:
         "non è un'approvazione",
         "foglia corrente",
         "non viene convertito",
-        "non sono automaticamente verita' di dominio",
+        "non sono automaticamente verità di dominio",
         "la sola xsd non basta",
         "timestamp del filesystem",
         "--allow-incomplete",

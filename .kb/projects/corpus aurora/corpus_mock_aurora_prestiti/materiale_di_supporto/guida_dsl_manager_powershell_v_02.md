@@ -504,6 +504,7 @@ Ruoli:
 Il manifest è autorevole per la struttura osservata, non per il significato di
 dominio. Una formula conservata correttamente dimostra che la formula esiste nel
 file; non dimostra che rappresenti una regola aziendale valida.
+Il testo Docling e le formule non sono automaticamente verità di dominio.
 
 ## 14. Verificare automaticamente `matrice_stati_2025.xlsx`
 
@@ -1071,6 +1072,5 @@ Verifica il path completo della scheda, chiudi e riapri il file e controlla
 - [Contratti dei manifest](../../../../documenti/documenti%20tecnici/contratti_manifest_dsl_manager.md)
 - [Analisi tecnica](../../../../documenti/documenti%20tecnici/analisi_tecnica_dsl_manager.md)
 
-Questa è la versione 02 della guida PowerShell. La guida storica
-`guida_dsl-manager-powershell.md` resta invariata perché è referenziata da altri
-documenti e test.
+Questa è la guida operativa corrente. La versione 01 precedente è conservata
+separatamente soltanto per tracciabilità storica.

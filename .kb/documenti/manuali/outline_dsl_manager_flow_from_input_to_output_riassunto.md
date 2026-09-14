@@ -102,9 +102,9 @@ produce omissioni e warning; non approva pending.
 Il diff fra schema diversi richiede `--cross-schema`. GEXF dinamico usa 1.3,
 un solo timeformat, bounds inclusivi e validazione offline sia XSD sia semantica.
 
-### 7.1 Estensione pianificata: scegliere evidenze per una route AI
+### 7.1 Scegliere evidenze per una route AI
 
-La Slice 30, non ancora eseguita, inserirà prima del package AI un piano
+La Slice 30 inserisce prima del package AI un piano
 deterministico e spiegabile:
 
 ```text
@@ -116,9 +116,9 @@ evidenze + copertura deterministica corrente
 ```
 
 La stessa evidenza potrà essere esclusa da una route tecnica già coperta e
-inclusa da una route interpretativa. Non sono previsti provider, modelli,
-embeddings o rete. Fino all'esecuzione della Slice restano validi soltanto i
-comandi AI già documentati nel manuale utente.
+inclusa da una route interpretativa. `plan` non crea package; `list` ed
+`explain` leggono lo snapshot; `package --selection-plan` ne verifica lo stato
+prima dell'uso. Non sono previsti provider, modelli, embeddings o rete.
 
 ## 8. Limiti da ricordare
 
@@ -129,8 +129,8 @@ comandi AI già documentati nel manuale utente.
   uniforme nei report OOXML/worker/temporali/GEXF.
 - La pipeline AI è un handoff locale: nessuna risposta AI scrive direttamente
   fatti, decisioni o intervalli.
-- La selezione AI per route e i relativi piani persistiti appartengono alla
-  roadmap Slice 30 e non sono disponibili nella release 1.1.0.
+- La selezione AI per route è opt-in; il percorso package legacy resta
+  disponibile senza policy o piano.
 
 ## 9. Percorso operativo breve
 

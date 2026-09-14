@@ -27,6 +27,7 @@ RUN_TYPES = {
     "parse_log",
     "parse_xml_form",
     "ai_package",
+    "ai_evidence_selection",
     "candidate_import",
     "candidate_validation",
     "candidate_review",

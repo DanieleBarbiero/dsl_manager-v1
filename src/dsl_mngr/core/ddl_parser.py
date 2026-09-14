@@ -821,7 +821,7 @@ def _parse_create_index_at(original: str, cleaned: str, start: int) -> tuple[Ddl
     unique = bool(match.group(1))
     position = _skip_ws(cleaned, start + match.end())
     index_name, position = _parse_qualified_identifier(cleaned, position)
-    on_match = re.match(r"\s+ON\b", cleaned[position:], re.IGNORECASE)
+    on_match = re.match(r"ON\b", cleaned[position:], re.IGNORECASE)
     if on_match is None:
         raise DdlParserError(f"Malformed CREATE INDEX near line {_line_for_offset(original, start)}.")
     position = _skip_ws(cleaned, position + on_match.end())

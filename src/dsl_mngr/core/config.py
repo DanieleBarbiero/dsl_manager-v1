@@ -52,7 +52,7 @@ DEFAULT_CONFIG: dict[str, Any] = {
         "max_regions": 10000,
         "max_relationships": 50000,
         "max_output_bytes": 268435456,
-        "worker_timeout_seconds": 120,
+        "worker_timeout_seconds": 300,
         "worker_memory_bytes": 1073741824,
     },
     "temporal": {
@@ -64,6 +64,11 @@ DEFAULT_CONFIG: dict[str, Any] = {
     "gexf": {
         "schema_version": "1.3",
         "validator_dependency": "lxml==6.1.2",
+    },
+    "ai_selection": {
+        "max_examined_evidence": 100000,
+        "max_selected_evidence": 10000,
+        "max_selected_chars": 10000000,
     },
 }
 
@@ -86,6 +91,12 @@ EXCEL_HARD_MAXIMA = {
 TEMPORAL_HARD_MAXIMA = {
     "max_evidence_per_source": 1000000,
     "max_intervals_per_subject": 10000,
+}
+
+AI_SELECTION_HARD_MAXIMA = {
+    "max_examined_evidence": 1000000,
+    "max_selected_evidence": 100000,
+    "max_selected_chars": 100000000,
 }
 
 
@@ -130,6 +141,7 @@ def load_config(
     _validate_excel_config(config)
     _validate_temporal_config(config)
     _validate_gexf_config(config)
+    _validate_ai_selection_config(config)
     return config
 
 
@@ -375,3 +387,20 @@ def _validate_gexf_config(config: dict[str, Any]) -> None:
         raise ProjectConfigError("gexf.schema_version must be 1.3.")
     if gexf.get("validator_dependency") != "lxml==6.1.2":
         raise ProjectConfigError("gexf.validator_dependency must be lxml==6.1.2.")
+
+
+def _validate_ai_selection_config(config: dict[str, Any]) -> None:
+    ai_selection = config.get("ai_selection")
+    if not isinstance(ai_selection, dict):
+        raise ProjectConfigError("ai_selection configuration must be a mapping.")
+    unknown = sorted(set(ai_selection) - set(AI_SELECTION_HARD_MAXIMA))
+    if unknown:
+        raise ProjectConfigError(f"Unsupported ai_selection option: {unknown[0]}.")
+    for key, hard_maximum in AI_SELECTION_HARD_MAXIMA.items():
+        value = ai_selection.get(key)
+        if isinstance(value, bool) or not isinstance(value, int) or value <= 0:
+            raise ProjectConfigError(f"ai_selection.{key} must be a positive integer.")
+        if value > hard_maximum:
+            raise ProjectConfigError(
+                f"ai_selection.{key} exceeds the hard maximum of {hard_maximum}."
+            )

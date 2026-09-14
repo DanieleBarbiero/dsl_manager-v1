@@ -37,10 +37,10 @@ def test_slice_27_migration_v10_is_append_only_idempotent_and_atomic():
     ).fetchone()[0] == 0
     first = apply_migrations(connection, migrations=MIGRATIONS)
     second = apply_migrations(connection, migrations=MIGRATIONS)
-    assert [migration.version for migration in first.applied] == [10]
+    assert [migration.version for migration in first.applied] == [10, 11]
     assert first.skipped_count == 9
     assert second.applied_count == 0
-    assert second.skipped_count == 10
+    assert second.skipped_count == 11
 
 
 def test_slice_27_all_source_extractors_and_exact_first_seen(tmp_path):

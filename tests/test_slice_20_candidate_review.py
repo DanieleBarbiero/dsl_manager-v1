@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 import sqlite3
 import subprocess
 import sys
@@ -334,6 +335,38 @@ def test_slice_20_cli_review_and_reconcile_contract(tmp_path):
     assert reconciled.returncode == 0
     assert json.loads(reconciled.stdout)["counters"]["processed"] == 0
     assert reconciled.stderr == ""
+
+
+def test_slice_20_cli_review_show_uses_utf8_when_process_starts_as_cp1252(tmp_path):
+    workspace, _, candidate_ids = _workspace_with_candidates(
+        tmp_path,
+        [_mapping("CLI_UNICODE", domain_entity="WorkOrder ↔ INTERVENTO")],
+    )
+    environment = os.environ.copy()
+    environment["PYTHONIOENCODING"] = "cp1252"
+
+    completed = subprocess.run(
+        [
+            sys.executable,
+            "-m",
+            "dsl_mngr",
+            "candidates",
+            "review",
+            "show",
+            str(workspace),
+            candidate_ids[0],
+        ],
+        check=False,
+        capture_output=True,
+        encoding="utf-8",
+        errors="strict",
+        env=environment,
+    )
+
+    assert completed.returncode == 0
+    assert completed.stderr == ""
+    payload = json.loads(completed.stdout)
+    assert payload["candidate"]["payload"]["domain_entity"] == "WorkOrder ↔ INTERVENTO"
 
 
 def test_slice_20_correction_atomic(tmp_path, capsys):
@@ -716,6 +749,21 @@ def _relation(candidate_id: str):
         "source_entity": "CLIENTI",
         "source_revision_id": "REV_000001",
         "target_entity": "ORDINI",
+    }
+
+
+def _mapping(candidate_id: str, *, domain_entity: str):
+    return {
+        "assertion_type": "explicit",
+        "candidate_id": candidate_id,
+        "chunk_id": "CHK_000001",
+        "confidence": "high",
+        "domain_entity": domain_entity,
+        "evidence_text": EVIDENCE,
+        "mapping_type": "domain_to_technical",
+        "record_type": "candidate_mapping",
+        "source_revision_id": "REV_000001",
+        "technical_object": "INTERVENTO",
     }
 
 

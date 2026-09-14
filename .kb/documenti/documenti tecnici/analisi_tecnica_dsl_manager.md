@@ -212,7 +212,7 @@ I default/hard maximum applicati dal codice sono:
 | regioni | 10.000 | 50.000 |
 | relazioni | 50.000 | 250.000 |
 | output per sorgente | 256 MiB | 1 GiB |
-| timeout worker Excel | 120 s | 600 s |
+| timeout worker Excel | 300 s | 600 s |
 | memoria worker Excel | 1 GiB | 4 GiB |
 | evidenze temporali per sorgente | 100.000 | 1.000.000 |
 | intervalli per soggetto | 1.000 | 10.000 |
@@ -294,7 +294,7 @@ Il GEXF dinamico viene validato offline in due passaggi: XSD 1.3 vendorizzati e
 validazione semantica. La sola validazione XSD non è sufficiente. Le risorse XSD
 sono verificate per SHA-256 e un resolver locale nega risoluzioni esterne.
 
-## 11. Migrazioni implementate v7-v10 e v11 pianificata
+## 11. Migrazioni implementate v7-v11
 
 Le migrazioni sono append-only, checksumate e applicate atomicamente.
 
@@ -304,17 +304,16 @@ Le migrazioni sono append-only, checksumate e applicate atomicamente.
 | 8 | `create_workbook_manifest_schema` | manifest, fogli e regioni workbook |
 | 9 | `create_temporal_core_schema` | raw evidence, dettagli/evidence candidati e intervalli append-only |
 | 10 | `create_temporal_consolidation_schema` | gruppi, indipendenza/correlazione e conflitti temporali |
+| 11 | `create_ai_evidence_selection_schema` | piani/item AI append-only e riferimento package→piano nullable |
 
 Il backfill v7 conferma solo candidati legacy `explicit`/`observed` che già
 sostengono oggetti `active`, con policy `legacy_backfill/1`. Pending, inferred,
 ambiguous e conflicted non vengono promossi. Le migrazioni non cambiano i byte o
 gli hash degli snapshot storici.
 
-Il design v02 emendato assegna alla Slice 30 una migrazione v11 append-only per
-piani e item di selezione AI e per il riferimento nullable package→piano. La v11
-non è presente nel codice al 2026-09-14: `db init` continua correttamente a
-fermarsi alla v10 e i database/package legacy non devono ricevere backfill
-inventati.
+La v11 usa ID `AISEL_<NNNNNN>`, conserva inclusi ed esclusi senza testo sorgente
+e impedisce update/delete di piani e item. `ai_packages.selection_plan_id` è
+nullable: i record esistenti rimangono legacy senza backfill inventati.
 
 ## 12. Result catalog osservato
 
@@ -342,14 +341,13 @@ adapter può soltanto proporre evidenze o candidati; non può scrivere fatti,
 decisioni o intervalli autoritativi. Test OOXML, temporali e GEXF verificano
 l'assenza di rete nei percorsi previsti.
 
-### 13.1 Rafforzamento pianificato dalla Slice 30
+### 13.1 Selezione per route AI della Slice 30
 
-La selezione corrente di `ai package` usa revisioni attive e i filtri di profilo
-`include_chunks`/`include_fragments`; non identifica ancora quali evidenze siano
-più adatte a uno specifico obiettivo di analisi. La Slice 30, definita nel
+La modalità legacy di `ai package` continua a usare revisioni attive e filtri
+`include_chunks`/`include_fragments`. La Slice 30, definita nel
 [design v02 emendato](../documenti%20di%20design/run%202/design_document_v_02.md)
 e nel [prompt canonico](../../projects/slicing/slice_30/dsl_manager_slice_30_prompt.md),
-rafforzerà questo stesso percorso con:
+rafforza lo stesso percorso con:
 
 - route e policy locali versionate;
 - un piano persistito di inclusi/esclusi con rank, criteri e reason stabili;
@@ -358,11 +356,11 @@ rafforzerà questo stesso percorso con:
 - verifica `relevant_state_hash` prima del riuso del piano;
 - `selection_plan.json` e riferimenti coerenti nei manifest del package.
 
-La capacità è pianificata e non eseguita: i comandi `ai evidence
-plan|list|explain`, le opzioni `--selection-policy`/`--selection-plan`, la
-migrazione v11 e i nuovi artefatti non vanno considerati disponibili nel runtime
-1.1.0. La route è un obiettivo, non un provider o modello; il percorso resta
-locale, deterministico e privo di rete.
+Il motore è in `core/ai_selection.py`; legge registry, catalogo regole,
+candidati/lineage e review heads senza mutarli. `plan` persiste lo snapshot;
+`list`/`explain` sono read-only; il packager verifica lo stato e passa al worker
+isolato soltanto evidenze già risolte. La route resta un obiettivo, non un
+provider o modello; il percorso è locale, deterministico e privo di rete.
 
 ## 14. Compatibilità e limiti noti
 
@@ -376,14 +374,14 @@ locale, deterministico e privo di rete.
 - La semantica temporale non è esposta da un comando CLI autonomo: è integrata
   nei servizi e nel batch consolidato.
 - Il catalogo esiti e il budget GEXF hanno i gap indicati nelle sezioni 8 e 12.
-- La selezione AI per route, la migrazione v11 e `selection_plan.json` sono
-  roadmap Slice 30, non capacità correnti.
+- La selezione AI dipende da policy esplicite; un piano stale o incompatibile
+  col profilo non viene adattato automaticamente.
 - La UI resta locale e di sola lettura.
 
 ## 15. Evidenze di implementazione
 
 Le capacità sopra sono coperte dai test `test_slice_20_*` fino a
-`test_slice_28_*`; i golden principali sono in `tests/expected`. Il corpus
+`test_slice_30_*`; i golden principali sono in `tests/expected`. Il corpus
 end-to-end è descritto nel
 [LEGGIMI Aurora](../../projects/corpus%20aurora/corpus_mock_aurora_prestiti/LEGGIMI_PRIMA.md).
 La mappa sintetica del viaggio è nell'

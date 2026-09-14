@@ -5,6 +5,9 @@ from collections.abc import Sequence
 
 from dsl_mngr import __version__
 from dsl_mngr.cli.commands.ai import (
+    run_ai_evidence_explain_command,
+    run_ai_evidence_list_command,
+    run_ai_evidence_plan_command,
     run_ai_import_command,
     run_ai_inbox_scan_command,
     run_ai_package_command,
@@ -446,6 +449,16 @@ def build_parser() -> argparse.ArgumentParser:
         default="ai_package.default",
         help="Worker profile under configs/workers. Defaults to ai_package.default.",
     )
+    ai_selection_group = ai_package_parser.add_mutually_exclusive_group()
+    ai_selection_group.add_argument(
+        "--selection-policy",
+        help="Create and consume an immutable plan from configs/ai_selection/NAME.yaml.",
+    )
+    ai_selection_group.add_argument(
+        "--selection-plan",
+        dest="selection_plan_id",
+        help="Consume an existing immutable selection plan, for example AISEL_000001.",
+    )
     ai_package_parser.set_defaults(func=run_ai_package_command)
     ai_package_batch_parser = ai_subparsers.add_parser(
         "package-batch",
@@ -468,6 +481,51 @@ def build_parser() -> argparse.ArgumentParser:
         help="Stop the batch at the first failed item.",
     )
     ai_package_batch_parser.set_defaults(func=run_ai_package_batch_command)
+
+    ai_evidence_parser = ai_subparsers.add_parser(
+        "evidence", help="Plan and inspect deterministic evidence selection."
+    )
+    ai_evidence_subparsers = ai_evidence_parser.add_subparsers(
+        dest="ai_evidence_command", required=True
+    )
+    ai_evidence_plan_parser = ai_evidence_subparsers.add_parser(
+        "plan", help="Create an immutable policy-driven evidence selection plan."
+    )
+    ai_evidence_plan_parser.add_argument("workspace", help="Workspace directory.")
+    ai_evidence_plan_parser.add_argument(
+        "--policy", required=True, help="Policy name under configs/ai_selection."
+    )
+    ai_evidence_plan_parser.add_argument(
+        "--revision", action="append", help="Limit the plan to a source revision; repeatable."
+    )
+    ai_evidence_plan_parser.add_argument(
+        "--profile",
+        default="ai_package.default",
+        help="Package profile used for exact character accounting.",
+    )
+    ai_evidence_plan_parser.set_defaults(func=run_ai_evidence_plan_command)
+
+    ai_evidence_list_parser = ai_evidence_subparsers.add_parser(
+        "list", help="List persisted plan decisions without recalculating them."
+    )
+    ai_evidence_list_parser.add_argument("workspace", help="Workspace directory.")
+    ai_evidence_list_parser.add_argument(
+        "--plan", dest="plan_id", required=True, help="Selection plan id."
+    )
+    ai_evidence_list_parser.add_argument(
+        "--outcome", choices=("included", "excluded"), help="Optional outcome filter."
+    )
+    ai_evidence_list_parser.set_defaults(func=run_ai_evidence_list_command)
+
+    ai_evidence_explain_parser = ai_evidence_subparsers.add_parser(
+        "explain", help="Explain one persisted evidence decision."
+    )
+    ai_evidence_explain_parser.add_argument("workspace", help="Workspace directory.")
+    ai_evidence_explain_parser.add_argument(
+        "--plan", dest="plan_id", required=True, help="Selection plan id."
+    )
+    ai_evidence_explain_parser.add_argument("evidence_id", help="Chunk or fragment id.")
+    ai_evidence_explain_parser.set_defaults(func=run_ai_evidence_explain_command)
 
     ai_inbox_parser = ai_subparsers.add_parser("inbox", help="Inspect AI inbox files.")
     ai_inbox_subparsers = ai_inbox_parser.add_subparsers(

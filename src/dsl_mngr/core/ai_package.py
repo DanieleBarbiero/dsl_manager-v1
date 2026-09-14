@@ -76,6 +76,7 @@ class PreparedAiPackage:
     source_revision_count: int
     chunk_count: int
     fragment_count: int
+    selection_plan_id: str | None = None
 
 
 @dataclass(frozen=True)
@@ -96,6 +97,7 @@ class AiPackageRecord:
     stale_reason: str | None
     created_at: str
     updated_at: str
+    selection_plan_id: str | None = None
 
 
 @dataclass(frozen=True)
@@ -119,6 +121,7 @@ def prepare_ai_package_input(
     profile: str,
     worker_config: dict[str, Any],
     ai_package_options: dict[str, Any],
+    selection: Any | None = None,
 ) -> PreparedAiPackage:
     if not settings.database_path.is_file():
         raise AiPackageError(
@@ -128,23 +131,37 @@ def prepare_ai_package_input(
 
     include_chunks = _option_bool(ai_package_options, "include_chunks", True)
     include_fragments = _option_bool(ai_package_options, "include_fragments", True)
-
-    connection = open_database(settings.database_path, enable_wal=settings.wal_enabled)
-    try:
-        validate_database_migrations(connection)
-        source_revisions = _load_source_revisions(
-            connection,
-            revision_ids=revision_ids,
-            include_chunks=include_chunks,
-            include_fragments=include_fragments,
-        )
-        revision_id_tuple = tuple(row["source_revision_id"] for row in source_revisions)
-        chunks = _load_active_chunks(connection, revision_id_tuple) if include_chunks else []
-        fragments = (
-            _load_active_fragments(connection, revision_id_tuple) if include_fragments else []
-        )
-    finally:
-        connection.close()
+    selection_plan_id: str | None = None
+    evidence_order: list[dict[str, Any]] | None = None
+    selection_plan: dict[str, Any] | None = None
+    if selection is not None:
+        if revision_ids:
+            raise AiPackageError(
+                "--revision cannot be combined with a persisted selection plan."
+            )
+        selection_plan_id = str(selection.selection_plan_id)
+        selection_plan = dict(selection.selection_plan)
+        source_revisions = list(selection.source_revisions)
+        chunks = list(selection.chunks)
+        fragments = list(selection.fragments)
+        evidence_order = list(selection.evidence_order)
+    else:
+        connection = open_database(settings.database_path, enable_wal=settings.wal_enabled)
+        try:
+            validate_database_migrations(connection)
+            source_revisions = _load_source_revisions(
+                connection,
+                revision_ids=revision_ids,
+                include_chunks=include_chunks,
+                include_fragments=include_fragments,
+            )
+            revision_id_tuple = tuple(row["source_revision_id"] for row in source_revisions)
+            chunks = _load_active_chunks(connection, revision_id_tuple) if include_chunks else []
+            fragments = (
+                _load_active_fragments(connection, revision_id_tuple) if include_fragments else []
+            )
+        finally:
+            connection.close()
 
     if not chunks and not fragments:
         raise AiPackageError("No active chunks or fragments are available for AI packaging.")
@@ -160,6 +177,14 @@ def prepare_ai_package_input(
         "source_revisions": source_revisions,
         "worker_config": worker_config,
     }
+    if selection_plan is not None:
+        worker_input.update(
+            {
+                "evidence_order": evidence_order,
+                "selection_plan": selection_plan,
+                "selection_plan_id": selection_plan_id,
+            }
+        )
     return PreparedAiPackage(
         package_id=package_id,
         output_dir=output_dir,
@@ -167,6 +192,7 @@ def prepare_ai_package_input(
         source_revision_count=len(source_revisions),
         chunk_count=len(chunks),
         fragment_count=len(fragments),
+        selection_plan_id=selection_plan_id,
     )
 
 
@@ -181,6 +207,7 @@ def persist_ai_package_output(
     expected_chunk_count: int,
     expected_fragment_count: int,
     timestamp: str,
+    expected_selection_plan_id: str | None = None,
 ) -> AiPackageRecord:
     if output.get("package_id") != expected_package_id:
         raise AiPackageError("Worker output package_id is incoherent.")
@@ -196,6 +223,9 @@ def persist_ai_package_output(
     instructions_path = _required_relative_path(output, "instructions_path")
     candidate_schema_path = _required_relative_path(output, "candidate_schema_path")
     output_template_path = _required_relative_path(output, "output_template_path")
+    selection_plan_path = None
+    if expected_selection_plan_id is not None:
+        selection_plan_path = _required_relative_path(output, "selection_plan_path")
     package_hash = _required_sha256(output, "package_hash")
 
     if output.get("source_revision_count") != expected_source_revision_count:
@@ -216,12 +246,23 @@ def persist_ai_package_output(
         "output_template": output_template_path,
         "source_manifest": source_manifest_path,
     }
+    if selection_plan_path is not None:
+        paths["selection_plan"] = selection_plan_path
     for relative_path in (*paths.values(), manifest_path):
         if not _resolve_workspace_path(workspace_dir, relative_path).is_file():
             raise AiPackageError(f"Package file is missing: {relative_path}.")
 
     package_manifest = _read_json_file(workspace_dir, manifest_path)
     source_manifest = _read_json_file(workspace_dir, source_manifest_path)
+    if expected_selection_plan_id is not None and selection_plan_path is not None:
+        selection_plan = _read_json_file(workspace_dir, selection_plan_path)
+        _validate_selection_artifacts(
+            connection,
+            selection_plan=selection_plan,
+            source_manifest=source_manifest,
+            package_manifest=package_manifest,
+            expected_selection_plan_id=expected_selection_plan_id,
+        )
     _validate_source_manifest(
         source_manifest,
         expected_package_id=expected_package_id,
@@ -229,6 +270,7 @@ def persist_ai_package_output(
         expected_source_revision_count=expected_source_revision_count,
         expected_chunk_count=expected_chunk_count,
         expected_fragment_count=expected_fragment_count,
+        expected_selection_plan_id=expected_selection_plan_id,
     )
     _validate_package_manifest(
         package_manifest,
@@ -240,6 +282,7 @@ def persist_ai_package_output(
         expected_source_revision_count=expected_source_revision_count,
         expected_chunk_count=expected_chunk_count,
         expected_fragment_count=expected_fragment_count,
+        expected_selection_plan_id=expected_selection_plan_id,
     )
     _validate_manifest_file_hashes(workspace_dir, package_manifest, paths)
 
@@ -265,9 +308,10 @@ def persist_ai_package_output(
             status,
             stale_reason,
             created_at,
-            updated_at
+            updated_at,
+            selection_plan_id
         )
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NULL, ?, ?)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NULL, ?, ?, ?)
         """,
         (
             expected_package_id,
@@ -285,6 +329,7 @@ def persist_ai_package_output(
             AI_PACKAGE_STATUS_WAITING,
             timestamp,
             timestamp,
+            expected_selection_plan_id,
         ),
     )
     return AiPackageRecord(
@@ -304,6 +349,7 @@ def persist_ai_package_output(
         stale_reason=None,
         created_at=timestamp,
         updated_at=timestamp,
+        selection_plan_id=expected_selection_plan_id,
     )
 
 
@@ -330,6 +376,7 @@ def get_ai_package_record(
             stale_reason,
             created_at,
             updated_at
+            , selection_plan_id
         FROM ai_packages
         WHERE package_id = ?
         """,
@@ -354,6 +401,7 @@ def get_ai_package_record(
         stale_reason=row["stale_reason"],
         created_at=row["created_at"],
         updated_at=row["updated_at"],
+        selection_plan_id=row["selection_plan_id"],
     )
 
 
@@ -552,6 +600,7 @@ def build_content_markdown(
     chunks: list[dict[str, Any]],
     fragments: list[dict[str, Any]],
     max_evidence_chars: int,
+    evidence_order: list[dict[str, Any]] | None = None,
 ) -> str:
     source_by_revision = {
         revision["source_revision_id"]: revision for revision in source_revisions
@@ -562,7 +611,7 @@ def build_content_markdown(
         "Use only the evidence blocks below.",
         "",
     ]
-    for chunk in chunks:
+    def append_chunk(chunk: dict[str, Any]) -> None:
         source = source_by_revision[chunk["source_revision_id"]]
         text, truncated = _evidence_text(chunk["text"], max_evidence_chars)
         lines.extend(
@@ -584,7 +633,8 @@ def build_content_markdown(
                 "",
             ]
         )
-    for fragment in fragments:
+
+    def append_fragment(fragment: dict[str, Any]) -> None:
         source = source_by_revision[fragment["source_revision_id"]]
         text, truncated = _evidence_text(fragment["text"], max_evidence_chars)
         lines.extend(
@@ -608,6 +658,26 @@ def build_content_markdown(
                 "",
             ]
         )
+
+    if evidence_order is None:
+        for chunk in chunks:
+            append_chunk(chunk)
+        for fragment in fragments:
+            append_fragment(fragment)
+    else:
+        chunks_by_id = {str(item["chunk_id"]): item for item in chunks}
+        fragments_by_id = {str(item["fragment_id"]): item for item in fragments}
+        for reference in evidence_order:
+            kind = reference.get("evidence_kind")
+            evidence_id = str(reference.get("evidence_id", ""))
+            if kind == "chunk" and evidence_id in chunks_by_id:
+                append_chunk(chunks_by_id[evidence_id])
+            elif kind == "fragment" and evidence_id in fragments_by_id:
+                append_fragment(fragments_by_id[evidence_id])
+            else:
+                raise AiPackageError(
+                    f"Selection evidence order references an unknown item: {kind}/{evidence_id}."
+                )
     return "\n".join(lines)
 
 
@@ -618,8 +688,9 @@ def build_source_manifest_payload(
     source_revisions: list[dict[str, Any]],
     chunks: list[dict[str, Any]],
     fragments: list[dict[str, Any]],
+    selection: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
-    return {
+    payload = {
         "chunks": [
             {
                 "chunk_id": chunk["chunk_id"],
@@ -660,6 +731,9 @@ def build_source_manifest_payload(
             for revision in source_revisions
         ],
     }
+    if selection is not None:
+        payload["selection"] = selection
+    return payload
 
 
 def candidate_schema_payload() -> dict[str, Any]:
@@ -789,8 +863,9 @@ def build_package_manifest_payload(
     source_revision_count: int,
     chunk_count: int,
     fragment_count: int,
+    selection: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
-    return {
+    payload = {
         "chunk_count": chunk_count,
         "created_at": created_at,
         "files": files,
@@ -809,6 +884,9 @@ def build_package_manifest_payload(
         "worker_name": worker_name,
         "worker_version": worker_version,
     }
+    if selection is not None:
+        payload["selection"] = selection
+    return payload
 
 
 def file_hash(path: Path) -> str:
@@ -1021,6 +1099,7 @@ def _validate_source_manifest(
     expected_source_revision_count: int,
     expected_chunk_count: int,
     expected_fragment_count: int,
+    expected_selection_plan_id: str | None = None,
 ) -> None:
     if payload.get("package_id") != expected_package_id:
         raise AiPackageError("source_manifest package_id is incoherent.")
@@ -1037,6 +1116,12 @@ def _validate_source_manifest(
     for key, value in expected.items():
         if counts.get(key) != value:
             raise AiPackageError(f"source_manifest count is incoherent: {key}.")
+    selection = payload.get("selection")
+    if expected_selection_plan_id is None:
+        if selection is not None:
+            raise AiPackageError("Legacy source_manifest must not contain selection metadata.")
+    elif not isinstance(selection, dict) or selection.get("selection_plan_id") != expected_selection_plan_id:
+        raise AiPackageError("source_manifest selection_plan_id is incoherent.")
 
 
 def _validate_package_manifest(
@@ -1050,6 +1135,7 @@ def _validate_package_manifest(
     expected_source_revision_count: int,
     expected_chunk_count: int,
     expected_fragment_count: int,
+    expected_selection_plan_id: str | None = None,
 ) -> None:
     checks = {
         "chunk_count": expected_chunk_count,
@@ -1069,6 +1155,12 @@ def _validate_package_manifest(
     stale_check = payload.get("stale_check")
     if not isinstance(stale_check, dict) or stale_check.get("is_stale") is not False:
         raise AiPackageError("package_manifest stale_check must start as not stale.")
+    selection = payload.get("selection")
+    if expected_selection_plan_id is None:
+        if selection is not None:
+            raise AiPackageError("Legacy package_manifest must not contain selection metadata.")
+    elif not isinstance(selection, dict) or selection.get("selection_plan_id") != expected_selection_plan_id:
+        raise AiPackageError("package_manifest selection_plan_id is incoherent.")
 
 
 def _validate_manifest_file_hashes(
@@ -1091,6 +1183,74 @@ def _validate_manifest_file_hashes(
         actual_hash = file_hash(_resolve_workspace_path(workspace_dir, expected_path))
         if actual_hash != expected_hash:
             raise AiPackageError(f"package_manifest file hash mismatch: {label}.")
+
+
+def _validate_selection_artifacts(
+    connection: sqlite3.Connection,
+    *,
+    selection_plan: dict[str, Any],
+    source_manifest: dict[str, Any],
+    package_manifest: dict[str, Any],
+    expected_selection_plan_id: str,
+) -> None:
+    row = connection.execute(
+        """
+        SELECT selection_plan_id, selection_plan_hash, policy_id, policy_version,
+               policy_config_hash, resolved_config_hash, relevant_state_hash,
+               route_id, route_version, included_count
+        FROM ai_evidence_selection_plans
+        WHERE selection_plan_id = ? AND status = 'completed'
+        """,
+        (expected_selection_plan_id,),
+    ).fetchone()
+    if row is None:
+        raise AiPackageError(f"Completed selection plan not found: {expected_selection_plan_id}.")
+    policy = selection_plan.get("policy")
+    counts = selection_plan.get("counts")
+    expected = {
+        "config_hash": row["resolved_config_hash"],
+        "relevant_state_hash": row["relevant_state_hash"],
+        "selection_plan_hash": row["selection_plan_hash"],
+        "selection_plan_id": expected_selection_plan_id,
+    }
+    for key, value in expected.items():
+        if selection_plan.get(key) != value:
+            raise AiPackageError(f"selection_plan artifact field is incoherent: {key}.")
+    if not isinstance(policy, dict) or policy != {
+        "config_hash": row["policy_config_hash"],
+        "policy_id": row["policy_id"],
+        "policy_version": row["policy_version"],
+    }:
+        raise AiPackageError("selection_plan artifact policy is incoherent.")
+    route = selection_plan.get("route")
+    if not isinstance(route, dict) or route != {
+        "route_id": row["route_id"],
+        "route_version": row["route_version"],
+    }:
+        raise AiPackageError("selection_plan artifact route is incoherent.")
+    if not isinstance(counts, dict) or counts.get("included") != row["included_count"]:
+        raise AiPackageError("selection_plan artifact included count is incoherent.")
+    for manifest_name, manifest in (
+        ("source_manifest", source_manifest),
+        ("package_manifest", package_manifest),
+    ):
+        selection = manifest.get("selection")
+        if not isinstance(selection, dict):
+            raise AiPackageError(f"{manifest_name} selection metadata is missing.")
+        checks = {
+            "config_hash": row["resolved_config_hash"],
+            "policy_config_hash": row["policy_config_hash"],
+            "policy_id": row["policy_id"],
+            "policy_version": row["policy_version"],
+            "relevant_state_hash": row["relevant_state_hash"],
+            "route_id": row["route_id"],
+            "route_version": row["route_version"],
+            "selection_plan_hash": row["selection_plan_hash"],
+            "selection_plan_id": expected_selection_plan_id,
+        }
+        for key, value in checks.items():
+            if selection.get(key) != value:
+                raise AiPackageError(f"{manifest_name} selection field is incoherent: {key}.")
 
 
 def _read_json_file(workspace_dir: Path, relative_path: str) -> dict[str, Any]:

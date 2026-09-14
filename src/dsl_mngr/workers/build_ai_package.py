@@ -63,6 +63,9 @@ def build_package(payload: dict[str, Any], *, workspace_dir: Path) -> dict[str, 
     source_revisions = _required_dict_list(payload, "source_revisions")
     chunks = _optional_dict_list(payload, "chunks")
     fragments = _optional_dict_list(payload, "fragments")
+    selection_plan = payload.get("selection_plan")
+    evidence_order = payload.get("evidence_order")
+    selection_plan_id = payload.get("selection_plan_id")
 
     options = parse_ai_package_options(raw_options)
     if not options.include_candidate_schema:
@@ -71,6 +74,15 @@ def build_package(payload: dict[str, Any], *, workspace_dir: Path) -> dict[str, 
         raise AiPackageError("output_template.jsonl is required for AI packages.")
     if not chunks and not fragments:
         raise AiPackageError("No evidence was provided to the AI package worker.")
+    selection_metadata = None
+    if selection_plan is not None:
+        if not isinstance(selection_plan, dict):
+            raise AiPackageError("selection_plan must be an object.")
+        if not isinstance(selection_plan_id, str) or not selection_plan_id:
+            raise AiPackageError("selection_plan_id is required for policy-driven packaging.")
+        if selection_plan.get("selection_plan_id") != selection_plan_id:
+            raise AiPackageError("selection_plan_id does not match the persisted snapshot.")
+        _validate_evidence_order(evidence_order, chunks=chunks, fragments=fragments)
 
     worker_version = str(worker_config.get("version", WORKER_VERSION))
     output_dir = _resolve_relative_path(workspace_dir, output_dir_relative)
@@ -82,6 +94,7 @@ def build_package(payload: dict[str, Any], *, workspace_dir: Path) -> dict[str, 
     candidate_schema_path = output_dir / "candidate_schema.json"
     output_template_path = output_dir / "output_template.jsonl"
     package_manifest_path = output_dir / "package_manifest.json"
+    selection_plan_path = output_dir / "selection_plan.json"
     package_path = relative_workspace_path(workspace_dir, output_dir)
 
     instructions_path.write_text(
@@ -96,16 +109,42 @@ def build_package(payload: dict[str, Any], *, workspace_dir: Path) -> dict[str, 
             chunks=chunks,
             fragments=fragments,
             max_evidence_chars=options.max_evidence_chars,
+            evidence_order=evidence_order if isinstance(evidence_order, list) else None,
         ),
         encoding="utf-8",
         newline="\n",
     )
+    if selection_plan is not None:
+        selection_plan_path.write_text(
+            canonical_json(selection_plan), encoding="utf-8", newline="\n"
+        )
+        policy = selection_plan.get("policy")
+        route = selection_plan.get("route")
+        counts = selection_plan.get("counts")
+        if not isinstance(policy, dict) or not isinstance(route, dict) or not isinstance(counts, dict):
+            raise AiPackageError("selection_plan policy/route/counts are invalid.")
+        selection_metadata = {
+            "counts": counts,
+            "ordered_evidence": evidence_order,
+            "config_hash": selection_plan.get("config_hash"),
+            "selection_plan_hash": selection_plan.get("selection_plan_hash"),
+            "policy_config_hash": policy.get("config_hash"),
+            "policy_id": policy.get("policy_id"),
+            "policy_version": policy.get("policy_version"),
+            "reason_catalog_version": selection_plan.get("reason_catalog_version"),
+            "reason_summary": selection_plan.get("reason_summary", {}),
+            "relevant_state_hash": selection_plan.get("relevant_state_hash"),
+            "route_id": route.get("route_id"),
+            "route_version": route.get("route_version"),
+            "selection_plan_id": selection_plan_id,
+        }
     source_manifest = build_source_manifest_payload(
         package_id=package_id,
         package_path=package_path,
         source_revisions=source_revisions,
         chunks=chunks,
         fragments=fragments,
+        selection=selection_metadata,
     )
     source_manifest_path.write_text(
         canonical_json(source_manifest),
@@ -145,6 +184,16 @@ def build_package(payload: dict[str, Any], *, workspace_dir: Path) -> dict[str, 
             "sha256": file_hash(source_manifest_path),
         },
     }
+    if selection_plan is not None:
+        files["selection_plan"] = {
+            "path": relative_workspace_path(workspace_dir, selection_plan_path),
+            "sha256": file_hash(selection_plan_path),
+        }
+        selection_metadata = {
+            **(selection_metadata or {}),
+            "artifact_path": files["selection_plan"]["path"],
+            "artifact_sha256": files["selection_plan"]["sha256"],
+        }
     package_hash = compute_package_hash(files)
     package_manifest = build_package_manifest_payload(
         package_id=package_id,
@@ -160,6 +209,7 @@ def build_package(payload: dict[str, Any], *, workspace_dir: Path) -> dict[str, 
         source_revision_count=len(source_revisions),
         chunk_count=len(chunks),
         fragment_count=len(fragments),
+        selection=selection_metadata,
     )
     package_manifest_path.write_text(
         canonical_json(package_manifest),
@@ -167,7 +217,7 @@ def build_package(payload: dict[str, Any], *, workspace_dir: Path) -> dict[str, 
         newline="\n",
     )
 
-    return {
+    result = {
         "candidate_schema_path": relative_workspace_path(workspace_dir, candidate_schema_path),
         "chunk_count": len(chunks),
         "content_path": relative_workspace_path(workspace_dir, content_path),
@@ -188,6 +238,12 @@ def build_package(payload: dict[str, Any], *, workspace_dir: Path) -> dict[str, 
         "worker_name": WORKER_NAME,
         "worker_version": worker_version,
     }
+    if selection_plan is not None:
+        result["selection_plan_id"] = selection_plan_id
+        result["selection_plan_path"] = relative_workspace_path(
+            workspace_dir, selection_plan_path
+        )
+    return result
 
 
 def _worker_input(payload: dict[str, Any]) -> dict[str, Any]:
@@ -246,6 +302,29 @@ def _optional_dict_list(payload: dict[str, Any], key: str) -> list[dict[str, Any
     if not all(isinstance(item, dict) for item in value):
         raise ValueError(f"Worker input field must contain objects: {key}")
     return value
+
+
+def _validate_evidence_order(
+    value: Any,
+    *,
+    chunks: list[dict[str, Any]],
+    fragments: list[dict[str, Any]],
+) -> None:
+    if not isinstance(value, list) or not all(isinstance(item, dict) for item in value):
+        raise AiPackageError("evidence_order must be a list of objects.")
+    actual = [
+        (str(item.get("evidence_kind", "")), str(item.get("evidence_id", "")))
+        for item in value
+    ]
+    expected = {
+        *(('chunk', str(item["chunk_id"])) for item in chunks),
+        *(('fragment', str(item["fragment_id"])) for item in fragments),
+    }
+    if len(actual) != len(expected) or len(set(actual)) != len(actual) or set(actual) != expected:
+        raise AiPackageError("evidence_order does not match the resolved selection items.")
+    ranks = [item.get("rank") for item in value]
+    if ranks != list(range(1, len(value) + 1)):
+        raise AiPackageError("evidence_order ranks must be contiguous and start at 1.")
 
 
 def _write_error(error_type: str, message: str, *, option: str | None = None) -> None:

@@ -1337,6 +1337,116 @@ MIGRATIONS: tuple[Migration, ...] = (
             """,
         ),
     ),
+    Migration(
+        version=11,
+        name="create_ai_evidence_selection_schema",
+        statements=(
+            """
+            CREATE TABLE ai_evidence_selection_plans (
+                selection_plan_id TEXT PRIMARY KEY,
+                run_id TEXT NOT NULL UNIQUE,
+                policy_id TEXT NOT NULL,
+                policy_version TEXT NOT NULL,
+                route_id TEXT NOT NULL,
+                route_version TEXT NOT NULL,
+                profile_name TEXT NOT NULL,
+                policy_config_hash TEXT NOT NULL,
+                profile_config_hash TEXT NOT NULL,
+                resolved_config_hash TEXT NOT NULL,
+                relevant_state_hash TEXT NOT NULL,
+                selection_plan_hash TEXT NOT NULL,
+                scope_json TEXT NOT NULL,
+                resolved_config_json TEXT NOT NULL,
+                relevant_state_json TEXT NOT NULL,
+                examined_count INTEGER NOT NULL,
+                included_count INTEGER NOT NULL,
+                excluded_count INTEGER NOT NULL,
+                selected_chars INTEGER NOT NULL,
+                reason_summary_json TEXT NOT NULL,
+                report_path TEXT NOT NULL,
+                status TEXT NOT NULL CHECK (status = 'completed'),
+                created_at TEXT NOT NULL,
+                FOREIGN KEY (run_id) REFERENCES runs(run_id),
+                CHECK (examined_count = included_count + excluded_count),
+                CHECK (examined_count >= 0 AND included_count >= 0
+                       AND excluded_count >= 0 AND selected_chars >= 0)
+            )
+            """,
+            """
+            CREATE TABLE ai_evidence_selection_items (
+                selection_plan_id TEXT NOT NULL,
+                evidence_kind TEXT NOT NULL CHECK (evidence_kind IN ('chunk', 'fragment')),
+                evidence_id TEXT NOT NULL,
+                source_revision_id TEXT NOT NULL,
+                sequence INTEGER NOT NULL,
+                outcome TEXT NOT NULL CHECK (outcome IN ('included', 'excluded')),
+                selection_rank INTEGER,
+                normalized_char_count INTEGER NOT NULL,
+                package_char_count INTEGER NOT NULL,
+                coverage_state TEXT NOT NULL,
+                reason_codes_json TEXT NOT NULL,
+                matched_criteria_json TEXT NOT NULL,
+                coverage_refs_json TEXT NOT NULL,
+                sort_key_json TEXT NOT NULL,
+                PRIMARY KEY (selection_plan_id, evidence_kind, evidence_id),
+                FOREIGN KEY (selection_plan_id)
+                    REFERENCES ai_evidence_selection_plans(selection_plan_id),
+                CHECK (
+                    (outcome = 'included' AND selection_rank IS NOT NULL)
+                    OR (outcome = 'excluded' AND selection_rank IS NULL)
+                ),
+                CHECK (selection_rank IS NULL OR selection_rank > 0),
+                CHECK (normalized_char_count >= 0 AND package_char_count >= 0)
+            )
+            """,
+            """
+            CREATE UNIQUE INDEX idx_ai_selection_items_rank
+            ON ai_evidence_selection_items(selection_plan_id, selection_rank)
+            WHERE selection_rank IS NOT NULL
+            """,
+            """
+            CREATE INDEX idx_ai_selection_items_outcome
+            ON ai_evidence_selection_items(selection_plan_id, outcome, evidence_id)
+            """,
+            """
+            ALTER TABLE ai_packages
+            ADD COLUMN selection_plan_id TEXT
+                REFERENCES ai_evidence_selection_plans(selection_plan_id)
+            """,
+            """
+            CREATE INDEX idx_ai_packages_selection_plan
+            ON ai_packages(selection_plan_id)
+            """,
+            """
+            CREATE TRIGGER ai_evidence_selection_plans_no_update
+            BEFORE UPDATE ON ai_evidence_selection_plans
+            BEGIN
+                SELECT RAISE(ABORT, 'ai_evidence_selection_plans_append_only');
+            END
+            """,
+            """
+            CREATE TRIGGER ai_evidence_selection_plans_no_delete
+            BEFORE DELETE ON ai_evidence_selection_plans
+            BEGIN
+                SELECT RAISE(ABORT, 'ai_evidence_selection_plans_append_only');
+            END
+            """,
+            """
+            CREATE TRIGGER ai_evidence_selection_items_no_update
+            BEFORE UPDATE ON ai_evidence_selection_items
+            BEGIN
+                SELECT RAISE(ABORT, 'ai_evidence_selection_items_append_only');
+            END
+            """,
+            """
+            CREATE TRIGGER ai_evidence_selection_items_no_delete
+            BEFORE DELETE ON ai_evidence_selection_items
+            BEGIN
+                SELECT RAISE(ABORT, 'ai_evidence_selection_items_append_only');
+            END
+            """,
+        ),
+    ),
 )
 
 

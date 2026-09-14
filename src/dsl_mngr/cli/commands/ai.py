@@ -1,7 +1,9 @@
 from __future__ import annotations
 
 import sqlite3
+import shutil
 import sys
+import json
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
@@ -20,6 +22,14 @@ from dsl_mngr.core.ai_package import (
     persist_ai_package_output,
     prepare_ai_package_input,
     write_ai_package_process_report,
+)
+from dsl_mngr.core.ai_selection import (
+    AiSelectionError,
+    SelectionPlanResult,
+    create_selection_plan,
+    explain_selection_item,
+    list_selection_items,
+    prepare_selection_package,
 )
 from dsl_mngr.core.batch import BatchError, ai_package_batch, batch_cli_lines
 from dsl_mngr.core.config import WorkerProfileError, load_config, load_worker_profile
@@ -55,19 +65,27 @@ class AiPackageCommandResult:
     chunk_count: int
     fragment_count: int
     worker_result: WorkerRunResult
+    selection_plan_id: str | None = None
 
 
 def run_ai_package_command(args: object) -> int:
     workspace = Path(getattr(args, "workspace"))
     revisions = tuple(getattr(args, "revision", None) or ())
     profile = getattr(args, "profile", None) or "ai_package.default"
+    selection_policy = getattr(args, "selection_policy", None)
+    selection_plan_id = getattr(args, "selection_plan_id", None)
 
     try:
         result = build_ai_package(
             workspace,
             revision_ids=revisions,
             profile=profile,
+            selection_policy=selection_policy,
+            selection_plan_id=selection_plan_id,
         )
+    except AiSelectionError as exc:
+        print(f"Error [{exc.reason}]: {exc}", file=sys.stderr)
+        return exc.exit_code
     except (
         AiPackageError,
         DatabaseConfigurationError,
@@ -97,6 +115,81 @@ def run_ai_package_command(args: object) -> int:
     print(f"Package hash: {result.package_hash}")
     print(f"Outbox: {result.package_path}")
     print(f"Manifest: {result.manifest_path}")
+    if result.selection_plan_id is not None:
+        print(f"Selection plan: {result.selection_plan_id}")
+    return 0
+
+
+def run_ai_evidence_plan_command(args: object) -> int:
+    try:
+        result = create_selection_plan(
+            Path(getattr(args, "workspace")),
+            policy_name=getattr(args, "policy"),
+            revision_ids=tuple(getattr(args, "revision", None) or ()),
+            profile_name=getattr(args, "profile", None) or "ai_package.default",
+        )
+    except (
+        AiSelectionError,
+        DatabaseConfigurationError,
+        DatabaseNotReadyError,
+        RunLifecycleError,
+        WorkerProfileError,
+        WorkspaceNotInitializedError,
+    ) as exc:
+        reason = getattr(exc, "reason", "selection_failed")
+        print(f"Error [{reason}]: {exc}", file=sys.stderr)
+        return int(getattr(exc, "exit_code", 2))
+    _print_selection_plan(result)
+    return 0
+
+
+def run_ai_evidence_list_command(args: object) -> int:
+    try:
+        items = list_selection_items(
+            Path(getattr(args, "workspace")),
+            getattr(args, "plan_id"),
+            outcome=getattr(args, "outcome", None),
+        )
+    except (
+        AiSelectionError,
+        DatabaseConfigurationError,
+        DatabaseNotReadyError,
+        RunLifecycleError,
+        WorkspaceNotInitializedError,
+    ) as exc:
+        reason = getattr(exc, "reason", "selection_failed")
+        print(f"Error [{reason}]: {exc}", file=sys.stderr)
+        return int(getattr(exc, "exit_code", 2))
+    for item in items:
+        rank = "-" if item["rank"] is None else str(item["rank"])
+        reasons = ",".join(item["reason_codes"]) or "-"
+        print(
+            f"{item['outcome']} | rank={rank} | {item['evidence_kind']} | "
+            f"{item['evidence_id']} | coverage={item['coverage_state']} | reasons={reasons}"
+        )
+    return 0
+
+
+def run_ai_evidence_explain_command(args: object) -> int:
+    try:
+        payload = explain_selection_item(
+            Path(getattr(args, "workspace")),
+            getattr(args, "plan_id"),
+            getattr(args, "evidence_id"),
+        )
+    except (
+        AiSelectionError,
+        DatabaseConfigurationError,
+        DatabaseNotReadyError,
+        RunLifecycleError,
+        WorkspaceNotInitializedError,
+    ) as exc:
+        reason = getattr(exc, "reason", "selection_failed")
+        print(f"Error [{reason}]: {exc}", file=sys.stderr)
+        return int(getattr(exc, "exit_code", 2))
+    from dsl_mngr.core.runs import canonical_json
+
+    print(canonical_json(payload), end="")
     return 0
 
 
@@ -217,9 +310,20 @@ def build_ai_package(
     revision_ids: tuple[str, ...],
     profile: str,
     parent_run_id: str | None = None,
+    selection_policy: str | None = None,
+    selection_plan_id: str | None = None,
 ) -> AiPackageCommandResult:
     settings = resolve_database_settings(workspace_dir)
-    package_id = _allocate_package_id(settings)
+    if selection_policy is not None and selection_plan_id is not None:
+        raise AiSelectionError(
+            "--selection-policy and --selection-plan are mutually exclusive.",
+            reason="selection_options_conflict",
+        )
+    if selection_plan_id is not None and revision_ids:
+        raise AiSelectionError(
+            "--revision cannot be combined with --selection-plan; the plan scope is authoritative.",
+            reason="selection_scope_conflict",
+        )
     profile_config = load_worker_profile(
         settings.workspace_dir,
         profile,
@@ -229,6 +333,25 @@ def build_ai_package(
     ai_package_options = dict(profile_config["ai_package"])
     worker_version = str(worker_config.get("version", "1.0"))
 
+    selection = None
+    if selection_policy is not None:
+        plan = create_selection_plan(
+            settings.workspace_dir,
+            policy_name=selection_policy,
+            revision_ids=revision_ids,
+            profile_name=profile,
+        )
+        selection_plan_id = plan.selection_plan_id
+        revision_ids = ()
+    if selection_plan_id is not None:
+        selection = prepare_selection_package(
+            settings.workspace_dir,
+            plan_id=selection_plan_id,
+            profile_name=profile,
+        )
+
+    package_id = _allocate_package_id(settings)
+
     prepared = prepare_ai_package_input(
         settings,
         package_id=package_id,
@@ -236,6 +359,7 @@ def build_ai_package(
         profile=profile,
         worker_config=worker_config,
         ai_package_options=ai_package_options,
+        selection=selection,
     )
     started = start_run(
         settings.workspace_dir,
@@ -264,6 +388,7 @@ def build_ai_package(
             ),
         )
     except Exception as exc:
+        _cleanup_failed_selection_package(settings.workspace_dir, prepared)
         fail_run(
             settings.workspace_dir,
             started.record.run_id,
@@ -273,6 +398,7 @@ def build_ai_package(
 
     app_log_path = _resolve_app_log_path(settings.workspace_dir)
     if worker_result.status != "completed":
+        _cleanup_failed_selection_package(settings.workspace_dir, prepared)
         log_event(
             app_log_path,
             level="ERROR",
@@ -295,6 +421,7 @@ def build_ai_package(
             chunk_count=prepared.chunk_count,
             fragment_count=prepared.fragment_count,
             worker_result=worker_result,
+            selection_plan_id=prepared.selection_plan_id,
         )
 
     output = worker_result.output or {}
@@ -321,6 +448,7 @@ def build_ai_package(
         chunk_count=int(output["chunk_count"]),
         fragment_count=int(output["fragment_count"]),
         worker_result=worker_result,
+        selection_plan_id=prepared.selection_plan_id,
     )
 
 
@@ -354,9 +482,38 @@ def _persist_ai_package_mutation(
             expected_chunk_count=prepared.chunk_count,
             expected_fragment_count=prepared.fragment_count,
             timestamp=timestamp_now(None),
+            expected_selection_plan_id=prepared.selection_plan_id,
         )
 
     return apply
+
+
+def _cleanup_failed_selection_package(
+    workspace_dir: Path, prepared: PreparedAiPackage
+) -> None:
+    if prepared.selection_plan_id is None:
+        return
+    output_dir = (workspace_dir / prepared.output_dir).resolve()
+    expected_parent = (workspace_dir / "ai" / "outbox").resolve()
+    if output_dir.parent != expected_parent or output_dir.name != prepared.package_id:
+        return
+    if output_dir.is_dir():
+        shutil.rmtree(output_dir)
+
+
+def _print_selection_plan(result: SelectionPlanResult) -> None:
+    print(f"Run: {result.run_id}")
+    print(f"Selection plan: {result.selection_plan_id}")
+    print(f"Route: {result.route}")
+    print(f"Policy: {result.policy_name}/{result.policy_version}")
+    print(f"Examined: {result.examined_count}")
+    print(f"Included: {result.included_count}")
+    print(f"Excluded: {result.excluded_count}")
+    print(f"Selected chars: {result.selected_chars}")
+    print(f"Reason summary: {json.dumps(result.reason_summary, sort_keys=True)}")
+    print(f"Relevant state hash: {result.relevant_state_hash}")
+    print(f"Plan hash: {result.plan_hash}")
+    print(f"Report: {result.report_path}")
 
 
 def _resolve_app_log_path(workspace_dir: Path) -> Path:

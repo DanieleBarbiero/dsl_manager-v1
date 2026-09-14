@@ -15,7 +15,7 @@ sostituisce i contratti eseguibili: in caso di divergenza prevalgono, nell'ordin
 | Nome applicazione | DSL Manager |
 | Descrizione breve | Applicazione locale per acquisire corpus eterogenei, normalizzare e strutturare evidenze, derivare candidati governati, consolidare fatti/relazioni e produrre DSL e grafi GEXF |
 | Versione applicativa | `1.1.0` |
-| Stato | Sviluppo attivo; runtime Slice 01–28, Slice 29 documentale parziale per gap dichiarati, prompt Slice 30 presente ma non eseguito |
+| Stato | Sviluppo attivo; runtime Slice 01–30, con gap ereditati Slice 29 dichiarati e non bloccanti per la selezione AI |
 | Package Python | `dsl_mngr` |
 | Layout | `src/`; `src` non è un package importabile |
 | CLI | `dsl-manager` oppure `python -m dsl_mngr` |
@@ -80,7 +80,7 @@ corpus/active
   -> diff ed export GEXF
 ```
 
-Il design v02 emendato pianifica, senza considerarla già disponibile, una fase aggiuntiva:
+Il design v02 emendato governa una fase aggiuntiva ora implementata:
 
 ```text
 evidenze correnti + stato di derivazione/review
@@ -89,9 +89,9 @@ evidenze correnti + stato di derivazione/review
   -> package costruito dall'handoff esistente
 ```
 
-La Slice 30 rafforzerà `ai package`; non crea un secondo packager e non invoca provider o
-modelli. Al 2026-09-14 non sono disponibili i nuovi comandi `ai evidence`, la migrazione v11
-o `selection_plan.json`: il loro contratto è soltanto nel design e nel prompt della Slice.
+La Slice 30 rafforza `ai package`; non crea un secondo packager e non invoca provider o
+modelli. Sono disponibili `ai evidence plan|list|explain`, la migrazione v11,
+`selection_plan.json` e le opzioni additive `--selection-policy|--selection-plan`.
 
 Responsabilità principali:
 
@@ -144,9 +144,9 @@ Per orientarsi rapidamente:
 6. `projects/corpus aurora/.../materiale_di_supporto/guida_dsl_manager_powershell_v_02.md`
    e `guida_dsl_manager_cmd_v_02.md` — scenario Aurora completo e riproducibile;
 7. `documenti/documenti di design/run 2/design_document_v_02.md` — roadmap normativa
-   20–30 e contratto della selezione AI pianificata;
+   20–30 e contratto della selezione AI;
 8. `projects/slicing/slice_30/dsl_manager_slice_30_prompt.md` — istruzioni operative della
-   Slice 30, da non confondere con una capacità già implementata;
+   Slice 30;
 9. `documenti/bugfixes/` — diagnosi e correzioni storiche.
 
 ## Scenari e verifica

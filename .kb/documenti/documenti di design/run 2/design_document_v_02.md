@@ -608,7 +608,7 @@ max_cells = 2000000
 max_regions = 10000
 max_relationships = 50000
 max_output_bytes = 268435456
-worker_timeout_seconds = 120
+worker_timeout_seconds = 300
 worker_memory_bytes = 1073741824
 
 [temporal]
@@ -701,7 +701,7 @@ Exit `6` indica successo parziale esplicito e non è collassato in errore operat
 | regioni | 10.000 | 50.000 |
 | relazioni | 50.000 | 250.000 |
 | output derivati totali per sorgente | 256 MiB | 1 GiB |
-| timeout worker Excel | 120 s | 600 s |
+| timeout worker Excel | 300 s | 600 s |
 | memoria worker Excel | 1 GiB | 4 GiB |
 | evidenze temporali per sorgente | 100.000 | 1.000.000 |
 | intervalli per soggetto | 1.000 | 10.000 |

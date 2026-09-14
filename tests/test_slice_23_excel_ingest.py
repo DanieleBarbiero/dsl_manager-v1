@@ -598,6 +598,7 @@ def test_slice_23_configuration_and_legacy_routes(tmp_path):
     initialize_workspace(tmp_path / "workspace")
     config = load_config(tmp_path / "workspace")
     assert config["excel"] == DEFAULT_CONFIG["excel"]
+    assert config["excel"]["worker_timeout_seconds"] == 300
     profile = (tmp_path / "workspace" / "configs" / "workers" / "docling.no_images.yaml").read_text(
         encoding="utf-8"
     )

@@ -8,6 +8,7 @@ from dsl_mngr.core.config import DEFAULT_CONFIG, dump_simple_yaml
 
 WORKSPACE_DIRS = (
     "configs/workers",
+    "configs/ai_selection",
     "corpus/incoming",
     "corpus/active",
     "corpus/deleted",
@@ -133,6 +134,64 @@ ai_package:
   package_format: markdown_plus_json
 """
 
+DEFAULT_TECHNICAL_EXTRACTION_POLICY = """policy:
+  policy_id: technical_extraction
+  policy_version: "1"
+  route_id: technical_extraction
+  route_version: "1"
+  description: Prefer structured technical evidence that still needs deterministic treatment.
+criteria:
+  evidence_kinds: ["fragment"]
+  source_types: []
+  source_subtypes: []
+  extensions: []
+  authority_levels: []
+  fragment_types: ["ddl_table","ddl_column","ddl_constraint","sql_function","sql_procedure","sql_statement","sql_trigger","xml_form","xml_field","xml_button","excel_region"]
+  producers: []
+  producer_versions: []
+  evidence_statuses: ["active"]
+  source_statuses: ["active"]
+  revision_statuses: ["active"]
+  current_revisions_only: true
+  require_complete_locator: true
+  excluded_coverage_states: ["confirmed"]
+ranking:
+  preferences: ["coverage_state=no_rule_applicable","authority_level=technical_documentation","fragment_type=ddl_table","fragment_type=sql_procedure"]
+budget:
+  max_examined_evidence: 100000
+  max_selected_evidence: 10000
+  max_selected_chars: 10000000
+"""
+
+DEFAULT_DOMAIN_INTERPRETATION_POLICY = """policy:
+  policy_id: domain_interpretation
+  policy_version: "1"
+  route_id: domain_interpretation
+  route_version: "1"
+  description: Prefer functional narrative and retain evidence even when deterministic facts exist.
+criteria:
+  evidence_kinds: ["chunk","fragment"]
+  source_types: []
+  source_subtypes: []
+  extensions: []
+  authority_levels: []
+  fragment_types: []
+  producers: []
+  producer_versions: []
+  evidence_statuses: ["active"]
+  source_statuses: ["active"]
+  revision_statuses: ["active"]
+  current_revisions_only: true
+  require_complete_locator: false
+  excluded_coverage_states: []
+ranking:
+  preferences: ["authority_level=functional_documentation","evidence_kind=chunk","coverage_state=no_rule_applicable"]
+budget:
+  max_examined_evidence: 100000
+  max_selected_evidence: 10000
+  max_selected_chars: 10000000
+"""
+
 DEFAULT_GEXF_PROFILE = """worker:
   name: export_gexf
   version: 1.0
@@ -188,6 +247,14 @@ def initialize_workspace(workspace_dir: str | Path) -> WorkspaceInitResult:
     _write_if_missing(
         workspace_path / "configs" / "workers" / "ai_package.default.yaml",
         DEFAULT_AI_PACKAGE_PROFILE,
+    )
+    _write_if_missing(
+        workspace_path / "configs" / "ai_selection" / "technical_extraction.yaml",
+        DEFAULT_TECHNICAL_EXTRACTION_POLICY,
+    )
+    _write_if_missing(
+        workspace_path / "configs" / "ai_selection" / "domain_interpretation.yaml",
+        DEFAULT_DOMAIN_INTERPRETATION_POLICY,
     )
     _write_if_missing(
         workspace_path / "configs" / "workers" / "gexf.default.yaml",

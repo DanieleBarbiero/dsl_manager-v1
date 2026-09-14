@@ -11,6 +11,7 @@ from pathlib import Path
 import pytest
 
 from dsl_mngr.cli.app import main
+from dsl_mngr.core import worker_runner
 from dsl_mngr.core.migrations import migrate_workspace_database
 from dsl_mngr.core.runs import RunLifecycleError, complete_run, fail_run, start_run
 from dsl_mngr.core.worker_runner import run_worker
@@ -19,6 +20,54 @@ from dsl_mngr.core.workspace import initialize_workspace
 
 FIXED_TIME = datetime(2026, 5, 29, 12, 0, tzinfo=timezone.utc)
 WORKERS_DIR = Path(__file__).parent / "fixtures" / "workers"
+
+
+def test_worker_temp_cleanup_retries_transient_permission_error(tmp_path, monkeypatch):
+    temporary = tmp_path / ".worker_stdout.tmp"
+    temporary.write_text("captured output", encoding="utf-8")
+    original_unlink = Path.unlink
+    attempts = 0
+    delays: list[float] = []
+
+    def flaky_unlink(path: Path, *, missing_ok: bool = False) -> None:
+        nonlocal attempts
+        if path == temporary:
+            attempts += 1
+            if attempts < 3:
+                raise PermissionError("temporary Windows file lock")
+        original_unlink(path, missing_ok=missing_ok)
+
+    monkeypatch.setattr(Path, "unlink", flaky_unlink)
+    monkeypatch.setattr(worker_runner.time, "sleep", delays.append)
+
+    worker_runner._unlink_worker_temp_file(temporary)
+
+    assert attempts == 3
+    assert delays == [0.05, 0.1]
+    assert not temporary.exists()
+
+
+def test_worker_temp_cleanup_fails_after_bounded_retries(tmp_path, monkeypatch):
+    temporary = tmp_path / ".worker_stderr.tmp"
+    temporary.write_text("captured error", encoding="utf-8")
+    attempts = 0
+    delays: list[float] = []
+
+    def locked_unlink(path: Path, *, missing_ok: bool = False) -> None:
+        nonlocal attempts
+        assert path == temporary
+        attempts += 1
+        raise PermissionError("persistent Windows file lock")
+
+    monkeypatch.setattr(Path, "unlink", locked_unlink)
+    monkeypatch.setattr(worker_runner.time, "sleep", delays.append)
+
+    with pytest.raises(PermissionError, match="persistent Windows file lock"):
+        worker_runner._unlink_worker_temp_file(temporary)
+
+    assert attempts == worker_runner._WORKER_TEMP_CLEANUP_ATTEMPTS
+    assert len(delays) == worker_runner._WORKER_TEMP_CLEANUP_ATTEMPTS - 1
+    assert delays[-1] == worker_runner._WORKER_TEMP_CLEANUP_MAX_DELAY_SECONDS
 
 
 def test_run_lifecycle(tmp_path):

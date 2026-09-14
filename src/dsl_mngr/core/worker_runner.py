@@ -551,6 +551,24 @@ def memory_limit_mode(memory_limit_bytes: int | None) -> str:
     return "monitored" if os.name == "nt" else "hard"
 
 
+_WORKER_TEMP_CLEANUP_ATTEMPTS = 10
+_WORKER_TEMP_CLEANUP_INITIAL_DELAY_SECONDS = 0.05
+_WORKER_TEMP_CLEANUP_MAX_DELAY_SECONDS = 0.5
+
+
+def _unlink_worker_temp_file(path: Path) -> None:
+    delay = _WORKER_TEMP_CLEANUP_INITIAL_DELAY_SECONDS
+    for attempt in range(_WORKER_TEMP_CLEANUP_ATTEMPTS):
+        try:
+            path.unlink(missing_ok=True)
+            return
+        except PermissionError:
+            if attempt + 1 == _WORKER_TEMP_CLEANUP_ATTEMPTS:
+                raise
+            time.sleep(delay)
+            delay = min(delay * 2, _WORKER_TEMP_CLEANUP_MAX_DELAY_SECONDS)
+
+
 def _execute_worker_process(
     command: list[str],
     *,
@@ -598,8 +616,7 @@ def _execute_worker_process(
     stdout_path = artifact_dir / ".worker_stdout.tmp"
     stderr_path = artifact_dir / ".worker_stderr.tmp"
     for path in (stdout_path, stderr_path):
-        if path.exists():
-            path.unlink()
+        _unlink_worker_temp_file(path)
     preexec_fn = _hard_memory_limiter(memory_limit_bytes) if os.name != "nt" else None
     peak_memory = 0
     process: subprocess.Popen[bytes] | None = None
@@ -659,8 +676,7 @@ def _execute_worker_process(
             process.kill()
             process.wait()
         for path in (stdout_path, stderr_path):
-            if path.exists():
-                path.unlink()
+            _unlink_worker_temp_file(path)
 
 
 def _hard_memory_limiter(memory_limit_bytes: int | None) -> Callable[[], None] | None:

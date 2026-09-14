@@ -191,6 +191,9 @@ La tabella elenca i leaf command osservati con `--help` per l'entry point e per
 | `candidates review correct` | crea sostituzione, lineage e decisioni |
 | `ai package` | crea un package locale per handoff AI |
 | `ai package-batch` | crea package per più revisioni |
+| `ai evidence plan` | crea un piano immutabile di selezione per route AI |
+| `ai evidence list` | elenca inclusi/esclusi di un piano persistito |
+| `ai evidence explain` | spiega l'esito storico di una evidenza nel piano |
 | `ai inbox scan` | elenca output candidati e staleness |
 | `ai import` | importa candidati legati a un package |
 | `facts merge` | fonde un batch di candidati confermati |
@@ -323,20 +326,46 @@ dsl-manager ai import .workspaces/demo --package AIPKG_000001 --allow-stale
 
 registra un'eccezione esplicita, ma non rende le evidenze obsolete affidabili.
 
-### 7.3 Selezione per route AI prevista dalla Slice 30
+### 7.3 Selezione per route AI
 
-La Slice 30 è stata progettata ma non eseguita. Quando verrà implementata,
-rafforzerà il comando `ai package` con una fase esplicita
-`plan → list/explain → package`: policy locali versionate sceglieranno e
-ordineranno chunk/frammenti in funzione di una route di analisi e registreranno
-anche le esclusioni con una motivazione stabile.
+La Slice 30 rafforza il packager esistente con il percorso
+`plan → list/explain → package`. Una route è un obiettivo di analisi, non un
+provider, modello o invio in rete. Il workspace iniziale contiene le policy
+`technical_extraction/1` e `domain_interpretation/1` sotto
+`configs/ai_selection/`.
 
-I futuri comandi `ai evidence plan|list|explain`, le opzioni
-`--selection-policy` e `--selection-plan` e il file `selection_plan.json` non
-sono disponibili nella release 1.1.0 e perciò non compaiono nel catalogo dei
-comandi eseguibili della sezione 4. Per ora usare i comandi della sezione 7.2 con
-`--revision` e `--profile`. “Route AI” significherà obiettivo di analisi, non
-provider, modello o invio in rete.
+```powershell
+dsl-manager ai evidence plan .workspaces/demo --policy technical_extraction --revision REV_000001 --profile ai_package.default
+dsl-manager ai evidence list .workspaces/demo --plan AISEL_000001 --outcome included
+dsl-manager ai evidence explain .workspaces/demo --plan AISEL_000001 FRAG_000001
+dsl-manager ai package .workspaces/demo --selection-plan AISEL_000001 --profile ai_package.default
+dsl-manager ai package .workspaces/demo --selection-policy domain_interpretation --revision REV_000001
+```
+
+Il piano registra ogni evidenza esaminata come `included` o `excluded`, con rank,
+reason code, criteri matched e stato di copertura deterministica. `list` ed
+`explain` leggono lo snapshot storico senza ricalcolarlo. Il comando `plan` non
+crea directory `AIPKG_*` né record `ai_packages`.
+
+Prima di riusare un piano, il packager confronta `relevant_state_hash` con
+revisioni, status/hash delle evidenze, regole pertinenti, candidati, lineage e
+testa di review correnti. Una divergenza termina con exit code `4` e
+`selection_plan_stale`. Zero inclusi produce `no_ai_eligible_evidence` e nessun
+package. Un cambio del profilo usato dal piano produce
+`selection_profile_conflict`.
+
+Il package policy-driven contiene `selection_plan.json`; entrambi i manifest
+espongono ID/hash del piano, route e policy versionate, config hash, stato
+rilevante, contatori, reason summary e ordine degli evidence ID. Il file entra
+nel normale `package_hash`. Senza `--selection-policy` o `--selection-plan`, i
+comandi package e package-batch conservano il percorso legacy.
+
+Le reason item v1 comprendono `included_by_policy`, filtri source/evidence,
+`incomplete_locator`, `deterministic_coverage_excluded`, limiti item/caratteri e
+`invalid_evidence_metadata`. Le liste vuote nelle policy significano
+esplicitamente “nessuna restrizione”. I caratteri sono contati dopo la
+normalizzazione CRLF/CR→LF e con il cap per-evidenza `max_evidence_chars` del
+profilo.
 
 Il contratto completo è nel
 [design v02 emendato](../documenti%20di%20design/run%202/design_document_v_02.md)
@@ -457,7 +486,7 @@ applicato dal runtime.
 | regioni | 10.000 | 50.000 |
 | relazioni | 50.000 | 250.000 |
 | output | 256 MiB | 1 GiB |
-| timeout | 120 s | 600 s |
+| timeout | 300 s | 600 s |
 | memoria | 1 GiB | 4 GiB |
 | evidenze temporali/sorgente | 100.000 | 1.000.000 |
 | intervalli/soggetto | 1.000 | 10.000 |

@@ -9,10 +9,29 @@ import sys
 from pathlib import Path
 
 from dsl_mngr.cli.app import main
+from dsl_mngr.core.ddl_parser import DdlOptions, parse_ddl_text
 
 
 TESTS_DIR = Path(__file__).parent
 DDL_FIXTURE = TESTS_DIR / "fixtures" / "ddl" / "schema_ordini.sql"
+
+
+def test_parse_ddl_create_index_and_unique_index():
+    result = parse_ddl_text(
+        """
+CREATE INDEX IX_INTERVENTO_STATO ON INTERVENTO(STATO);
+CREATE UNIQUE INDEX UQ_TECNICO_CODICE ON TECNICO(CODICE);
+""",
+        DdlOptions(),
+    )
+
+    assert [
+        (index.index_name, index.table_name, index.columns, index.unique)
+        for index in result.indexes
+    ] == [
+        ("IX_INTERVENTO_STATO", "INTERVENTO", ("STATO",), False),
+        ("UQ_TECNICO_CODICE", "TECNICO", ("CODICE",), True),
+    ]
 
 
 def test_parse_ddl_tables(tmp_path, capsys):

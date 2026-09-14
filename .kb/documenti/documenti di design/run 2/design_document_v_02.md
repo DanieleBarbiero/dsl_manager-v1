@@ -2,12 +2,14 @@
 
 Stato: proposta implementativa vincolante  
 Data di redazione: 2026-09-02  
+Emendamento Slice 30: 2026-09-14<br>
 Runtime di riferimento: Python `>=3.12,<3.13`  
-Baseline: repository e worktree osservati durante la redazione, senza ricostruzioni da `HEAD`
+Baseline: repository e worktree osservati durante la redazione, senza ricostruzioni da `HEAD`<br>
+Baseline dell'emendamento: worktree osservato il 2026-09-14; Slice 01–29 presenti, Slice 30 non eseguita
 
 ## 1. Sintesi
 
-Questa revisione completa il percorso già implementato dalle slice 01–19 senza riscriverlo. Il sistema dispone di workspace, registro SQLite, scansione, worker, normalizzazione Docling, parser strutturali, import di candidati, merge, DSL v1, diff, golden, batch, GEXF statico, log viewer e UI di sola lettura. Mancano però tre passaggi indispensabili per rendere il registro affidabile come base di modernizzazione:
+Nella redazione originaria questa revisione completava il percorso già implementato dalle slice 01–19 senza riscriverlo. Il sistema disponeva di workspace, registro SQLite, scansione, worker, normalizzazione Docling, parser strutturali, import di candidati, merge, DSL v1, diff, golden, batch, GEXF statico, log viewer e UI di sola lettura. Mancavano però tre passaggi indispensabili per rendere il registro affidabile come base di modernizzazione:
 
 1. i risultati deterministici dei parser non diventano candidati senza un passaggio esterno;
 2. un candidato strutturalmente valido è oggi consumabile dal merge anche senza una decisione persistita;
@@ -19,13 +21,15 @@ La soluzione introduce un unico ciclo di governo:
 
 La validità strutturale non equivale mai a eleggibilità al merge. Una decisione positiva è valida solo se è la testa corrente della catena del soggetto; il merge materializza fatti o relazioni, mentre le viste effettive determinano ciò che è ancora sostenuto da decisioni correnti. Se una decisione già materializzata viene superata, il supporto cessa immediatamente nelle viste effettive e si apre una riconciliazione esplicita. Snapshot storici già emessi restano immutabili.
 
-Il lavoro è suddiviso esattamente nelle slice 20–29. Le prime tre chiudono candidati, review, derivazione deterministica e batch; le successive tre introducono Excel trasparente e il nucleo temporale; le ultime tre consolidano temporalità, corpus Aurora e documentazione. Non sono previste slice ulteriori in questo documento.
+Al momento dell'emendamento le Slice 20–29 sono presenti nel repository; il loro stato effettivo resta quello dichiarato nei rispettivi report e nella documentazione tecnica, inclusi i gap noti della Slice 29. Il nuovo gap progettuale è la scelta governata delle evidenze da consegnare all'handoff AI.
+
+Il lavoro è suddiviso nelle slice 20–30. Le slice 20–29 chiudono candidati, review, derivazione deterministica, batch, Excel trasparente, temporalità, corpus Aurora e documentazione. L'emendamento del 2026-09-14 aggiunge la Slice 30: selezione dichiarativa, deterministica e spiegabile delle evidenze adatte a una route AI, seguita dal packaging tramite l'handoff esistente. Non sono previste slice successive alla 30 in questo documento.
 
 ## 2. Relazione con l'architettura esistente
 
 La v01 resta la baseline concettuale per registro append-only, evidenza obbligatoria, artefatti deterministici e separazione tra estrazione e interpretazione. La v02 sostituisce la v01 quando tratta review, merge eligibility, viste effettive, Excel, temporalità, DSL v2 e GEXF dinamico.
 
-Le decisioni qui descritte rispettano lo stato corrente:
+Nella baseline originaria, le decisioni qui descritte rispettavano lo stato allora corrente:
 
 - il database è SQLite e possiede migrazioni v1–v6;
 - `candidate_batches.input_path` è attualmente `NOT NULL`;
@@ -35,7 +39,10 @@ Le decisioni qui descritte rispettano lo stato corrente:
 - l'export esistente usa GEXF `1.2draft`, modalità statica e DSL v1;
 - Docling è fissato a `2.97.0`, ma il routing corrente non include `.xlsx` o `.xlsm`;
 - i parser DDL, XML, codice database e log producono metadati strutturati, non candidati;
+- l'handoff AI della Slice 15 crea package verificabili da revisioni attive, ma seleziona solo per revisione e per i filtri grossolani `include_chunks`/`include_fragments`;
 - test e report delle slice 01–19 costituiscono storia utile, non prova che il worktree attuale sia verde.
+
+L'elenco precedente fotografa la baseline della redazione originaria. Per l'emendamento, lo stato osservato include le implementazioni e i report 20–29, la migrazione v10 e l'handoff AI della Slice 15; nessuna capacità della Slice 30 è considerata già consegnata.
 
 I contratti pubblici esistenti restano compatibili per impostazione predefinita: DSL v1 e GEXF statico continuano a funzionare sulla semantica fisica legacy finché il chiamante non richiede schema v2 o export dinamico. Le nuove funzioni non cambiano il contenuto degli snapshot già creati.
 
@@ -52,6 +59,8 @@ I contratti pubblici esistenti restano compatibili per impostazione predefinita:
 - Modellare l'evidenza temporale grezza separatamente dall'intervallo validato.
 - Emissione deterministica di DSL v2 temporale e GEXF 1.3 dinamico validato offline.
 - Rendere Aurora un fixture end-to-end realistico e riproducibile.
+- Selezionare e ordinare evidenze per una route AI tramite policy locali versionate, con motivazioni verificabili e budget riproducibili.
+- Persistire piani di selezione immutabili e produrre package che contengano esattamente le evidenze incluse nel piano verificato.
 - Fornire per ogni slice un prompt d'implementazione completo.
 
 ### 3.2 Non-obiettivi
@@ -63,6 +72,8 @@ I contratti pubblici esistenti restano compatibili per impostazione predefinita:
 - Introdurre un secondo motore di review specifico per la temporalità.
 - Modificare snapshot storici, riscrivere decisioni o cancellare evidenza.
 - Aggiungere chiamate AI reali ai test o consentire a un generatore di scrivere direttamente nel registro autoritativo.
+- Scegliere provider, modelli, endpoint o credenziali AI; introdurre embeddings, vector database, classificatori probabilistici o chiamate di rete.
+- Trattare l'idoneità all'AI come proprietà assoluta dell'evidenza o dedurla dal solo fatto che esista l'output di un parser specializzato.
 
 ## 4. Navigazione e matrice delle slice
 
@@ -101,6 +112,7 @@ I contratti pubblici esistenti restano compatibili per impostazione predefinita:
 | 27 | Consolidamento temporale | 26 | fonti multiple, precisione, conflitti, batch/reconcile/golden | v10 | corpus temporale | report concordanza/conflitto |
 | 28 | Aurora aggiornato | 23–27 | fixture E2E Excel/temporale e guide coerenti | — | corpus Aurora v2 | manifest atteso, golden, checklist |
 | 29 | Consolidamento documentale | 20–28 | manuale, contratti, analisi e guida operativa allineati | — | esempi documentali | documentazione verificata |
+| 30 | Selezione evidenze per route AI | 15, 20–29 | `plan → list/explain → package` deterministico e auditabile | v11 | corpus misto con route tecniche e interpretative | `selection_plan.json`, report e manifest package estesi |
 
 ## 5. Linguaggio e invarianti
 
@@ -116,6 +128,9 @@ I contratti pubblici esistenti restano compatibili per impostazione predefinita:
 - **Riconciliazione**: lavoro persistente necessario quando lo stato fisico materializzato diverge dalle viste effettive.
 - **Rifiuto strutturale**: record in `rejected_candidates`; è distinto da una decisione di review `rejected`.
 - **Correzione**: nuovo candidato completo in un nuovo batch, collegato una sola volta alla foglia precedente; non è una mutazione del candidato originale.
+- **Route AI**: obiettivo di analisi dichiarato e versionato; non identifica provider, modello, endpoint o credenziale.
+- **Policy di selezione AI**: configurazione locale versionata che decide eleggibilità, ranking e budget per una route.
+- **Piano di selezione**: snapshot persistito e immutabile di tutti gli item inclusi ed esclusi, con motivazioni, ordine e stato rilevante osservato.
 
 ### 5.2 Invarianti
 
@@ -135,6 +150,11 @@ I contratti pubblici esistenti restano compatibili per impostazione predefinita:
 14. Solo DSL v2 ammette `--allow-incomplete`; omette gli oggetti non più effettivi e riporta warning e conteggi. DSL v1 resta bloccato.
 15. Snapshot e graph export già registrati non cambiano.
 16. Percorsi assoluti, timestamp operativi, identificatori di run e note audit non entrano negli hash semantici.
+17. L'eleggibilità all'AI dipende dalla route e dalla policy: la stessa evidenza può avere esiti differenti per route differenti.
+18. Ogni item valutato è incluso o escluso con almeno una reason code stabile; ranking e tie-break usano solo dati persistiti e canonici.
+19. Un package policy-driven contiene esattamente gli item `included` del piano, nello stesso ordine; il worker non ricalcola la selezione.
+20. Un piano completato non viene riscritto e non può essere riusato se il suo `relevant_state_hash` non corrisponde più allo stato osservato.
+21. La modalità legacy di `ai package` e `ai package-batch` resta invariata quando non è richiesto un piano o una policy.
 
 ## 6. Flusso end-to-end
 
@@ -155,9 +175,13 @@ decisione persistita: confirmed | rejected | superseded
 foglia confirmed → merge-eligible → merge autoritativo
              ↓
 effective_* → DSL v2 / diff / GEXF dinamico
+
+evidenze correnti + copertura deterministica + teste review osservate
+             ↓
+route + policy → piano AI spiegabile → package verificato → handoff esterno
 ```
 
-I parser producono osservazioni. Le regole deterministiche creano candidati tecnici. Le policy automatiche possono confermare soltanto regole nominate e versionate; un livello di confidenza, da solo, non è autorizzazione. Candidati interpretativi, inferiti, ambigui o in conflitto restano in coda umana.
+I parser producono osservazioni. Le regole deterministiche creano candidati tecnici. Le policy automatiche possono confermare soltanto regole nominate e versionate; un livello di confidenza, da solo, non è autorizzazione. Candidati interpretativi, inferiti, ambigui o in conflitto restano in coda umana. La selezione AI legge evidenze e copertura deterministica senza modificare facts, relations, decisioni o viste effettive: prepara soltanto uno snapshot spiegabile per l'handoff esterno.
 
 ## 7. Review, correzione e riconciliazione
 
@@ -308,6 +332,31 @@ temporal_conflicts(conflict_id PK, target_subject_type, target_subject_id,
 
 Più righe in `temporal_intervals` per soggetto abilitano intervalli disgiunti. Nessuna colonna `first_seen` viene introdotta: il solo nome corrente è `sources.first_seen_at`.
 
+### 8.5 Migrazione v11 — piani di selezione AI
+
+La Slice 30 aggiunge una migrazione append-only successiva alla v10. I nomi finali delle colonne devono allinearsi alle convenzioni del registry, ma il modello minimo è:
+
+```text
+ai_evidence_selection_plans(
+  selection_plan_id PK, run_id, status,
+  route_id, route_version, policy_id, policy_version,
+  resolved_config_hash, scope_json, relevant_state_hash,
+  selection_plan_hash NULL, counters_json, reason_summary_json,
+  report_path NULL, created_at, completed_at NULL
+)
+ai_evidence_selection_items(
+  selection_plan_id, evidence_kind, evidence_id,
+  source_revision_id, sequence, outcome, rank NULL,
+  reason_codes_json, matched_criteria_json, evidence_state_hash,
+  coverage_state, coverage_ref_json,
+  PRIMARY KEY(selection_plan_id, evidence_kind, evidence_id)
+)
+```
+
+`ai_packages` acquisisce un riferimento nullable a `selection_plan_id`. L'assenza del riferimento identifica i package legacy; non si effettua alcun backfill inventato. Gli ID dei nuovi piani sono ordinati e stabili, per esempio `AISEL_000001`. Un piano completato e i relativi item sono snapshot storici append-only: non vengono aggiornati per renderli compatibili con uno stato successivo. Il testo completo delle evidenze resta negli artefatti sorgente/package e non viene duplicato nel database o nei log.
+
+Creazione del piano, item e stato finale avviene con transazioni coerenti e pubblicazione atomica del report. Policy invalide, hard budget, crash o altri errori attesi non lasciano un piano completato parziale né un package pubblicato.
+
 ## 9. Canonicalizzazione, hash e idempotenza
 
 ### 9.1 Profilo JSON canonico condiviso
@@ -336,6 +385,12 @@ Golden condivisi coprono accenti composti/decomposti, emoji, controlli, chiavi n
 ### 9.3 Hash autoritativi
 
 Il registry/DSL/diff include, per ogni supporto effettivo, hash semantico e outcome della testa corrente, policy id/versione ed eventuale contenuto corretto. Non include note audit, retry, timestamp operativi, run ID o percorsi assoluti. Gli intervalli contribuiscono solo dopo risoluzione e review, mediante valori normalizzati, `timeformat`, timezone, precisione originale e `bounds_semantics`; l'evidenza temporale grezza resta tracciata ma non altera direttamente l'hash DSL.
+
+### 9.4 Hash della selezione AI
+
+`selection_plan_hash = sha256(canonical_json_v1(selection_plan_semantic_payload))`. Il payload include route e policy versionate, configurazione risolta, scope revisioni, `relevant_state_hash` e proiezione ordinata di tutti gli item con outcome, rank, reason, criteri e stato di copertura. Esclude plan ID, run ID, timestamp, report path e altri path operativi.
+
+`relevant_state_hash` copre soltanto dati in grado di modificare l'esito: revisioni/fonti correnti nello scope, status e hash di chunk/frammenti, regole deterministiche applicabili, candidati pertinenti, lineage e teste di review osservate. Prima del riuso, l'orchestratore ricalcola tale hash; una divergenza produce `selection_plan_stale` senza modificare il piano. `selection_plan.json` entra nel `package_hash` tramite il normale manifest dei file, evitando ogni self-reference.
 
 ## 10. Derivazione deterministica
 
@@ -517,9 +572,18 @@ dsl render <workspace> [--schema-version 1|2] [--allow-incomplete]
 dsl diff <left> <right> [--cross-schema]
 graph export <workspace> --snapshot-id ID [--dynamic]
              [--timeformat date|dateTime] [--allow-incomplete]
+ai evidence plan <workspace> --policy NAME [--revision REV_...]...
+                 [--profile ai_package.default]
+ai evidence list <workspace> --plan AISEL_000001
+                 [--outcome included|excluded]
+ai evidence explain <workspace> --plan AISEL_000001 <evidence_id>
+ai package <workspace> --selection-policy NAME [--revision REV_...]...
+           [--profile ai_package.default]
+ai package <workspace> --selection-plan AISEL_000001
+           [--profile ai_package.default]
 ```
 
-`--allow-incomplete` è rifiutato per schema 1. `--dynamic` è rifiutato per snapshot v1. La CLI non espone opzioni per eseguire macro, aggiornare link o ricalcolare formule.
+`--allow-incomplete` è rifiutato per schema 1. `--dynamic` è rifiutato per snapshot v1. `--selection-policy` e `--selection-plan` sono mutuamente esclusivi. La CLI non espone opzioni per eseguire macro, aggiornare link o ricalcolare formule.
 
 ### 14.2 Configurazione
 
@@ -556,13 +620,31 @@ unknown_timezone_policy = "pending"
 [gexf]
 schema_version = "1.3"
 validator_dependency = "lxml==6.1.2"
+
+[ai_selection]
+policy_directory = "configs/ai_selection"
+max_examined_evidence = 100000
+max_selected_evidence = 10000
+max_selected_chars = 10000000
 ```
 
 Gli override sono riportati nei report, non possono superare gli hard maximum della sezione 15 e non possono disabilitare no-network, blocco macro/DTD/entity o controllo hash.
 
-### 14.3 Catalogo versionato di outcome, status, reason ed exit
+Le policy AI sono file locali risolti in modo sicuro sotto `configs/ai_selection/`, senza path traversal, e sono separate dai profili del worker di packaging. Ogni policy dichiara almeno `policy_id`, `policy_version`, `route_id`, `route_version`, tipi di evidenza ammessi, criteri di inclusione/esclusione, preferenze ordinate di ranking e budget. Liste vuote e chiavi sconosciute hanno semantica esplicita e validazione strict; almeno due policy controllate dimostrano che una stessa evidenza può avere esiti diversi per una route tecnica e una interpretativa.
 
-Il catalogo `result_catalog_v1` è condiviso da review, derive, merge, OOXML, temporalità e GEXF. Ogni report contiene almeno `catalog_version`, `condition`, `status`, `outcome|null`, `reason`, `severity`, `mutations`, `retryable`, `exit_code`, `run_id|null`, `subject_ids`, `artifact_paths` relativi e `counters`.
+### 14.3 Contratto `plan → inspect/explain → package`
+
+Il motore di selezione legge revisioni correnti e relative evidenze `chunk|fragment`, ricava provenienza da campi persistiti e `metadata_json`, valuta status/locator e classifica la copertura deterministica tramite regole, candidati, lineage e testa di review. Distingue almeno: nessuna regola applicabile, regola senza candidato, candidato pending, testa confirmed, testa rejected e candidato superseded/non-leaf. Solo una decisione positiva corrente costituisce copertura confermata; è la policy della route a stabilirne l'effetto sull'eleggibilità.
+
+Il ranking usa esclusivamente preferenze dichiarate e termina con tie-break canonici su `source_revision_id, evidence_kind, sequence, evidence_id`. Ogni item, incluso o escluso, conserva reason code ordinate e criteri matched. `plan` persiste lo snapshot e il report senza creare record o directory `AIPKG_*`; `list` ed `explain` leggono lo snapshot senza ricalcolarlo. `ai package --selection-policy` crea un piano sullo stato corrente e poi usa il packager della Slice 15; `--selection-plan` riusa un piano completato solo dopo il controllo stale. Il worker resta isolato dal database e riceve la selezione già risolta.
+
+Metadati di provenienza assenti, invalidi o incompleti producono una reason stabile, mai un'assunzione. Il catalogo minimo distingue `included_by_policy`, `not_current_revision`, `inactive_source`, `inactive_evidence`, `evidence_kind_excluded`, `source_type_excluded`, `source_subtype_excluded`, `extension_excluded`, `authority_level_excluded`, `fragment_type_excluded`, `producer_excluded`, `producer_version_excluded`, `incomplete_locator`, `deterministic_coverage_excluded`, `selection_item_budget_exceeded`, `selection_char_budget_exceeded`, `selection_plan_stale`, `no_ai_eligible_evidence`, `invalid_selection_policy` e `selection_profile_conflict`.
+
+Il package policy-driven aggiunge `selection_plan.json` e riferimenti coerenti in `package_manifest.json` e `source_manifest.json`: plan/hash, route, policy, configurazione risolta, stato rilevante, conteggi e riepilogo motivazioni. Contiene esattamente gli evidence ID inclusi, nell'ordine del piano. Una selezione valida con zero inclusi non pubblica un package vuoto. Senza le nuove opzioni, `ai package` e `ai package-batch` conservano integralmente il comportamento legacy.
+
+### 14.4 Catalogo versionato di outcome, status, reason ed exit
+
+Il catalogo `result_catalog_v1` è condiviso da review, derive, merge, OOXML, temporalità, GEXF e selezione AI. Ogni report contiene almeno `catalog_version`, `condition`, `status`, `outcome|null`, `reason`, `severity`, `mutations`, `retryable`, `exit_code`, `run_id|null`, `subject_ids`, `artifact_paths` relativi e `counters`.
 
 | Condition | Status/outcome | Reason | Severità | Mutazioni | Retry | Exit |
 |---|---|---|---|---|---|---:|
@@ -593,6 +675,13 @@ Il catalogo `result_catalog_v1` è condiviso da review, derive, merge, OOXML, te
 | XSD non valido | `failed` | null | `gexf_xsd_invalid` | artefatto non registrato | no | 3 |
 | vincolo grafo non valido | `failed` | null | `gexf_semantic_invalid` | artefatto non registrato | no | 3 |
 | output incompleto consentito | `completed` | null | `incomplete_output_allowed` | sì con omissioni | no | 0 |
+| evidenza inclusa dalla policy | `completed` | `included` | `included_by_policy` | piano | no | 0 |
+| evidenza esclusa da criterio | `completed` | `excluded` | reason specifica `*_excluded` | piano | sì con altra policy | 0 |
+| budget selezione raggiunto | `completed` | `excluded` | `selection_item_budget_exceeded` o `selection_char_budget_exceeded` | piano | sì con budget valido | 0 |
+| policy di selezione invalida | `failed` | null | `invalid_selection_policy` | no | sì dopo config | 2 |
+| profilo e policy incompatibili | `failed` | null | `selection_profile_conflict` | no | sì dopo config | 2 |
+| piano non più corrente | `conflict` | null | `selection_plan_stale` | no | sì con nuovo piano | 4 |
+| nessuna evidenza AI eleggibile | `blocked` | null | `no_ai_eligible_evidence` | piano, nessun package | sì con stato/policy diversi | 4 |
 
 Exit `6` indica successo parziale esplicito e non è collassato in errore operativo. Un batch aggrega l'esito più grave, tranne gli skip di review previsti: se vi è almeno un merge e nessun errore, resta `0`.
 
@@ -617,6 +706,9 @@ Exit `6` indica successo parziale esplicito e non è collassato in errore operat
 | evidenze temporali per sorgente | 100.000 | 1.000.000 |
 | intervalli per soggetto | 1.000 | 10.000 |
 | nodi+archi GEXF | 1.000.000 | 5.000.000 |
+| evidenze AI esaminate per piano | 100.000 | 1.000.000 |
+| evidenze AI incluse per piano | 10.000 | 100.000 |
+| caratteri normalizzati inclusi per piano | 10.000.000 | 100.000.000 |
 
 I test “al limite” e “oltre limite” usano contatori e stream sintetici piccoli, non allocazioni proporzionali ai massimi; sono quindi indipendenti dalla macchina. I report distinguono violazione di sicurezza, superamento operativo e risultato parziale. Le slice 23–28 riportano budget osservati e massimi effettivi.
 
@@ -624,19 +716,19 @@ I test “al limite” e “oltre limite” usano contatori e stream sintetici p
 
 Preflight e normalizzazione Excel girano in un worker isolato. Il parent impone timeout e limite dell'output. Su piattaforme con hard memory limit usa primitive del sistema; dove non sono disponibili monitora il processo, lo termina al superamento e dichiara nel report `memory_limit_mode=monitored`, senza fingere una garanzia hard. File parziali vengono pubblicati solo tramite rename atomico dopo validazione e hash.
 
-Tutti i test di Docling, OOXML, temporalità e GEXF installano una guardia no-network che fallisce su socket, HTTP o resolver non locale. Gli XSD sono risorse del package. Link e query di workbook sono inventariati ma mai dereferenziati; macro non vengono caricate come codice né eseguite.
+Tutti i test di Docling, OOXML, temporalità, GEXF e selezione AI installano una guardia no-network che fallisce su socket, HTTP o resolver non locale. Gli XSD sono risorse del package. Link e query di workbook sono inventariati ma mai dereferenziati; macro non vengono caricate come codice né eseguite. La selezione AI non usa provider, modelli, embeddings o vector database e non include testo sorgente esteso nei log o nelle reason.
 
 ## 16. Test e fixture
 
 ### 16.1 Piramide
 
-- Unit: canonical JSON, state machine, catene/lineage, policy, parser OPC, normalizzazione temporale, mapping GEXF.
-- DB/migrazione: v6 realistico→v7, v7→v8, v8→v9, v9→v10, rollback atomico e riapertura.
-- Integrazione: CLI review/derive/reconcile, merge misto/strict, batch, Docling reale per `.xlsx` e `.xlsm`, persistenza/rilettura DSL v2, validazione XSD offline.
-- Golden: request/semantic hash, manifest workbook, DSL v2, diff, GEXF 1.3 e report.
+- Unit: canonical JSON, state machine, catene/lineage, policy, parser OPC, normalizzazione temporale, mapping GEXF, criteri/ranking/reason della selezione AI.
+- DB/migrazione: v6 realistico→v7, v7→v8, v8→v9, v9→v10, v10→v11, rollback atomico e riapertura.
+- Integrazione: CLI review/derive/reconcile, merge misto/strict, batch, Docling reale per `.xlsx` e `.xlsm`, persistenza/rilettura DSL v2, validazione XSD offline, `plan → list/explain → package`.
+- Golden: request/semantic hash, manifest workbook, DSL v2, diff, GEXF 1.3, selection plan, package policy-driven e report.
 - End-to-end: Aurora, inclusi crash/retry e ordine alternativo review→merge→correzione→reconcile.
 
-Non si effettuano chiamate AI reali. Eventuale generazione temporale usa l'handoff candidati esistente, fixture locali e adapter finto; non scrive intervalli o fatti direttamente.
+Non si effettuano chiamate AI reali. Eventuale generazione temporale usa l'handoff candidati esistente, fixture locali e adapter finto; non scrive intervalli o fatti direttamente. I test della Slice 30 usano evidenze locali miste e almeno due route, dimostrano esiti differenti sulla stessa evidenza, determinismo su due workspace equivalenti, budget at/over, stale state, migrazione reale v10→v11, package esatto e compatibilità legacy byte/semantica.
 
 ### 16.2 Fixture Excel obbligatorie
 
@@ -674,6 +766,10 @@ Il corpus della slice 28 deve verificare:
 
 I riferimenti interni correnti a `corpus_mock_aurora_prestiti.zip` e `guida_dsl-manager.md` nella root non corrispondono a file presenti: la slice 28 aggiorna guide e checklist verso la directory reale e i due file guida effettivi, senza creare alias fittizi.
 
+### 16.5 Fixture selezione AI obbligatoria
+
+`tests/fixtures/ai_selection/` contiene un corpus locale minimo con chunk e frammenti di più tipi, sorgenti/revisioni attive e inattive, provenance completa e mancante, locator validi e incompleti, producer/versioni differenti e candidati deterministici negli stati senza candidato, pending, confirmed, rejected e superseded/non-leaf. Almeno una evidenza deve essere inclusa da una route interpretativa ed esclusa da una route tecnica per copertura confermata. Due workspace semanticamente equivalenti ma con ID di run e path differenti verificano l'indipendenza dagli identificatori operativi; casi sintetici al limite e oltre limite verificano item e caratteri senza allocazioni eccessive.
+
 ## 17. Tracciabilità
 
 | Requisito | Fonte primaria | Decisione | Slice | Migrazione/schema | Test | Criterio di accettazione |
@@ -708,6 +804,11 @@ I riferimenti interni correnti a `corpus_mock_aurora_prestiti.zip` e `guida_dsl-
 | docs consolidate | prompt + template | aggiornare contratti/manuale/analisi | 29 | doc schema | test link/comandi o verifica testuale automatica | nessun riferimento obsoleto; non serve test runtime ulteriore |
 | immutabilità snapshot storici | contratti manifest | nessun update retroattivo | 20, 26 | v7/v9 | `test_slice_26_historical_snapshot_immutable` | byte/hash preesistenti invariati |
 | AI confinata all'handoff | design v01 + prompt | fake adapter, candidate-only | 27 | — | `test_slice_27_ai_candidate_handoff` | nessuna chiamata rete o scrittura diretta |
+| idoneità AI dipendente dalla route | discussione Slice 30 + prompt | policy locale versionata | 30 | config/v11 | `test_slice_30_ai_evidence_selection` | stessa evidenza, outcome diverso fra route |
+| selezione spiegabile | discussione Slice 30 + prompt | inclusi/esclusi, rank, reason e criteri persistiti | 30 | v11 | `test_slice_30_ai_evidence_selection` | ogni item ha una motivazione stabile |
+| package uguale al piano | AI package Slice 15 + prompt | worker riceve selezione risolta | 30 | package manifest/v11 | `test_slice_30_ai_evidence_selection` | nessun incluso perso e nessun escluso presente |
+| piano corrente e immutabile | prompt Slice 30 | hash dello stato rilevante e rifiuto stale | 30 | v11 | `test_slice_30_ai_evidence_selection` | divergenza non riscrive né riusa il piano |
+| compatibilità AI legacy | contratti Slice 15 + prompt | nuove opzioni additive | 30 | v11 nullable | `test_slice_30_ai_evidence_selection` | package/batch legacy invariati senza opt-in |
 
 La voce documentale della slice 29 usa una verifica automatica di link, nomi comando e riferimenti; non richiede test di runtime aggiuntivo perché non modifica codice.
 
@@ -773,9 +874,15 @@ Dipende da 20–28. Aggiorna analisi tecnica, contratti manifest, manuale utente
 
 Verifica automatica link/comandi/nomi e confronto con `--help`. Accettazione: nessun documento presenta pending come mergeabile, `.xlsm` come conversione, metadata come verità o GEXF dinamico come validato dalla sola XSD. [Prompt eseguibile](../../../projects/slicing/slice_29/dsl_manager_slice_29_prompt.md).
 
+### 18.11 Slice 30 — selezione e packaging delle evidenze per route AI
+
+Dipende dalla Slice 15 per il packager e dalle capacità di evidenza, derivazione, review e documentazione consolidate dalle Slice 20–29. Introduce un motore core riusabile, policy locali versionate, CLI `ai evidence plan|list|explain`, migrazione v11 e integrazione additiva di `ai package --selection-policy|--selection-plan`. Una route è un obiettivo di analisi, non un provider o modello. Il motore classifica copertura deterministica, applica criteri e ranking dichiarati, persiste inclusi/esclusi con reason e crea package tramite il worker esistente.
+
+Test: matrice route/policy/evidenza, provenance mancante, coverage in tutti gli stati di review, tie-break, budget, due workspace equivalenti, stale plan, migrazione v10→v11, rollback, package esatto e regressione legacy. Accettazione: stesso stato+route+policy produce lo stesso piano/hash; ogni esito è spiegabile; un piano stale è rifiutato; nessuna rete o scrittura diretta nel registro autoritativo. [Prompt eseguibile](../../../projects/slicing/slice_30/dsl_manager_slice_30_prompt.md).
+
 ## 19. Roadmap e criteri globali
 
-L'ordine è rigoroso: 20→21→22→23→24→25; la 26 può iniziare dopo 22 ma deve integrare le viste della 20; 27 segue 26; 28 segue 23–27; 29 chiude tutto. Ogni slice è una verticalità minima, migra da database reali della versione precedente, conserva compatibilità dichiarata e aggiorna il proprio report.
+L'ordine è rigoroso: 20→21→22→23→24→25; la 26 può iniziare dopo 22 ma deve integrare le viste della 20; 27 segue 26; 28 segue 23–27; 29 consolida la documentazione della baseline implementata; 30 segue la 29 e chiude il presente design emendato. Ogni slice è una verticalità minima, migra da database reali della versione precedente, conserva compatibilità dichiarata e aggiorna il proprio report.
 
 Definition of done globale:
 
@@ -787,6 +894,8 @@ Definition of done globale:
 - ogni decisione, candidatura, intervallo e materializzazione torna all'evidenza;
 - schema v1/statico legacy e snapshot storici restano leggibili;
 - schema v2/dinamico usa esclusivamente viste effettive;
+- ogni piano AI è riproducibile, spiegabile, immutabile e verificato contro lo stato corrente prima del packaging;
+- il package policy-driven coincide esattamente con gli item inclusi e il percorso legacy resta invariato senza opt-in;
 - suite completa eseguita col Python di progetto dopo ogni modifica di codice.
 
 ## 20. Fonti esterne verificate
@@ -807,9 +916,11 @@ Verifica effettuata il 2026-09-02; sono state usate soltanto fonti ufficiali/pri
 
 Nessuna fonte ufficiale consultata garantisce autonomamente che ogni `.xlsm` sia convertibile dal backend XLSX di Docling 2.97.0; per questo il test reale è un gate e non una formalità. Analogamente, la fonte GEXF dichiara che l'XSD non verifica riferimenti degli archi, tipi e contenimento dinamico: tali controlli sono applicativi.
 
+L'emendamento della Slice 30 non introduce decisioni dipendenti da servizi o standard esterni: deriva dalla discussione progettuale locale, dal contratto AI package della Slice 15 e dallo stato del registry/review implementato. Non sono state necessarie nuove fonti web.
+
 ## 21. Auto-verifica del design
 
-- [x] Sono definite esattamente dieci nuove slice, numerate 20–29.
+- [x] Sono definite undici nuove slice, numerate 20–30; la Slice 30 è l'emendamento approvato il 2026-09-14.
 - [x] Ogni slice ha perimetro, dipendenze, migrazione/schema, fixture, artefatti, test, accettazione e prompt collegato.
 - [x] La state machine è `evidence → pending → persisted decision → merge-eligible → authoritative merge`.
 - [x] Review, idempotenza, concorrenza, correzione, lineage, effective views e riconciliazione sono specificate.
@@ -821,8 +932,9 @@ Nessuna fonte ufficiale consultata garantisce autonomamente che ogni `.xlsm` sia
 - [x] DSL v2 ha `metadata.schema_version="2"` e `intervals` sempre presente.
 - [x] GEXF 1.3 è dinamico, offline, XSD+semantico, con risorse versionate/licenziate/hashate.
 - [x] Budget at/over, no-network, fixture Excel/temporal/Aurora e golden sono obbligatori.
+- [x] Route, policy, piani persistiti, spiegabilità, stale check, package esatto e compatibilità AI legacy sono specificati.
 - [x] La matrice di tracciabilità assegna test o motivazione esplicita.
-- [x] I prompt canonici esterni delle slice 20–29 sono senza placeholder di template, pronti all'uso, collegati dal design e verificabili nelle rispettive directory di slicing.
+- [x] I prompt canonici esterni delle slice 20–30 sono senza placeholder di template, pronti all'uso, collegati dal design e verificabili nelle rispettive directory di slicing.
 
 Conclusione: il design è implementabile per incrementi, preserva il registro storico e rende ogni promozione semantica esplicita, persistita, verificabile e revocabile nelle viste correnti senza riscrivere il passato.
 
@@ -840,6 +952,7 @@ I prompt di implementazione completi costituiscono parte normativa del perimetro
 - [Slice 27](../../../projects/slicing/slice_27/dsl_manager_slice_27_prompt.md)
 - [Slice 28](../../../projects/slicing/slice_28/dsl_manager_slice_28_prompt.md)
 - [Slice 29](../../../projects/slicing/slice_29/dsl_manager_slice_29_prompt.md)
+- [Slice 30](../../../projects/slicing/slice_30/dsl_manager_slice_30_prompt.md)
 
 Il presente design governa requisiti funzionali, invarianti e confini. I prompt esterni ne costituiscono il contratto operativo di esecuzione; `AGENTS.md` governa ambiente, processo e convenzioni del repository.
 

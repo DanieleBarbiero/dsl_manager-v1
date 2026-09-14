@@ -7,8 +7,8 @@ Base progettuale:
   .kb/documenti/manuali/outline_dsl_manager_flow_from_input_to_output_completo.md;
 - AI handoff della Slice 15, poi rafforzato dalle Slice 20-29.
 
-Questo prompt è un'estensione post-v02 autorizzata. Non modifica retroattivamente il
-design v02 e non è stato estratto dal suo nucleo normativo, che termina alla Slice 29.
+Il design v02 è stato emendato il 2026-09-14 per includere formalmente questa Slice 30.
+Design emendato e presente prompt costituiscono insieme il contratto funzionale e operativo.
 -->
 
 ## Nucleo normativo della Slice 30
@@ -235,7 +235,7 @@ ogni item incluso o escluso
 Sono fuori scope: invocare provider AI; scegliere modelli o endpoint; inviare package;
 embeddings/vector database; classificazione probabilistica; apprendimento automatico;
 modifica diretta di candidati/facts/relations/DSL; UI web per la selezione; scheduler;
-modifica retroattiva del design v02; correzione dei gap GEXF/result-catalog documentati
+ulteriore ampliamento del design oltre la Slice 30; correzione dei gap GEXF/result-catalog documentati
 dalla Slice 29, salvo dipendenza minima e inevitabile dimostrata.
 
 ## Protocollo operativo comune obbligatorio
@@ -249,13 +249,10 @@ decisioni progettuali.
 Applica questa regola:
 
 - `AGENTS.md` governa ambiente, processo e convenzioni del repository;
-- un eventuale `.kb/documenti/documenti di design/run 3/design_document_v_03.md`, se
-  presente e approvato al momento dell'esecuzione, governa i requisiti funzionali della
-  run 3 e deve essere letto integralmente;
-- il presente prompt governa il contratto funzionale e operativo della Slice 30 in quanto
-  estensione post-v02 espressamente autorizzata;
-- `.kb/documenti/documenti di design/run 2/design_document_v_02.md` resta la baseline
-  vincolante per le capacità 20-29 e non va riscritto per fingere che includesse la 30;
+- `.kb/documenti/documenti di design/run 2/design_document_v_02.md`, emendato il
+  2026-09-14, governa i requisiti funzionali delle capacità 20-30;
+- il presente prompt governa il contratto operativo completo della Slice 30 e dettaglia il
+  perimetro assegnato dal design v02 emendato;
 - la sezione “È ipotizzabile una slice 30?” del manuale completo costituisce la motivazione
   progettuale specifica per `plan → inspect/explain → package`;
 - il design v01 resta baseline concettuale per registry-first, evidence-or-reject, worker
@@ -264,9 +261,8 @@ Applica questa regola:
   silenziosamente il contratto;
 - report precedenti sono storia implementativa e non prova sufficiente di conformità.
 
-Il vincolo del design v02 “esattamente 20-29” è noto e non va ignorato: descrive la chiusura
-della run 2. La decisione esplicita di creare questo prompt autorizza una Slice 30 separata,
-senza emendare retroattivamente v02. Se al momento dell'esecuzione esiste un design v03 che
+Le formulazioni storiche che limitavano la run 2 alle Slice 20-29 sono state superate
+dall'emendamento esplicito del 2026-09-14. Se una revisione di design successiva e approvata
 contraddice in modo sostanziale il presente contratto, documenta il conflitto e fermati
 prima della modifica interessata; non arbitrare silenziosamente.
 
@@ -347,7 +343,7 @@ Prima di modificare file:
 
 1. mostra `git status --short --branch` e preserva tutte le modifiche preesistenti non
    correlate;
-2. confronta richiesta Slice 30 → discussione → design v01/v02/(eventuale v03) → report
+2. confronta richiesta Slice 30 → discussione → design v01/v02 emendato → eventuale design successivo → report
    01-29 → schema/migrazioni → codice → test/fixture/golden;
 3. verifica realmente le capacità AI package della 15, candidate/review/derivation delle
    20-21, batch della 22, Excel delle 23-25, temporalità della 26-27 e documentazione della

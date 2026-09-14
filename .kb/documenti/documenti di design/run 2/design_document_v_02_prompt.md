@@ -1,5 +1,13 @@
 # prompt per l'aggiornamento di `dsl-manager` con candidati deterministici, parser excel, marcatori temporali (run 2)
 
+> Nota storica (2026-09-14): questo è il prompt di origine della redazione iniziale,
+> limitata alle Slice 20–29. Il documento prodotto è stato successivamente emendato, su
+> richiesta esplicita, per includere la Slice 30. L'autorità corrente è
+> [design_document_v_02.md](design_document_v_02.md), insieme al
+> [prompt canonico della Slice 30](../../../projects/slicing/slice_30/dsl_manager_slice_30_prompt.md).
+> Le istruzioni originarie sotto non sono state riscritte perché costituiscono storia del
+> processo di generazione.
+
 ## input
 
 leggi / analizza i seguenti file:

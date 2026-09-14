@@ -1,5 +1,10 @@
 # Prompt Slice 29
 
+> Nota storica (2026-09-14): “finale” indica il consolidamento delle capacità
+> 20–28 previsto ed eseguito in questa Slice. Il design v02 è stato successivamente
+> emendato con una Slice 30 separata; il presente prompt resta il contratto storico
+> della Slice 29 e non include né anticipa il nuovo perimetro.
+
 <!--
 Core normativo estratto deterministicamente da:
 .kb/documenti/documenti di design/run 2/design_document_v_02.md

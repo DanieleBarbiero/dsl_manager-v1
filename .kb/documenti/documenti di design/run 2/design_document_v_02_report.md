@@ -6,9 +6,34 @@
 **Data:** `2026-09-02`  
 **Esito:** `completato_con_note`
 
+## 0. Emendamento successivo — Slice 30
+
+Il 2026-09-14, su richiesta esplicita, `design_document_v_02.md` è stato emendato per
+includere formalmente la Slice 30. L'emendamento aggiunge selezione deterministica e
+spiegabile delle evidenze per route AI, policy versionate, piani persistiti, migrazione v11,
+controllo dello stato rilevante e packaging tramite l'handoff esistente della Slice 15. Il
+[prompt canonico della Slice 30](../../../projects/slicing/slice_30/dsl_manager_slice_30_prompt.md)
+è parte del contratto operativo, ma la Slice non è stata eseguita e non esiste ancora il
+relativo report di implementazione.
+
+Le sezioni successive documentano fedelmente la generazione originaria del 2026-09-02 e i
+suoi dieci prompt 20–29; i conteggi e le formulazioni limitative lì contenuti sono storici,
+non descrivono il perimetro corrente del design emendato. Non sono stati modificati codice,
+schema, test o artefatti runtime durante l'emendamento. Le discussioni workbench hanno
+ricevuto soltanto una nota di stato. Il pacchetto di staging storico
+`.wb/dsl_manager_slice_v2_final/`, non canonico e già applicato, è stato successivamente
+rimosso su richiesta perché duplicava i file ufficiali; resta recuperabile dalla cronologia
+Git.
+
+Verifica dell'emendamento: install editable e test documentale eseguiti con
+`.venv\Scripts\python.exe`; `tests/test_slice_29_documentation.py` ha prodotto `6 passed`.
+È stato eseguito anche `git diff --check`. La suite runtime completa non è stata avviata
+perché non sono cambiati codice, schema, test o comportamento dell'applicazione; questa
+verifica non costituisce esecuzione della Slice 30.
+
 ## 1. Sintesi del risultato
 
-- È stato prodotto un design implementativo completo per le sole slice 20–29, con indice navigabile, matrice compatta, modello dati/migrazioni, contratti di review e correzione, derivazione deterministica, Excel, temporalità, DSL v2, GEXF 1.3, sicurezza, test, tracciabilità e dieci prompt eseguibili.
+- Nella generazione originaria è stato prodotto un design implementativo completo per le sole slice 20–29, con indice navigabile, matrice compatta, modello dati/migrazioni, contratti di review e correzione, derivazione deterministica, Excel, temporalità, DSL v2, GEXF 1.3, sicurezza, test, tracciabilità e dieci prompt eseguibili.
 - Il documento distingue lo stato realmente osservato nel codice dalle proposte. In particolare: i parser esistenti producono evidenza strutturata ma non candidati; il merge corrente non richiede una decisione persistita; Excel e temporalità non sono implementati; l'export corrente è GEXF statico `1.2draft`.
 - La decisione centrale è il ciclo `evidence → pending → persisted decision → merge-eligible → authoritative merge`, con viste effettive e riconciliazione persistente.
 - Nota rilevante: Docling 2.97.0 documenta e implementa `InputFormat.XLSX`, ma le fonti ufficiali consultate non documentano `.xlsm` come formato autonomo. Il design tratta il routing `.xlsm` richiesto come contratto applicativo soggetto a un integration test reale bloccante, senza fallback di conversione.

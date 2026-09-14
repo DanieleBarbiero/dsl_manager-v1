@@ -294,7 +294,7 @@ Il GEXF dinamico viene validato offline in due passaggi: XSD 1.3 vendorizzati e
 validazione semantica. La sola validazione XSD non è sufficiente. Le risorse XSD
 sono verificate per SHA-256 e un resolver locale nega risoluzioni esterne.
 
-## 11. Migrazioni v7-v10
+## 11. Migrazioni implementate v7-v10 e v11 pianificata
 
 Le migrazioni sono append-only, checksumate e applicate atomicamente.
 
@@ -309,6 +309,12 @@ Il backfill v7 conferma solo candidati legacy `explicit`/`observed` che già
 sostengono oggetti `active`, con policy `legacy_backfill/1`. Pending, inferred,
 ambiguous e conflicted non vengono promossi. Le migrazioni non cambiano i byte o
 gli hash degli snapshot storici.
+
+Il design v02 emendato assegna alla Slice 30 una migrazione v11 append-only per
+piani e item di selezione AI e per il riferimento nullable package→piano. La v11
+non è presente nel codice al 2026-09-14: `db init` continua correttamente a
+fermarsi alla v10 e i database/package legacy non devono ricevere backfill
+inventati.
 
 ## 12. Result catalog osservato
 
@@ -336,6 +342,28 @@ adapter può soltanto proporre evidenze o candidati; non può scrivere fatti,
 decisioni o intervalli autoritativi. Test OOXML, temporali e GEXF verificano
 l'assenza di rete nei percorsi previsti.
 
+### 13.1 Rafforzamento pianificato dalla Slice 30
+
+La selezione corrente di `ai package` usa revisioni attive e i filtri di profilo
+`include_chunks`/`include_fragments`; non identifica ancora quali evidenze siano
+più adatte a uno specifico obiettivo di analisi. La Slice 30, definita nel
+[design v02 emendato](../documenti%20di%20design/run%202/design_document_v_02.md)
+e nel [prompt canonico](../../projects/slicing/slice_30/dsl_manager_slice_30_prompt.md),
+rafforzerà questo stesso percorso con:
+
+- route e policy locali versionate;
+- un piano persistito di inclusi/esclusi con rank, criteri e reason stabili;
+- classificazione della copertura deterministica basata su candidati e testa di
+  review corrente;
+- verifica `relevant_state_hash` prima del riuso del piano;
+- `selection_plan.json` e riferimenti coerenti nei manifest del package.
+
+La capacità è pianificata e non eseguita: i comandi `ai evidence
+plan|list|explain`, le opzioni `--selection-policy`/`--selection-plan`, la
+migrazione v11 e i nuovi artefatti non vanno considerati disponibili nel runtime
+1.1.0. La route è un obiettivo, non un provider o modello; il percorso resta
+locale, deterministico e privo di rete.
+
 ## 14. Compatibilità e limiti noti
 
 - DSL schema 1 e GEXF statico preservano la semantica fisica legacy; DSL schema
@@ -348,6 +376,8 @@ l'assenza di rete nei percorsi previsti.
 - La semantica temporale non è esposta da un comando CLI autonomo: è integrata
   nei servizi e nel batch consolidato.
 - Il catalogo esiti e il budget GEXF hanno i gap indicati nelle sezioni 8 e 12.
+- La selezione AI per route, la migrazione v11 e `selection_plan.json` sono
+  roadmap Slice 30, non capacità correnti.
 - La UI resta locale e di sola lettura.
 
 ## 15. Evidenze di implementazione

@@ -2409,6 +2409,15 @@ Perciò sì: il programma beneficerebbe di una procedura apposita.
 
 # 2. È ipotizzabile una slice 30?
 
+> Aggiornamento decisionale del 2026-09-14: fra le alternative discusse sotto è stato
+> scelto l'emendamento completo e coerente della v02. Il
+> [design v02 emendato](../documenti%20di%20design/run%202/design_document_v_02.md)
+> governa ora le Slice 20–30 e il
+> [prompt canonico della Slice 30](../../projects/slicing/slice_30/dsl_manager_slice_30_prompt.md)
+> è stato creato, ma non eseguito. La discussione seguente è conservata come motivazione
+> storica: le frasi che sconsigliano una Slice 30 senza previa modifica del design sono
+> state soddisfatte dall'emendamento e non rappresentano più una pendenza.
+
 ## Tecnicamente sì, ma non dentro la v02 senza modificarla
 
 Una slice dedicata sarebbe sensata. Tuttavia il documento v02 dice esplicitamente:

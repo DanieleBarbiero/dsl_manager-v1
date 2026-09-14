@@ -31,7 +31,7 @@ dsl_manager-v1/
         slice_01/
     prompt/
     template/
-  .wb/                         # versioned workbench resources
+  .wb/                         # optional, non-canonical workbench resources
   pyproject.toml
   src/
     dsl_mngr/
@@ -55,12 +55,20 @@ The Python package is `dsl_mngr`.
 
 `src` is not a Python package and must not be imported as one.
 
-The `.kb` directory contains project documentation, prompts, templates, and
-slicing material. The `.wb` directory contains project workbench resources.
-Both directories are part of the repository and must be tracked by Git so that
-local, VS Code, and Codex cloud environments use the same committed resources.
-Treat their contents as project context when a task refers to them. Do not add
-ignore rules for either directory or omit their relevant changes from commits.
+The `.kb` directory contains canonical project documentation, prompts,
+templates, and slicing material. It is part of the repository and must be
+tracked by Git so that local, VS Code, and Codex cloud environments use the same
+committed resources. Treat its contents as project context when a task refers to
+them. Do not add ignore rules for `.kb` or omit its relevant changes from
+commits.
+
+The `.wb` directory contains optional, non-canonical workbench material. Ignore
+it during normal repository inventory, context gathering, implementation,
+testing, documentation checks, and delivery. Do not treat `.wb` as an authority,
+dependency, required artifact, or completeness criterion. Read or include a
+specific `.wb` resource only when the user explicitly places it in scope or a
+canonical in-scope file explicitly requires it. Ignoring `.wb` does not by
+itself authorize modifying or deleting user files stored there.
 
 ## File naming conventions
 

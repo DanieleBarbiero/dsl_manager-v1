@@ -323,6 +323,25 @@ dsl-manager ai import .workspaces/demo --package AIPKG_000001 --allow-stale
 
 registra un'eccezione esplicita, ma non rende le evidenze obsolete affidabili.
 
+### 7.3 Selezione per route AI prevista dalla Slice 30
+
+La Slice 30 è stata progettata ma non eseguita. Quando verrà implementata,
+rafforzerà il comando `ai package` con una fase esplicita
+`plan → list/explain → package`: policy locali versionate sceglieranno e
+ordineranno chunk/frammenti in funzione di una route di analisi e registreranno
+anche le esclusioni con una motivazione stabile.
+
+I futuri comandi `ai evidence plan|list|explain`, le opzioni
+`--selection-policy` e `--selection-plan` e il file `selection_plan.json` non
+sono disponibili nella release 1.1.0 e perciò non compaiono nel catalogo dei
+comandi eseguibili della sezione 4. Per ora usare i comandi della sezione 7.2 con
+`--revision` e `--profile`. “Route AI” significherà obiettivo di analisi, non
+provider, modello o invio in rete.
+
+Il contratto completo è nel
+[design v02 emendato](../documenti%20di%20design/run%202/design_document_v_02.md)
+e nel [prompt Slice 30](../../projects/slicing/slice_30/dsl_manager_slice_30_prompt.md).
+
 ## 8. Temporalità
 
 L'estrazione temporale è integrata nei servizi e in `batch consolidate`; non

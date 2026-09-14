@@ -1,5 +1,10 @@
 # Report Slice 29
 
+> Nota successiva (2026-09-14): questo report descrive lo stato alla chiusura della
+> Slice 29. Il design v02 è stato poi emendato e il prompt della Slice 30 è stato
+> creato, ma non eseguito. I nuovi comandi, la migrazione v11 e i selection plan non
+> facevano parte di questa implementazione e restano roadmap.
+
 Stato reale: **parziale**.
 
 Il consolidamento documentale richiesto dalla Slice 29 è stato completato senza

@@ -410,6 +410,33 @@ siano correnti e blocca gli stale per default. `--allow-stale` registra
 esplicitamente l'eccezione. L'import usa il validator comune e produce candidati
 pending; nessun output AI viene fuso direttamente.
 
+### 14.1 Contratto pianificato della Slice 30 — non attivo
+
+Il [design v02 emendato](../documenti%20di%20design/run%202/design_document_v_02.md)
+e il [prompt della Slice 30](../../projects/slicing/slice_30/dsl_manager_slice_30_prompt.md)
+prevedono di estendere, non sostituire, questo package con un piano di selezione
+per route. Il contratto futuro comprende:
+
+```text
+AISEL_<NNNNNN>
+  -> route_id/version + policy_id/version
+  -> relevant_state_hash + selection_plan_hash
+  -> item included|excluded + rank + reason + matched criteria
+  -> selection_plan.json
+  -> package_manifest.json/source_manifest.json con riferimento al piano
+```
+
+La migrazione v11 persisterà piani e item append-only e aggiungerà a
+`ai_packages` un riferimento nullable al piano. Un package policy-driven dovrà
+contenere esattamente gli item inclusi nello stesso ordine; un piano stale sarà
+rifiutato e non riscritto. Package senza riferimento restano legacy e non sono
+modificati.
+
+Questo schema e questi artefatti non sono implementati nella release 1.1.0. Non
+esiste ancora un record v11, un `selection_plan.json` o un reason catalog Slice
+30 nel runtime: la sezione specifica il contratto futuro e impedisce di
+confonderlo con il manifest consegnato dalla Slice 15.
+
 ## 15. Result catalog ed exit code
 
 L'envelope richiesto dal design è `result_catalog_v1` con:
@@ -445,6 +472,8 @@ finché il runtime non verrà allineato.
 - GEXF dinamico richiede XSD e validazione semantica offline.
 - Mapping/question/conflict non hanno materializzazione dedicata.
 - Budget GEXF e catalogo uniforme restano gap runtime documentati.
+- Piani AI per route e migrazione v11 sono contratti pianificati della Slice 30,
+  non formati accettati dal runtime corrente.
 
 ## 17. Riferimenti verificabili
 
@@ -453,3 +482,5 @@ finché il runtime non verrà allineato.
 - [Corpus Aurora](../../projects/corpus%20aurora/corpus_mock_aurora_prestiti/LEGGIMI_PRIMA.md)
 - [Checklist Aurora](../../projects/corpus%20aurora/corpus_mock_aurora_prestiti/materiale_di_supporto/checklist_risultati_attesi.md)
 - [Report Slice 28](../../projects/slicing/slice_28/dsl_manager_slice_28_report.md)
+- [Design v02 emendato](../documenti%20di%20design/run%202/design_document_v_02.md)
+- [Prompt Slice 30](../../projects/slicing/slice_30/dsl_manager_slice_30_prompt.md)

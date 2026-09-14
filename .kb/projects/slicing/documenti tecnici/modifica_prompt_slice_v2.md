@@ -5,6 +5,13 @@ Repository di riferimento: `DanieleBarbiero/dsl_manager-v1`
 Baseline: branch `main`, consultato in sola lettura  
 Design v2 Git blob SHA dichiarato da GitHub: `8aa78b1210216b78d97e4e2554b075a7c1b462df`
 
+> Nota storica (2026-09-14): questa guida registra l'estrazione originaria dei prompt
+> 20–29 dal design v02. Il design è stato successivamente emendato per includere la Slice 30,
+> il cui prompt canonico è
+> [`slice_30/dsl_manager_slice_30_prompt.md`](../slice_30/dsl_manager_slice_30_prompt.md).
+> I conteggi, gli hash e le descrizioni della baseline sotto restano intenzionalmente quelli
+> dell'operazione originaria; non sono un indice corrente delle slice disponibili.
+
 ## 1. Obiettivo
 
 Trasformare i prompt embedded delle Slice 20–29 in prompt canonici autonomi sotto `.kb/projects/slicing/slice_<NN>/`, conservando letteralmente il nucleo normativo del design v02 e aggiungendo la disciplina operativa dei prompt maturi della run 1.

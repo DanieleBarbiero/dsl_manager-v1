@@ -6,6 +6,7 @@ from pathlib import Path
 from urllib.parse import unquote
 
 from dsl_mngr.cli.app import build_parser
+from dsl_mngr.core.config import parse_simple_yaml
 
 
 REPOSITORY_ROOT = Path(__file__).resolve().parents[1]
@@ -184,3 +185,28 @@ def test_slice_29_aurora_v2_guides_cover_governed_ai_handoff() -> None:
         guide = _read(guide_path).lower()
         for statement in required:
             assert statement in guide, (guide_path.as_posix(), statement)
+
+
+def test_slice_29_aurora_multiline_policy_blocks_are_parseable() -> None:
+    guide_paths = (
+        Path(
+            ".kb/projects/corpus aurora/corpus_mock_aurora_prestiti/"
+            "materiale_di_supporto/guida_dsl_manager_powershell_v_02.md"
+        ),
+        Path(
+            ".kb/projects/corpus aurora/corpus_mock_aurora_prestiti/"
+            "materiale_di_supporto/guida_dsl_manager_cmd_v_02.md"
+        ),
+    )
+    policy_block = re.compile(
+        r"```yaml\n(?P<body>  automatic_policies:\n(?:    - [^\n]+\n)+)```"
+    )
+    for guide_path in guide_paths:
+        match = policy_block.search(_read(guide_path))
+        assert match is not None, guide_path.as_posix()
+        parsed = parse_simple_yaml(
+            "review:\n  default_actor_id:\n" + match.group("body")
+        )
+        policies = parsed["review"]["automatic_policies"]
+        assert len(policies) == 13, guide_path.as_posix()
+        assert all(isinstance(policy, str) and policy for policy in policies)

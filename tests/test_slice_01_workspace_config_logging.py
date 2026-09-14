@@ -6,7 +6,7 @@ import sys
 from datetime import datetime, timezone
 
 from dsl_mngr.cli.app import main
-from dsl_mngr.core.config import load_config
+from dsl_mngr.core.config import load_config, parse_simple_yaml
 from dsl_mngr.core.logging_setup import log_event
 from dsl_mngr.core.workspace import WORKSPACE_DIRS, initialize_workspace
 
@@ -75,6 +75,60 @@ def test_load_config_precedence(tmp_path):
     assert config["database"]["path"] == "from-env.sqlite"
     assert config["database"]["wal"] is True
     assert config["logging"]["level"] == "DEBUG"
+
+
+def test_parse_simple_yaml_supports_indented_scalar_lists():
+    config = parse_simple_yaml(
+        "\n".join(
+            [
+                "review:",
+                "  default_actor_id:",
+                "  automatic_policies:",
+                "    - explicit_ddl_column_only/1",
+                '    - "explicit_ddl_table_only/1"',
+                "derive:",
+                '  rule_set_version: "1"',
+                "",
+            ]
+        )
+    )
+
+    assert config["review"] == {
+        "default_actor_id": "",
+        "automatic_policies": [
+            "explicit_ddl_column_only/1",
+            "explicit_ddl_table_only/1",
+        ],
+    }
+    assert config["derive"] == {"rule_set_version": "1"}
+
+
+def test_load_config_accepts_multiline_automatic_policies(tmp_path):
+    workspace = tmp_path / "workspace"
+    initialize_workspace(workspace)
+    (workspace / "configs" / "project.yaml").write_text(
+        "\n".join(
+            [
+                "review:",
+                "  default_actor_id:",
+                "  automatic_policies:",
+                "    - explicit_ddl_column_only/1",
+                "    - explicit_ddl_table_only/1",
+                "",
+            ]
+        ),
+        encoding="utf-8",
+    )
+
+    config = load_config(workspace)
+
+    assert config["review"] == {
+        "default_actor_id": "",
+        "automatic_policies": [
+            "explicit_ddl_column_only/1",
+            "explicit_ddl_table_only/1",
+        ],
+    }
 
 
 def test_jsonl_log_record(tmp_path):

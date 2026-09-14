@@ -113,6 +113,9 @@ Responsabilità principali:
 - Report e artefatti usano percorsi relativi alla workspace e output
   deterministici ove previsto; run ID e timestamp di audit non fanno parte
   degli hash semantici.
+- Il parser minimale di `project.yaml` supporta mapping a due livelli, scalari,
+  liste JSON inline e liste scalari multilinea indentate con `-`; non è un
+  parser YAML generale.
 
 ## Documentazione da leggere
 
@@ -144,11 +147,11 @@ con nomi esplicitamente versionati e rimandano alle guide correnti; tutti i
 riferimenti operativi del repository puntano alle versioni 02.
 
 La suite canonica è `python -m pytest` con l'interprete corretto. L'ultima
-esecuzione completa, dopo l'aggiunta dello scenario AI Aurora e l'aggiornamento
-delle guide v02, ha raccolto e superato tutti i 181 test in 416.30 secondi. Il
-worker Docling, che in una precedente esecuzione aveva mostrato un lock Windows
-transitorio durante il cleanup, è passato sia al rerun isolato sia nelle
-esecuzioni complete successive. I dettagli storici sono nei report dei bugfix.
+esecuzione completa, dopo l'aggiunta del supporto alle liste YAML multilinea,
+ha raccolto e superato tutti i 184 test in 793.59 secondi. Il worker Docling,
+che in una precedente esecuzione aveva mostrato un lock Windows transitorio
+durante il cleanup, è passato sia al rerun isolato sia nelle esecuzioni complete
+successive. I dettagli storici sono nei report dei bugfix.
 
 ## Registro bug corretti
 
@@ -156,6 +159,7 @@ esecuzioni complete successive. I dettagli storici sono nei report dei bugfix.
 |---|---|---|---|---|---|---|---|---|
 | `BUGFIX_01` | 2026-09-09 | 2026-09-09 | `1.1.0` working tree | Alta | `batch consolidate` falliva in `derive` su DOCX con “Excel preflight requires an .xlsx or .xlsm name.” | Preflight metadata OOXML per DOCX/PPTX con delega invariata al validatore Excel per XLSX/XLSM | Test di regressione e Slice 28 passati; suite finale `179 passed` dopo `BUGFIX_02` | [bugfix_01_ooxml_temporal_docx_preflight.md](bugfixes/bugfix_01_ooxml_temporal_docx_preflight.md) |
 | `BUGFIX_02` | 2026-09-09 | 2026-09-09 | `1.1.0` working tree | Bassa | Tre test documentali fallivano perché cercavano il nome precedente dell'outline sintetico | Test e link canonici aggiornati a `outline_dsl_manager_flow_from_input_to_output_riassunto.md` | `7 passed` mirati; suite completa `179 passed` | [bugfix_02_stale_outline_references.md](bugfixes/bugfix_02_stale_outline_references.md) |
+| `BUGFIX_03` | 2026-09-11 | 2026-09-11 | `1.1.0` working tree | Media | Il formato multilinea di `automatic_policies` documentato da Aurora veniva letto come stringa vuota | Parser minimale esteso alle liste scalari indentate, con compatibilità inline preservata | Workspace Aurora: 13 policy; suite completa `184 passed` | [bugfix_03_multiline_yaml_policy_lists.md](bugfixes/bugfix_03_multiline_yaml_policy_lists.md) |
 
 ## Osservazioni aperte
 

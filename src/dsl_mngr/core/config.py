@@ -180,16 +180,47 @@ def _is_safe_profile_name(profile: str) -> bool:
 def parse_simple_yaml(text: str) -> dict[str, Any]:
     data: dict[str, Any] = {}
     current_section: str | None = None
+    pending_list_key: str | None = None
+    pending_list_indent: int | None = None
 
     for raw_line in text.splitlines():
         if not raw_line.strip() or raw_line.lstrip().startswith("#"):
             continue
         if raw_line.startswith((" ", "\t")):
-            if current_section is None or ":" not in raw_line:
+            if current_section is None:
                 continue
-            key, value = raw_line.strip().split(":", 1)
-            data.setdefault(current_section, {})[key.strip()] = _parse_scalar(value.strip())
+            stripped = raw_line.strip()
+            indent = len(raw_line) - len(raw_line.lstrip(" \t"))
+            if stripped == "-" or stripped.startswith("- "):
+                if (
+                    pending_list_key is None
+                    or pending_list_indent is None
+                    or indent <= pending_list_indent
+                ):
+                    continue
+                section = data.setdefault(current_section, {})
+                existing = section.get(pending_list_key)
+                if existing == "":
+                    existing = []
+                    section[pending_list_key] = existing
+                if isinstance(existing, list):
+                    existing.append(_parse_scalar(stripped[1:].strip()))
+                continue
+            if ":" not in stripped:
+                continue
+            key, value = stripped.split(":", 1)
+            key = key.strip()
+            value = value.strip()
+            data.setdefault(current_section, {})[key] = _parse_scalar(value)
+            if value:
+                pending_list_key = None
+                pending_list_indent = None
+            else:
+                pending_list_key = key
+                pending_list_indent = indent
             continue
+        pending_list_key = None
+        pending_list_indent = None
         if raw_line.endswith(":"):
             current_section = raw_line[:-1].strip()
             data.setdefault(current_section, {})

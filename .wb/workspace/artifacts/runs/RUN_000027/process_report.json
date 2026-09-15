@@ -1,0 +1,33 @@
+{
+  "artifact_dir": "artifacts/runs/RUN_000027",
+  "config_hash": "1b8d37dae723e21b392e5d064cbceb890dd7e98020556c14dd3555abb56343ef",
+  "error": null,
+  "finished_at": "2026-09-14T15:50:54+02:00",
+  "run_id": "RUN_000027",
+  "run_type": "parse_xml_form",
+  "started_at": "2026-09-14T15:50:52+02:00",
+  "status": "completed",
+  "workers": [
+    {
+      "duration_ms": 1462,
+      "error": null,
+      "exit_code": 0,
+      "finished_at": "2026-09-14T15:50:54+02:00",
+      "resource_limits": {
+        "max_output_bytes": null,
+        "memory_limit_bytes": null,
+        "memory_limit_mode": "not_configured",
+        "peak_memory_bytes": null,
+        "termination_reason": null,
+        "timeout_seconds": null
+      },
+      "started_at": "2026-09-14T15:50:52+02:00",
+      "status": "completed",
+      "stderr": "",
+      "stdout": "parse_xml_form completed\n",
+      "worker_name": "parse_xml_form",
+      "worker_run_id": "WRK_000023",
+      "worker_version": "1.0"
+    }
+  ]
+}

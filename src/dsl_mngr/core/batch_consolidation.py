@@ -22,6 +22,7 @@ from dsl_mngr.core.database import (
     open_database,
     resolve_database_settings,
 )
+from dsl_mngr.core.filesystem import replace_file_with_retry, unlink_file_with_retry
 from dsl_mngr.core.merge import merge_candidate_batches
 from dsl_mngr.core.reconciliation import reconcile_required
 from dsl_mngr.core.runs import (
@@ -1060,8 +1061,19 @@ def _record_running_phase_failure(
 
 def _write_checkpoint(path: Path, payload: Mapping[str, Any]) -> None:
     temporary = path.with_suffix(".tmp")
-    temporary.write_text(canonical_json_artifact_v1(payload), encoding="utf-8", newline="\n")
-    temporary.replace(path)
+    try:
+        temporary.write_text(
+            canonical_json_artifact_v1(payload), encoding="utf-8", newline="\n"
+        )
+        replace_file_with_retry(temporary, path)
+    except BaseException:
+        try:
+            unlink_file_with_retry(temporary, missing_ok=True)
+        except OSError:
+            pass
+        raise
+    else:
+        unlink_file_with_retry(temporary, missing_ok=True)
 
 
 def _load_checkpoint(path: Path) -> dict[str, Any]:

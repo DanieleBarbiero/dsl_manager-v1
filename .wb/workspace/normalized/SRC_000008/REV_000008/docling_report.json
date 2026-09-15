@@ -1,0 +1,83 @@
+{
+  "catalog": {
+    "artifact_paths": [
+      "normalized/SRC_000008/REV_000008/docling_report.json",
+      "normalized/SRC_000008/REV_000008/normalized.json",
+      "normalized/SRC_000008/REV_000008/normalized.md",
+      "normalized/SRC_000008/REV_000008/ooxml_preflight_report.json",
+      "normalized/SRC_000008/REV_000008/source_hash.txt",
+      "normalized/SRC_000008/REV_000008/workbook_fragments.jsonl",
+      "normalized/SRC_000008/REV_000008/workbook_manifest.json",
+      "normalized/SRC_000008/REV_000008/workbook_report.json"
+    ],
+    "catalog_version": 1,
+    "condition": "operation_completed",
+    "counters": {
+      "normalized_json_items": 13,
+      "normalized_markdown_bytes": 100
+    },
+    "exit_code": 0,
+    "mutations": "artifacts_published",
+    "outcome": null,
+    "reason": "success",
+    "retryable": false,
+    "run_id": "RUN_000029",
+    "severity": "info",
+    "status": "completed",
+    "subject_ids": {
+      "source_id": "SRC_000008",
+      "source_revision_id": "REV_000008"
+    }
+  },
+  "conversion_status": "success",
+  "docling_version": "2.97.0",
+  "input": {
+    "input_path": "corpus/active/spreadsheets/controlli_inerti_2026.xlsm",
+    "source_hash": "8d635179e6b81d6550a80632db7c3033ac421f190cebcdd4f533d2413a43b16c",
+    "source_id": "SRC_000008",
+    "source_revision_id": "REV_000008"
+  },
+  "outputs": {
+    "docling_report_path": "normalized/SRC_000008/REV_000008/docling_report.json",
+    "normalized_hash": "c1aa34405fc8084b5cec63058f5cead24d682382d3db7ca8ca7b8f28e0eefd12",
+    "normalized_json_path": "normalized/SRC_000008/REV_000008/normalized.json",
+    "normalized_markdown_path": "normalized/SRC_000008/REV_000008/normalized.md",
+    "ooxml_preflight_report_path": "normalized/SRC_000008/REV_000008/ooxml_preflight_report.json",
+    "source_hash_path": "normalized/SRC_000008/REV_000008/source_hash.txt",
+    "workbook_fragments_path": "normalized/SRC_000008/REV_000008/workbook_fragments.jsonl",
+    "workbook_manifest_path": "normalized/SRC_000008/REV_000008/workbook_manifest.json",
+    "workbook_report_path": "normalized/SRC_000008/REV_000008/workbook_report.json"
+  },
+  "profile": "docling.no_images",
+  "resolved_config": {
+    "docling": {
+      "force_full_page_ocr": false,
+      "generate_page_images": false,
+      "generate_picture_images": false,
+      "image_export_mode": "placeholder",
+      "images_enabled": false,
+      "input_formats": [
+        "PDF",
+        "DOCX",
+        "PPTX",
+        "HTML",
+        "MD",
+        "XLSX"
+      ],
+      "ocr_enabled": false,
+      "output_normalized_json": true,
+      "output_normalized_markdown": true,
+      "strict_options_fail_on_unsupported_option": true,
+      "tables_enabled": true,
+      "tables_mode": "auto"
+    },
+    "worker": {
+      "name": "normalize_docling",
+      "version": "1.0"
+    }
+  },
+  "run_id": "RUN_000029",
+  "status": "completed",
+  "worker_name": "normalize_docling",
+  "worker_version": "1.0"
+}

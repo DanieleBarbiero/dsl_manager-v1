@@ -1,0 +1,18 @@
+{
+  "docling_report_path": "normalized/SRC_000003/REV_000003/docling_report.json",
+  "docling_version": "2.97.0",
+  "exit_code": 0,
+  "input_path": "corpus/active/documenti/manuale_operativo_orione_2026.md",
+  "normalized_hash": "c5b1eba79c4a4f721424da9e39d4f4213883818033d545d23bfb22559ff8d631",
+  "normalized_json_path": "normalized/SRC_000003/REV_000003/normalized.json",
+  "normalized_markdown_path": "normalized/SRC_000003/REV_000003/normalized.md",
+  "profile": "docling.no_images",
+  "run_id": "RUN_000021",
+  "source_hash": "5f794ff4fd14a071309636299d9a75a33c5810ef66b6aa0af684a265704a4aaa",
+  "source_hash_path": "normalized/SRC_000003/REV_000003/source_hash.txt",
+  "source_id": "SRC_000003",
+  "source_revision_id": "REV_000003",
+  "status": "completed",
+  "worker_name": "normalize_docling",
+  "worker_version": "1.0"
+}

@@ -1,0 +1,34 @@
+{
+  "action": "created",
+  "artifact_paths": [
+    "artifacts/runs/RUN_000077/review_report.json"
+  ],
+  "batch_id": null,
+  "catalog_version": "result_catalog_v1",
+  "condition": "created",
+  "counters": {
+    "decisions_created": 1
+  },
+  "current_head_decision_id": "RDEC_000078",
+  "decision_id": "RDEC_000078",
+  "exit_code": 0,
+  "idempotency_key": "lab-temporal-reject-000082",
+  "mutations": true,
+  "outcome": "rejected",
+  "previous_head_decision_id": null,
+  "reason": "Timestamp ZIP epoch 1980 del contenitore XLSM, non data di dominio.",
+  "reconciliation_id": null,
+  "replacement_candidate_record_id": null,
+  "replacement_decision_id": null,
+  "request_payload_hash": "84f50abed3242b8fe1a7b56a7a2d4e4f2da75141202cdb18eddd3ca51b314e97",
+  "retryable": false,
+  "run_id": "RUN_000077",
+  "schema_version": "1",
+  "semantic_payload_hash": "80dc5ca1cc2190206edc7537123c911b127ce75381c90df79ff10b2923949dc7",
+  "severity": "info",
+  "status": "completed",
+  "subject_ids": [
+    "CREC_000082"
+  ],
+  "subject_type": "candidate_record"
+}

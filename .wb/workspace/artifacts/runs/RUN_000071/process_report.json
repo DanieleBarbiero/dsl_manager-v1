@@ -1,0 +1,215 @@
+{
+  "artifact_dir": "artifacts/runs/RUN_000071",
+  "batch_command": "merge-batch",
+  "batch_report_path": "artifacts/runs/RUN_000071/batch_report.json",
+  "config_hash": "9a315817069e9013f384389576a3aefebab3215494846f0945a21119956e81ab",
+  "error": null,
+  "finished_at": "2026-09-14T16:29:05+02:00",
+  "items": [
+    {
+      "batch_id": "CBATCH_000047",
+      "error": null,
+      "input_path": "ai/inbox/AIPKG_000001_candidates.jsonl",
+      "item_id": "BITEM_000001",
+      "kind": "merge",
+      "outputs": {
+        "artifact_paths": [],
+        "batch_id": "CBATCH_000047",
+        "candidate_record_count": 11,
+        "catalog_version": "result_catalog_v1",
+        "condition": "merge",
+        "conflicts_created": 0,
+        "conflicts_existing": 0,
+        "counters": {
+          "candidate_records": 11,
+          "conflicts_created": 0,
+          "conflicts_existing": 0,
+          "facts_created": 3,
+          "facts_existing": 1,
+          "reconciled_supports_removed": 0,
+          "reconciliation_closed": 0,
+          "relations_created": 2,
+          "relations_existing": 0,
+          "skipped_no_positive_head": 3,
+          "skipped_non_leaf": 1,
+          "skipped_pending": 0,
+          "skipped_records": 5,
+          "skipped_rejected": 1,
+          "skipped_superseded": 0
+        },
+        "exit_code": 0,
+        "facts_created": 3,
+        "facts_existing": 1,
+        "merged_candidate_record_ids": [
+          "CREC_000089",
+          "CREC_000090",
+          "CREC_000091",
+          "CREC_000092",
+          "CREC_000097",
+          "CREC_000098"
+        ],
+        "merged_candidates": [
+          {
+            "candidate_record_id": "CREC_000089",
+            "decision_id": "RDEC_000063"
+          },
+          {
+            "candidate_record_id": "CREC_000090",
+            "decision_id": "RDEC_000064"
+          },
+          {
+            "candidate_record_id": "CREC_000091",
+            "decision_id": "RDEC_000065"
+          },
+          {
+            "candidate_record_id": "CREC_000092",
+            "decision_id": "RDEC_000066"
+          },
+          {
+            "candidate_record_id": "CREC_000097",
+            "decision_id": "RDEC_000070"
+          },
+          {
+            "candidate_record_id": "CREC_000098",
+            "decision_id": "RDEC_000071"
+          }
+        ],
+        "mutations": true,
+        "outcome": null,
+        "reason": "merge_completed_with_skips",
+        "reconciled_supports_removed": 0,
+        "reconciliation_closed": 0,
+        "relations_created": 2,
+        "relations_existing": 0,
+        "retryable": false,
+        "run_id": "RUN_000072",
+        "schema_version": "1",
+        "severity": "info",
+        "skipped_candidates": [
+          {
+            "candidate_record_id": "CREC_000093",
+            "decision_id": "RDEC_000072",
+            "reason": "non_leaf"
+          },
+          {
+            "candidate_record_id": "CREC_000094",
+            "decision_id": "RDEC_000067",
+            "reason": "unsupported_record_type"
+          },
+          {
+            "candidate_record_id": "CREC_000095",
+            "decision_id": "RDEC_000068",
+            "reason": "unsupported_record_type"
+          },
+          {
+            "candidate_record_id": "CREC_000096",
+            "decision_id": "RDEC_000069",
+            "reason": "unsupported_record_type"
+          },
+          {
+            "candidate_record_id": "CREC_000099",
+            "decision_id": "RDEC_000074",
+            "reason": "rejected"
+          }
+        ],
+        "skipped_no_positive_head": 3,
+        "skipped_non_leaf": 1,
+        "skipped_pending": 0,
+        "skipped_records": 5,
+        "skipped_rejected": 1,
+        "skipped_superseded": 0,
+        "status": "completed",
+        "subject_ids": [
+          "CREC_000089",
+          "CREC_000090",
+          "CREC_000091",
+          "CREC_000092",
+          "CREC_000097",
+          "CREC_000098"
+        ]
+      },
+      "run_id": "RUN_000072",
+      "status": "completed"
+    },
+    {
+      "batch_id": "CBATCH_000048",
+      "error": null,
+      "item_id": "BITEM_000002",
+      "kind": "merge",
+      "outputs": {
+        "artifact_paths": [],
+        "batch_id": "CBATCH_000048",
+        "candidate_record_count": 1,
+        "catalog_version": "result_catalog_v1",
+        "condition": "merge",
+        "conflicts_created": 0,
+        "conflicts_existing": 0,
+        "counters": {
+          "candidate_records": 1,
+          "conflicts_created": 0,
+          "conflicts_existing": 0,
+          "facts_created": 0,
+          "facts_existing": 0,
+          "reconciled_supports_removed": 0,
+          "reconciliation_closed": 0,
+          "relations_created": 1,
+          "relations_existing": 0,
+          "skipped_no_positive_head": 0,
+          "skipped_non_leaf": 0,
+          "skipped_pending": 0,
+          "skipped_records": 0,
+          "skipped_rejected": 0,
+          "skipped_superseded": 0
+        },
+        "exit_code": 0,
+        "facts_created": 0,
+        "facts_existing": 0,
+        "merged_candidate_record_ids": [
+          "CREC_000100"
+        ],
+        "merged_candidates": [
+          {
+            "candidate_record_id": "CREC_000100",
+            "decision_id": "RDEC_000073"
+          }
+        ],
+        "mutations": true,
+        "outcome": null,
+        "reason": "success",
+        "reconciled_supports_removed": 0,
+        "reconciliation_closed": 0,
+        "relations_created": 1,
+        "relations_existing": 0,
+        "retryable": false,
+        "run_id": "RUN_000073",
+        "schema_version": "1",
+        "severity": "info",
+        "skipped_candidates": [],
+        "skipped_no_positive_head": 0,
+        "skipped_non_leaf": 0,
+        "skipped_pending": 0,
+        "skipped_records": 0,
+        "skipped_rejected": 0,
+        "skipped_superseded": 0,
+        "status": "completed",
+        "subject_ids": [
+          "CREC_000100"
+        ]
+      },
+      "run_id": "RUN_000073",
+      "status": "completed"
+    }
+  ],
+  "run_id": "RUN_000071",
+  "run_type": "batch",
+  "started_at": "2026-09-14T16:29:04+02:00",
+  "status": "completed",
+  "stop_on_error": true,
+  "summary": {
+    "completed": 2,
+    "failed": 0,
+    "skipped": 0,
+    "total": 2
+  },
+  "workers": []
+}

@@ -228,3 +228,48 @@ zero path macchina pubblicati, zero trailing whitespace e zero errori del
 parser PowerShell. `git diff --check` sul progetto Orione non ha segnalato
 errori. Le modifiche preesistenti in altre aree del worktree sono rimaste
 intatte.
+
+## Addendum post-Slice 31
+
+La registrazione precedente resta storia del collaudo pre-Slice 31. Dopo
+l'installazione della Slice 31, Orione e' stato rieseguito in un workspace
+temporaneo nuovo usando esclusivamente i nuovi comandi pubblici nel flusso
+principale. Il percorso e gli ID qui riportati sono relativi alla sola sessione
+post-slice e non sono input riutilizzabili.
+
+Esiti osservati:
+
+- `db init`: 12 migrazioni applicate, exit 0;
+- `config review show`: allowlist iniziale vuota, exit 0;
+- `config review profiles`: `conservative/1`, 13 policy, profile hash
+  `1fc093f7f59056c195aa4b0deb352f96e42dec42fc1b8b29779441b6b81e7eb6`, exit 0;
+- `config review apply-profile` e `config validate --profile conservative/1`:
+  configurazione valida, 13 policy effettive, exit 0;
+- doppio `corpus scan`: 15 added, poi 15 unchanged, exit 0.
+- `batch consolidate --reconcile`: exit 0; 25 parse completed, 117 candidati,
+  86 auto-confirmed, 31 candidati temporali pending, 78 fatti e 8 relazioni;
+- review e merge di `CREC_000095`/`CREC_000106`, intervalli sorgente aperti
+  `2026-03-01`, exit 0;
+- quattro propagazioni pubbliche (`explicit_copy` verso due fatti e una
+  relazione; `aggregation` da due revisioni verso un fatto): `CREC_000118`–
+  `CREC_000121` osservati pending prima della review, poi quattro conferme e
+  merge 4/4, exit 0;
+- review/merge dell'intervallo sorgente storico 2023-01-01/2025-02-28 e due
+  ulteriori `explicit_copy` verso lo stesso fatto e la stessa relazione:
+  `CREC_000122`/`CREC_000123` pending prima della review, merge 2/2, exit 0;
+- DSL v2 finale `DSL_000003`, hash
+  `ffb1af507338ce3e4d17f0f7971ca50d4be933acd7f76cbcb6f49905ab5d70de`:
+  tre fatti e una relazione con intervalli, quattro intervalli fact e due
+  relation, render exit 0;
+- GEXF dinamico strict: exit 0, due `<spell>` di nodo e quattro di arco; gli
+  intervalli osservati sono 2023-01-01/2025-02-28 e 2026-03-01/aperto;
+- `diagnostics normalization run` su `REV_000005`: `RUN_000074`, run e worker
+  `partial`, exit worker/CLI 6, `controlled_simulation: true`, due artefatti
+  workspace-relative nel namespace diagnostico e hash dello stato di
+  produzione identico prima/dopo; `run status` exit 0.
+
+Il verbale complessivo dei comandi e degli exit code è nel
+[report Slice 31](../../../slicing/slice_31/dsl_manager_slice_31_report.md). Il
+tutor e le due guide ora orchestrano `config review`, `temporal propagate` e
+`diagnostics normalization run`; non modificano YAML, non importano servizi
+core e non selezionano worker arbitrari.

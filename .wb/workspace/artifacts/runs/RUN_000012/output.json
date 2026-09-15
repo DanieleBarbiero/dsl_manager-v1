@@ -1,0 +1,214 @@
+{
+  "component_count": 3,
+  "components": [
+    "assignment",
+    "closure",
+    "scheduler"
+  ],
+  "event_count": 4,
+  "exit_code": 0,
+  "fragment_count": 4,
+  "fragments": [
+    {
+      "char_end": 74,
+      "char_start": 0,
+      "fragment_id": "FRAG_000014",
+      "fragment_type": "log_event",
+      "line_end": 1,
+      "line_start": 1,
+      "metadata": {
+        "component": "scheduler",
+        "event_kind": "unknown",
+        "level": "INFO",
+        "message": "Avvio coda work order batch_id=BATCH-77",
+        "object_type": "log_event",
+        "observed_identifiers": {
+          "batch_id": "BATCH-77"
+        },
+        "parser": "parse_log",
+        "parser_version": "1.0",
+        "source_hash": "294412c24d3cd6c5ebf1ef4f3cc5a9b7d44cba1f8ccbfbf1d39644a6c74bf78c",
+        "timestamp": "2026-02-03 08:10:00"
+      },
+      "path_or_selector": "log/line:1",
+      "sequence": 1,
+      "source_revision_id": "REV_000007",
+      "status": "active",
+      "text": "2026-02-03 08:10:00 INFO scheduler Avvio coda work order batch_id=BATCH-77",
+      "text_hash": "129eea60f0f55e3cf4513981aa489b5ab0065f24c194cf89b84e8dc35482067d"
+    },
+    {
+      "char_end": 189,
+      "char_start": 75,
+      "fragment_id": "FRAG_000015",
+      "fragment_type": "log_event",
+      "line_end": 2,
+      "line_start": 2,
+      "metadata": {
+        "component": "assignment",
+        "event_kind": "unknown",
+        "level": "INFO",
+        "message": "Intervento assegnato intervention_id=INT-104 technician_id=TEC-9 priority=ALTA",
+        "object_type": "log_event",
+        "observed_identifiers": {
+          "intervention_id": "INT-104",
+          "priority": "ALTA",
+          "technician_id": "TEC-9"
+        },
+        "parser": "parse_log",
+        "parser_version": "1.0",
+        "source_hash": "294412c24d3cd6c5ebf1ef4f3cc5a9b7d44cba1f8ccbfbf1d39644a6c74bf78c",
+        "timestamp": "2026-02-03 08:10:02"
+      },
+      "path_or_selector": "log/line:2",
+      "sequence": 2,
+      "source_revision_id": "REV_000007",
+      "status": "active",
+      "text": "2026-02-03 08:10:02 INFO assignment Intervento assegnato intervention_id=INT-104 technician_id=TEC-9 priority=ALTA",
+      "text_hash": "b7aea39c0876c65acf1f678aad5c84835eed712f0a39c569a9d7a16998520045"
+    },
+    {
+      "char_end": 357,
+      "char_start": 263,
+      "fragment_id": "FRAG_000016",
+      "fragment_type": "log_event",
+      "line_end": 4,
+      "line_start": 4,
+      "metadata": {
+        "component": "closure",
+        "event_kind": "warning",
+        "level": "WARN",
+        "message": "Checklist incompleta intervention_id=INT-104 missing=COLLAUDO",
+        "object_type": "log_event",
+        "observed_identifiers": {
+          "intervention_id": "INT-104",
+          "missing": "COLLAUDO"
+        },
+        "parser": "parse_log",
+        "parser_version": "1.0",
+        "source_hash": "294412c24d3cd6c5ebf1ef4f3cc5a9b7d44cba1f8ccbfbf1d39644a6c74bf78c",
+        "timestamp": "2026-02-03 09:42:17"
+      },
+      "path_or_selector": "log/line:4",
+      "sequence": 3,
+      "source_revision_id": "REV_000007",
+      "status": "active",
+      "text": "2026-02-03 09:42:17 WARN closure Checklist incompleta intervention_id=INT-104 missing=COLLAUDO",
+      "text_hash": "12755b8cc6411996ff493244f33bea628ac3e1206ee2951483939ad79b7e3cab"
+    },
+    {
+      "char_end": 446,
+      "char_start": 358,
+      "fragment_id": "FRAG_000017",
+      "fragment_type": "log_event",
+      "line_end": 5,
+      "line_start": 5,
+      "metadata": {
+        "component": "closure",
+        "event_kind": "unknown",
+        "level": "INFO",
+        "message": "Intervento chiuso intervention_id=INT-105 status=CHIUSO",
+        "object_type": "log_event",
+        "observed_identifiers": {
+          "intervention_id": "INT-105",
+          "status": "CHIUSO"
+        },
+        "parser": "parse_log",
+        "parser_version": "1.0",
+        "source_hash": "294412c24d3cd6c5ebf1ef4f3cc5a9b7d44cba1f8ccbfbf1d39644a6c74bf78c",
+        "timestamp": "2026-02-03 10:05:44"
+      },
+      "path_or_selector": "log/line:5",
+      "sequence": 4,
+      "source_revision_id": "REV_000007",
+      "status": "active",
+      "text": "2026-02-03 10:05:44 INFO closure Intervento chiuso intervention_id=INT-105 status=CHIUSO",
+      "text_hash": "b031d2d6f0786c1575a56c7f13ea46289fe2ae210e31cfaeae0d89984800ac80"
+    }
+  ],
+  "fragments_hash": "3e966632ac83217e1195601c0e3e7aedbcc615fbbf48ec33951c2c1eab39acd4",
+  "fragments_jsonl_path": "fragments/SRC_000007/REV_000007/fragments.jsonl",
+  "input_path": "corpus/active/logs/esecuzione_interventi_2026.log",
+  "log_objects": {
+    "events": [
+      {
+        "component": "scheduler",
+        "event_kind": "unknown",
+        "level": "INFO",
+        "message": "Avvio coda work order batch_id=BATCH-77",
+        "observed_identifiers": {
+          "batch_id": "BATCH-77"
+        },
+        "timestamp": "2026-02-03 08:10:00"
+      },
+      {
+        "component": "assignment",
+        "event_kind": "unknown",
+        "level": "INFO",
+        "message": "Intervento assegnato intervention_id=INT-104 technician_id=TEC-9 priority=ALTA",
+        "observed_identifiers": {
+          "intervention_id": "INT-104",
+          "priority": "ALTA",
+          "technician_id": "TEC-9"
+        },
+        "timestamp": "2026-02-03 08:10:02"
+      },
+      {
+        "component": "closure",
+        "event_kind": "warning",
+        "level": "WARN",
+        "message": "Checklist incompleta intervention_id=INT-104 missing=COLLAUDO",
+        "observed_identifiers": {
+          "intervention_id": "INT-104",
+          "missing": "COLLAUDO"
+        },
+        "timestamp": "2026-02-03 09:42:17"
+      },
+      {
+        "component": "closure",
+        "event_kind": "unknown",
+        "level": "INFO",
+        "message": "Intervento chiuso intervention_id=INT-105 status=CHIUSO",
+        "observed_identifiers": {
+          "intervention_id": "INT-105",
+          "status": "CHIUSO"
+        },
+        "timestamp": "2026-02-03 10:05:44"
+      }
+    ],
+    "warnings": [
+      {
+        "code": "invalid_log_line",
+        "line_start": 3,
+        "line_text_hash": "c5c852750e9c6ce9fefd5447f49a2612a45360590cfbacf4e06af684b0921333"
+      }
+    ]
+  },
+  "log_options": {
+    "output_fragments_jsonl": true,
+    "parser": "line_regex",
+    "strict_options_fail_on_unsupported_option": true
+  },
+  "log_report_path": "fragments/SRC_000007/REV_000007/log_report.json",
+  "parser": "line_regex",
+  "profile": "log.default",
+  "run_id": "RUN_000012",
+  "source_hash": "294412c24d3cd6c5ebf1ef4f3cc5a9b7d44cba1f8ccbfbf1d39644a6c74bf78c",
+  "source_id": "SRC_000007",
+  "source_revision_id": "REV_000007",
+  "status": "completed",
+  "warning_count": 1,
+  "warnings": [
+    {
+      "code": "invalid_log_line",
+      "line_start": 3,
+      "line_text_hash": "c5c852750e9c6ce9fefd5447f49a2612a45360590cfbacf4e06af684b0921333"
+    }
+  ],
+  "worker_config": {
+    "name": "parse_log",
+    "version": "1.0"
+  },
+  "worker_name": "parse_log",
+  "worker_version": "1.0"
+}

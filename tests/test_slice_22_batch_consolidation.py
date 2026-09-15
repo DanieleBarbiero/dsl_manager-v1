@@ -13,6 +13,7 @@ from pathlib import Path
 import pytest
 
 from dsl_mngr.cli.app import main
+from dsl_mngr.core import batch_consolidation, filesystem
 from dsl_mngr.core.batch_consolidation import (
     BatchConsolidationError,
     consolidate_batch,
@@ -37,6 +38,34 @@ DDL_XML_POLICIES = tuple(
     for contract in DERIVATION_RULE_CATALOG.values()
     if contract.parser_kind in {"ddl", "xml_form"}
 )
+
+
+def test_slice_22_checkpoint_retries_transient_replace_permission_error(
+    tmp_path, monkeypatch
+):
+    checkpoint_path = tmp_path / "batch_checkpoint.json"
+    original_replace = filesystem.os.replace
+    replace_calls: list[tuple[Path, Path]] = []
+    delays: list[float] = []
+
+    def flaky_replace(temporary: Path, path: Path) -> None:
+        replace_calls.append((temporary, path))
+        if len(replace_calls) < 3:
+            raise PermissionError("temporary Windows checkpoint lock")
+        original_replace(temporary, path)
+
+    monkeypatch.setattr(filesystem.os, "replace", flaky_replace)
+    monkeypatch.setattr(filesystem.time, "sleep", delays.append)
+
+    batch_consolidation._write_checkpoint(checkpoint_path, {"status": "running"})
+
+    assert len(replace_calls) == 3
+    assert len({temporary for temporary, _ in replace_calls}) == 1
+    assert delays == [0.05, 0.1]
+    assert json.loads(checkpoint_path.read_text(encoding="utf-8")) == {
+        "status": "running"
+    }
+    assert not checkpoint_path.with_suffix(".tmp").exists()
 
 
 def test_slice_22_mixed_inputs_policy_reconcile_and_no_network(

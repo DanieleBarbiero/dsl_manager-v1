@@ -14,6 +14,7 @@ from pathlib import Path
 import pytest
 
 from dsl_mngr.cli.app import main
+from dsl_mngr.core import filesystem
 from dsl_mngr.core.config import DEFAULT_CONFIG, EXCEL_HARD_MAXIMA, ProjectConfigError, load_config
 from dsl_mngr.core.batch import _actions_for_revision
 from dsl_mngr.core.docling_adapter import (
@@ -42,6 +43,36 @@ REAL_XLSX = FIXTURES / "real_workbook.xlsx"
 REAL_XLSM = FIXTURES / "real_macro_workbook.xlsm"
 CHECKSUMS = json.loads((FIXTURES / "checksums.json").read_text(encoding="utf-8"))
 DEFAULT_LIMITS = ExcelLimits.from_config(DEFAULT_CONFIG["excel"])
+
+
+def test_slice_23_artifact_publish_retries_transient_replace_permission_error(
+    tmp_path, monkeypatch
+):
+    output_dir = tmp_path / "normalized"
+    original_replace = filesystem.os.replace
+    locked_sources: list[Path] = []
+    delays: list[float] = []
+
+    def flaky_replace(temporary: Path, path: Path) -> None:
+        if path.name == "normalized.md" and len(locked_sources) < 2:
+            locked_sources.append(temporary)
+            raise PermissionError("temporary Windows artifact lock")
+        original_replace(temporary, path)
+
+    monkeypatch.setattr(filesystem.os, "replace", flaky_replace)
+    monkeypatch.setattr(filesystem.time, "sleep", delays.append)
+
+    normalize_docling._publish_artifacts(
+        output_dir,
+        {"normalized.json": "{}\n", "normalized.md": "# Normalized\n"},
+    )
+
+    assert len(locked_sources) == 2
+    assert len(set(locked_sources)) == 1
+    assert delays == [0.05, 0.1]
+    assert (output_dir / "normalized.json").read_text(encoding="utf-8") == "{}\n"
+    assert (output_dir / "normalized.md").read_text(encoding="utf-8") == "# Normalized\n"
+    assert not list(output_dir.glob(".normalize_*"))
 
 
 def test_slice_23_real_xlsx_docling(tmp_path, capsys):

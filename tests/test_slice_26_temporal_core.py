@@ -51,7 +51,7 @@ def test_slice_26_migration_v9_and_rollback():
         "SELECT COUNT(*) FROM schema_migrations WHERE version = 9"
     ).fetchone()[0] == 0
     applied = apply_migrations(connection, migrations=MIGRATIONS)
-    assert [migration.version for migration in applied.applied] == [9, 10, 11]
+    assert [migration.version for migration in applied.applied] == [9, 10, 11, 12]
     table_names = {
         row[0]
         for row in connection.execute(

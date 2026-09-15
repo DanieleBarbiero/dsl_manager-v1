@@ -3,7 +3,7 @@
 > Release applicativa di riferimento: **1.1.0**.
 
 Questa è la mappa architetturale sintetica dello stato consegnato fino alla
-Slice 28. Per l'uso dettagliato vedere il
+Slice 31. Per l'uso dettagliato vedere il
 [manuale utente](manuale_utente_dsl_manager.md); per le invarianti vedere
 l'[analisi tecnica](../documenti%20tecnici/analisi_tecnica_dsl_manager.md) e il
 [design v02](../documenti%20di%20design/run%202/design_document_v_02.md).
@@ -46,7 +46,7 @@ evidenze --regole/import--> candidato pending --review--> testa confirmed
 
 ## 1. Registrare i byte
 
-`init`, `db init` e `corpus scan` preparano workspace, schema v10 e registro.
+`init`, `db init` e `corpus scan` preparano workspace, schema v12 e registro.
 Una `source` identifica il documento logico; una `source_revision` identifica
 byte precisi. Ogni elaborazione rilegge quei byte e ne verifica l'hash.
 
@@ -74,6 +74,11 @@ quando la testa corrente è `confirmed`. Idempotency key e expected head rendono
 retry e concorrenza espliciti. Una correzione crea una nuova foglia e non altera
 l'originale.
 
+L'allowlist è governabile senza editor esterni: `config review show|profiles`,
+`apply-profile --profile conservative/1`, `set-allowlist` e `config validate`.
+Il profilo built-in contiene 13 policy, ma il default di un workspace nuovo
+resta vuoto.
+
 ## 5. Consolidare e riconciliare
 
 Il merge materializza esclusivamente candidati eleggibili e conserva la
@@ -91,6 +96,12 @@ aperti e ogni intervallo proposto passa dalla review comune.
 Anno e mese mantengono la precisione tramite coverage envelope; i `dateTime`
 richiedono timezone esplicita o risolta. Intervalli disgiunti restano spells
 distinti.
+
+`temporal propagate` rende pubblica la propagazione esplicita verso
+`fact|relation` con policy `explicit_copy|intersection|aggregation|conflict`.
+Produce candidati pending o un conflitto: review e merge restano obbligatori.
+Più candidati confermati possono sostenere lo stesso intervallo v12 senza
+duplicarlo.
 
 ## 7. Pubblicare viste compatibili
 
@@ -131,20 +142,28 @@ prima dell'uso. Non sono previsti provider, modelli, embeddings o rete.
   fatti, decisioni o intervalli.
 - La selezione AI per route è opt-in; il percorso package legacy resta
   disponibile senza policy o piano.
+- Il solo profilo review built-in è `conservative/1`.
+- `diagnostics normalization run` ammette solo
+  `controlled_partial_success/1`: è una simulazione controllata, non una
+  previsione dell'esito Docling.
 
 ## 9. Percorso operativo breve
 
 ```powershell
 dsl-manager init <workspace>
 dsl-manager db init <workspace>
+dsl-manager config review apply-profile <workspace> --profile conservative/1
+dsl-manager config validate <workspace> --profile conservative/1
 dsl-manager corpus scan <workspace>
 dsl-manager batch consolidate <workspace>
 dsl-manager candidates review list <workspace> --outcome pending
 dsl-manager candidates review confirm <workspace> <CREC_ID> --actor-id <ACTOR_ID>
 dsl-manager facts merge <workspace> --batch <CBATCH_ID>
 dsl-manager facts reconcile <workspace>
+dsl-manager temporal propagate <workspace> --source-revision-id <REV_ID> --target-subject-type fact --target-subject-id <FACT_ID> --source-subject source_revision:<REV_ID> --policy explicit_copy
 dsl-manager dsl render <workspace> --schema-version 2
 dsl-manager graph export <workspace> --snapshot-id <DSL_ID> --dynamic
+dsl-manager diagnostics normalization run <workspace> --revision <REV_ID> --scenario controlled_partial_success/1
 ```
 
 Gli ID vanno presi dall'output reale. Il corpus

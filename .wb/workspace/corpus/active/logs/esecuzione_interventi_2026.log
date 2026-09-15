@@ -1,0 +1,6 @@
+2026-02-03 08:10:00 INFO scheduler Avvio coda work order batch_id=BATCH-77
+2026-02-03 08:10:02 INFO assignment Intervento assegnato intervention_id=INT-104 technician_id=TEC-9 priority=ALTA
+riga legacy non conforme conservata per verificare il warning del parser
+2026-02-03 09:42:17 WARN closure Checklist incompleta intervention_id=INT-104 missing=COLLAUDO
+2026-02-03 10:05:44 INFO closure Intervento chiuso intervention_id=INT-105 status=CHIUSO
+

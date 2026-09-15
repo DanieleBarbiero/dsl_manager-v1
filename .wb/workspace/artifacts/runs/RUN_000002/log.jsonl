@@ -1,0 +1,18 @@
+{"event": "run_started", "level": "INFO", "message": "Run RUN_000002 started.", "run_id": "RUN_000002", "timestamp": "2026-09-14T14:41:30+02:00"}
+{"event": "batch_started", "level": "INFO", "message": "Batch process-dir started with 14 item(s).", "run_id": "RUN_000002", "timestamp": "2026-09-14T14:41:30+02:00"}
+{"event": "batch_item_failed", "level": "ERROR", "message": "Batch item BITEM_000001 failed: parse_ddl: Worker exited with code 5.: {\"error_type\": \"ddl_parsing_failed\", \"message\": \"Malformed CREATE INDEX near line 40.\", \"worker_name\": \"parse_ddl\"}", "run_id": "RUN_000002", "timestamp": "2026-09-14T14:41:31+02:00"}
+{"event": "batch_item_completed", "level": "INFO", "message": "Batch item BITEM_000002 completed: parse_db_code.", "run_id": "RUN_000002", "timestamp": "2026-09-14T14:41:31+02:00"}
+{"event": "batch_item_completed", "level": "INFO", "message": "Batch item BITEM_000003 completed: normalize.", "run_id": "RUN_000002", "timestamp": "2026-09-14T14:43:57+02:00"}
+{"event": "batch_item_completed", "level": "INFO", "message": "Batch item BITEM_000004 completed: chunk.", "run_id": "RUN_000002", "timestamp": "2026-09-14T14:43:59+02:00"}
+{"event": "batch_item_completed", "level": "INFO", "message": "Batch item BITEM_000005 completed: normalize.", "run_id": "RUN_000002", "timestamp": "2026-09-14T14:45:28+02:00"}
+{"event": "batch_item_completed", "level": "INFO", "message": "Batch item BITEM_000006 completed: chunk.", "run_id": "RUN_000002", "timestamp": "2026-09-14T14:45:30+02:00"}
+{"event": "batch_item_completed", "level": "INFO", "message": "Batch item BITEM_000007 completed: normalize.", "run_id": "RUN_000002", "timestamp": "2026-09-14T14:46:57+02:00"}
+{"event": "batch_item_completed", "level": "INFO", "message": "Batch item BITEM_000008 completed: chunk.", "run_id": "RUN_000002", "timestamp": "2026-09-14T14:46:59+02:00"}
+{"event": "batch_item_completed", "level": "INFO", "message": "Batch item BITEM_000009 completed: parse_xml_form.", "run_id": "RUN_000002", "timestamp": "2026-09-14T14:47:01+02:00"}
+{"event": "batch_item_completed", "level": "INFO", "message": "Batch item BITEM_000010 completed: parse_log.", "run_id": "RUN_000002", "timestamp": "2026-09-14T14:47:03+02:00"}
+{"event": "batch_item_completed", "level": "INFO", "message": "Batch item BITEM_000011 completed: normalize.", "run_id": "RUN_000002", "timestamp": "2026-09-14T14:48:29+02:00"}
+{"event": "batch_item_completed", "level": "INFO", "message": "Batch item BITEM_000012 completed: chunk.", "run_id": "RUN_000002", "timestamp": "2026-09-14T14:48:31+02:00"}
+{"event": "batch_item_completed", "level": "INFO", "message": "Batch item BITEM_000013 completed: normalize.", "run_id": "RUN_000002", "timestamp": "2026-09-14T14:50:01+02:00"}
+{"event": "batch_item_completed", "level": "INFO", "message": "Batch item BITEM_000014 completed: chunk.", "run_id": "RUN_000002", "timestamp": "2026-09-14T14:50:02+02:00"}
+{"event": "run_failed", "level": "ERROR", "message": "Run RUN_000002 failed: Batch process-dir failed: 1 item(s) failed.", "run_id": "RUN_000002", "timestamp": "2026-09-14T14:50:02+02:00"}
+{"event": "batch_failed", "level": "ERROR", "message": "Batch process-dir failed; completed=13; failed=1; skipped=0.", "run_id": "RUN_000002", "timestamp": "2026-09-14T14:50:03+02:00"}

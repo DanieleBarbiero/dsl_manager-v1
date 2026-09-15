@@ -1,0 +1,45 @@
+{
+  "chunk_count": 1,
+  "chunk_report_path": "chunks/SRC_000003/REV_000003/chunk_report.json",
+  "chunks": [
+    {
+      "chunk_id": "CHK_000001",
+      "metadata": {
+        "chunker": "chunk_docling",
+        "chunker_version": "1.0",
+        "end_char": 2201,
+        "heading_path": [
+          "Manuale operativo Orione Assistenza",
+          "Modernizzazione e domande aperte"
+        ],
+        "normalized_hash": "c5b1eba79c4a4f721424da9e39d4f4213883818033d545d23bfb22559ff8d631",
+        "normalized_json_path": "normalized/SRC_000003/REV_000003/normalized.json",
+        "normalized_markdown_path": "normalized/SRC_000003/REV_000003/normalized.md",
+        "source_text_kind": "normalized_markdown",
+        "start_char": 0,
+        "strategy": "heading_paragraph"
+      },
+      "sequence": 1,
+      "source_revision_id": "REV_000003",
+      "status": "active",
+      "text": "# Manuale operativo Orione Assistenza\n\neffective\\_from: 2026-01-15\n\n## Scopo e lessico\n\nOrione Assistenza gestisce interventi di manutenzione su asset industriali. Un Asset è identificato dalla matricola; un Intervento descrive una richiesta di lavoro; un Tecnico può essere assegnato a più interventi; una Voce di checklist documenta una verifica eseguita durante un intervento.\n\nNel linguaggio degli operatori, “ticket” e “intervento” indicano lo stesso concetto. Il codice applicativo e il database usano il termine INTERVENTO. La schermata principale mostra la matricola dell'asset, la priorità, lo stato e il tecnico assegnato.\n\n## Apertura e assegnazione\n\nOgni intervento appartiene a un solo asset. Alla creazione lo stato è APERTO e la priorità è BASSA, MEDIA o ALTA. Un intervento ad alta priorità deve essere assegnato entro due ore a un tecnico con livello almeno 3. Il responsabile di turno può riassegnare il tecnico, ma deve conservare la motivazione nell'audit.\n\nLa funzione “Assegna” della form aggiorna il tecnico e porta lo stato ad ASSEGNATO. La procedura PRC\\_ASSEGNA\\_TECNICO implementa l'aggiornamento tecnico; la relazione fra il pulsante della form e la procedura non è espressa nel DDL.\n\n## Checklist e chiusura\n\nPrima della chiusura devono essere presenti almeno le voci SICUREZZA e COLLAUDO, entrambe con esito OK. La chiusura valida porta lo stato a CHIUSO e registra CHIUSO\\_IL. Un intervento senza checklist completa deve rimanere IN\\_LAVORAZIONE.\n\nIl manuale richiede che sia l'operatore a premere “Chiudi”. Nel codice legacy esiste però un trigger chiamato TRG\\_CHIUDI\\_INTERVENTO: occorre verificare se effettui una chiusura automatica e se ciò contraddica la procedura operativa.\n\n## Modernizzazione e domande aperte\n\nNel nuovo servizio il termine pubblico sarà WorkOrder, mentre la tabella legacy rimarrà INTERVENTO durante la migrazione. La corrispondenza WorkOrder ↔ INTERVENTO è una proposta di mapping, non un cambio di schema già approvato.\n\nNon è chiaro se i tecnici di livello 2 con certificazione temporanea possano gestire priorità ALTA. La fonte corrente non definisce né il periodo né l'autorità che concede l'eccezione: la questione deve restare aperta.\n",
+      "text_hash": "c5b1eba79c4a4f721424da9e39d4f4213883818033d545d23bfb22559ff8d631"
+    }
+  ],
+  "chunks_hash": "9fd6fef5d197b0b60c2d396bdee0e57cabb46cb7b393748805c7ed456b29b6f0",
+  "chunks_jsonl_path": "chunks/SRC_000003/REV_000003/chunks.jsonl",
+  "exit_code": 0,
+  "normalized_hash": "c5b1eba79c4a4f721424da9e39d4f4213883818033d545d23bfb22559ff8d631",
+  "normalized_json_path": "normalized/SRC_000003/REV_000003/normalized.json",
+  "normalized_markdown_path": "normalized/SRC_000003/REV_000003/normalized.md",
+  "profile": "docling.chunking",
+  "run_id": "RUN_000022",
+  "source_hash": "5f794ff4fd14a071309636299d9a75a33c5810ef66b6aa0af684a265704a4aaa",
+  "source_hash_path": "normalized/SRC_000003/REV_000003/source_hash.txt",
+  "source_id": "SRC_000003",
+  "source_revision_id": "REV_000003",
+  "status": "completed",
+  "strategy": "heading_paragraph",
+  "worker_name": "chunk_docling",
+  "worker_version": "1.0"
+}

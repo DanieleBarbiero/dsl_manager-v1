@@ -28,6 +28,20 @@
               "end": "2025-12-31",
               "original_precision": "day",
               "start": "2025-01-01",
+              "supports": [
+                {
+                  "candidate_record_id": "CREC_000005",
+                  "current_decision_id": "RDEC_000005",
+                  "materialization_decision_id": "RDEC_000005",
+                  "review": {
+                    "outcome": "confirmed",
+                    "policy_id": null,
+                    "policy_version": null,
+                    "semantic_payload_hash": "5a70ecece3b96a10d8d4bc3d1f274fe8fad2ed948a30f6b1c10eb8ed524fa623"
+                  },
+                  "support_id": "TISUP_000001"
+                }
+              ],
               "timeformat": "date",
               "timezone": "Europe/Rome"
             }
@@ -67,8 +81,8 @@
       "facts": 3,
       "relations": 1
     },
-    "dsl_hash": "83e630d881111aaca0c806eafcccfea66c9ff435cd81d3c6a006513ccc2b5860",
-    "registry_hash": "cefa85a8a75817221152ce024b4ffad00e42b83138de4d9e6a40d4c09a43692f",
+    "dsl_hash": "b7a554f4b772453771dfbc427ea28f14ed7f59befaf32e75da0b9f1924decd91",
+    "registry_hash": "77139575b72eddd8c81aae889e95e916153d4ed93e65da88b01823a8e5985703",
     "schema_version": "2",
     "temporal": {
       "base": "day",
@@ -169,11 +183,15 @@
         {
           "candidate_record_id": "CREC_000005",
           "chunk_id": null,
+          "current_decision_id": "RDEC_000005",
           "evidence_text_hash": "2c3d1a4e2b4e7c7ce561e7bbf95fd97dcde599a9be89d6f9a9682a9980a618c7",
           "file_path": "corpus/active/manuale_clienti.txt",
           "fragment_id": null,
+          "interval_id": "TINT_000001",
+          "materialization_decision_id": "RDEC_000005",
           "source_id": "SRC_000001",
           "source_revision_id": "REV_000001",
+          "support_id": "TISUP_000001",
           "temporal_evidence_id": "TEV_900001"
         }
       ]

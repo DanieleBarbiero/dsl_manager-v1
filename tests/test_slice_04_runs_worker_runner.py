@@ -11,7 +11,7 @@ from pathlib import Path
 import pytest
 
 from dsl_mngr.cli.app import main
-from dsl_mngr.core import worker_runner
+from dsl_mngr.core import filesystem, worker_runner
 from dsl_mngr.core.migrations import migrate_workspace_database
 from dsl_mngr.core.runs import RunLifecycleError, complete_run, fail_run, start_run
 from dsl_mngr.core.worker_runner import run_worker
@@ -20,6 +20,80 @@ from dsl_mngr.core.workspace import initialize_workspace
 
 FIXED_TIME = datetime(2026, 5, 29, 12, 0, tzinfo=timezone.utc)
 WORKERS_DIR = Path(__file__).parent / "fixtures" / "workers"
+
+
+def test_atomic_write_retries_transient_replace_permission_error(tmp_path, monkeypatch):
+    destination = tmp_path / "output.json"
+    destination.write_text("old content", encoding="utf-8")
+    original_replace = filesystem.os.replace
+    replace_calls: list[tuple[Path, Path]] = []
+    delays: list[float] = []
+
+    def flaky_replace(temporary: Path, path: Path) -> None:
+        replace_calls.append((temporary, path))
+        if len(replace_calls) < 3:
+            raise PermissionError("temporary Windows destination lock")
+        original_replace(temporary, path)
+
+    monkeypatch.setattr(filesystem.os, "replace", flaky_replace)
+    monkeypatch.setattr(filesystem.time, "sleep", delays.append)
+
+    worker_runner._atomic_write_text(destination, "new content\n")
+
+    assert len(replace_calls) == 3
+    assert len({temporary for temporary, _ in replace_calls}) == 1
+    assert all(path == destination for _, path in replace_calls)
+    assert delays == [0.05, 0.1]
+    assert destination.read_text(encoding="utf-8") == "new content\n"
+    assert not replace_calls[0][0].exists()
+
+
+def test_atomic_write_fails_after_bounded_replace_retries(tmp_path, monkeypatch):
+    destination = tmp_path / "output.json"
+    destination.write_text("old content", encoding="utf-8")
+    replace_error = PermissionError("persistent Windows destination lock")
+    replace_calls: list[tuple[Path, Path]] = []
+    delays: list[float] = []
+
+    def locked_replace(temporary: Path, path: Path) -> None:
+        replace_calls.append((temporary, path))
+        raise replace_error
+
+    monkeypatch.setattr(filesystem.os, "replace", locked_replace)
+    monkeypatch.setattr(filesystem.time, "sleep", delays.append)
+
+    with pytest.raises(PermissionError) as raised:
+        worker_runner._atomic_write_text(destination, "new content\n")
+
+    assert raised.value is replace_error
+    assert len(replace_calls) == filesystem.PERMISSION_ERROR_RETRY_ATTEMPTS
+    assert len({temporary for temporary, _ in replace_calls}) == 1
+    assert all(path == destination for _, path in replace_calls)
+    assert delays == [0.05, 0.1, 0.2, 0.4, 0.5, 0.5, 0.5, 0.5, 0.5]
+    assert destination.read_text(encoding="utf-8") == "old content"
+    assert not replace_calls[0][0].exists()
+
+
+def test_atomic_write_does_not_retry_other_os_errors(tmp_path, monkeypatch):
+    destination = tmp_path / "output.json"
+    replace_error = OSError("non-permission replace failure")
+    replace_calls: list[tuple[Path, Path]] = []
+    delays: list[float] = []
+
+    def failing_replace(temporary: Path, path: Path) -> None:
+        replace_calls.append((temporary, path))
+        raise replace_error
+
+    monkeypatch.setattr(filesystem.os, "replace", failing_replace)
+    monkeypatch.setattr(filesystem.time, "sleep", delays.append)
+
+    with pytest.raises(OSError) as raised:
+        worker_runner._atomic_write_text(destination, "new content\n")
+
+    assert raised.value is replace_error
+    assert len(replace_calls) == 1
+    assert delays == []
+    assert not replace_calls[0][0].exists()
 
 
 def test_worker_temp_cleanup_retries_transient_permission_error(tmp_path, monkeypatch):
@@ -38,7 +112,7 @@ def test_worker_temp_cleanup_retries_transient_permission_error(tmp_path, monkey
         original_unlink(path, missing_ok=missing_ok)
 
     monkeypatch.setattr(Path, "unlink", flaky_unlink)
-    monkeypatch.setattr(worker_runner.time, "sleep", delays.append)
+    monkeypatch.setattr(filesystem.time, "sleep", delays.append)
 
     worker_runner._unlink_worker_temp_file(temporary)
 
@@ -60,14 +134,14 @@ def test_worker_temp_cleanup_fails_after_bounded_retries(tmp_path, monkeypatch):
         raise PermissionError("persistent Windows file lock")
 
     monkeypatch.setattr(Path, "unlink", locked_unlink)
-    monkeypatch.setattr(worker_runner.time, "sleep", delays.append)
+    monkeypatch.setattr(filesystem.time, "sleep", delays.append)
 
     with pytest.raises(PermissionError, match="persistent Windows file lock"):
         worker_runner._unlink_worker_temp_file(temporary)
 
-    assert attempts == worker_runner._WORKER_TEMP_CLEANUP_ATTEMPTS
-    assert len(delays) == worker_runner._WORKER_TEMP_CLEANUP_ATTEMPTS - 1
-    assert delays[-1] == worker_runner._WORKER_TEMP_CLEANUP_MAX_DELAY_SECONDS
+    assert attempts == filesystem.PERMISSION_ERROR_RETRY_ATTEMPTS
+    assert len(delays) == filesystem.PERMISSION_ERROR_RETRY_ATTEMPTS - 1
+    assert delays[-1] == filesystem.PERMISSION_ERROR_RETRY_MAX_DELAY_SECONDS
 
 
 def test_run_lifecycle(tmp_path):

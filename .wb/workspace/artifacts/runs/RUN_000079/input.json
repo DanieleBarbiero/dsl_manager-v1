@@ -1,0 +1,27 @@
+{
+  "artifact_dir": "artifacts/runs/RUN_000079",
+  "batch_command": "merge-batch",
+  "options": {
+    "batch_ids": [
+      "CBATCH_000025",
+      "CBATCH_000035"
+    ]
+  },
+  "planned_items": [
+    {
+      "batch_id": "CBATCH_000025",
+      "item_id": "BITEM_000001",
+      "kind": "merge",
+      "status": "pending"
+    },
+    {
+      "batch_id": "CBATCH_000035",
+      "item_id": "BITEM_000002",
+      "kind": "merge",
+      "status": "pending"
+    }
+  ],
+  "run_id": "RUN_000079",
+  "run_type": "batch",
+  "stop_on_error": true
+}

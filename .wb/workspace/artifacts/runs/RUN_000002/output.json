@@ -1,0 +1,11 @@
+{
+  "batch_command": "process-dir",
+  "batch_report_path": "artifacts/runs/RUN_000002/batch_report.json",
+  "status": "failed",
+  "summary": {
+    "completed": 13,
+    "failed": 1,
+    "skipped": 0,
+    "total": 14
+  }
+}

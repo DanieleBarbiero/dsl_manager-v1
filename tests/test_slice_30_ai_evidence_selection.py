@@ -335,9 +335,9 @@ def test_real_v10_upgrade_idempotence_and_atomic_rollback(tmp_path):
         upgraded = apply_migrations(connection, migrations=MIGRATIONS)
         repeated = apply_migrations(connection, migrations=MIGRATIONS)
         assert [migration.version for migration in first.applied] == list(range(1, 11))
-        assert [migration.version for migration in upgraded.applied] == [11]
+        assert [migration.version for migration in upgraded.applied] == [11, 12]
         assert repeated.applied_count == 0
-        assert repeated.skipped_count == 11
+        assert repeated.skipped_count == 12
         columns = {
             row["name"] for row in connection.execute("PRAGMA table_info(ai_packages)")
         }

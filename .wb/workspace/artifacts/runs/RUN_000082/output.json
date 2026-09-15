@@ -1,0 +1,14 @@
+{
+  "conflict_count": 1,
+  "dsl_hash": "0dabe1ee036633792a901675d9fb4016a91203e8ab8e3996d156199f1e335259",
+  "entity_count": 50,
+  "fact_count": 52,
+  "json_path": "exports/dsl/DSL_000001.json",
+  "markdown_path": "exports/dsl/DSL_000001.md",
+  "output_dir": "exports/dsl",
+  "registry_hash": "b4830a7c75f58ad78bf287403600f79b7ad0919d0c91a8bb0b2e4ead6306bfb9",
+  "relation_count": 16,
+  "run_id": "RUN_000082",
+  "snapshot_id": "DSL_000001",
+  "yaml_path": "exports/dsl/DSL_000001.yaml"
+}

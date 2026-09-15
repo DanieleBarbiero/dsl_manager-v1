@@ -93,13 +93,20 @@ def run_candidates_validate_batch_command(args: object) -> int:
 def run_candidates_review_list_command(args: object) -> int:
     workspace = Path(getattr(args, "workspace"))
     outcome = str(getattr(args, "outcome", "pending"))
+    source = getattr(args, "source", None)
+    batch_id = getattr(args, "batch_id", None)
     try:
-        rows = CandidateReviewService(workspace).list_candidates(outcome=outcome)
+        rows = CandidateReviewService(workspace).list_candidates(
+            outcome=outcome,
+            source=str(source) if source is not None else None,
+            batch_id=str(batch_id) if batch_id is not None else None,
+        )
     except (CandidateReviewError, DatabaseNotReadyError, WorkspaceNotInitializedError) as exc:
         print(f"Error: {exc}", file=sys.stderr)
         return int(getattr(exc, "exit_code", 2))
     payload = {
         "artifact_paths": [],
+        "batch_id": batch_id,
         "candidates": rows,
         "catalog_version": "result_catalog_v1",
         "condition": "review_list",
@@ -113,6 +120,7 @@ def run_candidates_review_list_command(args: object) -> int:
         "run_id": None,
         "schema_version": "1",
         "severity": "info",
+        "source": source,
         "status": "completed",
         "subject_ids": [row["candidate_record_id"] for row in rows],
     }
@@ -135,7 +143,11 @@ def run_candidates_review_show_command(args: object) -> int:
         "condition": "review_show",
         "counters": {
             "decisions": len(detail["decisions"]),
-            "supports": sum(int(value) for value in detail["support"].values()),
+            "supports": sum(
+                int(value)
+                for value in detail["support"].values()
+                if isinstance(value, (bool, int))
+            ),
         },
         "exit_code": 0,
         "mutations": False,

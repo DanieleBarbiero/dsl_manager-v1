@@ -28,6 +28,7 @@ dsl_mngr = [
     "resources/gexf/1.3/*.xsd",
     "resources/gexf/1.3/*.json",
     "resources/gexf/1.3/*.txt",
+    "resources/review_profiles/*.json",
 ]
 
 [tool.pytest.ini_options]

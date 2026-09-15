@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form name="FRM_INTERVENTO" title="Gestione intervento">
+  <field name="ID" label="Identificativo" table="INTERVENTO" column="ID" required="true" />
+  <field name="MATRICOLA" label="Matricola asset" table="ASSET" column="MATRICOLA" required="true" />
+  <field name="TECNICO_ID" label="Tecnico" table="INTERVENTO" column="TECNICO_ID" required="false" />
+  <field name="STATO" label="Stato" table="INTERVENTO" column="STATO" required="true" />
+  <field name="PRIORITA" label="Priorità" table="INTERVENTO" column="PRIORITA" required="true" />
+  <button name="SALVA" label="Salva" />
+  <button name="CONFERMA" label="Assegna e conferma" />
+  <button name="ANNULLA" label="Annulla" />
+  <valid_from>2026-01-15</valid_from>
+</form>
+

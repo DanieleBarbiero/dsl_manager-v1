@@ -1,0 +1,19 @@
+{
+  "artifact_dir": "artifacts/runs/RUN_000087",
+  "parameters": {
+    "format": "gexf",
+    "options": {
+      "directed": true,
+      "include_conflicts": true,
+      "include_fact_nodes": true,
+      "include_sources": true,
+      "node_label_strategy": "readable",
+      "strict_orphans": true
+    },
+    "output_dir": "exports/graph",
+    "snapshot_id": "DSL_000001"
+  },
+  "parent_run_id": null,
+  "run_id": "RUN_000087",
+  "run_type": "gexf_export"
+}

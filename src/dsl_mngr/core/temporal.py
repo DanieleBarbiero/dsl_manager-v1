@@ -407,35 +407,14 @@ def materialize_temporal_interval(
         )
     existing_same = connection.execute(
         """
-        SELECT interval_id FROM temporal_intervals
-        WHERE source_candidate_record_id = ?
+        SELECT interval_id FROM temporal_interval_supports
+        WHERE candidate_record_id = ?
         """,
         (candidate_record_id,),
     ).fetchone()
     if existing_same is not None:
         _resolve_temporal_conflicts(connection, candidate_record_id, decision_id)
         return str(existing_same["interval_id"])
-    effective_count = int(connection.execute(
-        """
-        SELECT COUNT(*)
-        FROM temporal_intervals ti
-        JOIN review_subject_heads h
-          ON h.subject_type = 'candidate_record'
-         AND h.subject_id = ti.source_candidate_record_id
-        JOIN review_decisions rd ON rd.decision_id = h.decision_id
-        WHERE ti.subject_type = ? AND ti.subject_id = ?
-          AND ti.source_candidate_record_id <> ?
-          AND rd.outcome = 'confirmed'
-        """,
-        (detail["target_subject_type"], detail["target_subject_id"], candidate_record_id),
-    ).fetchone()[0])
-    if effective_count >= max_intervals_per_subject:
-        raise TemporalError(
-            "The target reached temporal.max_intervals_per_subject "
-            f"({max_intervals_per_subject}).",
-            reason="temporal_interval_budget_exceeded",
-            exit_code=4,
-        )
     semantic = {
         "bounds_semantics": detail["bounds_semantics"],
         "end_value": end,
@@ -459,8 +438,46 @@ def materialize_temporal_interval(
         ),
     ).fetchone()
     if existing_semantic is not None:
+        _insert_temporal_interval_support(
+            connection,
+            interval_id=str(existing_semantic["interval_id"]),
+            candidate_record_id=candidate_record_id,
+            decision_id=decision_id,
+            timestamp=timestamp,
+        )
         _resolve_temporal_conflicts(connection, candidate_record_id, decision_id)
         return str(existing_semantic["interval_id"])
+    effective_count = int(
+        connection.execute(
+            """
+            SELECT COUNT(*)
+            FROM temporal_intervals ti
+            WHERE ti.subject_type = ? AND ti.subject_id = ?
+              AND EXISTS (
+                  SELECT 1
+                  FROM temporal_interval_supports tis
+                  JOIN review_subject_heads h
+                    ON h.subject_type = 'candidate_record'
+                   AND h.subject_id = tis.candidate_record_id
+                  JOIN review_decisions rd ON rd.decision_id = h.decision_id
+                  WHERE tis.interval_id = ti.interval_id
+                    AND rd.outcome = 'confirmed'
+                    AND NOT EXISTS (
+                        SELECT 1 FROM candidate_lineage child
+                        WHERE child.parent_candidate_record_id = tis.candidate_record_id
+                    )
+              )
+            """,
+            (detail["target_subject_type"], detail["target_subject_id"]),
+        ).fetchone()[0]
+    )
+    if effective_count >= max_intervals_per_subject:
+        raise TemporalError(
+            "The target reached temporal.max_intervals_per_subject "
+            f"({max_intervals_per_subject}).",
+            reason="temporal_interval_budget_exceeded",
+            exit_code=4,
+        )
     interval_id = next_id(connection, "temporal_intervals", "interval_id", "TINT")
     connection.execute(
         """
@@ -487,8 +504,54 @@ def materialize_temporal_interval(
             timestamp,
         ),
     )
+    _insert_temporal_interval_support(
+        connection,
+        interval_id=interval_id,
+        candidate_record_id=candidate_record_id,
+        decision_id=decision_id,
+        timestamp=timestamp,
+    )
     _resolve_temporal_conflicts(connection, candidate_record_id, decision_id)
     return interval_id
+
+
+def _insert_temporal_interval_support(
+    connection: sqlite3.Connection,
+    *,
+    interval_id: str,
+    candidate_record_id: str,
+    decision_id: str,
+    timestamp: str,
+) -> None:
+    existing = connection.execute(
+        """
+        SELECT interval_id FROM temporal_interval_supports
+        WHERE candidate_record_id = ?
+        """,
+        (candidate_record_id,),
+    ).fetchone()
+    if existing is not None:
+        if str(existing["interval_id"]) != interval_id:
+            raise TemporalError(
+                "Temporal candidate already supports a different interval.",
+                reason="temporal_support_conflict",
+            )
+        return
+    support_id = next_id(
+        connection,
+        "temporal_interval_supports",
+        "support_id",
+        "TISUP",
+    )
+    connection.execute(
+        """
+        INSERT INTO temporal_interval_supports (
+            support_id, interval_id, candidate_record_id, decision_id, created_at
+        )
+        VALUES (?, ?, ?, ?, ?)
+        """,
+        (support_id, interval_id, candidate_record_id, decision_id, timestamp),
+    )
 
 
 def _resolve_temporal_conflicts(

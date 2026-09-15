@@ -3,12 +3,39 @@
 > Release applicativa di riferimento: **1.1.0**.
 
 Questa edizione conserva la forma domanda/risposta dell'outline storico e la
-riallinea allo stato consegnato fino alla Slice 28. Il riferimento sintetico
+riallinea allo stato consegnato fino alla Slice 31. Il riferimento sintetico
 rimane l'[outline 1.1](outline_dsl_manager_flow_from_input_to_output_riassunto.md);
 per i dettagli operativi e le invarianti vedere il
 [manuale utente](manuale_utente_dsl_manager.md),
 l'[analisi tecnica](../documenti%20tecnici/analisi_tecnica_dsl_manager.md) e i
 [contratti manifest](../documenti%20tecnici/contratti_manifest_dsl_manager.md).
+
+## Contratti pubblici aggiunti dalla Slice 31
+
+Il flusso principale non richiede più modifica manuale di YAML, adapter
+temporali o iniezione di worker. Le forme osservate nell'help installato sono:
+
+```text
+config review show|profiles WORKSPACE
+config review apply-profile WORKSPACE --profile conservative/1
+  [--expect-config-hash HASH]
+config review set-allowlist WORKSPACE [--policy POLICY ...]
+  [--expect-config-hash HASH]
+config validate WORKSPACE [--profile conservative/1]
+temporal propagate WORKSPACE --source-revision-id REV_ID
+  --target-subject-type {fact,relation} --target-subject-id TARGET_ID
+  --source-subject TYPE:ID [--source-subject TYPE:ID ...]
+  --policy {explicit_copy,intersection,aggregation,conflict}
+diagnostics normalization run WORKSPACE --revision REV_ID
+  --scenario {controlled_partial_success/1}
+```
+
+`set-allowlist` senza `--policy` azzera la lista. La propagazione produce
+candidati pending o conflitto, mai approvazione automatica. La v12 conserva più
+supporti confermati dello stesso intervallo semantico senza duplicarlo. La
+diagnostica attraversa runner e stato run reali, termina `partial`/exit 6,
+dichiara `controlled_simulation: true` e isola gli artefatti dal flusso di
+produzione.
 
 I passaggi conversazionali conservati sotto sono parte del tutorial e non
 istruzioni operative.
@@ -3269,7 +3296,10 @@ La decisione automatica conserva:
 
 Per un attore automatico, `policy_id` e `policy_version` sono obbligatori. {line\_range\_start=164 line\_range\_end=168 path=.kb/documenti/documenti di design/run 2/design\_document\_v\_02.md git\_url="https://github.com/DanieleBarbiero/dsl\_manager-v1/blob/main/.kb/documenti/documenti di design/run 2/design\_document\_v\_02.md#L164-L168"}
 
-Le policy automatiche abilitate sono inoltre elencate esplicitamente nella configurazione:
+Le policy automatiche abilitate sono inoltre elencate esplicitamente nella
+configurazione. Nel runtime Slice 31 non serve editarla: `config review show`
+legge il valore effettivo, `apply-profile --profile conservative/1` installa le
+13 policy conservative e `config validate` controlla il risultato.
 
 ````
 TOML

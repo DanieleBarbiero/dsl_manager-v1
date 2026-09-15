@@ -1,0 +1,143 @@
+{
+  "body": {
+    "children": [
+      {
+        "$ref": "#/texts/0"
+      },
+      {
+        "$ref": "#/texts/1"
+      }
+    ],
+    "content_layer": "body",
+    "label": "unspecified",
+    "name": "_root_",
+    "self_ref": "#/body"
+  },
+  "form_items": [],
+  "furniture": {
+    "children": [],
+    "content_layer": "furniture",
+    "label": "unspecified",
+    "name": "_root_",
+    "self_ref": "#/furniture"
+  },
+  "groups": [],
+  "key_value_items": [],
+  "name": "procedura_storica_chiusura_2023",
+  "origin": {
+    "binary_hash": 1555880031645428926,
+    "filename": "procedura_storica_chiusura_2023.html",
+    "mimetype": "text/html"
+  },
+  "pages": {},
+  "pictures": [],
+  "schema_name": "DoclingDocument",
+  "tables": [],
+  "texts": [
+    {
+      "children": [],
+      "content_layer": "furniture",
+      "label": "title",
+      "orig": "Procedura storica di chiusura",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "prov": [],
+      "self_ref": "#/texts/0",
+      "text": "Procedura storica di chiusura"
+    },
+    {
+      "children": [
+        {
+          "$ref": "#/texts/2"
+        },
+        {
+          "$ref": "#/texts/3"
+        },
+        {
+          "$ref": "#/texts/5"
+        }
+      ],
+      "content_layer": "body",
+      "label": "title",
+      "orig": "Procedura storica di chiusura",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "prov": [],
+      "self_ref": "#/texts/1",
+      "text": "Procedura storica di chiusura"
+    },
+    {
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "orig": "Questa procedura è stata pubblicata il 10 gennaio 2023 .",
+      "parent": {
+        "$ref": "#/texts/1"
+      },
+      "prov": [],
+      "self_ref": "#/texts/2",
+      "text": "Questa procedura è stata pubblicata il 10 gennaio 2023 ."
+    },
+    {
+      "children": [
+        {
+          "$ref": "#/texts/4"
+        }
+      ],
+      "content_layer": "body",
+      "label": "section_header",
+      "level": 1,
+      "orig": "Regola precedente",
+      "parent": {
+        "$ref": "#/texts/1"
+      },
+      "prov": [],
+      "self_ref": "#/texts/3",
+      "text": "Regola precedente"
+    },
+    {
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "orig": "L'operatore poteva chiudere un intervento anche con la sola voce SICUREZZA in stato OK. La verifica COLLAUDO era facoltativa per gli asset non critici.",
+      "parent": {
+        "$ref": "#/texts/3"
+      },
+      "prov": [],
+      "self_ref": "#/texts/4",
+      "text": "L'operatore poteva chiudere un intervento anche con la sola voce SICUREZZA in stato OK. La verifica COLLAUDO era facoltativa per gli asset non critici."
+    },
+    {
+      "children": [
+        {
+          "$ref": "#/texts/6"
+        }
+      ],
+      "content_layer": "body",
+      "label": "section_header",
+      "level": 1,
+      "orig": "Nota di superamento",
+      "parent": {
+        "$ref": "#/texts/1"
+      },
+      "prov": [],
+      "self_ref": "#/texts/5",
+      "text": "Nota di superamento"
+    },
+    {
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "orig": "La procedura è storica. Il manuale operativo 2026 richiede sia SICUREZZA sia COLLAUDO e deve essere valutato come fonte corrente.",
+      "parent": {
+        "$ref": "#/texts/5"
+      },
+      "prov": [],
+      "self_ref": "#/texts/6",
+      "text": "La procedura è storica. Il manuale operativo 2026 richiede sia SICUREZZA sia COLLAUDO e deve essere valutato come fonte corrente."
+    }
+  ],
+  "version": "1.10.0"
+}

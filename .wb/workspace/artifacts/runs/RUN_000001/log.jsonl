@@ -1,0 +1,2 @@
+{"event": "run_started", "level": "INFO", "message": "Run RUN_000001 started.", "run_id": "RUN_000001", "timestamp": "2026-09-14T14:41:29+02:00"}
+{"event": "run_failed", "level": "ERROR", "message": "Run RUN_000001 failed: batch_parse_failed", "run_id": "RUN_000001", "timestamp": "2026-09-14T14:50:03+02:00"}

@@ -1,0 +1,18 @@
+{
+  "docling_report_path": "normalized/SRC_000005/REV_000005/docling_report.json",
+  "docling_version": "2.97.0",
+  "exit_code": 0,
+  "input_path": "corpus/active/documenti/procedura_storica_chiusura_2023.html",
+  "normalized_hash": "bcfab4c7a9f3362cc1d08f0d3c522ab52612614f812c924afbca691b911a077e",
+  "normalized_json_path": "normalized/SRC_000005/REV_000005/normalized.json",
+  "normalized_markdown_path": "normalized/SRC_000005/REV_000005/normalized.md",
+  "profile": "docling.no_images",
+  "run_id": "RUN_000025",
+  "source_hash": "506ea945fa58a3e70b37a23ecf23c920f8626db081c2be56159798a537596cbe",
+  "source_hash_path": "normalized/SRC_000005/REV_000005/source_hash.txt",
+  "source_id": "SRC_000005",
+  "source_revision_id": "REV_000005",
+  "status": "completed",
+  "worker_name": "normalize_docling",
+  "worker_version": "1.0"
+}

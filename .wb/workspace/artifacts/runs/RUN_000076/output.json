@@ -1,0 +1,34 @@
+{
+  "action": "created",
+  "artifact_paths": [
+    "artifacts/runs/RUN_000076/review_report.json"
+  ],
+  "batch_id": null,
+  "catalog_version": "result_catalog_v1",
+  "condition": "created",
+  "counters": {
+    "decisions_created": 1
+  },
+  "current_head_decision_id": "RDEC_000077",
+  "decision_id": "RDEC_000077",
+  "exit_code": 0,
+  "idempotency_key": "lab-temporal-reject-000070",
+  "mutations": true,
+  "outcome": "rejected",
+  "previous_head_decision_id": null,
+  "reason": "Timestamp DOCX 2013 incoerente con la nota SLA 2026; metadata tecnico non valido come efficacia di dominio.",
+  "reconciliation_id": null,
+  "replacement_candidate_record_id": null,
+  "replacement_decision_id": null,
+  "request_payload_hash": "445f357f2d1f3123a310bb515ec8dbbf72860e4e023c1ddbe9c677c6bbdf06d2",
+  "retryable": false,
+  "run_id": "RUN_000076",
+  "schema_version": "1",
+  "semantic_payload_hash": "db8b4e069fd01512479d2d632ec382ee21be7903f9737bbb6e3f1af43b4789a8",
+  "severity": "info",
+  "status": "completed",
+  "subject_ids": [
+    "CREC_000070"
+  ],
+  "subject_type": "candidate_record"
+}

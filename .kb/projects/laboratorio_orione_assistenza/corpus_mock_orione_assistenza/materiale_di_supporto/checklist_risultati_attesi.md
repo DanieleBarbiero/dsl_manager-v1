@@ -11,8 +11,9 @@ Gli esiti della validazione canonica sono nel
 
 - [ ] Python e' 3.12 e proviene da `PROJECT_PYTHON`.
 - [ ] Workspace e sorgenti di lavoro sono fuori dal repository.
-- [ ] `init` e `db init` terminano con exit 0.
-- [ ] L'allowlist contiene solo policy deterministiche esplicite/observed.
+- [ ] `init` e `db init` terminano con exit 0 e applicano 12 migrazioni su DB nuovo.
+- [ ] `config review profiles` espone `conservative/1`; `apply-profile` e
+  `config validate` terminano 0 con 13 policy, senza modifica manuale YAML.
 - [ ] Le 15 fonti attive hanno lo stesso SHA-256 prima e dopo la copia.
 - [ ] Primo scan: 15 added; secondo scan: 15 unchanged; exit 0.
 - [ ] Nessun artefatto pubblicato contiene il path assoluto della macchina.
@@ -53,10 +54,12 @@ Gli esiti della validazione canonica sono nel
 - [ ] Date discordanti DOCX/PPTX e filename restano pending o sono rifiutate.
 - [ ] `sources.first_seen_at` esatto e' visibile ma rifiutato come dominio.
 - [ ] Epoch ZIP 1980 verificata; `mtime`/`ctime` assenti dalle evidenze.
-- [ ] Adapter riceve ID reali e crea candidati, non intervalli approvati.
+- [ ] `temporal propagate` riceve ID reali e crea candidati pending, non
+  intervalli approvati.
 - [ ] `explicit_copy` produce candidati per due fatti e una relazione.
 - [ ] `aggregation` o `intersection` e' esercitata e ispezionata.
 - [ ] Review conferma i candidati propagati prima del render.
+- [ ] Un intervallo semantico riusato conserva tutti i supporti confermati.
 
 ## Output
 
@@ -71,3 +74,7 @@ Gli esiti della validazione canonica sono nel
 - [ ] Log esportati in HTML e CSV.
 - [ ] Le otto rotte UI consentite rispondono GET 200; POST non e' consentito.
 - [ ] Viene arrestato soltanto il PID UI avviato dalla sessione.
+- [ ] `diagnostics normalization run` termina con stato/exit worker/CLI
+  `partial`/`6`, `controlled_simulation: true` e soli artefatti diagnostici.
+- [ ] La diagnostica non modifica normalizzati, chunk, candidati, fatti o
+  relazioni di produzione.

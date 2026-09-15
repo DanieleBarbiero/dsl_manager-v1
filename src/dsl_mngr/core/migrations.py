@@ -219,6 +219,37 @@ def _json_object(value: str) -> dict[str, Any]:
     return payload if isinstance(payload, dict) else {}
 
 
+def _run_v12_temporal_support_backfill(
+    connection: sqlite3.Connection,
+    applied_at: str,
+) -> None:
+    rows = connection.execute(
+        """
+        SELECT interval_id, source_candidate_record_id, decision_id, created_at
+        FROM temporal_intervals
+        ORDER BY interval_id, source_candidate_record_id
+        """
+    ).fetchall()
+    for sequence, row in enumerate(rows, start=1):
+        support_id = f"TISUP_{sequence:06d}"
+        connection.execute(
+            """
+            INSERT INTO temporal_interval_supports (
+                support_id, interval_id, candidate_record_id,
+                decision_id, created_at
+            )
+            VALUES (?, ?, ?, ?, ?)
+            """,
+            (
+                support_id,
+                row["interval_id"],
+                row["source_candidate_record_id"],
+                row["decision_id"],
+                row["created_at"] or applied_at,
+            ),
+        )
+
+
 MIGRATIONS: tuple[Migration, ...] = (
     Migration(
         version=1,
@@ -1446,6 +1477,45 @@ MIGRATIONS: tuple[Migration, ...] = (
             END
             """,
         ),
+    ),
+    Migration(
+        version=12,
+        name="create_temporal_interval_supports",
+        statements=(
+            """
+            CREATE TABLE temporal_interval_supports (
+                support_id TEXT PRIMARY KEY,
+                interval_id TEXT NOT NULL,
+                candidate_record_id TEXT NOT NULL UNIQUE,
+                decision_id TEXT NOT NULL,
+                created_at TEXT NOT NULL,
+                UNIQUE (interval_id, candidate_record_id),
+                FOREIGN KEY (interval_id) REFERENCES temporal_intervals(interval_id),
+                FOREIGN KEY (candidate_record_id)
+                    REFERENCES temporal_candidate_details(candidate_record_id),
+                FOREIGN KEY (decision_id) REFERENCES review_decisions(decision_id)
+            )
+            """,
+            """
+            CREATE INDEX idx_temporal_interval_supports_interval
+            ON temporal_interval_supports(interval_id, candidate_record_id)
+            """,
+            """
+            CREATE TRIGGER temporal_interval_supports_no_update
+            BEFORE UPDATE ON temporal_interval_supports
+            BEGIN
+                SELECT RAISE(ABORT, 'temporal_interval_supports_append_only');
+            END
+            """,
+            """
+            CREATE TRIGGER temporal_interval_supports_no_delete
+            BEFORE DELETE ON temporal_interval_supports
+            BEGIN
+                SELECT RAISE(ABORT, 'temporal_interval_supports_append_only');
+            END
+            """,
+        ),
+        runner=_run_v12_temporal_support_backfill,
     ),
 )
 

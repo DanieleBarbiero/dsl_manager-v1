@@ -3,6 +3,7 @@
 Stato: proposta implementativa vincolante  
 Data di redazione: 2026-09-02  
 Emendamento Slice 30: 2026-09-14<br>
+Aggiornamento runtime post-Slice 31: 2026-09-14<br>
 Runtime di riferimento: Python `>=3.12,<3.13`  
 Baseline: repository e worktree osservati durante la redazione, senza ricostruzioni da `HEAD`<br>
 Baseline dell'emendamento: worktree osservato il 2026-09-14; Slice 01–29 presenti, Slice 30 non eseguita
@@ -23,7 +24,7 @@ La validità strutturale non equivale mai a eleggibilità al merge. Una decision
 
 Al momento dell'emendamento le Slice 20–29 sono presenti nel repository; il loro stato effettivo resta quello dichiarato nei rispettivi report e nella documentazione tecnica, inclusi i gap noti della Slice 29. Il nuovo gap progettuale è la scelta governata delle evidenze da consegnare all'handoff AI.
 
-Il lavoro è suddiviso nelle slice 20–30. Le slice 20–29 chiudono candidati, review, derivazione deterministica, batch, Excel trasparente, temporalità, corpus Aurora e documentazione. L'emendamento del 2026-09-14 aggiunge la Slice 30: selezione dichiarativa, deterministica e spiegabile delle evidenze adatte a una route AI, seguita dal packaging tramite l'handoff esistente. Non sono previste slice successive alla 30 in questo documento.
+Il piano originario resta suddiviso nelle slice 20–30. Le slice 20–29 chiudono candidati, review, derivazione deterministica, batch, Excel trasparente, temporalità, corpus Aurora e documentazione. L'emendamento del 2026-09-14 aggiunge la Slice 30: selezione dichiarativa, deterministica e spiegabile delle evidenze adatte a una route AI, seguita dal packaging tramite l'handoff esistente. L'aggiornamento post-slice registra inoltre la Slice 31 già installata: governance pubblica della configurazione review, propagazione temporale, diagnostica partial controllata e supporti multipli degli intervalli. Non riscrive la baseline storica né trasforma la Slice 31 in una previsione del piano originario.
 
 ## 2. Relazione con l'architettura esistente
 
@@ -113,6 +114,7 @@ I contratti pubblici esistenti restano compatibili per impostazione predefinita:
 | 28 | Aurora aggiornato | 23–27 | fixture E2E Excel/temporale e guide coerenti | — | corpus Aurora v2 | manifest atteso, golden, checklist |
 | 29 | Consolidamento documentale | 20–28 | manuale, contratti, analisi e guida operativa allineati | — | esempi documentali | documentazione verificata |
 | 30 | Selezione evidenze per route AI | 15, 20–29 | `plan → list/explain → package` deterministico e auditabile | v11 | corpus misto con route tecniche e interpretative | `selection_plan.json`, report e manifest package estesi |
+| 31 | Governo pubblico e supporti temporali | 20–30 | config review, propagazione, partial controllato, intervalli multi-supporto | v12 | Orione in workspace temporaneo | run/report, DSL v2 e GEXF dinamico |
 
 ## 5. Linguaggio e invarianti
 
@@ -357,6 +359,21 @@ ai_evidence_selection_items(
 
 Creazione del piano, item e stato finale avviene con transazioni coerenti e pubblicazione atomica del report. Policy invalide, hard budget, crash o altri errori attesi non lasciano un piano completato parziale né un package pubblicato.
 
+### 8.6 Migrazione v12 — supporti degli intervalli
+
+La Slice 31 aggiunge `temporal_interval_supports(support_id, interval_id,
+candidate_record_id, decision_id, created_at)`. Il candidato è univoco e anche
+la coppia intervallo/candidato è unica; foreign key, indice per intervallo e
+trigger append-only proteggono la relazione. Il backfill usa le colonne legacy
+`temporal_intervals.source_candidate_record_id/decision_id`, che restano
+presenti.
+
+La materializzazione è idempotente: crea un intervallo semantico nuovo oppure
+riusa quello esistente e collega il nuovo supporto. Le viste effettive richiedono
+almeno un supporto con foglia e review head correnti confermate. Merge,
+reconciliation, provenance, DSL v2, diff e GEXF consumano la relazione v12 e
+ordinano deterministicamente i supporti.
+
 ## 9. Canonicalizzazione, hash e idempotenza
 
 ### 9.1 Profilo JSON canonico condiviso
@@ -581,9 +598,27 @@ ai package <workspace> --selection-policy NAME [--revision REV_...]...
            [--profile ai_package.default]
 ai package <workspace> --selection-plan AISEL_000001
            [--profile ai_package.default]
+config review show <workspace>
+config review profiles <workspace>
+config review apply-profile <workspace> --profile conservative/1
+  [--expect-config-hash HASH]
+config review set-allowlist <workspace> [--policy POLICY ...]
+  [--expect-config-hash HASH]
+config validate <workspace> [--profile conservative/1]
+temporal propagate <workspace> --source-revision-id REV_ID
+  --target-subject-type {fact,relation} --target-subject-id TARGET_ID
+  --source-subject TYPE:ID [--source-subject TYPE:ID ...]
+  --policy {explicit_copy,intersection,aggregation,conflict}
+diagnostics normalization run <workspace> --revision REV_ID
+  --scenario {controlled_partial_success/1}
 ```
 
 `--allow-incomplete` è rifiutato per schema 1. `--dynamic` è rifiutato per snapshot v1. `--selection-policy` e `--selection-plan` sono mutuamente esclusivi. La CLI non espone opzioni per eseguire macro, aggiornare link o ricalcolare formule.
+
+La grammatica sopra è quella osservata nell'help installato. In particolare il
+leaf diagnostico conserva `run`; `set-allowlist` senza `--policy` azzera la
+lista. `temporal propagate` produce candidati pending o un conflitto e non
+esegue review o merge.
 
 ### 14.2 Configurazione
 
@@ -631,6 +666,13 @@ max_selected_chars = 10000000
 Gli override sono riportati nei report, non possono superare gli hard maximum della sezione 15 e non possono disabilitare no-network, blocco macro/DTD/entity o controllo hash.
 
 Le policy AI sono file locali risolti in modo sicuro sotto `configs/ai_selection/`, senza path traversal, e sono separate dai profili del worker di packaging. Ogni policy dichiara almeno `policy_id`, `policy_version`, `route_id`, `route_version`, tipi di evidenza ammessi, criteri di inclusione/esclusione, preferenze ordinate di ranking e budget. Liste vuote e chiavi sconosciute hanno semantica esplicita e validazione strict; almeno due policy controllate dimostrano che una stessa evidenza può avere esiti diversi per una route tecnica e una interpretativa.
+
+La configurazione review ha ora un percorso pubblico. Il profilo built-in
+immutabile `conservative/1` contiene 13 policy automatiche; il default resta
+vuoto e l'applicazione è opt-in. Apply/set sostituiscono soltanto
+`review.automatic_policies`, preservano le altre chiavi, validano prima della
+scrittura atomica e accettano `--expect-config-hash` per il controllo lost
+update.
 
 ### 14.3 Contratto `plan → inspect/explain → package`
 
@@ -880,9 +922,22 @@ Dipende dalla Slice 15 per il packager e dalle capacità di evidenza, derivazion
 
 Test: matrice route/policy/evidenza, provenance mancante, coverage in tutti gli stati di review, tie-break, budget, due workspace equivalenti, stale plan, migrazione v10→v11, rollback, package esatto e regressione legacy. Accettazione: stesso stato+route+policy produce lo stesso piano/hash; ogni esito è spiegabile; un piano stale è rifiutato; nessuna rete o scrittura diretta nel registro autoritativo. [Prompt eseguibile](../../../projects/slicing/slice_30/dsl_manager_slice_30_prompt.md).
 
+### 18.12 Slice 31 — governo pubblico e diagnostica controllata
+
+La Slice 31 è una verticale già applicata. Aggiunge migrazione v12 e supporti
+temporali multipli; espone `config review`, `config validate`,
+`temporal propagate` e `diagnostics normalization run`. La diagnostica accetta
+solo `controlled_partial_success/1`, usa un worker interno allowlisted, termina
+run/worker `partial` con exit 6 e non muta gli artefatti di produzione.
+
+Accettazione osservata: profilo conservativo opt-in, candidati temporali
+pending seguiti da review e merge comuni, intervalli DSL v2 e spell GEXF,
+supporto multiplo senza duplicazione e artefatti diagnostici isolati.
+[Report](../../../projects/slicing/slice_31/dsl_manager_slice_31_report.md).
+
 ## 19. Roadmap e criteri globali
 
-L'ordine è rigoroso: 20→21→22→23→24→25; la 26 può iniziare dopo 22 ma deve integrare le viste della 20; 27 segue 26; 28 segue 23–27; 29 consolida la documentazione della baseline implementata; 30 segue la 29 e chiude il presente design emendato. Ogni slice è una verticalità minima, migra da database reali della versione precedente, conserva compatibilità dichiarata e aggiorna il proprio report.
+L'ordine storico è rigoroso: 20→21→22→23→24→25; la 26 può iniziare dopo 22 ma deve integrare le viste della 20; 27 segue 26; 28 segue 23–27; 29 consolida la documentazione della baseline implementata; 30 segue la 29. La Slice 31, applicata dopo quel piano, chiude i gap pubblici osservati da Orione. Ogni slice è una verticalità minima, migra da database reali della versione precedente, conserva compatibilità dichiarata e aggiorna il proprio report.
 
 Definition of done globale:
 

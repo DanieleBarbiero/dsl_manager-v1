@@ -593,11 +593,28 @@ class CandidateReviewService:
         finally:
             connection.close()
 
-    def list_candidates(self, *, outcome: str = "pending") -> list[dict[str, Any]]:
+    def list_candidates(
+        self,
+        *,
+        outcome: str = "pending",
+        source: str | None = None,
+        batch_id: str | None = None,
+    ) -> list[dict[str, Any]]:
         if outcome not in {"pending", *_ALLOWED_OUTCOMES}:
             raise CandidateReviewError(
                 f"Unsupported review list outcome: {outcome}.",
                 reason="review_outcome_invalid",
+            )
+        allowed_sources = {"ai", "deterministic", "temporal", "file", "human-correction"}
+        if source not in {None, *allowed_sources}:
+            raise CandidateReviewError(
+                f"Unsupported candidate source: {source}.",
+                reason="review_source_invalid",
+            )
+        if batch_id is not None and not batch_id.strip():
+            raise CandidateReviewError(
+                "Candidate batch id must not be empty.",
+                reason="review_batch_invalid",
             )
         connection = open_database(
             self.settings.database_path, enable_wal=self.settings.wal_enabled
@@ -606,23 +623,41 @@ class CandidateReviewService:
             validate_database_migrations(connection)
             rows = connection.execute(
                 """
-                SELECT
-                    cr.candidate_record_id, cr.batch_id, cr.candidate_id,
-                    cr.record_type, cr.assertion_type, cr.confidence,
-                    h.decision_id, rd.outcome,
-                    CASE WHEN child.candidate_record_id IS NULL THEN 1 ELSE 0 END AS is_leaf
-                FROM candidate_records cr
-                LEFT JOIN review_subject_heads h
-                  ON h.subject_type = 'candidate_record'
-                 AND h.subject_id = cr.candidate_record_id
-                LEFT JOIN review_decisions rd ON rd.decision_id = h.decision_id
-                LEFT JOIN candidate_lineage child
-                  ON child.parent_candidate_record_id = cr.candidate_record_id
-                WHERE (? = 'pending' AND h.decision_id IS NULL)
-                   OR (? <> 'pending' AND rd.outcome = ?)
-                ORDER BY cr.candidate_record_id
+                WITH classified_candidates AS (
+                    SELECT
+                        cr.candidate_record_id, cr.batch_id, cr.candidate_id,
+                        cr.record_type, cr.assertion_type, cr.confidence,
+                        cb.origin_type, cb.origin_ref,
+                        CASE
+                            WHEN cr.record_type = 'temporal_interval'
+                              OR (cb.origin_type = 'deterministic_derivation'
+                                  AND cb.origin_ref LIKE 'temporal://%')
+                                THEN 'temporal'
+                            WHEN cb.origin_type = 'ai_import' THEN 'ai'
+                            WHEN cb.origin_type = 'deterministic_derivation' THEN 'deterministic'
+                            WHEN cb.origin_type = 'human_correction' THEN 'human-correction'
+                            ELSE 'file'
+                        END AS source,
+                        h.decision_id, rd.outcome,
+                        CASE WHEN child.candidate_record_id IS NULL THEN 1 ELSE 0 END AS is_leaf
+                    FROM candidate_records cr
+                    JOIN candidate_batches cb ON cb.batch_id = cr.batch_id
+                    LEFT JOIN review_subject_heads h
+                      ON h.subject_type = 'candidate_record'
+                     AND h.subject_id = cr.candidate_record_id
+                    LEFT JOIN review_decisions rd ON rd.decision_id = h.decision_id
+                    LEFT JOIN candidate_lineage child
+                      ON child.parent_candidate_record_id = cr.candidate_record_id
+                )
+                SELECT *
+                FROM classified_candidates
+                WHERE ((? = 'pending' AND decision_id IS NULL)
+                    OR (? <> 'pending' AND outcome = ?))
+                  AND (? IS NULL OR batch_id = ?)
+                  AND (? IS NULL OR source = ?)
+                ORDER BY candidate_record_id
                 """,
-                (outcome, outcome, outcome),
+                (outcome, outcome, outcome, batch_id, batch_id, source, source),
             ).fetchall()
             return [dict(row) for row in rows]
         finally:
@@ -655,15 +690,50 @@ class CandidateReviewService:
                     EXISTS(SELECT 1 FROM fact_evidence WHERE candidate_record_id = ?) AS fact_support,
                     EXISTS(SELECT 1 FROM relation_evidence WHERE candidate_record_id = ?) AS relation_support,
                     EXISTS(SELECT 1 FROM effective_fact_evidence WHERE candidate_record_id = ?) AS effective_fact_support,
-                    EXISTS(SELECT 1 FROM effective_relation_evidence WHERE candidate_record_id = ?) AS effective_relation_support
+                    EXISTS(SELECT 1 FROM effective_relation_evidence WHERE candidate_record_id = ?) AS effective_relation_support,
+                    EXISTS(SELECT 1 FROM temporal_interval_supports WHERE candidate_record_id = ?) AS temporal_support,
+                    EXISTS(
+                        SELECT 1
+                        FROM temporal_interval_supports tis
+                        JOIN review_subject_heads h
+                          ON h.subject_type = 'candidate_record'
+                         AND h.subject_id = tis.candidate_record_id
+                        JOIN review_decisions rd ON rd.decision_id = h.decision_id
+                        WHERE tis.candidate_record_id = ?
+                          AND rd.outcome = 'confirmed'
+                          AND NOT EXISTS (
+                              SELECT 1 FROM candidate_lineage child
+                              WHERE child.parent_candidate_record_id = tis.candidate_record_id
+                          )
+                    ) AS effective_temporal_support
                 """,
-                (candidate_record_id,) * 4,
+                (candidate_record_id,) * 6,
             ).fetchone()
+            temporal_supports = connection.execute(
+                """
+                SELECT tis.support_id, tis.interval_id, tis.candidate_record_id,
+                       tis.decision_id AS materialization_decision_id,
+                       h.decision_id AS current_decision_id,
+                       rd.outcome AS current_outcome,
+                       tis.created_at
+                FROM temporal_interval_supports tis
+                LEFT JOIN review_subject_heads h
+                  ON h.subject_type = 'candidate_record'
+                 AND h.subject_id = tis.candidate_record_id
+                LEFT JOIN review_decisions rd ON rd.decision_id = h.decision_id
+                WHERE tis.candidate_record_id = ?
+                ORDER BY tis.interval_id, tis.candidate_record_id
+                """,
+                (candidate_record_id,),
+            ).fetchall()
             return {
                 "candidate": {**dict(candidate), "payload": _candidate_payload(candidate)},
                 "decisions": [dict(row) for row in decisions],
                 "lineage": dict(lineage) if lineage else None,
-                "support": dict(materialized),
+                "support": {
+                    **dict(materialized),
+                    "temporal_supports": [dict(row) for row in temporal_supports],
+                },
             }
         finally:
             connection.close()
@@ -1158,7 +1228,7 @@ def _open_reconciliation_if_materialized(
         ) OR EXISTS(
             SELECT 1 FROM relation_evidence WHERE candidate_record_id = ?
         ) OR EXISTS(
-            SELECT 1 FROM temporal_intervals WHERE source_candidate_record_id = ?
+            SELECT 1 FROM temporal_interval_supports WHERE candidate_record_id = ?
         )
         """,
         (candidate_record_id, candidate_record_id, candidate_record_id),

@@ -1,0 +1,33 @@
+{
+  "artifact_dir": "artifacts/runs/RUN_000019",
+  "config_hash": "8358cdff8745877326249db09d45b9f8573899130bec428137df949a31df256d",
+  "error": null,
+  "finished_at": "2026-09-14T15:44:20+02:00",
+  "run_id": "RUN_000019",
+  "run_type": "parse_ddl",
+  "started_at": "2026-09-14T15:44:18+02:00",
+  "status": "completed",
+  "workers": [
+    {
+      "duration_ms": 1456,
+      "error": null,
+      "exit_code": 0,
+      "finished_at": "2026-09-14T15:44:20+02:00",
+      "resource_limits": {
+        "max_output_bytes": null,
+        "memory_limit_bytes": null,
+        "memory_limit_mode": "not_configured",
+        "peak_memory_bytes": null,
+        "termination_reason": null,
+        "timeout_seconds": null
+      },
+      "started_at": "2026-09-14T15:44:18+02:00",
+      "status": "completed",
+      "stderr": "",
+      "stdout": "parse_ddl completed\n",
+      "worker_name": "parse_ddl",
+      "worker_run_id": "WRK_000015",
+      "worker_version": "1.0"
+    }
+  ]
+}

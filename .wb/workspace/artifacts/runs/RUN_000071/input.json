@@ -1,0 +1,28 @@
+{
+  "artifact_dir": "artifacts/runs/RUN_000071",
+  "batch_command": "merge-batch",
+  "options": {
+    "batch_ids": [
+      "CBATCH_000047",
+      "CBATCH_000048"
+    ]
+  },
+  "planned_items": [
+    {
+      "batch_id": "CBATCH_000047",
+      "input_path": "ai/inbox/AIPKG_000001_candidates.jsonl",
+      "item_id": "BITEM_000001",
+      "kind": "merge",
+      "status": "pending"
+    },
+    {
+      "batch_id": "CBATCH_000048",
+      "item_id": "BITEM_000002",
+      "kind": "merge",
+      "status": "pending"
+    }
+  ],
+  "run_id": "RUN_000071",
+  "run_type": "batch",
+  "stop_on_error": true
+}

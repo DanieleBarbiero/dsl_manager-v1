@@ -1,0 +1,67 @@
+{
+  "artifact_dir": "artifacts/runs/RUN_000080",
+  "artifact_paths": [],
+  "batch_id": "CBATCH_000025",
+  "candidate_record_count": 1,
+  "catalog_version": "result_catalog_v1",
+  "condition": "merge",
+  "config_hash": "2dd6b5c68345e85d1897975f7db254e5b5cccee370cf76aa41c1f46af9752afe",
+  "conflicts_created": 0,
+  "conflicts_existing": 0,
+  "counters": {
+    "candidate_records": 1,
+    "conflicts_created": 0,
+    "conflicts_existing": 0,
+    "facts_created": 0,
+    "facts_existing": 0,
+    "reconciled_supports_removed": 0,
+    "reconciliation_closed": 0,
+    "relations_created": 0,
+    "relations_existing": 0,
+    "skipped_no_positive_head": 0,
+    "skipped_non_leaf": 0,
+    "skipped_pending": 0,
+    "skipped_records": 0,
+    "skipped_rejected": 0,
+    "skipped_superseded": 0
+  },
+  "error": null,
+  "exit_code": 0,
+  "facts_created": 0,
+  "facts_existing": 0,
+  "finished_at": "2026-09-14T16:30:53+02:00",
+  "merged_candidate_record_ids": [
+    "CREC_000067"
+  ],
+  "merged_candidates": [
+    {
+      "candidate_record_id": "CREC_000067",
+      "decision_id": "RDEC_000075"
+    }
+  ],
+  "mutations": false,
+  "outcome": null,
+  "reason": "success",
+  "reconciled_supports_removed": 0,
+  "reconciliation_closed": 0,
+  "relations_created": 0,
+  "relations_existing": 0,
+  "retryable": false,
+  "run_id": "RUN_000080",
+  "run_type": "merge",
+  "schema_version": "1",
+  "severity": "info",
+  "skipped_candidates": [],
+  "skipped_no_positive_head": 0,
+  "skipped_non_leaf": 0,
+  "skipped_pending": 0,
+  "skipped_records": 0,
+  "skipped_rejected": 0,
+  "skipped_superseded": 0,
+  "started_at": "2026-09-14T16:30:53+02:00",
+  "status": "completed",
+  "subject_ids": [
+    "CREC_000067"
+  ],
+  "workers": []
+}

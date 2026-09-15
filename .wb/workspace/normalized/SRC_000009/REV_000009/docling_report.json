@@ -1,0 +1,83 @@
+{
+  "catalog": {
+    "artifact_paths": [
+      "normalized/SRC_000009/REV_000009/docling_report.json",
+      "normalized/SRC_000009/REV_000009/normalized.json",
+      "normalized/SRC_000009/REV_000009/normalized.md",
+      "normalized/SRC_000009/REV_000009/ooxml_preflight_report.json",
+      "normalized/SRC_000009/REV_000009/source_hash.txt",
+      "normalized/SRC_000009/REV_000009/workbook_fragments.jsonl",
+      "normalized/SRC_000009/REV_000009/workbook_manifest.json",
+      "normalized/SRC_000009/REV_000009/workbook_report.json"
+    ],
+    "catalog_version": 1,
+    "condition": "operation_completed",
+    "counters": {
+      "normalized_json_items": 13,
+      "normalized_markdown_bytes": 570
+    },
+    "exit_code": 0,
+    "mutations": "artifacts_published",
+    "outcome": null,
+    "reason": "success",
+    "retryable": false,
+    "run_id": "RUN_000031",
+    "severity": "info",
+    "status": "completed",
+    "subject_ids": {
+      "source_id": "SRC_000009",
+      "source_revision_id": "REV_000009"
+    }
+  },
+  "conversion_status": "success",
+  "docling_version": "2.97.0",
+  "input": {
+    "input_path": "corpus/active/spreadsheets/pianificazione_interventi_2026.xlsx",
+    "source_hash": "9d667c31350b961a3ed79035cb507a8aadb5bb9b8f5a7b0de2a552f1bcf17691",
+    "source_id": "SRC_000009",
+    "source_revision_id": "REV_000009"
+  },
+  "outputs": {
+    "docling_report_path": "normalized/SRC_000009/REV_000009/docling_report.json",
+    "normalized_hash": "231eb7118fc7d28d4895564a1a8f3e700af97157cf67f85429fa505cc775a725",
+    "normalized_json_path": "normalized/SRC_000009/REV_000009/normalized.json",
+    "normalized_markdown_path": "normalized/SRC_000009/REV_000009/normalized.md",
+    "ooxml_preflight_report_path": "normalized/SRC_000009/REV_000009/ooxml_preflight_report.json",
+    "source_hash_path": "normalized/SRC_000009/REV_000009/source_hash.txt",
+    "workbook_fragments_path": "normalized/SRC_000009/REV_000009/workbook_fragments.jsonl",
+    "workbook_manifest_path": "normalized/SRC_000009/REV_000009/workbook_manifest.json",
+    "workbook_report_path": "normalized/SRC_000009/REV_000009/workbook_report.json"
+  },
+  "profile": "docling.no_images",
+  "resolved_config": {
+    "docling": {
+      "force_full_page_ocr": false,
+      "generate_page_images": false,
+      "generate_picture_images": false,
+      "image_export_mode": "placeholder",
+      "images_enabled": false,
+      "input_formats": [
+        "PDF",
+        "DOCX",
+        "PPTX",
+        "HTML",
+        "MD",
+        "XLSX"
+      ],
+      "ocr_enabled": false,
+      "output_normalized_json": true,
+      "output_normalized_markdown": true,
+      "strict_options_fail_on_unsupported_option": true,
+      "tables_enabled": true,
+      "tables_mode": "auto"
+    },
+    "worker": {
+      "name": "normalize_docling",
+      "version": "1.0"
+    }
+  },
+  "run_id": "RUN_000031",
+  "status": "completed",
+  "worker_name": "normalize_docling",
+  "worker_version": "1.0"
+}

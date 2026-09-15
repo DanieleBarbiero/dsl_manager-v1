@@ -24,9 +24,10 @@ Gli esiti del collaudo canonico sono nel
 Il file PowerShell interattivo e' un tutor, non un autopilota. Ogni azione del
 flusso principale viene eseguita dalla CLI `python -m dsl_mngr`. PowerShell o
 CMD servono soltanto per preparare la directory temporanea, confrontare hash,
-leggere JSON e verificare HTTP. La propagazione temporale usa l'adapter Python
-richiesto dal laboratorio perche' la CLI corrente non offre ancora il relativo
-leaf; l'adapter chiama il servizio governato, non accede al database.
+leggere JSON e verificare HTTP. L'allowlist usa `config review`, la propagazione
+usa `temporal propagate` e il partial controllato usa
+`diagnostics normalization run`: non servono editor YAML, adapter o worker
+scelti dalla shell.
 
 ## Modello mentale
 
@@ -66,9 +67,10 @@ marcatore inerte, hashato e mai eseguito. Il link esterno del workbook usa il
 dominio riservato `.invalid`, viene inventariato e non deve essere dereferenziato.
 
 `workbook_malformed_controllato.xlsx` serve al rifiuto preflight.
-`workbook_partial_controllato.xlsx` e' un workbook valido associato a una
-risposta `partial_success` di worker controllato: la CLI pubblica non consente
-di iniettare quel worker. Entrambi restano fuori da `corpus/active`.
+`workbook_partial_controllato.xlsx` e' un workbook valido conservato come
+fixture storica. Il contratto `partial_success` si collauda ora con lo scenario
+built-in allowlisted `controlled_partial_success/1`, senza iniezione di worker.
+Entrambi restano fuori da `corpus/active`.
 
 ## Risultato finale minimo
 
@@ -77,4 +79,6 @@ falliscono, il percorso AI mostra conferma/rifiuto/correzione, due supporti
 convergono sullo stesso fatto, la temporalita' e' propagata a due fatti e una
 relazione, il DSL v2 contiene intervalli, il GEXF dinamico contiene spell di
 nodo e arco, il caso orphan fallisce in strict mode, log e UI sono leggibili e
-nessun hash delle fonti e' cambiato.
+nessun hash delle fonti e' cambiato. La configurazione deve risultare valida con
+`conservative/1` e la diagnostica controllata deve terminare `partial`, exit 6,
+senza mutare gli artefatti di produzione.

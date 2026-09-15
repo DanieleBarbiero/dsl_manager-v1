@@ -1,0 +1,37 @@
+{
+  "chunk_count": 1,
+  "chunks": [
+    {
+      "chunk_id": "CHK_000002",
+      "end_char": 410,
+      "heading_path": [
+        "Nota SLA Orione",
+        "Chiusura"
+      ],
+      "sequence": 1,
+      "start_char": 0,
+      "status": "active",
+      "text_hash": "162bc6928643332def6435648fdc5f048cf14a55a6d090bc152be211e594c156"
+    }
+  ],
+  "chunks_hash": "5eb351051f82d4d35dce85ba9187cf4ab93aa20bc6f97ac8a95678594993448a",
+  "input": {
+    "normalized_hash": "162bc6928643332def6435648fdc5f048cf14a55a6d090bc152be211e594c156",
+    "normalized_json_path": "normalized/SRC_000004/REV_000004/normalized.json",
+    "normalized_markdown_path": "normalized/SRC_000004/REV_000004/normalized.md",
+    "source_hash": "6612c06bb956b51703d6a30b65a1b5d189e2804b070893656ce41903640bf087",
+    "source_hash_path": "normalized/SRC_000004/REV_000004/source_hash.txt",
+    "source_id": "SRC_000004",
+    "source_revision_id": "REV_000004"
+  },
+  "outputs": {
+    "chunk_report_path": "chunks/SRC_000004/REV_000004/chunk_report.json",
+    "chunks_jsonl_path": "chunks/SRC_000004/REV_000004/chunks.jsonl"
+  },
+  "profile": "docling.chunking",
+  "run_id": "RUN_000024",
+  "status": "completed",
+  "strategy": "heading_paragraph",
+  "worker_name": "chunk_docling",
+  "worker_version": "1.0"
+}

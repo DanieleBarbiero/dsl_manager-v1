@@ -1,0 +1,231 @@
+{
+  "batch_command": "process-dir",
+  "items": [
+    {
+      "error": "Worker exited with code 5.: {\"error_type\": \"ddl_parsing_failed\", \"message\": \"Malformed CREATE INDEX near line 40.\", \"worker_name\": \"parse_ddl\"}",
+      "exit_code": 5,
+      "input_path": "corpus/active/database/schema_orione.sql",
+      "item_id": "BITEM_000001",
+      "kind": "parse_ddl",
+      "outputs": {},
+      "run_id": "RUN_000003",
+      "source_id": "SRC_000001",
+      "source_revision_id": "REV_000001",
+      "status": "failed"
+    },
+    {
+      "error": null,
+      "exit_code": 0,
+      "input_path": "corpus/active/db_code/automazioni_intervento.sql",
+      "item_id": "BITEM_000002",
+      "kind": "parse_db_code",
+      "outputs": {
+        "fragments": 4,
+        "procedures": 1,
+        "statements": 2,
+        "triggers": 1
+      },
+      "run_id": "RUN_000004",
+      "source_id": "SRC_000002",
+      "source_revision_id": "REV_000002",
+      "status": "completed"
+    },
+    {
+      "error": null,
+      "exit_code": 0,
+      "input_path": "corpus/active/documenti/manuale_operativo_orione_2026.md",
+      "item_id": "BITEM_000003",
+      "kind": "normalize",
+      "outputs": {
+        "is_excel": false,
+        "normalized_hash": "c5b1eba79c4a4f721424da9e39d4f4213883818033d545d23bfb22559ff8d631",
+        "normalized_markdown_path": "normalized/SRC_000003/REV_000003/normalized.md"
+      },
+      "run_id": "RUN_000005",
+      "source_id": "SRC_000003",
+      "source_revision_id": "REV_000003",
+      "status": "completed"
+    },
+    {
+      "error": null,
+      "exit_code": 0,
+      "input_path": "corpus/active/documenti/manuale_operativo_orione_2026.md",
+      "item_id": "BITEM_000004",
+      "kind": "chunk",
+      "outputs": {
+        "chunks": 1,
+        "chunks_hash": "9fd6fef5d197b0b60c2d396bdee0e57cabb46cb7b393748805c7ed456b29b6f0"
+      },
+      "run_id": "RUN_000006",
+      "source_id": "SRC_000003",
+      "source_revision_id": "REV_000003",
+      "status": "completed"
+    },
+    {
+      "error": null,
+      "exit_code": 0,
+      "input_path": "corpus/active/documenti/nota_sla_orione_2026.docx",
+      "item_id": "BITEM_000005",
+      "kind": "normalize",
+      "outputs": {
+        "is_excel": false,
+        "normalized_hash": "162bc6928643332def6435648fdc5f048cf14a55a6d090bc152be211e594c156",
+        "normalized_markdown_path": "normalized/SRC_000004/REV_000004/normalized.md"
+      },
+      "run_id": "RUN_000007",
+      "source_id": "SRC_000004",
+      "source_revision_id": "REV_000004",
+      "status": "completed"
+    },
+    {
+      "error": null,
+      "exit_code": 0,
+      "input_path": "corpus/active/documenti/nota_sla_orione_2026.docx",
+      "item_id": "BITEM_000006",
+      "kind": "chunk",
+      "outputs": {
+        "chunks": 1,
+        "chunks_hash": "5eb351051f82d4d35dce85ba9187cf4ab93aa20bc6f97ac8a95678594993448a"
+      },
+      "run_id": "RUN_000008",
+      "source_id": "SRC_000004",
+      "source_revision_id": "REV_000004",
+      "status": "completed"
+    },
+    {
+      "error": null,
+      "exit_code": 0,
+      "input_path": "corpus/active/documenti/procedura_storica_chiusura_2023.html",
+      "item_id": "BITEM_000007",
+      "kind": "normalize",
+      "outputs": {
+        "is_excel": false,
+        "normalized_hash": "bcfab4c7a9f3362cc1d08f0d3c522ab52612614f812c924afbca691b911a077e",
+        "normalized_markdown_path": "normalized/SRC_000005/REV_000005/normalized.md"
+      },
+      "run_id": "RUN_000009",
+      "source_id": "SRC_000005",
+      "source_revision_id": "REV_000005",
+      "status": "completed"
+    },
+    {
+      "error": null,
+      "exit_code": 0,
+      "input_path": "corpus/active/documenti/procedura_storica_chiusura_2023.html",
+      "item_id": "BITEM_000008",
+      "kind": "chunk",
+      "outputs": {
+        "chunks": 1,
+        "chunks_hash": "e04bd4f4c8a6b34b53f69df721849c8c76bc5e05ee99879ee29520cd815a5179"
+      },
+      "run_id": "RUN_000010",
+      "source_id": "SRC_000005",
+      "source_revision_id": "REV_000005",
+      "status": "completed"
+    },
+    {
+      "error": null,
+      "exit_code": 0,
+      "input_path": "corpus/active/forms/frm_intervento.xml",
+      "item_id": "BITEM_000009",
+      "kind": "parse_xml_form",
+      "outputs": {
+        "fields": 5,
+        "forms": 1,
+        "fragments": 9
+      },
+      "run_id": "RUN_000011",
+      "source_id": "SRC_000006",
+      "source_revision_id": "REV_000006",
+      "status": "completed"
+    },
+    {
+      "error": null,
+      "exit_code": 0,
+      "input_path": "corpus/active/logs/esecuzione_interventi_2026.log",
+      "item_id": "BITEM_000010",
+      "kind": "parse_log",
+      "outputs": {
+        "events": 4,
+        "fragments": 4,
+        "warnings": 1
+      },
+      "run_id": "RUN_000012",
+      "source_id": "SRC_000007",
+      "source_revision_id": "REV_000007",
+      "status": "completed"
+    },
+    {
+      "error": null,
+      "exit_code": 0,
+      "input_path": "corpus/active/spreadsheets/controlli_inerti_2026.xlsm",
+      "item_id": "BITEM_000011",
+      "kind": "normalize",
+      "outputs": {
+        "is_excel": true,
+        "normalized_hash": "c1aa34405fc8084b5cec63058f5cead24d682382d3db7ca8ca7b8f28e0eefd12",
+        "normalized_markdown_path": "normalized/SRC_000008/REV_000008/normalized.md"
+      },
+      "run_id": "RUN_000013",
+      "source_id": "SRC_000008",
+      "source_revision_id": "REV_000008",
+      "status": "completed"
+    },
+    {
+      "error": null,
+      "exit_code": 0,
+      "input_path": "corpus/active/spreadsheets/controlli_inerti_2026.xlsm",
+      "item_id": "BITEM_000012",
+      "kind": "chunk",
+      "outputs": {
+        "chunks": 1,
+        "chunks_hash": "dc48ae67bb7397a29184839bf7a3a62abb47196116d03788cb376a2929b7d33a"
+      },
+      "run_id": "RUN_000014",
+      "source_id": "SRC_000008",
+      "source_revision_id": "REV_000008",
+      "status": "completed"
+    },
+    {
+      "error": null,
+      "exit_code": 0,
+      "input_path": "corpus/active/spreadsheets/pianificazione_interventi_2026.xlsx",
+      "item_id": "BITEM_000013",
+      "kind": "normalize",
+      "outputs": {
+        "is_excel": true,
+        "normalized_hash": "231eb7118fc7d28d4895564a1a8f3e700af97157cf67f85429fa505cc775a725",
+        "normalized_markdown_path": "normalized/SRC_000009/REV_000009/normalized.md"
+      },
+      "run_id": "RUN_000015",
+      "source_id": "SRC_000009",
+      "source_revision_id": "REV_000009",
+      "status": "completed"
+    },
+    {
+      "error": null,
+      "exit_code": 0,
+      "input_path": "corpus/active/spreadsheets/pianificazione_interventi_2026.xlsx",
+      "item_id": "BITEM_000014",
+      "kind": "chunk",
+      "outputs": {
+        "chunks": 1,
+        "chunks_hash": "00eb428013e9f1e454ac25582b6f174aab271c7388dcdaccdd9c0ed4953c302a"
+      },
+      "run_id": "RUN_000016",
+      "source_id": "SRC_000009",
+      "source_revision_id": "REV_000009",
+      "status": "completed"
+    }
+  ],
+  "run_id": "RUN_000002",
+  "run_type": "batch",
+  "status": "failed",
+  "stop_on_error": false,
+  "summary": {
+    "completed": 13,
+    "failed": 1,
+    "skipped": 0,
+    "total": 14
+  }
+}

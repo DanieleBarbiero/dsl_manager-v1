@@ -1,0 +1,69 @@
+{
+  "artifact_paths": [
+    "artifacts/runs/RUN_000049/derived_candidates.jsonl",
+    "artifacts/runs/RUN_000049/derive_report.json"
+  ],
+  "batch_id": "CBATCH_000017",
+  "candidate_ids": [
+    "EXCEL_REGION_FACT_9228B3AE4DC29F9B",
+    "EXCEL_REGION_FACT_7002D266C7B2596D",
+    "EXCEL_REGION_FACT_CD92D4459D155C5B"
+  ],
+  "catalog_version": "result_catalog_v1",
+  "condition": "candidate_derivation",
+  "counters": {
+    "auto_confirmed": 0,
+    "deduplicated": 0,
+    "input_fragments": 3,
+    "pending": 3,
+    "produced": 3,
+    "rejected": 0
+  },
+  "derivation_id": "DERIVE_000017",
+  "derivation_rejections": [],
+  "exit_code": 0,
+  "mutations": true,
+  "outcome": "pending",
+  "payload_hashes": [
+    "3f433d6dfe9caa293e9076c4f004e3e44bda6078d0254ef3643290ca6e6d1284",
+    "cec63cae65f38b5c3c1d0d28e53c67be0075dde813a2def38933527c80179447",
+    "d0503867fdac99c5b2553065bb855972a799f8dcbf8d287ffe4f9ff9530c38bb"
+  ],
+  "reason": "success",
+  "retryable": false,
+  "rule": "excel_region_fact/1",
+  "rule_contract": {
+    "assertion_type": "explicit",
+    "automatic_review_allowed": true,
+    "automatic_review_policy": "explicit_excel_region_only/1",
+    "candidate_record_type": "candidate_fact",
+    "default_review_state": "pending",
+    "evidence_locator": "source_revision_id+fragment_id+manifest_id+sheet_name+coordinate+part_name",
+    "input_schema": "source_fragment/excel_region/1",
+    "parser_kind": "workbook_manifest",
+    "rule_id": "excel_region_fact",
+    "rule_version": "1"
+  },
+  "rule_counts": {
+    "excel_region_fact/1": {
+      "auto_confirmed": 0,
+      "deduplicated": 0,
+      "input_fragments": 3,
+      "pending": 3,
+      "produced": 3,
+      "rejected": 0
+    }
+  },
+  "rule_set_version": "1",
+  "run_id": "RUN_000049",
+  "schema_version": "1",
+  "semantic_report_hash": "4772d841fe2fc2360e0c2d3fc3381c5688225734e7a3c4a394bed4b9463b77b6",
+  "severity": "info",
+  "source_revision_id": "REV_000009",
+  "status": "completed",
+  "subject_ids": [
+    "EXCEL_REGION_FACT_9228B3AE4DC29F9B",
+    "EXCEL_REGION_FACT_7002D266C7B2596D",
+    "EXCEL_REGION_FACT_CD92D4459D155C5B"
+  ]
+}

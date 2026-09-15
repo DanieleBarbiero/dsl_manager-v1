@@ -1,0 +1,18 @@
+{
+  "artifact_dir": "artifacts/runs/RUN_000056",
+  "parameters": {
+    "policy": "technical_extraction",
+    "profile": "ai_package.default",
+    "revision_ids": [
+      "REV_000001",
+      "REV_000002",
+      "REV_000006",
+      "REV_000008",
+      "REV_000009"
+    ],
+    "scope_mode": "explicit_revisions"
+  },
+  "parent_run_id": null,
+  "run_id": "RUN_000056",
+  "run_type": "ai_evidence_selection"
+}

@@ -1,0 +1,17 @@
+{
+  "artifact_dir": "artifacts/runs/RUN_000057",
+  "parameters": {
+    "policy": "domain_interpretation",
+    "profile": "ai_package.default",
+    "revision_ids": [
+      "REV_000003",
+      "REV_000004",
+      "REV_000005",
+      "REV_000007"
+    ],
+    "scope_mode": "explicit_revisions"
+  },
+  "parent_run_id": null,
+  "run_id": "RUN_000057",
+  "run_type": "ai_evidence_selection"
+}

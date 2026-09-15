@@ -1,0 +1,11 @@
+{
+  "batch_command": "merge-batch",
+  "batch_report_path": "artifacts/runs/RUN_000079/batch_report.json",
+  "status": "completed",
+  "summary": {
+    "completed": 2,
+    "failed": 0,
+    "skipped": 0,
+    "total": 2
+  }
+}

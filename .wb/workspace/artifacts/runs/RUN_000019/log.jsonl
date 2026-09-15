@@ -1,0 +1,4 @@
+{"event": "run_started", "level": "INFO", "message": "Run RUN_000019 started.", "run_id": "RUN_000019", "timestamp": "2026-09-14T15:44:18+02:00"}
+{"event": "worker_started", "level": "INFO", "message": "Worker parse_ddl started.", "run_id": "RUN_000019", "timestamp": "2026-09-14T15:44:18+02:00", "worker": "parse_ddl"}
+{"event": "worker_completed", "level": "INFO", "message": "Worker parse_ddl completed.", "run_id": "RUN_000019", "timestamp": "2026-09-14T15:44:20+02:00", "worker": "parse_ddl"}
+{"event": "run_completed", "level": "INFO", "message": "Run RUN_000019 completed.", "run_id": "RUN_000019", "timestamp": "2026-09-14T15:44:20+02:00"}

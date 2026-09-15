@@ -1,0 +1,41 @@
+{
+  "artifact_dir": "artifacts/runs/RUN_000088",
+  "chunk_count": 3,
+  "config_hash": "679cc7709df4df16e9489d4c68f86d12a171550bd491cb0b384013fb12463dbc",
+  "content_path": "ai/outbox/AIPKG_000002/content.md",
+  "error": null,
+  "finished_at": "2026-09-14T16:41:53+02:00",
+  "fragment_count": 4,
+  "manifest_path": "ai/outbox/AIPKG_000002/package_manifest.json",
+  "package_hash": "0fbce6adb084b0233bdf848c85c2b4e3bccf376d5b500bfc16c23f70f761863e",
+  "package_id": "AIPKG_000002",
+  "package_path": "ai/outbox/AIPKG_000002",
+  "run_id": "RUN_000088",
+  "run_type": "ai_package",
+  "source_revision_count": 4,
+  "started_at": "2026-09-14T16:41:53+02:00",
+  "status": "completed",
+  "workers": [
+    {
+      "duration_ms": 555,
+      "error": null,
+      "exit_code": 0,
+      "finished_at": "2026-09-14T16:41:53+02:00",
+      "resource_limits": {
+        "max_output_bytes": null,
+        "memory_limit_bytes": null,
+        "memory_limit_mode": "not_configured",
+        "peak_memory_bytes": null,
+        "termination_reason": null,
+        "timeout_seconds": null
+      },
+      "started_at": "2026-09-14T16:41:53+02:00",
+      "status": "completed",
+      "stderr": "",
+      "stdout": "build_ai_package completed\n",
+      "worker_name": "build_ai_package",
+      "worker_run_id": "WRK_000030",
+      "worker_version": "1.0"
+    }
+  ]
+}

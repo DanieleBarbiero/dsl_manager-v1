@@ -18,7 +18,7 @@
 | `inventario_arredi_2022.txt` | Docling | chunk leggibile ma irrilevante | non promuovere |
 | `istruzioni_parcheggio_2026.html` | Docling | chunk recente ma irrilevante | non promuovere |
 | `workbook_malformed_controllato.xlsx` | preflight controllato | rifiuto malformed | fuori dal corpus attivo |
-| `workbook_partial_controllato.xlsx` | worker controllato | `partial_success` soltanto con iniezione | fuori dal corpus attivo; non provato dalla CLI reale |
+| `workbook_partial_controllato.xlsx` | fixture storica del worker | workbook valido, non prova autonoma di `partial_success` | fuori dal corpus attivo; usare `diagnostics normalization run` su una revisione ammessa |
 | `ai_response_orione_assistenza_controllata.jsonl` | AI import | 13 record validi su workspace canonico pulito | replay etichettato e verificato prima della copia |
 
 ## Copertura workbook
@@ -49,7 +49,15 @@ explicit, observed, inferred e ambiguous. Gli esiti canonici sono:
 
 Confermare `2026-03-01` sulle revisioni del verbale e dei requisiti; rifiutare
 `sources.first_seen_at`; lasciare almeno un conflitto filename/metadata pending.
-Propagare `explicit_copy` ai due fatti scelti e alla relazione, quindi
+Propagare con `temporal propagate --policy explicit_copy` ai due fatti scelti e alla relazione, quindi
 confermare i nuovi candidati. Esercitare anche `aggregation` sulle due revisioni
 concordanti. DSL v2 deve avere intervalli non vuoti. Il GEXF dinamico deve avere
 almeno uno spell di nodo e uno di arco e passare XSD e semantica.
+
+## Contratto diagnostico finale
+
+`diagnostics normalization run WORKSPACE --revision REV_ID --scenario
+controlled_partial_success/1` deve attraversare runner e state machine reali,
+terminare `partial` con exit worker/CLI 6 e pubblicare soltanto artefatti sotto
+`artifacts/runs/<RUN_ID>/diagnostics/normalization/`. Lo scenario e' una
+simulazione controllata dichiarata e non modifica lo stato di produzione.

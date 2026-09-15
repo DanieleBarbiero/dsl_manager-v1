@@ -1,0 +1,169 @@
+{
+  "call_count": 1,
+  "calls": [
+    "PRC_AUDIT_INTERVENTO"
+  ],
+  "db_code_objects": {
+    "procedures": [
+      {
+        "calls": [
+          "PRC_AUDIT_INTERVENTO"
+        ],
+        "parameters": [
+          "P_INTERVENTO_ID",
+          "P_TECNICO_ID"
+        ],
+        "procedure_name": "PRC_ASSEGNA_TECNICO",
+        "reads": [
+          "P_TECNICO_ID",
+          "INTERVENTO.ID",
+          "P_INTERVENTO_ID"
+        ],
+        "statements": [
+          {
+            "calls": [],
+            "parent_object_name": "PRC_ASSEGNA_TECNICO",
+            "parent_object_type": "procedure",
+            "reads": [
+              "P_TECNICO_ID",
+              "INTERVENTO.ID",
+              "P_INTERVENTO_ID"
+            ],
+            "statement_kind": "UPDATE",
+            "writes": [
+              "INTERVENTO.TECNICO_ID",
+              "INTERVENTO.STATO"
+            ]
+          }
+        ],
+        "writes": [
+          "INTERVENTO.TECNICO_ID",
+          "INTERVENTO.STATO"
+        ]
+      }
+    ],
+    "triggers": [
+      {
+        "calls": [],
+        "reads": [
+          "NEW.STATO",
+          "INTERVENTO.SYSDATE",
+          "NEW.ID",
+          "INTERVENTO.ID"
+        ],
+        "statements": [
+          {
+            "calls": [],
+            "parent_object_name": "TRG_CHIUDI_INTERVENTO",
+            "parent_object_type": "trigger",
+            "reads": [
+              "INTERVENTO.SYSDATE",
+              "NEW.ID",
+              "INTERVENTO.ID"
+            ],
+            "statement_kind": "UPDATE",
+            "writes": [
+              "INTERVENTO.STATO",
+              "INTERVENTO.CHIUSO_IL"
+            ]
+          }
+        ],
+        "target_table": "INTERVENTO",
+        "trigger_event": "UPDATE",
+        "trigger_name": "TRG_CHIUDI_INTERVENTO",
+        "trigger_timing": "BEFORE",
+        "writes": [
+          "INTERVENTO.STATO",
+          "INTERVENTO.CHIUSO_IL"
+        ]
+      }
+    ],
+    "warnings": []
+  },
+  "dialect": "generic_sql",
+  "fragment_count": 4,
+  "fragments": [
+    {
+      "fragment_id": "FRAG_000001",
+      "fragment_type": "sql_trigger",
+      "path_or_selector": "trigger:TRG_CHIUDI_INTERVENTO",
+      "sequence": 1,
+      "status": "active",
+      "text_hash": "7cbaf4c913c880951098580c422bfc1e04b30d8cccc0597a0ac545b0a07385cd"
+    },
+    {
+      "fragment_id": "FRAG_000002",
+      "fragment_type": "sql_statement",
+      "path_or_selector": "trigger:TRG_CHIUDI_INTERVENTO/statement:1",
+      "sequence": 2,
+      "status": "active",
+      "text_hash": "e60c5449d5cd27705cae1c584f20a640e7dc4aa143c84fc1379a1bdf54f4cbe8"
+    },
+    {
+      "fragment_id": "FRAG_000003",
+      "fragment_type": "sql_procedure",
+      "path_or_selector": "procedure:PRC_ASSEGNA_TECNICO",
+      "sequence": 3,
+      "status": "active",
+      "text_hash": "5867256e650b16241c6ead0e85c891d73026e45e8c6370f592572be36964b144"
+    },
+    {
+      "fragment_id": "FRAG_000004",
+      "fragment_type": "sql_statement",
+      "path_or_selector": "procedure:PRC_ASSEGNA_TECNICO/statement:1",
+      "sequence": 4,
+      "status": "active",
+      "text_hash": "871ea5ef734ec255982049409e8a6a8f12fb1d79a0497f7fe75a891aa2171517"
+    }
+  ],
+  "fragments_hash": "76a808e4483e242c66b6bbdb6f06ce9598f21a7809a914b3b53247278af61296",
+  "input": {
+    "input_path": "corpus/active/db_code/automazioni_intervento.sql",
+    "source_hash": "45ed62bc2dad1c264b1a7a9b4f4b22b607bf36037f70e9917e62921b7e553f14",
+    "source_id": "SRC_000002",
+    "source_revision_id": "REV_000002"
+  },
+  "outputs": {
+    "db_code_report_path": "fragments/SRC_000002/REV_000002/db_code_report.json",
+    "fragments_jsonl_path": "fragments/SRC_000002/REV_000002/fragments.jsonl"
+  },
+  "procedure_count": 1,
+  "profile": "db_code.default",
+  "read_count": 6,
+  "reads": [
+    "NEW.STATO",
+    "INTERVENTO.SYSDATE",
+    "NEW.ID",
+    "INTERVENTO.ID",
+    "P_TECNICO_ID",
+    "P_INTERVENTO_ID"
+  ],
+  "resolved_config": {
+    "db_code": {
+      "dialect": "generic_sql",
+      "output_fragments_jsonl": true,
+      "parse_calls": true,
+      "parse_procedures": true,
+      "parse_triggers": true,
+      "parse_update_statements": true,
+      "strict_options_fail_on_unsupported_option": true
+    },
+    "worker": {
+      "name": "parse_db_code",
+      "version": "1.0"
+    }
+  },
+  "run_id": "RUN_000020",
+  "statement_count": 2,
+  "status": "completed",
+  "trigger_count": 1,
+  "warnings": [],
+  "worker_name": "parse_db_code",
+  "worker_version": "1.0",
+  "write_count": 3,
+  "writes": [
+    "INTERVENTO.STATO",
+    "INTERVENTO.CHIUSO_IL",
+    "INTERVENTO.TECNICO_ID"
+  ]
+}

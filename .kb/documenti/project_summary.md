@@ -15,7 +15,7 @@ sostituisce i contratti eseguibili: in caso di divergenza prevalgono, nell'ordin
 | Nome applicazione | DSL Manager |
 | Descrizione breve | Applicazione locale per acquisire corpus eterogenei, normalizzare e strutturare evidenze, derivare candidati governati, consolidare fatti/relazioni e produrre DSL e grafi GEXF |
 | Versione applicativa | `1.1.0` |
-| Stato | Sviluppo attivo; runtime Slice 01–30, con gap ereditati Slice 29 dichiarati e non bloccanti per la selezione AI |
+| Stato | Sviluppo attivo; runtime Slice 01–31 e contratti pubblici post-slice allineati |
 | Package Python | `dsl_mngr` |
 | Layout | `src/`; `src` non è un package importabile |
 | CLI | `dsl-manager` oppure `python -m dsl_mngr` |
@@ -58,7 +58,7 @@ tests/                 test, fixture e golden
   projects/            slicing e scenari, incluso il corpus Aurora
   prompt/              prompt di progetto
   template/            template documentali riutilizzabili
-.wb/                   risorse workbench versionate
+.wb/                   risorse workbench opzionali e non canoniche, ignorate salvo richiesta esplicita
 .workspaces/           workspace runtime locali; non sono documentazione canonica
 ```
 
@@ -93,6 +93,13 @@ La Slice 30 rafforza `ai package`; non crea un secondo packager e non invoca pro
 modelli. Sono disponibili `ai evidence plan|list|explain`, la migrazione v11,
 `selection_plan.json` e le opzioni additive `--selection-policy|--selection-plan`.
 
+La Slice 31 aggiunge la migrazione v12 e chiude tre gap operativi con leaf
+pubblici: `config review show|profiles|apply-profile|set-allowlist`,
+`config validate`, `temporal propagate` e
+`diagnostics normalization run`. Il profilo built-in `conservative/1` contiene
+13 policy e resta opt-in; la diagnostica ammette soltanto
+`controlled_partial_success/1` e termina intenzionalmente con exit 6.
+
 Responsabilità principali:
 
 - `dsl_mngr.cli`: comandi, validazione degli argomenti, output ed exit code;
@@ -100,7 +107,8 @@ Responsabilità principali:
   temporalità, DSL, diff, preflight OOXML e grafi;
 - `dsl_mngr.workers`: normalizzazione Docling e parser eseguiti in processi
   controllati;
-- `dsl_mngr.resources`: risorse offline, incluse le XSD GEXF 1.3.
+- `dsl_mngr.resources`: risorse offline, incluse le XSD GEXF 1.3 e i profili
+  review built-in versionati.
 
 ## Capacità e invarianti da preservare
 
@@ -120,6 +128,11 @@ Responsabilità principali:
   i candidati AI restano pending fino alla review applicabile.
 - Correzioni di candidati creano nuove foglie e possono richiedere
   riconciliazione; la storia append-only non viene riscritta.
+- Un intervallo temporale può avere più supporti candidati confermati tramite
+  `temporal_interval_supports`; resta effettivo finché almeno un supporto ha
+  una testa corrente confermata.
+- La propagazione temporale è esplicita e produce candidati pending; non
+  eredita validità e non esegue review o merge automaticamente.
 - DSL schema 1 preserva il profilo legacy/statico. DSL schema 2 rappresenta la
   temporalità e alimenta l'export GEXF dinamico.
 - I percorsi di test OOXML, temporalità e GEXF devono restare offline.
@@ -143,11 +156,13 @@ Per orientarsi rapidamente:
    dati e artefatti;
 6. `projects/corpus aurora/.../materiale_di_supporto/guida_dsl_manager_powershell_v_02.md`
    e `guida_dsl_manager_cmd_v_02.md` — scenario Aurora completo e riproducibile;
-7. `documenti/documenti di design/run 2/design_document_v_02.md` — roadmap normativa
-   20–30 e contratto della selezione AI;
-8. `projects/slicing/slice_30/dsl_manager_slice_30_prompt.md` — istruzioni operative della
-   Slice 30;
-9. `documenti/bugfixes/` — diagnosi e correzioni storiche.
+7. `projects/laboratorio_orione_assistenza/corpus_mock_orione_assistenza/` —
+   laboratorio post-Slice 31 con guide CMD/PowerShell;
+8. `documenti/documenti di design/run 2/design_document_v_02.md` — roadmap
+   normativa 20–31 e contratti pubblici correnti;
+9. `projects/slicing/slice_31/dsl_manager_slice_31_report.md` — collaudo della
+   migrazione v12 e dei nuovi leaf;
+10. `documenti/bugfixes/` — diagnosi e correzioni storiche.
 
 ## Scenari e verifica
 
@@ -163,12 +178,15 @@ Le guide operative Aurora sono le versioni 02. Le versioni 01 sono archiviate
 con nomi esplicitamente versionati e rimandano alle guide correnti; tutti i
 riferimenti operativi del repository puntano alle versioni 02.
 
-La suite canonica è `python -m pytest` con l'interprete corretto. L'ultima
-esecuzione completa, dopo l'aggiunta del supporto alle liste YAML multilinea,
-ha raccolto e superato tutti i 184 test in 793.59 secondi. Il worker Docling,
-che in una precedente esecuzione aveva mostrato un lock Windows transitorio
-durante il cleanup, è passato sia al rerun isolato sia nelle esecuzioni complete
-successive. I dettagli storici sono nei report dei bugfix.
+Il laboratorio Orione è il collaudo operativo dei contratti Slice 31: profilo
+review conservativo, candidati temporali pending, review/merge, intervalli DSL
+v2, spell GEXF e diagnostica partial controllata in workspace temporanei.
+
+La suite canonica è `python -m pytest` con l'interprete corretto. L'esito
+post-Slice 31 corrente, inclusi i controlli documentali e Orione, è registrato
+nel report della Slice 31. Il worker Docling può mostrare un lock Windows
+transitorio durante il cleanup; un esito finale viene registrato solo dopo una
+suite completa conclusa.
 
 ## Registro bug corretti
 
@@ -186,6 +204,10 @@ successive. I dettagli storici sono nei report dei bugfix.
   della derivazione temporale.
 - È stato osservato su Windows un lock transitorio di `.worker_stdout.tmp` nel
   cleanup del worker Docling. Non fa parte di `BUGFIX_01` e non è stato corretto.
+- Il catalogo built-in contiene soltanto `conservative/1`; profili custom non
+  fanno parte della Slice 31.
+- La diagnostica controllata ammette un solo scenario, un tentativo e nessun
+  resume; non dimostra che Docling produrrebbe partial sulla stessa fonte.
 
 ## Regole di manutenzione del riepilogo
 

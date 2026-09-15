@@ -458,8 +458,8 @@ def merge_candidate_batches(
                 else:
                     materialized = connection.execute(
                         """
-                        SELECT 1 FROM temporal_intervals
-                        WHERE source_candidate_record_id = ?
+                        SELECT 1 FROM temporal_interval_supports
+                        WHERE candidate_record_id = ?
                         """,
                         (record["candidate_record_id"],),
                     ).fetchone()

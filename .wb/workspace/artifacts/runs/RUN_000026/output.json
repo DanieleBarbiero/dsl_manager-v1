@@ -1,0 +1,45 @@
+{
+  "chunk_count": 1,
+  "chunk_report_path": "chunks/SRC_000005/REV_000005/chunk_report.json",
+  "chunks": [
+    {
+      "chunk_id": "CHK_000003",
+      "metadata": {
+        "chunker": "chunk_docling",
+        "chunker_version": "1.0",
+        "end_char": 420,
+        "heading_path": [
+          "Procedura storica di chiusura",
+          "Nota di superamento"
+        ],
+        "normalized_hash": "bcfab4c7a9f3362cc1d08f0d3c522ab52612614f812c924afbca691b911a077e",
+        "normalized_json_path": "normalized/SRC_000005/REV_000005/normalized.json",
+        "normalized_markdown_path": "normalized/SRC_000005/REV_000005/normalized.md",
+        "source_text_kind": "normalized_markdown",
+        "start_char": 0,
+        "strategy": "heading_paragraph"
+      },
+      "sequence": 1,
+      "source_revision_id": "REV_000005",
+      "status": "active",
+      "text": "# Procedura storica di chiusura\n\nQuesta procedura è stata pubblicata il 10 gennaio 2023 .\n\n## Regola precedente\n\nL'operatore poteva chiudere un intervento anche con la sola voce SICUREZZA in stato OK. La verifica COLLAUDO era facoltativa per gli asset non critici.\n\n## Nota di superamento\n\nLa procedura è storica. Il manuale operativo 2026 richiede sia SICUREZZA sia COLLAUDO e deve essere valutato come fonte corrente.\n",
+      "text_hash": "bcfab4c7a9f3362cc1d08f0d3c522ab52612614f812c924afbca691b911a077e"
+    }
+  ],
+  "chunks_hash": "e04bd4f4c8a6b34b53f69df721849c8c76bc5e05ee99879ee29520cd815a5179",
+  "chunks_jsonl_path": "chunks/SRC_000005/REV_000005/chunks.jsonl",
+  "exit_code": 0,
+  "normalized_hash": "bcfab4c7a9f3362cc1d08f0d3c522ab52612614f812c924afbca691b911a077e",
+  "normalized_json_path": "normalized/SRC_000005/REV_000005/normalized.json",
+  "normalized_markdown_path": "normalized/SRC_000005/REV_000005/normalized.md",
+  "profile": "docling.chunking",
+  "run_id": "RUN_000026",
+  "source_hash": "506ea945fa58a3e70b37a23ecf23c920f8626db081c2be56159798a537596cbe",
+  "source_hash_path": "normalized/SRC_000005/REV_000005/source_hash.txt",
+  "source_id": "SRC_000005",
+  "source_revision_id": "REV_000005",
+  "status": "completed",
+  "strategy": "heading_paragraph",
+  "worker_name": "chunk_docling",
+  "worker_version": "1.0"
+}

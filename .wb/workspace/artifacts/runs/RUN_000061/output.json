@@ -1,0 +1,34 @@
+{
+  "action": "created",
+  "artifact_paths": [
+    "artifacts/runs/RUN_000061/review_report.json"
+  ],
+  "batch_id": null,
+  "catalog_version": "result_catalog_v1",
+  "condition": "created",
+  "counters": {
+    "decisions_created": 1
+  },
+  "current_head_decision_id": "RDEC_000064",
+  "decision_id": "RDEC_000064",
+  "exit_code": 0,
+  "idempotency_key": "lab-ai-confirm-000090",
+  "mutations": true,
+  "outcome": "confirmed",
+  "previous_head_decision_id": null,
+  "reason": "Relazione intervento-asset esplicita nel manuale.",
+  "reconciliation_id": null,
+  "replacement_candidate_record_id": null,
+  "replacement_decision_id": null,
+  "request_payload_hash": "a1edbfa679cb61bca15d65104ec84ce988cb464638680535c49c85f5906b4331",
+  "retryable": false,
+  "run_id": "RUN_000061",
+  "schema_version": "1",
+  "semantic_payload_hash": "732d61cdafc4fd3141c59354044ebf35fd0c4a4ea7f80a0ae8e35eb403627396",
+  "severity": "info",
+  "status": "completed",
+  "subject_ids": [
+    "CREC_000090"
+  ],
+  "subject_type": "candidate_record"
+}

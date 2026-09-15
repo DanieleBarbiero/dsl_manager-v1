@@ -1,0 +1,55 @@
+{
+  "artifact_dir": "artifacts/runs/RUN_000085",
+  "config_hash": "2dd6b5c68345e85d1897975f7db254e5b5cccee370cf76aa41c1f46af9752afe",
+  "dsl_hash": "0dabe1ee036633792a901675d9fb4016a91203e8ab8e3996d156199f1e335259",
+  "edge_count": 88,
+  "error": null,
+  "finished_at": "2026-09-14T16:31:39+02:00",
+  "format": "gexf",
+  "graph_export_id": "GEXF_000001",
+  "graph_hash": "198dfc5227e30b3a60a8a144d3f09eb3876cc13a3d42ddfec820694dfc2e5761",
+  "graph_path": "exports/graph/DSL_000001.gexf",
+  "node_count": 65,
+  "options": {
+    "directed": true,
+    "include_conflicts": true,
+    "include_fact_nodes": true,
+    "include_sources": true,
+    "node_label_strategy": "readable",
+    "strict_orphans": false
+  },
+  "orphan_count": 3,
+  "registry_hash": "b4830a7c75f58ad78bf287403600f79b7ad0919d0c91a8bb0b2e4ead6306bfb9",
+  "report_path": "exports/graph/DSL_000001.graph_report.json",
+  "run_id": "RUN_000085",
+  "run_type": "gexf_export",
+  "separated_graph_paths": [],
+  "snapshot_id": "DSL_000001",
+  "started_at": "2026-09-14T16:31:39+02:00",
+  "status": "completed",
+  "warning_count": 3,
+  "warnings": [
+    {
+      "canonical_entity": "prc_audit_intervento",
+      "code": "orphan_node_added",
+      "message": "relation REL_000007 references missing target entity prc_audit_intervento",
+      "relation_id": "REL_000007",
+      "role": "target"
+    },
+    {
+      "canonical_entity": "intervento.sysdate",
+      "code": "orphan_node_added",
+      "message": "relation REL_000009 references missing target entity intervento.sysdate",
+      "relation_id": "REL_000009",
+      "role": "target"
+    },
+    {
+      "canonical_entity": "tec-9",
+      "code": "orphan_node_added",
+      "message": "relation REL_000015 references missing target entity tec-9",
+      "relation_id": "REL_000015",
+      "role": "target"
+    }
+  ],
+  "workers": []
+}

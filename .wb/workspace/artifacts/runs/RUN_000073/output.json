@@ -1,0 +1,60 @@
+{
+  "artifact_paths": [],
+  "batch_id": "CBATCH_000048",
+  "candidate_record_count": 1,
+  "catalog_version": "result_catalog_v1",
+  "condition": "merge",
+  "conflicts_created": 0,
+  "conflicts_existing": 0,
+  "counters": {
+    "candidate_records": 1,
+    "conflicts_created": 0,
+    "conflicts_existing": 0,
+    "facts_created": 0,
+    "facts_existing": 0,
+    "reconciled_supports_removed": 0,
+    "reconciliation_closed": 0,
+    "relations_created": 1,
+    "relations_existing": 0,
+    "skipped_no_positive_head": 0,
+    "skipped_non_leaf": 0,
+    "skipped_pending": 0,
+    "skipped_records": 0,
+    "skipped_rejected": 0,
+    "skipped_superseded": 0
+  },
+  "exit_code": 0,
+  "facts_created": 0,
+  "facts_existing": 0,
+  "merged_candidate_record_ids": [
+    "CREC_000100"
+  ],
+  "merged_candidates": [
+    {
+      "candidate_record_id": "CREC_000100",
+      "decision_id": "RDEC_000073"
+    }
+  ],
+  "mutations": true,
+  "outcome": null,
+  "reason": "success",
+  "reconciled_supports_removed": 0,
+  "reconciliation_closed": 0,
+  "relations_created": 1,
+  "relations_existing": 0,
+  "retryable": false,
+  "run_id": "RUN_000073",
+  "schema_version": "1",
+  "severity": "info",
+  "skipped_candidates": [],
+  "skipped_no_positive_head": 0,
+  "skipped_non_leaf": 0,
+  "skipped_pending": 0,
+  "skipped_records": 0,
+  "skipped_rejected": 0,
+  "skipped_superseded": 0,
+  "status": "completed",
+  "subject_ids": [
+    "CREC_000100"
+  ]
+}

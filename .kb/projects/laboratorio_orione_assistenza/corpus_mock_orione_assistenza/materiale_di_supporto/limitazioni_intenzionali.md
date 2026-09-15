@@ -14,12 +14,12 @@
 
 ## Limiti pubblici dell'applicazione osservata
 
-- Non esiste un leaf CLI per propagare intervalli confermati da sorgenti a fatti
-  o relazioni. Il solo workaround ammesso e' l'adapter sottile locale che usa
-  `propagate_temporal_intervals`; l'assenza va considerata gap della CLI.
-- Non esiste un comando CLI dedicato a impostare l'allowlist di review: si
-  modifica il file di configurazione creato da `init`. E' configurazione, non
-  logica sostitutiva della shell.
+- `temporal propagate` richiede propagazione esplicita: non eredita intervalli,
+  non auto-conferma candidati e accetta target soltanto `fact` o `relation`.
+- La configurazione review espone un solo profilo built-in,
+  `conservative/1`. Profili custom e parser YAML general-purpose restano fuori
+  scope; l'allowlist di un workspace nuovo resta vuota finche' non viene
+  applicata intenzionalmente.
 - Il batch stampa il report complessivo soltanto alla fine; un worker Docling
   lungo puo' sembrare silenzioso. Il default e' 300 s per worker e il massimo
   accettato e' 600 s; il tempo del batch puo' essere maggiore.
@@ -31,8 +31,10 @@
   un nodo senza intervalli come non limitante. Il laboratorio verifica inoltre
   che l'intervallo dell'arco sia contenuto negli intervalli di dominio scelti
   per i due fatti, senza fingere che siano gli endpoint XML dell'arco.
-- La CLI non espone un'iniezione di worker `partial_success`. La fixture partial
-  non puo' produrre quel risultato con il worker Docling reale.
+- `diagnostics normalization run` espone soltanto lo scenario built-in
+  `controlled_partial_success/1`, senza worker arbitrari, con un tentativo e
+  senza resume. Dimostra il contratto applicativo partial, non un esito di
+  Docling sulla fonte.
 
 ## Simulazioni controllate
 
@@ -40,9 +42,8 @@
   inbox, import, review e merge sono reali; non avviene una chiamata al modello.
 - Il replay e' valido soltanto se package, ID delle evidenze e testo letterale
   coincidono. In caso contrario va creato un nuovo handoff.
-- `workbook_partial_controllato.xlsx` e' valido e documenta il payload da usare
-  con un worker controllato in un test dedicato; non viene presentato come
-  fonte operativa e non prova da solo uno stato partial.
+- `workbook_partial_controllato.xlsx` resta una fixture storica valida; non
+  viene presentato come fonte operativa e non prova da solo uno stato partial.
 - `vbaProject.bin` e' un marcatore binario sintetico e inerte. La prova riguarda
   rilevazione e hash, non l'esecuzione di VBA.
 
@@ -50,5 +51,4 @@
 
 Niente rete, niente macro, niente SQL diretto al database del workspace, niente
 ID inventati, niente modifiche alle fonti dopo la scansione. Se un passaggio
-richiede una capacita' applicativa assente e non ha il workaround governato qui
-descritto, si salva lo stato e ci si ferma.
+richiede una capacita' applicativa assente, si salva lo stato e ci si ferma.

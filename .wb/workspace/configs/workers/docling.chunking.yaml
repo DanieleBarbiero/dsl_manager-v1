@@ -1,0 +1,13 @@
+worker:
+  name: chunk_docling
+  version: 1.0
+chunking:
+  strategy: heading_paragraph
+  max_chars: 8000
+  min_chars: 1
+  include_heading_context: true
+  preserve_paragraphs: true
+  merge_small_paragraphs: true
+  strict_options_fail_on_unsupported_option: true
+  require_normalized_hash_match: true
+  output_chunks_jsonl: true

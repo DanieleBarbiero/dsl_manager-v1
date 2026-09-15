@@ -1,0 +1,10 @@
+{
+  "artifact_dir": "artifacts/runs/RUN_000055",
+  "parameters": {
+    "reconciliation_id": null,
+    "strict": false
+  },
+  "parent_run_id": "RUN_000017",
+  "run_id": "RUN_000055",
+  "run_type": "reconciliation"
+}

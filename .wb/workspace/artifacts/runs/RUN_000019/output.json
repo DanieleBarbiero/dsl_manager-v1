@@ -1,0 +1,1343 @@
+{
+  "column_count": 19,
+  "ddl_objects": {
+    "indexes": [
+      {
+        "columns": [
+          "STATO"
+        ],
+        "index_name": "IX_INTERVENTO_STATO",
+        "table_name": "INTERVENTO",
+        "unique": false
+      }
+    ],
+    "tables": [
+      {
+        "columns": [
+          {
+            "data_type": "NUMBER",
+            "default": null,
+            "name": "ID",
+            "nullable": null,
+            "primary_key": true,
+            "unique": false
+          },
+          {
+            "data_type": "VARCHAR2(20)",
+            "default": null,
+            "name": "CODICE",
+            "nullable": false,
+            "primary_key": false,
+            "unique": false
+          },
+          {
+            "data_type": "VARCHAR2(100)",
+            "default": null,
+            "name": "NOME",
+            "nullable": false,
+            "primary_key": false,
+            "unique": false
+          },
+          {
+            "data_type": "NUMBER(1)",
+            "default": null,
+            "name": "LIVELLO",
+            "nullable": false,
+            "primary_key": false,
+            "unique": false
+          }
+        ],
+        "constraints": [
+          {
+            "columns": [
+              "ID"
+            ],
+            "constraint_kind": "primary_key",
+            "constraint_name": "pk_TECNICO_ID",
+            "references_columns": [],
+            "references_table": null
+          },
+          {
+            "columns": [
+              "CODICE"
+            ],
+            "constraint_kind": "unique",
+            "constraint_name": "UQ_TECNICO_CODICE",
+            "references_columns": [],
+            "references_table": null
+          }
+        ],
+        "full_name": "TECNICO",
+        "line_end": 10,
+        "line_start": 4,
+        "schema_name": null,
+        "table_name": "TECNICO"
+      },
+      {
+        "columns": [
+          {
+            "data_type": "NUMBER",
+            "default": null,
+            "name": "ID",
+            "nullable": null,
+            "primary_key": true,
+            "unique": false
+          },
+          {
+            "data_type": "VARCHAR2(40)",
+            "default": null,
+            "name": "MATRICOLA",
+            "nullable": false,
+            "primary_key": false,
+            "unique": false
+          },
+          {
+            "data_type": "VARCHAR2(200)",
+            "default": null,
+            "name": "DESCRIZIONE",
+            "nullable": null,
+            "primary_key": false,
+            "unique": false
+          },
+          {
+            "data_type": "CHAR(1)",
+            "default": "'N'",
+            "name": "CRITICO",
+            "nullable": false,
+            "primary_key": false,
+            "unique": false
+          }
+        ],
+        "constraints": [
+          {
+            "columns": [
+              "ID"
+            ],
+            "constraint_kind": "primary_key",
+            "constraint_name": "pk_ASSET_ID",
+            "references_columns": [],
+            "references_table": null
+          },
+          {
+            "columns": [
+              "MATRICOLA"
+            ],
+            "constraint_kind": "unique",
+            "constraint_name": "UQ_ASSET_MATRICOLA",
+            "references_columns": [],
+            "references_table": null
+          }
+        ],
+        "full_name": "ASSET",
+        "line_end": 18,
+        "line_start": 12,
+        "schema_name": null,
+        "table_name": "ASSET"
+      },
+      {
+        "columns": [
+          {
+            "data_type": "NUMBER",
+            "default": null,
+            "name": "ID",
+            "nullable": null,
+            "primary_key": true,
+            "unique": false
+          },
+          {
+            "data_type": "NUMBER",
+            "default": null,
+            "name": "ASSET_ID",
+            "nullable": false,
+            "primary_key": false,
+            "unique": false
+          },
+          {
+            "data_type": "NUMBER",
+            "default": null,
+            "name": "TECNICO_ID",
+            "nullable": null,
+            "primary_key": false,
+            "unique": false
+          },
+          {
+            "data_type": "VARCHAR2(30)",
+            "default": "'APERTO'",
+            "name": "STATO",
+            "nullable": false,
+            "primary_key": false,
+            "unique": false
+          },
+          {
+            "data_type": "VARCHAR2(10)",
+            "default": null,
+            "name": "PRIORITA",
+            "nullable": false,
+            "primary_key": false,
+            "unique": false
+          },
+          {
+            "data_type": "DATE",
+            "default": null,
+            "name": "APERTO_IL",
+            "nullable": false,
+            "primary_key": false,
+            "unique": false
+          },
+          {
+            "data_type": "DATE",
+            "default": null,
+            "name": "CHIUSO_IL",
+            "nullable": null,
+            "primary_key": false,
+            "unique": false
+          }
+        ],
+        "constraints": [
+          {
+            "columns": [
+              "ID"
+            ],
+            "constraint_kind": "primary_key",
+            "constraint_name": "pk_INTERVENTO_ID",
+            "references_columns": [],
+            "references_table": null
+          },
+          {
+            "columns": [
+              "ASSET_ID"
+            ],
+            "constraint_kind": "foreign_key",
+            "constraint_name": "FK_INTERVENTO_ASSET",
+            "references_columns": [
+              "ID"
+            ],
+            "references_table": "ASSET"
+          },
+          {
+            "columns": [
+              "TECNICO_ID"
+            ],
+            "constraint_kind": "foreign_key",
+            "constraint_name": "FK_INTERVENTO_TECNICO",
+            "references_columns": [
+              "ID"
+            ],
+            "references_table": "TECNICO"
+          }
+        ],
+        "full_name": "INTERVENTO",
+        "line_end": 30,
+        "line_start": 20,
+        "schema_name": null,
+        "table_name": "INTERVENTO"
+      },
+      {
+        "columns": [
+          {
+            "data_type": "NUMBER",
+            "default": null,
+            "name": "ID",
+            "nullable": null,
+            "primary_key": true,
+            "unique": false
+          },
+          {
+            "data_type": "NUMBER",
+            "default": null,
+            "name": "INTERVENTO_ID",
+            "nullable": false,
+            "primary_key": false,
+            "unique": false
+          },
+          {
+            "data_type": "VARCHAR2(30)",
+            "default": null,
+            "name": "CODICE",
+            "nullable": false,
+            "primary_key": false,
+            "unique": false
+          },
+          {
+            "data_type": "VARCHAR2(10)",
+            "default": null,
+            "name": "ESITO",
+            "nullable": null,
+            "primary_key": false,
+            "unique": false
+          }
+        ],
+        "constraints": [
+          {
+            "columns": [
+              "ID"
+            ],
+            "constraint_kind": "primary_key",
+            "constraint_name": "pk_CHECKLIST_ID",
+            "references_columns": [],
+            "references_table": null
+          },
+          {
+            "columns": [
+              "INTERVENTO_ID"
+            ],
+            "constraint_kind": "foreign_key",
+            "constraint_name": "FK_CHECKLIST_INTERVENTO",
+            "references_columns": [
+              "ID"
+            ],
+            "references_table": "INTERVENTO"
+          }
+        ],
+        "full_name": "CHECKLIST",
+        "line_end": 38,
+        "line_start": 32,
+        "schema_name": null,
+        "table_name": "CHECKLIST"
+      }
+    ],
+    "warnings": []
+  },
+  "ddl_options": {
+    "dialect": "generic_sql",
+    "output_fragments_jsonl": true,
+    "parse_create_table": true,
+    "parse_foreign_keys": true,
+    "parse_indexes": true,
+    "parse_primary_keys": true,
+    "parse_unique_constraints": true,
+    "strict_options_fail_on_unsupported_option": true,
+    "unsupported_statement_policy": "warn"
+  },
+  "ddl_report_path": "fragments/SRC_000001/REV_000001/ddl_report.json",
+  "dialect": "generic_sql",
+  "exit_code": 0,
+  "foreign_key_count": 3,
+  "fragment_count": 33,
+  "fragments": [
+    {
+      "char_end": 280,
+      "char_start": 80,
+      "fragment_id": "FRAG_000022",
+      "fragment_type": "ddl_table",
+      "line_end": 10,
+      "line_start": 4,
+      "metadata": {
+        "columns": [
+          "ID",
+          "CODICE",
+          "NOME",
+          "LIVELLO"
+        ],
+        "dialect": "generic_sql",
+        "foreign_keys": [],
+        "object_type": "table",
+        "parser": "parse_ddl",
+        "parser_version": "1.0",
+        "primary_key": [
+          "ID"
+        ],
+        "schema_name": null,
+        "source_hash": "34ac0dd12d004f81288ed522892787952974e43351f7af71173b816f9e59e689",
+        "statement_kind": "create_table",
+        "table_name": "TECNICO"
+      },
+      "path_or_selector": "table:TECNICO",
+      "sequence": 1,
+      "source_revision_id": "REV_000001",
+      "status": "active",
+      "text": "CREATE TABLE TECNICO (\n    ID NUMBER PRIMARY KEY,\n    CODICE VARCHAR2(20) NOT NULL,\n    NOME VARCHAR2(100) NOT NULL,\n    LIVELLO NUMBER(1) NOT NULL,\n    CONSTRAINT UQ_TECNICO_CODICE UNIQUE (CODICE)\n);",
+      "text_hash": "cfcec651c5347263f51cb31f80d7ea2011bf26193c50bda582c049eb67a6f347"
+    },
+    {
+      "char_end": 128,
+      "char_start": 107,
+      "fragment_id": "FRAG_000023",
+      "fragment_type": "ddl_column",
+      "line_end": 5,
+      "line_start": 5,
+      "metadata": {
+        "column_name": "ID",
+        "data_type": "NUMBER",
+        "default": null,
+        "dialect": "generic_sql",
+        "nullable": null,
+        "object_type": "column",
+        "parser": "parse_ddl",
+        "parser_version": "1.0",
+        "source_hash": "34ac0dd12d004f81288ed522892787952974e43351f7af71173b816f9e59e689",
+        "statement_kind": "create_table",
+        "table_name": "TECNICO",
+        "unique": false
+      },
+      "path_or_selector": "table:TECNICO/column:ID",
+      "sequence": 2,
+      "source_revision_id": "REV_000001",
+      "status": "active",
+      "text": "ID NUMBER PRIMARY KEY",
+      "text_hash": "d592dde04818fc414377effac13df621444bc2621dd435ca45bcbe22ba1ea830"
+    },
+    {
+      "char_end": 162,
+      "char_start": 134,
+      "fragment_id": "FRAG_000024",
+      "fragment_type": "ddl_column",
+      "line_end": 6,
+      "line_start": 6,
+      "metadata": {
+        "column_name": "CODICE",
+        "data_type": "VARCHAR2(20)",
+        "default": null,
+        "dialect": "generic_sql",
+        "nullable": false,
+        "object_type": "column",
+        "parser": "parse_ddl",
+        "parser_version": "1.0",
+        "source_hash": "34ac0dd12d004f81288ed522892787952974e43351f7af71173b816f9e59e689",
+        "statement_kind": "create_table",
+        "table_name": "TECNICO",
+        "unique": false
+      },
+      "path_or_selector": "table:TECNICO/column:CODICE",
+      "sequence": 3,
+      "source_revision_id": "REV_000001",
+      "status": "active",
+      "text": "CODICE VARCHAR2(20) NOT NULL",
+      "text_hash": "0d479968ac2d0ac03701bbdd75ee04a91f0f3ccd7592c4954c7f6560a4fad263"
+    },
+    {
+      "char_end": 195,
+      "char_start": 168,
+      "fragment_id": "FRAG_000025",
+      "fragment_type": "ddl_column",
+      "line_end": 7,
+      "line_start": 7,
+      "metadata": {
+        "column_name": "NOME",
+        "data_type": "VARCHAR2(100)",
+        "default": null,
+        "dialect": "generic_sql",
+        "nullable": false,
+        "object_type": "column",
+        "parser": "parse_ddl",
+        "parser_version": "1.0",
+        "source_hash": "34ac0dd12d004f81288ed522892787952974e43351f7af71173b816f9e59e689",
+        "statement_kind": "create_table",
+        "table_name": "TECNICO",
+        "unique": false
+      },
+      "path_or_selector": "table:TECNICO/column:NOME",
+      "sequence": 4,
+      "source_revision_id": "REV_000001",
+      "status": "active",
+      "text": "NOME VARCHAR2(100) NOT NULL",
+      "text_hash": "7184344f24c20afe52106f950d7efc43be0a6110d74d52d2f81747c6cdc0ccbf"
+    },
+    {
+      "char_end": 227,
+      "char_start": 201,
+      "fragment_id": "FRAG_000026",
+      "fragment_type": "ddl_column",
+      "line_end": 8,
+      "line_start": 8,
+      "metadata": {
+        "column_name": "LIVELLO",
+        "data_type": "NUMBER(1)",
+        "default": null,
+        "dialect": "generic_sql",
+        "nullable": false,
+        "object_type": "column",
+        "parser": "parse_ddl",
+        "parser_version": "1.0",
+        "source_hash": "34ac0dd12d004f81288ed522892787952974e43351f7af71173b816f9e59e689",
+        "statement_kind": "create_table",
+        "table_name": "TECNICO",
+        "unique": false
+      },
+      "path_or_selector": "table:TECNICO/column:LIVELLO",
+      "sequence": 5,
+      "source_revision_id": "REV_000001",
+      "status": "active",
+      "text": "LIVELLO NUMBER(1) NOT NULL",
+      "text_hash": "d1acfee91e48d1f5fdffee6617ae62b8179085518bd9dbacbc0253f2a725cec3"
+    },
+    {
+      "char_end": 128,
+      "char_start": 107,
+      "fragment_id": "FRAG_000027",
+      "fragment_type": "ddl_constraint",
+      "line_end": 5,
+      "line_start": 5,
+      "metadata": {
+        "columns": [
+          "ID"
+        ],
+        "constraint_kind": "primary_key",
+        "constraint_name": "pk_TECNICO_ID",
+        "dialect": "generic_sql",
+        "object_type": "constraint",
+        "parser": "parse_ddl",
+        "parser_version": "1.0",
+        "references_columns": [],
+        "references_table": null,
+        "source_hash": "34ac0dd12d004f81288ed522892787952974e43351f7af71173b816f9e59e689",
+        "statement_kind": "create_table",
+        "table_name": "TECNICO"
+      },
+      "path_or_selector": "table:TECNICO/primary_key:ID",
+      "sequence": 6,
+      "source_revision_id": "REV_000001",
+      "status": "active",
+      "text": "ID NUMBER PRIMARY KEY",
+      "text_hash": "d592dde04818fc414377effac13df621444bc2621dd435ca45bcbe22ba1ea830"
+    },
+    {
+      "char_end": 277,
+      "char_start": 233,
+      "fragment_id": "FRAG_000028",
+      "fragment_type": "ddl_constraint",
+      "line_end": 9,
+      "line_start": 9,
+      "metadata": {
+        "columns": [
+          "CODICE"
+        ],
+        "constraint_kind": "unique",
+        "constraint_name": "UQ_TECNICO_CODICE",
+        "dialect": "generic_sql",
+        "object_type": "constraint",
+        "parser": "parse_ddl",
+        "parser_version": "1.0",
+        "references_columns": [],
+        "references_table": null,
+        "source_hash": "34ac0dd12d004f81288ed522892787952974e43351f7af71173b816f9e59e689",
+        "statement_kind": "create_table",
+        "table_name": "TECNICO"
+      },
+      "path_or_selector": "table:TECNICO/unique:CODICE",
+      "sequence": 7,
+      "source_revision_id": "REV_000001",
+      "status": "active",
+      "text": "CONSTRAINT UQ_TECNICO_CODICE UNIQUE (CODICE)",
+      "text_hash": "c93f08de27f4bd8550938ddf298c156517ad0bbb460acfe640cbab8fb0b9ffaf"
+    },
+    {
+      "char_end": 495,
+      "char_start": 282,
+      "fragment_id": "FRAG_000029",
+      "fragment_type": "ddl_table",
+      "line_end": 18,
+      "line_start": 12,
+      "metadata": {
+        "columns": [
+          "ID",
+          "MATRICOLA",
+          "DESCRIZIONE",
+          "CRITICO"
+        ],
+        "dialect": "generic_sql",
+        "foreign_keys": [],
+        "object_type": "table",
+        "parser": "parse_ddl",
+        "parser_version": "1.0",
+        "primary_key": [
+          "ID"
+        ],
+        "schema_name": null,
+        "source_hash": "34ac0dd12d004f81288ed522892787952974e43351f7af71173b816f9e59e689",
+        "statement_kind": "create_table",
+        "table_name": "ASSET"
+      },
+      "path_or_selector": "table:ASSET",
+      "sequence": 8,
+      "source_revision_id": "REV_000001",
+      "status": "active",
+      "text": "CREATE TABLE ASSET (\n    ID NUMBER PRIMARY KEY,\n    MATRICOLA VARCHAR2(40) NOT NULL,\n    DESCRIZIONE VARCHAR2(200),\n    CRITICO CHAR(1) DEFAULT 'N' NOT NULL,\n    CONSTRAINT UQ_ASSET_MATRICOLA UNIQUE (MATRICOLA)\n);",
+      "text_hash": "042615052466eabe9d1f29bca63db4e9055f05185f456adc5516f34a7451bb3e"
+    },
+    {
+      "char_end": 328,
+      "char_start": 307,
+      "fragment_id": "FRAG_000030",
+      "fragment_type": "ddl_column",
+      "line_end": 13,
+      "line_start": 13,
+      "metadata": {
+        "column_name": "ID",
+        "data_type": "NUMBER",
+        "default": null,
+        "dialect": "generic_sql",
+        "nullable": null,
+        "object_type": "column",
+        "parser": "parse_ddl",
+        "parser_version": "1.0",
+        "source_hash": "34ac0dd12d004f81288ed522892787952974e43351f7af71173b816f9e59e689",
+        "statement_kind": "create_table",
+        "table_name": "ASSET",
+        "unique": false
+      },
+      "path_or_selector": "table:ASSET/column:ID",
+      "sequence": 9,
+      "source_revision_id": "REV_000001",
+      "status": "active",
+      "text": "ID NUMBER PRIMARY KEY",
+      "text_hash": "d592dde04818fc414377effac13df621444bc2621dd435ca45bcbe22ba1ea830"
+    },
+    {
+      "char_end": 365,
+      "char_start": 334,
+      "fragment_id": "FRAG_000031",
+      "fragment_type": "ddl_column",
+      "line_end": 14,
+      "line_start": 14,
+      "metadata": {
+        "column_name": "MATRICOLA",
+        "data_type": "VARCHAR2(40)",
+        "default": null,
+        "dialect": "generic_sql",
+        "nullable": false,
+        "object_type": "column",
+        "parser": "parse_ddl",
+        "parser_version": "1.0",
+        "source_hash": "34ac0dd12d004f81288ed522892787952974e43351f7af71173b816f9e59e689",
+        "statement_kind": "create_table",
+        "table_name": "ASSET",
+        "unique": false
+      },
+      "path_or_selector": "table:ASSET/column:MATRICOLA",
+      "sequence": 10,
+      "source_revision_id": "REV_000001",
+      "status": "active",
+      "text": "MATRICOLA VARCHAR2(40) NOT NULL",
+      "text_hash": "564f3ae850f14afa989e9114c12ee5585bf96fc91ac5cb27e5f259bc86c2275b"
+    },
+    {
+      "char_end": 396,
+      "char_start": 371,
+      "fragment_id": "FRAG_000032",
+      "fragment_type": "ddl_column",
+      "line_end": 15,
+      "line_start": 15,
+      "metadata": {
+        "column_name": "DESCRIZIONE",
+        "data_type": "VARCHAR2(200)",
+        "default": null,
+        "dialect": "generic_sql",
+        "nullable": null,
+        "object_type": "column",
+        "parser": "parse_ddl",
+        "parser_version": "1.0",
+        "source_hash": "34ac0dd12d004f81288ed522892787952974e43351f7af71173b816f9e59e689",
+        "statement_kind": "create_table",
+        "table_name": "ASSET",
+        "unique": false
+      },
+      "path_or_selector": "table:ASSET/column:DESCRIZIONE",
+      "sequence": 11,
+      "source_revision_id": "REV_000001",
+      "status": "active",
+      "text": "DESCRIZIONE VARCHAR2(200)",
+      "text_hash": "cf4b14890dbb7a2d0a0663b31c0fe880eebeb4021f4a9b553837e371d2386e18"
+    },
+    {
+      "char_end": 438,
+      "char_start": 402,
+      "fragment_id": "FRAG_000033",
+      "fragment_type": "ddl_column",
+      "line_end": 16,
+      "line_start": 16,
+      "metadata": {
+        "column_name": "CRITICO",
+        "data_type": "CHAR(1)",
+        "default": "'N'",
+        "dialect": "generic_sql",
+        "nullable": false,
+        "object_type": "column",
+        "parser": "parse_ddl",
+        "parser_version": "1.0",
+        "source_hash": "34ac0dd12d004f81288ed522892787952974e43351f7af71173b816f9e59e689",
+        "statement_kind": "create_table",
+        "table_name": "ASSET",
+        "unique": false
+      },
+      "path_or_selector": "table:ASSET/column:CRITICO",
+      "sequence": 12,
+      "source_revision_id": "REV_000001",
+      "status": "active",
+      "text": "CRITICO CHAR(1) DEFAULT 'N' NOT NULL",
+      "text_hash": "3cf322238c97b754baa1bcf12ed7c15f82f8c7805d6d5672655c95a33dddaba7"
+    },
+    {
+      "char_end": 328,
+      "char_start": 307,
+      "fragment_id": "FRAG_000034",
+      "fragment_type": "ddl_constraint",
+      "line_end": 13,
+      "line_start": 13,
+      "metadata": {
+        "columns": [
+          "ID"
+        ],
+        "constraint_kind": "primary_key",
+        "constraint_name": "pk_ASSET_ID",
+        "dialect": "generic_sql",
+        "object_type": "constraint",
+        "parser": "parse_ddl",
+        "parser_version": "1.0",
+        "references_columns": [],
+        "references_table": null,
+        "source_hash": "34ac0dd12d004f81288ed522892787952974e43351f7af71173b816f9e59e689",
+        "statement_kind": "create_table",
+        "table_name": "ASSET"
+      },
+      "path_or_selector": "table:ASSET/primary_key:ID",
+      "sequence": 13,
+      "source_revision_id": "REV_000001",
+      "status": "active",
+      "text": "ID NUMBER PRIMARY KEY",
+      "text_hash": "d592dde04818fc414377effac13df621444bc2621dd435ca45bcbe22ba1ea830"
+    },
+    {
+      "char_end": 492,
+      "char_start": 444,
+      "fragment_id": "FRAG_000035",
+      "fragment_type": "ddl_constraint",
+      "line_end": 17,
+      "line_start": 17,
+      "metadata": {
+        "columns": [
+          "MATRICOLA"
+        ],
+        "constraint_kind": "unique",
+        "constraint_name": "UQ_ASSET_MATRICOLA",
+        "dialect": "generic_sql",
+        "object_type": "constraint",
+        "parser": "parse_ddl",
+        "parser_version": "1.0",
+        "references_columns": [],
+        "references_table": null,
+        "source_hash": "34ac0dd12d004f81288ed522892787952974e43351f7af71173b816f9e59e689",
+        "statement_kind": "create_table",
+        "table_name": "ASSET"
+      },
+      "path_or_selector": "table:ASSET/unique:MATRICOLA",
+      "sequence": 14,
+      "source_revision_id": "REV_000001",
+      "status": "active",
+      "text": "CONSTRAINT UQ_ASSET_MATRICOLA UNIQUE (MATRICOLA)",
+      "text_hash": "de7645f2a18fde65b4a1b487fa552474e05bd33fd820d31ba6baa278562d8234"
+    },
+    {
+      "char_end": 905,
+      "char_start": 497,
+      "fragment_id": "FRAG_000036",
+      "fragment_type": "ddl_table",
+      "line_end": 30,
+      "line_start": 20,
+      "metadata": {
+        "columns": [
+          "ID",
+          "ASSET_ID",
+          "TECNICO_ID",
+          "STATO",
+          "PRIORITA",
+          "APERTO_IL",
+          "CHIUSO_IL"
+        ],
+        "dialect": "generic_sql",
+        "foreign_keys": [
+          {
+            "columns": [
+              "ASSET_ID"
+            ],
+            "constraint_name": "FK_INTERVENTO_ASSET",
+            "references_columns": [
+              "ID"
+            ],
+            "references_table": "ASSET"
+          },
+          {
+            "columns": [
+              "TECNICO_ID"
+            ],
+            "constraint_name": "FK_INTERVENTO_TECNICO",
+            "references_columns": [
+              "ID"
+            ],
+            "references_table": "TECNICO"
+          }
+        ],
+        "object_type": "table",
+        "parser": "parse_ddl",
+        "parser_version": "1.0",
+        "primary_key": [
+          "ID"
+        ],
+        "schema_name": null,
+        "source_hash": "34ac0dd12d004f81288ed522892787952974e43351f7af71173b816f9e59e689",
+        "statement_kind": "create_table",
+        "table_name": "INTERVENTO"
+      },
+      "path_or_selector": "table:INTERVENTO",
+      "sequence": 15,
+      "source_revision_id": "REV_000001",
+      "status": "active",
+      "text": "CREATE TABLE INTERVENTO (\n    ID NUMBER PRIMARY KEY,\n    ASSET_ID NUMBER NOT NULL,\n    TECNICO_ID NUMBER,\n    STATO VARCHAR2(30) DEFAULT 'APERTO' NOT NULL,\n    PRIORITA VARCHAR2(10) NOT NULL,\n    APERTO_IL DATE NOT NULL,\n    CHIUSO_IL DATE,\n    CONSTRAINT FK_INTERVENTO_ASSET FOREIGN KEY (ASSET_ID) REFERENCES ASSET(ID),\n    CONSTRAINT FK_INTERVENTO_TECNICO FOREIGN KEY (TECNICO_ID) REFERENCES TECNICO(ID)\n);",
+      "text_hash": "8d0dbe6310cc5c890b93f470f9fdc8918482877c6ae7c90992ec6ce53778a1aa"
+    },
+    {
+      "char_end": 548,
+      "char_start": 527,
+      "fragment_id": "FRAG_000037",
+      "fragment_type": "ddl_column",
+      "line_end": 21,
+      "line_start": 21,
+      "metadata": {
+        "column_name": "ID",
+        "data_type": "NUMBER",
+        "default": null,
+        "dialect": "generic_sql",
+        "nullable": null,
+        "object_type": "column",
+        "parser": "parse_ddl",
+        "parser_version": "1.0",
+        "source_hash": "34ac0dd12d004f81288ed522892787952974e43351f7af71173b816f9e59e689",
+        "statement_kind": "create_table",
+        "table_name": "INTERVENTO",
+        "unique": false
+      },
+      "path_or_selector": "table:INTERVENTO/column:ID",
+      "sequence": 16,
+      "source_revision_id": "REV_000001",
+      "status": "active",
+      "text": "ID NUMBER PRIMARY KEY",
+      "text_hash": "d592dde04818fc414377effac13df621444bc2621dd435ca45bcbe22ba1ea830"
+    },
+    {
+      "char_end": 578,
+      "char_start": 554,
+      "fragment_id": "FRAG_000038",
+      "fragment_type": "ddl_column",
+      "line_end": 22,
+      "line_start": 22,
+      "metadata": {
+        "column_name": "ASSET_ID",
+        "data_type": "NUMBER",
+        "default": null,
+        "dialect": "generic_sql",
+        "nullable": false,
+        "object_type": "column",
+        "parser": "parse_ddl",
+        "parser_version": "1.0",
+        "source_hash": "34ac0dd12d004f81288ed522892787952974e43351f7af71173b816f9e59e689",
+        "statement_kind": "create_table",
+        "table_name": "INTERVENTO",
+        "unique": false
+      },
+      "path_or_selector": "table:INTERVENTO/column:ASSET_ID",
+      "sequence": 17,
+      "source_revision_id": "REV_000001",
+      "status": "active",
+      "text": "ASSET_ID NUMBER NOT NULL",
+      "text_hash": "e1d7bfc42217dd546ec12067b2e9d2d0fa8df350522ef9d92f9eb16fc794bb0c"
+    },
+    {
+      "char_end": 601,
+      "char_start": 584,
+      "fragment_id": "FRAG_000039",
+      "fragment_type": "ddl_column",
+      "line_end": 23,
+      "line_start": 23,
+      "metadata": {
+        "column_name": "TECNICO_ID",
+        "data_type": "NUMBER",
+        "default": null,
+        "dialect": "generic_sql",
+        "nullable": null,
+        "object_type": "column",
+        "parser": "parse_ddl",
+        "parser_version": "1.0",
+        "source_hash": "34ac0dd12d004f81288ed522892787952974e43351f7af71173b816f9e59e689",
+        "statement_kind": "create_table",
+        "table_name": "INTERVENTO",
+        "unique": false
+      },
+      "path_or_selector": "table:INTERVENTO/column:TECNICO_ID",
+      "sequence": 18,
+      "source_revision_id": "REV_000001",
+      "status": "active",
+      "text": "TECNICO_ID NUMBER",
+      "text_hash": "397b1c9bf8426c2bb35fe874261b7790cd8af6513545e2ed817ecc2f6c48f05b"
+    },
+    {
+      "char_end": 651,
+      "char_start": 607,
+      "fragment_id": "FRAG_000040",
+      "fragment_type": "ddl_column",
+      "line_end": 24,
+      "line_start": 24,
+      "metadata": {
+        "column_name": "STATO",
+        "data_type": "VARCHAR2(30)",
+        "default": "'APERTO'",
+        "dialect": "generic_sql",
+        "nullable": false,
+        "object_type": "column",
+        "parser": "parse_ddl",
+        "parser_version": "1.0",
+        "source_hash": "34ac0dd12d004f81288ed522892787952974e43351f7af71173b816f9e59e689",
+        "statement_kind": "create_table",
+        "table_name": "INTERVENTO",
+        "unique": false
+      },
+      "path_or_selector": "table:INTERVENTO/column:STATO",
+      "sequence": 19,
+      "source_revision_id": "REV_000001",
+      "status": "active",
+      "text": "STATO VARCHAR2(30) DEFAULT 'APERTO' NOT NULL",
+      "text_hash": "47caee2277005b656ad1db0b0c1394e6297a10a3a80f38abcc31f9fddff866f3"
+    },
+    {
+      "char_end": 687,
+      "char_start": 657,
+      "fragment_id": "FRAG_000041",
+      "fragment_type": "ddl_column",
+      "line_end": 25,
+      "line_start": 25,
+      "metadata": {
+        "column_name": "PRIORITA",
+        "data_type": "VARCHAR2(10)",
+        "default": null,
+        "dialect": "generic_sql",
+        "nullable": false,
+        "object_type": "column",
+        "parser": "parse_ddl",
+        "parser_version": "1.0",
+        "source_hash": "34ac0dd12d004f81288ed522892787952974e43351f7af71173b816f9e59e689",
+        "statement_kind": "create_table",
+        "table_name": "INTERVENTO",
+        "unique": false
+      },
+      "path_or_selector": "table:INTERVENTO/column:PRIORITA",
+      "sequence": 20,
+      "source_revision_id": "REV_000001",
+      "status": "active",
+      "text": "PRIORITA VARCHAR2(10) NOT NULL",
+      "text_hash": "39408a007f2e2904aea74caba73c8197a8027a0c98df3c7d43a4cb2e14c03635"
+    },
+    {
+      "char_end": 716,
+      "char_start": 693,
+      "fragment_id": "FRAG_000042",
+      "fragment_type": "ddl_column",
+      "line_end": 26,
+      "line_start": 26,
+      "metadata": {
+        "column_name": "APERTO_IL",
+        "data_type": "DATE",
+        "default": null,
+        "dialect": "generic_sql",
+        "nullable": false,
+        "object_type": "column",
+        "parser": "parse_ddl",
+        "parser_version": "1.0",
+        "source_hash": "34ac0dd12d004f81288ed522892787952974e43351f7af71173b816f9e59e689",
+        "statement_kind": "create_table",
+        "table_name": "INTERVENTO",
+        "unique": false
+      },
+      "path_or_selector": "table:INTERVENTO/column:APERTO_IL",
+      "sequence": 21,
+      "source_revision_id": "REV_000001",
+      "status": "active",
+      "text": "APERTO_IL DATE NOT NULL",
+      "text_hash": "21dfcf69d24d907f21cddbdabceee7ceb1f25779d2d76f5736fd77837619b7a1"
+    },
+    {
+      "char_end": 736,
+      "char_start": 722,
+      "fragment_id": "FRAG_000043",
+      "fragment_type": "ddl_column",
+      "line_end": 27,
+      "line_start": 27,
+      "metadata": {
+        "column_name": "CHIUSO_IL",
+        "data_type": "DATE",
+        "default": null,
+        "dialect": "generic_sql",
+        "nullable": null,
+        "object_type": "column",
+        "parser": "parse_ddl",
+        "parser_version": "1.0",
+        "source_hash": "34ac0dd12d004f81288ed522892787952974e43351f7af71173b816f9e59e689",
+        "statement_kind": "create_table",
+        "table_name": "INTERVENTO",
+        "unique": false
+      },
+      "path_or_selector": "table:INTERVENTO/column:CHIUSO_IL",
+      "sequence": 22,
+      "source_revision_id": "REV_000001",
+      "status": "active",
+      "text": "CHIUSO_IL DATE",
+      "text_hash": "f78f10893a7b78e20faea621fd9cce0eb9ee0b78fcf5ca8c544434f5e7db5a3e"
+    },
+    {
+      "char_end": 548,
+      "char_start": 527,
+      "fragment_id": "FRAG_000044",
+      "fragment_type": "ddl_constraint",
+      "line_end": 21,
+      "line_start": 21,
+      "metadata": {
+        "columns": [
+          "ID"
+        ],
+        "constraint_kind": "primary_key",
+        "constraint_name": "pk_INTERVENTO_ID",
+        "dialect": "generic_sql",
+        "object_type": "constraint",
+        "parser": "parse_ddl",
+        "parser_version": "1.0",
+        "references_columns": [],
+        "references_table": null,
+        "source_hash": "34ac0dd12d004f81288ed522892787952974e43351f7af71173b816f9e59e689",
+        "statement_kind": "create_table",
+        "table_name": "INTERVENTO"
+      },
+      "path_or_selector": "table:INTERVENTO/primary_key:ID",
+      "sequence": 23,
+      "source_revision_id": "REV_000001",
+      "status": "active",
+      "text": "ID NUMBER PRIMARY KEY",
+      "text_hash": "d592dde04818fc414377effac13df621444bc2621dd435ca45bcbe22ba1ea830"
+    },
+    {
+      "char_end": 816,
+      "char_start": 742,
+      "fragment_id": "FRAG_000045",
+      "fragment_type": "ddl_constraint",
+      "line_end": 28,
+      "line_start": 28,
+      "metadata": {
+        "columns": [
+          "ASSET_ID"
+        ],
+        "constraint_kind": "foreign_key",
+        "constraint_name": "FK_INTERVENTO_ASSET",
+        "dialect": "generic_sql",
+        "object_type": "constraint",
+        "parser": "parse_ddl",
+        "parser_version": "1.0",
+        "references_columns": [
+          "ID"
+        ],
+        "references_table": "ASSET",
+        "source_hash": "34ac0dd12d004f81288ed522892787952974e43351f7af71173b816f9e59e689",
+        "statement_kind": "create_table",
+        "table_name": "INTERVENTO"
+      },
+      "path_or_selector": "table:INTERVENTO/foreign_key:ASSET_ID->ASSET.ID",
+      "sequence": 24,
+      "source_revision_id": "REV_000001",
+      "status": "active",
+      "text": "CONSTRAINT FK_INTERVENTO_ASSET FOREIGN KEY (ASSET_ID) REFERENCES ASSET(ID)",
+      "text_hash": "5f25a87d19f9abb66fdd9b93da8d22c5b609dc90c9e4278e0723379abb318d4d"
+    },
+    {
+      "char_end": 902,
+      "char_start": 822,
+      "fragment_id": "FRAG_000046",
+      "fragment_type": "ddl_constraint",
+      "line_end": 29,
+      "line_start": 29,
+      "metadata": {
+        "columns": [
+          "TECNICO_ID"
+        ],
+        "constraint_kind": "foreign_key",
+        "constraint_name": "FK_INTERVENTO_TECNICO",
+        "dialect": "generic_sql",
+        "object_type": "constraint",
+        "parser": "parse_ddl",
+        "parser_version": "1.0",
+        "references_columns": [
+          "ID"
+        ],
+        "references_table": "TECNICO",
+        "source_hash": "34ac0dd12d004f81288ed522892787952974e43351f7af71173b816f9e59e689",
+        "statement_kind": "create_table",
+        "table_name": "INTERVENTO"
+      },
+      "path_or_selector": "table:INTERVENTO/foreign_key:TECNICO_ID->TECNICO.ID",
+      "sequence": 25,
+      "source_revision_id": "REV_000001",
+      "status": "active",
+      "text": "CONSTRAINT FK_INTERVENTO_TECNICO FOREIGN KEY (TECNICO_ID) REFERENCES TECNICO(ID)",
+      "text_hash": "0ccbf25a92b5cdbb5055c77a55f0ca357596a8f7bb87b4c96d4b41d4abfd9edb"
+    },
+    {
+      "char_end": 1147,
+      "char_start": 907,
+      "fragment_id": "FRAG_000047",
+      "fragment_type": "ddl_table",
+      "line_end": 38,
+      "line_start": 32,
+      "metadata": {
+        "columns": [
+          "ID",
+          "INTERVENTO_ID",
+          "CODICE",
+          "ESITO"
+        ],
+        "dialect": "generic_sql",
+        "foreign_keys": [
+          {
+            "columns": [
+              "INTERVENTO_ID"
+            ],
+            "constraint_name": "FK_CHECKLIST_INTERVENTO",
+            "references_columns": [
+              "ID"
+            ],
+            "references_table": "INTERVENTO"
+          }
+        ],
+        "object_type": "table",
+        "parser": "parse_ddl",
+        "parser_version": "1.0",
+        "primary_key": [
+          "ID"
+        ],
+        "schema_name": null,
+        "source_hash": "34ac0dd12d004f81288ed522892787952974e43351f7af71173b816f9e59e689",
+        "statement_kind": "create_table",
+        "table_name": "CHECKLIST"
+      },
+      "path_or_selector": "table:CHECKLIST",
+      "sequence": 26,
+      "source_revision_id": "REV_000001",
+      "status": "active",
+      "text": "CREATE TABLE CHECKLIST (\n    ID NUMBER PRIMARY KEY,\n    INTERVENTO_ID NUMBER NOT NULL,\n    CODICE VARCHAR2(30) NOT NULL,\n    ESITO VARCHAR2(10),\n    CONSTRAINT FK_CHECKLIST_INTERVENTO FOREIGN KEY (INTERVENTO_ID) REFERENCES INTERVENTO(ID)\n);",
+      "text_hash": "3212963cc1018c07605805c09492148da153d59d435a0ceb18dfcd697a2782bf"
+    },
+    {
+      "char_end": 957,
+      "char_start": 936,
+      "fragment_id": "FRAG_000048",
+      "fragment_type": "ddl_column",
+      "line_end": 33,
+      "line_start": 33,
+      "metadata": {
+        "column_name": "ID",
+        "data_type": "NUMBER",
+        "default": null,
+        "dialect": "generic_sql",
+        "nullable": null,
+        "object_type": "column",
+        "parser": "parse_ddl",
+        "parser_version": "1.0",
+        "source_hash": "34ac0dd12d004f81288ed522892787952974e43351f7af71173b816f9e59e689",
+        "statement_kind": "create_table",
+        "table_name": "CHECKLIST",
+        "unique": false
+      },
+      "path_or_selector": "table:CHECKLIST/column:ID",
+      "sequence": 27,
+      "source_revision_id": "REV_000001",
+      "status": "active",
+      "text": "ID NUMBER PRIMARY KEY",
+      "text_hash": "d592dde04818fc414377effac13df621444bc2621dd435ca45bcbe22ba1ea830"
+    },
+    {
+      "char_end": 992,
+      "char_start": 963,
+      "fragment_id": "FRAG_000049",
+      "fragment_type": "ddl_column",
+      "line_end": 34,
+      "line_start": 34,
+      "metadata": {
+        "column_name": "INTERVENTO_ID",
+        "data_type": "NUMBER",
+        "default": null,
+        "dialect": "generic_sql",
+        "nullable": false,
+        "object_type": "column",
+        "parser": "parse_ddl",
+        "parser_version": "1.0",
+        "source_hash": "34ac0dd12d004f81288ed522892787952974e43351f7af71173b816f9e59e689",
+        "statement_kind": "create_table",
+        "table_name": "CHECKLIST",
+        "unique": false
+      },
+      "path_or_selector": "table:CHECKLIST/column:INTERVENTO_ID",
+      "sequence": 28,
+      "source_revision_id": "REV_000001",
+      "status": "active",
+      "text": "INTERVENTO_ID NUMBER NOT NULL",
+      "text_hash": "ae68b5313c392fb8e77da74d62cc26b4c58d4046ebe623c03eb877eb772633db"
+    },
+    {
+      "char_end": 1026,
+      "char_start": 998,
+      "fragment_id": "FRAG_000050",
+      "fragment_type": "ddl_column",
+      "line_end": 35,
+      "line_start": 35,
+      "metadata": {
+        "column_name": "CODICE",
+        "data_type": "VARCHAR2(30)",
+        "default": null,
+        "dialect": "generic_sql",
+        "nullable": false,
+        "object_type": "column",
+        "parser": "parse_ddl",
+        "parser_version": "1.0",
+        "source_hash": "34ac0dd12d004f81288ed522892787952974e43351f7af71173b816f9e59e689",
+        "statement_kind": "create_table",
+        "table_name": "CHECKLIST",
+        "unique": false
+      },
+      "path_or_selector": "table:CHECKLIST/column:CODICE",
+      "sequence": 29,
+      "source_revision_id": "REV_000001",
+      "status": "active",
+      "text": "CODICE VARCHAR2(30) NOT NULL",
+      "text_hash": "ff21e9f7f4f7456274bb3b5561150d2ef3ebe237f3cadac96882941473ab8358"
+    },
+    {
+      "char_end": 1050,
+      "char_start": 1032,
+      "fragment_id": "FRAG_000051",
+      "fragment_type": "ddl_column",
+      "line_end": 36,
+      "line_start": 36,
+      "metadata": {
+        "column_name": "ESITO",
+        "data_type": "VARCHAR2(10)",
+        "default": null,
+        "dialect": "generic_sql",
+        "nullable": null,
+        "object_type": "column",
+        "parser": "parse_ddl",
+        "parser_version": "1.0",
+        "source_hash": "34ac0dd12d004f81288ed522892787952974e43351f7af71173b816f9e59e689",
+        "statement_kind": "create_table",
+        "table_name": "CHECKLIST",
+        "unique": false
+      },
+      "path_or_selector": "table:CHECKLIST/column:ESITO",
+      "sequence": 30,
+      "source_revision_id": "REV_000001",
+      "status": "active",
+      "text": "ESITO VARCHAR2(10)",
+      "text_hash": "261bc1b81a38411aae1e423721337937ef56b59ce08369dffb4ed5e3869f3e49"
+    },
+    {
+      "char_end": 957,
+      "char_start": 936,
+      "fragment_id": "FRAG_000052",
+      "fragment_type": "ddl_constraint",
+      "line_end": 33,
+      "line_start": 33,
+      "metadata": {
+        "columns": [
+          "ID"
+        ],
+        "constraint_kind": "primary_key",
+        "constraint_name": "pk_CHECKLIST_ID",
+        "dialect": "generic_sql",
+        "object_type": "constraint",
+        "parser": "parse_ddl",
+        "parser_version": "1.0",
+        "references_columns": [],
+        "references_table": null,
+        "source_hash": "34ac0dd12d004f81288ed522892787952974e43351f7af71173b816f9e59e689",
+        "statement_kind": "create_table",
+        "table_name": "CHECKLIST"
+      },
+      "path_or_selector": "table:CHECKLIST/primary_key:ID",
+      "sequence": 31,
+      "source_revision_id": "REV_000001",
+      "status": "active",
+      "text": "ID NUMBER PRIMARY KEY",
+      "text_hash": "d592dde04818fc414377effac13df621444bc2621dd435ca45bcbe22ba1ea830"
+    },
+    {
+      "char_end": 1144,
+      "char_start": 1056,
+      "fragment_id": "FRAG_000053",
+      "fragment_type": "ddl_constraint",
+      "line_end": 37,
+      "line_start": 37,
+      "metadata": {
+        "columns": [
+          "INTERVENTO_ID"
+        ],
+        "constraint_kind": "foreign_key",
+        "constraint_name": "FK_CHECKLIST_INTERVENTO",
+        "dialect": "generic_sql",
+        "object_type": "constraint",
+        "parser": "parse_ddl",
+        "parser_version": "1.0",
+        "references_columns": [
+          "ID"
+        ],
+        "references_table": "INTERVENTO",
+        "source_hash": "34ac0dd12d004f81288ed522892787952974e43351f7af71173b816f9e59e689",
+        "statement_kind": "create_table",
+        "table_name": "CHECKLIST"
+      },
+      "path_or_selector": "table:CHECKLIST/foreign_key:INTERVENTO_ID->INTERVENTO.ID",
+      "sequence": 32,
+      "source_revision_id": "REV_000001",
+      "status": "active",
+      "text": "CONSTRAINT FK_CHECKLIST_INTERVENTO FOREIGN KEY (INTERVENTO_ID) REFERENCES INTERVENTO(ID)",
+      "text_hash": "589d8b0676000e8f9a6bcfb9c2be3cd776b0a6b794ec7b3814a70edf073b3336"
+    },
+    {
+      "char_end": 1203,
+      "char_start": 1149,
+      "fragment_id": "FRAG_000054",
+      "fragment_type": "ddl_constraint",
+      "line_end": 40,
+      "line_start": 40,
+      "metadata": {
+        "columns": [
+          "STATO"
+        ],
+        "constraint_kind": "index",
+        "constraint_name": "IX_INTERVENTO_STATO",
+        "dialect": "generic_sql",
+        "object_type": "index",
+        "parser": "parse_ddl",
+        "parser_version": "1.0",
+        "source_hash": "34ac0dd12d004f81288ed522892787952974e43351f7af71173b816f9e59e689",
+        "statement_kind": "create_index",
+        "table_name": "INTERVENTO"
+      },
+      "path_or_selector": "table:INTERVENTO/index:IX_INTERVENTO_STATO",
+      "sequence": 33,
+      "source_revision_id": "REV_000001",
+      "status": "active",
+      "text": "CREATE INDEX IX_INTERVENTO_STATO ON INTERVENTO(STATO);",
+      "text_hash": "56323f7b29d22e97431bfad2bdbd03b0830419fb9d776dd3d025259184835a09"
+    }
+  ],
+  "fragments_hash": "eba35ac438b58d5863f92c496872a46ed3dcf4af08f7cc9c664fc960649c40de",
+  "fragments_jsonl_path": "fragments/SRC_000001/REV_000001/fragments.jsonl",
+  "input_path": "corpus/active/database/schema_orione.sql",
+  "profile": "ddl.default",
+  "run_id": "RUN_000019",
+  "source_hash": "34ac0dd12d004f81288ed522892787952974e43351f7af71173b816f9e59e689",
+  "source_id": "SRC_000001",
+  "source_revision_id": "REV_000001",
+  "status": "completed",
+  "table_count": 4,
+  "warnings": [],
+  "worker_config": {
+    "name": "parse_ddl",
+    "version": "1.0"
+  },
+  "worker_name": "parse_ddl",
+  "worker_version": "1.0"
+}

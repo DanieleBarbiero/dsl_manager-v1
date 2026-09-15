@@ -1,0 +1,45 @@
+{
+  "chunk_count": 1,
+  "chunk_report_path": "chunks/SRC_000004/REV_000004/chunk_report.json",
+  "chunks": [
+    {
+      "chunk_id": "CHK_000002",
+      "metadata": {
+        "chunker": "chunk_docling",
+        "chunker_version": "1.0",
+        "end_char": 410,
+        "heading_path": [
+          "Nota SLA Orione",
+          "Chiusura"
+        ],
+        "normalized_hash": "162bc6928643332def6435648fdc5f048cf14a55a6d090bc152be211e594c156",
+        "normalized_json_path": "normalized/SRC_000004/REV_000004/normalized.json",
+        "normalized_markdown_path": "normalized/SRC_000004/REV_000004/normalized.md",
+        "source_text_kind": "normalized_markdown",
+        "start_char": 0,
+        "strategy": "heading_paragraph"
+      },
+      "sequence": 1,
+      "source_revision_id": "REV_000004",
+      "status": "active",
+      "text": "# Nota SLA Orione\n\neffective\\_date: 2026-01-15\n\n## Priorità alta\n\nGli interventi ad alta priorità devono essere presi in carico entro due ore da un tecnico con livello almeno 3. La presa in carico e la chiusura sono eventi distinti.\n\n## Chiusura\n\nLa checklist SICUREZZA e la checklist COLLAUDO devono entrambe avere esito OK. Questa nota conferma il manuale 2026 ma non chiarisce le certificazioni temporanee.\n",
+      "text_hash": "162bc6928643332def6435648fdc5f048cf14a55a6d090bc152be211e594c156"
+    }
+  ],
+  "chunks_hash": "5eb351051f82d4d35dce85ba9187cf4ab93aa20bc6f97ac8a95678594993448a",
+  "chunks_jsonl_path": "chunks/SRC_000004/REV_000004/chunks.jsonl",
+  "exit_code": 0,
+  "normalized_hash": "162bc6928643332def6435648fdc5f048cf14a55a6d090bc152be211e594c156",
+  "normalized_json_path": "normalized/SRC_000004/REV_000004/normalized.json",
+  "normalized_markdown_path": "normalized/SRC_000004/REV_000004/normalized.md",
+  "profile": "docling.chunking",
+  "run_id": "RUN_000008",
+  "source_hash": "6612c06bb956b51703d6a30b65a1b5d189e2804b070893656ce41903640bf087",
+  "source_hash_path": "normalized/SRC_000004/REV_000004/source_hash.txt",
+  "source_id": "SRC_000004",
+  "source_revision_id": "REV_000004",
+  "status": "completed",
+  "strategy": "heading_paragraph",
+  "worker_name": "chunk_docling",
+  "worker_version": "1.0"
+}

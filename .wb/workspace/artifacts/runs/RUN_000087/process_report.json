@@ -1,0 +1,11 @@
+{
+  "artifact_dir": "artifacts/runs/RUN_000087",
+  "config_hash": "2dd6b5c68345e85d1897975f7db254e5b5cccee370cf76aa41c1f46af9752afe",
+  "error": "strict_orphans: relation REL_000015 references missing target entity tec-9.",
+  "finished_at": "2026-09-14T16:31:56+02:00",
+  "run_id": "RUN_000087",
+  "run_type": "gexf_export",
+  "started_at": "2026-09-14T16:31:56+02:00",
+  "status": "failed",
+  "workers": []
+}

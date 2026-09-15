@@ -1,0 +1,27 @@
+policy:
+  policy_id: technical_extraction
+  policy_version: "1"
+  route_id: technical_extraction
+  route_version: "1"
+  description: Prefer structured technical evidence that still needs deterministic treatment.
+criteria:
+  evidence_kinds: ["fragment"]
+  source_types: []
+  source_subtypes: []
+  extensions: []
+  authority_levels: []
+  fragment_types: ["ddl_table","ddl_column","ddl_constraint","sql_function","sql_procedure","sql_statement","sql_trigger","xml_form","xml_field","xml_button","excel_region"]
+  producers: []
+  producer_versions: []
+  evidence_statuses: ["active"]
+  source_statuses: ["active"]
+  revision_statuses: ["active"]
+  current_revisions_only: true
+  require_complete_locator: true
+  excluded_coverage_states: ["confirmed"]
+ranking:
+  preferences: ["coverage_state=no_rule_applicable","authority_level=technical_documentation","fragment_type=ddl_table","fragment_type=sql_procedure"]
+budget:
+  max_examined_evidence: 100000
+  max_selected_evidence: 10000
+  max_selected_chars: 10000000

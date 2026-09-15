@@ -1,0 +1,23 @@
+{
+  "added_count": 0,
+  "artifact_dir": "artifacts/runs/RUN_000084",
+  "from_dsl_hash": "0dabe1ee036633792a901675d9fb4016a91203e8ab8e3996d156199f1e335259",
+  "from_registry_hash": "b4830a7c75f58ad78bf287403600f79b7ad0919d0c91a8bb0b2e4ead6306bfb9",
+  "from_snapshot_id": "DSL_000001",
+  "json_path": "exports/dsl_diff/DSL_000001__DSL_000002.json",
+  "markdown_path": "exports/dsl_diff/DSL_000001__DSL_000002.md",
+  "modified_count": 1,
+  "output_dir": "exports/dsl_diff",
+  "parameters": {
+    "from_snapshot_id": "DSL_000001",
+    "output_dir": "exports/dsl_diff",
+    "to_snapshot_id": "DSL_000002"
+  },
+  "removed_count": 0,
+  "run_id": "RUN_000084",
+  "run_type": "dsl_diff",
+  "to_dsl_hash": "f7a84f75dfc30909dc149db3195d4e5e1bf585a925766bf26b74a64d984b365b",
+  "to_registry_hash": "02779d4d805a168f0d72e44c133301bebda55cf28fa6cb8c833d6fa252b6ef78",
+  "to_snapshot_id": "DSL_000002",
+  "total_changes": 1
+}

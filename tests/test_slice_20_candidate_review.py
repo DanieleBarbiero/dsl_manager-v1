@@ -337,6 +337,108 @@ def test_slice_20_cli_review_and_reconcile_contract(tmp_path):
     assert reconciled.stderr == ""
 
 
+def test_slice_20_cli_review_list_filters_source_and_batch(tmp_path, capsys):
+    workspace, ai_batch, ai_candidate_ids = _workspace_with_candidates(
+        tmp_path,
+        [_fact("AI_FILTER")],
+    )
+    capsys.readouterr()
+    with _connect(workspace) as connection:
+        connection.execute(
+            """
+            UPDATE candidate_batches
+            SET origin_type = 'ai_import', origin_ref = 'AIPKG_000001'
+            WHERE batch_id = ?
+            """,
+            (ai_batch,),
+        )
+        connection.commit()
+
+    def add_classified_batch(candidate_id: str, origin_ref: str) -> tuple[str, str]:
+        input_path = workspace / "ai" / "inbox" / f"{candidate_id.lower()}.jsonl"
+        input_path.write_text(
+            json.dumps(_fact(candidate_id), ensure_ascii=False, sort_keys=True) + "\n",
+            encoding="utf-8",
+            newline="\n",
+        )
+        assert main(["candidates", "validate", str(workspace), "--input", str(input_path)]) == 0
+        capsys.readouterr()
+        with _connect(workspace) as connection:
+            row = connection.execute(
+                """
+                SELECT cr.batch_id, cr.candidate_record_id
+                FROM candidate_records cr
+                JOIN candidate_batches cb ON cb.batch_id = cr.batch_id
+                ORDER BY cb.created_at DESC, cr.candidate_record_id DESC
+                LIMIT 1
+                """
+            ).fetchone()
+            connection.execute(
+                """
+                UPDATE candidate_batches
+                SET input_path = NULL,
+                    origin_type = 'deterministic_derivation',
+                    origin_ref = ?
+                WHERE batch_id = ?
+                """,
+                (origin_ref, row["batch_id"]),
+            )
+            connection.commit()
+        return str(row["batch_id"]), str(row["candidate_record_id"])
+
+    deterministic_batch, deterministic_candidate_id = add_classified_batch(
+        "DETERMINISTIC_FILTER",
+        "derive://DERIVE_000001",
+    )
+    temporal_batch, temporal_candidate_id = add_classified_batch(
+        "TEMPORAL_FILTER",
+        "temporal://test-filter",
+    )
+
+    expected = {
+        "ai": (ai_batch, ai_candidate_ids[0], "ai_import"),
+        "deterministic": (
+            deterministic_batch,
+            deterministic_candidate_id,
+            "deterministic_derivation",
+        ),
+        "temporal": (temporal_batch, temporal_candidate_id, "deterministic_derivation"),
+    }
+    for source, (batch_id, candidate_record_id, origin_type) in expected.items():
+        assert main(
+            [
+                "candidates",
+                "review",
+                "list",
+                str(workspace),
+                "--source",
+                source,
+            ]
+        ) == 0
+        payload = json.loads(capsys.readouterr().out)
+        assert payload["source"] == source
+        assert payload["subject_ids"] == [candidate_record_id]
+        assert payload["candidates"][0]["batch_id"] == batch_id
+        assert payload["candidates"][0]["source"] == source
+        assert payload["candidates"][0]["origin_type"] == origin_type
+
+    assert main(
+        [
+            "candidates",
+            "review",
+            "list",
+            str(workspace),
+            "--source",
+            "ai",
+            "--batch",
+            deterministic_batch,
+        ]
+    ) == 0
+    empty = json.loads(capsys.readouterr().out)
+    assert empty["batch_id"] == deterministic_batch
+    assert empty["count"] == 0
+
+
 def test_slice_20_cli_review_show_uses_utf8_when_process_starts_as_cp1252(tmp_path):
     workspace, _, candidate_ids = _workspace_with_candidates(
         tmp_path,

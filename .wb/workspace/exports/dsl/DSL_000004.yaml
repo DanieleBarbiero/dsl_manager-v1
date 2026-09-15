@@ -1,0 +1,1841 @@
+metadata:
+  schema_version: "2"
+  dsl_hash: "f7a84f75dfc30909dc149db3195d4e5e1bf585a925766bf26b74a64d984b365b"
+  registry_hash: "02779d4d805a168f0d72e44c133301bebda55cf28fa6cb8c833d6fa252b6ef78"
+  counts:
+    conflicts: 1
+    entities: 50
+    facts: 52
+    relations: 16
+  temporal:
+    representation: "interval"
+    base: "day"
+    gexf_timeformat: "date"
+    timezone: "unknown"
+entities:
+  -
+    name: "ASSET"
+    canonical_name: "asset"
+    facts:
+      -
+        assertion_type: "explicit"
+        confidence: "high"
+        fact_id: "FACT_000020"
+        fact_type: "database_table"
+        intervals: []
+        property_name: "object_type"
+        property_value: "database_table"
+        status: "active"
+  -
+    name: "ASSET.CRITICO"
+    canonical_name: "asset.critico"
+    facts:
+      -
+        assertion_type: "explicit"
+        confidence: "high"
+        fact_id: "FACT_000001"
+        fact_type: "database_column"
+        intervals: []
+        property_name: "data_type"
+        property_value: "CHAR(1)"
+        status: "active"
+  -
+    name: "ASSET.DESCRIZIONE"
+    canonical_name: "asset.descrizione"
+    facts:
+      -
+        assertion_type: "explicit"
+        confidence: "high"
+        fact_id: "FACT_000002"
+        fact_type: "database_column"
+        intervals: []
+        property_name: "data_type"
+        property_value: "VARCHAR2(200)"
+        status: "active"
+  -
+    name: "ASSET.ID"
+    canonical_name: "asset.id"
+    facts:
+      -
+        assertion_type: "explicit"
+        confidence: "high"
+        fact_id: "FACT_000003"
+        fact_type: "database_column"
+        intervals: []
+        property_name: "data_type"
+        property_value: "NUMBER"
+        status: "active"
+  -
+    name: "ASSET.MATRICOLA"
+    canonical_name: "asset.matricola"
+    facts:
+      -
+        assertion_type: "explicit"
+        confidence: "high"
+        fact_id: "FACT_000004"
+        fact_type: "database_column"
+        intervals: []
+        property_name: "data_type"
+        property_value: "VARCHAR2(40)"
+        status: "active"
+  -
+    name: "assignment"
+    canonical_name: "assignment"
+    facts:
+      -
+        assertion_type: "observed"
+        confidence: "high"
+        fact_id: "FACT_000036"
+        fact_type: "log_event"
+        intervals: []
+        property_name: "event_kind"
+        property_value: "unknown"
+        status: "active"
+  -
+    name: "CHECKLIST"
+    canonical_name: "checklist"
+    facts:
+      -
+        assertion_type: "explicit"
+        confidence: "high"
+        fact_id: "FACT_000021"
+        fact_type: "database_table"
+        intervals: []
+        property_name: "object_type"
+        property_value: "database_table"
+        status: "active"
+  -
+    name: "CHECKLIST.CODICE"
+    canonical_name: "checklist.codice"
+    facts:
+      -
+        assertion_type: "explicit"
+        confidence: "high"
+        fact_id: "FACT_000005"
+        fact_type: "database_column"
+        intervals: []
+        property_name: "data_type"
+        property_value: "VARCHAR2(30)"
+        status: "active"
+  -
+    name: "CHECKLIST.ESITO"
+    canonical_name: "checklist.esito"
+    facts:
+      -
+        assertion_type: "explicit"
+        confidence: "high"
+        fact_id: "FACT_000006"
+        fact_type: "database_column"
+        intervals: []
+        property_name: "data_type"
+        property_value: "VARCHAR2(10)"
+        status: "active"
+  -
+    name: "CHECKLIST.ID"
+    canonical_name: "checklist.id"
+    facts:
+      -
+        assertion_type: "explicit"
+        confidence: "high"
+        fact_id: "FACT_000007"
+        fact_type: "database_column"
+        intervals: []
+        property_name: "data_type"
+        property_value: "NUMBER"
+        status: "active"
+  -
+    name: "CHECKLIST.INTERVENTO_ID"
+    canonical_name: "checklist.intervento_id"
+    facts:
+      -
+        assertion_type: "explicit"
+        confidence: "high"
+        fact_id: "FACT_000008"
+        fact_type: "database_column"
+        intervals: []
+        property_name: "data_type"
+        property_value: "NUMBER"
+        status: "active"
+  -
+    name: "closure"
+    canonical_name: "closure"
+    facts:
+      -
+        assertion_type: "observed"
+        confidence: "high"
+        fact_id: "FACT_000038"
+        fact_type: "log_event"
+        intervals: []
+        property_name: "event_kind"
+        property_value: "unknown"
+        status: "conflicted"
+      -
+        assertion_type: "observed"
+        confidence: "high"
+        fact_id: "FACT_000037"
+        fact_type: "log_event"
+        intervals: []
+        property_name: "event_kind"
+        property_value: "warning"
+        status: "conflicted"
+  -
+    name: "excel_workbook:8d635179e6b81d6550a80632db7c3033ac421f190cebcdd4f533d2413a43b16c"
+    canonical_name: "excel_workbook:8d635179e6b81d6550a80632db7c3033ac421f190cebcdd4f533d2413a43b16c"
+    facts:
+      -
+        assertion_type: "explicit"
+        confidence: "high"
+        fact_id: "FACT_000041"
+        fact_type: "excel_workbook"
+        intervals: []
+        property_name: "object_type"
+        property_value: "excel_workbook"
+        status: "active"
+  -
+    name: "excel_workbook:8d635179e6b81d6550a80632db7c3033ac421f190cebcdd4f533d2413a43b16c/sheet:0"
+    canonical_name: "excel_workbook:8d635179e6b81d6550a80632db7c3033ac421f190cebcdd4f533d2413a43b16c/sheet:0"
+    facts:
+      -
+        assertion_type: "explicit"
+        confidence: "high"
+        fact_id: "FACT_000040"
+        fact_type: "excel_sheet"
+        intervals: []
+        property_name: "object_type"
+        property_value: "excel_sheet"
+        status: "active"
+  -
+    name: "excel_workbook:8d635179e6b81d6550a80632db7c3033ac421f190cebcdd4f533d2413a43b16c/sheet:0/region:A1:B3"
+    canonical_name: "excel_workbook:8d635179e6b81d6550a80632db7c3033ac421f190cebcdd4f533d2413a43b16c/sheet:0/region:a1:b3"
+    facts:
+      -
+        assertion_type: "explicit"
+        confidence: "high"
+        fact_id: "FACT_000039"
+        fact_type: "excel_region"
+        intervals: []
+        property_name: "object_type"
+        property_value: "excel_region"
+        status: "active"
+  -
+    name: "excel_workbook:9d667c31350b961a3ed79035cb507a8aadb5bb9b8f5a7b0de2a552f1bcf17691"
+    canonical_name: "excel_workbook:9d667c31350b961a3ed79035cb507a8aadb5bb9b8f5a7b0de2a552f1bcf17691"
+    facts:
+      -
+        assertion_type: "explicit"
+        confidence: "high"
+        fact_id: "FACT_000049"
+        fact_type: "excel_workbook"
+        intervals: []
+        property_name: "object_type"
+        property_value: "excel_workbook"
+        status: "active"
+  -
+    name: "excel_workbook:9d667c31350b961a3ed79035cb507a8aadb5bb9b8f5a7b0de2a552f1bcf17691/named_range:workbook:*:SogliaLivello"
+    canonical_name: "excel_workbook:9d667c31350b961a3ed79035cb507a8aadb5bb9b8f5a7b0de2a552f1bcf17691/named_range:workbook:*:soglialivello"
+    facts:
+      -
+        assertion_type: "explicit"
+        confidence: "high"
+        fact_id: "FACT_000042"
+        fact_type: "excel_named_range"
+        intervals: []
+        property_name: "object_type"
+        property_value: "excel_named_range"
+        status: "active"
+  -
+    name: "excel_workbook:9d667c31350b961a3ed79035cb507a8aadb5bb9b8f5a7b0de2a552f1bcf17691/sheet:0"
+    canonical_name: "excel_workbook:9d667c31350b961a3ed79035cb507a8aadb5bb9b8f5a7b0de2a552f1bcf17691/sheet:0"
+    facts:
+      -
+        assertion_type: "explicit"
+        confidence: "high"
+        fact_id: "FACT_000046"
+        fact_type: "excel_sheet"
+        intervals: []
+        property_name: "object_type"
+        property_value: "excel_sheet"
+        status: "active"
+  -
+    name: "excel_workbook:9d667c31350b961a3ed79035cb507a8aadb5bb9b8f5a7b0de2a552f1bcf17691/sheet:0/region:A1:E4"
+    canonical_name: "excel_workbook:9d667c31350b961a3ed79035cb507a8aadb5bb9b8f5a7b0de2a552f1bcf17691/sheet:0/region:a1:e4"
+    facts:
+      -
+        assertion_type: "explicit"
+        confidence: "high"
+        fact_id: "FACT_000043"
+        fact_type: "excel_region"
+        intervals: []
+        property_name: "object_type"
+        property_value: "excel_region"
+        status: "active"
+  -
+    name: "excel_workbook:9d667c31350b961a3ed79035cb507a8aadb5bb9b8f5a7b0de2a552f1bcf17691/sheet:0/region:G1:H2"
+    canonical_name: "excel_workbook:9d667c31350b961a3ed79035cb507a8aadb5bb9b8f5a7b0de2a552f1bcf17691/sheet:0/region:g1:h2"
+    facts:
+      -
+        assertion_type: "explicit"
+        confidence: "high"
+        fact_id: "FACT_000044"
+        fact_type: "excel_region"
+        intervals: []
+        property_name: "object_type"
+        property_value: "excel_region"
+        status: "active"
+  -
+    name: "excel_workbook:9d667c31350b961a3ed79035cb507a8aadb5bb9b8f5a7b0de2a552f1bcf17691/sheet:0/table:InterventiPianificati"
+    canonical_name: "excel_workbook:9d667c31350b961a3ed79035cb507a8aadb5bb9b8f5a7b0de2a552f1bcf17691/sheet:0/table:interventipianificati"
+    facts:
+      -
+        assertion_type: "explicit"
+        confidence: "high"
+        fact_id: "FACT_000048"
+        fact_type: "excel_table"
+        intervals: []
+        property_name: "object_type"
+        property_value: "excel_table"
+        status: "active"
+  -
+    name: "excel_workbook:9d667c31350b961a3ed79035cb507a8aadb5bb9b8f5a7b0de2a552f1bcf17691/sheet:1"
+    canonical_name: "excel_workbook:9d667c31350b961a3ed79035cb507a8aadb5bb9b8f5a7b0de2a552f1bcf17691/sheet:1"
+    facts:
+      -
+        assertion_type: "explicit"
+        confidence: "high"
+        fact_id: "FACT_000047"
+        fact_type: "excel_sheet"
+        intervals: []
+        property_name: "object_type"
+        property_value: "excel_sheet"
+        status: "active"
+  -
+    name: "excel_workbook:9d667c31350b961a3ed79035cb507a8aadb5bb9b8f5a7b0de2a552f1bcf17691/sheet:1/region:A1:B2"
+    canonical_name: "excel_workbook:9d667c31350b961a3ed79035cb507a8aadb5bb9b8f5a7b0de2a552f1bcf17691/sheet:1/region:a1:b2"
+    facts:
+      -
+        assertion_type: "explicit"
+        confidence: "high"
+        fact_id: "FACT_000045"
+        fact_type: "excel_region"
+        intervals: []
+        property_name: "object_type"
+        property_value: "excel_region"
+        status: "active"
+  -
+    name: "FRM_INTERVENTO"
+    canonical_name: "frm_intervento"
+    facts:
+      -
+        assertion_type: "explicit"
+        confidence: "high"
+        fact_id: "FACT_000026"
+        fact_type: "xml_form"
+        intervals: []
+        property_name: "object_type"
+        property_value: "form"
+        status: "active"
+  -
+    name: "FRM_INTERVENTO.ANNULLA"
+    canonical_name: "frm_intervento.annulla"
+    facts:
+      -
+        assertion_type: "explicit"
+        confidence: "high"
+        fact_id: "FACT_000027"
+        fact_type: "xml_form_button"
+        intervals: []
+        property_name: "object_type"
+        property_value: "button"
+        status: "active"
+  -
+    name: "FRM_INTERVENTO.CONFERMA"
+    canonical_name: "frm_intervento.conferma"
+    facts:
+      -
+        assertion_type: "explicit"
+        confidence: "high"
+        fact_id: "FACT_000028"
+        fact_type: "xml_form_button"
+        intervals: []
+        property_name: "object_type"
+        property_value: "button"
+        status: "active"
+  -
+    name: "FRM_INTERVENTO.ID"
+    canonical_name: "frm_intervento.id"
+    facts:
+      -
+        assertion_type: "explicit"
+        confidence: "high"
+        fact_id: "FACT_000030"
+        fact_type: "xml_form_field"
+        intervals: []
+        property_name: "object_type"
+        property_value: "field"
+        status: "active"
+  -
+    name: "FRM_INTERVENTO.MATRICOLA"
+    canonical_name: "frm_intervento.matricola"
+    facts:
+      -
+        assertion_type: "explicit"
+        confidence: "high"
+        fact_id: "FACT_000031"
+        fact_type: "xml_form_field"
+        intervals: []
+        property_name: "object_type"
+        property_value: "field"
+        status: "active"
+  -
+    name: "FRM_INTERVENTO.PRIORITA"
+    canonical_name: "frm_intervento.priorita"
+    facts:
+      -
+        assertion_type: "explicit"
+        confidence: "high"
+        fact_id: "FACT_000032"
+        fact_type: "xml_form_field"
+        intervals: []
+        property_name: "object_type"
+        property_value: "field"
+        status: "active"
+  -
+    name: "FRM_INTERVENTO.SALVA"
+    canonical_name: "frm_intervento.salva"
+    facts:
+      -
+        assertion_type: "explicit"
+        confidence: "high"
+        fact_id: "FACT_000029"
+        fact_type: "xml_form_button"
+        intervals: []
+        property_name: "object_type"
+        property_value: "button"
+        status: "active"
+  -
+    name: "FRM_INTERVENTO.STATO"
+    canonical_name: "frm_intervento.stato"
+    facts:
+      -
+        assertion_type: "explicit"
+        confidence: "high"
+        fact_id: "FACT_000033"
+        fact_type: "xml_form_field"
+        intervals: []
+        property_name: "object_type"
+        property_value: "field"
+        status: "active"
+  -
+    name: "FRM_INTERVENTO.TECNICO_ID"
+    canonical_name: "frm_intervento.tecnico_id"
+    facts:
+      -
+        assertion_type: "explicit"
+        confidence: "high"
+        fact_id: "FACT_000034"
+        fact_type: "xml_form_field"
+        intervals: []
+        property_name: "object_type"
+        property_value: "field"
+        status: "active"
+  -
+    name: "INT-104"
+    canonical_name: "int-104"
+    facts:
+      -
+        assertion_type: "observed"
+        confidence: "high"
+        fact_id: "FACT_000052"
+        fact_type: "runtime_observation"
+        intervals: []
+        property_name: "missing_checklist_item"
+        property_value: "COLLAUDO"
+        status: "active"
+  -
+    name: "INTERVENTO"
+    canonical_name: "intervento"
+    facts:
+      -
+        assertion_type: "explicit"
+        confidence: "high"
+        fact_id: "FACT_000051"
+        fact_type: "business_rule"
+        intervals: []
+        property_name: "closure_checklist"
+        property_value: "SICUREZZA=OK;COLLAUDO=OK"
+        status: "active"
+      -
+        assertion_type: "explicit"
+        confidence: "high"
+        fact_id: "FACT_000022"
+        fact_type: "database_table"
+        intervals: []
+        property_name: "object_type"
+        property_value: "database_table"
+        status: "active"
+  -
+    name: "INTERVENTO.APERTO_IL"
+    canonical_name: "intervento.aperto_il"
+    facts:
+      -
+        assertion_type: "explicit"
+        confidence: "high"
+        fact_id: "FACT_000009"
+        fact_type: "database_column"
+        intervals: []
+        property_name: "data_type"
+        property_value: "DATE"
+        status: "active"
+  -
+    name: "INTERVENTO.ASSET_ID"
+    canonical_name: "intervento.asset_id"
+    facts:
+      -
+        assertion_type: "explicit"
+        confidence: "high"
+        fact_id: "FACT_000010"
+        fact_type: "database_column"
+        intervals: []
+        property_name: "data_type"
+        property_value: "NUMBER"
+        status: "active"
+  -
+    name: "INTERVENTO.CHIUSO_IL"
+    canonical_name: "intervento.chiuso_il"
+    facts:
+      -
+        assertion_type: "explicit"
+        confidence: "high"
+        fact_id: "FACT_000011"
+        fact_type: "database_column"
+        intervals: []
+        property_name: "data_type"
+        property_value: "DATE"
+        status: "active"
+  -
+    name: "INTERVENTO.ID"
+    canonical_name: "intervento.id"
+    facts:
+      -
+        assertion_type: "explicit"
+        confidence: "high"
+        fact_id: "FACT_000012"
+        fact_type: "database_column"
+        intervals: []
+        property_name: "data_type"
+        property_value: "NUMBER"
+        status: "active"
+  -
+    name: "INTERVENTO.PRIORITA"
+    canonical_name: "intervento.priorita"
+    facts:
+      -
+        assertion_type: "explicit"
+        confidence: "high"
+        fact_id: "FACT_000013"
+        fact_type: "database_column"
+        intervals: []
+        property_name: "data_type"
+        property_value: "VARCHAR2(10)"
+        status: "active"
+  -
+    name: "INTERVENTO.STATO"
+    canonical_name: "intervento.stato"
+    facts:
+      -
+        assertion_type: "explicit"
+        confidence: "high"
+        fact_id: "FACT_000014"
+        fact_type: "database_column"
+        intervals: []
+        property_name: "data_type"
+        property_value: "VARCHAR2(30)"
+        status: "active"
+  -
+    name: "INTERVENTO.TECNICO_ID"
+    canonical_name: "intervento.tecnico_id"
+    facts:
+      -
+        assertion_type: "explicit"
+        confidence: "high"
+        fact_id: "FACT_000015"
+        fact_type: "database_column"
+        intervals: []
+        property_name: "data_type"
+        property_value: "NUMBER"
+        status: "active"
+  -
+    name: "PRC_ASSEGNA_TECNICO"
+    canonical_name: "prc_assegna_tecnico"
+    facts:
+      -
+        assertion_type: "explicit"
+        confidence: "high"
+        fact_id: "FACT_000024"
+        fact_type: "database_code_unit"
+        intervals: []
+        property_name: "unit_type"
+        property_value: "procedure"
+        status: "active"
+  -
+    name: "scheduler"
+    canonical_name: "scheduler"
+    facts:
+      -
+        assertion_type: "observed"
+        confidence: "high"
+        fact_id: "FACT_000035"
+        fact_type: "log_event"
+        intervals: []
+        property_name: "event_kind"
+        property_value: "unknown"
+        status: "active"
+  -
+    name: "TECNICO"
+    canonical_name: "tecnico"
+    facts:
+      -
+        assertion_type: "explicit"
+        confidence: "high"
+        fact_id: "FACT_000023"
+        fact_type: "database_table"
+        intervals: []
+        property_name: "object_type"
+        property_value: "database_table"
+        status: "active"
+  -
+    name: "TECNICO.CODICE"
+    canonical_name: "tecnico.codice"
+    facts:
+      -
+        assertion_type: "explicit"
+        confidence: "high"
+        fact_id: "FACT_000016"
+        fact_type: "database_column"
+        intervals: []
+        property_name: "data_type"
+        property_value: "VARCHAR2(20)"
+        status: "active"
+  -
+    name: "TECNICO.ID"
+    canonical_name: "tecnico.id"
+    facts:
+      -
+        assertion_type: "explicit"
+        confidence: "high"
+        fact_id: "FACT_000017"
+        fact_type: "database_column"
+        intervals: []
+        property_name: "data_type"
+        property_value: "NUMBER"
+        status: "active"
+  -
+    name: "TECNICO.LIVELLO"
+    canonical_name: "tecnico.livello"
+    facts:
+      -
+        assertion_type: "explicit"
+        confidence: "high"
+        fact_id: "FACT_000018"
+        fact_type: "database_column"
+        intervals: []
+        property_name: "data_type"
+        property_value: "NUMBER(1)"
+        status: "active"
+  -
+    name: "TECNICO.NOME"
+    canonical_name: "tecnico.nome"
+    facts:
+      -
+        assertion_type: "explicit"
+        confidence: "high"
+        fact_id: "FACT_000019"
+        fact_type: "database_column"
+        intervals: []
+        property_name: "data_type"
+        property_value: "VARCHAR2(100)"
+        status: "active"
+  -
+    name: "TICKET"
+    canonical_name: "ticket"
+    facts:
+      -
+        assertion_type: "explicit"
+        confidence: "high"
+        fact_id: "FACT_000050"
+        fact_type: "domain_glossary"
+        intervals: []
+        property_name: "canonical_term"
+        property_value: "INTERVENTO"
+        status: "active"
+  -
+    name: "TRG_CHIUDI_INTERVENTO"
+    canonical_name: "trg_chiudi_intervento"
+    facts:
+      -
+        assertion_type: "explicit"
+        confidence: "high"
+        fact_id: "FACT_000025"
+        fact_type: "database_code_unit"
+        intervals: []
+        property_name: "unit_type"
+        property_value: "trigger"
+        status: "active"
+relations:
+  -
+    assertion_type: "explicit"
+    canonical_source_entity: "checklist"
+    canonical_target_entity: "intervento"
+    confidence: "high"
+    intervals: []
+    relation_id: "REL_000001"
+    relation_type: "references"
+    source_entity: "CHECKLIST"
+    status: "active"
+    target_entity: "INTERVENTO"
+  -
+    assertion_type: "explicit"
+    canonical_source_entity: "frm_intervento"
+    canonical_target_entity: "asset"
+    confidence: "high"
+    intervals: []
+    relation_id: "REL_000012"
+    relation_type: "writes_to"
+    source_entity: "FRM_INTERVENTO"
+    status: "active"
+    target_entity: "ASSET"
+  -
+    assertion_type: "explicit"
+    canonical_source_entity: "frm_intervento"
+    canonical_target_entity: "intervento"
+    confidence: "high"
+    intervals: []
+    relation_id: "REL_000013"
+    relation_type: "writes_to"
+    source_entity: "FRM_INTERVENTO"
+    status: "active"
+    target_entity: "INTERVENTO"
+  -
+    assertion_type: "observed"
+    canonical_source_entity: "int-104"
+    canonical_target_entity: "tec-9"
+    confidence: "high"
+    intervals: []
+    relation_id: "REL_000015"
+    relation_type: "assigned_to"
+    source_entity: "INT-104"
+    status: "active"
+    target_entity: "TEC-9"
+  -
+    assertion_type: "explicit"
+    canonical_source_entity: "intervento"
+    canonical_target_entity: "asset"
+    confidence: "high"
+    intervals: []
+    relation_id: "REL_000014"
+    relation_type: "belongs_to"
+    source_entity: "INTERVENTO"
+    status: "active"
+    target_entity: "ASSET"
+  -
+    assertion_type: "explicit"
+    canonical_source_entity: "intervento"
+    canonical_target_entity: "asset"
+    confidence: "high"
+    intervals: []
+    relation_id: "REL_000002"
+    relation_type: "references"
+    source_entity: "INTERVENTO"
+    status: "active"
+    target_entity: "ASSET"
+  -
+    assertion_type: "explicit"
+    canonical_source_entity: "intervento"
+    canonical_target_entity: "tecnico"
+    confidence: "high"
+    intervals: []
+    relation_id: "REL_000003"
+    relation_type: "references"
+    source_entity: "INTERVENTO"
+    status: "active"
+    target_entity: "TECNICO"
+  -
+    assertion_type: "observed"
+    canonical_source_entity: "prc_assegna_tecnico"
+    canonical_target_entity: "prc_audit_intervento"
+    confidence: "high"
+    intervals: []
+    relation_id: "REL_000007"
+    relation_type: "calls"
+    source_entity: "PRC_ASSEGNA_TECNICO"
+    status: "active"
+    target_entity: "PRC_AUDIT_INTERVENTO"
+  -
+    assertion_type: "observed"
+    canonical_source_entity: "prc_assegna_tecnico"
+    canonical_target_entity: "intervento.id"
+    confidence: "high"
+    intervals: []
+    relation_id: "REL_000004"
+    relation_type: "reads_from"
+    source_entity: "PRC_ASSEGNA_TECNICO"
+    status: "active"
+    target_entity: "INTERVENTO.ID"
+  -
+    assertion_type: "explicit"
+    canonical_source_entity: "prc_assegna_tecnico"
+    canonical_target_entity: "intervento"
+    confidence: "high"
+    intervals: []
+    relation_id: "REL_000016"
+    relation_type: "updates_assignment_for"
+    source_entity: "PRC_ASSEGNA_TECNICO"
+    status: "active"
+    target_entity: "INTERVENTO"
+  -
+    assertion_type: "observed"
+    canonical_source_entity: "prc_assegna_tecnico"
+    canonical_target_entity: "intervento.stato"
+    confidence: "high"
+    intervals: []
+    relation_id: "REL_000005"
+    relation_type: "writes_to"
+    source_entity: "PRC_ASSEGNA_TECNICO"
+    status: "active"
+    target_entity: "INTERVENTO.STATO"
+  -
+    assertion_type: "observed"
+    canonical_source_entity: "prc_assegna_tecnico"
+    canonical_target_entity: "intervento.tecnico_id"
+    confidence: "high"
+    intervals: []
+    relation_id: "REL_000006"
+    relation_type: "writes_to"
+    source_entity: "PRC_ASSEGNA_TECNICO"
+    status: "active"
+    target_entity: "INTERVENTO.TECNICO_ID"
+  -
+    assertion_type: "observed"
+    canonical_source_entity: "trg_chiudi_intervento"
+    canonical_target_entity: "intervento.id"
+    confidence: "high"
+    intervals: []
+    relation_id: "REL_000008"
+    relation_type: "reads_from"
+    source_entity: "TRG_CHIUDI_INTERVENTO"
+    status: "active"
+    target_entity: "INTERVENTO.ID"
+  -
+    assertion_type: "observed"
+    canonical_source_entity: "trg_chiudi_intervento"
+    canonical_target_entity: "intervento.sysdate"
+    confidence: "high"
+    intervals: []
+    relation_id: "REL_000009"
+    relation_type: "reads_from"
+    source_entity: "TRG_CHIUDI_INTERVENTO"
+    status: "active"
+    target_entity: "INTERVENTO.SYSDATE"
+  -
+    assertion_type: "observed"
+    canonical_source_entity: "trg_chiudi_intervento"
+    canonical_target_entity: "intervento.chiuso_il"
+    confidence: "high"
+    intervals: []
+    relation_id: "REL_000010"
+    relation_type: "writes_to"
+    source_entity: "TRG_CHIUDI_INTERVENTO"
+    status: "active"
+    target_entity: "INTERVENTO.CHIUSO_IL"
+  -
+    assertion_type: "observed"
+    canonical_source_entity: "trg_chiudi_intervento"
+    canonical_target_entity: "intervento.stato"
+    confidence: "high"
+    intervals: []
+    relation_id: "REL_000011"
+    relation_type: "writes_to"
+    source_entity: "TRG_CHIUDI_INTERVENTO"
+    status: "active"
+    target_entity: "INTERVENTO.STATO"
+conflicts:
+  -
+    canonical_entity_name: "closure"
+    conflict_id: "CONFLICT_000001"
+    conflict_type: "different_values_same_property"
+    entity_name: "closure"
+    left_fact_id: "FACT_000038"
+    left_value: "unknown"
+    property_name: "event_kind"
+    right_fact_id: "FACT_000037"
+    right_value: "warning"
+    status: "open"
+traceability:
+  facts:
+    FACT_000020:
+      -
+        candidate_record_id: "CREC_000023"
+        source_revision_id: "REV_000001"
+        source_id: "SRC_000001"
+        file_path: "corpus/active/database/schema_orione.sql"
+        chunk_id: null
+        fragment_id: "FRAG_000029"
+        evidence_text_hash: "042615052466eabe9d1f29bca63db4e9055f05185f456adc5516f34a7451bb3e"
+        review:
+          outcome: "confirmed"
+          policy_id: "explicit_ddl_table_only"
+          policy_version: "1"
+          semantic_payload_hash: "73292bc441f2703da586fed767dc9bd49651779fb3604fa065e0dc1788fb8325"
+    FACT_000001:
+      -
+        candidate_record_id: "CREC_000001"
+        source_revision_id: "REV_000001"
+        source_id: "SRC_000001"
+        file_path: "corpus/active/database/schema_orione.sql"
+        chunk_id: null
+        fragment_id: "FRAG_000033"
+        evidence_text_hash: "3cf322238c97b754baa1bcf12ed7c15f82f8c7805d6d5672655c95a33dddaba7"
+        review:
+          outcome: "confirmed"
+          policy_id: "explicit_ddl_column_only"
+          policy_version: "1"
+          semantic_payload_hash: "fbaa0dad554fd4782cdeba8d0c65a299999037351a290a4d7a8542cfe3445523"
+    FACT_000002:
+      -
+        candidate_record_id: "CREC_000002"
+        source_revision_id: "REV_000001"
+        source_id: "SRC_000001"
+        file_path: "corpus/active/database/schema_orione.sql"
+        chunk_id: null
+        fragment_id: "FRAG_000032"
+        evidence_text_hash: "cf4b14890dbb7a2d0a0663b31c0fe880eebeb4021f4a9b553837e371d2386e18"
+        review:
+          outcome: "confirmed"
+          policy_id: "explicit_ddl_column_only"
+          policy_version: "1"
+          semantic_payload_hash: "a31fae81536df4eedc04d13fcfea8b205609ef4dc9d6ebcc6aac9e6fc6010233"
+    FACT_000003:
+      -
+        candidate_record_id: "CREC_000003"
+        source_revision_id: "REV_000001"
+        source_id: "SRC_000001"
+        file_path: "corpus/active/database/schema_orione.sql"
+        chunk_id: null
+        fragment_id: "FRAG_000030"
+        evidence_text_hash: "d592dde04818fc414377effac13df621444bc2621dd435ca45bcbe22ba1ea830"
+        review:
+          outcome: "confirmed"
+          policy_id: "explicit_ddl_column_only"
+          policy_version: "1"
+          semantic_payload_hash: "c0dacc140bfae426831cbbe46b926a4ae10f91ce1e34c6dda47ac86aa51eaae7"
+    FACT_000004:
+      -
+        candidate_record_id: "CREC_000004"
+        source_revision_id: "REV_000001"
+        source_id: "SRC_000001"
+        file_path: "corpus/active/database/schema_orione.sql"
+        chunk_id: null
+        fragment_id: "FRAG_000031"
+        evidence_text_hash: "564f3ae850f14afa989e9114c12ee5585bf96fc91ac5cb27e5f259bc86c2275b"
+        review:
+          outcome: "confirmed"
+          policy_id: "explicit_ddl_column_only"
+          policy_version: "1"
+          semantic_payload_hash: "9cf7318d7a624479e78024268e31b15393a1fd6f51b1d554324f8ea686556c40"
+    FACT_000036:
+      -
+        candidate_record_id: "CREC_000049"
+        source_revision_id: "REV_000007"
+        source_id: "SRC_000007"
+        file_path: "corpus/active/logs/esecuzione_interventi_2026.log"
+        chunk_id: null
+        fragment_id: "FRAG_000015"
+        evidence_text_hash: "b7aea39c0876c65acf1f678aad5c84835eed712f0a39c569a9d7a16998520045"
+        review:
+          outcome: "confirmed"
+          policy_id: "named_explicit_log_policy_required"
+          policy_version: "1"
+          semantic_payload_hash: "b18e75d4694475ce23180c853a9f47cfd82859a41c1f9cdbaf022936b8ee2a5c"
+    FACT_000021:
+      -
+        candidate_record_id: "CREC_000024"
+        source_revision_id: "REV_000001"
+        source_id: "SRC_000001"
+        file_path: "corpus/active/database/schema_orione.sql"
+        chunk_id: null
+        fragment_id: "FRAG_000047"
+        evidence_text_hash: "3212963cc1018c07605805c09492148da153d59d435a0ceb18dfcd697a2782bf"
+        review:
+          outcome: "confirmed"
+          policy_id: "explicit_ddl_table_only"
+          policy_version: "1"
+          semantic_payload_hash: "1813f98e316e3baf539386559b312318bb086ae7854b41ea12a22e2ec07fed5d"
+    FACT_000005:
+      -
+        candidate_record_id: "CREC_000005"
+        source_revision_id: "REV_000001"
+        source_id: "SRC_000001"
+        file_path: "corpus/active/database/schema_orione.sql"
+        chunk_id: null
+        fragment_id: "FRAG_000050"
+        evidence_text_hash: "ff21e9f7f4f7456274bb3b5561150d2ef3ebe237f3cadac96882941473ab8358"
+        review:
+          outcome: "confirmed"
+          policy_id: "explicit_ddl_column_only"
+          policy_version: "1"
+          semantic_payload_hash: "1ff9422b2d4a19a4a60c00ef0dcf20700f4477fb3990c05a7970762e997cab2b"
+    FACT_000006:
+      -
+        candidate_record_id: "CREC_000006"
+        source_revision_id: "REV_000001"
+        source_id: "SRC_000001"
+        file_path: "corpus/active/database/schema_orione.sql"
+        chunk_id: null
+        fragment_id: "FRAG_000051"
+        evidence_text_hash: "261bc1b81a38411aae1e423721337937ef56b59ce08369dffb4ed5e3869f3e49"
+        review:
+          outcome: "confirmed"
+          policy_id: "explicit_ddl_column_only"
+          policy_version: "1"
+          semantic_payload_hash: "9eb8093f9678b505e1292ca411656d123d98c932ef805b024e6d1142a155a26f"
+    FACT_000007:
+      -
+        candidate_record_id: "CREC_000007"
+        source_revision_id: "REV_000001"
+        source_id: "SRC_000001"
+        file_path: "corpus/active/database/schema_orione.sql"
+        chunk_id: null
+        fragment_id: "FRAG_000048"
+        evidence_text_hash: "d592dde04818fc414377effac13df621444bc2621dd435ca45bcbe22ba1ea830"
+        review:
+          outcome: "confirmed"
+          policy_id: "explicit_ddl_column_only"
+          policy_version: "1"
+          semantic_payload_hash: "700dca3a42c2d78c0dab05143e5f5f0a1a921367d496de576245101fdbc4297f"
+    FACT_000008:
+      -
+        candidate_record_id: "CREC_000008"
+        source_revision_id: "REV_000001"
+        source_id: "SRC_000001"
+        file_path: "corpus/active/database/schema_orione.sql"
+        chunk_id: null
+        fragment_id: "FRAG_000049"
+        evidence_text_hash: "ae68b5313c392fb8e77da74d62cc26b4c58d4046ebe623c03eb877eb772633db"
+        review:
+          outcome: "confirmed"
+          policy_id: "explicit_ddl_column_only"
+          policy_version: "1"
+          semantic_payload_hash: "a447842a58e07e4c80ca6a2c77ca565a1b48ecf91fd4f8262764f3f441965381"
+    FACT_000038:
+      -
+        candidate_record_id: "CREC_000051"
+        source_revision_id: "REV_000007"
+        source_id: "SRC_000007"
+        file_path: "corpus/active/logs/esecuzione_interventi_2026.log"
+        chunk_id: null
+        fragment_id: "FRAG_000017"
+        evidence_text_hash: "b031d2d6f0786c1575a56c7f13ea46289fe2ae210e31cfaeae0d89984800ac80"
+        review:
+          outcome: "confirmed"
+          policy_id: "named_explicit_log_policy_required"
+          policy_version: "1"
+          semantic_payload_hash: "1a01f5adae013a34a122dee287d79ee442ee640b49e31f84ed1c077bfbda02b1"
+    FACT_000037:
+      -
+        candidate_record_id: "CREC_000050"
+        source_revision_id: "REV_000007"
+        source_id: "SRC_000007"
+        file_path: "corpus/active/logs/esecuzione_interventi_2026.log"
+        chunk_id: null
+        fragment_id: "FRAG_000016"
+        evidence_text_hash: "12755b8cc6411996ff493244f33bea628ac3e1206ee2951483939ad79b7e3cab"
+        review:
+          outcome: "confirmed"
+          policy_id: "named_explicit_log_policy_required"
+          policy_version: "1"
+          semantic_payload_hash: "e22c6c406e52dadb9f9ff7419f8dd13515b0b680392bd437c3e25596aa138979"
+    FACT_000041:
+      -
+        candidate_record_id: "CREC_000054"
+        source_revision_id: "REV_000008"
+        source_id: "SRC_000008"
+        file_path: "corpus/active/spreadsheets/controlli_inerti_2026.xlsm"
+        chunk_id: null
+        fragment_id: "FRAG_000018"
+        evidence_text_hash: "800439bf2977b45c193eafac199f68e5907c70793cdbc937b5207a101dc83eca"
+        review:
+          outcome: "confirmed"
+          policy_id: "explicit_excel_workbook_only"
+          policy_version: "1"
+          semantic_payload_hash: "9194675e2d1839f252fa04cc6875cf1e3469433441bdba84626079d48dab02ce"
+    FACT_000040:
+      -
+        candidate_record_id: "CREC_000053"
+        source_revision_id: "REV_000008"
+        source_id: "SRC_000008"
+        file_path: "corpus/active/spreadsheets/controlli_inerti_2026.xlsm"
+        chunk_id: null
+        fragment_id: "FRAG_000018"
+        evidence_text_hash: "800439bf2977b45c193eafac199f68e5907c70793cdbc937b5207a101dc83eca"
+        review:
+          outcome: "confirmed"
+          policy_id: "explicit_excel_sheet_only"
+          policy_version: "1"
+          semantic_payload_hash: "c59e3b00d2678368bb39aaeada9efa7d44b3efec0b771a17cc8adec055f09c34"
+    FACT_000039:
+      -
+        candidate_record_id: "CREC_000052"
+        source_revision_id: "REV_000008"
+        source_id: "SRC_000008"
+        file_path: "corpus/active/spreadsheets/controlli_inerti_2026.xlsm"
+        chunk_id: null
+        fragment_id: "FRAG_000018"
+        evidence_text_hash: "800439bf2977b45c193eafac199f68e5907c70793cdbc937b5207a101dc83eca"
+        review:
+          outcome: "confirmed"
+          policy_id: "explicit_excel_region_only"
+          policy_version: "1"
+          semantic_payload_hash: "4176113df6fd431574c5a83ab074875a0559f34176fb8abb7f18e62211c8c4e7"
+    FACT_000049:
+      -
+        candidate_record_id: "CREC_000062"
+        source_revision_id: "REV_000009"
+        source_id: "SRC_000009"
+        file_path: "corpus/active/spreadsheets/pianificazione_interventi_2026.xlsx"
+        chunk_id: null
+        fragment_id: "FRAG_000019"
+        evidence_text_hash: "a4e6ba19d816d8db65cd60eacdc458b2752ca79ccf356fd4fe65be90aae14031"
+        review:
+          outcome: "confirmed"
+          policy_id: "explicit_excel_workbook_only"
+          policy_version: "1"
+          semantic_payload_hash: "4469cb445ee4e7fa1d5cf9cc62ad08ec26c7e00218579eabe28eca077c25e310"
+    FACT_000042:
+      -
+        candidate_record_id: "CREC_000055"
+        source_revision_id: "REV_000009"
+        source_id: "SRC_000009"
+        file_path: "corpus/active/spreadsheets/pianificazione_interventi_2026.xlsx"
+        chunk_id: null
+        fragment_id: "FRAG_000020"
+        evidence_text_hash: "291435264d576fe06c8d12285ed166b456367d5cc28f4e4c68483cb76a02ea84"
+        review:
+          outcome: "confirmed"
+          policy_id: "explicit_excel_named_range_only"
+          policy_version: "1"
+          semantic_payload_hash: "e2bb54df29331f3fe795b9bdb42511a6ffb7254fb840cc053ecf388050903d8d"
+    FACT_000046:
+      -
+        candidate_record_id: "CREC_000059"
+        source_revision_id: "REV_000009"
+        source_id: "SRC_000009"
+        file_path: "corpus/active/spreadsheets/pianificazione_interventi_2026.xlsx"
+        chunk_id: null
+        fragment_id: "FRAG_000019"
+        evidence_text_hash: "a4e6ba19d816d8db65cd60eacdc458b2752ca79ccf356fd4fe65be90aae14031"
+        review:
+          outcome: "confirmed"
+          policy_id: "explicit_excel_sheet_only"
+          policy_version: "1"
+          semantic_payload_hash: "0831caf20e5c3d45c07bec7f98259978e9a6df7f34627792d2bffe5c5a0343d5"
+    FACT_000043:
+      -
+        candidate_record_id: "CREC_000056"
+        source_revision_id: "REV_000009"
+        source_id: "SRC_000009"
+        file_path: "corpus/active/spreadsheets/pianificazione_interventi_2026.xlsx"
+        chunk_id: null
+        fragment_id: "FRAG_000019"
+        evidence_text_hash: "a4e6ba19d816d8db65cd60eacdc458b2752ca79ccf356fd4fe65be90aae14031"
+        review:
+          outcome: "confirmed"
+          policy_id: "explicit_excel_region_only"
+          policy_version: "1"
+          semantic_payload_hash: "07bfb72f6bcf0f657344b7449465b7988fba02884901b8630a1e1c87434c777e"
+    FACT_000044:
+      -
+        candidate_record_id: "CREC_000057"
+        source_revision_id: "REV_000009"
+        source_id: "SRC_000009"
+        file_path: "corpus/active/spreadsheets/pianificazione_interventi_2026.xlsx"
+        chunk_id: null
+        fragment_id: "FRAG_000020"
+        evidence_text_hash: "291435264d576fe06c8d12285ed166b456367d5cc28f4e4c68483cb76a02ea84"
+        review:
+          outcome: "confirmed"
+          policy_id: "explicit_excel_region_only"
+          policy_version: "1"
+          semantic_payload_hash: "7249110a471b2de9ca9174ee5950ddc4c00bcbcab5c12a7b13d7fd7ee46901da"
+    FACT_000048:
+      -
+        candidate_record_id: "CREC_000061"
+        source_revision_id: "REV_000009"
+        source_id: "SRC_000009"
+        file_path: "corpus/active/spreadsheets/pianificazione_interventi_2026.xlsx"
+        chunk_id: null
+        fragment_id: "FRAG_000019"
+        evidence_text_hash: "a4e6ba19d816d8db65cd60eacdc458b2752ca79ccf356fd4fe65be90aae14031"
+        review:
+          outcome: "confirmed"
+          policy_id: "explicit_excel_table_only"
+          policy_version: "1"
+          semantic_payload_hash: "db24b3e3cebefb38f042f483175ebf9230d5d21e15e19701eec67638aab12fd2"
+    FACT_000047:
+      -
+        candidate_record_id: "CREC_000060"
+        source_revision_id: "REV_000009"
+        source_id: "SRC_000009"
+        file_path: "corpus/active/spreadsheets/pianificazione_interventi_2026.xlsx"
+        chunk_id: null
+        fragment_id: "FRAG_000021"
+        evidence_text_hash: "5e26711c02e8ad1def1584fa7d46eb197217f5a6db6b1d3821b7a331f3dbd30f"
+        review:
+          outcome: "confirmed"
+          policy_id: "explicit_excel_sheet_only"
+          policy_version: "1"
+          semantic_payload_hash: "05834edd912b587760edbe5cf5497c5b2d33f374c3a749d098e409efe3f04885"
+    FACT_000045:
+      -
+        candidate_record_id: "CREC_000058"
+        source_revision_id: "REV_000009"
+        source_id: "SRC_000009"
+        file_path: "corpus/active/spreadsheets/pianificazione_interventi_2026.xlsx"
+        chunk_id: null
+        fragment_id: "FRAG_000021"
+        evidence_text_hash: "5e26711c02e8ad1def1584fa7d46eb197217f5a6db6b1d3821b7a331f3dbd30f"
+        review:
+          outcome: "confirmed"
+          policy_id: "explicit_excel_region_only"
+          policy_version: "1"
+          semantic_payload_hash: "3f478c7fc1705c82c9bb39a1b106a9b034e1b94397efc637c982cdcaf75e887e"
+    FACT_000026:
+      -
+        candidate_record_id: "CREC_000037"
+        source_revision_id: "REV_000006"
+        source_id: "SRC_000006"
+        file_path: "corpus/active/forms/frm_intervento.xml"
+        chunk_id: null
+        fragment_id: "FRAG_000005"
+        evidence_text_hash: "5bbcf43dc0bad94d4cd717b5f034960416ed739dfe8623221c00cf892f4c2e32"
+        review:
+          outcome: "confirmed"
+          policy_id: "explicit_xml_form_structure_only"
+          policy_version: "1"
+          semantic_payload_hash: "e75a2c11886f093422ec2c931e13dc2a3eb87bb3218368197be445b09f452edb"
+    FACT_000027:
+      -
+        candidate_record_id: "CREC_000038"
+        source_revision_id: "REV_000006"
+        source_id: "SRC_000006"
+        file_path: "corpus/active/forms/frm_intervento.xml"
+        chunk_id: null
+        fragment_id: "FRAG_000013"
+        evidence_text_hash: "dae44839116abfee4385dced40147852c39920a6e1127ec62e4553479b42355b"
+        review:
+          outcome: "confirmed"
+          policy_id: "explicit_xml_form_structure_only"
+          policy_version: "1"
+          semantic_payload_hash: "961f9417bc9256beef2416f2050185f077e13d02e0c26ede48e96f686f83c1a6"
+    FACT_000028:
+      -
+        candidate_record_id: "CREC_000039"
+        source_revision_id: "REV_000006"
+        source_id: "SRC_000006"
+        file_path: "corpus/active/forms/frm_intervento.xml"
+        chunk_id: null
+        fragment_id: "FRAG_000012"
+        evidence_text_hash: "4d25a553534b36792ba45e0a6beed3762338d6a3a9c5c5706582a79cc4cbb71e"
+        review:
+          outcome: "confirmed"
+          policy_id: "explicit_xml_form_structure_only"
+          policy_version: "1"
+          semantic_payload_hash: "9aa889e9a946a1ec64775016bf5124ddd40b05a4488c5a10a6f1906a649c62c2"
+    FACT_000030:
+      -
+        candidate_record_id: "CREC_000041"
+        source_revision_id: "REV_000006"
+        source_id: "SRC_000006"
+        file_path: "corpus/active/forms/frm_intervento.xml"
+        chunk_id: null
+        fragment_id: "FRAG_000006"
+        evidence_text_hash: "da34100f43a2f07b9846fffcf388552dfa63d90b981db8da7a157d27ea845c75"
+        review:
+          outcome: "confirmed"
+          policy_id: "explicit_xml_form_structure_only"
+          policy_version: "1"
+          semantic_payload_hash: "436377dcc0ab893ad3c5559c7d7ead39c78de9d465938940df1710b881cdafcf"
+    FACT_000031:
+      -
+        candidate_record_id: "CREC_000042"
+        source_revision_id: "REV_000006"
+        source_id: "SRC_000006"
+        file_path: "corpus/active/forms/frm_intervento.xml"
+        chunk_id: null
+        fragment_id: "FRAG_000007"
+        evidence_text_hash: "484b4417ecfc3c85ffe8495f19d54bef6c1225173d89f51ef5c4a926bfd236fb"
+        review:
+          outcome: "confirmed"
+          policy_id: "explicit_xml_form_structure_only"
+          policy_version: "1"
+          semantic_payload_hash: "2f24313866a09b78e0ad5ce0b3edb5d9c34dd3621e36c383ce9edd16d48de157"
+    FACT_000032:
+      -
+        candidate_record_id: "CREC_000043"
+        source_revision_id: "REV_000006"
+        source_id: "SRC_000006"
+        file_path: "corpus/active/forms/frm_intervento.xml"
+        chunk_id: null
+        fragment_id: "FRAG_000010"
+        evidence_text_hash: "658af30b90607e8663cce7d903456332cc49b57517acab94e21bed33ca8a8495"
+        review:
+          outcome: "confirmed"
+          policy_id: "explicit_xml_form_structure_only"
+          policy_version: "1"
+          semantic_payload_hash: "e56b1d90478393a9a021987f1dae8135beaba14a4ce4eb593f01b2b4a885a956"
+    FACT_000029:
+      -
+        candidate_record_id: "CREC_000040"
+        source_revision_id: "REV_000006"
+        source_id: "SRC_000006"
+        file_path: "corpus/active/forms/frm_intervento.xml"
+        chunk_id: null
+        fragment_id: "FRAG_000011"
+        evidence_text_hash: "a348b591ef3f133871afc0427d3a4068f441d80da25a31f3521174c3af56349f"
+        review:
+          outcome: "confirmed"
+          policy_id: "explicit_xml_form_structure_only"
+          policy_version: "1"
+          semantic_payload_hash: "1a356a422889ec82269d19172d61324860c5f35225fa28259589cb8f97c8eeaa"
+    FACT_000033:
+      -
+        candidate_record_id: "CREC_000044"
+        source_revision_id: "REV_000006"
+        source_id: "SRC_000006"
+        file_path: "corpus/active/forms/frm_intervento.xml"
+        chunk_id: null
+        fragment_id: "FRAG_000009"
+        evidence_text_hash: "5eec51b868f04c496f974865be5404436cd7ff6bd74f844c5005dc46e7e52583"
+        review:
+          outcome: "confirmed"
+          policy_id: "explicit_xml_form_structure_only"
+          policy_version: "1"
+          semantic_payload_hash: "318b77e499719da5d9409f9d673b8a2fa2b89ddcf724c7555e3e1b6466dde5aa"
+    FACT_000034:
+      -
+        candidate_record_id: "CREC_000045"
+        source_revision_id: "REV_000006"
+        source_id: "SRC_000006"
+        file_path: "corpus/active/forms/frm_intervento.xml"
+        chunk_id: null
+        fragment_id: "FRAG_000008"
+        evidence_text_hash: "f3a13a07bc0b6cd15707ed9569a843adf4c2bef9f0e8fd9258e8d6926b8dd966"
+        review:
+          outcome: "confirmed"
+          policy_id: "explicit_xml_form_structure_only"
+          policy_version: "1"
+          semantic_payload_hash: "dd52f8ec90eb47d5ee8873750f2cb9ea501a8da662a3e065e8f71fc7084a6bfe"
+    FACT_000052:
+      -
+        candidate_record_id: "CREC_000098"
+        source_revision_id: "REV_000007"
+        source_id: "SRC_000007"
+        file_path: "corpus/active/logs/esecuzione_interventi_2026.log"
+        chunk_id: null
+        fragment_id: "FRAG_000016"
+        evidence_text_hash: "12755b8cc6411996ff493244f33bea628ac3e1206ee2951483939ad79b7e3cab"
+        review:
+          outcome: "confirmed"
+          policy_id: null
+          policy_version: null
+          semantic_payload_hash: "0760622b738b3cb67b318ad6512688ab92668d5b0e13ba1ddca266f4ade0f6a9"
+    FACT_000051:
+      -
+        candidate_record_id: "CREC_000091"
+        source_revision_id: "REV_000003"
+        source_id: "SRC_000003"
+        file_path: "corpus/active/documenti/manuale_operativo_orione_2026.md"
+        chunk_id: "CHK_000001"
+        fragment_id: null
+        evidence_text_hash: "a29465a9b6efe6aec5ef8a0979aebea3462e0b2b647f0e9d5edc497f3b1fda92"
+        review:
+          outcome: "confirmed"
+          policy_id: null
+          policy_version: null
+          semantic_payload_hash: "74a37d21c950606311029f18ebe88605009b7b6289e10ad251cbe3f8e161f388"
+      -
+        candidate_record_id: "CREC_000092"
+        source_revision_id: "REV_000004"
+        source_id: "SRC_000004"
+        file_path: "corpus/active/documenti/nota_sla_orione_2026.docx"
+        chunk_id: "CHK_000002"
+        fragment_id: null
+        evidence_text_hash: "ed058bab3c854202597fb599566e4f719144d3a3b12f1373d762b27275340704"
+        review:
+          outcome: "confirmed"
+          policy_id: null
+          policy_version: null
+          semantic_payload_hash: "5b765f561a4712808c61ec4f148a11289f2af256108384ced1a36272b45a532b"
+    FACT_000022:
+      -
+        candidate_record_id: "CREC_000025"
+        source_revision_id: "REV_000001"
+        source_id: "SRC_000001"
+        file_path: "corpus/active/database/schema_orione.sql"
+        chunk_id: null
+        fragment_id: "FRAG_000036"
+        evidence_text_hash: "8d0dbe6310cc5c890b93f470f9fdc8918482877c6ae7c90992ec6ce53778a1aa"
+        review:
+          outcome: "confirmed"
+          policy_id: "explicit_ddl_table_only"
+          policy_version: "1"
+          semantic_payload_hash: "52788cfa71d3609598cf1b94af132311702b06a7c4c1eac403f4f791d327510d"
+    FACT_000009:
+      -
+        candidate_record_id: "CREC_000009"
+        source_revision_id: "REV_000001"
+        source_id: "SRC_000001"
+        file_path: "corpus/active/database/schema_orione.sql"
+        chunk_id: null
+        fragment_id: "FRAG_000042"
+        evidence_text_hash: "21dfcf69d24d907f21cddbdabceee7ceb1f25779d2d76f5736fd77837619b7a1"
+        review:
+          outcome: "confirmed"
+          policy_id: "explicit_ddl_column_only"
+          policy_version: "1"
+          semantic_payload_hash: "be5b3feea930f198518983dbe70100a19154e45b4ac9969f4310ade4c2c6c799"
+    FACT_000010:
+      -
+        candidate_record_id: "CREC_000010"
+        source_revision_id: "REV_000001"
+        source_id: "SRC_000001"
+        file_path: "corpus/active/database/schema_orione.sql"
+        chunk_id: null
+        fragment_id: "FRAG_000038"
+        evidence_text_hash: "e1d7bfc42217dd546ec12067b2e9d2d0fa8df350522ef9d92f9eb16fc794bb0c"
+        review:
+          outcome: "confirmed"
+          policy_id: "explicit_ddl_column_only"
+          policy_version: "1"
+          semantic_payload_hash: "58085e79a43db7bba10fc63266cf4367677cbb53db3b442538d37ab7a6705580"
+    FACT_000011:
+      -
+        candidate_record_id: "CREC_000011"
+        source_revision_id: "REV_000001"
+        source_id: "SRC_000001"
+        file_path: "corpus/active/database/schema_orione.sql"
+        chunk_id: null
+        fragment_id: "FRAG_000043"
+        evidence_text_hash: "f78f10893a7b78e20faea621fd9cce0eb9ee0b78fcf5ca8c544434f5e7db5a3e"
+        review:
+          outcome: "confirmed"
+          policy_id: "explicit_ddl_column_only"
+          policy_version: "1"
+          semantic_payload_hash: "bb4b80d272aa26529f8c79b725b896386e9abcbb62967e758112783006234f93"
+    FACT_000012:
+      -
+        candidate_record_id: "CREC_000012"
+        source_revision_id: "REV_000001"
+        source_id: "SRC_000001"
+        file_path: "corpus/active/database/schema_orione.sql"
+        chunk_id: null
+        fragment_id: "FRAG_000037"
+        evidence_text_hash: "d592dde04818fc414377effac13df621444bc2621dd435ca45bcbe22ba1ea830"
+        review:
+          outcome: "confirmed"
+          policy_id: "explicit_ddl_column_only"
+          policy_version: "1"
+          semantic_payload_hash: "e18ee4cb164a07a503206217f6b8f094d90ab59657dcfb03c8d17ff76cf85fa6"
+    FACT_000013:
+      -
+        candidate_record_id: "CREC_000013"
+        source_revision_id: "REV_000001"
+        source_id: "SRC_000001"
+        file_path: "corpus/active/database/schema_orione.sql"
+        chunk_id: null
+        fragment_id: "FRAG_000041"
+        evidence_text_hash: "39408a007f2e2904aea74caba73c8197a8027a0c98df3c7d43a4cb2e14c03635"
+        review:
+          outcome: "confirmed"
+          policy_id: "explicit_ddl_column_only"
+          policy_version: "1"
+          semantic_payload_hash: "fce081112d337d1a2704905a87b184ffe8830cd390dc7d4ab6b9d6ecc0f18eca"
+    FACT_000014:
+      -
+        candidate_record_id: "CREC_000014"
+        source_revision_id: "REV_000001"
+        source_id: "SRC_000001"
+        file_path: "corpus/active/database/schema_orione.sql"
+        chunk_id: null
+        fragment_id: "FRAG_000040"
+        evidence_text_hash: "47caee2277005b656ad1db0b0c1394e6297a10a3a80f38abcc31f9fddff866f3"
+        review:
+          outcome: "confirmed"
+          policy_id: "explicit_ddl_column_only"
+          policy_version: "1"
+          semantic_payload_hash: "b9c1e63c9c10c5d2c57c6399c8c7e9df61d8f3b633441f5398807f0569fa8053"
+    FACT_000015:
+      -
+        candidate_record_id: "CREC_000015"
+        source_revision_id: "REV_000001"
+        source_id: "SRC_000001"
+        file_path: "corpus/active/database/schema_orione.sql"
+        chunk_id: null
+        fragment_id: "FRAG_000039"
+        evidence_text_hash: "397b1c9bf8426c2bb35fe874261b7790cd8af6513545e2ed817ecc2f6c48f05b"
+        review:
+          outcome: "confirmed"
+          policy_id: "explicit_ddl_column_only"
+          policy_version: "1"
+          semantic_payload_hash: "87be760969f335ba3e568cd197af629a0fe443860b73a3846bc817b7778416b5"
+    FACT_000024:
+      -
+        candidate_record_id: "CREC_000035"
+        source_revision_id: "REV_000002"
+        source_id: "SRC_000002"
+        file_path: "corpus/active/db_code/automazioni_intervento.sql"
+        chunk_id: null
+        fragment_id: "FRAG_000003"
+        evidence_text_hash: "5867256e650b16241c6ead0e85c891d73026e45e8c6370f592572be36964b144"
+        review:
+          outcome: "confirmed"
+          policy_id: "explicit_db_code_unit_only"
+          policy_version: "1"
+          semantic_payload_hash: "4b5e01392df546d54db8ab211c019828992a13b3ef67f6eda846e5f90021940d"
+    FACT_000035:
+      -
+        candidate_record_id: "CREC_000048"
+        source_revision_id: "REV_000007"
+        source_id: "SRC_000007"
+        file_path: "corpus/active/logs/esecuzione_interventi_2026.log"
+        chunk_id: null
+        fragment_id: "FRAG_000014"
+        evidence_text_hash: "129eea60f0f55e3cf4513981aa489b5ab0065f24c194cf89b84e8dc35482067d"
+        review:
+          outcome: "confirmed"
+          policy_id: "named_explicit_log_policy_required"
+          policy_version: "1"
+          semantic_payload_hash: "c77697d9c69042700af530a3b90787dc6294e198b8da4933bc0ccc4dcab4beca"
+    FACT_000023:
+      -
+        candidate_record_id: "CREC_000026"
+        source_revision_id: "REV_000001"
+        source_id: "SRC_000001"
+        file_path: "corpus/active/database/schema_orione.sql"
+        chunk_id: null
+        fragment_id: "FRAG_000022"
+        evidence_text_hash: "cfcec651c5347263f51cb31f80d7ea2011bf26193c50bda582c049eb67a6f347"
+        review:
+          outcome: "confirmed"
+          policy_id: "explicit_ddl_table_only"
+          policy_version: "1"
+          semantic_payload_hash: "6c0a4f1c0c63c462cbd5ec7b0d671c9ba2295880963a06bd392e9007a208a5e5"
+    FACT_000016:
+      -
+        candidate_record_id: "CREC_000016"
+        source_revision_id: "REV_000001"
+        source_id: "SRC_000001"
+        file_path: "corpus/active/database/schema_orione.sql"
+        chunk_id: null
+        fragment_id: "FRAG_000024"
+        evidence_text_hash: "0d479968ac2d0ac03701bbdd75ee04a91f0f3ccd7592c4954c7f6560a4fad263"
+        review:
+          outcome: "confirmed"
+          policy_id: "explicit_ddl_column_only"
+          policy_version: "1"
+          semantic_payload_hash: "f4b62612c17289891bd27358e04bcb1563eb7d6e8ce9f872fa847f6a26e76743"
+    FACT_000017:
+      -
+        candidate_record_id: "CREC_000017"
+        source_revision_id: "REV_000001"
+        source_id: "SRC_000001"
+        file_path: "corpus/active/database/schema_orione.sql"
+        chunk_id: null
+        fragment_id: "FRAG_000023"
+        evidence_text_hash: "d592dde04818fc414377effac13df621444bc2621dd435ca45bcbe22ba1ea830"
+        review:
+          outcome: "confirmed"
+          policy_id: "explicit_ddl_column_only"
+          policy_version: "1"
+          semantic_payload_hash: "6462ce74dae81fdb44642e982d5e53daef1a22dc8b38133e8cf20114e8dea648"
+    FACT_000018:
+      -
+        candidate_record_id: "CREC_000018"
+        source_revision_id: "REV_000001"
+        source_id: "SRC_000001"
+        file_path: "corpus/active/database/schema_orione.sql"
+        chunk_id: null
+        fragment_id: "FRAG_000026"
+        evidence_text_hash: "d1acfee91e48d1f5fdffee6617ae62b8179085518bd9dbacbc0253f2a725cec3"
+        review:
+          outcome: "confirmed"
+          policy_id: "explicit_ddl_column_only"
+          policy_version: "1"
+          semantic_payload_hash: "f9af2b4a18aa058d04c308a340b0c8c37723eaad245d677d8751bfeb8583dd0a"
+    FACT_000019:
+      -
+        candidate_record_id: "CREC_000019"
+        source_revision_id: "REV_000001"
+        source_id: "SRC_000001"
+        file_path: "corpus/active/database/schema_orione.sql"
+        chunk_id: null
+        fragment_id: "FRAG_000025"
+        evidence_text_hash: "7184344f24c20afe52106f950d7efc43be0a6110d74d52d2f81747c6cdc0ccbf"
+        review:
+          outcome: "confirmed"
+          policy_id: "explicit_ddl_column_only"
+          policy_version: "1"
+          semantic_payload_hash: "d0acdb53c060e0e0eb4a11ad3949c0ad5dc168e5b798e2e4912d6a55f31af97b"
+    FACT_000050:
+      -
+        candidate_record_id: "CREC_000089"
+        source_revision_id: "REV_000003"
+        source_id: "SRC_000003"
+        file_path: "corpus/active/documenti/manuale_operativo_orione_2026.md"
+        chunk_id: "CHK_000001"
+        fragment_id: null
+        evidence_text_hash: "d52a3bfec91d462f3225d9424d81fa95dc7e3bb9121b68a2f94e854ba24fb157"
+        review:
+          outcome: "confirmed"
+          policy_id: null
+          policy_version: null
+          semantic_payload_hash: "54fe8bf484e8c3dabb834eec67a728d55af9b9bbc7766be8e7772af29d7fd049"
+    FACT_000025:
+      -
+        candidate_record_id: "CREC_000036"
+        source_revision_id: "REV_000002"
+        source_id: "SRC_000002"
+        file_path: "corpus/active/db_code/automazioni_intervento.sql"
+        chunk_id: null
+        fragment_id: "FRAG_000001"
+        evidence_text_hash: "7cbaf4c913c880951098580c422bfc1e04b30d8cccc0597a0ac545b0a07385cd"
+        review:
+          outcome: "confirmed"
+          policy_id: "explicit_db_code_unit_only"
+          policy_version: "1"
+          semantic_payload_hash: "98c4bd2bb7faf97f0cb63a41c05b99c3dfdcc0050b0c48f2ce2fac481560e6ec"
+  relations:
+    REL_000001:
+      -
+        candidate_record_id: "CREC_000020"
+        source_revision_id: "REV_000001"
+        source_id: "SRC_000001"
+        file_path: "corpus/active/database/schema_orione.sql"
+        chunk_id: null
+        fragment_id: "FRAG_000053"
+        evidence_text_hash: "589d8b0676000e8f9a6bcfb9c2be3cd776b0a6b794ec7b3814a70edf073b3336"
+        review:
+          outcome: "confirmed"
+          policy_id: "explicit_resolved_ddl_fk_only"
+          policy_version: "1"
+          semantic_payload_hash: "449abdc1790a12bb74b29987c1d772fec27e3d1f83fd56a9f15436be15896d80"
+    REL_000012:
+      -
+        candidate_record_id: "CREC_000046"
+        source_revision_id: "REV_000006"
+        source_id: "SRC_000006"
+        file_path: "corpus/active/forms/frm_intervento.xml"
+        chunk_id: null
+        fragment_id: "FRAG_000005"
+        evidence_text_hash: "5bbcf43dc0bad94d4cd717b5f034960416ed739dfe8623221c00cf892f4c2e32"
+        review:
+          outcome: "confirmed"
+          policy_id: "explicit_xml_operation_only"
+          policy_version: "1"
+          semantic_payload_hash: "b832aba931ad54b8bd9e5e8bc3092313561a4c5900b99d9b2411120d58134a14"
+    REL_000013:
+      -
+        candidate_record_id: "CREC_000047"
+        source_revision_id: "REV_000006"
+        source_id: "SRC_000006"
+        file_path: "corpus/active/forms/frm_intervento.xml"
+        chunk_id: null
+        fragment_id: "FRAG_000005"
+        evidence_text_hash: "5bbcf43dc0bad94d4cd717b5f034960416ed739dfe8623221c00cf892f4c2e32"
+        review:
+          outcome: "confirmed"
+          policy_id: "explicit_xml_operation_only"
+          policy_version: "1"
+          semantic_payload_hash: "1a89389aed143d932a3d9d098c7d7b2faf6134193344dafd9ebc3f027e42b523"
+    REL_000015:
+      -
+        candidate_record_id: "CREC_000097"
+        source_revision_id: "REV_000007"
+        source_id: "SRC_000007"
+        file_path: "corpus/active/logs/esecuzione_interventi_2026.log"
+        chunk_id: null
+        fragment_id: "FRAG_000015"
+        evidence_text_hash: "b7aea39c0876c65acf1f678aad5c84835eed712f0a39c569a9d7a16998520045"
+        review:
+          outcome: "confirmed"
+          policy_id: null
+          policy_version: null
+          semantic_payload_hash: "b95de94887495f57717a4e9db02ca7525c8eb2707cf56895d162086d642ab5c2"
+    REL_000014:
+      -
+        candidate_record_id: "CREC_000090"
+        source_revision_id: "REV_000003"
+        source_id: "SRC_000003"
+        file_path: "corpus/active/documenti/manuale_operativo_orione_2026.md"
+        chunk_id: "CHK_000001"
+        fragment_id: null
+        evidence_text_hash: "2d296b22fe74af06dcf396a654bdd405b8f82177d908d082535b6216f9bff47d"
+        review:
+          outcome: "confirmed"
+          policy_id: null
+          policy_version: null
+          semantic_payload_hash: "732d61cdafc4fd3141c59354044ebf35fd0c4a4ea7f80a0ae8e35eb403627396"
+    REL_000002:
+      -
+        candidate_record_id: "CREC_000021"
+        source_revision_id: "REV_000001"
+        source_id: "SRC_000001"
+        file_path: "corpus/active/database/schema_orione.sql"
+        chunk_id: null
+        fragment_id: "FRAG_000045"
+        evidence_text_hash: "5f25a87d19f9abb66fdd9b93da8d22c5b609dc90c9e4278e0723379abb318d4d"
+        review:
+          outcome: "confirmed"
+          policy_id: "explicit_resolved_ddl_fk_only"
+          policy_version: "1"
+          semantic_payload_hash: "f1e277c0210396de585730d9e30581671156f90b0d96ed57e83cbf4dddf56284"
+    REL_000003:
+      -
+        candidate_record_id: "CREC_000022"
+        source_revision_id: "REV_000001"
+        source_id: "SRC_000001"
+        file_path: "corpus/active/database/schema_orione.sql"
+        chunk_id: null
+        fragment_id: "FRAG_000046"
+        evidence_text_hash: "0ccbf25a92b5cdbb5055c77a55f0ca357596a8f7bb87b4c96d4b41d4abfd9edb"
+        review:
+          outcome: "confirmed"
+          policy_id: "explicit_resolved_ddl_fk_only"
+          policy_version: "1"
+          semantic_payload_hash: "2071d8154a042da4af602cfce84e5b97c2a506db07c45589eb059a44a80bc99a"
+    REL_000007:
+      -
+        candidate_record_id: "CREC_000030"
+        source_revision_id: "REV_000002"
+        source_id: "SRC_000002"
+        file_path: "corpus/active/db_code/automazioni_intervento.sql"
+        chunk_id: null
+        fragment_id: "FRAG_000003"
+        evidence_text_hash: "5867256e650b16241c6ead0e85c891d73026e45e8c6370f592572be36964b144"
+        review:
+          outcome: "confirmed"
+          policy_id: "observed_db_code_dependency_only"
+          policy_version: "1"
+          semantic_payload_hash: "c50aba37658f62008a2f50b898ed4a9e259c795a8d37d7b0f18284d26a4326f4"
+    REL_000004:
+      -
+        candidate_record_id: "CREC_000027"
+        source_revision_id: "REV_000002"
+        source_id: "SRC_000002"
+        file_path: "corpus/active/db_code/automazioni_intervento.sql"
+        chunk_id: null
+        fragment_id: "FRAG_000003"
+        evidence_text_hash: "5867256e650b16241c6ead0e85c891d73026e45e8c6370f592572be36964b144"
+        review:
+          outcome: "confirmed"
+          policy_id: "observed_db_code_dependency_only"
+          policy_version: "1"
+          semantic_payload_hash: "08c03669a0a17cba419d0655a58d2e359667841605408020a84a2f11a17648df"
+    REL_000016:
+      -
+        candidate_record_id: "CREC_000100"
+        source_revision_id: "REV_000003"
+        source_id: "SRC_000003"
+        file_path: "corpus/active/documenti/manuale_operativo_orione_2026.md"
+        chunk_id: "CHK_000001"
+        fragment_id: null
+        evidence_text_hash: "fe8044eefd726d3c1563d59ab5565fce40324e182bf6bd4e6f71192d1d857041"
+        review:
+          outcome: "confirmed"
+          policy_id: null
+          policy_version: null
+          semantic_payload_hash: "170f8d85850ae90ff868396a5a6e34dbb7b692466e0447a4b430cb13c2fa376d"
+    REL_000005:
+      -
+        candidate_record_id: "CREC_000028"
+        source_revision_id: "REV_000002"
+        source_id: "SRC_000002"
+        file_path: "corpus/active/db_code/automazioni_intervento.sql"
+        chunk_id: null
+        fragment_id: "FRAG_000003"
+        evidence_text_hash: "5867256e650b16241c6ead0e85c891d73026e45e8c6370f592572be36964b144"
+        review:
+          outcome: "confirmed"
+          policy_id: "observed_db_code_dependency_only"
+          policy_version: "1"
+          semantic_payload_hash: "2b3f9006caa4de5391afc1605e3735fa57066feaca338e525e420cccbbf9112a"
+    REL_000006:
+      -
+        candidate_record_id: "CREC_000029"
+        source_revision_id: "REV_000002"
+        source_id: "SRC_000002"
+        file_path: "corpus/active/db_code/automazioni_intervento.sql"
+        chunk_id: null
+        fragment_id: "FRAG_000003"
+        evidence_text_hash: "5867256e650b16241c6ead0e85c891d73026e45e8c6370f592572be36964b144"
+        review:
+          outcome: "confirmed"
+          policy_id: "observed_db_code_dependency_only"
+          policy_version: "1"
+          semantic_payload_hash: "56df32beebc9e3973451a75979689666e641358f56163328ce68ac50457962be"
+    REL_000008:
+      -
+        candidate_record_id: "CREC_000031"
+        source_revision_id: "REV_000002"
+        source_id: "SRC_000002"
+        file_path: "corpus/active/db_code/automazioni_intervento.sql"
+        chunk_id: null
+        fragment_id: "FRAG_000001"
+        evidence_text_hash: "7cbaf4c913c880951098580c422bfc1e04b30d8cccc0597a0ac545b0a07385cd"
+        review:
+          outcome: "confirmed"
+          policy_id: "observed_db_code_dependency_only"
+          policy_version: "1"
+          semantic_payload_hash: "211bc1eba5c372373703c8fa18ff75499fd02e1d2fb6a3b906b275923095bc1b"
+    REL_000009:
+      -
+        candidate_record_id: "CREC_000032"
+        source_revision_id: "REV_000002"
+        source_id: "SRC_000002"
+        file_path: "corpus/active/db_code/automazioni_intervento.sql"
+        chunk_id: null
+        fragment_id: "FRAG_000001"
+        evidence_text_hash: "7cbaf4c913c880951098580c422bfc1e04b30d8cccc0597a0ac545b0a07385cd"
+        review:
+          outcome: "confirmed"
+          policy_id: "observed_db_code_dependency_only"
+          policy_version: "1"
+          semantic_payload_hash: "f96898cfb3ec58b440293c5d5238d9fc85f64b097f014bd7172d6c1cc188fe7a"
+    REL_000010:
+      -
+        candidate_record_id: "CREC_000033"
+        source_revision_id: "REV_000002"
+        source_id: "SRC_000002"
+        file_path: "corpus/active/db_code/automazioni_intervento.sql"
+        chunk_id: null
+        fragment_id: "FRAG_000001"
+        evidence_text_hash: "7cbaf4c913c880951098580c422bfc1e04b30d8cccc0597a0ac545b0a07385cd"
+        review:
+          outcome: "confirmed"
+          policy_id: "observed_db_code_dependency_only"
+          policy_version: "1"
+          semantic_payload_hash: "cd2c4f78ee4286ca7ae775a84d43c01f18e08a5a98cb4ece4d2324fff55c93a9"
+    REL_000011:
+      -
+        candidate_record_id: "CREC_000034"
+        source_revision_id: "REV_000002"
+        source_id: "SRC_000002"
+        file_path: "corpus/active/db_code/automazioni_intervento.sql"
+        chunk_id: null
+        fragment_id: "FRAG_000001"
+        evidence_text_hash: "7cbaf4c913c880951098580c422bfc1e04b30d8cccc0597a0ac545b0a07385cd"
+        review:
+          outcome: "confirmed"
+          policy_id: "observed_db_code_dependency_only"
+          policy_version: "1"
+          semantic_payload_hash: "133c213317948a89986c886993140806c6866dae72fcddaea91263021e432436"
+  temporal: {}

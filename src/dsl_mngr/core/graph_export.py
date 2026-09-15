@@ -82,6 +82,15 @@ EDGE_ATTRIBUTES: tuple[tuple[str, str], ...] = (
     ("conflict_side", "string"),
 )
 
+TEMPORAL_SUPPORT_ATTRIBUTES: tuple[tuple[str, str], ...] = (
+    ("temporal_support_candidate_ids", "string"),
+    ("temporal_materialization_decision_ids", "string"),
+    ("temporal_current_decision_ids", "string"),
+    ("temporal_support_count", "integer"),
+)
+DYNAMIC_NODE_ATTRIBUTES = (*NODE_ATTRIBUTES, *TEMPORAL_SUPPORT_ATTRIBUTES)
+DYNAMIC_EDGE_ATTRIBUTES = (*EDGE_ATTRIBUTES, *TEMPORAL_SUPPORT_ATTRIBUTES)
+
 
 class GraphExportError(RuntimeError):
     """Raised when a DSL snapshot cannot be exported as GEXF."""
@@ -515,6 +524,7 @@ def build_graph_model(content: dict[str, Any], *, options: GraphExportOptions) -
     traceability = content["traceability"]
     fact_traceability = traceability["facts"]
     relation_traceability = traceability["relations"]
+    temporal_traceability = traceability.get("temporal", {})
 
     nodes: dict[str, _GraphNode] = {}
     edges: dict[str, _GraphEdge] = {}
@@ -565,7 +575,14 @@ def build_graph_model(content: dict[str, Any], *, options: GraphExportOptions) -
                 if not _include_fact_node(fact, include_temporal=options.dynamic):
                     continue
                 fact_id = _required_string(fact, "fact_id", "fact")
-                _add_fact_node(nodes, fact, canonical_name, entity_label, fact_traceability)
+                _add_fact_node(
+                    nodes,
+                    fact,
+                    canonical_name,
+                    entity_label,
+                    fact_traceability,
+                    temporal_traceability if options.dynamic else {},
+                )
                 _add_edge(
                     edges,
                     _GraphEdge(
@@ -585,6 +602,15 @@ def build_graph_model(content: dict[str, Any], *, options: GraphExportOptions) -
                             "source_ids": _inline_json(_source_ids_for_owner(fact_traceability, fact_id)),
                             "status": fact.get("status") or "",
                             "target_entity": fact.get("property_name") or "",
+                            **(
+                                _temporal_support_attributes(
+                                    temporal_traceability,
+                                    "fact",
+                                    fact_id,
+                                )
+                                if options.dynamic
+                                else {}
+                            ),
                         },
                     ),
                 )
@@ -634,6 +660,15 @@ def build_graph_model(content: dict[str, Any], *, options: GraphExportOptions) -
                     "source_ids": _inline_json(_source_ids_for_owner(relation_traceability, relation_id)),
                     "status": relation.get("status") or "",
                     "target_entity": relation.get("target_entity") or target_entity,
+                    **(
+                        _temporal_support_attributes(
+                            temporal_traceability,
+                            "relation",
+                            relation_id,
+                        )
+                        if options.dynamic
+                        else {}
+                    ),
                 },
             ),
         )
@@ -645,6 +680,7 @@ def build_graph_model(content: dict[str, Any], *, options: GraphExportOptions) -
             content["conflicts"],
             fact_index=fact_index,
             fact_traceability=fact_traceability,
+            temporal_traceability=temporal_traceability if options.dynamic else {},
         )
 
     if options.include_sources:
@@ -837,10 +873,12 @@ def render_dynamic_gexf(graph: _DynamicGraphModel) -> str:
     if graph.timezone is not None:
         graph_attributes["timezone"] = graph.timezone
     graph_element = ET.SubElement(root, qname("graph"), graph_attributes)
-    _append_attributes_ns(graph_element, "node", NODE_ATTRIBUTES, qname)
-    _append_attributes_ns(graph_element, "edge", EDGE_ATTRIBUTES, qname)
+    node_attributes = DYNAMIC_NODE_ATTRIBUTES
+    edge_attributes = DYNAMIC_EDGE_ATTRIBUTES
+    _append_attributes_ns(graph_element, "node", node_attributes, qname)
+    _append_attributes_ns(graph_element, "edge", edge_attributes, qname)
     nodes_element = ET.SubElement(graph_element, qname("nodes"))
-    node_attr_ids = _attribute_ids("node", NODE_ATTRIBUTES)
+    node_attr_ids = _attribute_ids("node", node_attributes)
     for item in graph.nodes:
         node_element = ET.SubElement(
             nodes_element,
@@ -851,12 +889,12 @@ def render_dynamic_gexf(graph: _DynamicGraphModel) -> str:
             node_element,
             item.node.attributes,
             node_attr_ids,
-            NODE_ATTRIBUTES,
+            node_attributes,
             qname,
         )
         _append_spells_ns(node_element, item.intervals, qname)
     edges_element = ET.SubElement(graph_element, qname("edges"))
-    edge_attr_ids = _attribute_ids("edge", EDGE_ATTRIBUTES)
+    edge_attr_ids = _attribute_ids("edge", edge_attributes)
     for item in graph.edges:
         attributes = {
             "id": item.edge.edge_id,
@@ -871,7 +909,7 @@ def render_dynamic_gexf(graph: _DynamicGraphModel) -> str:
             edge_element,
             item.edge.attributes,
             edge_attr_ids,
-            EDGE_ATTRIBUTES,
+            edge_attributes,
             qname,
         )
         _append_spells_ns(edge_element, item.intervals, qname)
@@ -1204,6 +1242,7 @@ def _add_conflict_graph_items(
     *,
     fact_index: dict[str, tuple[str, str, dict[str, Any]]],
     fact_traceability: dict[str, Any],
+    temporal_traceability: dict[str, Any],
 ) -> None:
     for conflict in _sorted_conflicts(conflicts):
         if str(conflict.get("status") or "") != "open":
@@ -1245,7 +1284,14 @@ def _add_conflict_graph_items(
                     _add_placeholder_fact_node(nodes, fact_id)
                 else:
                     canonical_name, entity_label, fact = indexed
-                    _add_fact_node(nodes, fact, canonical_name, entity_label, fact_traceability)
+                    _add_fact_node(
+                        nodes,
+                        fact,
+                        canonical_name,
+                        entity_label,
+                        fact_traceability,
+                        temporal_traceability,
+                    )
             _add_edge(
                 edges,
                 _GraphEdge(
@@ -1273,6 +1319,7 @@ def _add_fact_node(
     canonical_name: str,
     entity_label: str,
     fact_traceability: dict[str, Any],
+    temporal_traceability: dict[str, Any],
 ) -> None:
     fact_id = _required_string(fact, "fact_id", "fact")
     fact_type = _required_string(fact, "fact_type", "fact")
@@ -1297,9 +1344,51 @@ def _add_fact_node(
                 "source_count": len(source_ids),
                 "source_ids": _inline_json(source_ids),
                 "status": fact.get("status") or "",
+                **_temporal_support_attributes(
+                    temporal_traceability,
+                    "fact",
+                    fact_id,
+                ),
             },
         ),
     )
+
+
+def _temporal_support_attributes(
+    temporal_traceability: dict[str, Any],
+    owner_type: str,
+    owner_id: str,
+) -> dict[str, Any]:
+    evidence_items = temporal_traceability.get(f"{owner_type}:{owner_id}", [])
+    if not isinstance(evidence_items, list) or not evidence_items:
+        return {}
+    candidate_ids = sorted(
+        {
+            str(item["candidate_record_id"])
+            for item in evidence_items
+            if isinstance(item, dict) and item.get("candidate_record_id")
+        }
+    )
+    materialization_ids = sorted(
+        {
+            str(item["materialization_decision_id"])
+            for item in evidence_items
+            if isinstance(item, dict) and item.get("materialization_decision_id")
+        }
+    )
+    current_ids = sorted(
+        {
+            str(item["current_decision_id"])
+            for item in evidence_items
+            if isinstance(item, dict) and item.get("current_decision_id")
+        }
+    )
+    return {
+        "temporal_current_decision_ids": _inline_json(current_ids),
+        "temporal_materialization_decision_ids": _inline_json(materialization_ids),
+        "temporal_support_candidate_ids": _inline_json(candidate_ids),
+        "temporal_support_count": len(candidate_ids),
+    }
 
 
 def _add_placeholder_fact_node(nodes: dict[str, _GraphNode], fact_id: str) -> None:

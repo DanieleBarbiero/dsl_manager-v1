@@ -1,0 +1,2 @@
+{"event": "run_started", "level": "INFO", "message": "Run RUN_000087 started.", "run_id": "RUN_000087", "timestamp": "2026-09-14T16:31:56+02:00"}
+{"event": "run_failed", "level": "ERROR", "message": "Run RUN_000087 failed: strict_orphans: relation REL_000015 references missing target entity tec-9.", "run_id": "RUN_000087", "timestamp": "2026-09-14T16:31:56+02:00"}

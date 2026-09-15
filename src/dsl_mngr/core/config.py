@@ -124,11 +124,22 @@ def load_config(
     cli_options: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     workspace_path = Path(workspace_dir)
-    config = deepcopy(DEFAULT_CONFIG)
-
     project_config = workspace_path / "configs" / "project.yaml"
-    if project_config.exists():
-        _deep_merge(config, parse_simple_yaml(project_config.read_text(encoding="utf-8")))
+    project_text = project_config.read_text(encoding="utf-8") if project_config.exists() else ""
+    return resolve_config_text(workspace_path, project_text, cli_options=cli_options)
+
+
+def resolve_config_text(
+    workspace_dir: str | Path,
+    project_text: str,
+    *,
+    cli_options: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    """Resolve and validate a prospective project.yaml without writing it."""
+    workspace_path = Path(workspace_dir)
+    config = deepcopy(DEFAULT_CONFIG)
+    if project_text:
+        _deep_merge(config, parse_simple_yaml(project_text))
 
     env_file = workspace_path / ".env"
     if env_file.exists():

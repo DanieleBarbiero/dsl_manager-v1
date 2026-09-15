@@ -1,0 +1,13 @@
+worker:
+  name: parse_ddl
+  version: 1.0
+ddl:
+  dialect: generic_sql
+  parse_create_table: true
+  parse_primary_keys: true
+  parse_foreign_keys: true
+  parse_unique_constraints: true
+  parse_indexes: true
+  strict_options_fail_on_unsupported_option: true
+  unsupported_statement_policy: warn
+  output_fragments_jsonl: true

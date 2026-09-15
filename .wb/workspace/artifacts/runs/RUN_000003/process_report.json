@@ -1,0 +1,33 @@
+{
+  "artifact_dir": "artifacts/runs/RUN_000003",
+  "config_hash": "e7171978eaaf40fc18fb8436271bd2d4204516b63f19293ac1dfac274830127f",
+  "error": "Worker exited with code 5.",
+  "finished_at": "2026-09-14T14:41:30+02:00",
+  "run_id": "RUN_000003",
+  "run_type": "parse_ddl",
+  "started_at": "2026-09-14T14:41:30+02:00",
+  "status": "failed",
+  "workers": [
+    {
+      "duration_ms": 772,
+      "error": "Worker exited with code 5.",
+      "exit_code": 5,
+      "finished_at": "2026-09-14T14:41:30+02:00",
+      "resource_limits": {
+        "max_output_bytes": null,
+        "memory_limit_bytes": null,
+        "memory_limit_mode": "not_configured",
+        "peak_memory_bytes": null,
+        "termination_reason": null,
+        "timeout_seconds": null
+      },
+      "started_at": "2026-09-14T14:41:30+02:00",
+      "status": "failed",
+      "stderr": "{\"error_type\": \"ddl_parsing_failed\", \"message\": \"Malformed CREATE INDEX near line 40.\", \"worker_name\": \"parse_ddl\"}\n",
+      "stdout": "",
+      "worker_name": "parse_ddl",
+      "worker_run_id": "WRK_000001",
+      "worker_version": "1.0"
+    }
+  ]
+}

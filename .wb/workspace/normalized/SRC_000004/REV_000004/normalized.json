@@ -1,0 +1,149 @@
+{
+  "body": {
+    "children": [
+      {
+        "$ref": "#/texts/0"
+      }
+    ],
+    "content_layer": "body",
+    "label": "unspecified",
+    "name": "_root_",
+    "self_ref": "#/body"
+  },
+  "form_items": [],
+  "furniture": {
+    "children": [],
+    "content_layer": "furniture",
+    "label": "unspecified",
+    "name": "_root_",
+    "self_ref": "#/furniture"
+  },
+  "groups": [],
+  "key_value_items": [],
+  "name": "nota_sla_orione_2026",
+  "origin": {
+    "binary_hash": 7846423953140347015,
+    "filename": "nota_sla_orione_2026.docx",
+    "mimetype": "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+  },
+  "pages": {},
+  "pictures": [],
+  "schema_name": "DoclingDocument",
+  "tables": [],
+  "texts": [
+    {
+      "children": [
+        {
+          "$ref": "#/texts/1"
+        },
+        {
+          "$ref": "#/texts/2"
+        },
+        {
+          "$ref": "#/texts/4"
+        }
+      ],
+      "content_layer": "body",
+      "label": "title",
+      "orig": "Nota SLA Orione",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "prov": [],
+      "self_ref": "#/texts/0",
+      "text": "Nota SLA Orione"
+    },
+    {
+      "children": [],
+      "content_layer": "body",
+      "formatting": {
+        "bold": false,
+        "italic": false,
+        "script": "baseline",
+        "strikethrough": false,
+        "underline": false
+      },
+      "label": "text",
+      "orig": "effective_date: 2026-01-15",
+      "parent": {
+        "$ref": "#/texts/0"
+      },
+      "prov": [],
+      "self_ref": "#/texts/1",
+      "text": "effective_date: 2026-01-15"
+    },
+    {
+      "children": [
+        {
+          "$ref": "#/texts/3"
+        }
+      ],
+      "content_layer": "body",
+      "label": "section_header",
+      "level": 1,
+      "orig": "Priorità alta",
+      "parent": {
+        "$ref": "#/texts/0"
+      },
+      "prov": [],
+      "self_ref": "#/texts/2",
+      "text": "Priorità alta"
+    },
+    {
+      "children": [],
+      "content_layer": "body",
+      "formatting": {
+        "bold": false,
+        "italic": false,
+        "script": "baseline",
+        "strikethrough": false,
+        "underline": false
+      },
+      "label": "text",
+      "orig": "Gli interventi ad alta priorità devono essere presi in carico entro due ore da un tecnico con livello almeno 3. La presa in carico e la chiusura sono eventi distinti.",
+      "parent": {
+        "$ref": "#/texts/2"
+      },
+      "prov": [],
+      "self_ref": "#/texts/3",
+      "text": "Gli interventi ad alta priorità devono essere presi in carico entro due ore da un tecnico con livello almeno 3. La presa in carico e la chiusura sono eventi distinti."
+    },
+    {
+      "children": [
+        {
+          "$ref": "#/texts/5"
+        }
+      ],
+      "content_layer": "body",
+      "label": "section_header",
+      "level": 1,
+      "orig": "Chiusura",
+      "parent": {
+        "$ref": "#/texts/0"
+      },
+      "prov": [],
+      "self_ref": "#/texts/4",
+      "text": "Chiusura"
+    },
+    {
+      "children": [],
+      "content_layer": "body",
+      "formatting": {
+        "bold": false,
+        "italic": false,
+        "script": "baseline",
+        "strikethrough": false,
+        "underline": false
+      },
+      "label": "text",
+      "orig": "La checklist SICUREZZA e la checklist COLLAUDO devono entrambe avere esito OK. Questa nota conferma il manuale 2026 ma non chiarisce le certificazioni temporanee.",
+      "parent": {
+        "$ref": "#/texts/4"
+      },
+      "prov": [],
+      "self_ref": "#/texts/5",
+      "text": "La checklist SICUREZZA e la checklist COLLAUDO devono entrambe avere esito OK. Questa nota conferma il manuale 2026 ma non chiarisce le certificazioni temporanee."
+    }
+  ],
+  "version": "1.10.0"
+}

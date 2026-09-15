@@ -283,7 +283,7 @@ def _candidate_is_materialized(
             ) OR EXISTS(
                 SELECT 1 FROM relation_evidence WHERE candidate_record_id = ?
             ) OR EXISTS(
-                SELECT 1 FROM temporal_intervals WHERE source_candidate_record_id = ?
+                SELECT 1 FROM temporal_interval_supports WHERE candidate_record_id = ?
             )
             """,
             (candidate_record_id, candidate_record_id, candidate_record_id),

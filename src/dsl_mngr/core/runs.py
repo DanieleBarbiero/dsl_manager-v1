@@ -38,12 +38,14 @@ RUN_TYPES = {
     "dsl_render",
     "dsl_diff",
     "gexf_export",
+    "temporal_propagation",
+    "normalization_diagnostic",
     "batch",
     "log_table",
     "test",
 }
 
-RUN_STATUSES = {"running", "completed", "failed"}
+RUN_STATUSES = {"running", "completed", "partial", "failed"}
 
 
 class RunLifecycleError(RuntimeError):
@@ -391,6 +393,26 @@ def mark_run_completed(
         WHERE run_id = ?
         """,
         ("completed", finished_at, output_json, finished_at, run_id),
+    )
+
+
+def mark_run_partial(
+    connection: sqlite3.Connection,
+    run_id: str,
+    *,
+    output_json: str,
+    finished_at: str,
+) -> None:
+    connection.execute(
+        """
+        UPDATE runs
+        SET status = 'partial',
+            finished_at = ?,
+            output_json = ?,
+            updated_at = ?
+        WHERE run_id = ?
+        """,
+        (finished_at, output_json, finished_at, run_id),
     )
 
 

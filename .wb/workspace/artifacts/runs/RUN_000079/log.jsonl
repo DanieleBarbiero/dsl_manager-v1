@@ -1,0 +1,6 @@
+{"event": "run_started", "level": "INFO", "message": "Run RUN_000079 started.", "run_id": "RUN_000079", "timestamp": "2026-09-14T16:30:53+02:00"}
+{"event": "batch_started", "level": "INFO", "message": "Batch merge-batch started with 2 item(s).", "run_id": "RUN_000079", "timestamp": "2026-09-14T16:30:53+02:00"}
+{"event": "batch_item_completed", "level": "INFO", "message": "Batch item BITEM_000001 completed: merge.", "run_id": "RUN_000079", "timestamp": "2026-09-14T16:30:53+02:00"}
+{"event": "batch_item_completed", "level": "INFO", "message": "Batch item BITEM_000002 completed: merge.", "run_id": "RUN_000079", "timestamp": "2026-09-14T16:30:53+02:00"}
+{"event": "run_completed", "level": "INFO", "message": "Run RUN_000079 completed.", "run_id": "RUN_000079", "timestamp": "2026-09-14T16:30:53+02:00"}
+{"event": "batch_completed", "level": "INFO", "message": "Batch merge-batch completed; completed=2; failed=0; skipped=0.", "run_id": "RUN_000079", "timestamp": "2026-09-14T16:30:53+02:00"}

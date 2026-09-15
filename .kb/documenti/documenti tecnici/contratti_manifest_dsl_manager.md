@@ -5,7 +5,7 @@
 ## 1. Scopo
 
 Questo documento è il riferimento operativo per schema persistente, artefatti e
-manifest consegnati fino alla Slice 28. Non sostituisce il
+manifest consegnati fino alla Slice 31. Non sostituisce il
 [design v02](../documenti%20di%20design/run%202/design_document_v_02.md). La
 [analisi tecnica](analisi_tecnica_dsl_manager.md) spiega l'architettura e il
 [manuale](../manuali/manuale_utente_dsl_manager.md) mostra i comandi.
@@ -49,8 +49,10 @@ divergenza blocca l'operazione.
 | 8 | `create_workbook_manifest_schema` | manifest, fogli e regioni workbook |
 | 9 | `create_temporal_core_schema` | raw evidence, candidati temporali e intervalli |
 | 10 | `create_temporal_consolidation_schema` | gruppi, membri e conflitti temporali |
+| 11 | `create_ai_evidence_selection_schema` | piani/item AI append-only e riferimento package→piano nullable |
+| 12 | `create_temporal_interval_supports` | supporti multipli degli intervalli e backfill legacy |
 
-Le migrazioni v7-v10 sono append-only rispetto alla cronologia applicata. La v7
+Le migrazioni v7-v12 sono append-only rispetto alla cronologia applicata. La v7
 ricostruisce `candidate_batches` per ammettere origini interne senza `input_path`
 e applica un backfill selettivo: solo candidati legacy `explicit` o `observed`
 che già sostengono oggetti attivi ricevono una decisione sintetica
@@ -324,8 +326,9 @@ assessment sono `concordant`, `single_source`, `ambiguous`, `conflicted` o
 `low_quality`.
 
 Contraddizioni aprono un conflitto e producono proposte pending. Due segnali
-correlati non contano come due conferme indipendenti. L'eventuale adapter AI
-offline può proporre candidati/evidenze, mai modificare lo stato autoritativo.
+correlati non contano come due conferme indipendenti. Il leaf pubblico
+`temporal propagate` può proporre candidati/evidenze, mai modificare da solo lo
+stato autoritativo.
 
 ### 11.2 `temporal_interval`
 
@@ -340,6 +343,25 @@ evidence sono append-only.
 - `dateTime`: conserva precisione e richiede offset esplicito o timezone
   risolta;
 - bounds: `inclusive` o `coverage_envelope`.
+
+La v12 aggiunge la relazione append-only:
+
+```text
+temporal_interval_supports(
+  support_id PK,
+  interval_id FK temporal_intervals,
+  candidate_record_id FK temporal_candidate_details UNIQUE,
+  decision_id FK review_decisions,
+  created_at,
+  UNIQUE(interval_id, candidate_record_id)
+)
+```
+
+Il backfill deriva un supporto dalle colonne legacy di ogni intervallo senza
+rimuoverle. Confermare un secondo candidato semanticamente equivalente riusa
+lo stesso `interval_id` e aggiunge un supporto. L'intervallo è effettivo finché
+almeno un candidato di supporto ha testa corrente confermata; DSL v2, diff e
+GEXF espongono i supporti effettivi in ordine deterministico.
 
 Timezone unknown/incompatible resta pending o viene omessa soltanto in una
 modalità incompleta esplicita. Non viene convertita silenziosamente in `date`.
@@ -444,6 +466,39 @@ self-reference. `package_manifest.json` e `source_manifest.json` contengono
 `config_hash`, `relevant_state_hash`, contatori, reason summary e ordine. Un
 piano stale viene rifiutato e non riscritto.
 
+### 14.2 Configurazione review, propagazione e diagnostica
+
+Le forme osservate nell'help installato sono:
+
+```text
+config review show WORKSPACE
+config review profiles WORKSPACE
+config review apply-profile WORKSPACE --profile PROFILE_ID
+  [--expect-config-hash HASH]
+config review set-allowlist WORKSPACE [--policy POLICY ...]
+  [--expect-config-hash HASH]
+config validate WORKSPACE [--profile PROFILE_ID]
+temporal propagate WORKSPACE --source-revision-id REV_ID
+  --target-subject-type {fact,relation} --target-subject-id TARGET_ID
+  --source-subject TYPE:ID [--source-subject TYPE:ID ...]
+  --policy {explicit_copy,intersection,aggregation,conflict}
+diagnostics normalization run WORKSPACE --revision REV_ID
+  --scenario {controlled_partial_success/1}
+```
+
+Il profilo package `conservative/1` contiene esattamente 13 policy statiche;
+non viene applicato alla creazione del workspace. `set-allowlist` con zero
+`--policy` imposta `[]`. Le mutazioni di configurazione validano il documento,
+scrivono atomicamente solo `review.automatic_policies`, preservano le altre
+chiavi e possono rifiutare lost update tramite hash.
+
+`temporal propagate` apre una run, restituisce candidate/batch ID pending o un
+`conflict_id`, e non esegue review/merge. La diagnostica ammette un solo scenario
+e nessun parametro di worker/modulo/comando/path/shell/payload; run e worker
+terminano `partial`, exit 6, con `controlled_simulation: true` e artefatti sotto
+`artifacts/runs/<RUN_ID>/diagnostics/normalization/`. Lo stato normalizzato e
+semantico di produzione resta invariato.
+
 ## 15. Result catalog ed exit code
 
 L'envelope richiesto dal design è `result_catalog_v1` con:
@@ -454,7 +509,8 @@ mutations, retryable, exit_code, run_id, subject_ids,
 artifact_paths, counters
 ```
 
-È implementato in review, derive, merge, reconcile e batch consolidato. Gli
+È implementato in review, derive, merge, reconcile, batch consolidato e negli
+output di successo dei leaf Slice 31. Gli
 esiti includono `idempotent_replay`, `semantic_noop`,
 `review_head_conflict`, `no_merge_eligible_candidates`,
 `merge_review_precondition_failed`, `reconciliation_required`,
@@ -463,9 +519,10 @@ esiti includono `idempotent_replay`, `semantic_noop`,
 `gexf_semantic_invalid`.
 
 Gap osservato: OOXML/worker usa ancora `catalog_version: 1`; i risultati
-temporali e il graph report non pubblicano tutti i campi dell'envelope comune.
-Pertanto `result_catalog_v1` non va descritto come uniforme su ogni produttore
-finché il runtime non verrà allineato.
+temporali core e il graph report non pubblicano tutti i campi dell'envelope
+comune. Gli errori `config` scrivono la diagnostica su stderr e non emettono un
+envelope JSON su stdout. Pertanto `result_catalog_v1` non è uniforme su ogni
+produttore.
 
 ## 16. Compatibilità e rischi
 
@@ -481,6 +538,9 @@ finché il runtime non verrà allineato.
 - Budget GEXF e catalogo uniforme restano gap runtime documentati.
 - Piani AI per route e migrazione v11 sono attivi; package senza
   `selection_plan_id` restano nel formato legacy della Slice 15.
+- La v12 conserva le colonne temporali singolari legacy; la loro deprecazione
+  richiederebbe una migrazione separata.
+- È installato un solo profilo review e un solo scenario diagnostico built-in.
 
 ## 17. Riferimenti verificabili
 
@@ -491,3 +551,4 @@ finché il runtime non verrà allineato.
 - [Report Slice 28](../../projects/slicing/slice_28/dsl_manager_slice_28_report.md)
 - [Design v02 emendato](../documenti%20di%20design/run%202/design_document_v_02.md)
 - [Prompt Slice 30](../../projects/slicing/slice_30/dsl_manager_slice_30_prompt.md)
+- [Report Slice 31](../../projects/slicing/slice_31/dsl_manager_slice_31_report.md)

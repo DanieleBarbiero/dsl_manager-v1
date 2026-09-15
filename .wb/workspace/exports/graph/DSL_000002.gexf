@@ -1,0 +1,1904 @@
+<?xml version='1.0' encoding='utf-8'?>
+<gexf xmlns="http://gexf.net/1.3" version="1.3">
+  <graph defaultedgetype="directed" mode="dynamic" timeformat="date" timerepresentation="interval">
+    <attributes class="node" mode="static">
+      <attribute id="node_0" title="node_id" type="string" />
+      <attribute id="node_1" title="label" type="string" />
+      <attribute id="node_2" title="node_type" type="string" />
+      <attribute id="node_3" title="canonical_name" type="string" />
+      <attribute id="node_4" title="status" type="string" />
+      <attribute id="node_5" title="source_count" type="integer" />
+      <attribute id="node_6" title="fact_count" type="integer" />
+      <attribute id="node_7" title="source_ids" type="string" />
+      <attribute id="node_8" title="fact_ids" type="string" />
+      <attribute id="node_9" title="fact_id" type="string" />
+      <attribute id="node_10" title="fact_type" type="string" />
+      <attribute id="node_11" title="property_name" type="string" />
+      <attribute id="node_12" title="assertion_type" type="string" />
+      <attribute id="node_13" title="confidence" type="string" />
+      <attribute id="node_14" title="source_id" type="string" />
+      <attribute id="node_15" title="file_path" type="string" />
+      <attribute id="node_16" title="file_paths" type="string" />
+      <attribute id="node_17" title="source_revision_ids" type="string" />
+      <attribute id="node_18" title="conflict_id" type="string" />
+      <attribute id="node_19" title="conflict_type" type="string" />
+      <attribute id="node_20" title="left_fact_id" type="string" />
+      <attribute id="node_21" title="right_fact_id" type="string" />
+    </attributes>
+    <attributes class="edge" mode="static">
+      <attribute id="edge_0" title="edge_id" type="string" />
+      <attribute id="edge_1" title="edge_type" type="string" />
+      <attribute id="edge_2" title="relation_id" type="string" />
+      <attribute id="edge_3" title="assertion_type" type="string" />
+      <attribute id="edge_4" title="confidence" type="string" />
+      <attribute id="edge_5" title="status" type="string" />
+      <attribute id="edge_6" title="source_entity" type="string" />
+      <attribute id="edge_7" title="target_entity" type="string" />
+      <attribute id="edge_8" title="source_ids" type="string" />
+      <attribute id="edge_9" title="source_id" type="string" />
+      <attribute id="edge_10" title="source_revision_ids" type="string" />
+      <attribute id="edge_11" title="fact_id" type="string" />
+      <attribute id="edge_12" title="owner_type" type="string" />
+      <attribute id="edge_13" title="owner_id" type="string" />
+      <attribute id="edge_14" title="conflict_id" type="string" />
+      <attribute id="edge_15" title="conflict_side" type="string" />
+    </attributes>
+    <nodes>
+      <node id="conflict:CONFLICT_000001" label="closure.event_kind.conflict">
+        <attvalues>
+          <attvalue for="node_0" value="conflict:CONFLICT_000001" />
+          <attvalue for="node_1" value="closure.event_kind.conflict" />
+          <attvalue for="node_2" value="conflict" />
+          <attvalue for="node_3" value="closure" />
+          <attvalue for="node_4" value="open" />
+          <attvalue for="node_11" value="event_kind" />
+          <attvalue for="node_18" value="CONFLICT_000001" />
+          <attvalue for="node_19" value="different_values_same_property" />
+          <attvalue for="node_20" value="FACT_000038" />
+          <attvalue for="node_21" value="FACT_000037" />
+        </attvalues>
+      </node>
+      <node id="entity:asset" label="ASSET">
+        <attvalues>
+          <attvalue for="node_0" value="entity:asset" />
+          <attvalue for="node_1" value="ASSET" />
+          <attvalue for="node_2" value="domain_entity" />
+          <attvalue for="node_3" value="asset" />
+          <attvalue for="node_4" value="active" />
+          <attvalue for="node_5" value="1" />
+          <attvalue for="node_6" value="1" />
+          <attvalue for="node_7" value="[&quot;SRC_000001&quot;]" />
+          <attvalue for="node_8" value="[&quot;FACT_000020&quot;]" />
+        </attvalues>
+      </node>
+      <node id="entity:asset.critico" label="ASSET.CRITICO">
+        <attvalues>
+          <attvalue for="node_0" value="entity:asset.critico" />
+          <attvalue for="node_1" value="ASSET.CRITICO" />
+          <attvalue for="node_2" value="domain_entity" />
+          <attvalue for="node_3" value="asset.critico" />
+          <attvalue for="node_4" value="active" />
+          <attvalue for="node_5" value="1" />
+          <attvalue for="node_6" value="1" />
+          <attvalue for="node_7" value="[&quot;SRC_000001&quot;]" />
+          <attvalue for="node_8" value="[&quot;FACT_000001&quot;]" />
+        </attvalues>
+      </node>
+      <node id="entity:asset.descrizione" label="ASSET.DESCRIZIONE">
+        <attvalues>
+          <attvalue for="node_0" value="entity:asset.descrizione" />
+          <attvalue for="node_1" value="ASSET.DESCRIZIONE" />
+          <attvalue for="node_2" value="domain_entity" />
+          <attvalue for="node_3" value="asset.descrizione" />
+          <attvalue for="node_4" value="active" />
+          <attvalue for="node_5" value="1" />
+          <attvalue for="node_6" value="1" />
+          <attvalue for="node_7" value="[&quot;SRC_000001&quot;]" />
+          <attvalue for="node_8" value="[&quot;FACT_000002&quot;]" />
+        </attvalues>
+      </node>
+      <node id="entity:asset.id" label="ASSET.ID">
+        <attvalues>
+          <attvalue for="node_0" value="entity:asset.id" />
+          <attvalue for="node_1" value="ASSET.ID" />
+          <attvalue for="node_2" value="domain_entity" />
+          <attvalue for="node_3" value="asset.id" />
+          <attvalue for="node_4" value="active" />
+          <attvalue for="node_5" value="1" />
+          <attvalue for="node_6" value="1" />
+          <attvalue for="node_7" value="[&quot;SRC_000001&quot;]" />
+          <attvalue for="node_8" value="[&quot;FACT_000003&quot;]" />
+        </attvalues>
+      </node>
+      <node id="entity:asset.matricola" label="ASSET.MATRICOLA">
+        <attvalues>
+          <attvalue for="node_0" value="entity:asset.matricola" />
+          <attvalue for="node_1" value="ASSET.MATRICOLA" />
+          <attvalue for="node_2" value="domain_entity" />
+          <attvalue for="node_3" value="asset.matricola" />
+          <attvalue for="node_4" value="active" />
+          <attvalue for="node_5" value="1" />
+          <attvalue for="node_6" value="1" />
+          <attvalue for="node_7" value="[&quot;SRC_000001&quot;]" />
+          <attvalue for="node_8" value="[&quot;FACT_000004&quot;]" />
+        </attvalues>
+      </node>
+      <node id="entity:assignment" label="assignment">
+        <attvalues>
+          <attvalue for="node_0" value="entity:assignment" />
+          <attvalue for="node_1" value="assignment" />
+          <attvalue for="node_2" value="domain_entity" />
+          <attvalue for="node_3" value="assignment" />
+          <attvalue for="node_4" value="active" />
+          <attvalue for="node_5" value="1" />
+          <attvalue for="node_6" value="1" />
+          <attvalue for="node_7" value="[&quot;SRC_000007&quot;]" />
+          <attvalue for="node_8" value="[&quot;FACT_000036&quot;]" />
+        </attvalues>
+      </node>
+      <node id="entity:checklist" label="CHECKLIST">
+        <attvalues>
+          <attvalue for="node_0" value="entity:checklist" />
+          <attvalue for="node_1" value="CHECKLIST" />
+          <attvalue for="node_2" value="domain_entity" />
+          <attvalue for="node_3" value="checklist" />
+          <attvalue for="node_4" value="active" />
+          <attvalue for="node_5" value="1" />
+          <attvalue for="node_6" value="1" />
+          <attvalue for="node_7" value="[&quot;SRC_000001&quot;]" />
+          <attvalue for="node_8" value="[&quot;FACT_000021&quot;]" />
+        </attvalues>
+      </node>
+      <node id="entity:checklist.codice" label="CHECKLIST.CODICE">
+        <attvalues>
+          <attvalue for="node_0" value="entity:checklist.codice" />
+          <attvalue for="node_1" value="CHECKLIST.CODICE" />
+          <attvalue for="node_2" value="domain_entity" />
+          <attvalue for="node_3" value="checklist.codice" />
+          <attvalue for="node_4" value="active" />
+          <attvalue for="node_5" value="1" />
+          <attvalue for="node_6" value="1" />
+          <attvalue for="node_7" value="[&quot;SRC_000001&quot;]" />
+          <attvalue for="node_8" value="[&quot;FACT_000005&quot;]" />
+        </attvalues>
+      </node>
+      <node id="entity:checklist.esito" label="CHECKLIST.ESITO">
+        <attvalues>
+          <attvalue for="node_0" value="entity:checklist.esito" />
+          <attvalue for="node_1" value="CHECKLIST.ESITO" />
+          <attvalue for="node_2" value="domain_entity" />
+          <attvalue for="node_3" value="checklist.esito" />
+          <attvalue for="node_4" value="active" />
+          <attvalue for="node_5" value="1" />
+          <attvalue for="node_6" value="1" />
+          <attvalue for="node_7" value="[&quot;SRC_000001&quot;]" />
+          <attvalue for="node_8" value="[&quot;FACT_000006&quot;]" />
+        </attvalues>
+      </node>
+      <node id="entity:checklist.id" label="CHECKLIST.ID">
+        <attvalues>
+          <attvalue for="node_0" value="entity:checklist.id" />
+          <attvalue for="node_1" value="CHECKLIST.ID" />
+          <attvalue for="node_2" value="domain_entity" />
+          <attvalue for="node_3" value="checklist.id" />
+          <attvalue for="node_4" value="active" />
+          <attvalue for="node_5" value="1" />
+          <attvalue for="node_6" value="1" />
+          <attvalue for="node_7" value="[&quot;SRC_000001&quot;]" />
+          <attvalue for="node_8" value="[&quot;FACT_000007&quot;]" />
+        </attvalues>
+      </node>
+      <node id="entity:checklist.intervento_id" label="CHECKLIST.INTERVENTO_ID">
+        <attvalues>
+          <attvalue for="node_0" value="entity:checklist.intervento_id" />
+          <attvalue for="node_1" value="CHECKLIST.INTERVENTO_ID" />
+          <attvalue for="node_2" value="domain_entity" />
+          <attvalue for="node_3" value="checklist.intervento_id" />
+          <attvalue for="node_4" value="active" />
+          <attvalue for="node_5" value="1" />
+          <attvalue for="node_6" value="1" />
+          <attvalue for="node_7" value="[&quot;SRC_000001&quot;]" />
+          <attvalue for="node_8" value="[&quot;FACT_000008&quot;]" />
+        </attvalues>
+      </node>
+      <node id="entity:closure" label="closure">
+        <attvalues>
+          <attvalue for="node_0" value="entity:closure" />
+          <attvalue for="node_1" value="closure" />
+          <attvalue for="node_2" value="domain_entity" />
+          <attvalue for="node_3" value="closure" />
+          <attvalue for="node_4" value="active" />
+          <attvalue for="node_5" value="1" />
+          <attvalue for="node_6" value="2" />
+          <attvalue for="node_7" value="[&quot;SRC_000007&quot;]" />
+          <attvalue for="node_8" value="[&quot;FACT_000037&quot;,&quot;FACT_000038&quot;]" />
+        </attvalues>
+      </node>
+      <node id="entity:excel_workbook:8d635179e6b81d6550a80632db7c3033ac421f190cebcdd4f533d2413a43b16c" label="excel_workbook:8d635179e6b81d6550a80632db7c3033ac421f190cebcdd4f533d2413a43b16c">
+        <attvalues>
+          <attvalue for="node_0" value="entity:excel_workbook:8d635179e6b81d6550a80632db7c3033ac421f190cebcdd4f533d2413a43b16c" />
+          <attvalue for="node_1" value="excel_workbook:8d635179e6b81d6550a80632db7c3033ac421f190cebcdd4f533d2413a43b16c" />
+          <attvalue for="node_2" value="domain_entity" />
+          <attvalue for="node_3" value="excel_workbook:8d635179e6b81d6550a80632db7c3033ac421f190cebcdd4f533d2413a43b16c" />
+          <attvalue for="node_4" value="active" />
+          <attvalue for="node_5" value="1" />
+          <attvalue for="node_6" value="1" />
+          <attvalue for="node_7" value="[&quot;SRC_000008&quot;]" />
+          <attvalue for="node_8" value="[&quot;FACT_000041&quot;]" />
+        </attvalues>
+      </node>
+      <node id="entity:excel_workbook:8d635179e6b81d6550a80632db7c3033ac421f190cebcdd4f533d2413a43b16c/sheet:0" label="excel_workbook:8d635179e6b81d6550a80632db7c3033ac421f190cebcdd4f533d2413a43b16c/sheet:0">
+        <attvalues>
+          <attvalue for="node_0" value="entity:excel_workbook:8d635179e6b81d6550a80632db7c3033ac421f190cebcdd4f533d2413a43b16c/sheet:0" />
+          <attvalue for="node_1" value="excel_workbook:8d635179e6b81d6550a80632db7c3033ac421f190cebcdd4f533d2413a43b16c/sheet:0" />
+          <attvalue for="node_2" value="domain_entity" />
+          <attvalue for="node_3" value="excel_workbook:8d635179e6b81d6550a80632db7c3033ac421f190cebcdd4f533d2413a43b16c/sheet:0" />
+          <attvalue for="node_4" value="active" />
+          <attvalue for="node_5" value="1" />
+          <attvalue for="node_6" value="1" />
+          <attvalue for="node_7" value="[&quot;SRC_000008&quot;]" />
+          <attvalue for="node_8" value="[&quot;FACT_000040&quot;]" />
+        </attvalues>
+      </node>
+      <node id="entity:excel_workbook:8d635179e6b81d6550a80632db7c3033ac421f190cebcdd4f533d2413a43b16c/sheet:0/region:a1:b3" label="excel_workbook:8d635179e6b81d6550a80632db7c3033ac421f190cebcdd4f533d2413a43b16c/sheet:0/region:A1:B3">
+        <attvalues>
+          <attvalue for="node_0" value="entity:excel_workbook:8d635179e6b81d6550a80632db7c3033ac421f190cebcdd4f533d2413a43b16c/sheet:0/region:a1:b3" />
+          <attvalue for="node_1" value="excel_workbook:8d635179e6b81d6550a80632db7c3033ac421f190cebcdd4f533d2413a43b16c/sheet:0/region:A1:B3" />
+          <attvalue for="node_2" value="domain_entity" />
+          <attvalue for="node_3" value="excel_workbook:8d635179e6b81d6550a80632db7c3033ac421f190cebcdd4f533d2413a43b16c/sheet:0/region:a1:b3" />
+          <attvalue for="node_4" value="active" />
+          <attvalue for="node_5" value="1" />
+          <attvalue for="node_6" value="1" />
+          <attvalue for="node_7" value="[&quot;SRC_000008&quot;]" />
+          <attvalue for="node_8" value="[&quot;FACT_000039&quot;]" />
+        </attvalues>
+      </node>
+      <node id="entity:excel_workbook:9d667c31350b961a3ed79035cb507a8aadb5bb9b8f5a7b0de2a552f1bcf17691" label="excel_workbook:9d667c31350b961a3ed79035cb507a8aadb5bb9b8f5a7b0de2a552f1bcf17691">
+        <attvalues>
+          <attvalue for="node_0" value="entity:excel_workbook:9d667c31350b961a3ed79035cb507a8aadb5bb9b8f5a7b0de2a552f1bcf17691" />
+          <attvalue for="node_1" value="excel_workbook:9d667c31350b961a3ed79035cb507a8aadb5bb9b8f5a7b0de2a552f1bcf17691" />
+          <attvalue for="node_2" value="domain_entity" />
+          <attvalue for="node_3" value="excel_workbook:9d667c31350b961a3ed79035cb507a8aadb5bb9b8f5a7b0de2a552f1bcf17691" />
+          <attvalue for="node_4" value="active" />
+          <attvalue for="node_5" value="1" />
+          <attvalue for="node_6" value="1" />
+          <attvalue for="node_7" value="[&quot;SRC_000009&quot;]" />
+          <attvalue for="node_8" value="[&quot;FACT_000049&quot;]" />
+        </attvalues>
+      </node>
+      <node id="entity:excel_workbook:9d667c31350b961a3ed79035cb507a8aadb5bb9b8f5a7b0de2a552f1bcf17691/named_range:workbook:*:soglialivello" label="excel_workbook:9d667c31350b961a3ed79035cb507a8aadb5bb9b8f5a7b0de2a552f1bcf17691/named_range:workbook:*:SogliaLivello">
+        <attvalues>
+          <attvalue for="node_0" value="entity:excel_workbook:9d667c31350b961a3ed79035cb507a8aadb5bb9b8f5a7b0de2a552f1bcf17691/named_range:workbook:*:soglialivello" />
+          <attvalue for="node_1" value="excel_workbook:9d667c31350b961a3ed79035cb507a8aadb5bb9b8f5a7b0de2a552f1bcf17691/named_range:workbook:*:SogliaLivello" />
+          <attvalue for="node_2" value="domain_entity" />
+          <attvalue for="node_3" value="excel_workbook:9d667c31350b961a3ed79035cb507a8aadb5bb9b8f5a7b0de2a552f1bcf17691/named_range:workbook:*:soglialivello" />
+          <attvalue for="node_4" value="active" />
+          <attvalue for="node_5" value="1" />
+          <attvalue for="node_6" value="1" />
+          <attvalue for="node_7" value="[&quot;SRC_000009&quot;]" />
+          <attvalue for="node_8" value="[&quot;FACT_000042&quot;]" />
+        </attvalues>
+      </node>
+      <node id="entity:excel_workbook:9d667c31350b961a3ed79035cb507a8aadb5bb9b8f5a7b0de2a552f1bcf17691/sheet:0" label="excel_workbook:9d667c31350b961a3ed79035cb507a8aadb5bb9b8f5a7b0de2a552f1bcf17691/sheet:0">
+        <attvalues>
+          <attvalue for="node_0" value="entity:excel_workbook:9d667c31350b961a3ed79035cb507a8aadb5bb9b8f5a7b0de2a552f1bcf17691/sheet:0" />
+          <attvalue for="node_1" value="excel_workbook:9d667c31350b961a3ed79035cb507a8aadb5bb9b8f5a7b0de2a552f1bcf17691/sheet:0" />
+          <attvalue for="node_2" value="domain_entity" />
+          <attvalue for="node_3" value="excel_workbook:9d667c31350b961a3ed79035cb507a8aadb5bb9b8f5a7b0de2a552f1bcf17691/sheet:0" />
+          <attvalue for="node_4" value="active" />
+          <attvalue for="node_5" value="1" />
+          <attvalue for="node_6" value="1" />
+          <attvalue for="node_7" value="[&quot;SRC_000009&quot;]" />
+          <attvalue for="node_8" value="[&quot;FACT_000046&quot;]" />
+        </attvalues>
+      </node>
+      <node id="entity:excel_workbook:9d667c31350b961a3ed79035cb507a8aadb5bb9b8f5a7b0de2a552f1bcf17691/sheet:0/region:a1:e4" label="excel_workbook:9d667c31350b961a3ed79035cb507a8aadb5bb9b8f5a7b0de2a552f1bcf17691/sheet:0/region:A1:E4">
+        <attvalues>
+          <attvalue for="node_0" value="entity:excel_workbook:9d667c31350b961a3ed79035cb507a8aadb5bb9b8f5a7b0de2a552f1bcf17691/sheet:0/region:a1:e4" />
+          <attvalue for="node_1" value="excel_workbook:9d667c31350b961a3ed79035cb507a8aadb5bb9b8f5a7b0de2a552f1bcf17691/sheet:0/region:A1:E4" />
+          <attvalue for="node_2" value="domain_entity" />
+          <attvalue for="node_3" value="excel_workbook:9d667c31350b961a3ed79035cb507a8aadb5bb9b8f5a7b0de2a552f1bcf17691/sheet:0/region:a1:e4" />
+          <attvalue for="node_4" value="active" />
+          <attvalue for="node_5" value="1" />
+          <attvalue for="node_6" value="1" />
+          <attvalue for="node_7" value="[&quot;SRC_000009&quot;]" />
+          <attvalue for="node_8" value="[&quot;FACT_000043&quot;]" />
+        </attvalues>
+      </node>
+      <node id="entity:excel_workbook:9d667c31350b961a3ed79035cb507a8aadb5bb9b8f5a7b0de2a552f1bcf17691/sheet:0/region:g1:h2" label="excel_workbook:9d667c31350b961a3ed79035cb507a8aadb5bb9b8f5a7b0de2a552f1bcf17691/sheet:0/region:G1:H2">
+        <attvalues>
+          <attvalue for="node_0" value="entity:excel_workbook:9d667c31350b961a3ed79035cb507a8aadb5bb9b8f5a7b0de2a552f1bcf17691/sheet:0/region:g1:h2" />
+          <attvalue for="node_1" value="excel_workbook:9d667c31350b961a3ed79035cb507a8aadb5bb9b8f5a7b0de2a552f1bcf17691/sheet:0/region:G1:H2" />
+          <attvalue for="node_2" value="domain_entity" />
+          <attvalue for="node_3" value="excel_workbook:9d667c31350b961a3ed79035cb507a8aadb5bb9b8f5a7b0de2a552f1bcf17691/sheet:0/region:g1:h2" />
+          <attvalue for="node_4" value="active" />
+          <attvalue for="node_5" value="1" />
+          <attvalue for="node_6" value="1" />
+          <attvalue for="node_7" value="[&quot;SRC_000009&quot;]" />
+          <attvalue for="node_8" value="[&quot;FACT_000044&quot;]" />
+        </attvalues>
+      </node>
+      <node id="entity:excel_workbook:9d667c31350b961a3ed79035cb507a8aadb5bb9b8f5a7b0de2a552f1bcf17691/sheet:0/table:interventipianificati" label="excel_workbook:9d667c31350b961a3ed79035cb507a8aadb5bb9b8f5a7b0de2a552f1bcf17691/sheet:0/table:InterventiPianificati">
+        <attvalues>
+          <attvalue for="node_0" value="entity:excel_workbook:9d667c31350b961a3ed79035cb507a8aadb5bb9b8f5a7b0de2a552f1bcf17691/sheet:0/table:interventipianificati" />
+          <attvalue for="node_1" value="excel_workbook:9d667c31350b961a3ed79035cb507a8aadb5bb9b8f5a7b0de2a552f1bcf17691/sheet:0/table:InterventiPianificati" />
+          <attvalue for="node_2" value="domain_entity" />
+          <attvalue for="node_3" value="excel_workbook:9d667c31350b961a3ed79035cb507a8aadb5bb9b8f5a7b0de2a552f1bcf17691/sheet:0/table:interventipianificati" />
+          <attvalue for="node_4" value="active" />
+          <attvalue for="node_5" value="1" />
+          <attvalue for="node_6" value="1" />
+          <attvalue for="node_7" value="[&quot;SRC_000009&quot;]" />
+          <attvalue for="node_8" value="[&quot;FACT_000048&quot;]" />
+        </attvalues>
+      </node>
+      <node id="entity:excel_workbook:9d667c31350b961a3ed79035cb507a8aadb5bb9b8f5a7b0de2a552f1bcf17691/sheet:1" label="excel_workbook:9d667c31350b961a3ed79035cb507a8aadb5bb9b8f5a7b0de2a552f1bcf17691/sheet:1">
+        <attvalues>
+          <attvalue for="node_0" value="entity:excel_workbook:9d667c31350b961a3ed79035cb507a8aadb5bb9b8f5a7b0de2a552f1bcf17691/sheet:1" />
+          <attvalue for="node_1" value="excel_workbook:9d667c31350b961a3ed79035cb507a8aadb5bb9b8f5a7b0de2a552f1bcf17691/sheet:1" />
+          <attvalue for="node_2" value="domain_entity" />
+          <attvalue for="node_3" value="excel_workbook:9d667c31350b961a3ed79035cb507a8aadb5bb9b8f5a7b0de2a552f1bcf17691/sheet:1" />
+          <attvalue for="node_4" value="active" />
+          <attvalue for="node_5" value="1" />
+          <attvalue for="node_6" value="1" />
+          <attvalue for="node_7" value="[&quot;SRC_000009&quot;]" />
+          <attvalue for="node_8" value="[&quot;FACT_000047&quot;]" />
+        </attvalues>
+      </node>
+      <node id="entity:excel_workbook:9d667c31350b961a3ed79035cb507a8aadb5bb9b8f5a7b0de2a552f1bcf17691/sheet:1/region:a1:b2" label="excel_workbook:9d667c31350b961a3ed79035cb507a8aadb5bb9b8f5a7b0de2a552f1bcf17691/sheet:1/region:A1:B2">
+        <attvalues>
+          <attvalue for="node_0" value="entity:excel_workbook:9d667c31350b961a3ed79035cb507a8aadb5bb9b8f5a7b0de2a552f1bcf17691/sheet:1/region:a1:b2" />
+          <attvalue for="node_1" value="excel_workbook:9d667c31350b961a3ed79035cb507a8aadb5bb9b8f5a7b0de2a552f1bcf17691/sheet:1/region:A1:B2" />
+          <attvalue for="node_2" value="domain_entity" />
+          <attvalue for="node_3" value="excel_workbook:9d667c31350b961a3ed79035cb507a8aadb5bb9b8f5a7b0de2a552f1bcf17691/sheet:1/region:a1:b2" />
+          <attvalue for="node_4" value="active" />
+          <attvalue for="node_5" value="1" />
+          <attvalue for="node_6" value="1" />
+          <attvalue for="node_7" value="[&quot;SRC_000009&quot;]" />
+          <attvalue for="node_8" value="[&quot;FACT_000045&quot;]" />
+        </attvalues>
+      </node>
+      <node id="entity:frm_intervento" label="FRM_INTERVENTO">
+        <attvalues>
+          <attvalue for="node_0" value="entity:frm_intervento" />
+          <attvalue for="node_1" value="FRM_INTERVENTO" />
+          <attvalue for="node_2" value="domain_entity" />
+          <attvalue for="node_3" value="frm_intervento" />
+          <attvalue for="node_4" value="active" />
+          <attvalue for="node_5" value="1" />
+          <attvalue for="node_6" value="1" />
+          <attvalue for="node_7" value="[&quot;SRC_000006&quot;]" />
+          <attvalue for="node_8" value="[&quot;FACT_000026&quot;]" />
+        </attvalues>
+      </node>
+      <node id="entity:frm_intervento.annulla" label="FRM_INTERVENTO.ANNULLA">
+        <attvalues>
+          <attvalue for="node_0" value="entity:frm_intervento.annulla" />
+          <attvalue for="node_1" value="FRM_INTERVENTO.ANNULLA" />
+          <attvalue for="node_2" value="domain_entity" />
+          <attvalue for="node_3" value="frm_intervento.annulla" />
+          <attvalue for="node_4" value="active" />
+          <attvalue for="node_5" value="1" />
+          <attvalue for="node_6" value="1" />
+          <attvalue for="node_7" value="[&quot;SRC_000006&quot;]" />
+          <attvalue for="node_8" value="[&quot;FACT_000027&quot;]" />
+        </attvalues>
+      </node>
+      <node id="entity:frm_intervento.conferma" label="FRM_INTERVENTO.CONFERMA">
+        <attvalues>
+          <attvalue for="node_0" value="entity:frm_intervento.conferma" />
+          <attvalue for="node_1" value="FRM_INTERVENTO.CONFERMA" />
+          <attvalue for="node_2" value="domain_entity" />
+          <attvalue for="node_3" value="frm_intervento.conferma" />
+          <attvalue for="node_4" value="active" />
+          <attvalue for="node_5" value="1" />
+          <attvalue for="node_6" value="1" />
+          <attvalue for="node_7" value="[&quot;SRC_000006&quot;]" />
+          <attvalue for="node_8" value="[&quot;FACT_000028&quot;]" />
+        </attvalues>
+      </node>
+      <node id="entity:frm_intervento.id" label="FRM_INTERVENTO.ID">
+        <attvalues>
+          <attvalue for="node_0" value="entity:frm_intervento.id" />
+          <attvalue for="node_1" value="FRM_INTERVENTO.ID" />
+          <attvalue for="node_2" value="domain_entity" />
+          <attvalue for="node_3" value="frm_intervento.id" />
+          <attvalue for="node_4" value="active" />
+          <attvalue for="node_5" value="1" />
+          <attvalue for="node_6" value="1" />
+          <attvalue for="node_7" value="[&quot;SRC_000006&quot;]" />
+          <attvalue for="node_8" value="[&quot;FACT_000030&quot;]" />
+        </attvalues>
+      </node>
+      <node id="entity:frm_intervento.matricola" label="FRM_INTERVENTO.MATRICOLA">
+        <attvalues>
+          <attvalue for="node_0" value="entity:frm_intervento.matricola" />
+          <attvalue for="node_1" value="FRM_INTERVENTO.MATRICOLA" />
+          <attvalue for="node_2" value="domain_entity" />
+          <attvalue for="node_3" value="frm_intervento.matricola" />
+          <attvalue for="node_4" value="active" />
+          <attvalue for="node_5" value="1" />
+          <attvalue for="node_6" value="1" />
+          <attvalue for="node_7" value="[&quot;SRC_000006&quot;]" />
+          <attvalue for="node_8" value="[&quot;FACT_000031&quot;]" />
+        </attvalues>
+      </node>
+      <node id="entity:frm_intervento.priorita" label="FRM_INTERVENTO.PRIORITA">
+        <attvalues>
+          <attvalue for="node_0" value="entity:frm_intervento.priorita" />
+          <attvalue for="node_1" value="FRM_INTERVENTO.PRIORITA" />
+          <attvalue for="node_2" value="domain_entity" />
+          <attvalue for="node_3" value="frm_intervento.priorita" />
+          <attvalue for="node_4" value="active" />
+          <attvalue for="node_5" value="1" />
+          <attvalue for="node_6" value="1" />
+          <attvalue for="node_7" value="[&quot;SRC_000006&quot;]" />
+          <attvalue for="node_8" value="[&quot;FACT_000032&quot;]" />
+        </attvalues>
+      </node>
+      <node id="entity:frm_intervento.salva" label="FRM_INTERVENTO.SALVA">
+        <attvalues>
+          <attvalue for="node_0" value="entity:frm_intervento.salva" />
+          <attvalue for="node_1" value="FRM_INTERVENTO.SALVA" />
+          <attvalue for="node_2" value="domain_entity" />
+          <attvalue for="node_3" value="frm_intervento.salva" />
+          <attvalue for="node_4" value="active" />
+          <attvalue for="node_5" value="1" />
+          <attvalue for="node_6" value="1" />
+          <attvalue for="node_7" value="[&quot;SRC_000006&quot;]" />
+          <attvalue for="node_8" value="[&quot;FACT_000029&quot;]" />
+        </attvalues>
+      </node>
+      <node id="entity:frm_intervento.stato" label="FRM_INTERVENTO.STATO">
+        <attvalues>
+          <attvalue for="node_0" value="entity:frm_intervento.stato" />
+          <attvalue for="node_1" value="FRM_INTERVENTO.STATO" />
+          <attvalue for="node_2" value="domain_entity" />
+          <attvalue for="node_3" value="frm_intervento.stato" />
+          <attvalue for="node_4" value="active" />
+          <attvalue for="node_5" value="1" />
+          <attvalue for="node_6" value="1" />
+          <attvalue for="node_7" value="[&quot;SRC_000006&quot;]" />
+          <attvalue for="node_8" value="[&quot;FACT_000033&quot;]" />
+        </attvalues>
+      </node>
+      <node id="entity:frm_intervento.tecnico_id" label="FRM_INTERVENTO.TECNICO_ID">
+        <attvalues>
+          <attvalue for="node_0" value="entity:frm_intervento.tecnico_id" />
+          <attvalue for="node_1" value="FRM_INTERVENTO.TECNICO_ID" />
+          <attvalue for="node_2" value="domain_entity" />
+          <attvalue for="node_3" value="frm_intervento.tecnico_id" />
+          <attvalue for="node_4" value="active" />
+          <attvalue for="node_5" value="1" />
+          <attvalue for="node_6" value="1" />
+          <attvalue for="node_7" value="[&quot;SRC_000006&quot;]" />
+          <attvalue for="node_8" value="[&quot;FACT_000034&quot;]" />
+        </attvalues>
+      </node>
+      <node id="entity:int-104" label="INT-104">
+        <attvalues>
+          <attvalue for="node_0" value="entity:int-104" />
+          <attvalue for="node_1" value="INT-104" />
+          <attvalue for="node_2" value="domain_entity" />
+          <attvalue for="node_3" value="int-104" />
+          <attvalue for="node_4" value="active" />
+          <attvalue for="node_5" value="1" />
+          <attvalue for="node_6" value="1" />
+          <attvalue for="node_7" value="[&quot;SRC_000007&quot;]" />
+          <attvalue for="node_8" value="[&quot;FACT_000052&quot;]" />
+        </attvalues>
+      </node>
+      <node id="entity:intervento" label="INTERVENTO">
+        <attvalues>
+          <attvalue for="node_0" value="entity:intervento" />
+          <attvalue for="node_1" value="INTERVENTO" />
+          <attvalue for="node_2" value="domain_entity" />
+          <attvalue for="node_3" value="intervento" />
+          <attvalue for="node_4" value="active" />
+          <attvalue for="node_5" value="3" />
+          <attvalue for="node_6" value="2" />
+          <attvalue for="node_7" value="[&quot;SRC_000001&quot;,&quot;SRC_000003&quot;,&quot;SRC_000004&quot;]" />
+          <attvalue for="node_8" value="[&quot;FACT_000022&quot;,&quot;FACT_000051&quot;]" />
+        </attvalues>
+      </node>
+      <node id="entity:intervento.aperto_il" label="INTERVENTO.APERTO_IL">
+        <attvalues>
+          <attvalue for="node_0" value="entity:intervento.aperto_il" />
+          <attvalue for="node_1" value="INTERVENTO.APERTO_IL" />
+          <attvalue for="node_2" value="domain_entity" />
+          <attvalue for="node_3" value="intervento.aperto_il" />
+          <attvalue for="node_4" value="active" />
+          <attvalue for="node_5" value="1" />
+          <attvalue for="node_6" value="1" />
+          <attvalue for="node_7" value="[&quot;SRC_000001&quot;]" />
+          <attvalue for="node_8" value="[&quot;FACT_000009&quot;]" />
+        </attvalues>
+      </node>
+      <node id="entity:intervento.asset_id" label="INTERVENTO.ASSET_ID">
+        <attvalues>
+          <attvalue for="node_0" value="entity:intervento.asset_id" />
+          <attvalue for="node_1" value="INTERVENTO.ASSET_ID" />
+          <attvalue for="node_2" value="domain_entity" />
+          <attvalue for="node_3" value="intervento.asset_id" />
+          <attvalue for="node_4" value="active" />
+          <attvalue for="node_5" value="1" />
+          <attvalue for="node_6" value="1" />
+          <attvalue for="node_7" value="[&quot;SRC_000001&quot;]" />
+          <attvalue for="node_8" value="[&quot;FACT_000010&quot;]" />
+        </attvalues>
+      </node>
+      <node id="entity:intervento.chiuso_il" label="INTERVENTO.CHIUSO_IL">
+        <attvalues>
+          <attvalue for="node_0" value="entity:intervento.chiuso_il" />
+          <attvalue for="node_1" value="INTERVENTO.CHIUSO_IL" />
+          <attvalue for="node_2" value="domain_entity" />
+          <attvalue for="node_3" value="intervento.chiuso_il" />
+          <attvalue for="node_4" value="active" />
+          <attvalue for="node_5" value="1" />
+          <attvalue for="node_6" value="1" />
+          <attvalue for="node_7" value="[&quot;SRC_000001&quot;]" />
+          <attvalue for="node_8" value="[&quot;FACT_000011&quot;]" />
+        </attvalues>
+      </node>
+      <node id="entity:intervento.id" label="INTERVENTO.ID">
+        <attvalues>
+          <attvalue for="node_0" value="entity:intervento.id" />
+          <attvalue for="node_1" value="INTERVENTO.ID" />
+          <attvalue for="node_2" value="domain_entity" />
+          <attvalue for="node_3" value="intervento.id" />
+          <attvalue for="node_4" value="active" />
+          <attvalue for="node_5" value="1" />
+          <attvalue for="node_6" value="1" />
+          <attvalue for="node_7" value="[&quot;SRC_000001&quot;]" />
+          <attvalue for="node_8" value="[&quot;FACT_000012&quot;]" />
+        </attvalues>
+      </node>
+      <node id="entity:intervento.priorita" label="INTERVENTO.PRIORITA">
+        <attvalues>
+          <attvalue for="node_0" value="entity:intervento.priorita" />
+          <attvalue for="node_1" value="INTERVENTO.PRIORITA" />
+          <attvalue for="node_2" value="domain_entity" />
+          <attvalue for="node_3" value="intervento.priorita" />
+          <attvalue for="node_4" value="active" />
+          <attvalue for="node_5" value="1" />
+          <attvalue for="node_6" value="1" />
+          <attvalue for="node_7" value="[&quot;SRC_000001&quot;]" />
+          <attvalue for="node_8" value="[&quot;FACT_000013&quot;]" />
+        </attvalues>
+      </node>
+      <node id="entity:intervento.stato" label="INTERVENTO.STATO">
+        <attvalues>
+          <attvalue for="node_0" value="entity:intervento.stato" />
+          <attvalue for="node_1" value="INTERVENTO.STATO" />
+          <attvalue for="node_2" value="domain_entity" />
+          <attvalue for="node_3" value="intervento.stato" />
+          <attvalue for="node_4" value="active" />
+          <attvalue for="node_5" value="1" />
+          <attvalue for="node_6" value="1" />
+          <attvalue for="node_7" value="[&quot;SRC_000001&quot;]" />
+          <attvalue for="node_8" value="[&quot;FACT_000014&quot;]" />
+        </attvalues>
+      </node>
+      <node id="entity:intervento.sysdate" label="intervento.sysdate">
+        <attvalues>
+          <attvalue for="node_0" value="entity:intervento.sysdate" />
+          <attvalue for="node_1" value="intervento.sysdate" />
+          <attvalue for="node_2" value="domain_entity" />
+          <attvalue for="node_3" value="intervento.sysdate" />
+          <attvalue for="node_4" value="orphaned" />
+          <attvalue for="node_5" value="0" />
+          <attvalue for="node_6" value="0" />
+          <attvalue for="node_7" value="[]" />
+          <attvalue for="node_8" value="[]" />
+        </attvalues>
+      </node>
+      <node id="entity:intervento.tecnico_id" label="INTERVENTO.TECNICO_ID">
+        <attvalues>
+          <attvalue for="node_0" value="entity:intervento.tecnico_id" />
+          <attvalue for="node_1" value="INTERVENTO.TECNICO_ID" />
+          <attvalue for="node_2" value="domain_entity" />
+          <attvalue for="node_3" value="intervento.tecnico_id" />
+          <attvalue for="node_4" value="active" />
+          <attvalue for="node_5" value="1" />
+          <attvalue for="node_6" value="1" />
+          <attvalue for="node_7" value="[&quot;SRC_000001&quot;]" />
+          <attvalue for="node_8" value="[&quot;FACT_000015&quot;]" />
+        </attvalues>
+      </node>
+      <node id="entity:prc_assegna_tecnico" label="PRC_ASSEGNA_TECNICO">
+        <attvalues>
+          <attvalue for="node_0" value="entity:prc_assegna_tecnico" />
+          <attvalue for="node_1" value="PRC_ASSEGNA_TECNICO" />
+          <attvalue for="node_2" value="domain_entity" />
+          <attvalue for="node_3" value="prc_assegna_tecnico" />
+          <attvalue for="node_4" value="active" />
+          <attvalue for="node_5" value="1" />
+          <attvalue for="node_6" value="1" />
+          <attvalue for="node_7" value="[&quot;SRC_000002&quot;]" />
+          <attvalue for="node_8" value="[&quot;FACT_000024&quot;]" />
+        </attvalues>
+      </node>
+      <node id="entity:prc_audit_intervento" label="prc_audit_intervento">
+        <attvalues>
+          <attvalue for="node_0" value="entity:prc_audit_intervento" />
+          <attvalue for="node_1" value="prc_audit_intervento" />
+          <attvalue for="node_2" value="domain_entity" />
+          <attvalue for="node_3" value="prc_audit_intervento" />
+          <attvalue for="node_4" value="orphaned" />
+          <attvalue for="node_5" value="0" />
+          <attvalue for="node_6" value="0" />
+          <attvalue for="node_7" value="[]" />
+          <attvalue for="node_8" value="[]" />
+        </attvalues>
+      </node>
+      <node id="entity:scheduler" label="scheduler">
+        <attvalues>
+          <attvalue for="node_0" value="entity:scheduler" />
+          <attvalue for="node_1" value="scheduler" />
+          <attvalue for="node_2" value="domain_entity" />
+          <attvalue for="node_3" value="scheduler" />
+          <attvalue for="node_4" value="active" />
+          <attvalue for="node_5" value="1" />
+          <attvalue for="node_6" value="1" />
+          <attvalue for="node_7" value="[&quot;SRC_000007&quot;]" />
+          <attvalue for="node_8" value="[&quot;FACT_000035&quot;]" />
+        </attvalues>
+      </node>
+      <node id="entity:tec-9" label="tec-9">
+        <attvalues>
+          <attvalue for="node_0" value="entity:tec-9" />
+          <attvalue for="node_1" value="tec-9" />
+          <attvalue for="node_2" value="domain_entity" />
+          <attvalue for="node_3" value="tec-9" />
+          <attvalue for="node_4" value="orphaned" />
+          <attvalue for="node_5" value="0" />
+          <attvalue for="node_6" value="0" />
+          <attvalue for="node_7" value="[]" />
+          <attvalue for="node_8" value="[]" />
+        </attvalues>
+      </node>
+      <node id="entity:tecnico" label="TECNICO">
+        <attvalues>
+          <attvalue for="node_0" value="entity:tecnico" />
+          <attvalue for="node_1" value="TECNICO" />
+          <attvalue for="node_2" value="domain_entity" />
+          <attvalue for="node_3" value="tecnico" />
+          <attvalue for="node_4" value="active" />
+          <attvalue for="node_5" value="1" />
+          <attvalue for="node_6" value="1" />
+          <attvalue for="node_7" value="[&quot;SRC_000001&quot;]" />
+          <attvalue for="node_8" value="[&quot;FACT_000023&quot;]" />
+        </attvalues>
+      </node>
+      <node id="entity:tecnico.codice" label="TECNICO.CODICE">
+        <attvalues>
+          <attvalue for="node_0" value="entity:tecnico.codice" />
+          <attvalue for="node_1" value="TECNICO.CODICE" />
+          <attvalue for="node_2" value="domain_entity" />
+          <attvalue for="node_3" value="tecnico.codice" />
+          <attvalue for="node_4" value="active" />
+          <attvalue for="node_5" value="1" />
+          <attvalue for="node_6" value="1" />
+          <attvalue for="node_7" value="[&quot;SRC_000001&quot;]" />
+          <attvalue for="node_8" value="[&quot;FACT_000016&quot;]" />
+        </attvalues>
+      </node>
+      <node id="entity:tecnico.id" label="TECNICO.ID">
+        <attvalues>
+          <attvalue for="node_0" value="entity:tecnico.id" />
+          <attvalue for="node_1" value="TECNICO.ID" />
+          <attvalue for="node_2" value="domain_entity" />
+          <attvalue for="node_3" value="tecnico.id" />
+          <attvalue for="node_4" value="active" />
+          <attvalue for="node_5" value="1" />
+          <attvalue for="node_6" value="1" />
+          <attvalue for="node_7" value="[&quot;SRC_000001&quot;]" />
+          <attvalue for="node_8" value="[&quot;FACT_000017&quot;]" />
+        </attvalues>
+      </node>
+      <node id="entity:tecnico.livello" label="TECNICO.LIVELLO">
+        <attvalues>
+          <attvalue for="node_0" value="entity:tecnico.livello" />
+          <attvalue for="node_1" value="TECNICO.LIVELLO" />
+          <attvalue for="node_2" value="domain_entity" />
+          <attvalue for="node_3" value="tecnico.livello" />
+          <attvalue for="node_4" value="active" />
+          <attvalue for="node_5" value="1" />
+          <attvalue for="node_6" value="1" />
+          <attvalue for="node_7" value="[&quot;SRC_000001&quot;]" />
+          <attvalue for="node_8" value="[&quot;FACT_000018&quot;]" />
+        </attvalues>
+      </node>
+      <node id="entity:tecnico.nome" label="TECNICO.NOME">
+        <attvalues>
+          <attvalue for="node_0" value="entity:tecnico.nome" />
+          <attvalue for="node_1" value="TECNICO.NOME" />
+          <attvalue for="node_2" value="domain_entity" />
+          <attvalue for="node_3" value="tecnico.nome" />
+          <attvalue for="node_4" value="active" />
+          <attvalue for="node_5" value="1" />
+          <attvalue for="node_6" value="1" />
+          <attvalue for="node_7" value="[&quot;SRC_000001&quot;]" />
+          <attvalue for="node_8" value="[&quot;FACT_000019&quot;]" />
+        </attvalues>
+      </node>
+      <node id="entity:ticket" label="TICKET">
+        <attvalues>
+          <attvalue for="node_0" value="entity:ticket" />
+          <attvalue for="node_1" value="TICKET" />
+          <attvalue for="node_2" value="domain_entity" />
+          <attvalue for="node_3" value="ticket" />
+          <attvalue for="node_4" value="active" />
+          <attvalue for="node_5" value="1" />
+          <attvalue for="node_6" value="1" />
+          <attvalue for="node_7" value="[&quot;SRC_000003&quot;]" />
+          <attvalue for="node_8" value="[&quot;FACT_000050&quot;]" />
+        </attvalues>
+      </node>
+      <node id="entity:trg_chiudi_intervento" label="TRG_CHIUDI_INTERVENTO">
+        <attvalues>
+          <attvalue for="node_0" value="entity:trg_chiudi_intervento" />
+          <attvalue for="node_1" value="TRG_CHIUDI_INTERVENTO" />
+          <attvalue for="node_2" value="domain_entity" />
+          <attvalue for="node_3" value="trg_chiudi_intervento" />
+          <attvalue for="node_4" value="active" />
+          <attvalue for="node_5" value="1" />
+          <attvalue for="node_6" value="1" />
+          <attvalue for="node_7" value="[&quot;SRC_000002&quot;]" />
+          <attvalue for="node_8" value="[&quot;FACT_000025&quot;]" />
+        </attvalues>
+      </node>
+      <node id="fact:FACT_000037" label="closure.event_kind">
+        <attvalues>
+          <attvalue for="node_0" value="fact:FACT_000037" />
+          <attvalue for="node_1" value="closure.event_kind" />
+          <attvalue for="node_2" value="fact" />
+          <attvalue for="node_3" value="closure" />
+          <attvalue for="node_4" value="conflicted" />
+          <attvalue for="node_5" value="1" />
+          <attvalue for="node_7" value="[&quot;SRC_000007&quot;]" />
+          <attvalue for="node_9" value="FACT_000037" />
+          <attvalue for="node_10" value="log_event" />
+          <attvalue for="node_11" value="event_kind" />
+          <attvalue for="node_12" value="observed" />
+          <attvalue for="node_13" value="high" />
+        </attvalues>
+      </node>
+      <node id="fact:FACT_000038" label="closure.event_kind">
+        <attvalues>
+          <attvalue for="node_0" value="fact:FACT_000038" />
+          <attvalue for="node_1" value="closure.event_kind" />
+          <attvalue for="node_2" value="fact" />
+          <attvalue for="node_3" value="closure" />
+          <attvalue for="node_4" value="conflicted" />
+          <attvalue for="node_5" value="1" />
+          <attvalue for="node_7" value="[&quot;SRC_000007&quot;]" />
+          <attvalue for="node_9" value="FACT_000038" />
+          <attvalue for="node_10" value="log_event" />
+          <attvalue for="node_11" value="event_kind" />
+          <attvalue for="node_12" value="observed" />
+          <attvalue for="node_13" value="high" />
+        </attvalues>
+      </node>
+      <node id="fact:FACT_000051" label="INTERVENTO.closure_checklist">
+        <attvalues>
+          <attvalue for="node_0" value="fact:FACT_000051" />
+          <attvalue for="node_1" value="INTERVENTO.closure_checklist" />
+          <attvalue for="node_2" value="business_rule" />
+          <attvalue for="node_3" value="intervento" />
+          <attvalue for="node_4" value="active" />
+          <attvalue for="node_5" value="2" />
+          <attvalue for="node_7" value="[&quot;SRC_000003&quot;,&quot;SRC_000004&quot;]" />
+          <attvalue for="node_9" value="FACT_000051" />
+          <attvalue for="node_10" value="business_rule" />
+          <attvalue for="node_11" value="closure_checklist" />
+          <attvalue for="node_12" value="explicit" />
+          <attvalue for="node_13" value="high" />
+        </attvalues>
+      </node>
+      <node id="source:SRC_000001" label="corpus/active/database/schema_orione.sql">
+        <attvalues>
+          <attvalue for="node_0" value="source:SRC_000001" />
+          <attvalue for="node_1" value="corpus/active/database/schema_orione.sql" />
+          <attvalue for="node_2" value="source" />
+          <attvalue for="node_4" value="active" />
+          <attvalue for="node_14" value="SRC_000001" />
+          <attvalue for="node_15" value="corpus/active/database/schema_orione.sql" />
+          <attvalue for="node_16" value="[&quot;corpus/active/database/schema_orione.sql&quot;]" />
+          <attvalue for="node_17" value="[&quot;REV_000001&quot;]" />
+        </attvalues>
+      </node>
+      <node id="source:SRC_000002" label="corpus/active/db_code/automazioni_intervento.sql">
+        <attvalues>
+          <attvalue for="node_0" value="source:SRC_000002" />
+          <attvalue for="node_1" value="corpus/active/db_code/automazioni_intervento.sql" />
+          <attvalue for="node_2" value="source" />
+          <attvalue for="node_4" value="active" />
+          <attvalue for="node_14" value="SRC_000002" />
+          <attvalue for="node_15" value="corpus/active/db_code/automazioni_intervento.sql" />
+          <attvalue for="node_16" value="[&quot;corpus/active/db_code/automazioni_intervento.sql&quot;]" />
+          <attvalue for="node_17" value="[&quot;REV_000002&quot;]" />
+        </attvalues>
+      </node>
+      <node id="source:SRC_000003" label="corpus/active/documenti/manuale_operativo_orione_2026.md">
+        <attvalues>
+          <attvalue for="node_0" value="source:SRC_000003" />
+          <attvalue for="node_1" value="corpus/active/documenti/manuale_operativo_orione_2026.md" />
+          <attvalue for="node_2" value="source" />
+          <attvalue for="node_4" value="active" />
+          <attvalue for="node_14" value="SRC_000003" />
+          <attvalue for="node_15" value="corpus/active/documenti/manuale_operativo_orione_2026.md" />
+          <attvalue for="node_16" value="[&quot;corpus/active/documenti/manuale_operativo_orione_2026.md&quot;]" />
+          <attvalue for="node_17" value="[&quot;REV_000003&quot;]" />
+        </attvalues>
+      </node>
+      <node id="source:SRC_000004" label="corpus/active/documenti/nota_sla_orione_2026.docx">
+        <attvalues>
+          <attvalue for="node_0" value="source:SRC_000004" />
+          <attvalue for="node_1" value="corpus/active/documenti/nota_sla_orione_2026.docx" />
+          <attvalue for="node_2" value="source" />
+          <attvalue for="node_4" value="active" />
+          <attvalue for="node_14" value="SRC_000004" />
+          <attvalue for="node_15" value="corpus/active/documenti/nota_sla_orione_2026.docx" />
+          <attvalue for="node_16" value="[&quot;corpus/active/documenti/nota_sla_orione_2026.docx&quot;]" />
+          <attvalue for="node_17" value="[&quot;REV_000004&quot;]" />
+        </attvalues>
+      </node>
+      <node id="source:SRC_000006" label="corpus/active/forms/frm_intervento.xml">
+        <attvalues>
+          <attvalue for="node_0" value="source:SRC_000006" />
+          <attvalue for="node_1" value="corpus/active/forms/frm_intervento.xml" />
+          <attvalue for="node_2" value="source" />
+          <attvalue for="node_4" value="active" />
+          <attvalue for="node_14" value="SRC_000006" />
+          <attvalue for="node_15" value="corpus/active/forms/frm_intervento.xml" />
+          <attvalue for="node_16" value="[&quot;corpus/active/forms/frm_intervento.xml&quot;]" />
+          <attvalue for="node_17" value="[&quot;REV_000006&quot;]" />
+        </attvalues>
+      </node>
+      <node id="source:SRC_000007" label="corpus/active/logs/esecuzione_interventi_2026.log">
+        <attvalues>
+          <attvalue for="node_0" value="source:SRC_000007" />
+          <attvalue for="node_1" value="corpus/active/logs/esecuzione_interventi_2026.log" />
+          <attvalue for="node_2" value="source" />
+          <attvalue for="node_4" value="active" />
+          <attvalue for="node_14" value="SRC_000007" />
+          <attvalue for="node_15" value="corpus/active/logs/esecuzione_interventi_2026.log" />
+          <attvalue for="node_16" value="[&quot;corpus/active/logs/esecuzione_interventi_2026.log&quot;]" />
+          <attvalue for="node_17" value="[&quot;REV_000007&quot;]" />
+        </attvalues>
+      </node>
+      <node id="source:SRC_000008" label="corpus/active/spreadsheets/controlli_inerti_2026.xlsm">
+        <attvalues>
+          <attvalue for="node_0" value="source:SRC_000008" />
+          <attvalue for="node_1" value="corpus/active/spreadsheets/controlli_inerti_2026.xlsm" />
+          <attvalue for="node_2" value="source" />
+          <attvalue for="node_4" value="active" />
+          <attvalue for="node_14" value="SRC_000008" />
+          <attvalue for="node_15" value="corpus/active/spreadsheets/controlli_inerti_2026.xlsm" />
+          <attvalue for="node_16" value="[&quot;corpus/active/spreadsheets/controlli_inerti_2026.xlsm&quot;]" />
+          <attvalue for="node_17" value="[&quot;REV_000008&quot;]" />
+        </attvalues>
+      </node>
+      <node id="source:SRC_000009" label="corpus/active/spreadsheets/pianificazione_interventi_2026.xlsx">
+        <attvalues>
+          <attvalue for="node_0" value="source:SRC_000009" />
+          <attvalue for="node_1" value="corpus/active/spreadsheets/pianificazione_interventi_2026.xlsx" />
+          <attvalue for="node_2" value="source" />
+          <attvalue for="node_4" value="active" />
+          <attvalue for="node_14" value="SRC_000009" />
+          <attvalue for="node_15" value="corpus/active/spreadsheets/pianificazione_interventi_2026.xlsx" />
+          <attvalue for="node_16" value="[&quot;corpus/active/spreadsheets/pianificazione_interventi_2026.xlsx&quot;]" />
+          <attvalue for="node_17" value="[&quot;REV_000009&quot;]" />
+        </attvalues>
+      </node>
+    </nodes>
+    <edges>
+      <edge id="conflict:CONFLICT_000001:left" label="conflicts_with" source="conflict:CONFLICT_000001" target="fact:FACT_000038" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="conflict:CONFLICT_000001:left" />
+          <attvalue for="edge_1" value="conflicts_with" />
+          <attvalue for="edge_5" value="open" />
+          <attvalue for="edge_11" value="FACT_000038" />
+          <attvalue for="edge_12" value="conflict" />
+          <attvalue for="edge_13" value="CONFLICT_000001" />
+          <attvalue for="edge_14" value="CONFLICT_000001" />
+          <attvalue for="edge_15" value="left" />
+        </attvalues>
+      </edge>
+      <edge id="conflict:CONFLICT_000001:right" label="conflicts_with" source="conflict:CONFLICT_000001" target="fact:FACT_000037" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="conflict:CONFLICT_000001:right" />
+          <attvalue for="edge_1" value="conflicts_with" />
+          <attvalue for="edge_5" value="open" />
+          <attvalue for="edge_11" value="FACT_000037" />
+          <attvalue for="edge_12" value="conflict" />
+          <attvalue for="edge_13" value="CONFLICT_000001" />
+          <attvalue for="edge_14" value="CONFLICT_000001" />
+          <attvalue for="edge_15" value="right" />
+        </attvalues>
+      </edge>
+      <edge id="mentions:FACT_000051" label="mentions" source="entity:intervento" target="fact:FACT_000051" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="mentions:FACT_000051" />
+          <attvalue for="edge_1" value="mentions" />
+          <attvalue for="edge_3" value="explicit" />
+          <attvalue for="edge_4" value="high" />
+          <attvalue for="edge_5" value="active" />
+          <attvalue for="edge_6" value="intervento" />
+          <attvalue for="edge_7" value="closure_checklist" />
+          <attvalue for="edge_8" value="[&quot;SRC_000003&quot;,&quot;SRC_000004&quot;]" />
+          <attvalue for="edge_11" value="FACT_000051" />
+          <attvalue for="edge_12" value="fact" />
+          <attvalue for="edge_13" value="FACT_000051" />
+        </attvalues>
+      </edge>
+      <edge id="relation:REL_000001" label="references" source="entity:checklist" target="entity:intervento" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="relation:REL_000001" />
+          <attvalue for="edge_1" value="references" />
+          <attvalue for="edge_2" value="REL_000001" />
+          <attvalue for="edge_3" value="explicit" />
+          <attvalue for="edge_4" value="high" />
+          <attvalue for="edge_5" value="active" />
+          <attvalue for="edge_6" value="CHECKLIST" />
+          <attvalue for="edge_7" value="INTERVENTO" />
+          <attvalue for="edge_8" value="[&quot;SRC_000001&quot;]" />
+        </attvalues>
+      </edge>
+      <edge id="relation:REL_000002" label="references" source="entity:intervento" target="entity:asset" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="relation:REL_000002" />
+          <attvalue for="edge_1" value="references" />
+          <attvalue for="edge_2" value="REL_000002" />
+          <attvalue for="edge_3" value="explicit" />
+          <attvalue for="edge_4" value="high" />
+          <attvalue for="edge_5" value="active" />
+          <attvalue for="edge_6" value="INTERVENTO" />
+          <attvalue for="edge_7" value="ASSET" />
+          <attvalue for="edge_8" value="[&quot;SRC_000001&quot;]" />
+        </attvalues>
+      </edge>
+      <edge id="relation:REL_000003" label="references" source="entity:intervento" target="entity:tecnico" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="relation:REL_000003" />
+          <attvalue for="edge_1" value="references" />
+          <attvalue for="edge_2" value="REL_000003" />
+          <attvalue for="edge_3" value="explicit" />
+          <attvalue for="edge_4" value="high" />
+          <attvalue for="edge_5" value="active" />
+          <attvalue for="edge_6" value="INTERVENTO" />
+          <attvalue for="edge_7" value="TECNICO" />
+          <attvalue for="edge_8" value="[&quot;SRC_000001&quot;]" />
+        </attvalues>
+      </edge>
+      <edge id="relation:REL_000004" label="reads_from" source="entity:prc_assegna_tecnico" target="entity:intervento.id" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="relation:REL_000004" />
+          <attvalue for="edge_1" value="reads_from" />
+          <attvalue for="edge_2" value="REL_000004" />
+          <attvalue for="edge_3" value="observed" />
+          <attvalue for="edge_4" value="high" />
+          <attvalue for="edge_5" value="active" />
+          <attvalue for="edge_6" value="PRC_ASSEGNA_TECNICO" />
+          <attvalue for="edge_7" value="INTERVENTO.ID" />
+          <attvalue for="edge_8" value="[&quot;SRC_000002&quot;]" />
+        </attvalues>
+      </edge>
+      <edge id="relation:REL_000005" label="writes_to" source="entity:prc_assegna_tecnico" target="entity:intervento.stato" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="relation:REL_000005" />
+          <attvalue for="edge_1" value="writes_to" />
+          <attvalue for="edge_2" value="REL_000005" />
+          <attvalue for="edge_3" value="observed" />
+          <attvalue for="edge_4" value="high" />
+          <attvalue for="edge_5" value="active" />
+          <attvalue for="edge_6" value="PRC_ASSEGNA_TECNICO" />
+          <attvalue for="edge_7" value="INTERVENTO.STATO" />
+          <attvalue for="edge_8" value="[&quot;SRC_000002&quot;]" />
+        </attvalues>
+      </edge>
+      <edge id="relation:REL_000006" label="writes_to" source="entity:prc_assegna_tecnico" target="entity:intervento.tecnico_id" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="relation:REL_000006" />
+          <attvalue for="edge_1" value="writes_to" />
+          <attvalue for="edge_2" value="REL_000006" />
+          <attvalue for="edge_3" value="observed" />
+          <attvalue for="edge_4" value="high" />
+          <attvalue for="edge_5" value="active" />
+          <attvalue for="edge_6" value="PRC_ASSEGNA_TECNICO" />
+          <attvalue for="edge_7" value="INTERVENTO.TECNICO_ID" />
+          <attvalue for="edge_8" value="[&quot;SRC_000002&quot;]" />
+        </attvalues>
+      </edge>
+      <edge id="relation:REL_000007" label="calls" source="entity:prc_assegna_tecnico" target="entity:prc_audit_intervento" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="relation:REL_000007" />
+          <attvalue for="edge_1" value="calls" />
+          <attvalue for="edge_2" value="REL_000007" />
+          <attvalue for="edge_3" value="observed" />
+          <attvalue for="edge_4" value="high" />
+          <attvalue for="edge_5" value="active" />
+          <attvalue for="edge_6" value="PRC_ASSEGNA_TECNICO" />
+          <attvalue for="edge_7" value="PRC_AUDIT_INTERVENTO" />
+          <attvalue for="edge_8" value="[&quot;SRC_000002&quot;]" />
+        </attvalues>
+      </edge>
+      <edge id="relation:REL_000008" label="reads_from" source="entity:trg_chiudi_intervento" target="entity:intervento.id" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="relation:REL_000008" />
+          <attvalue for="edge_1" value="reads_from" />
+          <attvalue for="edge_2" value="REL_000008" />
+          <attvalue for="edge_3" value="observed" />
+          <attvalue for="edge_4" value="high" />
+          <attvalue for="edge_5" value="active" />
+          <attvalue for="edge_6" value="TRG_CHIUDI_INTERVENTO" />
+          <attvalue for="edge_7" value="INTERVENTO.ID" />
+          <attvalue for="edge_8" value="[&quot;SRC_000002&quot;]" />
+        </attvalues>
+      </edge>
+      <edge id="relation:REL_000009" label="reads_from" source="entity:trg_chiudi_intervento" target="entity:intervento.sysdate" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="relation:REL_000009" />
+          <attvalue for="edge_1" value="reads_from" />
+          <attvalue for="edge_2" value="REL_000009" />
+          <attvalue for="edge_3" value="observed" />
+          <attvalue for="edge_4" value="high" />
+          <attvalue for="edge_5" value="active" />
+          <attvalue for="edge_6" value="TRG_CHIUDI_INTERVENTO" />
+          <attvalue for="edge_7" value="INTERVENTO.SYSDATE" />
+          <attvalue for="edge_8" value="[&quot;SRC_000002&quot;]" />
+        </attvalues>
+      </edge>
+      <edge id="relation:REL_000010" label="writes_to" source="entity:trg_chiudi_intervento" target="entity:intervento.chiuso_il" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="relation:REL_000010" />
+          <attvalue for="edge_1" value="writes_to" />
+          <attvalue for="edge_2" value="REL_000010" />
+          <attvalue for="edge_3" value="observed" />
+          <attvalue for="edge_4" value="high" />
+          <attvalue for="edge_5" value="active" />
+          <attvalue for="edge_6" value="TRG_CHIUDI_INTERVENTO" />
+          <attvalue for="edge_7" value="INTERVENTO.CHIUSO_IL" />
+          <attvalue for="edge_8" value="[&quot;SRC_000002&quot;]" />
+        </attvalues>
+      </edge>
+      <edge id="relation:REL_000011" label="writes_to" source="entity:trg_chiudi_intervento" target="entity:intervento.stato" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="relation:REL_000011" />
+          <attvalue for="edge_1" value="writes_to" />
+          <attvalue for="edge_2" value="REL_000011" />
+          <attvalue for="edge_3" value="observed" />
+          <attvalue for="edge_4" value="high" />
+          <attvalue for="edge_5" value="active" />
+          <attvalue for="edge_6" value="TRG_CHIUDI_INTERVENTO" />
+          <attvalue for="edge_7" value="INTERVENTO.STATO" />
+          <attvalue for="edge_8" value="[&quot;SRC_000002&quot;]" />
+        </attvalues>
+      </edge>
+      <edge id="relation:REL_000012" label="writes_to" source="entity:frm_intervento" target="entity:asset" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="relation:REL_000012" />
+          <attvalue for="edge_1" value="writes_to" />
+          <attvalue for="edge_2" value="REL_000012" />
+          <attvalue for="edge_3" value="explicit" />
+          <attvalue for="edge_4" value="high" />
+          <attvalue for="edge_5" value="active" />
+          <attvalue for="edge_6" value="FRM_INTERVENTO" />
+          <attvalue for="edge_7" value="ASSET" />
+          <attvalue for="edge_8" value="[&quot;SRC_000006&quot;]" />
+        </attvalues>
+      </edge>
+      <edge id="relation:REL_000013" label="writes_to" source="entity:frm_intervento" target="entity:intervento" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="relation:REL_000013" />
+          <attvalue for="edge_1" value="writes_to" />
+          <attvalue for="edge_2" value="REL_000013" />
+          <attvalue for="edge_3" value="explicit" />
+          <attvalue for="edge_4" value="high" />
+          <attvalue for="edge_5" value="active" />
+          <attvalue for="edge_6" value="FRM_INTERVENTO" />
+          <attvalue for="edge_7" value="INTERVENTO" />
+          <attvalue for="edge_8" value="[&quot;SRC_000006&quot;]" />
+        </attvalues>
+      </edge>
+      <edge id="relation:REL_000014" label="belongs_to" source="entity:intervento" target="entity:asset" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="relation:REL_000014" />
+          <attvalue for="edge_1" value="belongs_to" />
+          <attvalue for="edge_2" value="REL_000014" />
+          <attvalue for="edge_3" value="explicit" />
+          <attvalue for="edge_4" value="high" />
+          <attvalue for="edge_5" value="active" />
+          <attvalue for="edge_6" value="INTERVENTO" />
+          <attvalue for="edge_7" value="ASSET" />
+          <attvalue for="edge_8" value="[&quot;SRC_000003&quot;]" />
+        </attvalues>
+      </edge>
+      <edge id="relation:REL_000015" label="assigned_to" source="entity:int-104" target="entity:tec-9" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="relation:REL_000015" />
+          <attvalue for="edge_1" value="assigned_to" />
+          <attvalue for="edge_2" value="REL_000015" />
+          <attvalue for="edge_3" value="observed" />
+          <attvalue for="edge_4" value="high" />
+          <attvalue for="edge_5" value="active" />
+          <attvalue for="edge_6" value="INT-104" />
+          <attvalue for="edge_7" value="TEC-9" />
+          <attvalue for="edge_8" value="[&quot;SRC_000007&quot;]" />
+        </attvalues>
+      </edge>
+      <edge id="relation:REL_000016" label="updates_assignment_for" source="entity:prc_assegna_tecnico" target="entity:intervento" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="relation:REL_000016" />
+          <attvalue for="edge_1" value="updates_assignment_for" />
+          <attvalue for="edge_2" value="REL_000016" />
+          <attvalue for="edge_3" value="explicit" />
+          <attvalue for="edge_4" value="high" />
+          <attvalue for="edge_5" value="active" />
+          <attvalue for="edge_6" value="PRC_ASSEGNA_TECNICO" />
+          <attvalue for="edge_7" value="INTERVENTO" />
+          <attvalue for="edge_8" value="[&quot;SRC_000003&quot;]" />
+        </attvalues>
+      </edge>
+      <edge id="source-fact:SRC_000001:FACT_000001" label="derives_from" source="source:SRC_000001" target="entity:asset.critico" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="source-fact:SRC_000001:FACT_000001" />
+          <attvalue for="edge_1" value="derives_from" />
+          <attvalue for="edge_9" value="SRC_000001" />
+          <attvalue for="edge_10" value="[&quot;REV_000001&quot;]" />
+          <attvalue for="edge_11" value="FACT_000001" />
+          <attvalue for="edge_12" value="fact" />
+          <attvalue for="edge_13" value="FACT_000001" />
+        </attvalues>
+      </edge>
+      <edge id="source-fact:SRC_000001:FACT_000002" label="derives_from" source="source:SRC_000001" target="entity:asset.descrizione" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="source-fact:SRC_000001:FACT_000002" />
+          <attvalue for="edge_1" value="derives_from" />
+          <attvalue for="edge_9" value="SRC_000001" />
+          <attvalue for="edge_10" value="[&quot;REV_000001&quot;]" />
+          <attvalue for="edge_11" value="FACT_000002" />
+          <attvalue for="edge_12" value="fact" />
+          <attvalue for="edge_13" value="FACT_000002" />
+        </attvalues>
+      </edge>
+      <edge id="source-fact:SRC_000001:FACT_000003" label="derives_from" source="source:SRC_000001" target="entity:asset.id" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="source-fact:SRC_000001:FACT_000003" />
+          <attvalue for="edge_1" value="derives_from" />
+          <attvalue for="edge_9" value="SRC_000001" />
+          <attvalue for="edge_10" value="[&quot;REV_000001&quot;]" />
+          <attvalue for="edge_11" value="FACT_000003" />
+          <attvalue for="edge_12" value="fact" />
+          <attvalue for="edge_13" value="FACT_000003" />
+        </attvalues>
+      </edge>
+      <edge id="source-fact:SRC_000001:FACT_000004" label="derives_from" source="source:SRC_000001" target="entity:asset.matricola" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="source-fact:SRC_000001:FACT_000004" />
+          <attvalue for="edge_1" value="derives_from" />
+          <attvalue for="edge_9" value="SRC_000001" />
+          <attvalue for="edge_10" value="[&quot;REV_000001&quot;]" />
+          <attvalue for="edge_11" value="FACT_000004" />
+          <attvalue for="edge_12" value="fact" />
+          <attvalue for="edge_13" value="FACT_000004" />
+        </attvalues>
+      </edge>
+      <edge id="source-fact:SRC_000001:FACT_000005" label="derives_from" source="source:SRC_000001" target="entity:checklist.codice" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="source-fact:SRC_000001:FACT_000005" />
+          <attvalue for="edge_1" value="derives_from" />
+          <attvalue for="edge_9" value="SRC_000001" />
+          <attvalue for="edge_10" value="[&quot;REV_000001&quot;]" />
+          <attvalue for="edge_11" value="FACT_000005" />
+          <attvalue for="edge_12" value="fact" />
+          <attvalue for="edge_13" value="FACT_000005" />
+        </attvalues>
+      </edge>
+      <edge id="source-fact:SRC_000001:FACT_000006" label="derives_from" source="source:SRC_000001" target="entity:checklist.esito" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="source-fact:SRC_000001:FACT_000006" />
+          <attvalue for="edge_1" value="derives_from" />
+          <attvalue for="edge_9" value="SRC_000001" />
+          <attvalue for="edge_10" value="[&quot;REV_000001&quot;]" />
+          <attvalue for="edge_11" value="FACT_000006" />
+          <attvalue for="edge_12" value="fact" />
+          <attvalue for="edge_13" value="FACT_000006" />
+        </attvalues>
+      </edge>
+      <edge id="source-fact:SRC_000001:FACT_000007" label="derives_from" source="source:SRC_000001" target="entity:checklist.id" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="source-fact:SRC_000001:FACT_000007" />
+          <attvalue for="edge_1" value="derives_from" />
+          <attvalue for="edge_9" value="SRC_000001" />
+          <attvalue for="edge_10" value="[&quot;REV_000001&quot;]" />
+          <attvalue for="edge_11" value="FACT_000007" />
+          <attvalue for="edge_12" value="fact" />
+          <attvalue for="edge_13" value="FACT_000007" />
+        </attvalues>
+      </edge>
+      <edge id="source-fact:SRC_000001:FACT_000008" label="derives_from" source="source:SRC_000001" target="entity:checklist.intervento_id" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="source-fact:SRC_000001:FACT_000008" />
+          <attvalue for="edge_1" value="derives_from" />
+          <attvalue for="edge_9" value="SRC_000001" />
+          <attvalue for="edge_10" value="[&quot;REV_000001&quot;]" />
+          <attvalue for="edge_11" value="FACT_000008" />
+          <attvalue for="edge_12" value="fact" />
+          <attvalue for="edge_13" value="FACT_000008" />
+        </attvalues>
+      </edge>
+      <edge id="source-fact:SRC_000001:FACT_000009" label="derives_from" source="source:SRC_000001" target="entity:intervento.aperto_il" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="source-fact:SRC_000001:FACT_000009" />
+          <attvalue for="edge_1" value="derives_from" />
+          <attvalue for="edge_9" value="SRC_000001" />
+          <attvalue for="edge_10" value="[&quot;REV_000001&quot;]" />
+          <attvalue for="edge_11" value="FACT_000009" />
+          <attvalue for="edge_12" value="fact" />
+          <attvalue for="edge_13" value="FACT_000009" />
+        </attvalues>
+      </edge>
+      <edge id="source-fact:SRC_000001:FACT_000010" label="derives_from" source="source:SRC_000001" target="entity:intervento.asset_id" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="source-fact:SRC_000001:FACT_000010" />
+          <attvalue for="edge_1" value="derives_from" />
+          <attvalue for="edge_9" value="SRC_000001" />
+          <attvalue for="edge_10" value="[&quot;REV_000001&quot;]" />
+          <attvalue for="edge_11" value="FACT_000010" />
+          <attvalue for="edge_12" value="fact" />
+          <attvalue for="edge_13" value="FACT_000010" />
+        </attvalues>
+      </edge>
+      <edge id="source-fact:SRC_000001:FACT_000011" label="derives_from" source="source:SRC_000001" target="entity:intervento.chiuso_il" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="source-fact:SRC_000001:FACT_000011" />
+          <attvalue for="edge_1" value="derives_from" />
+          <attvalue for="edge_9" value="SRC_000001" />
+          <attvalue for="edge_10" value="[&quot;REV_000001&quot;]" />
+          <attvalue for="edge_11" value="FACT_000011" />
+          <attvalue for="edge_12" value="fact" />
+          <attvalue for="edge_13" value="FACT_000011" />
+        </attvalues>
+      </edge>
+      <edge id="source-fact:SRC_000001:FACT_000012" label="derives_from" source="source:SRC_000001" target="entity:intervento.id" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="source-fact:SRC_000001:FACT_000012" />
+          <attvalue for="edge_1" value="derives_from" />
+          <attvalue for="edge_9" value="SRC_000001" />
+          <attvalue for="edge_10" value="[&quot;REV_000001&quot;]" />
+          <attvalue for="edge_11" value="FACT_000012" />
+          <attvalue for="edge_12" value="fact" />
+          <attvalue for="edge_13" value="FACT_000012" />
+        </attvalues>
+      </edge>
+      <edge id="source-fact:SRC_000001:FACT_000013" label="derives_from" source="source:SRC_000001" target="entity:intervento.priorita" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="source-fact:SRC_000001:FACT_000013" />
+          <attvalue for="edge_1" value="derives_from" />
+          <attvalue for="edge_9" value="SRC_000001" />
+          <attvalue for="edge_10" value="[&quot;REV_000001&quot;]" />
+          <attvalue for="edge_11" value="FACT_000013" />
+          <attvalue for="edge_12" value="fact" />
+          <attvalue for="edge_13" value="FACT_000013" />
+        </attvalues>
+      </edge>
+      <edge id="source-fact:SRC_000001:FACT_000014" label="derives_from" source="source:SRC_000001" target="entity:intervento.stato" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="source-fact:SRC_000001:FACT_000014" />
+          <attvalue for="edge_1" value="derives_from" />
+          <attvalue for="edge_9" value="SRC_000001" />
+          <attvalue for="edge_10" value="[&quot;REV_000001&quot;]" />
+          <attvalue for="edge_11" value="FACT_000014" />
+          <attvalue for="edge_12" value="fact" />
+          <attvalue for="edge_13" value="FACT_000014" />
+        </attvalues>
+      </edge>
+      <edge id="source-fact:SRC_000001:FACT_000015" label="derives_from" source="source:SRC_000001" target="entity:intervento.tecnico_id" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="source-fact:SRC_000001:FACT_000015" />
+          <attvalue for="edge_1" value="derives_from" />
+          <attvalue for="edge_9" value="SRC_000001" />
+          <attvalue for="edge_10" value="[&quot;REV_000001&quot;]" />
+          <attvalue for="edge_11" value="FACT_000015" />
+          <attvalue for="edge_12" value="fact" />
+          <attvalue for="edge_13" value="FACT_000015" />
+        </attvalues>
+      </edge>
+      <edge id="source-fact:SRC_000001:FACT_000016" label="derives_from" source="source:SRC_000001" target="entity:tecnico.codice" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="source-fact:SRC_000001:FACT_000016" />
+          <attvalue for="edge_1" value="derives_from" />
+          <attvalue for="edge_9" value="SRC_000001" />
+          <attvalue for="edge_10" value="[&quot;REV_000001&quot;]" />
+          <attvalue for="edge_11" value="FACT_000016" />
+          <attvalue for="edge_12" value="fact" />
+          <attvalue for="edge_13" value="FACT_000016" />
+        </attvalues>
+      </edge>
+      <edge id="source-fact:SRC_000001:FACT_000017" label="derives_from" source="source:SRC_000001" target="entity:tecnico.id" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="source-fact:SRC_000001:FACT_000017" />
+          <attvalue for="edge_1" value="derives_from" />
+          <attvalue for="edge_9" value="SRC_000001" />
+          <attvalue for="edge_10" value="[&quot;REV_000001&quot;]" />
+          <attvalue for="edge_11" value="FACT_000017" />
+          <attvalue for="edge_12" value="fact" />
+          <attvalue for="edge_13" value="FACT_000017" />
+        </attvalues>
+      </edge>
+      <edge id="source-fact:SRC_000001:FACT_000018" label="derives_from" source="source:SRC_000001" target="entity:tecnico.livello" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="source-fact:SRC_000001:FACT_000018" />
+          <attvalue for="edge_1" value="derives_from" />
+          <attvalue for="edge_9" value="SRC_000001" />
+          <attvalue for="edge_10" value="[&quot;REV_000001&quot;]" />
+          <attvalue for="edge_11" value="FACT_000018" />
+          <attvalue for="edge_12" value="fact" />
+          <attvalue for="edge_13" value="FACT_000018" />
+        </attvalues>
+      </edge>
+      <edge id="source-fact:SRC_000001:FACT_000019" label="derives_from" source="source:SRC_000001" target="entity:tecnico.nome" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="source-fact:SRC_000001:FACT_000019" />
+          <attvalue for="edge_1" value="derives_from" />
+          <attvalue for="edge_9" value="SRC_000001" />
+          <attvalue for="edge_10" value="[&quot;REV_000001&quot;]" />
+          <attvalue for="edge_11" value="FACT_000019" />
+          <attvalue for="edge_12" value="fact" />
+          <attvalue for="edge_13" value="FACT_000019" />
+        </attvalues>
+      </edge>
+      <edge id="source-fact:SRC_000001:FACT_000020" label="derives_from" source="source:SRC_000001" target="entity:asset" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="source-fact:SRC_000001:FACT_000020" />
+          <attvalue for="edge_1" value="derives_from" />
+          <attvalue for="edge_9" value="SRC_000001" />
+          <attvalue for="edge_10" value="[&quot;REV_000001&quot;]" />
+          <attvalue for="edge_11" value="FACT_000020" />
+          <attvalue for="edge_12" value="fact" />
+          <attvalue for="edge_13" value="FACT_000020" />
+        </attvalues>
+      </edge>
+      <edge id="source-fact:SRC_000001:FACT_000021" label="derives_from" source="source:SRC_000001" target="entity:checklist" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="source-fact:SRC_000001:FACT_000021" />
+          <attvalue for="edge_1" value="derives_from" />
+          <attvalue for="edge_9" value="SRC_000001" />
+          <attvalue for="edge_10" value="[&quot;REV_000001&quot;]" />
+          <attvalue for="edge_11" value="FACT_000021" />
+          <attvalue for="edge_12" value="fact" />
+          <attvalue for="edge_13" value="FACT_000021" />
+        </attvalues>
+      </edge>
+      <edge id="source-fact:SRC_000001:FACT_000022" label="derives_from" source="source:SRC_000001" target="entity:intervento" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="source-fact:SRC_000001:FACT_000022" />
+          <attvalue for="edge_1" value="derives_from" />
+          <attvalue for="edge_9" value="SRC_000001" />
+          <attvalue for="edge_10" value="[&quot;REV_000001&quot;]" />
+          <attvalue for="edge_11" value="FACT_000022" />
+          <attvalue for="edge_12" value="fact" />
+          <attvalue for="edge_13" value="FACT_000022" />
+        </attvalues>
+      </edge>
+      <edge id="source-fact:SRC_000001:FACT_000023" label="derives_from" source="source:SRC_000001" target="entity:tecnico" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="source-fact:SRC_000001:FACT_000023" />
+          <attvalue for="edge_1" value="derives_from" />
+          <attvalue for="edge_9" value="SRC_000001" />
+          <attvalue for="edge_10" value="[&quot;REV_000001&quot;]" />
+          <attvalue for="edge_11" value="FACT_000023" />
+          <attvalue for="edge_12" value="fact" />
+          <attvalue for="edge_13" value="FACT_000023" />
+        </attvalues>
+      </edge>
+      <edge id="source-fact:SRC_000002:FACT_000024" label="derives_from" source="source:SRC_000002" target="entity:prc_assegna_tecnico" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="source-fact:SRC_000002:FACT_000024" />
+          <attvalue for="edge_1" value="derives_from" />
+          <attvalue for="edge_9" value="SRC_000002" />
+          <attvalue for="edge_10" value="[&quot;REV_000002&quot;]" />
+          <attvalue for="edge_11" value="FACT_000024" />
+          <attvalue for="edge_12" value="fact" />
+          <attvalue for="edge_13" value="FACT_000024" />
+        </attvalues>
+      </edge>
+      <edge id="source-fact:SRC_000002:FACT_000025" label="derives_from" source="source:SRC_000002" target="entity:trg_chiudi_intervento" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="source-fact:SRC_000002:FACT_000025" />
+          <attvalue for="edge_1" value="derives_from" />
+          <attvalue for="edge_9" value="SRC_000002" />
+          <attvalue for="edge_10" value="[&quot;REV_000002&quot;]" />
+          <attvalue for="edge_11" value="FACT_000025" />
+          <attvalue for="edge_12" value="fact" />
+          <attvalue for="edge_13" value="FACT_000025" />
+        </attvalues>
+      </edge>
+      <edge id="source-fact:SRC_000003:FACT_000050" label="derives_from" source="source:SRC_000003" target="entity:ticket" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="source-fact:SRC_000003:FACT_000050" />
+          <attvalue for="edge_1" value="derives_from" />
+          <attvalue for="edge_9" value="SRC_000003" />
+          <attvalue for="edge_10" value="[&quot;REV_000003&quot;]" />
+          <attvalue for="edge_11" value="FACT_000050" />
+          <attvalue for="edge_12" value="fact" />
+          <attvalue for="edge_13" value="FACT_000050" />
+        </attvalues>
+      </edge>
+      <edge id="source-fact:SRC_000003:FACT_000051" label="derives_from" source="source:SRC_000003" target="fact:FACT_000051" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="source-fact:SRC_000003:FACT_000051" />
+          <attvalue for="edge_1" value="derives_from" />
+          <attvalue for="edge_9" value="SRC_000003" />
+          <attvalue for="edge_10" value="[&quot;REV_000003&quot;]" />
+          <attvalue for="edge_11" value="FACT_000051" />
+          <attvalue for="edge_12" value="fact" />
+          <attvalue for="edge_13" value="FACT_000051" />
+        </attvalues>
+      </edge>
+      <edge id="source-fact:SRC_000004:FACT_000051" label="derives_from" source="source:SRC_000004" target="fact:FACT_000051" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="source-fact:SRC_000004:FACT_000051" />
+          <attvalue for="edge_1" value="derives_from" />
+          <attvalue for="edge_9" value="SRC_000004" />
+          <attvalue for="edge_10" value="[&quot;REV_000004&quot;]" />
+          <attvalue for="edge_11" value="FACT_000051" />
+          <attvalue for="edge_12" value="fact" />
+          <attvalue for="edge_13" value="FACT_000051" />
+        </attvalues>
+      </edge>
+      <edge id="source-fact:SRC_000006:FACT_000026" label="derives_from" source="source:SRC_000006" target="entity:frm_intervento" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="source-fact:SRC_000006:FACT_000026" />
+          <attvalue for="edge_1" value="derives_from" />
+          <attvalue for="edge_9" value="SRC_000006" />
+          <attvalue for="edge_10" value="[&quot;REV_000006&quot;]" />
+          <attvalue for="edge_11" value="FACT_000026" />
+          <attvalue for="edge_12" value="fact" />
+          <attvalue for="edge_13" value="FACT_000026" />
+        </attvalues>
+      </edge>
+      <edge id="source-fact:SRC_000006:FACT_000027" label="derives_from" source="source:SRC_000006" target="entity:frm_intervento.annulla" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="source-fact:SRC_000006:FACT_000027" />
+          <attvalue for="edge_1" value="derives_from" />
+          <attvalue for="edge_9" value="SRC_000006" />
+          <attvalue for="edge_10" value="[&quot;REV_000006&quot;]" />
+          <attvalue for="edge_11" value="FACT_000027" />
+          <attvalue for="edge_12" value="fact" />
+          <attvalue for="edge_13" value="FACT_000027" />
+        </attvalues>
+      </edge>
+      <edge id="source-fact:SRC_000006:FACT_000028" label="derives_from" source="source:SRC_000006" target="entity:frm_intervento.conferma" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="source-fact:SRC_000006:FACT_000028" />
+          <attvalue for="edge_1" value="derives_from" />
+          <attvalue for="edge_9" value="SRC_000006" />
+          <attvalue for="edge_10" value="[&quot;REV_000006&quot;]" />
+          <attvalue for="edge_11" value="FACT_000028" />
+          <attvalue for="edge_12" value="fact" />
+          <attvalue for="edge_13" value="FACT_000028" />
+        </attvalues>
+      </edge>
+      <edge id="source-fact:SRC_000006:FACT_000029" label="derives_from" source="source:SRC_000006" target="entity:frm_intervento.salva" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="source-fact:SRC_000006:FACT_000029" />
+          <attvalue for="edge_1" value="derives_from" />
+          <attvalue for="edge_9" value="SRC_000006" />
+          <attvalue for="edge_10" value="[&quot;REV_000006&quot;]" />
+          <attvalue for="edge_11" value="FACT_000029" />
+          <attvalue for="edge_12" value="fact" />
+          <attvalue for="edge_13" value="FACT_000029" />
+        </attvalues>
+      </edge>
+      <edge id="source-fact:SRC_000006:FACT_000030" label="derives_from" source="source:SRC_000006" target="entity:frm_intervento.id" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="source-fact:SRC_000006:FACT_000030" />
+          <attvalue for="edge_1" value="derives_from" />
+          <attvalue for="edge_9" value="SRC_000006" />
+          <attvalue for="edge_10" value="[&quot;REV_000006&quot;]" />
+          <attvalue for="edge_11" value="FACT_000030" />
+          <attvalue for="edge_12" value="fact" />
+          <attvalue for="edge_13" value="FACT_000030" />
+        </attvalues>
+      </edge>
+      <edge id="source-fact:SRC_000006:FACT_000031" label="derives_from" source="source:SRC_000006" target="entity:frm_intervento.matricola" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="source-fact:SRC_000006:FACT_000031" />
+          <attvalue for="edge_1" value="derives_from" />
+          <attvalue for="edge_9" value="SRC_000006" />
+          <attvalue for="edge_10" value="[&quot;REV_000006&quot;]" />
+          <attvalue for="edge_11" value="FACT_000031" />
+          <attvalue for="edge_12" value="fact" />
+          <attvalue for="edge_13" value="FACT_000031" />
+        </attvalues>
+      </edge>
+      <edge id="source-fact:SRC_000006:FACT_000032" label="derives_from" source="source:SRC_000006" target="entity:frm_intervento.priorita" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="source-fact:SRC_000006:FACT_000032" />
+          <attvalue for="edge_1" value="derives_from" />
+          <attvalue for="edge_9" value="SRC_000006" />
+          <attvalue for="edge_10" value="[&quot;REV_000006&quot;]" />
+          <attvalue for="edge_11" value="FACT_000032" />
+          <attvalue for="edge_12" value="fact" />
+          <attvalue for="edge_13" value="FACT_000032" />
+        </attvalues>
+      </edge>
+      <edge id="source-fact:SRC_000006:FACT_000033" label="derives_from" source="source:SRC_000006" target="entity:frm_intervento.stato" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="source-fact:SRC_000006:FACT_000033" />
+          <attvalue for="edge_1" value="derives_from" />
+          <attvalue for="edge_9" value="SRC_000006" />
+          <attvalue for="edge_10" value="[&quot;REV_000006&quot;]" />
+          <attvalue for="edge_11" value="FACT_000033" />
+          <attvalue for="edge_12" value="fact" />
+          <attvalue for="edge_13" value="FACT_000033" />
+        </attvalues>
+      </edge>
+      <edge id="source-fact:SRC_000006:FACT_000034" label="derives_from" source="source:SRC_000006" target="entity:frm_intervento.tecnico_id" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="source-fact:SRC_000006:FACT_000034" />
+          <attvalue for="edge_1" value="derives_from" />
+          <attvalue for="edge_9" value="SRC_000006" />
+          <attvalue for="edge_10" value="[&quot;REV_000006&quot;]" />
+          <attvalue for="edge_11" value="FACT_000034" />
+          <attvalue for="edge_12" value="fact" />
+          <attvalue for="edge_13" value="FACT_000034" />
+        </attvalues>
+      </edge>
+      <edge id="source-fact:SRC_000007:FACT_000035" label="derives_from" source="source:SRC_000007" target="entity:scheduler" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="source-fact:SRC_000007:FACT_000035" />
+          <attvalue for="edge_1" value="derives_from" />
+          <attvalue for="edge_9" value="SRC_000007" />
+          <attvalue for="edge_10" value="[&quot;REV_000007&quot;]" />
+          <attvalue for="edge_11" value="FACT_000035" />
+          <attvalue for="edge_12" value="fact" />
+          <attvalue for="edge_13" value="FACT_000035" />
+        </attvalues>
+      </edge>
+      <edge id="source-fact:SRC_000007:FACT_000036" label="derives_from" source="source:SRC_000007" target="entity:assignment" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="source-fact:SRC_000007:FACT_000036" />
+          <attvalue for="edge_1" value="derives_from" />
+          <attvalue for="edge_9" value="SRC_000007" />
+          <attvalue for="edge_10" value="[&quot;REV_000007&quot;]" />
+          <attvalue for="edge_11" value="FACT_000036" />
+          <attvalue for="edge_12" value="fact" />
+          <attvalue for="edge_13" value="FACT_000036" />
+        </attvalues>
+      </edge>
+      <edge id="source-fact:SRC_000007:FACT_000037" label="derives_from" source="source:SRC_000007" target="fact:FACT_000037" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="source-fact:SRC_000007:FACT_000037" />
+          <attvalue for="edge_1" value="derives_from" />
+          <attvalue for="edge_9" value="SRC_000007" />
+          <attvalue for="edge_10" value="[&quot;REV_000007&quot;]" />
+          <attvalue for="edge_11" value="FACT_000037" />
+          <attvalue for="edge_12" value="fact" />
+          <attvalue for="edge_13" value="FACT_000037" />
+        </attvalues>
+      </edge>
+      <edge id="source-fact:SRC_000007:FACT_000038" label="derives_from" source="source:SRC_000007" target="fact:FACT_000038" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="source-fact:SRC_000007:FACT_000038" />
+          <attvalue for="edge_1" value="derives_from" />
+          <attvalue for="edge_9" value="SRC_000007" />
+          <attvalue for="edge_10" value="[&quot;REV_000007&quot;]" />
+          <attvalue for="edge_11" value="FACT_000038" />
+          <attvalue for="edge_12" value="fact" />
+          <attvalue for="edge_13" value="FACT_000038" />
+        </attvalues>
+      </edge>
+      <edge id="source-fact:SRC_000007:FACT_000052" label="derives_from" source="source:SRC_000007" target="entity:int-104" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="source-fact:SRC_000007:FACT_000052" />
+          <attvalue for="edge_1" value="derives_from" />
+          <attvalue for="edge_9" value="SRC_000007" />
+          <attvalue for="edge_10" value="[&quot;REV_000007&quot;]" />
+          <attvalue for="edge_11" value="FACT_000052" />
+          <attvalue for="edge_12" value="fact" />
+          <attvalue for="edge_13" value="FACT_000052" />
+        </attvalues>
+      </edge>
+      <edge id="source-fact:SRC_000008:FACT_000039" label="derives_from" source="source:SRC_000008" target="entity:excel_workbook:8d635179e6b81d6550a80632db7c3033ac421f190cebcdd4f533d2413a43b16c/sheet:0/region:a1:b3" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="source-fact:SRC_000008:FACT_000039" />
+          <attvalue for="edge_1" value="derives_from" />
+          <attvalue for="edge_9" value="SRC_000008" />
+          <attvalue for="edge_10" value="[&quot;REV_000008&quot;]" />
+          <attvalue for="edge_11" value="FACT_000039" />
+          <attvalue for="edge_12" value="fact" />
+          <attvalue for="edge_13" value="FACT_000039" />
+        </attvalues>
+      </edge>
+      <edge id="source-fact:SRC_000008:FACT_000040" label="derives_from" source="source:SRC_000008" target="entity:excel_workbook:8d635179e6b81d6550a80632db7c3033ac421f190cebcdd4f533d2413a43b16c/sheet:0" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="source-fact:SRC_000008:FACT_000040" />
+          <attvalue for="edge_1" value="derives_from" />
+          <attvalue for="edge_9" value="SRC_000008" />
+          <attvalue for="edge_10" value="[&quot;REV_000008&quot;]" />
+          <attvalue for="edge_11" value="FACT_000040" />
+          <attvalue for="edge_12" value="fact" />
+          <attvalue for="edge_13" value="FACT_000040" />
+        </attvalues>
+      </edge>
+      <edge id="source-fact:SRC_000008:FACT_000041" label="derives_from" source="source:SRC_000008" target="entity:excel_workbook:8d635179e6b81d6550a80632db7c3033ac421f190cebcdd4f533d2413a43b16c" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="source-fact:SRC_000008:FACT_000041" />
+          <attvalue for="edge_1" value="derives_from" />
+          <attvalue for="edge_9" value="SRC_000008" />
+          <attvalue for="edge_10" value="[&quot;REV_000008&quot;]" />
+          <attvalue for="edge_11" value="FACT_000041" />
+          <attvalue for="edge_12" value="fact" />
+          <attvalue for="edge_13" value="FACT_000041" />
+        </attvalues>
+      </edge>
+      <edge id="source-fact:SRC_000009:FACT_000042" label="derives_from" source="source:SRC_000009" target="entity:excel_workbook:9d667c31350b961a3ed79035cb507a8aadb5bb9b8f5a7b0de2a552f1bcf17691/named_range:workbook:*:soglialivello" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="source-fact:SRC_000009:FACT_000042" />
+          <attvalue for="edge_1" value="derives_from" />
+          <attvalue for="edge_9" value="SRC_000009" />
+          <attvalue for="edge_10" value="[&quot;REV_000009&quot;]" />
+          <attvalue for="edge_11" value="FACT_000042" />
+          <attvalue for="edge_12" value="fact" />
+          <attvalue for="edge_13" value="FACT_000042" />
+        </attvalues>
+      </edge>
+      <edge id="source-fact:SRC_000009:FACT_000043" label="derives_from" source="source:SRC_000009" target="entity:excel_workbook:9d667c31350b961a3ed79035cb507a8aadb5bb9b8f5a7b0de2a552f1bcf17691/sheet:0/region:a1:e4" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="source-fact:SRC_000009:FACT_000043" />
+          <attvalue for="edge_1" value="derives_from" />
+          <attvalue for="edge_9" value="SRC_000009" />
+          <attvalue for="edge_10" value="[&quot;REV_000009&quot;]" />
+          <attvalue for="edge_11" value="FACT_000043" />
+          <attvalue for="edge_12" value="fact" />
+          <attvalue for="edge_13" value="FACT_000043" />
+        </attvalues>
+      </edge>
+      <edge id="source-fact:SRC_000009:FACT_000044" label="derives_from" source="source:SRC_000009" target="entity:excel_workbook:9d667c31350b961a3ed79035cb507a8aadb5bb9b8f5a7b0de2a552f1bcf17691/sheet:0/region:g1:h2" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="source-fact:SRC_000009:FACT_000044" />
+          <attvalue for="edge_1" value="derives_from" />
+          <attvalue for="edge_9" value="SRC_000009" />
+          <attvalue for="edge_10" value="[&quot;REV_000009&quot;]" />
+          <attvalue for="edge_11" value="FACT_000044" />
+          <attvalue for="edge_12" value="fact" />
+          <attvalue for="edge_13" value="FACT_000044" />
+        </attvalues>
+      </edge>
+      <edge id="source-fact:SRC_000009:FACT_000045" label="derives_from" source="source:SRC_000009" target="entity:excel_workbook:9d667c31350b961a3ed79035cb507a8aadb5bb9b8f5a7b0de2a552f1bcf17691/sheet:1/region:a1:b2" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="source-fact:SRC_000009:FACT_000045" />
+          <attvalue for="edge_1" value="derives_from" />
+          <attvalue for="edge_9" value="SRC_000009" />
+          <attvalue for="edge_10" value="[&quot;REV_000009&quot;]" />
+          <attvalue for="edge_11" value="FACT_000045" />
+          <attvalue for="edge_12" value="fact" />
+          <attvalue for="edge_13" value="FACT_000045" />
+        </attvalues>
+      </edge>
+      <edge id="source-fact:SRC_000009:FACT_000046" label="derives_from" source="source:SRC_000009" target="entity:excel_workbook:9d667c31350b961a3ed79035cb507a8aadb5bb9b8f5a7b0de2a552f1bcf17691/sheet:0" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="source-fact:SRC_000009:FACT_000046" />
+          <attvalue for="edge_1" value="derives_from" />
+          <attvalue for="edge_9" value="SRC_000009" />
+          <attvalue for="edge_10" value="[&quot;REV_000009&quot;]" />
+          <attvalue for="edge_11" value="FACT_000046" />
+          <attvalue for="edge_12" value="fact" />
+          <attvalue for="edge_13" value="FACT_000046" />
+        </attvalues>
+      </edge>
+      <edge id="source-fact:SRC_000009:FACT_000047" label="derives_from" source="source:SRC_000009" target="entity:excel_workbook:9d667c31350b961a3ed79035cb507a8aadb5bb9b8f5a7b0de2a552f1bcf17691/sheet:1" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="source-fact:SRC_000009:FACT_000047" />
+          <attvalue for="edge_1" value="derives_from" />
+          <attvalue for="edge_9" value="SRC_000009" />
+          <attvalue for="edge_10" value="[&quot;REV_000009&quot;]" />
+          <attvalue for="edge_11" value="FACT_000047" />
+          <attvalue for="edge_12" value="fact" />
+          <attvalue for="edge_13" value="FACT_000047" />
+        </attvalues>
+      </edge>
+      <edge id="source-fact:SRC_000009:FACT_000048" label="derives_from" source="source:SRC_000009" target="entity:excel_workbook:9d667c31350b961a3ed79035cb507a8aadb5bb9b8f5a7b0de2a552f1bcf17691/sheet:0/table:interventipianificati" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="source-fact:SRC_000009:FACT_000048" />
+          <attvalue for="edge_1" value="derives_from" />
+          <attvalue for="edge_9" value="SRC_000009" />
+          <attvalue for="edge_10" value="[&quot;REV_000009&quot;]" />
+          <attvalue for="edge_11" value="FACT_000048" />
+          <attvalue for="edge_12" value="fact" />
+          <attvalue for="edge_13" value="FACT_000048" />
+        </attvalues>
+      </edge>
+      <edge id="source-fact:SRC_000009:FACT_000049" label="derives_from" source="source:SRC_000009" target="entity:excel_workbook:9d667c31350b961a3ed79035cb507a8aadb5bb9b8f5a7b0de2a552f1bcf17691" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="source-fact:SRC_000009:FACT_000049" />
+          <attvalue for="edge_1" value="derives_from" />
+          <attvalue for="edge_9" value="SRC_000009" />
+          <attvalue for="edge_10" value="[&quot;REV_000009&quot;]" />
+          <attvalue for="edge_11" value="FACT_000049" />
+          <attvalue for="edge_12" value="fact" />
+          <attvalue for="edge_13" value="FACT_000049" />
+        </attvalues>
+      </edge>
+      <edge id="source-relation:SRC_000001:REL_000001" label="derives_from" source="source:SRC_000001" target="entity:intervento" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="source-relation:SRC_000001:REL_000001" />
+          <attvalue for="edge_1" value="derives_from" />
+          <attvalue for="edge_2" value="REL_000001" />
+          <attvalue for="edge_9" value="SRC_000001" />
+          <attvalue for="edge_10" value="[&quot;REV_000001&quot;]" />
+          <attvalue for="edge_12" value="relation" />
+          <attvalue for="edge_13" value="REL_000001" />
+        </attvalues>
+      </edge>
+      <edge id="source-relation:SRC_000001:REL_000002" label="derives_from" source="source:SRC_000001" target="entity:asset" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="source-relation:SRC_000001:REL_000002" />
+          <attvalue for="edge_1" value="derives_from" />
+          <attvalue for="edge_2" value="REL_000002" />
+          <attvalue for="edge_9" value="SRC_000001" />
+          <attvalue for="edge_10" value="[&quot;REV_000001&quot;]" />
+          <attvalue for="edge_12" value="relation" />
+          <attvalue for="edge_13" value="REL_000002" />
+        </attvalues>
+      </edge>
+      <edge id="source-relation:SRC_000001:REL_000003" label="derives_from" source="source:SRC_000001" target="entity:tecnico" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="source-relation:SRC_000001:REL_000003" />
+          <attvalue for="edge_1" value="derives_from" />
+          <attvalue for="edge_2" value="REL_000003" />
+          <attvalue for="edge_9" value="SRC_000001" />
+          <attvalue for="edge_10" value="[&quot;REV_000001&quot;]" />
+          <attvalue for="edge_12" value="relation" />
+          <attvalue for="edge_13" value="REL_000003" />
+        </attvalues>
+      </edge>
+      <edge id="source-relation:SRC_000002:REL_000004" label="derives_from" source="source:SRC_000002" target="entity:intervento.id" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="source-relation:SRC_000002:REL_000004" />
+          <attvalue for="edge_1" value="derives_from" />
+          <attvalue for="edge_2" value="REL_000004" />
+          <attvalue for="edge_9" value="SRC_000002" />
+          <attvalue for="edge_10" value="[&quot;REV_000002&quot;]" />
+          <attvalue for="edge_12" value="relation" />
+          <attvalue for="edge_13" value="REL_000004" />
+        </attvalues>
+      </edge>
+      <edge id="source-relation:SRC_000002:REL_000005" label="derives_from" source="source:SRC_000002" target="entity:intervento.stato" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="source-relation:SRC_000002:REL_000005" />
+          <attvalue for="edge_1" value="derives_from" />
+          <attvalue for="edge_2" value="REL_000005" />
+          <attvalue for="edge_9" value="SRC_000002" />
+          <attvalue for="edge_10" value="[&quot;REV_000002&quot;]" />
+          <attvalue for="edge_12" value="relation" />
+          <attvalue for="edge_13" value="REL_000005" />
+        </attvalues>
+      </edge>
+      <edge id="source-relation:SRC_000002:REL_000006" label="derives_from" source="source:SRC_000002" target="entity:intervento.tecnico_id" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="source-relation:SRC_000002:REL_000006" />
+          <attvalue for="edge_1" value="derives_from" />
+          <attvalue for="edge_2" value="REL_000006" />
+          <attvalue for="edge_9" value="SRC_000002" />
+          <attvalue for="edge_10" value="[&quot;REV_000002&quot;]" />
+          <attvalue for="edge_12" value="relation" />
+          <attvalue for="edge_13" value="REL_000006" />
+        </attvalues>
+      </edge>
+      <edge id="source-relation:SRC_000002:REL_000007" label="derives_from" source="source:SRC_000002" target="entity:prc_audit_intervento" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="source-relation:SRC_000002:REL_000007" />
+          <attvalue for="edge_1" value="derives_from" />
+          <attvalue for="edge_2" value="REL_000007" />
+          <attvalue for="edge_9" value="SRC_000002" />
+          <attvalue for="edge_10" value="[&quot;REV_000002&quot;]" />
+          <attvalue for="edge_12" value="relation" />
+          <attvalue for="edge_13" value="REL_000007" />
+        </attvalues>
+      </edge>
+      <edge id="source-relation:SRC_000002:REL_000008" label="derives_from" source="source:SRC_000002" target="entity:intervento.id" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="source-relation:SRC_000002:REL_000008" />
+          <attvalue for="edge_1" value="derives_from" />
+          <attvalue for="edge_2" value="REL_000008" />
+          <attvalue for="edge_9" value="SRC_000002" />
+          <attvalue for="edge_10" value="[&quot;REV_000002&quot;]" />
+          <attvalue for="edge_12" value="relation" />
+          <attvalue for="edge_13" value="REL_000008" />
+        </attvalues>
+      </edge>
+      <edge id="source-relation:SRC_000002:REL_000009" label="derives_from" source="source:SRC_000002" target="entity:intervento.sysdate" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="source-relation:SRC_000002:REL_000009" />
+          <attvalue for="edge_1" value="derives_from" />
+          <attvalue for="edge_2" value="REL_000009" />
+          <attvalue for="edge_9" value="SRC_000002" />
+          <attvalue for="edge_10" value="[&quot;REV_000002&quot;]" />
+          <attvalue for="edge_12" value="relation" />
+          <attvalue for="edge_13" value="REL_000009" />
+        </attvalues>
+      </edge>
+      <edge id="source-relation:SRC_000002:REL_000010" label="derives_from" source="source:SRC_000002" target="entity:intervento.chiuso_il" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="source-relation:SRC_000002:REL_000010" />
+          <attvalue for="edge_1" value="derives_from" />
+          <attvalue for="edge_2" value="REL_000010" />
+          <attvalue for="edge_9" value="SRC_000002" />
+          <attvalue for="edge_10" value="[&quot;REV_000002&quot;]" />
+          <attvalue for="edge_12" value="relation" />
+          <attvalue for="edge_13" value="REL_000010" />
+        </attvalues>
+      </edge>
+      <edge id="source-relation:SRC_000002:REL_000011" label="derives_from" source="source:SRC_000002" target="entity:intervento.stato" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="source-relation:SRC_000002:REL_000011" />
+          <attvalue for="edge_1" value="derives_from" />
+          <attvalue for="edge_2" value="REL_000011" />
+          <attvalue for="edge_9" value="SRC_000002" />
+          <attvalue for="edge_10" value="[&quot;REV_000002&quot;]" />
+          <attvalue for="edge_12" value="relation" />
+          <attvalue for="edge_13" value="REL_000011" />
+        </attvalues>
+      </edge>
+      <edge id="source-relation:SRC_000003:REL_000014" label="derives_from" source="source:SRC_000003" target="entity:asset" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="source-relation:SRC_000003:REL_000014" />
+          <attvalue for="edge_1" value="derives_from" />
+          <attvalue for="edge_2" value="REL_000014" />
+          <attvalue for="edge_9" value="SRC_000003" />
+          <attvalue for="edge_10" value="[&quot;REV_000003&quot;]" />
+          <attvalue for="edge_12" value="relation" />
+          <attvalue for="edge_13" value="REL_000014" />
+        </attvalues>
+      </edge>
+      <edge id="source-relation:SRC_000003:REL_000016" label="derives_from" source="source:SRC_000003" target="entity:intervento" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="source-relation:SRC_000003:REL_000016" />
+          <attvalue for="edge_1" value="derives_from" />
+          <attvalue for="edge_2" value="REL_000016" />
+          <attvalue for="edge_9" value="SRC_000003" />
+          <attvalue for="edge_10" value="[&quot;REV_000003&quot;]" />
+          <attvalue for="edge_12" value="relation" />
+          <attvalue for="edge_13" value="REL_000016" />
+        </attvalues>
+      </edge>
+      <edge id="source-relation:SRC_000006:REL_000012" label="derives_from" source="source:SRC_000006" target="entity:asset" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="source-relation:SRC_000006:REL_000012" />
+          <attvalue for="edge_1" value="derives_from" />
+          <attvalue for="edge_2" value="REL_000012" />
+          <attvalue for="edge_9" value="SRC_000006" />
+          <attvalue for="edge_10" value="[&quot;REV_000006&quot;]" />
+          <attvalue for="edge_12" value="relation" />
+          <attvalue for="edge_13" value="REL_000012" />
+        </attvalues>
+      </edge>
+      <edge id="source-relation:SRC_000006:REL_000013" label="derives_from" source="source:SRC_000006" target="entity:intervento" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="source-relation:SRC_000006:REL_000013" />
+          <attvalue for="edge_1" value="derives_from" />
+          <attvalue for="edge_2" value="REL_000013" />
+          <attvalue for="edge_9" value="SRC_000006" />
+          <attvalue for="edge_10" value="[&quot;REV_000006&quot;]" />
+          <attvalue for="edge_12" value="relation" />
+          <attvalue for="edge_13" value="REL_000013" />
+        </attvalues>
+      </edge>
+      <edge id="source-relation:SRC_000007:REL_000015" label="derives_from" source="source:SRC_000007" target="entity:tec-9" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="source-relation:SRC_000007:REL_000015" />
+          <attvalue for="edge_1" value="derives_from" />
+          <attvalue for="edge_2" value="REL_000015" />
+          <attvalue for="edge_9" value="SRC_000007" />
+          <attvalue for="edge_10" value="[&quot;REV_000007&quot;]" />
+          <attvalue for="edge_12" value="relation" />
+          <attvalue for="edge_13" value="REL_000015" />
+        </attvalues>
+      </edge>
+    </edges>
+  </graph>
+</gexf>

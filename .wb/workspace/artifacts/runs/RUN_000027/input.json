@@ -1,0 +1,77 @@
+{
+  "artifact_dir": "artifacts/runs/RUN_000027",
+  "fragment_id_by_sequence": {
+    "1": "FRAG_000005",
+    "2": "FRAG_000006",
+    "3": "FRAG_000007",
+    "4": "FRAG_000008",
+    "5": "FRAG_000009",
+    "6": "FRAG_000010",
+    "7": "FRAG_000011",
+    "8": "FRAG_000012",
+    "9": "FRAG_000013"
+  },
+  "input": {
+    "fragment_id_by_sequence": {
+      "1": "FRAG_000005",
+      "2": "FRAG_000006",
+      "3": "FRAG_000007",
+      "4": "FRAG_000008",
+      "5": "FRAG_000009",
+      "6": "FRAG_000010",
+      "7": "FRAG_000011",
+      "8": "FRAG_000012",
+      "9": "FRAG_000013"
+    },
+    "input_path": "corpus/active/forms/frm_intervento.xml",
+    "next_fragment_number": 55,
+    "output_dir": "fragments/SRC_000006/REV_000006",
+    "profile": "xml_form.default",
+    "source_hash": "e4c858eaa7fe60f84d2ac7b6640d9c7ef0d63ab5ea62a04eee7981cbd6aabbcc",
+    "source_id": "SRC_000006",
+    "source_revision_id": "REV_000006",
+    "worker_config": {
+      "name": "parse_xml_form",
+      "version": "1.0"
+    },
+    "xml_form_options": {
+      "infer_edit_relations": true,
+      "malformed_xml_policy": "fail",
+      "output_fragments_jsonl": true,
+      "parse_buttons": true,
+      "parse_fields": true,
+      "parse_required_fields": true,
+      "parse_table_column_references": true,
+      "parser": "elementtree",
+      "require_root_form": true,
+      "strict_options_fail_on_unsupported_option": true
+    }
+  },
+  "input_path": "corpus/active/forms/frm_intervento.xml",
+  "next_fragment_number": 55,
+  "output_dir": "fragments/SRC_000006/REV_000006",
+  "profile": "xml_form.default",
+  "run_id": "RUN_000027",
+  "run_type": "parse_xml_form",
+  "source_hash": "e4c858eaa7fe60f84d2ac7b6640d9c7ef0d63ab5ea62a04eee7981cbd6aabbcc",
+  "source_id": "SRC_000006",
+  "source_revision_id": "REV_000006",
+  "worker_config": {
+    "name": "parse_xml_form",
+    "version": "1.0"
+  },
+  "worker_name": "parse_xml_form",
+  "worker_version": "1.0",
+  "xml_form_options": {
+    "infer_edit_relations": true,
+    "malformed_xml_policy": "fail",
+    "output_fragments_jsonl": true,
+    "parse_buttons": true,
+    "parse_fields": true,
+    "parse_required_fields": true,
+    "parse_table_column_references": true,
+    "parser": "elementtree",
+    "require_root_form": true,
+    "strict_options_fail_on_unsupported_option": true
+  }
+}

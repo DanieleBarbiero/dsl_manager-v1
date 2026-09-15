@@ -1,0 +1,282 @@
+{
+  "button_count": 3,
+  "edit_relation_count": 2,
+  "edit_relations": [
+    {
+      "field_names": [
+        "MATRICOLA"
+      ],
+      "relation_type": "edits",
+      "source_form": "FRM_INTERVENTO",
+      "target_table": "ASSET"
+    },
+    {
+      "field_names": [
+        "ID",
+        "TECNICO_ID",
+        "STATO",
+        "PRIORITA"
+      ],
+      "relation_type": "edits",
+      "source_form": "FRM_INTERVENTO",
+      "target_table": "INTERVENTO"
+    }
+  ],
+  "field_count": 5,
+  "form_count": 1,
+  "fragment_count": 9,
+  "fragments": [
+    {
+      "fragment_id": "FRAG_000005",
+      "fragment_type": "xml_form",
+      "path_or_selector": "/form[@name='FRM_INTERVENTO']",
+      "sequence": 1,
+      "status": "active",
+      "text_hash": "5bbcf43dc0bad94d4cd717b5f034960416ed739dfe8623221c00cf892f4c2e32"
+    },
+    {
+      "fragment_id": "FRAG_000006",
+      "fragment_type": "xml_field",
+      "path_or_selector": "/form[@name='FRM_INTERVENTO']/field[@name='ID']",
+      "sequence": 2,
+      "status": "active",
+      "text_hash": "da34100f43a2f07b9846fffcf388552dfa63d90b981db8da7a157d27ea845c75"
+    },
+    {
+      "fragment_id": "FRAG_000007",
+      "fragment_type": "xml_field",
+      "path_or_selector": "/form[@name='FRM_INTERVENTO']/field[@name='MATRICOLA']",
+      "sequence": 3,
+      "status": "active",
+      "text_hash": "484b4417ecfc3c85ffe8495f19d54bef6c1225173d89f51ef5c4a926bfd236fb"
+    },
+    {
+      "fragment_id": "FRAG_000008",
+      "fragment_type": "xml_field",
+      "path_or_selector": "/form[@name='FRM_INTERVENTO']/field[@name='TECNICO_ID']",
+      "sequence": 4,
+      "status": "active",
+      "text_hash": "f3a13a07bc0b6cd15707ed9569a843adf4c2bef9f0e8fd9258e8d6926b8dd966"
+    },
+    {
+      "fragment_id": "FRAG_000009",
+      "fragment_type": "xml_field",
+      "path_or_selector": "/form[@name='FRM_INTERVENTO']/field[@name='STATO']",
+      "sequence": 5,
+      "status": "active",
+      "text_hash": "5eec51b868f04c496f974865be5404436cd7ff6bd74f844c5005dc46e7e52583"
+    },
+    {
+      "fragment_id": "FRAG_000010",
+      "fragment_type": "xml_field",
+      "path_or_selector": "/form[@name='FRM_INTERVENTO']/field[@name='PRIORITA']",
+      "sequence": 6,
+      "status": "active",
+      "text_hash": "658af30b90607e8663cce7d903456332cc49b57517acab94e21bed33ca8a8495"
+    },
+    {
+      "fragment_id": "FRAG_000011",
+      "fragment_type": "xml_button",
+      "path_or_selector": "/form[@name='FRM_INTERVENTO']/button[@name='SALVA']",
+      "sequence": 7,
+      "status": "active",
+      "text_hash": "a348b591ef3f133871afc0427d3a4068f441d80da25a31f3521174c3af56349f"
+    },
+    {
+      "fragment_id": "FRAG_000012",
+      "fragment_type": "xml_button",
+      "path_or_selector": "/form[@name='FRM_INTERVENTO']/button[@name='CONFERMA']",
+      "sequence": 8,
+      "status": "active",
+      "text_hash": "4d25a553534b36792ba45e0a6beed3762338d6a3a9c5c5706582a79cc4cbb71e"
+    },
+    {
+      "fragment_id": "FRAG_000013",
+      "fragment_type": "xml_button",
+      "path_or_selector": "/form[@name='FRM_INTERVENTO']/button[@name='ANNULLA']",
+      "sequence": 9,
+      "status": "active",
+      "text_hash": "dae44839116abfee4385dced40147852c39920a6e1127ec62e4553479b42355b"
+    }
+  ],
+  "fragments_hash": "910c831f0aad10c906cb924fd2f530e66fcc151cd515bbb1f84e8b03e8bf4be8",
+  "input": {
+    "input_path": "corpus/active/forms/frm_intervento.xml",
+    "source_hash": "e4c858eaa7fe60f84d2ac7b6640d9c7ef0d63ab5ea62a04eee7981cbd6aabbcc",
+    "source_id": "SRC_000006",
+    "source_revision_id": "REV_000006"
+  },
+  "outputs": {
+    "fragments_jsonl_path": "fragments/SRC_000006/REV_000006/fragments.jsonl",
+    "xml_form_report_path": "fragments/SRC_000006/REV_000006/xml_form_report.json"
+  },
+  "parser": "elementtree",
+  "profile": "xml_form.default",
+  "required_field_count": 4,
+  "resolved_config": {
+    "worker": {
+      "name": "parse_xml_form",
+      "version": "1.0"
+    },
+    "xml_form": {
+      "infer_edit_relations": true,
+      "malformed_xml_policy": "fail",
+      "output_fragments_jsonl": true,
+      "parse_buttons": true,
+      "parse_fields": true,
+      "parse_required_fields": true,
+      "parse_table_column_references": true,
+      "parser": "elementtree",
+      "require_root_form": true,
+      "strict_options_fail_on_unsupported_option": true
+    }
+  },
+  "run_id": "RUN_000027",
+  "status": "completed",
+  "table_column_references": [
+    {
+      "column_name": "ID",
+      "field_name": "ID",
+      "table_name": "INTERVENTO"
+    },
+    {
+      "column_name": "MATRICOLA",
+      "field_name": "MATRICOLA",
+      "table_name": "ASSET"
+    },
+    {
+      "column_name": "TECNICO_ID",
+      "field_name": "TECNICO_ID",
+      "table_name": "INTERVENTO"
+    },
+    {
+      "column_name": "STATO",
+      "field_name": "STATO",
+      "table_name": "INTERVENTO"
+    },
+    {
+      "column_name": "PRIORITA",
+      "field_name": "PRIORITA",
+      "table_name": "INTERVENTO"
+    }
+  ],
+  "table_reference_count": 2,
+  "warnings": [],
+  "worker_name": "parse_xml_form",
+  "worker_version": "1.0",
+  "xml_form_objects": {
+    "forms": [
+      {
+        "buttons": [
+          {
+            "action_kind": "save",
+            "label": "Salva",
+            "name": "SALVA"
+          },
+          {
+            "action_kind": "confirm",
+            "label": "Assegna e conferma",
+            "name": "CONFERMA"
+          },
+          {
+            "action_kind": "cancel",
+            "label": "Annulla",
+            "name": "ANNULLA"
+          }
+        ],
+        "edit_relations": [
+          {
+            "field_names": [
+              "MATRICOLA"
+            ],
+            "relation_type": "edits",
+            "source_form": "FRM_INTERVENTO",
+            "target_table": "ASSET"
+          },
+          {
+            "field_names": [
+              "ID",
+              "TECNICO_ID",
+              "STATO",
+              "PRIORITA"
+            ],
+            "relation_type": "edits",
+            "source_form": "FRM_INTERVENTO",
+            "target_table": "INTERVENTO"
+          }
+        ],
+        "fields": [
+          {
+            "column_name": "ID",
+            "label": "Identificativo",
+            "name": "ID",
+            "required": true,
+            "table_name": "INTERVENTO"
+          },
+          {
+            "column_name": "MATRICOLA",
+            "label": "Matricola asset",
+            "name": "MATRICOLA",
+            "required": true,
+            "table_name": "ASSET"
+          },
+          {
+            "column_name": "TECNICO_ID",
+            "label": "Tecnico",
+            "name": "TECNICO_ID",
+            "required": false,
+            "table_name": "INTERVENTO"
+          },
+          {
+            "column_name": "STATO",
+            "label": "Stato",
+            "name": "STATO",
+            "required": true,
+            "table_name": "INTERVENTO"
+          },
+          {
+            "column_name": "PRIORITA",
+            "label": "Priorità",
+            "name": "PRIORITA",
+            "required": true,
+            "table_name": "INTERVENTO"
+          }
+        ],
+        "name": "FRM_INTERVENTO",
+        "table_column_references": [
+          {
+            "column_name": "ID",
+            "field_name": "ID",
+            "table_name": "INTERVENTO"
+          },
+          {
+            "column_name": "MATRICOLA",
+            "field_name": "MATRICOLA",
+            "table_name": "ASSET"
+          },
+          {
+            "column_name": "TECNICO_ID",
+            "field_name": "TECNICO_ID",
+            "table_name": "INTERVENTO"
+          },
+          {
+            "column_name": "STATO",
+            "field_name": "STATO",
+            "table_name": "INTERVENTO"
+          },
+          {
+            "column_name": "PRIORITA",
+            "field_name": "PRIORITA",
+            "table_name": "INTERVENTO"
+          }
+        ],
+        "table_references": [
+          "ASSET",
+          "INTERVENTO"
+        ],
+        "title": "Gestione intervento"
+      }
+    ],
+    "warnings": []
+  }
+}

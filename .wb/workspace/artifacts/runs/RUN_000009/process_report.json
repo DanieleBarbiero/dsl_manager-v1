@@ -1,0 +1,33 @@
+{
+  "artifact_dir": "artifacts/runs/RUN_000009",
+  "config_hash": "d3fd989cf638d2dcd526b0c3d4c55d244d235fd02ceeb01a3a94fca59ba590a0",
+  "error": null,
+  "finished_at": "2026-09-14T14:46:57+02:00",
+  "run_id": "RUN_000009",
+  "run_type": "normalize",
+  "started_at": "2026-09-14T14:45:30+02:00",
+  "status": "completed",
+  "workers": [
+    {
+      "duration_ms": 87048,
+      "error": null,
+      "exit_code": 0,
+      "finished_at": "2026-09-14T14:46:57+02:00",
+      "resource_limits": {
+        "max_output_bytes": null,
+        "memory_limit_bytes": null,
+        "memory_limit_mode": "not_configured",
+        "peak_memory_bytes": null,
+        "termination_reason": null,
+        "timeout_seconds": null
+      },
+      "started_at": "2026-09-14T14:45:30+02:00",
+      "status": "completed",
+      "stderr": "C:\\Users\\dbarbiero\\OneDrive - Engineering Ingegneria Informatica S.p.A\\Projects\\dsl_manager-v1\\src\\dsl_mngr\\core\\docling_adapter.py:217: DeprecationWarning: This field is deprecated. Use `generate_page_images=True` and call `TableItem.get_image()` to extract table images from page images.\n  if hasattr(pdf_options, \"generate_table_images\"):\n",
+      "stdout": "normalize_docling completed\n",
+      "worker_name": "normalize_docling",
+      "worker_run_id": "WRK_000007",
+      "worker_version": "1.0"
+    }
+  ]
+}

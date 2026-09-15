@@ -1,0 +1,158 @@
+{
+  "chunks": [
+    {
+      "chunk_id": "CHK_000001",
+      "sequence": 1,
+      "source_revision_id": "REV_000003",
+      "status": "active",
+      "text_hash": "c5b1eba79c4a4f721424da9e39d4f4213883818033d545d23bfb22559ff8d631"
+    },
+    {
+      "chunk_id": "CHK_000002",
+      "sequence": 1,
+      "source_revision_id": "REV_000004",
+      "status": "active",
+      "text_hash": "162bc6928643332def6435648fdc5f048cf14a55a6d090bc152be211e594c156"
+    },
+    {
+      "chunk_id": "CHK_000003",
+      "sequence": 1,
+      "source_revision_id": "REV_000005",
+      "status": "active",
+      "text_hash": "bcfab4c7a9f3362cc1d08f0d3c522ab52612614f812c924afbca691b911a077e"
+    }
+  ],
+  "counts": {
+    "chunks": 3,
+    "fragments": 4,
+    "source_revisions": 4
+  },
+  "fragments": [
+    {
+      "fragment_id": "FRAG_000014",
+      "fragment_type": "log_event",
+      "sequence": 1,
+      "source_revision_id": "REV_000007",
+      "status": "active",
+      "text_hash": "129eea60f0f55e3cf4513981aa489b5ab0065f24c194cf89b84e8dc35482067d"
+    },
+    {
+      "fragment_id": "FRAG_000015",
+      "fragment_type": "log_event",
+      "sequence": 2,
+      "source_revision_id": "REV_000007",
+      "status": "active",
+      "text_hash": "b7aea39c0876c65acf1f678aad5c84835eed712f0a39c569a9d7a16998520045"
+    },
+    {
+      "fragment_id": "FRAG_000016",
+      "fragment_type": "log_event",
+      "sequence": 3,
+      "source_revision_id": "REV_000007",
+      "status": "active",
+      "text_hash": "12755b8cc6411996ff493244f33bea628ac3e1206ee2951483939ad79b7e3cab"
+    },
+    {
+      "fragment_id": "FRAG_000017",
+      "fragment_type": "log_event",
+      "sequence": 4,
+      "source_revision_id": "REV_000007",
+      "status": "active",
+      "text_hash": "b031d2d6f0786c1575a56c7f13ea46289fe2ae210e31cfaeae0d89984800ac80"
+    }
+  ],
+  "package_id": "AIPKG_000002",
+  "package_path": "ai/outbox/AIPKG_000002",
+  "selection": {
+    "config_hash": "91926f51f64bfddfeec1cadec31b380d53641f0c98a1bcd1c299efe68d665d8f",
+    "counts": {
+      "examined": 7,
+      "excluded": 0,
+      "included": 7,
+      "selected_chars": 3401
+    },
+    "ordered_evidence": [
+      {
+        "evidence_id": "CHK_000001",
+        "evidence_kind": "chunk",
+        "rank": 1
+      },
+      {
+        "evidence_id": "CHK_000002",
+        "evidence_kind": "chunk",
+        "rank": 2
+      },
+      {
+        "evidence_id": "CHK_000003",
+        "evidence_kind": "chunk",
+        "rank": 3
+      },
+      {
+        "evidence_id": "FRAG_000014",
+        "evidence_kind": "fragment",
+        "rank": 4
+      },
+      {
+        "evidence_id": "FRAG_000015",
+        "evidence_kind": "fragment",
+        "rank": 5
+      },
+      {
+        "evidence_id": "FRAG_000016",
+        "evidence_kind": "fragment",
+        "rank": 6
+      },
+      {
+        "evidence_id": "FRAG_000017",
+        "evidence_kind": "fragment",
+        "rank": 7
+      }
+    ],
+    "policy_config_hash": "892285675fee729ef86f4be6eee9b7c2a18b5ae0345f70b2c95699bdad32f48a",
+    "policy_id": "domain_interpretation",
+    "policy_version": "1",
+    "reason_catalog_version": "1",
+    "reason_summary": {
+      "included_by_policy": 7
+    },
+    "relevant_state_hash": "b8e50fb1ede02124b92d02a65356e0d7015577a46c3e8a642469d593d3cd42c3",
+    "route_id": "domain_interpretation",
+    "route_version": "1",
+    "selection_plan_hash": "31f0e2f5e6a1c756965f7fbfe2bedfb144a76a383baea5dcae934e0f1c1f1959",
+    "selection_plan_id": "AISEL_000002"
+  },
+  "source_revisions": [
+    {
+      "content_hash": "5f794ff4fd14a071309636299d9a75a33c5810ef66b6aa0af684a265704a4aaa",
+      "current_revision_id": "REV_000003",
+      "file_path": "corpus/active/documenti/manuale_operativo_orione_2026.md",
+      "revision_status": "active",
+      "source_id": "SRC_000003",
+      "source_revision_id": "REV_000003"
+    },
+    {
+      "content_hash": "6612c06bb956b51703d6a30b65a1b5d189e2804b070893656ce41903640bf087",
+      "current_revision_id": "REV_000004",
+      "file_path": "corpus/active/documenti/nota_sla_orione_2026.docx",
+      "revision_status": "active",
+      "source_id": "SRC_000004",
+      "source_revision_id": "REV_000004"
+    },
+    {
+      "content_hash": "506ea945fa58a3e70b37a23ecf23c920f8626db081c2be56159798a537596cbe",
+      "current_revision_id": "REV_000005",
+      "file_path": "corpus/active/documenti/procedura_storica_chiusura_2023.html",
+      "revision_status": "active",
+      "source_id": "SRC_000005",
+      "source_revision_id": "REV_000005"
+    },
+    {
+      "content_hash": "294412c24d3cd6c5ebf1ef4f3cc5a9b7d44cba1f8ccbfbf1d39644a6c74bf78c",
+      "current_revision_id": "REV_000007",
+      "file_path": "corpus/active/logs/esecuzione_interventi_2026.log",
+      "revision_status": "active",
+      "source_id": "SRC_000007",
+      "source_revision_id": "REV_000007"
+    }
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "artifact_dir": "artifacts/runs/RUN_000086",
+  "config_hash": "2dd6b5c68345e85d1897975f7db254e5b5cccee370cf76aa41c1f46af9752afe",
+  "dsl_hash": "f7a84f75dfc30909dc149db3195d4e5e1bf585a925766bf26b74a64d984b365b",
+  "edge_count": 88,
+  "error": null,
+  "finished_at": "2026-09-14T16:31:40+02:00",
+  "format": "gexf",
+  "graph_export_id": "GEXF_000002",
+  "graph_hash": "14341bfedb5f8cab81e522b8ad823071b3bd62240381202caaf25bed564d89d5",
+  "graph_path": "exports/graph/DSL_000002.gexf",
+  "node_count": 65,
+  "options": {
+    "allow_incomplete": false,
+    "directed": true,
+    "dynamic": true,
+    "include_conflicts": true,
+    "include_fact_nodes": true,
+    "include_sources": true,
+    "node_label_strategy": "readable",
+    "strict_orphans": false,
+    "temporal_output_mode": "strict",
+    "timeformat": "date"
+  },
+  "orphan_count": 3,
+  "registry_hash": "02779d4d805a168f0d72e44c133301bebda55cf28fa6cb8c833d6fa252b6ef78",
+  "report_path": "exports/graph/DSL_000002.graph_report.json",
+  "run_id": "RUN_000086",
+  "run_type": "gexf_export",
+  "separated_graph_paths": [],
+  "snapshot_id": "DSL_000002",
+  "started_at": "2026-09-14T16:31:40+02:00",
+  "status": "completed",
+  "warning_count": 3,
+  "warnings": [
+    {
+      "canonical_entity": "prc_audit_intervento",
+      "code": "orphan_node_added",
+      "message": "relation REL_000007 references missing target entity prc_audit_intervento",
+      "relation_id": "REL_000007",
+      "role": "target"
+    },
+    {
+      "canonical_entity": "intervento.sysdate",
+      "code": "orphan_node_added",
+      "message": "relation REL_000009 references missing target entity intervento.sysdate",
+      "relation_id": "REL_000009",
+      "role": "target"
+    },
+    {
+      "canonical_entity": "tec-9",
+      "code": "orphan_node_added",
+      "message": "relation REL_000015 references missing target entity tec-9",
+      "relation_id": "REL_000015",
+      "role": "target"
+    }
+  ],
+  "workers": []
+}

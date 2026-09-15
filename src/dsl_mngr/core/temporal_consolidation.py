@@ -94,6 +94,7 @@ class TemporalConsolidationResult:
 class TemporalPropagationResult:
     policy: str
     candidate_record_ids: tuple[str, ...]
+    candidate_batch_ids: tuple[str, ...]
     conflict_id: str | None
 
 
@@ -443,25 +444,58 @@ def propagate_temporal_intervals(
             reason="temporal_propagation_policy_invalid",
         )
     settings = resolve_database_settings(workspace_dir)
-    subjects = tuple(sorted(set(source_subjects)))
+    supplied_subjects = tuple(source_subjects)
+    if not supplied_subjects:
+        raise TemporalError(
+            "At least one source subject is required.",
+            reason="temporal_source_required",
+        )
+    if len(set(supplied_subjects)) != len(supplied_subjects):
+        raise TemporalError(
+            "Duplicate temporal source subjects are not allowed.",
+            reason="temporal_source_duplicate",
+        )
+    subjects = tuple(sorted(supplied_subjects))
     connection = open_database(settings.database_path, enable_wal=settings.wal_enabled)
     try:
         validate_database_migrations(connection)
+        _validate_propagation_request(
+            connection,
+            run_id=run_id,
+            source_revision_id=source_revision_id,
+            target_subject_type=target_subject_type,
+            target_subject_id=target_subject_id,
+            source_subjects=subjects,
+        )
         intervals: list[dict[str, Any]] = []
         for subject_type, subject_id in subjects:
             rows = connection.execute(
                 """
                 SELECT ti.* FROM temporal_intervals ti
-                JOIN review_subject_heads h
-                  ON h.subject_type = 'candidate_record'
-                 AND h.subject_id = ti.source_candidate_record_id
-                JOIN review_decisions rd ON rd.decision_id = h.decision_id
                 WHERE ti.subject_type = ? AND ti.subject_id = ?
-                  AND rd.outcome = 'confirmed'
+                  AND EXISTS (
+                      SELECT 1
+                      FROM temporal_interval_supports tis
+                      JOIN review_subject_heads h
+                        ON h.subject_type = 'candidate_record'
+                       AND h.subject_id = tis.candidate_record_id
+                      JOIN review_decisions rd ON rd.decision_id = h.decision_id
+                      WHERE tis.interval_id = ti.interval_id
+                        AND rd.outcome = 'confirmed'
+                        AND NOT EXISTS (
+                            SELECT 1 FROM candidate_lineage child
+                            WHERE child.parent_candidate_record_id = tis.candidate_record_id
+                        )
+                  )
                 ORDER BY ti.start_value, ti.end_value, ti.interval_hash
                 """,
                 (subject_type, subject_id),
             ).fetchall()
+            if not rows:
+                raise TemporalError(
+                    f"No effective temporal intervals for {subject_type}:{subject_id}.",
+                    reason="temporal_source_empty",
+                )
             for row in rows:
                 intervals.append({**dict(row), "origin": f"{subject_type}:{subject_id}"})
     finally:
@@ -515,9 +549,10 @@ def propagate_temporal_intervals(
             ),
             clock=clock,
         )
-        return TemporalPropagationResult(policy, (), conflict_id)
+        return TemporalPropagationResult(policy, (), (), conflict_id)
 
     candidate_ids: list[str] = []
+    batch_ids: list[str] = []
     for interval in derived:
         candidate = create_temporal_candidate(
             settings.workspace_dir,
@@ -538,7 +573,84 @@ def propagate_temporal_intervals(
             clock=clock,
         )
         candidate_ids.append(candidate.candidate_record_id)
-    return TemporalPropagationResult(policy, tuple(candidate_ids), None)
+        batch_ids.append(candidate.batch.batch_id)
+    return TemporalPropagationResult(
+        policy,
+        tuple(candidate_ids),
+        tuple(batch_ids),
+        None,
+    )
+
+
+def _validate_propagation_request(
+    connection: Any,
+    *,
+    run_id: str,
+    source_revision_id: str,
+    target_subject_type: str,
+    target_subject_id: str,
+    source_subjects: tuple[tuple[str, str], ...],
+) -> None:
+    run = connection.execute(
+        "SELECT 1 FROM runs WHERE run_id = ?",
+        (run_id,),
+    ).fetchone()
+    if run is None:
+        raise TemporalError(
+            f"Temporal propagation run not found: {run_id}.",
+            reason="temporal_run_invalid",
+        )
+    if not connection.execute(
+        "SELECT 1 FROM source_revisions WHERE source_revision_id = ?",
+        (source_revision_id,),
+    ).fetchone():
+        raise TemporalError(
+            f"Source revision not found: {source_revision_id}.",
+            reason="unknown_source_revision",
+        )
+    if target_subject_type not in {
+        "source_revision",
+        "source_fragment",
+        "candidate_record",
+        "fact",
+        "relation",
+    }:
+        raise TemporalError(
+            f"Unsupported propagation target type: {target_subject_type}.",
+            reason="temporal_target_invalid",
+        )
+    _require_existing_subject(connection, target_subject_type, target_subject_id)
+    for subject_type, subject_id in source_subjects:
+        if subject_type not in {
+            "source_revision",
+            "source_fragment",
+            "candidate_record",
+            "fact",
+            "relation",
+        }:
+            raise TemporalError(
+                f"Unsupported propagation source type: {subject_type}.",
+                reason="temporal_source_invalid",
+            )
+        _require_existing_subject(connection, subject_type, subject_id)
+
+
+def _require_existing_subject(connection: Any, subject_type: str, subject_id: str) -> None:
+    table, column = {
+        "source_revision": ("source_revisions", "source_revision_id"),
+        "source_fragment": ("source_fragments", "fragment_id"),
+        "candidate_record": ("candidate_records", "candidate_record_id"),
+        "fact": ("facts", "fact_id"),
+        "relation": ("relations", "relation_id"),
+    }[subject_type]
+    if connection.execute(
+        f"SELECT 1 FROM {table} WHERE {column} = ?",
+        (subject_id,),
+    ).fetchone() is None:
+        raise TemporalError(
+            f"Temporal subject not found: {subject_type}:{subject_id}.",
+            reason="temporal_subject_not_found",
+        )
 
 
 def _persist_policy_conflict(

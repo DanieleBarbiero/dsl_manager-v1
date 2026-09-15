@@ -1,0 +1,53 @@
+{
+  "artifact_dir": "artifacts/runs/RUN_000028",
+  "fragment_id_by_sequence": {
+    "1": "FRAG_000014",
+    "2": "FRAG_000015",
+    "3": "FRAG_000016",
+    "4": "FRAG_000017"
+  },
+  "input": {
+    "fragment_id_by_sequence": {
+      "1": "FRAG_000014",
+      "2": "FRAG_000015",
+      "3": "FRAG_000016",
+      "4": "FRAG_000017"
+    },
+    "input_path": "corpus/active/logs/esecuzione_interventi_2026.log",
+    "log_options": {
+      "output_fragments_jsonl": true,
+      "parser": "line_regex",
+      "strict_options_fail_on_unsupported_option": true
+    },
+    "next_fragment_number": 55,
+    "output_dir": "fragments/SRC_000007/REV_000007",
+    "profile": "log.default",
+    "source_hash": "294412c24d3cd6c5ebf1ef4f3cc5a9b7d44cba1f8ccbfbf1d39644a6c74bf78c",
+    "source_id": "SRC_000007",
+    "source_revision_id": "REV_000007",
+    "worker_config": {
+      "name": "parse_log",
+      "version": "1.0"
+    }
+  },
+  "input_path": "corpus/active/logs/esecuzione_interventi_2026.log",
+  "log_options": {
+    "output_fragments_jsonl": true,
+    "parser": "line_regex",
+    "strict_options_fail_on_unsupported_option": true
+  },
+  "next_fragment_number": 55,
+  "output_dir": "fragments/SRC_000007/REV_000007",
+  "profile": "log.default",
+  "run_id": "RUN_000028",
+  "run_type": "parse_log",
+  "source_hash": "294412c24d3cd6c5ebf1ef4f3cc5a9b7d44cba1f8ccbfbf1d39644a6c74bf78c",
+  "source_id": "SRC_000007",
+  "source_revision_id": "REV_000007",
+  "worker_config": {
+    "name": "parse_log",
+    "version": "1.0"
+  },
+  "worker_name": "parse_log",
+  "worker_version": "1.0"
+}

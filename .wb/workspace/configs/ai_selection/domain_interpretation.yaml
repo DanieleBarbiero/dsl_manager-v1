@@ -1,0 +1,27 @@
+policy:
+  policy_id: domain_interpretation
+  policy_version: "1"
+  route_id: domain_interpretation
+  route_version: "1"
+  description: Prefer functional narrative and retain evidence even when deterministic facts exist.
+criteria:
+  evidence_kinds: ["chunk","fragment"]
+  source_types: []
+  source_subtypes: []
+  extensions: []
+  authority_levels: []
+  fragment_types: []
+  producers: []
+  producer_versions: []
+  evidence_statuses: ["active"]
+  source_statuses: ["active"]
+  revision_statuses: ["active"]
+  current_revisions_only: true
+  require_complete_locator: false
+  excluded_coverage_states: []
+ranking:
+  preferences: ["authority_level=functional_documentation","evidence_kind=chunk","coverage_state=no_rule_applicable"]
+budget:
+  max_examined_evidence: 100000
+  max_selected_evidence: 10000
+  max_selected_chars: 10000000

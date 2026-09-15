@@ -1,0 +1,14 @@
+worker:
+  name: parse_xml_form
+  version: 1.0
+xml_form:
+  parser: elementtree
+  require_root_form: true
+  parse_fields: true
+  parse_buttons: true
+  parse_required_fields: true
+  parse_table_column_references: true
+  infer_edit_relations: true
+  strict_options_fail_on_unsupported_option: true
+  malformed_xml_policy: fail
+  output_fragments_jsonl: true

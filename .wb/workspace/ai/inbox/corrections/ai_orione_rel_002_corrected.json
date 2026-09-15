@@ -1,0 +1,13 @@
+{
+  "assertion_type": "explicit",
+  "candidate_id": "AI_ORIONE_REL_002_CORRECTED",
+  "chunk_id": "CHK_000001",
+  "confidence": "high",
+  "evidence_text": "La procedura PRC\\_ASSEGNA\\_TECNICO implementa l'aggiornamento tecnico",
+  "fragment_id": null,
+  "record_type": "candidate_relation",
+  "relation_type": "updates_assignment_for",
+  "source_entity": "PRC_ASSEGNA_TECNICO",
+  "source_revision_id": "REV_000003",
+  "target_entity": "INTERVENTO"
+}

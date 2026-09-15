@@ -1,0 +1,42 @@
+{
+  "chunk_count": 1,
+  "chunk_report_path": "chunks/SRC_000008/REV_000008/chunk_report.json",
+  "chunks": [
+    {
+      "chunk_id": "CHK_000004",
+      "metadata": {
+        "chunker": "chunk_docling",
+        "chunker_version": "1.0",
+        "end_char": 100,
+        "heading_path": [],
+        "normalized_hash": "c1aa34405fc8084b5cec63058f5cead24d682382d3db7ca8ca7b8f28e0eefd12",
+        "normalized_json_path": "normalized/SRC_000008/REV_000008/normalized.json",
+        "normalized_markdown_path": "normalized/SRC_000008/REV_000008/normalized.md",
+        "source_text_kind": "normalized_markdown",
+        "start_char": 0,
+        "strategy": "heading_paragraph"
+      },
+      "sequence": 1,
+      "source_revision_id": "REV_000008",
+      "status": "active",
+      "text": "| Codice    | Attivo   |\n|-----------|----------|\n| SICUREZZA | True     |\n| COLLAUDO  | True     |\n",
+      "text_hash": "c1aa34405fc8084b5cec63058f5cead24d682382d3db7ca8ca7b8f28e0eefd12"
+    }
+  ],
+  "chunks_hash": "dc48ae67bb7397a29184839bf7a3a62abb47196116d03788cb376a2929b7d33a",
+  "chunks_jsonl_path": "chunks/SRC_000008/REV_000008/chunks.jsonl",
+  "exit_code": 0,
+  "normalized_hash": "c1aa34405fc8084b5cec63058f5cead24d682382d3db7ca8ca7b8f28e0eefd12",
+  "normalized_json_path": "normalized/SRC_000008/REV_000008/normalized.json",
+  "normalized_markdown_path": "normalized/SRC_000008/REV_000008/normalized.md",
+  "profile": "docling.chunking",
+  "run_id": "RUN_000014",
+  "source_hash": "8d635179e6b81d6550a80632db7c3033ac421f190cebcdd4f533d2413a43b16c",
+  "source_hash_path": "normalized/SRC_000008/REV_000008/source_hash.txt",
+  "source_id": "SRC_000008",
+  "source_revision_id": "REV_000008",
+  "status": "completed",
+  "strategy": "heading_paragraph",
+  "worker_name": "chunk_docling",
+  "worker_version": "1.0"
+}

@@ -1,0 +1,489 @@
+{
+  "button_count": 3,
+  "edit_relation_count": 2,
+  "edit_relations": [
+    {
+      "field_names": [
+        "MATRICOLA"
+      ],
+      "relation_type": "edits",
+      "source_form": "FRM_INTERVENTO",
+      "target_table": "ASSET"
+    },
+    {
+      "field_names": [
+        "ID",
+        "TECNICO_ID",
+        "STATO",
+        "PRIORITA"
+      ],
+      "relation_type": "edits",
+      "source_form": "FRM_INTERVENTO",
+      "target_table": "INTERVENTO"
+    }
+  ],
+  "exit_code": 0,
+  "field_count": 5,
+  "form_count": 1,
+  "fragment_count": 9,
+  "fragments": [
+    {
+      "char_end": 764,
+      "char_start": 39,
+      "fragment_id": "FRAG_000005",
+      "fragment_type": "xml_form",
+      "line_end": 12,
+      "line_start": 2,
+      "metadata": {
+        "button_count": 3,
+        "edit_relations": [
+          {
+            "field_names": [
+              "MATRICOLA"
+            ],
+            "relation_type": "edits",
+            "source_form": "FRM_INTERVENTO",
+            "target_table": "ASSET"
+          },
+          {
+            "field_names": [
+              "ID",
+              "TECNICO_ID",
+              "STATO",
+              "PRIORITA"
+            ],
+            "relation_type": "edits",
+            "source_form": "FRM_INTERVENTO",
+            "target_table": "INTERVENTO"
+          }
+        ],
+        "field_count": 5,
+        "form_name": "FRM_INTERVENTO",
+        "object_type": "form",
+        "parser": "parse_xml_form",
+        "parser_version": "1.0",
+        "required_field_count": 4,
+        "source_hash": "e4c858eaa7fe60f84d2ac7b6640d9c7ef0d63ab5ea62a04eee7981cbd6aabbcc",
+        "table_column_references": [
+          {
+            "column_name": "ID",
+            "field_name": "ID",
+            "table_name": "INTERVENTO"
+          },
+          {
+            "column_name": "MATRICOLA",
+            "field_name": "MATRICOLA",
+            "table_name": "ASSET"
+          },
+          {
+            "column_name": "TECNICO_ID",
+            "field_name": "TECNICO_ID",
+            "table_name": "INTERVENTO"
+          },
+          {
+            "column_name": "STATO",
+            "field_name": "STATO",
+            "table_name": "INTERVENTO"
+          },
+          {
+            "column_name": "PRIORITA",
+            "field_name": "PRIORITA",
+            "table_name": "INTERVENTO"
+          }
+        ],
+        "table_references": [
+          "ASSET",
+          "INTERVENTO"
+        ],
+        "title": "Gestione intervento"
+      },
+      "path_or_selector": "/form[@name='FRM_INTERVENTO']",
+      "sequence": 1,
+      "source_revision_id": "REV_000006",
+      "status": "active",
+      "text": "<form name=\"FRM_INTERVENTO\" title=\"Gestione intervento\">\n  <field name=\"ID\" label=\"Identificativo\" table=\"INTERVENTO\" column=\"ID\" required=\"true\" />\n  <field name=\"MATRICOLA\" label=\"Matricola asset\" table=\"ASSET\" column=\"MATRICOLA\" required=\"true\" />\n  <field name=\"TECNICO_ID\" label=\"Tecnico\" table=\"INTERVENTO\" column=\"TECNICO_ID\" required=\"false\" />\n  <field name=\"STATO\" label=\"Stato\" table=\"INTERVENTO\" column=\"STATO\" required=\"true\" />\n  <field name=\"PRIORITA\" label=\"Priorità\" table=\"INTERVENTO\" column=\"PRIORITA\" required=\"true\" />\n  <button name=\"SALVA\" label=\"Salva\" />\n  <button name=\"CONFERMA\" label=\"Assegna e conferma\" />\n  <button name=\"ANNULLA\" label=\"Annulla\" />\n  <valid_from>2026-01-15</valid_from>\n</form>",
+      "text_hash": "5bbcf43dc0bad94d4cd717b5f034960416ed739dfe8623221c00cf892f4c2e32"
+    },
+    {
+      "char_end": 187,
+      "char_start": 98,
+      "fragment_id": "FRAG_000006",
+      "fragment_type": "xml_field",
+      "line_end": 3,
+      "line_start": 3,
+      "metadata": {
+        "column_name": "ID",
+        "field_name": "ID",
+        "form_name": "FRM_INTERVENTO",
+        "label": "Identificativo",
+        "mapping_type": "form_field_to_column",
+        "object_type": "field",
+        "parser": "parse_xml_form",
+        "parser_version": "1.0",
+        "required": true,
+        "source_hash": "e4c858eaa7fe60f84d2ac7b6640d9c7ef0d63ab5ea62a04eee7981cbd6aabbcc",
+        "table_name": "INTERVENTO"
+      },
+      "path_or_selector": "/form[@name='FRM_INTERVENTO']/field[@name='ID']",
+      "sequence": 2,
+      "source_revision_id": "REV_000006",
+      "status": "active",
+      "text": "<field name=\"ID\" label=\"Identificativo\" table=\"INTERVENTO\" column=\"ID\" required=\"true\" />",
+      "text_hash": "da34100f43a2f07b9846fffcf388552dfa63d90b981db8da7a157d27ea845c75"
+    },
+    {
+      "char_end": 289,
+      "char_start": 190,
+      "fragment_id": "FRAG_000007",
+      "fragment_type": "xml_field",
+      "line_end": 4,
+      "line_start": 4,
+      "metadata": {
+        "column_name": "MATRICOLA",
+        "field_name": "MATRICOLA",
+        "form_name": "FRM_INTERVENTO",
+        "label": "Matricola asset",
+        "mapping_type": "form_field_to_column",
+        "object_type": "field",
+        "parser": "parse_xml_form",
+        "parser_version": "1.0",
+        "required": true,
+        "source_hash": "e4c858eaa7fe60f84d2ac7b6640d9c7ef0d63ab5ea62a04eee7981cbd6aabbcc",
+        "table_name": "ASSET"
+      },
+      "path_or_selector": "/form[@name='FRM_INTERVENTO']/field[@name='MATRICOLA']",
+      "sequence": 3,
+      "source_revision_id": "REV_000006",
+      "status": "active",
+      "text": "<field name=\"MATRICOLA\" label=\"Matricola asset\" table=\"ASSET\" column=\"MATRICOLA\" required=\"true\" />",
+      "text_hash": "484b4417ecfc3c85ffe8495f19d54bef6c1225173d89f51ef5c4a926bfd236fb"
+    },
+    {
+      "char_end": 391,
+      "char_start": 292,
+      "fragment_id": "FRAG_000008",
+      "fragment_type": "xml_field",
+      "line_end": 5,
+      "line_start": 5,
+      "metadata": {
+        "column_name": "TECNICO_ID",
+        "field_name": "TECNICO_ID",
+        "form_name": "FRM_INTERVENTO",
+        "label": "Tecnico",
+        "mapping_type": "form_field_to_column",
+        "object_type": "field",
+        "parser": "parse_xml_form",
+        "parser_version": "1.0",
+        "required": false,
+        "source_hash": "e4c858eaa7fe60f84d2ac7b6640d9c7ef0d63ab5ea62a04eee7981cbd6aabbcc",
+        "table_name": "INTERVENTO"
+      },
+      "path_or_selector": "/form[@name='FRM_INTERVENTO']/field[@name='TECNICO_ID']",
+      "sequence": 4,
+      "source_revision_id": "REV_000006",
+      "status": "active",
+      "text": "<field name=\"TECNICO_ID\" label=\"Tecnico\" table=\"INTERVENTO\" column=\"TECNICO_ID\" required=\"false\" />",
+      "text_hash": "f3a13a07bc0b6cd15707ed9569a843adf4c2bef9f0e8fd9258e8d6926b8dd966"
+    },
+    {
+      "char_end": 480,
+      "char_start": 394,
+      "fragment_id": "FRAG_000009",
+      "fragment_type": "xml_field",
+      "line_end": 6,
+      "line_start": 6,
+      "metadata": {
+        "column_name": "STATO",
+        "field_name": "STATO",
+        "form_name": "FRM_INTERVENTO",
+        "label": "Stato",
+        "mapping_type": "form_field_to_column",
+        "object_type": "field",
+        "parser": "parse_xml_form",
+        "parser_version": "1.0",
+        "required": true,
+        "source_hash": "e4c858eaa7fe60f84d2ac7b6640d9c7ef0d63ab5ea62a04eee7981cbd6aabbcc",
+        "table_name": "INTERVENTO"
+      },
+      "path_or_selector": "/form[@name='FRM_INTERVENTO']/field[@name='STATO']",
+      "sequence": 5,
+      "source_revision_id": "REV_000006",
+      "status": "active",
+      "text": "<field name=\"STATO\" label=\"Stato\" table=\"INTERVENTO\" column=\"STATO\" required=\"true\" />",
+      "text_hash": "5eec51b868f04c496f974865be5404436cd7ff6bd74f844c5005dc46e7e52583"
+    },
+    {
+      "char_end": 578,
+      "char_start": 483,
+      "fragment_id": "FRAG_000010",
+      "fragment_type": "xml_field",
+      "line_end": 7,
+      "line_start": 7,
+      "metadata": {
+        "column_name": "PRIORITA",
+        "field_name": "PRIORITA",
+        "form_name": "FRM_INTERVENTO",
+        "label": "Priorità",
+        "mapping_type": "form_field_to_column",
+        "object_type": "field",
+        "parser": "parse_xml_form",
+        "parser_version": "1.0",
+        "required": true,
+        "source_hash": "e4c858eaa7fe60f84d2ac7b6640d9c7ef0d63ab5ea62a04eee7981cbd6aabbcc",
+        "table_name": "INTERVENTO"
+      },
+      "path_or_selector": "/form[@name='FRM_INTERVENTO']/field[@name='PRIORITA']",
+      "sequence": 6,
+      "source_revision_id": "REV_000006",
+      "status": "active",
+      "text": "<field name=\"PRIORITA\" label=\"Priorità\" table=\"INTERVENTO\" column=\"PRIORITA\" required=\"true\" />",
+      "text_hash": "658af30b90607e8663cce7d903456332cc49b57517acab94e21bed33ca8a8495"
+    },
+    {
+      "char_end": 618,
+      "char_start": 581,
+      "fragment_id": "FRAG_000011",
+      "fragment_type": "xml_button",
+      "line_end": 8,
+      "line_start": 8,
+      "metadata": {
+        "action_kind": "save",
+        "button_name": "SALVA",
+        "form_name": "FRM_INTERVENTO",
+        "label": "Salva",
+        "object_type": "button",
+        "parser": "parse_xml_form",
+        "parser_version": "1.0",
+        "source_hash": "e4c858eaa7fe60f84d2ac7b6640d9c7ef0d63ab5ea62a04eee7981cbd6aabbcc"
+      },
+      "path_or_selector": "/form[@name='FRM_INTERVENTO']/button[@name='SALVA']",
+      "sequence": 7,
+      "source_revision_id": "REV_000006",
+      "status": "active",
+      "text": "<button name=\"SALVA\" label=\"Salva\" />",
+      "text_hash": "a348b591ef3f133871afc0427d3a4068f441d80da25a31f3521174c3af56349f"
+    },
+    {
+      "char_end": 674,
+      "char_start": 621,
+      "fragment_id": "FRAG_000012",
+      "fragment_type": "xml_button",
+      "line_end": 9,
+      "line_start": 9,
+      "metadata": {
+        "action_kind": "confirm",
+        "button_name": "CONFERMA",
+        "form_name": "FRM_INTERVENTO",
+        "label": "Assegna e conferma",
+        "object_type": "button",
+        "parser": "parse_xml_form",
+        "parser_version": "1.0",
+        "source_hash": "e4c858eaa7fe60f84d2ac7b6640d9c7ef0d63ab5ea62a04eee7981cbd6aabbcc"
+      },
+      "path_or_selector": "/form[@name='FRM_INTERVENTO']/button[@name='CONFERMA']",
+      "sequence": 8,
+      "source_revision_id": "REV_000006",
+      "status": "active",
+      "text": "<button name=\"CONFERMA\" label=\"Assegna e conferma\" />",
+      "text_hash": "4d25a553534b36792ba45e0a6beed3762338d6a3a9c5c5706582a79cc4cbb71e"
+    },
+    {
+      "char_end": 718,
+      "char_start": 677,
+      "fragment_id": "FRAG_000013",
+      "fragment_type": "xml_button",
+      "line_end": 10,
+      "line_start": 10,
+      "metadata": {
+        "action_kind": "cancel",
+        "button_name": "ANNULLA",
+        "form_name": "FRM_INTERVENTO",
+        "label": "Annulla",
+        "object_type": "button",
+        "parser": "parse_xml_form",
+        "parser_version": "1.0",
+        "source_hash": "e4c858eaa7fe60f84d2ac7b6640d9c7ef0d63ab5ea62a04eee7981cbd6aabbcc"
+      },
+      "path_or_selector": "/form[@name='FRM_INTERVENTO']/button[@name='ANNULLA']",
+      "sequence": 9,
+      "source_revision_id": "REV_000006",
+      "status": "active",
+      "text": "<button name=\"ANNULLA\" label=\"Annulla\" />",
+      "text_hash": "dae44839116abfee4385dced40147852c39920a6e1127ec62e4553479b42355b"
+    }
+  ],
+  "fragments_hash": "910c831f0aad10c906cb924fd2f530e66fcc151cd515bbb1f84e8b03e8bf4be8",
+  "fragments_jsonl_path": "fragments/SRC_000006/REV_000006/fragments.jsonl",
+  "input_path": "corpus/active/forms/frm_intervento.xml",
+  "parser": "elementtree",
+  "profile": "xml_form.default",
+  "required_field_count": 4,
+  "run_id": "RUN_000011",
+  "source_hash": "e4c858eaa7fe60f84d2ac7b6640d9c7ef0d63ab5ea62a04eee7981cbd6aabbcc",
+  "source_id": "SRC_000006",
+  "source_revision_id": "REV_000006",
+  "status": "completed",
+  "table_column_references": [
+    {
+      "column_name": "ID",
+      "field_name": "ID",
+      "table_name": "INTERVENTO"
+    },
+    {
+      "column_name": "MATRICOLA",
+      "field_name": "MATRICOLA",
+      "table_name": "ASSET"
+    },
+    {
+      "column_name": "TECNICO_ID",
+      "field_name": "TECNICO_ID",
+      "table_name": "INTERVENTO"
+    },
+    {
+      "column_name": "STATO",
+      "field_name": "STATO",
+      "table_name": "INTERVENTO"
+    },
+    {
+      "column_name": "PRIORITA",
+      "field_name": "PRIORITA",
+      "table_name": "INTERVENTO"
+    }
+  ],
+  "table_reference_count": 2,
+  "warnings": [],
+  "worker_config": {
+    "name": "parse_xml_form",
+    "version": "1.0"
+  },
+  "worker_name": "parse_xml_form",
+  "worker_version": "1.0",
+  "xml_form_objects": {
+    "forms": [
+      {
+        "buttons": [
+          {
+            "action_kind": "save",
+            "label": "Salva",
+            "name": "SALVA"
+          },
+          {
+            "action_kind": "confirm",
+            "label": "Assegna e conferma",
+            "name": "CONFERMA"
+          },
+          {
+            "action_kind": "cancel",
+            "label": "Annulla",
+            "name": "ANNULLA"
+          }
+        ],
+        "edit_relations": [
+          {
+            "field_names": [
+              "MATRICOLA"
+            ],
+            "relation_type": "edits",
+            "source_form": "FRM_INTERVENTO",
+            "target_table": "ASSET"
+          },
+          {
+            "field_names": [
+              "ID",
+              "TECNICO_ID",
+              "STATO",
+              "PRIORITA"
+            ],
+            "relation_type": "edits",
+            "source_form": "FRM_INTERVENTO",
+            "target_table": "INTERVENTO"
+          }
+        ],
+        "fields": [
+          {
+            "column_name": "ID",
+            "label": "Identificativo",
+            "name": "ID",
+            "required": true,
+            "table_name": "INTERVENTO"
+          },
+          {
+            "column_name": "MATRICOLA",
+            "label": "Matricola asset",
+            "name": "MATRICOLA",
+            "required": true,
+            "table_name": "ASSET"
+          },
+          {
+            "column_name": "TECNICO_ID",
+            "label": "Tecnico",
+            "name": "TECNICO_ID",
+            "required": false,
+            "table_name": "INTERVENTO"
+          },
+          {
+            "column_name": "STATO",
+            "label": "Stato",
+            "name": "STATO",
+            "required": true,
+            "table_name": "INTERVENTO"
+          },
+          {
+            "column_name": "PRIORITA",
+            "label": "Priorità",
+            "name": "PRIORITA",
+            "required": true,
+            "table_name": "INTERVENTO"
+          }
+        ],
+        "name": "FRM_INTERVENTO",
+        "table_column_references": [
+          {
+            "column_name": "ID",
+            "field_name": "ID",
+            "table_name": "INTERVENTO"
+          },
+          {
+            "column_name": "MATRICOLA",
+            "field_name": "MATRICOLA",
+            "table_name": "ASSET"
+          },
+          {
+            "column_name": "TECNICO_ID",
+            "field_name": "TECNICO_ID",
+            "table_name": "INTERVENTO"
+          },
+          {
+            "column_name": "STATO",
+            "field_name": "STATO",
+            "table_name": "INTERVENTO"
+          },
+          {
+            "column_name": "PRIORITA",
+            "field_name": "PRIORITA",
+            "table_name": "INTERVENTO"
+          }
+        ],
+        "table_references": [
+          "ASSET",
+          "INTERVENTO"
+        ],
+        "title": "Gestione intervento"
+      }
+    ],
+    "warnings": []
+  },
+  "xml_form_options": {
+    "infer_edit_relations": true,
+    "malformed_xml_policy": "fail",
+    "output_fragments_jsonl": true,
+    "parse_buttons": true,
+    "parse_fields": true,
+    "parse_required_fields": true,
+    "parse_table_column_references": true,
+    "parser": "elementtree",
+    "require_root_form": true,
+    "strict_options_fail_on_unsupported_option": true
+  },
+  "xml_form_report_path": "fragments/SRC_000006/REV_000006/xml_form_report.json"
+}

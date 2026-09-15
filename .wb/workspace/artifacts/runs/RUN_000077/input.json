@@ -1,0 +1,10 @@
+{
+  "artifact_dir": "artifacts/runs/RUN_000077",
+  "parameters": {
+    "candidate_record_id": "CREC_000082",
+    "operation": "reject"
+  },
+  "parent_run_id": null,
+  "run_id": "RUN_000077",
+  "run_type": "candidate_review"
+}

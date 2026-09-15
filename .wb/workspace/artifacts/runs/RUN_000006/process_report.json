@@ -1,0 +1,33 @@
+{
+  "artifact_dir": "artifacts/runs/RUN_000006",
+  "config_hash": "f7cf75ad1d34e01ed0c5211925669b38c7cdb6aea164de8a2b6a1c16640d7e25",
+  "error": null,
+  "finished_at": "2026-09-14T14:43:59+02:00",
+  "run_id": "RUN_000006",
+  "run_type": "chunk",
+  "started_at": "2026-09-14T14:43:57+02:00",
+  "status": "completed",
+  "workers": [
+    {
+      "duration_ms": 1690,
+      "error": null,
+      "exit_code": 0,
+      "finished_at": "2026-09-14T14:43:59+02:00",
+      "resource_limits": {
+        "max_output_bytes": null,
+        "memory_limit_bytes": null,
+        "memory_limit_mode": "not_configured",
+        "peak_memory_bytes": null,
+        "termination_reason": null,
+        "timeout_seconds": null
+      },
+      "started_at": "2026-09-14T14:43:57+02:00",
+      "status": "completed",
+      "stderr": "",
+      "stdout": "chunk_docling completed\n",
+      "worker_name": "chunk_docling",
+      "worker_run_id": "WRK_000004",
+      "worker_version": "1.0"
+    }
+  ]
+}

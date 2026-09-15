@@ -1,0 +1,11 @@
+{
+  "artifact_dir": "artifacts/runs/RUN_000001",
+  "config_hash": "7a180c0695a3852ea3ce543770e46ec127d3d1e7bc586489b72bfc316d668765",
+  "error": "batch_parse_failed",
+  "finished_at": "2026-09-14T14:50:03+02:00",
+  "run_id": "RUN_000001",
+  "run_type": "batch",
+  "started_at": "2026-09-14T14:41:29+02:00",
+  "status": "failed",
+  "workers": []
+}

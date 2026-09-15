@@ -1,0 +1,1029 @@
+{
+  "ai_package_options": {
+    "include_candidate_schema": true,
+    "include_chunks": true,
+    "include_fragments": true,
+    "include_output_template": true,
+    "max_evidence_chars": 20000,
+    "package_format": "markdown_plus_json",
+    "strict_options_fail_on_unsupported_option": true
+  },
+  "artifact_dir": "artifacts/runs/RUN_000058",
+  "chunks": [
+    {
+      "chunk_id": "CHK_000001",
+      "sequence": 1,
+      "source_revision_id": "REV_000003",
+      "status": "active",
+      "text": "# Manuale operativo Orione Assistenza\n\neffective\\_from: 2026-01-15\n\n## Scopo e lessico\n\nOrione Assistenza gestisce interventi di manutenzione su asset industriali. Un Asset è identificato dalla matricola; un Intervento descrive una richiesta di lavoro; un Tecnico può essere assegnato a più interventi; una Voce di checklist documenta una verifica eseguita durante un intervento.\n\nNel linguaggio degli operatori, “ticket” e “intervento” indicano lo stesso concetto. Il codice applicativo e il database usano il termine INTERVENTO. La schermata principale mostra la matricola dell'asset, la priorità, lo stato e il tecnico assegnato.\n\n## Apertura e assegnazione\n\nOgni intervento appartiene a un solo asset. Alla creazione lo stato è APERTO e la priorità è BASSA, MEDIA o ALTA. Un intervento ad alta priorità deve essere assegnato entro due ore a un tecnico con livello almeno 3. Il responsabile di turno può riassegnare il tecnico, ma deve conservare la motivazione nell'audit.\n\nLa funzione “Assegna” della form aggiorna il tecnico e porta lo stato ad ASSEGNATO. La procedura PRC\\_ASSEGNA\\_TECNICO implementa l'aggiornamento tecnico; la relazione fra il pulsante della form e la procedura non è espressa nel DDL.\n\n## Checklist e chiusura\n\nPrima della chiusura devono essere presenti almeno le voci SICUREZZA e COLLAUDO, entrambe con esito OK. La chiusura valida porta lo stato a CHIUSO e registra CHIUSO\\_IL. Un intervento senza checklist completa deve rimanere IN\\_LAVORAZIONE.\n\nIl manuale richiede che sia l'operatore a premere “Chiudi”. Nel codice legacy esiste però un trigger chiamato TRG\\_CHIUDI\\_INTERVENTO: occorre verificare se effettui una chiusura automatica e se ciò contraddica la procedura operativa.\n\n## Modernizzazione e domande aperte\n\nNel nuovo servizio il termine pubblico sarà WorkOrder, mentre la tabella legacy rimarrà INTERVENTO durante la migrazione. La corrispondenza WorkOrder ↔ INTERVENTO è una proposta di mapping, non un cambio di schema già approvato.\n\nNon è chiaro se i tecnici di livello 2 con certificazione temporanea possano gestire priorità ALTA. La fonte corrente non definisce né il periodo né l'autorità che concede l'eccezione: la questione deve restare aperta.\n",
+      "text_hash": "c5b1eba79c4a4f721424da9e39d4f4213883818033d545d23bfb22559ff8d631"
+    },
+    {
+      "chunk_id": "CHK_000002",
+      "sequence": 1,
+      "source_revision_id": "REV_000004",
+      "status": "active",
+      "text": "# Nota SLA Orione\n\neffective\\_date: 2026-01-15\n\n## Priorità alta\n\nGli interventi ad alta priorità devono essere presi in carico entro due ore da un tecnico con livello almeno 3. La presa in carico e la chiusura sono eventi distinti.\n\n## Chiusura\n\nLa checklist SICUREZZA e la checklist COLLAUDO devono entrambe avere esito OK. Questa nota conferma il manuale 2026 ma non chiarisce le certificazioni temporanee.\n",
+      "text_hash": "162bc6928643332def6435648fdc5f048cf14a55a6d090bc152be211e594c156"
+    },
+    {
+      "chunk_id": "CHK_000003",
+      "sequence": 1,
+      "source_revision_id": "REV_000005",
+      "status": "active",
+      "text": "# Procedura storica di chiusura\n\nQuesta procedura è stata pubblicata il 10 gennaio 2023 .\n\n## Regola precedente\n\nL'operatore poteva chiudere un intervento anche con la sola voce SICUREZZA in stato OK. La verifica COLLAUDO era facoltativa per gli asset non critici.\n\n## Nota di superamento\n\nLa procedura è storica. Il manuale operativo 2026 richiede sia SICUREZZA sia COLLAUDO e deve essere valutato come fonte corrente.\n",
+      "text_hash": "bcfab4c7a9f3362cc1d08f0d3c522ab52612614f812c924afbca691b911a077e"
+    }
+  ],
+  "evidence_order": [
+    {
+      "evidence_id": "CHK_000001",
+      "evidence_kind": "chunk",
+      "rank": 1
+    },
+    {
+      "evidence_id": "CHK_000002",
+      "evidence_kind": "chunk",
+      "rank": 2
+    },
+    {
+      "evidence_id": "CHK_000003",
+      "evidence_kind": "chunk",
+      "rank": 3
+    },
+    {
+      "evidence_id": "FRAG_000014",
+      "evidence_kind": "fragment",
+      "rank": 4
+    },
+    {
+      "evidence_id": "FRAG_000015",
+      "evidence_kind": "fragment",
+      "rank": 5
+    },
+    {
+      "evidence_id": "FRAG_000016",
+      "evidence_kind": "fragment",
+      "rank": 6
+    },
+    {
+      "evidence_id": "FRAG_000017",
+      "evidence_kind": "fragment",
+      "rank": 7
+    }
+  ],
+  "fragments": [
+    {
+      "fragment_id": "FRAG_000014",
+      "fragment_type": "log_event",
+      "path_or_selector": "log/line:1",
+      "sequence": 1,
+      "source_revision_id": "REV_000007",
+      "status": "active",
+      "text": "2026-02-03 08:10:00 INFO scheduler Avvio coda work order batch_id=BATCH-77",
+      "text_hash": "129eea60f0f55e3cf4513981aa489b5ab0065f24c194cf89b84e8dc35482067d"
+    },
+    {
+      "fragment_id": "FRAG_000015",
+      "fragment_type": "log_event",
+      "path_or_selector": "log/line:2",
+      "sequence": 2,
+      "source_revision_id": "REV_000007",
+      "status": "active",
+      "text": "2026-02-03 08:10:02 INFO assignment Intervento assegnato intervention_id=INT-104 technician_id=TEC-9 priority=ALTA",
+      "text_hash": "b7aea39c0876c65acf1f678aad5c84835eed712f0a39c569a9d7a16998520045"
+    },
+    {
+      "fragment_id": "FRAG_000016",
+      "fragment_type": "log_event",
+      "path_or_selector": "log/line:4",
+      "sequence": 3,
+      "source_revision_id": "REV_000007",
+      "status": "active",
+      "text": "2026-02-03 09:42:17 WARN closure Checklist incompleta intervention_id=INT-104 missing=COLLAUDO",
+      "text_hash": "12755b8cc6411996ff493244f33bea628ac3e1206ee2951483939ad79b7e3cab"
+    },
+    {
+      "fragment_id": "FRAG_000017",
+      "fragment_type": "log_event",
+      "path_or_selector": "log/line:5",
+      "sequence": 4,
+      "source_revision_id": "REV_000007",
+      "status": "active",
+      "text": "2026-02-03 10:05:44 INFO closure Intervento chiuso intervention_id=INT-105 status=CHIUSO",
+      "text_hash": "b031d2d6f0786c1575a56c7f13ea46289fe2ae210e31cfaeae0d89984800ac80"
+    }
+  ],
+  "input": {
+    "ai_package_options": {
+      "include_candidate_schema": true,
+      "include_chunks": true,
+      "include_fragments": true,
+      "include_output_template": true,
+      "max_evidence_chars": 20000,
+      "package_format": "markdown_plus_json",
+      "strict_options_fail_on_unsupported_option": true
+    },
+    "chunks": [
+      {
+        "chunk_id": "CHK_000001",
+        "sequence": 1,
+        "source_revision_id": "REV_000003",
+        "status": "active",
+        "text": "# Manuale operativo Orione Assistenza\n\neffective\\_from: 2026-01-15\n\n## Scopo e lessico\n\nOrione Assistenza gestisce interventi di manutenzione su asset industriali. Un Asset è identificato dalla matricola; un Intervento descrive una richiesta di lavoro; un Tecnico può essere assegnato a più interventi; una Voce di checklist documenta una verifica eseguita durante un intervento.\n\nNel linguaggio degli operatori, “ticket” e “intervento” indicano lo stesso concetto. Il codice applicativo e il database usano il termine INTERVENTO. La schermata principale mostra la matricola dell'asset, la priorità, lo stato e il tecnico assegnato.\n\n## Apertura e assegnazione\n\nOgni intervento appartiene a un solo asset. Alla creazione lo stato è APERTO e la priorità è BASSA, MEDIA o ALTA. Un intervento ad alta priorità deve essere assegnato entro due ore a un tecnico con livello almeno 3. Il responsabile di turno può riassegnare il tecnico, ma deve conservare la motivazione nell'audit.\n\nLa funzione “Assegna” della form aggiorna il tecnico e porta lo stato ad ASSEGNATO. La procedura PRC\\_ASSEGNA\\_TECNICO implementa l'aggiornamento tecnico; la relazione fra il pulsante della form e la procedura non è espressa nel DDL.\n\n## Checklist e chiusura\n\nPrima della chiusura devono essere presenti almeno le voci SICUREZZA e COLLAUDO, entrambe con esito OK. La chiusura valida porta lo stato a CHIUSO e registra CHIUSO\\_IL. Un intervento senza checklist completa deve rimanere IN\\_LAVORAZIONE.\n\nIl manuale richiede che sia l'operatore a premere “Chiudi”. Nel codice legacy esiste però un trigger chiamato TRG\\_CHIUDI\\_INTERVENTO: occorre verificare se effettui una chiusura automatica e se ciò contraddica la procedura operativa.\n\n## Modernizzazione e domande aperte\n\nNel nuovo servizio il termine pubblico sarà WorkOrder, mentre la tabella legacy rimarrà INTERVENTO durante la migrazione. La corrispondenza WorkOrder ↔ INTERVENTO è una proposta di mapping, non un cambio di schema già approvato.\n\nNon è chiaro se i tecnici di livello 2 con certificazione temporanea possano gestire priorità ALTA. La fonte corrente non definisce né il periodo né l'autorità che concede l'eccezione: la questione deve restare aperta.\n",
+        "text_hash": "c5b1eba79c4a4f721424da9e39d4f4213883818033d545d23bfb22559ff8d631"
+      },
+      {
+        "chunk_id": "CHK_000002",
+        "sequence": 1,
+        "source_revision_id": "REV_000004",
+        "status": "active",
+        "text": "# Nota SLA Orione\n\neffective\\_date: 2026-01-15\n\n## Priorità alta\n\nGli interventi ad alta priorità devono essere presi in carico entro due ore da un tecnico con livello almeno 3. La presa in carico e la chiusura sono eventi distinti.\n\n## Chiusura\n\nLa checklist SICUREZZA e la checklist COLLAUDO devono entrambe avere esito OK. Questa nota conferma il manuale 2026 ma non chiarisce le certificazioni temporanee.\n",
+        "text_hash": "162bc6928643332def6435648fdc5f048cf14a55a6d090bc152be211e594c156"
+      },
+      {
+        "chunk_id": "CHK_000003",
+        "sequence": 1,
+        "source_revision_id": "REV_000005",
+        "status": "active",
+        "text": "# Procedura storica di chiusura\n\nQuesta procedura è stata pubblicata il 10 gennaio 2023 .\n\n## Regola precedente\n\nL'operatore poteva chiudere un intervento anche con la sola voce SICUREZZA in stato OK. La verifica COLLAUDO era facoltativa per gli asset non critici.\n\n## Nota di superamento\n\nLa procedura è storica. Il manuale operativo 2026 richiede sia SICUREZZA sia COLLAUDO e deve essere valutato come fonte corrente.\n",
+        "text_hash": "bcfab4c7a9f3362cc1d08f0d3c522ab52612614f812c924afbca691b911a077e"
+      }
+    ],
+    "evidence_order": [
+      {
+        "evidence_id": "CHK_000001",
+        "evidence_kind": "chunk",
+        "rank": 1
+      },
+      {
+        "evidence_id": "CHK_000002",
+        "evidence_kind": "chunk",
+        "rank": 2
+      },
+      {
+        "evidence_id": "CHK_000003",
+        "evidence_kind": "chunk",
+        "rank": 3
+      },
+      {
+        "evidence_id": "FRAG_000014",
+        "evidence_kind": "fragment",
+        "rank": 4
+      },
+      {
+        "evidence_id": "FRAG_000015",
+        "evidence_kind": "fragment",
+        "rank": 5
+      },
+      {
+        "evidence_id": "FRAG_000016",
+        "evidence_kind": "fragment",
+        "rank": 6
+      },
+      {
+        "evidence_id": "FRAG_000017",
+        "evidence_kind": "fragment",
+        "rank": 7
+      }
+    ],
+    "fragments": [
+      {
+        "fragment_id": "FRAG_000014",
+        "fragment_type": "log_event",
+        "path_or_selector": "log/line:1",
+        "sequence": 1,
+        "source_revision_id": "REV_000007",
+        "status": "active",
+        "text": "2026-02-03 08:10:00 INFO scheduler Avvio coda work order batch_id=BATCH-77",
+        "text_hash": "129eea60f0f55e3cf4513981aa489b5ab0065f24c194cf89b84e8dc35482067d"
+      },
+      {
+        "fragment_id": "FRAG_000015",
+        "fragment_type": "log_event",
+        "path_or_selector": "log/line:2",
+        "sequence": 2,
+        "source_revision_id": "REV_000007",
+        "status": "active",
+        "text": "2026-02-03 08:10:02 INFO assignment Intervento assegnato intervention_id=INT-104 technician_id=TEC-9 priority=ALTA",
+        "text_hash": "b7aea39c0876c65acf1f678aad5c84835eed712f0a39c569a9d7a16998520045"
+      },
+      {
+        "fragment_id": "FRAG_000016",
+        "fragment_type": "log_event",
+        "path_or_selector": "log/line:4",
+        "sequence": 3,
+        "source_revision_id": "REV_000007",
+        "status": "active",
+        "text": "2026-02-03 09:42:17 WARN closure Checklist incompleta intervention_id=INT-104 missing=COLLAUDO",
+        "text_hash": "12755b8cc6411996ff493244f33bea628ac3e1206ee2951483939ad79b7e3cab"
+      },
+      {
+        "fragment_id": "FRAG_000017",
+        "fragment_type": "log_event",
+        "path_or_selector": "log/line:5",
+        "sequence": 4,
+        "source_revision_id": "REV_000007",
+        "status": "active",
+        "text": "2026-02-03 10:05:44 INFO closure Intervento chiuso intervention_id=INT-105 status=CHIUSO",
+        "text_hash": "b031d2d6f0786c1575a56c7f13ea46289fe2ae210e31cfaeae0d89984800ac80"
+      }
+    ],
+    "output_dir": "ai/outbox/AIPKG_000001",
+    "package_id": "AIPKG_000001",
+    "profile": "ai_package.default",
+    "selection_plan": {
+      "config_hash": "91926f51f64bfddfeec1cadec31b380d53641f0c98a1bcd1c299efe68d665d8f",
+      "counts": {
+        "examined": 7,
+        "excluded": 0,
+        "included": 7,
+        "selected_chars": 3401
+      },
+      "created_at": "2026-09-14T15:55:05+02:00",
+      "items": [
+        {
+          "coverage_refs": {
+            "applicable_rules": [],
+            "references": []
+          },
+          "coverage_state": "no_rule_applicable",
+          "evidence_id": "CHK_000001",
+          "evidence_kind": "chunk",
+          "matched_criteria": [
+            "source_status=active",
+            "revision_status=active",
+            "current_revision=true",
+            "evidence_status=active",
+            "evidence_kind=chunk",
+            "locator_complete=true",
+            "coverage_state=no_rule_applicable",
+            "ranking:evidence_kind=chunk",
+            "ranking:coverage_state=no_rule_applicable"
+          ],
+          "normalized_char_count": 2201,
+          "outcome": "included",
+          "package_char_count": 2201,
+          "rank": 1,
+          "reason_codes": [
+            "included_by_policy"
+          ],
+          "sequence": 1,
+          "sort_key": [
+            1,
+            0,
+            0,
+            "REV_000003",
+            "chunk",
+            1,
+            "CHK_000001"
+          ],
+          "source_revision_id": "REV_000003"
+        },
+        {
+          "coverage_refs": {
+            "applicable_rules": [],
+            "references": []
+          },
+          "coverage_state": "no_rule_applicable",
+          "evidence_id": "CHK_000002",
+          "evidence_kind": "chunk",
+          "matched_criteria": [
+            "source_status=active",
+            "revision_status=active",
+            "current_revision=true",
+            "evidence_status=active",
+            "evidence_kind=chunk",
+            "locator_complete=true",
+            "coverage_state=no_rule_applicable",
+            "ranking:evidence_kind=chunk",
+            "ranking:coverage_state=no_rule_applicable"
+          ],
+          "normalized_char_count": 410,
+          "outcome": "included",
+          "package_char_count": 410,
+          "rank": 2,
+          "reason_codes": [
+            "included_by_policy"
+          ],
+          "sequence": 1,
+          "sort_key": [
+            1,
+            0,
+            0,
+            "REV_000004",
+            "chunk",
+            1,
+            "CHK_000002"
+          ],
+          "source_revision_id": "REV_000004"
+        },
+        {
+          "coverage_refs": {
+            "applicable_rules": [],
+            "references": []
+          },
+          "coverage_state": "no_rule_applicable",
+          "evidence_id": "CHK_000003",
+          "evidence_kind": "chunk",
+          "matched_criteria": [
+            "source_status=active",
+            "revision_status=active",
+            "current_revision=true",
+            "evidence_status=active",
+            "evidence_kind=chunk",
+            "locator_complete=true",
+            "coverage_state=no_rule_applicable",
+            "ranking:evidence_kind=chunk",
+            "ranking:coverage_state=no_rule_applicable"
+          ],
+          "normalized_char_count": 420,
+          "outcome": "included",
+          "package_char_count": 420,
+          "rank": 3,
+          "reason_codes": [
+            "included_by_policy"
+          ],
+          "sequence": 1,
+          "sort_key": [
+            1,
+            0,
+            0,
+            "REV_000005",
+            "chunk",
+            1,
+            "CHK_000003"
+          ],
+          "source_revision_id": "REV_000005"
+        },
+        {
+          "coverage_refs": {
+            "applicable_rules": [
+              "log_event_observation/1"
+            ],
+            "references": [
+              {
+                "candidate_record_id": "CREC_000048",
+                "current_decision_id": "RDEC_000048",
+                "current_outcome": "confirmed",
+                "decision_hash": "c77697d9c69042700af530a3b90787dc6294e198b8da4933bc0ccc4dcab4beca",
+                "is_leaf": true,
+                "root_candidate_record_id": "CREC_000048",
+                "rule": "log_event_observation/1"
+              }
+            ]
+          },
+          "coverage_state": "confirmed",
+          "evidence_id": "FRAG_000014",
+          "evidence_kind": "fragment",
+          "matched_criteria": [
+            "source_status=active",
+            "revision_status=active",
+            "current_revision=true",
+            "evidence_status=active",
+            "evidence_kind=fragment",
+            "locator_complete=true",
+            "coverage_state=confirmed"
+          ],
+          "normalized_char_count": 74,
+          "outcome": "included",
+          "package_char_count": 74,
+          "rank": 4,
+          "reason_codes": [
+            "included_by_policy"
+          ],
+          "sequence": 1,
+          "sort_key": [
+            1,
+            1,
+            1,
+            "REV_000007",
+            "fragment",
+            1,
+            "FRAG_000014"
+          ],
+          "source_revision_id": "REV_000007"
+        },
+        {
+          "coverage_refs": {
+            "applicable_rules": [
+              "log_event_observation/1"
+            ],
+            "references": [
+              {
+                "candidate_record_id": "CREC_000049",
+                "current_decision_id": "RDEC_000049",
+                "current_outcome": "confirmed",
+                "decision_hash": "b18e75d4694475ce23180c853a9f47cfd82859a41c1f9cdbaf022936b8ee2a5c",
+                "is_leaf": true,
+                "root_candidate_record_id": "CREC_000049",
+                "rule": "log_event_observation/1"
+              }
+            ]
+          },
+          "coverage_state": "confirmed",
+          "evidence_id": "FRAG_000015",
+          "evidence_kind": "fragment",
+          "matched_criteria": [
+            "source_status=active",
+            "revision_status=active",
+            "current_revision=true",
+            "evidence_status=active",
+            "evidence_kind=fragment",
+            "locator_complete=true",
+            "coverage_state=confirmed"
+          ],
+          "normalized_char_count": 114,
+          "outcome": "included",
+          "package_char_count": 114,
+          "rank": 5,
+          "reason_codes": [
+            "included_by_policy"
+          ],
+          "sequence": 2,
+          "sort_key": [
+            1,
+            1,
+            1,
+            "REV_000007",
+            "fragment",
+            2,
+            "FRAG_000015"
+          ],
+          "source_revision_id": "REV_000007"
+        },
+        {
+          "coverage_refs": {
+            "applicable_rules": [
+              "log_event_observation/1"
+            ],
+            "references": [
+              {
+                "candidate_record_id": "CREC_000050",
+                "current_decision_id": "RDEC_000050",
+                "current_outcome": "confirmed",
+                "decision_hash": "e22c6c406e52dadb9f9ff7419f8dd13515b0b680392bd437c3e25596aa138979",
+                "is_leaf": true,
+                "root_candidate_record_id": "CREC_000050",
+                "rule": "log_event_observation/1"
+              }
+            ]
+          },
+          "coverage_state": "confirmed",
+          "evidence_id": "FRAG_000016",
+          "evidence_kind": "fragment",
+          "matched_criteria": [
+            "source_status=active",
+            "revision_status=active",
+            "current_revision=true",
+            "evidence_status=active",
+            "evidence_kind=fragment",
+            "locator_complete=true",
+            "coverage_state=confirmed"
+          ],
+          "normalized_char_count": 94,
+          "outcome": "included",
+          "package_char_count": 94,
+          "rank": 6,
+          "reason_codes": [
+            "included_by_policy"
+          ],
+          "sequence": 3,
+          "sort_key": [
+            1,
+            1,
+            1,
+            "REV_000007",
+            "fragment",
+            3,
+            "FRAG_000016"
+          ],
+          "source_revision_id": "REV_000007"
+        },
+        {
+          "coverage_refs": {
+            "applicable_rules": [
+              "log_event_observation/1"
+            ],
+            "references": [
+              {
+                "candidate_record_id": "CREC_000051",
+                "current_decision_id": "RDEC_000051",
+                "current_outcome": "confirmed",
+                "decision_hash": "1a01f5adae013a34a122dee287d79ee442ee640b49e31f84ed1c077bfbda02b1",
+                "is_leaf": true,
+                "root_candidate_record_id": "CREC_000051",
+                "rule": "log_event_observation/1"
+              }
+            ]
+          },
+          "coverage_state": "confirmed",
+          "evidence_id": "FRAG_000017",
+          "evidence_kind": "fragment",
+          "matched_criteria": [
+            "source_status=active",
+            "revision_status=active",
+            "current_revision=true",
+            "evidence_status=active",
+            "evidence_kind=fragment",
+            "locator_complete=true",
+            "coverage_state=confirmed"
+          ],
+          "normalized_char_count": 88,
+          "outcome": "included",
+          "package_char_count": 88,
+          "rank": 7,
+          "reason_codes": [
+            "included_by_policy"
+          ],
+          "sequence": 4,
+          "sort_key": [
+            1,
+            1,
+            1,
+            "REV_000007",
+            "fragment",
+            4,
+            "FRAG_000017"
+          ],
+          "source_revision_id": "REV_000007"
+        }
+      ],
+      "policy": {
+        "config_hash": "892285675fee729ef86f4be6eee9b7c2a18b5ae0345f70b2c95699bdad32f48a",
+        "policy_id": "domain_interpretation",
+        "policy_version": "1"
+      },
+      "profile": {
+        "config_hash": "2f05e1bdc838efbd30438ae2b05640e1e0b2280537a2435d727fddb932ff0ec1",
+        "name": "ai_package.default"
+      },
+      "reason_catalog_version": "1",
+      "reason_summary": {
+        "included_by_policy": 7
+      },
+      "relevant_state_hash": "b8e50fb1ede02124b92d02a65356e0d7015577a46c3e8a642469d593d3cd42c3",
+      "report_path": "artifacts/runs/RUN_000057/selection_plan_report.json",
+      "route": {
+        "route_id": "domain_interpretation",
+        "route_version": "1"
+      },
+      "run_id": "RUN_000057",
+      "schema_version": 1,
+      "selection_plan_hash": "31f0e2f5e6a1c756965f7fbfe2bedfb144a76a383baea5dcae934e0f1c1f1959",
+      "selection_plan_id": "AISEL_000002",
+      "status": "completed"
+    },
+    "selection_plan_id": "AISEL_000002",
+    "source_revisions": [
+      {
+        "authority_level": "unknown",
+        "content_hash": "5f794ff4fd14a071309636299d9a75a33c5810ef66b6aa0af684a265704a4aaa",
+        "current_revision_id": "REV_000003",
+        "file_path": "corpus/active/documenti/manuale_operativo_orione_2026.md",
+        "revision_status": "active",
+        "source_id": "SRC_000003",
+        "source_revision_id": "REV_000003",
+        "source_subtype": null,
+        "source_type": "unknown"
+      },
+      {
+        "authority_level": "unknown",
+        "content_hash": "6612c06bb956b51703d6a30b65a1b5d189e2804b070893656ce41903640bf087",
+        "current_revision_id": "REV_000004",
+        "file_path": "corpus/active/documenti/nota_sla_orione_2026.docx",
+        "revision_status": "active",
+        "source_id": "SRC_000004",
+        "source_revision_id": "REV_000004",
+        "source_subtype": null,
+        "source_type": "unknown"
+      },
+      {
+        "authority_level": "unknown",
+        "content_hash": "506ea945fa58a3e70b37a23ecf23c920f8626db081c2be56159798a537596cbe",
+        "current_revision_id": "REV_000005",
+        "file_path": "corpus/active/documenti/procedura_storica_chiusura_2023.html",
+        "revision_status": "active",
+        "source_id": "SRC_000005",
+        "source_revision_id": "REV_000005",
+        "source_subtype": null,
+        "source_type": "unknown"
+      },
+      {
+        "authority_level": "runtime_observation",
+        "content_hash": "294412c24d3cd6c5ebf1ef4f3cc5a9b7d44cba1f8ccbfbf1d39644a6c74bf78c",
+        "current_revision_id": "REV_000007",
+        "file_path": "corpus/active/logs/esecuzione_interventi_2026.log",
+        "revision_status": "active",
+        "source_id": "SRC_000007",
+        "source_revision_id": "REV_000007",
+        "source_subtype": "application_log",
+        "source_type": "log"
+      }
+    ],
+    "worker_config": {
+      "name": "build_ai_package",
+      "version": "1.0"
+    }
+  },
+  "output_dir": "ai/outbox/AIPKG_000001",
+  "package_id": "AIPKG_000001",
+  "profile": "ai_package.default",
+  "run_id": "RUN_000058",
+  "run_type": "ai_package",
+  "selection_plan": {
+    "config_hash": "91926f51f64bfddfeec1cadec31b380d53641f0c98a1bcd1c299efe68d665d8f",
+    "counts": {
+      "examined": 7,
+      "excluded": 0,
+      "included": 7,
+      "selected_chars": 3401
+    },
+    "created_at": "2026-09-14T15:55:05+02:00",
+    "items": [
+      {
+        "coverage_refs": {
+          "applicable_rules": [],
+          "references": []
+        },
+        "coverage_state": "no_rule_applicable",
+        "evidence_id": "CHK_000001",
+        "evidence_kind": "chunk",
+        "matched_criteria": [
+          "source_status=active",
+          "revision_status=active",
+          "current_revision=true",
+          "evidence_status=active",
+          "evidence_kind=chunk",
+          "locator_complete=true",
+          "coverage_state=no_rule_applicable",
+          "ranking:evidence_kind=chunk",
+          "ranking:coverage_state=no_rule_applicable"
+        ],
+        "normalized_char_count": 2201,
+        "outcome": "included",
+        "package_char_count": 2201,
+        "rank": 1,
+        "reason_codes": [
+          "included_by_policy"
+        ],
+        "sequence": 1,
+        "sort_key": [
+          1,
+          0,
+          0,
+          "REV_000003",
+          "chunk",
+          1,
+          "CHK_000001"
+        ],
+        "source_revision_id": "REV_000003"
+      },
+      {
+        "coverage_refs": {
+          "applicable_rules": [],
+          "references": []
+        },
+        "coverage_state": "no_rule_applicable",
+        "evidence_id": "CHK_000002",
+        "evidence_kind": "chunk",
+        "matched_criteria": [
+          "source_status=active",
+          "revision_status=active",
+          "current_revision=true",
+          "evidence_status=active",
+          "evidence_kind=chunk",
+          "locator_complete=true",
+          "coverage_state=no_rule_applicable",
+          "ranking:evidence_kind=chunk",
+          "ranking:coverage_state=no_rule_applicable"
+        ],
+        "normalized_char_count": 410,
+        "outcome": "included",
+        "package_char_count": 410,
+        "rank": 2,
+        "reason_codes": [
+          "included_by_policy"
+        ],
+        "sequence": 1,
+        "sort_key": [
+          1,
+          0,
+          0,
+          "REV_000004",
+          "chunk",
+          1,
+          "CHK_000002"
+        ],
+        "source_revision_id": "REV_000004"
+      },
+      {
+        "coverage_refs": {
+          "applicable_rules": [],
+          "references": []
+        },
+        "coverage_state": "no_rule_applicable",
+        "evidence_id": "CHK_000003",
+        "evidence_kind": "chunk",
+        "matched_criteria": [
+          "source_status=active",
+          "revision_status=active",
+          "current_revision=true",
+          "evidence_status=active",
+          "evidence_kind=chunk",
+          "locator_complete=true",
+          "coverage_state=no_rule_applicable",
+          "ranking:evidence_kind=chunk",
+          "ranking:coverage_state=no_rule_applicable"
+        ],
+        "normalized_char_count": 420,
+        "outcome": "included",
+        "package_char_count": 420,
+        "rank": 3,
+        "reason_codes": [
+          "included_by_policy"
+        ],
+        "sequence": 1,
+        "sort_key": [
+          1,
+          0,
+          0,
+          "REV_000005",
+          "chunk",
+          1,
+          "CHK_000003"
+        ],
+        "source_revision_id": "REV_000005"
+      },
+      {
+        "coverage_refs": {
+          "applicable_rules": [
+            "log_event_observation/1"
+          ],
+          "references": [
+            {
+              "candidate_record_id": "CREC_000048",
+              "current_decision_id": "RDEC_000048",
+              "current_outcome": "confirmed",
+              "decision_hash": "c77697d9c69042700af530a3b90787dc6294e198b8da4933bc0ccc4dcab4beca",
+              "is_leaf": true,
+              "root_candidate_record_id": "CREC_000048",
+              "rule": "log_event_observation/1"
+            }
+          ]
+        },
+        "coverage_state": "confirmed",
+        "evidence_id": "FRAG_000014",
+        "evidence_kind": "fragment",
+        "matched_criteria": [
+          "source_status=active",
+          "revision_status=active",
+          "current_revision=true",
+          "evidence_status=active",
+          "evidence_kind=fragment",
+          "locator_complete=true",
+          "coverage_state=confirmed"
+        ],
+        "normalized_char_count": 74,
+        "outcome": "included",
+        "package_char_count": 74,
+        "rank": 4,
+        "reason_codes": [
+          "included_by_policy"
+        ],
+        "sequence": 1,
+        "sort_key": [
+          1,
+          1,
+          1,
+          "REV_000007",
+          "fragment",
+          1,
+          "FRAG_000014"
+        ],
+        "source_revision_id": "REV_000007"
+      },
+      {
+        "coverage_refs": {
+          "applicable_rules": [
+            "log_event_observation/1"
+          ],
+          "references": [
+            {
+              "candidate_record_id": "CREC_000049",
+              "current_decision_id": "RDEC_000049",
+              "current_outcome": "confirmed",
+              "decision_hash": "b18e75d4694475ce23180c853a9f47cfd82859a41c1f9cdbaf022936b8ee2a5c",
+              "is_leaf": true,
+              "root_candidate_record_id": "CREC_000049",
+              "rule": "log_event_observation/1"
+            }
+          ]
+        },
+        "coverage_state": "confirmed",
+        "evidence_id": "FRAG_000015",
+        "evidence_kind": "fragment",
+        "matched_criteria": [
+          "source_status=active",
+          "revision_status=active",
+          "current_revision=true",
+          "evidence_status=active",
+          "evidence_kind=fragment",
+          "locator_complete=true",
+          "coverage_state=confirmed"
+        ],
+        "normalized_char_count": 114,
+        "outcome": "included",
+        "package_char_count": 114,
+        "rank": 5,
+        "reason_codes": [
+          "included_by_policy"
+        ],
+        "sequence": 2,
+        "sort_key": [
+          1,
+          1,
+          1,
+          "REV_000007",
+          "fragment",
+          2,
+          "FRAG_000015"
+        ],
+        "source_revision_id": "REV_000007"
+      },
+      {
+        "coverage_refs": {
+          "applicable_rules": [
+            "log_event_observation/1"
+          ],
+          "references": [
+            {
+              "candidate_record_id": "CREC_000050",
+              "current_decision_id": "RDEC_000050",
+              "current_outcome": "confirmed",
+              "decision_hash": "e22c6c406e52dadb9f9ff7419f8dd13515b0b680392bd437c3e25596aa138979",
+              "is_leaf": true,
+              "root_candidate_record_id": "CREC_000050",
+              "rule": "log_event_observation/1"
+            }
+          ]
+        },
+        "coverage_state": "confirmed",
+        "evidence_id": "FRAG_000016",
+        "evidence_kind": "fragment",
+        "matched_criteria": [
+          "source_status=active",
+          "revision_status=active",
+          "current_revision=true",
+          "evidence_status=active",
+          "evidence_kind=fragment",
+          "locator_complete=true",
+          "coverage_state=confirmed"
+        ],
+        "normalized_char_count": 94,
+        "outcome": "included",
+        "package_char_count": 94,
+        "rank": 6,
+        "reason_codes": [
+          "included_by_policy"
+        ],
+        "sequence": 3,
+        "sort_key": [
+          1,
+          1,
+          1,
+          "REV_000007",
+          "fragment",
+          3,
+          "FRAG_000016"
+        ],
+        "source_revision_id": "REV_000007"
+      },
+      {
+        "coverage_refs": {
+          "applicable_rules": [
+            "log_event_observation/1"
+          ],
+          "references": [
+            {
+              "candidate_record_id": "CREC_000051",
+              "current_decision_id": "RDEC_000051",
+              "current_outcome": "confirmed",
+              "decision_hash": "1a01f5adae013a34a122dee287d79ee442ee640b49e31f84ed1c077bfbda02b1",
+              "is_leaf": true,
+              "root_candidate_record_id": "CREC_000051",
+              "rule": "log_event_observation/1"
+            }
+          ]
+        },
+        "coverage_state": "confirmed",
+        "evidence_id": "FRAG_000017",
+        "evidence_kind": "fragment",
+        "matched_criteria": [
+          "source_status=active",
+          "revision_status=active",
+          "current_revision=true",
+          "evidence_status=active",
+          "evidence_kind=fragment",
+          "locator_complete=true",
+          "coverage_state=confirmed"
+        ],
+        "normalized_char_count": 88,
+        "outcome": "included",
+        "package_char_count": 88,
+        "rank": 7,
+        "reason_codes": [
+          "included_by_policy"
+        ],
+        "sequence": 4,
+        "sort_key": [
+          1,
+          1,
+          1,
+          "REV_000007",
+          "fragment",
+          4,
+          "FRAG_000017"
+        ],
+        "source_revision_id": "REV_000007"
+      }
+    ],
+    "policy": {
+      "config_hash": "892285675fee729ef86f4be6eee9b7c2a18b5ae0345f70b2c95699bdad32f48a",
+      "policy_id": "domain_interpretation",
+      "policy_version": "1"
+    },
+    "profile": {
+      "config_hash": "2f05e1bdc838efbd30438ae2b05640e1e0b2280537a2435d727fddb932ff0ec1",
+      "name": "ai_package.default"
+    },
+    "reason_catalog_version": "1",
+    "reason_summary": {
+      "included_by_policy": 7
+    },
+    "relevant_state_hash": "b8e50fb1ede02124b92d02a65356e0d7015577a46c3e8a642469d593d3cd42c3",
+    "report_path": "artifacts/runs/RUN_000057/selection_plan_report.json",
+    "route": {
+      "route_id": "domain_interpretation",
+      "route_version": "1"
+    },
+    "run_id": "RUN_000057",
+    "schema_version": 1,
+    "selection_plan_hash": "31f0e2f5e6a1c756965f7fbfe2bedfb144a76a383baea5dcae934e0f1c1f1959",
+    "selection_plan_id": "AISEL_000002",
+    "status": "completed"
+  },
+  "selection_plan_id": "AISEL_000002",
+  "source_revisions": [
+    {
+      "authority_level": "unknown",
+      "content_hash": "5f794ff4fd14a071309636299d9a75a33c5810ef66b6aa0af684a265704a4aaa",
+      "current_revision_id": "REV_000003",
+      "file_path": "corpus/active/documenti/manuale_operativo_orione_2026.md",
+      "revision_status": "active",
+      "source_id": "SRC_000003",
+      "source_revision_id": "REV_000003",
+      "source_subtype": null,
+      "source_type": "unknown"
+    },
+    {
+      "authority_level": "unknown",
+      "content_hash": "6612c06bb956b51703d6a30b65a1b5d189e2804b070893656ce41903640bf087",
+      "current_revision_id": "REV_000004",
+      "file_path": "corpus/active/documenti/nota_sla_orione_2026.docx",
+      "revision_status": "active",
+      "source_id": "SRC_000004",
+      "source_revision_id": "REV_000004",
+      "source_subtype": null,
+      "source_type": "unknown"
+    },
+    {
+      "authority_level": "unknown",
+      "content_hash": "506ea945fa58a3e70b37a23ecf23c920f8626db081c2be56159798a537596cbe",
+      "current_revision_id": "REV_000005",
+      "file_path": "corpus/active/documenti/procedura_storica_chiusura_2023.html",
+      "revision_status": "active",
+      "source_id": "SRC_000005",
+      "source_revision_id": "REV_000005",
+      "source_subtype": null,
+      "source_type": "unknown"
+    },
+    {
+      "authority_level": "runtime_observation",
+      "content_hash": "294412c24d3cd6c5ebf1ef4f3cc5a9b7d44cba1f8ccbfbf1d39644a6c74bf78c",
+      "current_revision_id": "REV_000007",
+      "file_path": "corpus/active/logs/esecuzione_interventi_2026.log",
+      "revision_status": "active",
+      "source_id": "SRC_000007",
+      "source_revision_id": "REV_000007",
+      "source_subtype": "application_log",
+      "source_type": "log"
+    }
+  ],
+  "worker_config": {
+    "name": "build_ai_package",
+    "version": "1.0"
+  },
+  "worker_name": "build_ai_package",
+  "worker_version": "1.0"
+}

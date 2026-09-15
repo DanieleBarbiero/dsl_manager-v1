@@ -1,0 +1,18 @@
+{
+  "docling_report_path": "normalized/SRC_000004/REV_000004/docling_report.json",
+  "docling_version": "2.97.0",
+  "exit_code": 0,
+  "input_path": "corpus/active/documenti/nota_sla_orione_2026.docx",
+  "normalized_hash": "162bc6928643332def6435648fdc5f048cf14a55a6d090bc152be211e594c156",
+  "normalized_json_path": "normalized/SRC_000004/REV_000004/normalized.json",
+  "normalized_markdown_path": "normalized/SRC_000004/REV_000004/normalized.md",
+  "profile": "docling.no_images",
+  "run_id": "RUN_000023",
+  "source_hash": "6612c06bb956b51703d6a30b65a1b5d189e2804b070893656ce41903640bf087",
+  "source_hash_path": "normalized/SRC_000004/REV_000004/source_hash.txt",
+  "source_id": "SRC_000004",
+  "source_revision_id": "REV_000004",
+  "status": "completed",
+  "worker_name": "normalize_docling",
+  "worker_version": "1.0"
+}

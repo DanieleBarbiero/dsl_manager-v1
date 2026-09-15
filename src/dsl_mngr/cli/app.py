@@ -37,7 +37,15 @@ from dsl_mngr.cli.commands.corpus import (
     run_corpus_parse_xml_form_command,
     run_corpus_scan_command,
 )
+from dsl_mngr.cli.commands.config import (
+    run_config_review_apply_profile_command,
+    run_config_review_profiles_command,
+    run_config_review_set_allowlist_command,
+    run_config_review_show_command,
+    run_config_validate_command,
+)
 from dsl_mngr.cli.commands.db import run_db_init_command
+from dsl_mngr.cli.commands.diagnostics import run_normalization_diagnostic_command
 from dsl_mngr.cli.commands.dsl import run_dsl_diff_command, run_dsl_render_command
 from dsl_mngr.cli.commands.facts import (
     run_facts_merge_batch_command,
@@ -48,6 +56,7 @@ from dsl_mngr.cli.commands.graph import run_graph_export_command
 from dsl_mngr.cli.commands.init import run_init_command
 from dsl_mngr.cli.commands.log import run_log_csv_command, run_log_table_command
 from dsl_mngr.cli.commands.run import run_start_command, run_status_command
+from dsl_mngr.cli.commands.temporal import run_temporal_propagate_command
 from dsl_mngr.cli.commands.ui import run_ui_serve_command
 
 
@@ -79,6 +88,59 @@ def build_parser() -> argparse.ArgumentParser:
         help="Workspace directory. Defaults to the current directory.",
     )
     db_init_parser.set_defaults(func=run_db_init_command)
+
+    config_parser = subparsers.add_parser("config", help="Inspect and update project configuration.")
+    config_subparsers = config_parser.add_subparsers(dest="config_command", required=True)
+    config_review_parser = config_subparsers.add_parser(
+        "review", help="Govern automatic review policies."
+    )
+    config_review_subparsers = config_review_parser.add_subparsers(
+        dest="config_review_command", required=True
+    )
+    config_review_show = config_review_subparsers.add_parser(
+        "show", help="Show the effective automatic review allowlist and hashes."
+    )
+    config_review_show.add_argument("workspace", help="Workspace directory.")
+    config_review_show.set_defaults(func=run_config_review_show_command)
+    config_review_profiles = config_review_subparsers.add_parser(
+        "profiles", help="List immutable built-in review profiles."
+    )
+    config_review_profiles.add_argument("workspace", help="Workspace directory.")
+    config_review_profiles.set_defaults(func=run_config_review_profiles_command)
+    config_review_apply = config_review_subparsers.add_parser(
+        "apply-profile", help="Replace only review.automatic_policies from a built-in profile."
+    )
+    config_review_apply.add_argument("workspace", help="Workspace directory.")
+    config_review_apply.add_argument("--profile", dest="profile_id", required=True)
+    config_review_apply.add_argument(
+        "--expect-config-hash",
+        help="Fail without writing if project.yaml no longer has this SHA-256 hash.",
+    )
+    config_review_apply.set_defaults(func=run_config_review_apply_profile_command)
+    config_review_set = config_review_subparsers.add_parser(
+        "set-allowlist",
+        help="Replace the allowlist; omit every --policy to set an explicit empty list.",
+    )
+    config_review_set.add_argument("workspace", help="Workspace directory.")
+    config_review_set.add_argument(
+        "--policy",
+        dest="policies",
+        action="append",
+        help="Allowed policy id; repeat for multiple policies. Zero occurrences clears the list.",
+    )
+    config_review_set.add_argument(
+        "--expect-config-hash",
+        help="Fail without writing if project.yaml no longer has this SHA-256 hash.",
+    )
+    config_review_set.set_defaults(func=run_config_review_set_allowlist_command)
+    config_validate = config_subparsers.add_parser(
+        "validate", help="Validate the full project schema, review policies, and built-in profiles."
+    )
+    config_validate.add_argument("workspace", help="Workspace directory.")
+    config_validate.add_argument(
+        "--profile", dest="profile_id", help="Optionally validate one built-in profile id."
+    )
+    config_validate.set_defaults(func=run_config_validate_command)
 
     corpus_parser = subparsers.add_parser("corpus", help="Manage source corpus files.")
     corpus_subparsers = corpus_parser.add_subparsers(dest="corpus_command", required=True)
@@ -346,6 +408,16 @@ def build_parser() -> argparse.ArgumentParser:
         choices=("pending", "confirmed", "rejected", "superseded"),
         default="pending",
         help="Current review outcome. Defaults to pending.",
+    )
+    review_list_parser.add_argument(
+        "--source",
+        choices=("ai", "deterministic", "temporal", "file", "human-correction"),
+        help="Candidate source classification.",
+    )
+    review_list_parser.add_argument(
+        "--batch",
+        dest="batch_id",
+        help="Restrict results to one candidate batch id.",
     )
     review_list_parser.set_defaults(func=run_candidates_review_list_command)
 
@@ -623,6 +695,60 @@ def build_parser() -> argparse.ArgumentParser:
         help="Rollback if a replacement candidate is not yet materialized.",
     )
     facts_reconcile_parser.set_defaults(func=run_facts_reconcile_command)
+
+    temporal_parser = subparsers.add_parser(
+        "temporal", help="Run explicit temporal operations."
+    )
+    temporal_subparsers = temporal_parser.add_subparsers(
+        dest="temporal_command", required=True
+    )
+    temporal_propagate = temporal_subparsers.add_parser(
+        "propagate", help="Propagate effective intervals under an explicit policy."
+    )
+    temporal_propagate.add_argument("workspace", help="Workspace directory.")
+    temporal_propagate.add_argument(
+        "--source-revision-id", required=True, help="Registered source revision id."
+    )
+    temporal_propagate.add_argument(
+        "--target-subject-type", choices=("fact", "relation"), required=True
+    )
+    temporal_propagate.add_argument("--target-subject-id", required=True)
+    temporal_propagate.add_argument(
+        "--source-subject",
+        dest="source_subjects",
+        action="append",
+        required=True,
+        metavar="TYPE:ID",
+        help="Existing source subject; repeat to provide multiple sources.",
+    )
+    temporal_propagate.add_argument(
+        "--policy",
+        choices=("explicit_copy", "intersection", "aggregation", "conflict"),
+        required=True,
+    )
+    temporal_propagate.set_defaults(func=run_temporal_propagate_command)
+
+    diagnostics_parser = subparsers.add_parser(
+        "diagnostics", help="Run bounded controlled diagnostics."
+    )
+    diagnostics_subparsers = diagnostics_parser.add_subparsers(
+        dest="diagnostics_command", required=True
+    )
+    diagnostics_normalization = diagnostics_subparsers.add_parser(
+        "normalization", help="Run controlled normalization diagnostics."
+    )
+    diagnostics_normalization_subparsers = diagnostics_normalization.add_subparsers(
+        dest="diagnostics_normalization_command", required=True
+    )
+    diagnostics_run = diagnostics_normalization_subparsers.add_parser(
+        "run", help="Run an allowlisted internal partial-success scenario."
+    )
+    diagnostics_run.add_argument("workspace", help="Workspace directory.")
+    diagnostics_run.add_argument("--revision", dest="revision_id", required=True)
+    diagnostics_run.add_argument(
+        "--scenario", choices=("controlled_partial_success/1",), required=True
+    )
+    diagnostics_run.set_defaults(func=run_normalization_diagnostic_command)
 
     dsl_parser = subparsers.add_parser("dsl", help="Render DSL snapshots.")
     dsl_subparsers = dsl_parser.add_subparsers(dest="dsl_command", required=True)

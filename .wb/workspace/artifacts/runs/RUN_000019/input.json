@@ -1,0 +1,55 @@
+{
+  "artifact_dir": "artifacts/runs/RUN_000019",
+  "ddl_options": {
+    "dialect": "generic_sql",
+    "output_fragments_jsonl": true,
+    "parse_create_table": true,
+    "parse_foreign_keys": true,
+    "parse_indexes": true,
+    "parse_primary_keys": true,
+    "parse_unique_constraints": true,
+    "strict_options_fail_on_unsupported_option": true,
+    "unsupported_statement_policy": "warn"
+  },
+  "fragment_id_by_sequence": {},
+  "input": {
+    "ddl_options": {
+      "dialect": "generic_sql",
+      "output_fragments_jsonl": true,
+      "parse_create_table": true,
+      "parse_foreign_keys": true,
+      "parse_indexes": true,
+      "parse_primary_keys": true,
+      "parse_unique_constraints": true,
+      "strict_options_fail_on_unsupported_option": true,
+      "unsupported_statement_policy": "warn"
+    },
+    "fragment_id_by_sequence": {},
+    "input_path": "corpus/active/database/schema_orione.sql",
+    "next_fragment_number": 22,
+    "output_dir": "fragments/SRC_000001/REV_000001",
+    "profile": "ddl.default",
+    "source_hash": "34ac0dd12d004f81288ed522892787952974e43351f7af71173b816f9e59e689",
+    "source_id": "SRC_000001",
+    "source_revision_id": "REV_000001",
+    "worker_config": {
+      "name": "parse_ddl",
+      "version": "1.0"
+    }
+  },
+  "input_path": "corpus/active/database/schema_orione.sql",
+  "next_fragment_number": 22,
+  "output_dir": "fragments/SRC_000001/REV_000001",
+  "profile": "ddl.default",
+  "run_id": "RUN_000019",
+  "run_type": "parse_ddl",
+  "source_hash": "34ac0dd12d004f81288ed522892787952974e43351f7af71173b816f9e59e689",
+  "source_id": "SRC_000001",
+  "source_revision_id": "REV_000001",
+  "worker_config": {
+    "name": "parse_ddl",
+    "version": "1.0"
+  },
+  "worker_name": "parse_ddl",
+  "worker_version": "1.0"
+}

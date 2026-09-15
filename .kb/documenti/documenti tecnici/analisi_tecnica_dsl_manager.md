@@ -4,7 +4,7 @@
 
 ## 1. Scopo e stato osservato
 
-Questo documento descrive il comportamento realmente consegnato fino alla Slice 28.
+Questo documento descrive il comportamento realmente consegnato fino alla Slice 31.
 Il riferimento normativo della run 2 è il
 [design v02](../documenti%20di%20design/run%202/design_document_v_02.md); il
 [design v01](../documenti%20di%20design/run%201/design_document_v_01.md) resta una
@@ -262,6 +262,26 @@ Precisione e timezone non vengono inventate:
 La propagazione temporale è solo esplicita e versionata; non esiste ereditarietà
 automatica da sorgente a fatto o relazione.
 
+La rotta pubblica installata è:
+
+```text
+temporal propagate WORKSPACE --source-revision-id REV_ID
+  --target-subject-type {fact,relation} --target-subject-id TARGET_ID
+  --source-subject TYPE:ID [--source-subject TYPE:ID ...]
+  --policy {explicit_copy,intersection,aggregation,conflict}
+```
+
+Il leaf apre una run `temporal_propagation` e delega al servizio core. I primi
+tre criteri producono candidati `temporal_interval` pending quando hanno un
+risultato; `conflict` registra un conflitto governato con exit 4. Review e merge
+restano passaggi separati.
+
+La v12 separa l'identità dell'intervallo dai candidati che lo sostengono.
+`temporal_interval_supports` collega un intervallo a ciascun candidato e alla
+decisione di materializzazione. Un intervallo riusato conserva supporti
+molteplici ordinati ed è effettivo finché almeno una testa corrente è
+`confirmed`; le colonne legacy singolari restano leggibili.
+
 ## 10. DSL, diff e GEXF
 
 ### 10.1 DSL v1 e v2
@@ -294,7 +314,7 @@ Il GEXF dinamico viene validato offline in due passaggi: XSD 1.3 vendorizzati e
 validazione semantica. La sola validazione XSD non è sufficiente. Le risorse XSD
 sono verificate per SHA-256 e un resolver locale nega risoluzioni esterne.
 
-## 11. Migrazioni implementate v7-v11
+## 11. Migrazioni implementate v7-v12
 
 Le migrazioni sono append-only, checksumate e applicate atomicamente.
 
@@ -305,6 +325,7 @@ Le migrazioni sono append-only, checksumate e applicate atomicamente.
 | 9 | `create_temporal_core_schema` | raw evidence, dettagli/evidence candidati e intervalli append-only |
 | 10 | `create_temporal_consolidation_schema` | gruppi, indipendenza/correlazione e conflitti temporali |
 | 11 | `create_ai_evidence_selection_schema` | piani/item AI append-only e riferimento package→piano nullable |
+| 12 | `create_temporal_interval_supports` | supporti multipli append-only, backfill dalle colonne temporali legacy |
 
 Il backfill v7 conferma solo candidati legacy `explicit`/`observed` che già
 sostengono oggetti `active`, con policy `legacy_backfill/1`. Pending, inferred,
@@ -315,18 +336,40 @@ La v11 usa ID `AISEL_<NNNNNN>`, conserva inclusi ed esclusi senza testo sorgente
 e impedisce update/delete di piani e item. `ai_packages.selection_plan_id` è
 nullable: i record esistenti rimangono legacy senza backfill inventati.
 
+La v12 conserva `temporal_intervals.source_candidate_record_id` e
+`decision_id`, esegue backfill transazionale nella nuova relazione e vieta
+update/delete dei supporti. `candidate_record_id` è univoco e la coppia
+intervallo/candidato non può duplicarsi.
+
 ## 12. Result catalog osservato
 
-Review, derive, merge, reconcile e batch consolidato espongono
+Review, derive, merge, reconcile, batch consolidato e i nuovi successi
+config/temporal/diagnostics espongono
 `catalog_version: result_catalog_v1` e campi machine-readable per condition,
 status/outcome, reason, severity, mutations, retryable, exit code, soggetti,
 artefatti e contatori.
 
-Gap osservato rispetto al design: preflight OOXML e fallback del worker usano
-`catalog_version: 1`, mentre report temporali e `graph_report.json` non espongono
-l'intero envelope comune. Gli exit code e le reason specialistiche esistono, ma
-il catalogo non è ancora uniforme fra tutti i produttori previsti. La Slice 29
-documenta il gap e non introduce la correzione runtime.
+Gap osservato: preflight OOXML e fallback del worker usano
+`catalog_version: 1`, mentre i report temporali core e `graph_report.json` non
+espongono l'intero envelope comune. Inoltre gli errori dei leaf `config` sono
+diagnostica stderr con exit 2/4, non un documento JSON `result_catalog_v1` su
+stdout. Il catalogo non è quindi uniforme fra tutti i produttori.
+
+### 12.1 Governo pubblico della review e diagnostica
+
+I leaf installati sono `config review show|profiles|apply-profile|set-allowlist`
+e `config validate`. `conservative/1` è una risorsa package immutabile da 13
+policy. Un workspace nuovo mantiene allowlist vuota; apply/set sostituiscono
+solo `review.automatic_policies`, supportano `--expect-config-hash`, validano
+prima del replace atomico e rendono osservabile il no-op. `set-allowlist` senza
+`--policy` imposta la lista vuota, come dichiarato dall'help.
+
+`diagnostics normalization run WORKSPACE --revision REV_ID --scenario
+controlled_partial_success/1` è l'unica diagnostica di normalizzazione
+esposta. Usa un worker interno allowlisted, attraversa davvero run/worker state
+machine, termina `partial`/exit 6 e scrive solo nel namespace diagnostico della
+run. Non accetta path di worker, moduli, comandi, shell o payload arbitrari e
+non muta lo stato di produzione.
 
 ## 13. AI handoff e assenza di rete
 
@@ -371,18 +414,24 @@ provider o modello; il percorso è locale, deterministico e privo di rete.
 - `.xlsm` è input diretto, non conversione; macro e link non vengono eseguiti.
 - `candidate_mapping`, `candidate_conflict` e `candidate_question` non hanno
   materializzazione semantica dedicata.
-- La semantica temporale non è esposta da un comando CLI autonomo: è integrata
-  nei servizi e nel batch consolidato.
+- La propagazione pubblica è intenzionalmente esplicita e limitata a target
+  `fact|relation`; non auto-conferma o materializza i candidati.
 - Il catalogo esiti e il budget GEXF hanno i gap indicati nelle sezioni 8 e 12.
 - La selezione AI dipende da policy esplicite; un piano stale o incompatibile
   col profilo non viene adattato automaticamente.
 - La UI resta locale e di sola lettura.
+- Il solo profilo review built-in è `conservative/1`; profili custom non sono
+  esposti.
+- La diagnostica partial è una simulazione controllata dichiarata, con un solo
+  scenario, un tentativo e nessun resume; non predice l'esito Docling.
 
 ## 15. Evidenze di implementazione
 
 Le capacità sopra sono coperte dai test `test_slice_20_*` fino a
-`test_slice_30_*`; i golden principali sono in `tests/expected`. Il corpus
+`test_slice_31_*`; i golden principali sono in `tests/expected`. Il corpus
 end-to-end è descritto nel
 [LEGGIMI Aurora](../../projects/corpus%20aurora/corpus_mock_aurora_prestiti/LEGGIMI_PRIMA.md).
+Il collaudo post-Slice 31 è nel
+[report Slice 31](../../projects/slicing/slice_31/dsl_manager_slice_31_report.md).
 La mappa sintetica del viaggio è nell'
 [outline input-output](../manuali/outline_dsl_manager_flow_from_input_to_output_riassunto.md).

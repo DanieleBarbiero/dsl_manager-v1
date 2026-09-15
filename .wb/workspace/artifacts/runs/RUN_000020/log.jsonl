@@ -1,0 +1,4 @@
+{"event": "run_started", "level": "INFO", "message": "Run RUN_000020 started.", "run_id": "RUN_000020", "timestamp": "2026-09-14T15:44:20+02:00"}
+{"event": "worker_started", "level": "INFO", "message": "Worker parse_db_code started.", "run_id": "RUN_000020", "timestamp": "2026-09-14T15:44:20+02:00", "worker": "parse_db_code"}
+{"event": "worker_completed", "level": "INFO", "message": "Worker parse_db_code completed.", "run_id": "RUN_000020", "timestamp": "2026-09-14T15:44:22+02:00", "worker": "parse_db_code"}
+{"event": "run_completed", "level": "INFO", "message": "Run RUN_000020 completed.", "run_id": "RUN_000020", "timestamp": "2026-09-14T15:44:22+02:00"}

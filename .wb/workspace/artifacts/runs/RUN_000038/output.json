@@ -1,0 +1,87 @@
+{
+  "artifact_paths": [
+    "artifacts/runs/RUN_000038/derived_candidates.jsonl",
+    "artifacts/runs/RUN_000038/derive_report.json"
+  ],
+  "batch_id": "CBATCH_000006",
+  "candidate_ids": [
+    "XML_FORM_STRUCTURE_25FB5DD33E3D43AC",
+    "XML_FORM_STRUCTURE_4C56D1F1912FF66B",
+    "XML_FORM_STRUCTURE_5286559562D74BD5",
+    "XML_FORM_STRUCTURE_3DCB5AE6521C4E4D",
+    "XML_FORM_STRUCTURE_FCD804E339E2949E",
+    "XML_FORM_STRUCTURE_426C85D8F9A10965",
+    "XML_FORM_STRUCTURE_3E0D8CD66B175B1A",
+    "XML_FORM_STRUCTURE_5B77FDA317524788",
+    "XML_FORM_STRUCTURE_B76D9CBCFC23DBC1"
+  ],
+  "catalog_version": "result_catalog_v1",
+  "condition": "candidate_derivation",
+  "counters": {
+    "auto_confirmed": 0,
+    "deduplicated": 0,
+    "input_fragments": 9,
+    "pending": 9,
+    "produced": 9,
+    "rejected": 0
+  },
+  "derivation_id": "DERIVE_000006",
+  "derivation_rejections": [],
+  "exit_code": 0,
+  "mutations": true,
+  "outcome": "pending",
+  "payload_hashes": [
+    "aa6b7207891f20858cfed79f9f6596d821ad31889a69754cfd2c5572481e8185",
+    "7c7d3170e084c15ddb4606a64a00e2b6dbe8ef2d519cc9d1fe28fbca59246dce",
+    "66349e597b46475c17a901aec8d578161e854f1025afd4cde48083eb48e2e66f",
+    "598c97f6f75bf2ee85481b259c0f0bde66d3077d8d3540f6b7291ad16e645655",
+    "49c25e221249eaa5e8015be014095a107c871091285c3f10a49693e24b5c0636",
+    "e963efb76f94929a7f9ddecd8ca864ab9ce6a6fae6d95e8f21fd1f0921a43239",
+    "7f1561fcf4633b9033868bf00cbe9f199248fdf887acfad2fe8654cc7be3204c",
+    "eedf7d73316c24852618b30ff0cbee36d06e3154c52ea4c3d120eb32a5cc04fe",
+    "040588ae382793b91e6261cbd982b15672b1de4d06e6f1503b6c8bbba2a6d43f"
+  ],
+  "reason": "success",
+  "retryable": false,
+  "rule": "xml_form_structure/1",
+  "rule_contract": {
+    "assertion_type": "explicit",
+    "automatic_review_allowed": true,
+    "automatic_review_policy": "explicit_xml_form_structure_only/1",
+    "candidate_record_type": "candidate_fact",
+    "default_review_state": "pending",
+    "evidence_locator": "source_revision_id+fragment_id+path_or_selector+line_start+line_end",
+    "input_schema": "source_fragment/xml_form|xml_field|xml_button/1",
+    "parser_kind": "xml_form",
+    "rule_id": "xml_form_structure",
+    "rule_version": "1"
+  },
+  "rule_counts": {
+    "xml_form_structure/1": {
+      "auto_confirmed": 0,
+      "deduplicated": 0,
+      "input_fragments": 9,
+      "pending": 9,
+      "produced": 9,
+      "rejected": 0
+    }
+  },
+  "rule_set_version": "1",
+  "run_id": "RUN_000038",
+  "schema_version": "1",
+  "semantic_report_hash": "6bb1dd26acd7bbee5c31c95c72eb4c558391cea76da9497b2d98cee01802f1a0",
+  "severity": "info",
+  "source_revision_id": "REV_000006",
+  "status": "completed",
+  "subject_ids": [
+    "XML_FORM_STRUCTURE_25FB5DD33E3D43AC",
+    "XML_FORM_STRUCTURE_4C56D1F1912FF66B",
+    "XML_FORM_STRUCTURE_5286559562D74BD5",
+    "XML_FORM_STRUCTURE_3DCB5AE6521C4E4D",
+    "XML_FORM_STRUCTURE_FCD804E339E2949E",
+    "XML_FORM_STRUCTURE_426C85D8F9A10965",
+    "XML_FORM_STRUCTURE_3E0D8CD66B175B1A",
+    "XML_FORM_STRUCTURE_5B77FDA317524788",
+    "XML_FORM_STRUCTURE_B76D9CBCFC23DBC1"
+  ]
+}

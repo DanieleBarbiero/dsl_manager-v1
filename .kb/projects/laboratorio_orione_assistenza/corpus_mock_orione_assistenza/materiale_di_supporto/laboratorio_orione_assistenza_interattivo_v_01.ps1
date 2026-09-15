@@ -4,11 +4,16 @@ param(
     [string]$ResumeSession,
 
     [Parameter()]
+    [ValidateSet('1','2','3','4','5','6','7','8','9','10')]
+    [string]$StartAt,
+
+    [Parameter()]
     [switch]$ValidateOnly
 )
 
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
+$script:LaunchDirectory = (Get-Location).Path
 $script:Utf8NoBom = [System.Text.UTF8Encoding]::new($false)
 [Console]::InputEncoding = [System.Text.UTF8Encoding]::new($false)
 [Console]::OutputEncoding = [System.Text.UTF8Encoding]::new($false)
@@ -61,10 +66,9 @@ $script:RepositoryRoot = Find-RepositoryRoot -Start $PSScriptRoot
 $script:ProjectPython = Resolve-ProjectPython -RepositoryRoot $script:RepositoryRoot
 $script:LabRoot = (Resolve-Path -LiteralPath (Join-Path $PSScriptRoot '..')).Path
 $script:CanonicalCorpus = Join-Path $script:LabRoot 'corpus\active'
-$script:Adapter = Join-Path $PSScriptRoot 'promuovi_temporalita_orione_assistenza.py'
 $script:Replay = Join-Path $PSScriptRoot 'fixture_controllate\ai_response_orione_assistenza_controllata.jsonl'
 
-foreach ($required in @($script:CanonicalCorpus, $script:Adapter, $script:Replay)) {
+foreach ($required in @($script:CanonicalCorpus, $script:Replay)) {
     if (-not (Test-Path -LiteralPath $required)) {
         throw "Input del laboratorio assente: $required"
     }
@@ -79,6 +83,10 @@ if ($ValidateOnly) {
         lab_root = $script:LabRoot
     } | ConvertTo-Json -Depth 4
     exit 0
+}
+
+if ($StartAt -and $StartAt -ne '1' -and -not $ResumeSession) {
+    throw '-StartAt 2..10 richiede -ResumeSession per riusare workspace, stato e ID osservati.'
 }
 
 function New-OrioneSession {
@@ -121,7 +129,23 @@ function Import-OrioneSession {
             throw "Sessione non riprendibile, artefatto assente: $required"
         }
     }
-    $loaded = Get-Content -LiteralPath $statePath -Raw -Encoding UTF8 | ConvertFrom-Json -AsHashtable
+    $raw = Get-Content -LiteralPath $statePath -Raw -Encoding UTF8 | ConvertFrom-Json
+    $ids = [ordered]@{}
+    foreach ($property in $raw.ids.PSObject.Properties) {
+        $ids[$property.Name] = @($property.Value)
+    }
+    $loaded = [ordered]@{
+        schema_version = [int]$raw.schema_version
+        session_root = [string]$raw.session_root
+        workspace = [string]$raw.workspace
+        source_copy = [string]$raw.source_copy
+        phase = [string]$raw.phase
+        ids = $ids
+        decisions = @($raw.decisions)
+        ui_pid = $raw.ui_pid
+        created_at = [string]$raw.created_at
+        updated_at = [string]$raw.updated_at
+    }
     if ([System.IO.Path]::GetFullPath([string]$loaded.session_root) -ne $root) {
         throw 'session_state.json appartiene a una directory diversa.'
     }
@@ -137,6 +161,14 @@ else {
 $script:StatePath = Join-Path ([string]$script:State.session_root) 'session_state.json'
 $script:JournalPath = Join-Path ([string]$script:State.session_root) 'diario_esecuzione.md'
 $script:CommandsPath = Join-Path ([string]$script:State.session_root) 'commands.log'
+
+function Set-OrioneWorkingLocation {
+    $workspace = [string]$script:State.workspace
+    if (Test-Path -LiteralPath $workspace -PathType Container) {
+        Set-Location -LiteralPath $workspace
+    }
+    Write-Host "Directory corrente: $((Get-Location).Path)" -ForegroundColor Cyan
+}
 
 function Save-State {
     $script:State.updated_at = [DateTimeOffset]::Now.ToString('o')
@@ -183,6 +215,16 @@ function Format-CommandLine {
     return ('"' + $File + '" ' + ($shown -join ' '))
 }
 
+function ConvertTo-NativeProcessArgument {
+    param([Parameter(Mandatory)][AllowEmptyString()][string]$Argument)
+    if ($Argument.Length -gt 0 -and $Argument -notmatch '[\s"]') {
+        return $Argument
+    }
+    $escaped = [regex]::Replace($Argument, '(\\*)"', '$1$1\"')
+    $escaped = [regex]::Replace($escaped, '(\\+)$', '$1$1')
+    return '"' + $escaped + '"'
+}
+
 function Invoke-LoggedProcess {
     param(
         [Parameter(Mandatory)][string]$File,
@@ -200,7 +242,12 @@ function Invoke-LoggedProcess {
     $psi.RedirectStandardError = $true
     $psi.StandardOutputEncoding = $script:Utf8NoBom
     $psi.StandardErrorEncoding = $script:Utf8NoBom
-    foreach ($argument in $Arguments) { $null = $psi.ArgumentList.Add($argument) }
+    if ($null -ne $psi.PSObject.Properties['ArgumentList']) {
+        foreach ($argument in $Arguments) { $null = $psi.ArgumentList.Add($argument) }
+    }
+    else {
+        $psi.Arguments = (($Arguments | ForEach-Object { ConvertTo-NativeProcessArgument -Argument $_ }) -join ' ')
+    }
     $process = [System.Diagnostics.Process]::new()
     $process.StartInfo = $psi
     $null = $process.Start()
@@ -247,6 +294,51 @@ function Invoke-Dsl {
     return Invoke-LoggedProcess -File $script:ProjectPython -Arguments (@('-m', 'dsl_mngr') + $Arguments) -LongRunning:$LongRunning
 }
 
+function Set-StepFolder {
+    param(
+        [Parameter(Mandatory)][string]$StateKey,
+        [Parameter(Mandatory)][string]$Label
+    )
+    if (-not $script:State.Contains($StateKey)) {
+        throw "Proprieta di sessione non disponibile: $StateKey"
+    }
+    $current = [string]$script:State[$StateKey]
+    if (Test-Path -LiteralPath $current) {
+        Write-Host "$Label gia creato: il percorso non viene cambiato in questa sessione." -ForegroundColor Yellow
+        return $false
+    }
+    Write-Host "`nPercorso attuale per ${Label}: $current" -ForegroundColor Cyan
+    $entered = (Read-Host "Nuovo percorso completo per $Label (Invio per annullare)").Trim().Trim('"')
+    if (-not $entered) { return $false }
+    $expanded = [Environment]::ExpandEnvironmentVariables($entered)
+    $isDrivePath = $expanded -match '^[A-Za-z]:[\\/]'
+    $isUncPath = $expanded -match '^[\\/]{2}[^\\/]+[\\/]+[^\\/]+'
+    if (-not ($isDrivePath -or $isUncPath)) {
+        Write-Host 'Usare un percorso completo, per esempio D:\laboratori\orione_workspace.' -ForegroundColor Yellow
+        return $false
+    }
+    try {
+        $candidate = [System.IO.Path]::GetFullPath($expanded)
+        $parent = [System.IO.Directory]::GetParent($candidate)
+    }
+    catch {
+        Write-Host "Percorso non valido: $($_.Exception.Message)" -ForegroundColor Yellow
+        return $false
+    }
+    if (Test-Path -LiteralPath $candidate) {
+        Write-Host 'Il percorso scelto esiste gia: indicare una nuova cartella per evitare sovrascritture.' -ForegroundColor Yellow
+        return $false
+    }
+    if ($null -eq $parent -or -not (Test-Path -LiteralPath $parent.FullName -PathType Container)) {
+        Write-Host 'La cartella padre deve esistere gia.' -ForegroundColor Yellow
+        return $false
+    }
+    $script:State[$StateKey] = $candidate
+    Add-Decision "${Label}: percorso cambiato da $current a $candidate"
+    Write-Host "Nuovo percorso per ${Label}: $candidate" -ForegroundColor Green
+    return $true
+}
+
 function Read-StepChoice {
     param(
         [Parameter(Mandatory)][string]$Title,
@@ -254,7 +346,9 @@ function Read-StepChoice {
         [Parameter(Mandatory)][string]$Purpose,
         [Parameter(Mandatory)][string]$Command,
         [Parameter(Mandatory)][string]$Expected,
-        [Parameter()][bool]$CanSkip = $true
+        [Parameter()][bool]$CanSkip = $true,
+        [Parameter()][string]$FolderStateKey,
+        [Parameter()][string]$FolderLabel = 'cartella'
     )
     Write-Host "`n=== $Title ===" -ForegroundColor Green
     Write-Host "Dove: $Location"
@@ -262,12 +356,19 @@ function Read-StepChoice {
     Write-Host "Comando: $Command" -ForegroundColor Cyan
     Write-Host "Atteso: $Expected"
     while ($true) {
-        $options = if ($CanSkip) { '[E]segui [D]ettagli [S]alta [M]enu [Q]esci' } else { '[E]segui [D]ettagli [M]enu [Q]esci' }
+        $folderOption = if ($FolderStateKey) { ' [C]artella' } else { '' }
+        $options = if ($CanSkip) { "[E]segui [D]ettagli$folderOption [S]alta [M]enu [Q]esci" } else { "[E]segui [D]ettagli$folderOption [M]enu [Q]esci" }
         $choice = (Read-Host $options).Trim().ToUpperInvariant()
         switch ($choice) {
             'E' { Add-Decision "${Title}: esegui"; return 'execute' }
             'D' {
                 Write-Host "`n$Purpose`nRisultato previsto: $Expected`nIn caso di errore vengono conservati stdout, stderr, exit code e ID; nessun ID viene presunto." -ForegroundColor Gray
+            }
+            'C' {
+                if ($FolderStateKey -and (Set-StepFolder -StateKey $FolderStateKey -Label $FolderLabel)) {
+                    $Location = [string]$script:State[$FolderStateKey]
+                    Write-Host "Dove: $Location"
+                }
             }
             'S' { if ($CanSkip) { Add-Decision "${Title}: salta"; return 'skip' } }
             'M' { Add-Decision "${Title}: menu"; return 'menu' }
@@ -285,30 +386,17 @@ function Confirm-Mutation {
 }
 
 function Set-WorkspaceAllowlist {
-    $projectConfig = Join-Path ([string]$script:State.workspace) 'configs\project.yaml'
-    $text = [System.IO.File]::ReadAllText($projectConfig, [System.Text.Encoding]::UTF8)
-    $policies = @(
-        'explicit_ddl_table_only/1',
-        'explicit_ddl_column_only/1',
-        'explicit_resolved_ddl_fk_only/1',
-        'explicit_xml_form_structure_only/1',
-        'explicit_xml_operation_only/1',
-        'explicit_db_code_unit_only/1',
-        'observed_db_code_dependency_only/1',
-        'named_explicit_log_policy_required/1',
-        'explicit_excel_workbook_only/1',
-        'explicit_excel_sheet_only/1',
-        'explicit_excel_region_only/1',
-        'explicit_excel_named_range_only/1',
-        'explicit_excel_table_only/1'
-    )
-    $body = "  automatic_policies:`n" + (($policies | ForEach-Object { "    - $_" }) -join "`n") + "`n"
-    $pattern = '(?ms)(review:\r?\n\s+default_actor_id:[^\r\n]*\r?\n)\s+automatic_policies:.*?(?=derive:)'
-    if (-not [regex]::IsMatch($text, $pattern)) {
-        throw 'Sezione review.automatic_policies non riconosciuta; non modificata.'
-    }
-    $updated = [regex]::Replace($text, $pattern, ('$1' + $body))
-    [System.IO.File]::WriteAllText($projectConfig, $updated, $script:Utf8NoBom)
+    $workspace = [string]$script:State.workspace
+    $shown = Invoke-Dsl -Arguments @('config','review','show',$workspace)
+    if ($shown.ExitCode -ne 0) { throw 'Configurazione review non leggibile.' }
+    try { $configHash = [string](($shown.Stdout | ConvertFrom-Json).config_hash) } catch { $configHash = '' }
+    if ($configHash -notmatch '^[0-9a-f]{64}$') { throw 'Hash della configurazione review non ricavato.' }
+    $profiles = Invoke-Dsl -Arguments @('config','review','profiles',$workspace)
+    if ($profiles.ExitCode -ne 0) { throw 'Elenco dei profili review non disponibile.' }
+    $applied = Invoke-Dsl -Arguments @('config','review','apply-profile',$workspace,'--profile','conservative/1','--expect-config-hash',$configHash)
+    if ($applied.ExitCode -ne 0) { throw 'Applicazione del profilo conservative/1 fallita.' }
+    $validated = Invoke-Dsl -Arguments @('config','validate',$workspace,'--profile','conservative/1')
+    if ($validated.ExitCode -ne 0) { throw 'Validazione della configurazione review fallita.' }
 }
 
 function Get-RelativeHashMap {
@@ -334,9 +422,9 @@ function Assert-IdenticalTrees {
 }
 
 function Invoke-Prepare {
-    $choice = Read-StepChoice -Title 'Preparazione workspace' -Location ([string]$script:State.session_root) -Purpose 'Crea workspace e DB con leaf pubblici, copia solo le fonti attive e configura una allowlist conservativa nel temporaneo.' -Command 'dsl_mngr init; dsl_mngr db init; copia e checksum; configurazione workspace' -Expected 'Exit 0, 11 migrazioni al primo DB init, 15 fonti byte-identiche.' -CanSkip $false
+    $choice = Read-StepChoice -Title 'Preparazione workspace' -Location ([string]$script:State.workspace) -Purpose 'Crea workspace e DB con leaf pubblici, copia solo le fonti attive e applica il profilo review conservativo.' -Command 'dsl_mngr init/db init; config review profiles/apply-profile; config validate; copia e checksum' -Expected 'Exit 0, 12 migrazioni al primo DB init, profilo conservative/1 valido, 15 fonti byte-identiche.' -CanSkip $false -FolderStateKey 'workspace' -FolderLabel 'workspace'
     if ($choice -in @('menu', 'quit')) { return $choice }
-    if (-not (Confirm-Mutation -Description 'Creare il workspace temporaneo e copiarvi le fonti')) { return 'menu' }
+    if (-not (Confirm-Mutation -Description "Creare il workspace in $($script:State.workspace) e copiarvi le fonti")) { return 'menu' }
     if (Test-Path -LiteralPath ([string]$script:State.workspace)) {
         Write-Host 'Workspace gia presente. Riprendere questa sessione oppure crearne una nuova; nessun file viene sovrascritto.' -ForegroundColor Yellow
         return 'menu'
@@ -351,6 +439,7 @@ function Invoke-Prepare {
     Set-WorkspaceAllowlist
     $script:State.phase = 'prepared'
     Save-State
+    Set-OrioneWorkingLocation
     return 'done'
 }
 
@@ -505,9 +594,29 @@ function Invoke-AiHandoff {
 }
 
 function Invoke-HumanReview {
-    $choice = Read-StepChoice -Title 'Review umana' -Location ([string]$script:State.workspace) -Purpose 'Mostra candidati e applica una decisione esplicita con idempotency key; import non equivale a verita.' -Command 'dsl_mngr candidates review list/show/confirm/reject/correct; facts merge-batch/reconcile' -Expected 'Almeno conferma, rifiuto, correzione; parent superseded e replacement confirmed.'
+    $choice = Read-StepChoice -Title 'Review umana' -Location ([string]$script:State.workspace) -Purpose 'Isola candidati per provenienza o batch e applica una decisione esplicita con idempotency key; import non equivale a verita.' -Command 'dsl_mngr candidates review list --source/--batch; show/confirm/reject/correct; facts merge-batch/reconcile' -Expected 'Elenco circoscritto con source/origin; almeno conferma, rifiuto, correzione; parent superseded e replacement confirmed.'
     if ($choice -ne 'execute') { return $choice }
-    $list = Invoke-Dsl -Arguments @('candidates', 'review', 'list', [string]$script:State.workspace)
+    $sourceChoice = (Read-Host 'Candidati: [A]I [D]eterministici [T]emporali [F]ile [C]orrezioni umane [U]tutti').Trim().ToUpperInvariant()
+    $source = switch ($sourceChoice) {
+        'A' { 'ai' }
+        'D' { 'deterministic' }
+        'T' { 'temporal' }
+        'F' { 'file' }
+        'C' { 'human-correction' }
+        'U' { $null }
+        default { Write-Host 'Selezione non valida.' -ForegroundColor Yellow; return 'menu' }
+    }
+    $listArgs = @('candidates', 'review', 'list', [string]$script:State.workspace, '--outcome', 'pending')
+    if ($source) { $listArgs += @('--source', $source) }
+    $batchFilter = (Read-Host 'CBATCH specifico (Invio per tutti i batch della categoria)').Trim()
+    if ($batchFilter) {
+        if ($batchFilter -notmatch '^CBATCH_\d{6}$') {
+            Write-Host "Batch invalido: $batchFilter" -ForegroundColor Yellow
+            return 'menu'
+        }
+        $listArgs += @('--batch', $batchFilter)
+    }
+    $list = Invoke-Dsl -Arguments $listArgs
     if ($list.ExitCode -ne 0) { return 'menu' }
     $parsed = $null
     try { $parsed = $list.Stdout | ConvertFrom-Json } catch {}
@@ -557,6 +666,25 @@ function Invoke-HumanReview {
     return 'done'
 }
 
+function Get-DslFacts {
+    param([Parameter(Mandatory)]$Dsl)
+    if ($null -ne $Dsl.PSObject.Properties['facts']) {
+        return @($Dsl.facts)
+    }
+    $facts = foreach ($entity in @($Dsl.entities)) {
+        foreach ($fact in @($entity.facts)) {
+            [pscustomobject]@{
+                fact_id = $fact.fact_id
+                entity_name = $entity.name
+                property_name = $fact.property_name
+                property_value = $fact.property_value
+                intervals = @($fact.intervals)
+            }
+        }
+    }
+    return @($facts)
+}
+
 function Show-RegistryTargets {
     $render = Invoke-Dsl -Arguments @('dsl','render',[string]$script:State.workspace,'--schema-version','2','--output-dir','exports\tutorial_targets')
     if ($render.ExitCode -ne 0) { return $null }
@@ -565,41 +693,49 @@ function Show-RegistryTargets {
     $jsonPath = Join-Path ([string]$script:State.workspace) $pathMatch.Groups[1].Value.Trim()
     $dsl = Get-Content -LiteralPath $jsonPath -Raw -Encoding UTF8 | ConvertFrom-Json
     Write-Host "`nFatti reali disponibili:" -ForegroundColor Cyan
-    $dsl.facts | Select-Object fact_id,entity_name,property_name,property_value | Format-Table -AutoSize
+    Get-DslFacts -Dsl $dsl | Select-Object fact_id,entity_name,property_name,property_value | Format-Table -AutoSize | Out-Host
     Write-Host "Relazioni reali disponibili:" -ForegroundColor Cyan
-    $dsl.relations | Select-Object relation_id,source_entity,relation_type,target_entity | Format-Table -AutoSize
+    $dsl.relations | Select-Object relation_id,source_entity,relation_type,target_entity | Format-Table -AutoSize | Out-Host
     return $dsl
 }
 
 function Invoke-TemporalPromotion {
-    $choice = Read-StepChoice -Title 'Promozione temporale governata' -Location ([string]$script:State.workspace) -Purpose 'Mostra target reali, chiama l adapter candidate-first e rimanda ogni intervallo alla review comune.' -Command 'promuovi_temporalita_orione_assistenza.py ...; dsl_mngr candidates review show/confirm/reject' -Expected 'JSON con candidate_record_ids o conflict_id; nessun intervallo approvato automaticamente.'
+    $choice = Read-StepChoice -Title 'Promozione temporale governata' -Location ([string]$script:State.workspace) -Purpose 'Mostra target reali, chiama temporal propagate e rimanda ogni intervallo alla review comune.' -Command 'dsl_mngr temporal propagate ...; candidates review show/confirm/reject' -Expected 'JSON con run_id, candidate_record_ids/candidate_batch_ids o conflict_id; nessun intervallo approvato automaticamente.'
     if ($choice -ne 'execute') { return $choice }
     $dsl = Show-RegistryTargets
     if ($null -eq $dsl) { Write-Host 'Impossibile mostrare target dal DSL; nessun ID verra presunto.'; return 'menu' }
     Write-Host 'Prima confermare/rifiutare le temporalita delle fonti con i normali comandi review. Confermare date di dominio esplicite; rifiutare first_seen/mtime/ctime/metadata incoerenti; lasciare pending i conflitti.' -ForegroundColor Yellow
-    $runId = (Read-Host 'RUN reale da associare alla promozione').Trim()
     $revisionId = (Read-Host 'REV sorgente gia confermata').Trim()
     $targetType = (Read-Host 'Tipo target: fact oppure relation').Trim().ToLowerInvariant()
     $targetId = (Read-Host 'ID target reale mostrato sopra').Trim()
     $policy = (Read-Host 'Policy: explicit_copy, intersection, aggregation oppure conflict').Trim().ToLowerInvariant()
     $sourceInput = (Read-Host 'Sorgenti TYPE:ID separate da virgola; la prima demo usa source_revision:REV').Trim()
-    $sources = $sourceInput.Split(',',[System.StringSplitOptions]::RemoveEmptyEntries).Trim()
-    if ($runId -notmatch '^RUN_\d{6}$' -or $revisionId -notmatch '^REV_\d{6}$' -or
+    $sources = @($sourceInput.Split(',',[System.StringSplitOptions]::RemoveEmptyEntries) | ForEach-Object { $_.Trim() })
+    if ($revisionId -notmatch '^REV_\d{6}$' -or
         $targetType -notin @('fact','relation') -or $targetId -notmatch '^(FACT|REL)_\d{6}$' -or
         $policy -notin @('explicit_copy','intersection','aggregation','conflict') -or $sources.Count -eq 0) {
         Write-Host 'Argomenti non validi. Usare soltanto ID osservati e policy versionate.' -ForegroundColor Yellow
         return 'menu'
     }
-    $args = @($script:Adapter,'--workspace',[string]$script:State.workspace,'--run-id',$runId,'--source-revision-id',$revisionId,'--target-subject-type',$targetType,'--target-subject-id',$targetId,'--policy',$policy)
+    $args = @('temporal','propagate',[string]$script:State.workspace,'--source-revision-id',$revisionId,'--target-subject-type',$targetType,'--target-subject-id',$targetId,'--policy',$policy)
     foreach ($source in $sources) { $args += @('--source-subject',$source) }
     if (-not (Confirm-Mutation -Description "Creare candidati temporali $policy su $targetId")) { return 'menu' }
-    $result = Invoke-LoggedProcess -File $script:ProjectPython -Arguments $args
-    if ($result.ExitCode -ne 0) {
+    $result = Invoke-Dsl -Arguments $args
+    if ($result.ExitCode -notin @(0,4)) {
         Write-Host 'Nessun accesso SQL alternativo: leggere exit semantico, sorgenti e conflict_id; salvare lo stato.' -ForegroundColor Yellow
         return 'menu'
     }
-    try { $response = $result.Stdout | ConvertFrom-Json } catch { Write-Host 'JSON adapter invalido; nessun ID presunto.'; return 'menu' }
-    if ($response.conflict_id) { Write-Host "Conflitto prodotto: $($response.conflict_id)" -ForegroundColor Yellow }
+    try { $response = $result.Stdout | ConvertFrom-Json } catch { Write-Host 'JSON CLI invalido; nessun ID presunto.'; return 'menu' }
+    if ($result.ExitCode -eq 4) {
+        if ($response.conflict_id) {
+            Write-Host "Conflitto governato prodotto: $($response.conflict_id)" -ForegroundColor Yellow
+            $script:State.phase = 'temporal_review_in_progress'
+            Save-State
+            return 'done'
+        }
+        Write-Host 'Exit 4 senza conflict_id valido; conservare lo stato per diagnosi.' -ForegroundColor Yellow
+        return 'menu'
+    }
     $confirmedBatches = @()
     foreach ($candidate in @($response.candidate_record_ids)) {
         $showCandidate = Invoke-Dsl -Arguments @('candidates','review','show',[string]$script:State.workspace,[string]$candidate)
@@ -627,15 +763,38 @@ function Invoke-TemporalPromotion {
     return 'done'
 }
 
+function Invoke-ControlledPartialDiagnostic {
+    $choice = Read-StepChoice -Title 'Diagnostica partial controllata' -Location ([string]$script:State.workspace) -Purpose 'Esegue lo scenario built-in attraverso runner e state machine senza contaminare gli artefatti di produzione.' -Command 'dsl_mngr diagnostics normalization run WORKSPACE --revision REV_ID --scenario controlled_partial_success/1' -Expected 'Run e worker partial, exit 6, controlled_simulation true, artefatti solo nel namespace diagnostics/normalization.'
+    if ($choice -ne 'execute') { return $choice }
+    $revisionId = (Read-Host 'REV reale registrata in formato ammesso').Trim()
+    if ($revisionId -notmatch '^REV_\d{6}$') { Write-Host 'Revision ID invalido; nessun ID verra presunto.' -ForegroundColor Yellow; return 'menu' }
+    if (-not (Confirm-Mutation -Description "Eseguire la diagnostica controllata su $revisionId")) { return 'menu' }
+    $result = Invoke-Dsl -Arguments @('diagnostics','normalization','run',[string]$script:State.workspace,'--revision',$revisionId,'--scenario','controlled_partial_success/1')
+    if ($result.ExitCode -ne 6) { Write-Host "Exit diagnostico inatteso: $($result.ExitCode)" -ForegroundColor Yellow; return 'menu' }
+    try { $response = $result.Stdout | ConvertFrom-Json } catch { Write-Host 'JSON diagnostico invalido.'; return 'menu' }
+    if (-not $response.controlled_simulation -or $response.status -ne 'partial' -or $response.worker_exit_code -ne 6) {
+        Write-Host 'Contratto partial controllato non soddisfatto.' -ForegroundColor Yellow
+        return 'menu'
+    }
+    Write-Host "Run partial controllata: $($response.run_id); artefatti: $(@($response.artifact_paths).Count)" -ForegroundColor Green
+    $script:State.phase = 'controlled_partial_verified'
+    Save-State
+    return 'done'
+}
+
 function Test-SpellBounds {
     param([Parameter(Mandatory)]$NodeSpells, [Parameter(Mandatory)]$EdgeSpells)
     foreach ($edge in $EdgeSpells) {
-        $edgeStart = if ($edge.start) { [datetime]$edge.start } else { [datetime]::MinValue }
-        $edgeEnd = if ($edge.end) { [datetime]$edge.end } else { [datetime]::MaxValue }
+        $edgeStartText = $edge.GetAttribute('start')
+        $edgeEndText = $edge.GetAttribute('end')
+        $edgeStart = if ($edgeStartText) { [datetime]$edgeStartText } else { [datetime]::MinValue }
+        $edgeEnd = if ($edgeEndText) { [datetime]$edgeEndText } else { [datetime]::MaxValue }
         $contained = $false
         foreach ($node in $NodeSpells) {
-            $nodeStart = if ($node.start) { [datetime]$node.start } else { [datetime]::MinValue }
-            $nodeEnd = if ($node.end) { [datetime]$node.end } else { [datetime]::MaxValue }
+            $nodeStartText = $node.GetAttribute('start')
+            $nodeEndText = $node.GetAttribute('end')
+            $nodeStart = if ($nodeStartText) { [datetime]$nodeStartText } else { [datetime]::MinValue }
+            $nodeEnd = if ($nodeEndText) { [datetime]$nodeEndText } else { [datetime]::MaxValue }
             if ($edgeStart -ge $nodeStart -and $edgeEnd -le $nodeEnd) { $contained = $true; break }
         }
         if (-not $contained) { return $false }
@@ -644,7 +803,7 @@ function Test-SpellBounds {
 }
 
 function Invoke-RenderAndGraph {
-    $choice = Read-StepChoice -Title 'DSL, diff e grafi' -Location ([string]$script:State.workspace) -Purpose 'Renderizza schema 1 e 2, prova stabilita byte, diff cross-schema, orphan e GEXF dinamico con spell.' -Command 'dsl_mngr dsl render/diff; dsl_mngr graph export' -Expected 'Intervals v2 non vuote; strict orphan 2 atteso; spell nodo/arco e bounds validi.'
+    $choice = Read-StepChoice -Title 'DSL, diff e grafi' -Location ([string]$script:State.workspace) -Purpose 'Renderizza schema 1 e 2, prova stabilita byte, diff cross-schema, orphan e GEXF dinamico con spell.' -Command 'dsl_mngr dsl render/diff; dsl_mngr graph export' -Expected 'Intervals v2 non vuote; strict orphan 0 senza orphan oppure 2 se rilevati; spell nodo/arco e bounds validi.'
     if ($choice -ne 'execute') { return $choice }
     $v1 = Invoke-Dsl -Arguments @('dsl','render',[string]$script:State.workspace,'--schema-version','1','--output-dir','exports\orione_v1')
     $v2a = Invoke-Dsl -Arguments @('dsl','render',[string]$script:State.workspace,'--schema-version','2','--output-dir','exports\orione_v2_a')
@@ -663,12 +822,14 @@ function Invoke-RenderAndGraph {
         if (-not $stable) { return 'menu' }
     }
     $dslJson = Get-Content -LiteralPath (Join-Path ([string]$script:State.workspace) "exports\orione_v2_a\$dslV2a.json") -Raw -Encoding UTF8 | ConvertFrom-Json
-    $intervalCount = @($dslJson.facts.intervals).Count + @($dslJson.relations.intervals).Count
+    $intervalCount = @((Get-DslFacts -Dsl $dslJson) | ForEach-Object { $_.intervals }).Count + @($dslJson.relations | ForEach-Object { $_.intervals }).Count
     Write-Host "Intervalli DSL v2: $intervalCount"
     if ($intervalCount -eq 0) { Write-Host 'Zero intervalli: tornare alla promozione/review; non renderizzare marcatori fittizi.' -ForegroundColor Yellow; return 'menu' }
     $null = Invoke-Dsl -Arguments @('graph','export',[string]$script:State.workspace,'--snapshot-id',$dslV1,'--output-dir','exports\graph_static')
     $strict = Invoke-Dsl -Arguments @('graph','export',[string]$script:State.workspace,'--snapshot-id',$dslV1,'--output-dir','exports\graph_strict','--strict-orphans')
-    if ($strict.ExitCode -eq 2) { Write-Host 'Exit 2 strict-orphans riconosciuto come fallimento intenzionale.' -ForegroundColor Green } else { Write-Host "Strict orphan inatteso: $($strict.ExitCode)" -ForegroundColor Yellow }
+    if ($strict.ExitCode -eq 2) { Write-Host 'Exit 2 strict-orphans riconosciuto come rilevamento intenzionale.' -ForegroundColor Green }
+    elseif ($strict.ExitCode -eq 0) { Write-Host 'Strict-orphans completato: nessun orphan rilevato.' -ForegroundColor Green }
+    else { Write-Host "Strict-orphans inatteso: $($strict.ExitCode)" -ForegroundColor Yellow }
     $dynamic = Invoke-Dsl -Arguments @('graph','export',[string]$script:State.workspace,'--snapshot-id',$dslV2a,'--output-dir','exports\graph_dynamic','--dynamic','--timeformat','date','--temporal-output-mode','strict')
     if ($dynamic.ExitCode -ne 0) { return 'menu' }
     $gexfRelative = [regex]::Match($dynamic.Stdout,'(?m)^GEXF:\s+(.+)$').Groups[1].Value.Trim()
@@ -752,16 +913,45 @@ function Invoke-LogsAndUi {
     return 'done'
 }
 
-Save-State
-Write-Host "`nLaboratorio Orione Assistenza" -ForegroundColor Green
-Write-Host "Interprete: $script:ProjectPython"
-Write-Host "Sessione: $($script:State.session_root)"
-Write-Host "Fase salvata: $($script:State.phase)"
-Write-Host 'La shell orchestra soltanto aspetti secondari; il flusso applicativo usa sempre DSL Manager.'
+function Invoke-MenuStep {
+    param(
+        [Parameter(Mandatory)]
+        [ValidateSet('1','2','3','4','5','6','7','8','9','10')]
+        [string]$Step
+    )
+    switch ($Step) {
+        '1' { Invoke-Prepare }
+        '2' { Invoke-Scans }
+        '3' { Invoke-Consolidation }
+        '4' { Invoke-AiPlans }
+        '5' { Invoke-AiHandoff }
+        '6' { Invoke-HumanReview }
+        '7' { Invoke-TemporalPromotion }
+        '8' { Invoke-RenderAndGraph }
+        '9' { Invoke-LogsAndUi }
+        '10' { Invoke-ControlledPartialDiagnostic }
+    }
+}
 
-$exitRequested = $false
-while (-not $exitRequested) {
-    Write-Host @'
+try {
+    Set-OrioneWorkingLocation
+    Save-State
+    Write-Host "`nLaboratorio Orione Assistenza" -ForegroundColor Green
+    Write-Host "Interprete: $script:ProjectPython"
+    Write-Host "Sessione: $($script:State.session_root)"
+    Write-Host "Workspace: $($script:State.workspace)"
+    Write-Host "Fase salvata: $($script:State.phase)"
+    Write-Host 'La shell orchestra soltanto aspetti secondari; il flusso applicativo usa sempre DSL Manager.'
+    Write-Host "Ripresa diretta: & '$PSCommandPath' -ResumeSession '$($script:State.session_root)' -StartAt 6" -ForegroundColor Cyan
+
+    $exitRequested = $false
+    if ($StartAt) {
+        Write-Host "`nRipresa diretta dallo step $StartAt; lo stato precedente resta invariato." -ForegroundColor Cyan
+        $startOutcome = Invoke-MenuStep -Step $StartAt
+        if ($startOutcome -eq 'quit') { $exitRequested = $true }
+    }
+    while (-not $exitRequested) {
+        Write-Host @'
 
 Menu
   1  prepara workspace, database, fonti e allowlist
@@ -773,32 +963,49 @@ Menu
   7  promozione temporale candidate-first
   8  render, diff e grafi
   9  log e UI locale
+  10 diagnostica partial controllata
+  R  scegli esplicitamente uno step da rieseguire
   S  mostra stato e ID osservati
   Q  esci salvando
 '@
-    $selection = (Read-Host 'Scelta').Trim().ToUpperInvariant()
-    $outcome = switch ($selection) {
-        '1' { Invoke-Prepare }
-        '2' { Invoke-Scans }
-        '3' { Invoke-Consolidation }
-        '4' { Invoke-AiPlans }
-        '5' { Invoke-AiHandoff }
-        '6' { Invoke-HumanReview }
-        '7' { Invoke-TemporalPromotion }
-        '8' { Invoke-RenderAndGraph }
-        '9' { Invoke-LogsAndUi }
-        'S' {
-            Save-State
-            $script:State | ConvertTo-Json -Depth 30 | Write-Host
-            'menu'
+        $selection = (Read-Host 'Scelta').Trim().ToUpperInvariant()
+        $outcome = switch ($selection) {
+            { $_ -in @('1','2','3','4','5','6','7','8','9','10') } {
+                Invoke-MenuStep -Step $_
+            }
+            'R' {
+                $restartStep = (Read-Host 'Step da rieseguire [1-10]; Invio per annullare').Trim()
+                if (-not $restartStep) { 'menu' }
+                elseif ($restartStep -notin @('1','2','3','4','5','6','7','8','9','10')) {
+                    Write-Host 'Step non valido.' -ForegroundColor Yellow
+                    'menu'
+                }
+                else {
+                    Add-Decision "ripresa esplicita dallo step $restartStep"
+                    Invoke-MenuStep -Step $restartStep
+                }
+            }
+            'S' {
+                Save-State
+                $script:State | ConvertTo-Json -Depth 30 | Write-Host
+                'menu'
+            }
+            'Q' { 'quit' }
+            default { 'menu' }
         }
-        'Q' { 'quit' }
-        default { 'menu' }
+        if ($outcome -eq 'quit') { $exitRequested = $true }
     }
-    if ($outcome -eq 'quit') { $exitRequested = $true }
-}
 
-Add-Decision 'sessione chiusa o messa in pausa dal menu'
-Save-State
-Write-Host "Stato salvato in $script:StatePath" -ForegroundColor Green
-Write-Host "Ripresa: & '$PSCommandPath' -ResumeSession '$($script:State.session_root)'"
+    Add-Decision 'sessione chiusa o messa in pausa dal menu'
+    Save-State
+    Write-Host "Stato salvato in $script:StatePath" -ForegroundColor Green
+    Write-Host "Workspace: $($script:State.workspace)" -ForegroundColor Green
+    Write-Host "Ripresa al menu: & '$PSCommandPath' -ResumeSession '$($script:State.session_root)'"
+    Write-Host "Ripresa da uno step: & '$PSCommandPath' -ResumeSession '$($script:State.session_root)' -StartAt 6"
+}
+finally {
+    if (Test-Path -LiteralPath $script:LaunchDirectory -PathType Container) {
+        Set-Location -LiteralPath $script:LaunchDirectory
+        Write-Host "Directory ripristinata: $script:LaunchDirectory" -ForegroundColor Cyan
+    }
+}

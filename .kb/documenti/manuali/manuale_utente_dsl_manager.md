@@ -50,8 +50,22 @@ dsl-manager init .workspaces/demo
 dsl-manager db init .workspaces/demo
 ```
 
-`db init` applica le migrazioni fino alla v10 ed è idempotente quando schema e
+`db init` applica le migrazioni fino alla v12 ed è idempotente quando schema e
 checksum coincidono.
+
+Per attivare intenzionalmente la allowlist conservativa senza modificare YAML:
+
+```powershell
+dsl-manager config review show .workspaces/demo
+dsl-manager config review profiles .workspaces/demo
+dsl-manager config review apply-profile .workspaces/demo --profile conservative/1
+dsl-manager config validate .workspaces/demo --profile conservative/1
+```
+
+Il profilo contiene 13 policy deterministiche auto-review ammesse. Un workspace
+nuovo parte con lista vuota. I comandi mutanti accettano
+`--expect-config-hash HASH`; `set-allowlist` sostituisce la lista e, senza
+alcun `--policy`, la azzera esplicitamente.
 
 ### 3.2 Inserire e scansionare il corpus
 
@@ -171,6 +185,11 @@ La tabella elenca i leaf command osservati con `--help` per l'entry point e per
 |---|---|
 | `init` | crea la struttura del workspace |
 | `db init` | crea/aggiorna SQLite con migrazioni verificate |
+| `config review show` | mostra allowlist effettiva, origine e hash |
+| `config review profiles` | elenca i profili built-in riconosciuti |
+| `config review apply-profile` | sostituisce l'allowlist con un profilo built-in |
+| `config review set-allowlist` | sostituisce l'allowlist con `--policy` ripetibili; zero occorrenze la svuota |
+| `config validate` | valida schema, policy review e profilo opzionale senza mutare |
 | `corpus scan` | registra aggiunte, modifiche, rimozioni e invariati |
 | `corpus normalize` | normalizza una revisione; instrada anche Excel diretto |
 | `corpus chunk` | genera chunk da una revisione normalizzata |
@@ -199,6 +218,8 @@ La tabella elenca i leaf command osservati con `--help` per l'entry point e per
 | `facts merge` | fonde un batch di candidati confermati |
 | `facts merge-batch` | fonde più batch |
 | `facts reconcile` | risolve richieste di riconciliazione |
+| `temporal propagate` | crea candidati temporali pending da sorgenti esplicite |
+| `diagnostics normalization run` | esegue lo scenario partial built-in controllato |
 | `dsl render` | crea snapshot JSON/YAML/Markdown schema 1 o 2 |
 | `dsl diff` | confronta snapshot |
 | `graph export` | crea GEXF statico o dinamico |
@@ -213,6 +234,7 @@ Consultare sempre il leaf help prima di automatizzare:
 ```powershell
 dsl-manager candidates review correct --help
 dsl-manager graph export --help
+dsl-manager diagnostics normalization run --help
 ```
 
 ## 5. Elaborazione per tipo di file
@@ -373,8 +395,24 @@ e nel [prompt Slice 30](../../projects/slicing/slice_30/dsl_manager_slice_30_pro
 
 ## 8. Temporalità
 
-L'estrazione temporale è integrata nei servizi e in `batch consolidate`; non
-esiste un leaf command temporale autonomo.
+L'estrazione temporale è integrata nei servizi e in `batch consolidate`. La
+propagazione esplicita è esposta dal leaf pubblico:
+
+```powershell
+dsl-manager temporal propagate .workspaces/demo `
+  --source-revision-id REV_000001 `
+  --target-subject-type fact `
+  --target-subject-id FACT_000001 `
+  --source-subject source_revision:REV_000001 `
+  --policy explicit_copy
+```
+
+`--source-subject` è obbligatorio e ripetibile. Target ammessi:
+`fact|relation`; policy osservate nell'help:
+`explicit_copy|intersection|aggregation|conflict`. Le prime tre producono
+candidati e batch pending quando applicabili; `conflict` restituisce un
+conflitto governato ed exit 4. Gli ID vanno passati ai normali comandi review e
+merge: nessuna approvazione è automatica.
 
 Le fonti includono proprietà OOXML, timestamp ZIP interni, metadata PDF/HTML,
 dichiarazioni esplicite in testo/Markdown/SQL/XML/log, token del nome file e
@@ -395,6 +433,9 @@ Precisione:
 - più intervalli disgiunti restano più spells.
 
 La temporalità non si propaga automaticamente da una sorgente a un fatto.
+Quando più candidati confermati sostengono lo stesso intervallo semantico,
+l'intervallo viene riusato e tutti i supporti sono conservati; resta effettivo
+finché almeno un supporto ha testa corrente confermata.
 
 ## 9. DSL v1/v2 e allow-incomplete
 
@@ -520,6 +561,21 @@ Review, derive, merge, reconcile e batch consolidato usano
 `result_catalog_v1`. Limite noto: preflight OOXML/worker usa ancora
 `catalog_version: 1` e i report temporali/GEXF non espongono l'envelope completo;
 non assumere uniformità del catalogo in automazioni generiche.
+
+La prova pubblica e ripetibile del partial usa una revisione già registrata in
+formato ammesso:
+
+```powershell
+dsl-manager diagnostics normalization run .workspaces/demo `
+  --revision REV_000001 `
+  --scenario controlled_partial_success/1
+```
+
+È l'unico scenario esposto. Attraversa worker runner e macchina a stati, termina
+run e worker `partial` con exit 6 e dichiara `controlled_simulation: true`. Gli
+artefatti restano sotto
+`artifacts/runs/<RUN_ID>/diagnostics/normalization/`; normalizzati, manifest,
+chunk, candidati, fatti e relazioni di produzione non vengono modificati.
 
 ## 14. Log, run e UI
 

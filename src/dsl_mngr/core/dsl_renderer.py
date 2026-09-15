@@ -1142,8 +1142,9 @@ def _effective_interval_registry_payload(
     fact_ids: list[str],
     relation_ids: list[str],
 ) -> list[dict[str, Any]]:
-    return [
-        {
+    result: list[dict[str, Any]] = []
+    for row in _query_effective_interval_rows(connection, fact_ids, relation_ids):
+        item = {
             "bounds_semantics": row["bounds_semantics"],
             "end_value": row["end_value"],
             "original_precision": row["original_precision"],
@@ -1152,15 +1153,11 @@ def _effective_interval_registry_payload(
             "subject_type": row["subject_type"],
             "timeformat": row["timeformat"],
             "timezone_value": row["timezone_value"],
-            "review": {
-                "outcome": "confirmed",
-                "policy_id": row["review_policy_id"],
-                "policy_version": row["review_policy_version"],
-                "semantic_payload_hash": row["review_semantic_payload_hash"],
-            },
+            "review": row["review"],
         }
-        for row in _query_effective_interval_rows(connection, fact_ids, relation_ids)
-    ]
+        item["supports"] = row["supports"]
+        result.append(item)
+    return result
 
 
 def _load_effective_intervals(
@@ -1168,14 +1165,14 @@ def _load_effective_intervals(
     fact_ids: list[str],
     relation_ids: list[str],
 ) -> list[dict[str, Any]]:
-    return [dict(row) for row in _query_effective_interval_rows(connection, fact_ids, relation_ids)]
+    return _query_effective_interval_rows(connection, fact_ids, relation_ids)
 
 
 def _query_effective_interval_rows(
     connection: sqlite3.Connection,
     fact_ids: list[str],
     relation_ids: list[str],
-) -> list[sqlite3.Row]:
+) -> list[dict[str, Any]]:
     clauses: list[str] = []
     parameters: list[str] = []
     if fact_ids:
@@ -1188,30 +1185,68 @@ def _query_effective_interval_rows(
         parameters.extend(relation_ids)
     if not clauses:
         return []
-    return connection.execute(
+    rows = connection.execute(
         f"""
         SELECT
-            ti.subject_type, ti.subject_id, ti.start_value, ti.end_value,
+            ti.interval_id, ti.subject_type, ti.subject_id,
+            ti.start_value, ti.end_value,
             ti.timeformat, ti.timezone_value, ti.original_precision,
             ti.bounds_semantics, ti.source_candidate_record_id,
+            tis.support_id, tis.candidate_record_id,
+            tis.decision_id AS materialization_decision_id,
+            h.decision_id AS current_decision_id,
             rd.semantic_payload_hash AS review_semantic_payload_hash,
             rd.policy_id AS review_policy_id,
             rd.policy_version AS review_policy_version
         FROM temporal_intervals ti
+        JOIN temporal_interval_supports tis ON tis.interval_id = ti.interval_id
         JOIN review_subject_heads h
           ON h.subject_type = 'candidate_record'
-         AND h.subject_id = ti.source_candidate_record_id
+         AND h.subject_id = tis.candidate_record_id
         JOIN review_decisions rd ON rd.decision_id = h.decision_id
         WHERE rd.outcome = 'confirmed'
           AND NOT EXISTS (
               SELECT 1 FROM candidate_lineage child
-              WHERE child.parent_candidate_record_id = ti.source_candidate_record_id
+              WHERE child.parent_candidate_record_id = tis.candidate_record_id
           )
           AND ({' OR '.join(clauses)})
-        ORDER BY ti.subject_type, ti.subject_id, ti.start_value, ti.end_value
+        ORDER BY ti.subject_type, ti.subject_id, ti.start_value, ti.end_value,
+                 ti.interval_id, tis.candidate_record_id
         """,
         parameters,
     ).fetchall()
+    grouped: dict[str, dict[str, Any]] = {}
+    for row in rows:
+        interval_id = str(row["interval_id"])
+        support = {
+            "candidate_record_id": row["candidate_record_id"],
+            "current_decision_id": row["current_decision_id"],
+            "materialization_decision_id": row["materialization_decision_id"],
+            "review": {
+                "outcome": "confirmed",
+                "policy_id": row["review_policy_id"],
+                "policy_version": row["review_policy_version"],
+                "semantic_payload_hash": row["review_semantic_payload_hash"],
+            },
+            "support_id": row["support_id"],
+        }
+        if interval_id not in grouped:
+            grouped[interval_id] = {
+                "bounds_semantics": row["bounds_semantics"],
+                "end_value": row["end_value"],
+                "interval_id": interval_id,
+                "original_precision": row["original_precision"],
+                "review": support["review"],
+                "source_candidate_record_id": row["source_candidate_record_id"],
+                "start_value": row["start_value"],
+                "subject_id": row["subject_id"],
+                "subject_type": row["subject_type"],
+                "supports": [],
+                "timeformat": row["timeformat"],
+                "timezone_value": row["timezone_value"],
+            }
+        grouped[interval_id]["supports"].append(support)
+    return list(grouped.values())
 
 
 def _load_temporal_traceability(
@@ -1234,17 +1269,21 @@ def _load_temporal_traceability(
     rows = connection.execute(
         f"""
         SELECT
-            ti.subject_type, ti.subject_id, ti.source_candidate_record_id,
+            ti.interval_id, ti.subject_type, ti.subject_id,
+            tis.support_id, tis.candidate_record_id,
+            tis.decision_id AS materialization_decision_id,
+            h.decision_id AS current_decision_id,
             rte.temporal_evidence_id, rte.evidence_hash,
             rte.source_revision_id, rte.source_fragment_id,
             sr.file_path, s.source_id, tce.ordinal
         FROM temporal_intervals ti
+        JOIN temporal_interval_supports tis ON tis.interval_id = ti.interval_id
         JOIN review_subject_heads h
           ON h.subject_type = 'candidate_record'
-         AND h.subject_id = ti.source_candidate_record_id
+         AND h.subject_id = tis.candidate_record_id
         JOIN review_decisions rd ON rd.decision_id = h.decision_id
         JOIN temporal_candidate_evidence tce
-          ON tce.candidate_record_id = ti.source_candidate_record_id
+          ON tce.candidate_record_id = tis.candidate_record_id
         JOIN raw_temporal_evidence rte
           ON rte.temporal_evidence_id = tce.temporal_evidence_id
         JOIN source_revisions sr ON sr.source_revision_id = rte.source_revision_id
@@ -1252,33 +1291,41 @@ def _load_temporal_traceability(
         WHERE rd.outcome = 'confirmed'
           AND NOT EXISTS (
               SELECT 1 FROM candidate_lineage child
-              WHERE child.parent_candidate_record_id = ti.source_candidate_record_id
+              WHERE child.parent_candidate_record_id = tis.candidate_record_id
           )
           AND ({' OR '.join(clauses)})
-        ORDER BY ti.subject_type, ti.subject_id, tce.ordinal
+        ORDER BY ti.subject_type, ti.subject_id, ti.interval_id,
+                 tis.candidate_record_id, tce.ordinal, rte.temporal_evidence_id
         """,
         parameters,
     ).fetchall()
     result: dict[str, list[dict[str, Any]]] = {}
     for row in rows:
         key = f"{row['subject_type']}:{row['subject_id']}"
-        result.setdefault(key, []).append(
+        item = {
+            "candidate_record_id": row["candidate_record_id"],
+            "chunk_id": None,
+            "evidence_text_hash": row["evidence_hash"],
+            "file_path": row["file_path"],
+            "fragment_id": row["source_fragment_id"],
+            "source_id": row["source_id"],
+            "source_revision_id": row["source_revision_id"],
+            "temporal_evidence_id": row["temporal_evidence_id"],
+        }
+        item.update(
             {
-                "candidate_record_id": row["source_candidate_record_id"],
-                "chunk_id": None,
-                "evidence_text_hash": row["evidence_hash"],
-                "file_path": row["file_path"],
-                "fragment_id": row["source_fragment_id"],
-                "source_id": row["source_id"],
-                "source_revision_id": row["source_revision_id"],
-                "temporal_evidence_id": row["temporal_evidence_id"],
+                "current_decision_id": row["current_decision_id"],
+                "interval_id": row["interval_id"],
+                "materialization_decision_id": row["materialization_decision_id"],
+                "support_id": row["support_id"],
             }
         )
+        result.setdefault(key, []).append(item)
     return result
 
 
 def _dsl_interval(interval: dict[str, Any]) -> dict[str, Any]:
-    return {
+    result = {
         "start": interval["start_value"],
         "end": interval["end_value"],
         "timeformat": interval["timeformat"],
@@ -1286,6 +1333,8 @@ def _dsl_interval(interval: dict[str, Any]) -> dict[str, Any]:
         "original_precision": interval["original_precision"],
         "bounds_semantics": interval["bounds_semantics"],
     }
+    result["supports"] = interval["supports"]
+    return result
 
 
 def _open_reconciliation_count(connection: sqlite3.Connection) -> int:

@@ -1,0 +1,130 @@
+{
+  "artifact_dir": "artifacts/runs/RUN_000002",
+  "batch_command": "process-dir",
+  "options": {
+    "path": "corpus/active",
+    "scan": {
+      "added": 0,
+      "deleted": 0,
+      "modified": 0,
+      "unchanged": 9
+    }
+  },
+  "planned_items": [
+    {
+      "input_path": "corpus/active/database/schema_orione.sql",
+      "item_id": "BITEM_000001",
+      "kind": "parse_ddl",
+      "source_id": "SRC_000001",
+      "source_revision_id": "REV_000001",
+      "status": "pending"
+    },
+    {
+      "input_path": "corpus/active/db_code/automazioni_intervento.sql",
+      "item_id": "BITEM_000002",
+      "kind": "parse_db_code",
+      "source_id": "SRC_000002",
+      "source_revision_id": "REV_000002",
+      "status": "pending"
+    },
+    {
+      "input_path": "corpus/active/documenti/manuale_operativo_orione_2026.md",
+      "item_id": "BITEM_000003",
+      "kind": "normalize",
+      "source_id": "SRC_000003",
+      "source_revision_id": "REV_000003",
+      "status": "pending"
+    },
+    {
+      "input_path": "corpus/active/documenti/manuale_operativo_orione_2026.md",
+      "item_id": "BITEM_000004",
+      "kind": "chunk",
+      "source_id": "SRC_000003",
+      "source_revision_id": "REV_000003",
+      "status": "pending"
+    },
+    {
+      "input_path": "corpus/active/documenti/nota_sla_orione_2026.docx",
+      "item_id": "BITEM_000005",
+      "kind": "normalize",
+      "source_id": "SRC_000004",
+      "source_revision_id": "REV_000004",
+      "status": "pending"
+    },
+    {
+      "input_path": "corpus/active/documenti/nota_sla_orione_2026.docx",
+      "item_id": "BITEM_000006",
+      "kind": "chunk",
+      "source_id": "SRC_000004",
+      "source_revision_id": "REV_000004",
+      "status": "pending"
+    },
+    {
+      "input_path": "corpus/active/documenti/procedura_storica_chiusura_2023.html",
+      "item_id": "BITEM_000007",
+      "kind": "normalize",
+      "source_id": "SRC_000005",
+      "source_revision_id": "REV_000005",
+      "status": "pending"
+    },
+    {
+      "input_path": "corpus/active/documenti/procedura_storica_chiusura_2023.html",
+      "item_id": "BITEM_000008",
+      "kind": "chunk",
+      "source_id": "SRC_000005",
+      "source_revision_id": "REV_000005",
+      "status": "pending"
+    },
+    {
+      "input_path": "corpus/active/forms/frm_intervento.xml",
+      "item_id": "BITEM_000009",
+      "kind": "parse_xml_form",
+      "source_id": "SRC_000006",
+      "source_revision_id": "REV_000006",
+      "status": "pending"
+    },
+    {
+      "input_path": "corpus/active/logs/esecuzione_interventi_2026.log",
+      "item_id": "BITEM_000010",
+      "kind": "parse_log",
+      "source_id": "SRC_000007",
+      "source_revision_id": "REV_000007",
+      "status": "pending"
+    },
+    {
+      "input_path": "corpus/active/spreadsheets/controlli_inerti_2026.xlsm",
+      "item_id": "BITEM_000011",
+      "kind": "normalize",
+      "source_id": "SRC_000008",
+      "source_revision_id": "REV_000008",
+      "status": "pending"
+    },
+    {
+      "input_path": "corpus/active/spreadsheets/controlli_inerti_2026.xlsm",
+      "item_id": "BITEM_000012",
+      "kind": "chunk",
+      "source_id": "SRC_000008",
+      "source_revision_id": "REV_000008",
+      "status": "pending"
+    },
+    {
+      "input_path": "corpus/active/spreadsheets/pianificazione_interventi_2026.xlsx",
+      "item_id": "BITEM_000013",
+      "kind": "normalize",
+      "source_id": "SRC_000009",
+      "source_revision_id": "REV_000009",
+      "status": "pending"
+    },
+    {
+      "input_path": "corpus/active/spreadsheets/pianificazione_interventi_2026.xlsx",
+      "item_id": "BITEM_000014",
+      "kind": "chunk",
+      "source_id": "SRC_000009",
+      "source_revision_id": "REV_000009",
+      "status": "pending"
+    }
+  ],
+  "run_id": "RUN_000002",
+  "run_type": "batch",
+  "stop_on_error": false
+}

@@ -1078,6 +1078,14 @@ def _cause(
     }
     if evidence.get("temporal_evidence_id") not in (None, ""):
         cause["temporal_evidence_id"] = evidence["temporal_evidence_id"]
+    for field in (
+        "support_id",
+        "interval_id",
+        "materialization_decision_id",
+        "current_decision_id",
+    ):
+        if evidence.get(field) not in (None, ""):
+            cause[field] = evidence[field]
     for field in CAUSE_ALL_FIELDS:
         if field not in cause:
             raise MissingTraceabilityError(

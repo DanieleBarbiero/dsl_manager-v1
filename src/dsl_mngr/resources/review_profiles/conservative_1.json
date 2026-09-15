@@ -1,0 +1,20 @@
+{
+  "description": "Only deterministic derivation rules explicitly approved for automatic review.",
+  "policies": [
+    "explicit_ddl_column_only/1",
+    "explicit_ddl_table_only/1",
+    "explicit_db_code_unit_only/1",
+    "explicit_excel_named_range_only/1",
+    "explicit_excel_region_only/1",
+    "explicit_excel_sheet_only/1",
+    "explicit_excel_table_only/1",
+    "explicit_excel_workbook_only/1",
+    "explicit_resolved_ddl_fk_only/1",
+    "explicit_xml_form_structure_only/1",
+    "explicit_xml_operation_only/1",
+    "named_explicit_log_policy_required/1",
+    "observed_db_code_dependency_only/1"
+  ],
+  "profile_id": "conservative",
+  "profile_version": "1"
+}

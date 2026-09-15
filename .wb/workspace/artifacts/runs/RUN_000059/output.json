@@ -1,0 +1,14 @@
+{
+  "accepted": 11,
+  "accepted_count": 11,
+  "batch_id": "CBATCH_000047",
+  "input_path": "ai/inbox/AIPKG_000001_candidates.jsonl",
+  "package_id": "AIPKG_000001",
+  "rejected": 0,
+  "rejected_count": 0,
+  "run_id": "RUN_000059",
+  "stale_allowed": false,
+  "stale_reason": null,
+  "total": 11,
+  "total_records": 11
+}

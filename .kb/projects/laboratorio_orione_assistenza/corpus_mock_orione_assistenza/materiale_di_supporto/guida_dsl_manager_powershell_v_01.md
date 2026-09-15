@@ -17,12 +17,13 @@ riproducibili dello stato governato.
 
 La shell e' ammessa soltanto per risolvere l'interprete, creare una directory
 temporanea, copiare byte per byte le fonti, calcolare hash, leggere JSON/XML,
-provare HTTP in loopback e tenere un diario. L'unica eccezione al leaf CLI e'
-la promozione temporale: il programma corrente non la espone; l'adapter locale
-chiama il servizio governato gia' implementato e non accede al database.
+provare HTTP in loopback e tenere un diario. Configurazione review,
+propagazione temporale e diagnostica partial sono esposte dai leaf pubblici
+Slice 31; la shell non importa servizi core e non seleziona worker.
 
 Exit code comuni: `0` successo; `2` errore di uso o fallimento operativo;
-`3` rifiuto di sicurezza del worker; `4` precondizione/stato non soddisfatto.
+`3` input semantico rifiutato; `4` conflitto/precondizione; `6` partial
+controllato.
 Conservare sempre stdout, stderr, exit code, ID e percorso del report.
 
 ## 2. Preparazione sicura
@@ -81,7 +82,7 @@ $after = Get-ChildItem -LiteralPath $working_corpus -Recurse -File | ForEach-Obj
 if ((Compare-Object $before $after -Property path,sha256)) { throw 'Checksum discordante: non eseguire scan' }
 ```
 
-Atteso: exit `0`, 11 migrazioni al primo `db init`, nessuna differenza hash.
+Atteso: exit `0`, 12 migrazioni al primo `db init`, nessuna differenza hash.
 Errore comune: usare `$input`, variabile automatica PowerShell, per l'elenco
 hash; usare invece `$before` e `$after`. Se `init` segnala un workspace gia'
 presente, selezionare una directory nuova o riprendere deliberatamente la sua
@@ -90,13 +91,21 @@ presente, selezionare una directory nuova o riprendere deliberatamente la sua
 ## 4. Due scan e allowlist conservativa
 
 Scopo: registrare una sola revisione per fonte e verificare l'idempotenza. La
-configurazione `configs/project.yaml` va adattata nel solo workspace scegliendo
-le regole deterministiche allowlisted: tabelle, colonne, FK risolte, form e
+configurazione review va governata nel solo workspace mediante il profilo
+built-in `conservative/1`: tabelle, colonne, FK risolte, form e
 operazioni XML, code unit e dipendenze PL/SQL, eventi log nominati, workbook,
 sheet, regioni, tabelle e named range Excel. Non auto-confermare view non
 supportate, relazioni interpretative, SLA narrativi o temporalita'.
 
 ```powershell
+& $project_python -m dsl_mngr config review show $workspace
+& $project_python -m dsl_mngr config review profiles $workspace
+$profile_json = & $project_python -m dsl_mngr config review apply-profile $workspace --profile 'conservative/1'
+if ($LASTEXITCODE -ne 0) { throw 'profilo review non applicato' }
+$profile = $profile_json | ConvertFrom-Json
+if (@($profile.effective_policies).Count -ne 13) { throw 'profilo conservativo inatteso' }
+& $project_python -m dsl_mngr config validate $workspace --profile 'conservative/1'
+if ($LASTEXITCODE -ne 0) { throw 'configurazione review non valida' }
 & $project_python -m dsl_mngr corpus scan $workspace
 $scan_1_exit = $LASTEXITCODE
 & $project_python -m dsl_mngr corpus scan $workspace
@@ -104,9 +113,10 @@ $scan_2_exit = $LASTEXITCODE
 if ($scan_1_exit -ne 0 -or $scan_2_exit -ne 0) { throw 'scan fallito' }
 ```
 
-Atteso: primo scan `Added: 15`; secondo `Unchanged: 15`, exit `0`. La modifica
-dell'allowlist e' una preparazione secondaria del tutorial; ogni decisione viene
-poi registrata dalla pipeline. Se il secondo scan produce `Modified`, ricopiare
+Atteso: profilo di 13 policy e validazione exit `0`; primo scan `Added: 15`;
+secondo `Unchanged: 15`, exit `0`. Non modificare il YAML a mano. Per proteggere
+un aggiornamento concorrente passare il `config_hash` di `show` a
+`apply-profile --expect-config-hash`. Se il secondo scan produce `Modified`, ricopiare
 dalla fonte canonica, confrontare gli hash e ripartire con un workspace nuovo.
 
 ## 5. Consolidamento deterministico e checkpoint
@@ -287,11 +297,10 @@ un intervallo sorgente chiuso 2023-01-01/2025-02-28. Gli intervalli della
 `source_revision` non si propagano da soli.
 
 Individuare con i comandi pubblici e gli output di merge due fatti nodo e la
-relazione arco. Poi invocare l'adapter con gli ID reali:
+relazione arco. Poi invocare il leaf pubblico con gli ID reali:
 
 ```powershell
-$adapter = Join-Path $lab 'materiale_di_supporto\promuovi_temporalita_orione_assistenza.py'
-$promotion_json = & $project_python $adapter --workspace $workspace --run-id $run_id --source-revision-id $rev_id --target-subject-type fact --target-subject-id $fact_id --source-subject ("source_revision:" + $rev_id) --policy explicit_copy
+$promotion_json = & $project_python -m dsl_mngr temporal propagate $workspace --source-revision-id $rev_id --target-subject-type fact --target-subject-id $fact_id --source-subject ("source_revision:" + $rev_id) --policy explicit_copy
 if ($LASTEXITCODE -ne 0) { throw 'Promozione fallita: leggere il JSON' }
 $promotion = $promotion_json | ConvertFrom-Json
 $promotion.candidate_record_ids
@@ -300,7 +309,7 @@ $promotion.candidate_record_ids
 Interfaccia completa:
 
 ```text
-promuovi_temporalita_orione_assistenza.py --workspace WORKSPACE --run-id RUN_ID --source-revision-id REV_ID --target-subject-type fact|relation --target-subject-id TARGET_ID --source-subject TYPE:ID [--source-subject TYPE:ID ...] --policy explicit_copy|intersection|aggregation|conflict
+dsl-manager temporal propagate WORKSPACE --source-revision-id REV_ID --target-subject-type {fact,relation} --target-subject-id TARGET_ID --source-subject TYPE:ID [--source-subject TYPE:ID ...] --policy {explicit_copy,intersection,aggregation,conflict}
 ```
 
 Ripetere `explicit_copy` verso due fatti e verso la relazione. Usare poi
@@ -308,9 +317,9 @@ Ripetere `explicit_copy` verso due fatti e verso la relazione. Usare poi
 `intersection` su vincoli indipendenti. L'output deve riportare policy, target,
 sorgenti, ID dei candidati o conflict ID ed exit semantico. Mostrare ogni
 candidato, confermarlo o rifiutarlo tramite review, quindi fondere i suoi batch.
-Una aggregation semanticamente duplicata puo' non creare una nuova
-associazione materializzata: rifiutarla e scegliere un bersaglio distinto, non
-forzare il DB.
+Un intervallo semanticamente gia' materializzato viene riusato e puo' ricevere
+un secondo supporto confermato: non duplicare l'intervallo e non cambiare
+bersaglio per aggirare il riuso.
 
 Per ottenere spell reali servono almeno due intervalli sul medesimo fatto e
 sulla relazione: copiare sia lo storico chiuso sia il corrente aperto. Verificare
@@ -395,7 +404,20 @@ database o gli export della sessione.
 
 Le fixture workbook controllate vanno provate in un workspace temporaneo
 separato: il malformed deve fallire con exit pipeline `2`, worker security `3`
-e `ooxml_security_violation`; il partial deve produrre normalizzato/chunk ma la
-pipeline complessiva resta fallita a causa del malformed. Un resume crea una
-nuova run `retry_of` e ripete il fallimento previsto. Non presentarle come fonti
-operative e non cambiare l'expected per farlo diventare verde.
+e `ooxml_security_violation`. Il contratto partial si prova invece sulla
+revisione registrata di una fonte ammessa, senza iniettare worker o path:
+
+```powershell
+$partial_json = & $project_python -m dsl_mngr diagnostics normalization run $workspace --revision $rev_id --scenario 'controlled_partial_success/1'
+$partial_exit = $LASTEXITCODE
+$partial = $partial_json | ConvertFrom-Json
+if ($partial_exit -ne 6 -or $partial.status -ne 'partial' -or -not $partial.controlled_simulation -or $partial.worker_exit_code -ne 6) {
+  throw 'Contratto partial controllato non soddisfatto'
+}
+$partial.artifact_paths
+```
+
+Gli artefatti devono restare sotto
+`artifacts/runs/<RUN_ID>/diagnostics/normalization/` e lo stato di produzione
+(normalizzati, chunk, candidati, fatti e relazioni) non deve cambiare. Le
+fixture controllate non sono fonti operative.

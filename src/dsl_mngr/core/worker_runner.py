@@ -12,6 +12,7 @@ from pathlib import Path
 from typing import Any
 
 from dsl_mngr.core.database import open_database, resolve_database_settings
+from dsl_mngr.core.filesystem import replace_file_with_retry, unlink_file_with_retry
 from dsl_mngr.core.logging_setup import log_event
 from dsl_mngr.core.runs import (
     Clock,
@@ -22,6 +23,7 @@ from dsl_mngr.core.runs import (
     get_run_record_from_connection,
     mark_run_completed,
     mark_run_failed,
+    mark_run_partial,
     next_id,
     read_config_hash,
     relative_workspace_path,
@@ -287,14 +289,22 @@ def run_worker(
                     finished_at = ?
                 WHERE worker_run_id = ?
                 """,
-                ("completed", exit_code, duration_ms, finished_at, worker_run_id),
+                (semantic_status, exit_code, duration_ms, finished_at, worker_run_id),
             )
-            mark_run_completed(
-                connection,
-                run_id,
-                output_json=output_json,
-                finished_at=finished_at,
-            )
+            if semantic_status == "partial":
+                mark_run_partial(
+                    connection,
+                    run_id,
+                    output_json=output_json,
+                    finished_at=finished_at,
+                )
+            else:
+                mark_run_completed(
+                    connection,
+                    run_id,
+                    output_json=output_json,
+                    finished_at=finished_at,
+                )
         except Exception as exc:
             connection.rollback()
             return _record_worker_failure(
@@ -349,8 +359,8 @@ def run_worker(
         log_event(
             artifacts.log_path,
             level="INFO",
-            event="worker_completed",
-            message=f"Worker {worker_name} completed.",
+            event="worker_partial" if semantic_status == "partial" else "worker_completed",
+            message=f"Worker {worker_name} finished with status {semantic_status}.",
             run_id=run_id,
             worker=worker_name,
             clock=clock,
@@ -358,8 +368,8 @@ def run_worker(
         log_event(
             artifacts.log_path,
             level="INFO",
-            event="run_completed",
-            message=f"Run {run_id} completed.",
+            event="run_partial" if semantic_status == "partial" else "run_completed",
+            message=f"Run {run_id} finished with status {semantic_status}.",
             run_id=run_id,
             clock=clock,
         )
@@ -551,22 +561,8 @@ def memory_limit_mode(memory_limit_bytes: int | None) -> str:
     return "monitored" if os.name == "nt" else "hard"
 
 
-_WORKER_TEMP_CLEANUP_ATTEMPTS = 10
-_WORKER_TEMP_CLEANUP_INITIAL_DELAY_SECONDS = 0.05
-_WORKER_TEMP_CLEANUP_MAX_DELAY_SECONDS = 0.5
-
-
 def _unlink_worker_temp_file(path: Path) -> None:
-    delay = _WORKER_TEMP_CLEANUP_INITIAL_DELAY_SECONDS
-    for attempt in range(_WORKER_TEMP_CLEANUP_ATTEMPTS):
-        try:
-            path.unlink(missing_ok=True)
-            return
-        except PermissionError:
-            if attempt + 1 == _WORKER_TEMP_CLEANUP_ATTEMPTS:
-                raise
-            time.sleep(delay)
-            delay = min(delay * 2, _WORKER_TEMP_CLEANUP_MAX_DELAY_SECONDS)
+    unlink_file_with_retry(path, missing_ok=True)
 
 
 def _execute_worker_process(
@@ -766,7 +762,12 @@ def _atomic_write_text(path: Path, text: str) -> None:
     temporary = path.with_name(f".{path.name}.{os.getpid()}.{time.time_ns()}.tmp")
     try:
         temporary.write_text(text, encoding="utf-8", newline="\n")
-        os.replace(temporary, path)
-    finally:
-        if temporary.exists():
-            temporary.unlink()
+        replace_file_with_retry(temporary, path)
+    except BaseException:
+        try:
+            _unlink_worker_temp_file(temporary)
+        except OSError:
+            pass
+        raise
+    else:
+        _unlink_worker_temp_file(temporary)

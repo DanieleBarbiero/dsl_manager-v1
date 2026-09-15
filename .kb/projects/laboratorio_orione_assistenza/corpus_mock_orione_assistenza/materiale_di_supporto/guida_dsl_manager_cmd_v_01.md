@@ -15,11 +15,10 @@ stato. Un import AI resta `pending`. L'intervallo della fonte non rende
 automaticamente temporale un fatto o una relazione.
 
 La shell puo' creare la sessione, copiare byte per byte, confrontare file,
-estrarre ID dall'output, leggere artefatti e verificare HTTP. La promozione
-temporale e' l'unica eccezione applicativa: non esiste un leaf CLI corrente e
-l'adapter locale usa il servizio governato, senza SQL. Exit code: `0` successo;
-`2` uso/fallimento operativo; `3` rifiuto worker; `4` precondizione o stato non
-soddisfatto.
+estrarre ID dall'output, leggere artefatti e verificare HTTP. Configurazione
+review, propagazione temporale e diagnostica partial passano dai leaf pubblici
+di DSL Manager. Exit code: `0` successo; `2` uso/fallimento ordinario; `3`
+input semantico rifiutato; `4` conflitto/precondizione; `6` partial controllato.
 
 ## 2. Interprete e sessione nuova
 
@@ -82,7 +81,7 @@ for /r "!SOURCE_COPY!" %%A in (*) do (
 )
 ```
 
-`init` e `db init` devono terminare `0`; al primo avvio si osservano 11
+`init` e `db init` devono terminare `0`; al primo avvio si osservano 12
 migrazioni. `fc /b` dimostra l'identita' prima dello scan; `checksums.json`
 fornisce poi gli SHA-256 canonici. Quoting e delayed expansion sono
 obbligatori con path contenenti spazi. Non usare nomi 8.3.
@@ -95,15 +94,23 @@ dipendenze PL/SQL, eventi log nominati e oggetti strutturali Excel. View non
 supportate, relazioni narrative, SLA e temporalita' non sono auto-review.
 
 ```bat
+"!PROJECT_PYTHON!" -m dsl_mngr config review show "!WORKSPACE!"
+"!PROJECT_PYTHON!" -m dsl_mngr config review profiles "!WORKSPACE!"
+"!PROJECT_PYTHON!" -m dsl_mngr config review apply-profile "!WORKSPACE!" --profile conservative/1
+if errorlevel 1 exit /b 2
+"!PROJECT_PYTHON!" -m dsl_mngr config validate "!WORKSPACE!" --profile conservative/1
+if errorlevel 1 exit /b 2
 "!PROJECT_PYTHON!" -m dsl_mngr corpus scan "!WORKSPACE!"
 if errorlevel 1 exit /b 2
 "!PROJECT_PYTHON!" -m dsl_mngr corpus scan "!WORKSPACE!"
 if errorlevel 1 exit /b 2
 ```
 
-Atteso: `Added: 15`, poi `Unchanged: 15`. La modifica YAML e' preparazione
-secondaria del tutorial, non una sostituzione della CLI. Se compare `Modified`,
-ricopiare la fonte canonica, ripetere `fc /b` e usare un workspace nuovo.
+Atteso: il profilo built-in `conservative/1` espone e applica 13 policy, la
+configurazione e' valida, poi `Added: 15` e `Unchanged: 15`. Non modificare il
+YAML a mano. Per aggiornamenti concorrenti usare l'hash restituito da `show`
+con `apply-profile --expect-config-hash HASH`. Se compare `Modified`, ricopiare
+la fonte canonica, ripetere `fc /b` e usare un workspace nuovo.
 
 ## 5. Pipeline, stato e resume
 
@@ -256,11 +263,10 @@ OOXML incoerenti; lasciare pending i conflitti. Correggere le due date HTML in
 un intervallo chiuso di `source_revision` 2023-01-01/2025-02-28. La correzione
 e la conferma usano i normali comandi review.
 
-Acquisire dagli output reali `RUN_ID`, `REV_ID`, due `FACT_ID` e `REL_ID`, poi:
+Acquisire dagli output reali `REV_ID`, due `FACT_ID` e `REL_ID`, poi:
 
 ```bat
-set "ADAPTER=%LAB%\materiale_di_supporto\promuovi_temporalita_orione_assistenza.py"
-"!PROJECT_PYTHON!" "!ADAPTER!" --workspace "!WORKSPACE!" --run-id "!RUN_ID!" --source-revision-id "!REV_ID!" --target-subject-type fact --target-subject-id "!FACT_ID!" --source-subject "source_revision:!REV_ID!" --policy explicit_copy >"!SESSION_ROOT!\promotion.json"
+"!PROJECT_PYTHON!" -m dsl_mngr temporal propagate "!WORKSPACE!" --source-revision-id "!REV_ID!" --target-subject-type fact --target-subject-id "!FACT_ID!" --source-subject "source_revision:!REV_ID!" --policy explicit_copy >"!SESSION_ROOT!\promotion.json"
 set "PROMOTION_EXIT=!ERRORLEVEL!"
 type "!SESSION_ROOT!\promotion.json"
 if not "!PROMOTION_EXIT!"=="0" exit /b !PROMOTION_EXIT!
@@ -269,15 +275,17 @@ if not "!PROMOTION_EXIT!"=="0" exit /b !PROMOTION_EXIT!
 L'interfaccia stabile e':
 
 ```text
-promuovi_temporalita_orione_assistenza.py --workspace WORKSPACE --run-id RUN_ID --source-revision-id REV_ID --target-subject-type fact|relation --target-subject-id TARGET_ID --source-subject TYPE:ID [--source-subject TYPE:ID ...] --policy explicit_copy|intersection|aggregation|conflict
+dsl-manager temporal propagate WORKSPACE --source-revision-id REV_ID --target-subject-type {fact,relation} --target-subject-id TARGET_ID --source-subject TYPE:ID [--source-subject TYPE:ID ...] --policy {explicit_copy,intersection,aggregation,conflict}
 ```
 
 Ripetere `explicit_copy` verso due fatti e la relazione; esercitare inoltre una
 `aggregation` disgiunta su un bersaglio distinto o una `intersection` di
-vincoli indipendenti. Dal JSON leggere `candidate_record_ids` o `conflict_id`;
-usare quegli ID in `review show`, poi confermare/rifiutare e `merge-batch` i
-batch reali. Una aggregation duplicata puo' non avere una nuova associazione:
-rifiutarla e usare un target distinto.
+vincoli indipendenti. Dal JSON leggere `candidate_record_ids`,
+`candidate_batch_ids` o `conflict_id`; usare quegli ID in `review show`, poi
+confermare/rifiutare e `merge-batch` i batch reali. Un intervallo semanticamente
+gia' materializzato viene riusato e puo' ricevere un secondo supporto
+confermato: non duplicare l'intervallo e non cambiare target per aggirare il
+riuso.
 
 Per spell reali copiare sullo stesso fatto e sulla stessa relazione sia lo
 storico chiuso sia il corrente aperto. Gli intervalli dell'arco devono stare
@@ -337,8 +345,19 @@ Ripetere `corpus scan`: 15 `Unchanged`; ripetere `fc /b` e confrontare gli
 SHA-256 con `checksums.json`. Conservare sessione, report e log; non copiare nel
 repository database ed export.
 
-Provare i due workbook controllati soltanto in un secondo workspace: malformed
-atteso pipeline `2`, worker `3`, `ooxml_security_violation`; partial atteso
-normalizzato e chunkato. La pipeline complessiva resta failed per il malformed.
-Un resume crea una nuova run `retry_of` e ripete il fallimento intenzionale.
-Queste fixture non sono fonti operative.
+Provare il malformed soltanto in un secondo workspace: sono attesi pipeline
+`2`, worker `3` e `ooxml_security_violation`. Per il contratto partial usare una
+revisione registrata `.txt`, `.md`, `.html` o `.xlsx` senza contenuto attivo:
+
+```bat
+"!PROJECT_PYTHON!" -m dsl_mngr diagnostics normalization run "!WORKSPACE!" --revision "!REV_ID!" --scenario controlled_partial_success/1 >"!SESSION_ROOT!\diagnostic_partial.json"
+set "DIAGNOSTIC_EXIT=!ERRORLEVEL!"
+type "!SESSION_ROOT!\diagnostic_partial.json"
+if not "!DIAGNOSTIC_EXIT!"=="6" exit /b !DIAGNOSTIC_EXIT!
+```
+
+Il JSON deve dichiarare `controlled_simulation: true`, stato `partial`, exit
+worker/CLI `6` e artefatti sotto
+`artifacts/runs/<RUN_ID>/diagnostics/normalization/`; non deve modificare
+normalizzati, chunk, candidati, fatti o relazioni di produzione. Le fixture
+controllate non sono fonti operative.

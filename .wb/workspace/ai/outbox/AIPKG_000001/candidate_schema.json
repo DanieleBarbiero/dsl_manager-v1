@@ -1,0 +1,121 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "allowed_record_types": [
+    "candidate_conflict",
+    "candidate_fact",
+    "candidate_mapping",
+    "candidate_question",
+    "candidate_relation"
+  ],
+  "anyOf": [
+    {
+      "required": [
+        "chunk_id"
+      ]
+    },
+    {
+      "required": [
+        "fragment_id"
+      ]
+    }
+  ],
+  "common_required_fields": [
+    "record_type",
+    "candidate_id",
+    "source_revision_id",
+    "assertion_type",
+    "confidence",
+    "evidence_text"
+  ],
+  "description": "Handoff schema aligned with dsl_mngr candidate_validation.",
+  "properties": {
+    "assertion_type": {
+      "enum": [
+        "ambiguous",
+        "explicit",
+        "inferred",
+        "observed"
+      ],
+      "type": "string"
+    },
+    "candidate_id": {
+      "type": "string"
+    },
+    "chunk_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "confidence": {
+      "enum": [
+        "high",
+        "low",
+        "medium"
+      ],
+      "type": "string"
+    },
+    "evidence_text": {
+      "type": "string"
+    },
+    "fragment_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "record_type": {
+      "enum": [
+        "candidate_conflict",
+        "candidate_fact",
+        "candidate_mapping",
+        "candidate_question",
+        "candidate_relation"
+      ],
+      "type": "string"
+    },
+    "source_revision_id": {
+      "type": "string"
+    }
+  },
+  "record_specific_required_fields": {
+    "candidate_conflict": [
+      "conflict_type",
+      "subject",
+      "left_value",
+      "right_value"
+    ],
+    "candidate_fact": [
+      "fact_type",
+      "entity_name",
+      "property_name",
+      "property_value"
+    ],
+    "candidate_mapping": [
+      "domain_entity",
+      "technical_object",
+      "mapping_type"
+    ],
+    "candidate_question": [
+      "question_type",
+      "subject",
+      "question_text"
+    ],
+    "candidate_relation": [
+      "source_entity",
+      "relation_type",
+      "target_entity"
+    ]
+  },
+  "required": [
+    "record_type",
+    "candidate_id",
+    "source_revision_id",
+    "assertion_type",
+    "confidence",
+    "evidence_text"
+  ],
+  "title": "DSL Manager AI Candidate JSONL Record",
+  "type": "object"
+}

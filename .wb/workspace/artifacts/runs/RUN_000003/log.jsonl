@@ -1,0 +1,4 @@
+{"event": "run_started", "level": "INFO", "message": "Run RUN_000003 started.", "run_id": "RUN_000003", "timestamp": "2026-09-14T14:41:30+02:00"}
+{"event": "worker_started", "level": "INFO", "message": "Worker parse_ddl started.", "run_id": "RUN_000003", "timestamp": "2026-09-14T14:41:30+02:00", "worker": "parse_ddl"}
+{"event": "worker_failed", "level": "ERROR", "message": "Worker parse_ddl failed: Worker exited with code 5.", "run_id": "RUN_000003", "timestamp": "2026-09-14T14:41:30+02:00", "worker": "parse_ddl"}
+{"event": "run_failed", "level": "ERROR", "message": "Run RUN_000003 failed: Worker exited with code 5.", "run_id": "RUN_000003", "timestamp": "2026-09-14T14:41:30+02:00"}

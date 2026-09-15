@@ -47,6 +47,20 @@ def test_slice_26_dsl_v2_roundtrip(tmp_path):
             "end": "2025-12-31",
             "original_precision": "day",
             "start": "2025-01-01",
+            "supports": [
+                {
+                    "candidate_record_id": "CREC_000005",
+                    "current_decision_id": "RDEC_000005",
+                    "materialization_decision_id": "RDEC_000005",
+                    "review": {
+                        "outcome": "confirmed",
+                        "policy_id": None,
+                        "policy_version": None,
+                        "semantic_payload_hash": "5a70ecece3b96a10d8d4bc3d1f274fe8fad2ed948a30f6b1c10eb8ed524fa623",
+                    },
+                    "support_id": "TISUP_000001",
+                }
+            ],
             "timeformat": "date",
             "timezone": "Europe/Rome",
         }
@@ -60,11 +74,15 @@ def test_slice_26_dsl_v2_roundtrip(tmp_path):
         {
             "candidate_record_id": "CREC_000005",
             "chunk_id": None,
+            "current_decision_id": "RDEC_000005",
             "evidence_text_hash": temporal_trace[0]["evidence_text_hash"],
             "file_path": "corpus/active/manuale_clienti.txt",
             "fragment_id": None,
+            "interval_id": "TINT_000001",
+            "materialization_decision_id": "RDEC_000005",
             "source_id": "SRC_000001",
             "source_revision_id": "REV_000001",
+            "support_id": "TISUP_000001",
             "temporal_evidence_id": "TEV_900001",
         }
     ]
@@ -161,14 +179,18 @@ def test_slice_26_diff_detects_interval_and_reports_temporal_evidence(tmp_path):
         {
             "candidate_record_id": "CREC_000005",
             "chunk_id": None,
+            "current_decision_id": "RDEC_000005",
             "evidence_text_hash": temporal_causes[0]["evidence_text_hash"],
             "file_path": "corpus/active/manuale_clienti.txt",
             "fragment_id": None,
+            "interval_id": "TINT_000001",
+            "materialization_decision_id": "RDEC_000005",
             "owner_id": "FACT_000001",
             "owner_type": "fact_temporal",
             "side": "after",
             "source_id": "SRC_000001",
             "source_revision_id": "REV_000001",
+            "support_id": "TISUP_000001",
             "temporal_evidence_id": "TEV_900020",
         }
     ]

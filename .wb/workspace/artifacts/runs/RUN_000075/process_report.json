@@ -1,0 +1,11 @@
+{
+  "artifact_dir": "artifacts/runs/RUN_000075",
+  "config_hash": "2dd6b5c68345e85d1897975f7db254e5b5cccee370cf76aa41c1f46af9752afe",
+  "error": null,
+  "finished_at": "2026-09-14T16:30:39+02:00",
+  "run_id": "RUN_000075",
+  "run_type": "candidate_review",
+  "started_at": "2026-09-14T16:30:39+02:00",
+  "status": "completed",
+  "workers": []
+}

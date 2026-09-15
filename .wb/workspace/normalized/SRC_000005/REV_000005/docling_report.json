@@ -1,0 +1,75 @@
+{
+  "catalog": {
+    "artifact_paths": [
+      "normalized/SRC_000005/REV_000005/docling_report.json",
+      "normalized/SRC_000005/REV_000005/normalized.json",
+      "normalized/SRC_000005/REV_000005/normalized.md",
+      "normalized/SRC_000005/REV_000005/source_hash.txt"
+    ],
+    "catalog_version": 1,
+    "condition": "operation_completed",
+    "counters": {
+      "normalized_json_items": 13,
+      "normalized_markdown_bytes": 422
+    },
+    "exit_code": 0,
+    "mutations": "artifacts_published",
+    "outcome": null,
+    "reason": "success",
+    "retryable": false,
+    "run_id": "RUN_000025",
+    "severity": "info",
+    "status": "completed",
+    "subject_ids": {
+      "source_id": "SRC_000005",
+      "source_revision_id": "REV_000005"
+    }
+  },
+  "conversion_status": "success",
+  "docling_version": "2.97.0",
+  "input": {
+    "input_path": "corpus/active/documenti/procedura_storica_chiusura_2023.html",
+    "source_hash": "506ea945fa58a3e70b37a23ecf23c920f8626db081c2be56159798a537596cbe",
+    "source_id": "SRC_000005",
+    "source_revision_id": "REV_000005"
+  },
+  "outputs": {
+    "docling_report_path": "normalized/SRC_000005/REV_000005/docling_report.json",
+    "normalized_hash": "bcfab4c7a9f3362cc1d08f0d3c522ab52612614f812c924afbca691b911a077e",
+    "normalized_json_path": "normalized/SRC_000005/REV_000005/normalized.json",
+    "normalized_markdown_path": "normalized/SRC_000005/REV_000005/normalized.md",
+    "source_hash_path": "normalized/SRC_000005/REV_000005/source_hash.txt"
+  },
+  "profile": "docling.no_images",
+  "resolved_config": {
+    "docling": {
+      "force_full_page_ocr": false,
+      "generate_page_images": false,
+      "generate_picture_images": false,
+      "image_export_mode": "placeholder",
+      "images_enabled": false,
+      "input_formats": [
+        "PDF",
+        "DOCX",
+        "PPTX",
+        "HTML",
+        "MD",
+        "XLSX"
+      ],
+      "ocr_enabled": false,
+      "output_normalized_json": true,
+      "output_normalized_markdown": true,
+      "strict_options_fail_on_unsupported_option": true,
+      "tables_enabled": true,
+      "tables_mode": "auto"
+    },
+    "worker": {
+      "name": "normalize_docling",
+      "version": "1.0"
+    }
+  },
+  "run_id": "RUN_000025",
+  "status": "completed",
+  "worker_name": "normalize_docling",
+  "worker_version": "1.0"
+}

@@ -1,0 +1,83 @@
+{
+  "catalog": {
+    "artifact_paths": [
+      "normalized/SRC_000008/REV_000008/ooxml_preflight_report.json",
+      "normalized/SRC_000008/REV_000008/workbook_fragments.jsonl",
+      "normalized/SRC_000008/REV_000008/workbook_manifest.json",
+      "normalized/SRC_000008/REV_000008/workbook_report.json"
+    ],
+    "catalog_version": 1,
+    "condition": "operation_completed",
+    "counters": {
+      "external_relationships": 0,
+      "relationships": 8,
+      "sheets": 1,
+      "uncompressed_bytes": 13622,
+      "xml_parts": 10,
+      "zip_entries": 11
+    },
+    "exit_code": 0,
+    "mutations": "artifacts_published",
+    "outcome": null,
+    "reason": "success",
+    "retryable": false,
+    "run_id": null,
+    "severity": "info",
+    "status": "completed",
+    "subject_ids": {
+      "source_id": "SRC_000008",
+      "source_revision_id": "REV_000008"
+    }
+  },
+  "docling": {
+    "conversion_status": "success",
+    "input_format": "xlsx",
+    "version": "2.97.0"
+  },
+  "external_targets_dereferenced": false,
+  "input": {
+    "docling_input_format": "xlsx",
+    "docling_stream_hash": "8d635179e6b81d6550a80632db7c3033ac421f190cebcdd4f533d2413a43b16c",
+    "extension": ".xlsm",
+    "source_hash": "8d635179e6b81d6550a80632db7c3033ac421f190cebcdd4f533d2413a43b16c",
+    "source_open_count": 1,
+    "stream_hash": "8d635179e6b81d6550a80632db7c3033ac421f190cebcdd4f533d2413a43b16c"
+  },
+  "limits": {
+    "max_cells": 2000000,
+    "max_compression_ratio": 100,
+    "max_file_bytes": 67108864,
+    "max_regions": 10000,
+    "max_relationships": 50000,
+    "max_sheets": 256,
+    "max_uncompressed_bytes": 536870912,
+    "max_xml_part_bytes": 33554432,
+    "max_zip_entries": 20000
+  },
+  "macros_executed": false,
+  "manifest": {
+    "cells": 6,
+    "fragments": 1,
+    "manifest_hash": "4107b6e613cd8aa8343a326397665d6cdacad8a55abe838df5ad5f845c6f25fb",
+    "regions": 1,
+    "schema_version": "1"
+  },
+  "network_accessed": false,
+  "package": {
+    "external_relationships": 0,
+    "relationships": 8,
+    "sheets": 1,
+    "uncompressed_bytes": 13622,
+    "workbook_content_type": "application/vnd.ms-excel.sheet.macroEnabled.main+xml",
+    "workbook_part": "xl/workbook.xml",
+    "xml_parts": 10,
+    "zip_entries": 11
+  },
+  "resource_limits": {
+    "max_output_bytes": 268435456,
+    "memory_limit_bytes": 1073741824,
+    "memory_limit_mode": "monitored",
+    "timeout_seconds": 300
+  },
+  "status": "completed"
+}

@@ -15,6 +15,7 @@ from dsl_mngr.core.docling_adapter import (
     normalize_excel_stream_with_docling,
     normalize_document_with_docling,
 )
+from dsl_mngr.core.filesystem import replace_file_with_retry, unlink_file_with_retry
 from dsl_mngr.core.hashing import sha256_file
 from dsl_mngr.core.ooxml_preflight import (
     ExcelLimits,
@@ -497,12 +498,22 @@ def _publish_artifacts(output_dir: Path, serialized: dict[str, str]) -> None:
             path = stage / name
             path.write_text(text, encoding="utf-8", newline="\n")
         for name in sorted(serialized):
-            os.replace(stage / name, output_dir / name)
-    finally:
-        if stage.exists():
-            for child in stage.iterdir():
-                child.unlink()
-            stage.rmdir()
+            replace_file_with_retry(stage / name, output_dir / name)
+    except BaseException:
+        try:
+            _remove_artifact_stage(stage)
+        except OSError:
+            pass
+        raise
+    else:
+        _remove_artifact_stage(stage)
+
+
+def _remove_artifact_stage(stage: Path) -> None:
+    if stage.exists():
+        for child in stage.iterdir():
+            unlink_file_with_retry(child, missing_ok=True)
+        stage.rmdir()
 
 
 def _atomic_write_text(path: Path, text: str) -> None:
@@ -510,10 +521,15 @@ def _atomic_write_text(path: Path, text: str) -> None:
     temporary = path.with_name(f".{path.name}.{os.getpid()}.{time.time_ns()}.tmp")
     try:
         temporary.write_text(text, encoding="utf-8", newline="\n")
-        os.replace(temporary, path)
-    finally:
-        if temporary.exists():
-            temporary.unlink()
+        replace_file_with_retry(temporary, path)
+    except BaseException:
+        try:
+            unlink_file_with_retry(temporary, missing_ok=True)
+        except OSError:
+            pass
+        raise
+    else:
+        unlink_file_with_retry(temporary, missing_ok=True)
 
 
 def _write_preflight_failure(

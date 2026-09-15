@@ -1,0 +1,270 @@
+{
+  "call_count": 1,
+  "calls": [
+    "PRC_AUDIT_INTERVENTO"
+  ],
+  "db_code_objects": {
+    "procedures": [
+      {
+        "calls": [
+          "PRC_AUDIT_INTERVENTO"
+        ],
+        "parameters": [
+          "P_INTERVENTO_ID",
+          "P_TECNICO_ID"
+        ],
+        "procedure_name": "PRC_ASSEGNA_TECNICO",
+        "reads": [
+          "P_TECNICO_ID",
+          "INTERVENTO.ID",
+          "P_INTERVENTO_ID"
+        ],
+        "statements": [
+          {
+            "calls": [],
+            "parent_object_name": "PRC_ASSEGNA_TECNICO",
+            "parent_object_type": "procedure",
+            "reads": [
+              "P_TECNICO_ID",
+              "INTERVENTO.ID",
+              "P_INTERVENTO_ID"
+            ],
+            "statement_kind": "UPDATE",
+            "writes": [
+              "INTERVENTO.TECNICO_ID",
+              "INTERVENTO.STATO"
+            ]
+          }
+        ],
+        "writes": [
+          "INTERVENTO.TECNICO_ID",
+          "INTERVENTO.STATO"
+        ]
+      }
+    ],
+    "triggers": [
+      {
+        "calls": [],
+        "reads": [
+          "NEW.STATO",
+          "INTERVENTO.SYSDATE",
+          "NEW.ID",
+          "INTERVENTO.ID"
+        ],
+        "statements": [
+          {
+            "calls": [],
+            "parent_object_name": "TRG_CHIUDI_INTERVENTO",
+            "parent_object_type": "trigger",
+            "reads": [
+              "INTERVENTO.SYSDATE",
+              "NEW.ID",
+              "INTERVENTO.ID"
+            ],
+            "statement_kind": "UPDATE",
+            "writes": [
+              "INTERVENTO.STATO",
+              "INTERVENTO.CHIUSO_IL"
+            ]
+          }
+        ],
+        "target_table": "INTERVENTO",
+        "trigger_event": "UPDATE",
+        "trigger_name": "TRG_CHIUDI_INTERVENTO",
+        "trigger_timing": "BEFORE",
+        "writes": [
+          "INTERVENTO.STATO",
+          "INTERVENTO.CHIUSO_IL"
+        ]
+      }
+    ],
+    "warnings": []
+  },
+  "db_code_options": {
+    "dialect": "generic_sql",
+    "output_fragments_jsonl": true,
+    "parse_calls": true,
+    "parse_procedures": true,
+    "parse_triggers": true,
+    "parse_update_statements": true,
+    "strict_options_fail_on_unsupported_option": true
+  },
+  "db_code_report_path": "fragments/SRC_000002/REV_000002/db_code_report.json",
+  "dialect": "generic_sql",
+  "exit_code": 0,
+  "fragment_count": 4,
+  "fragments": [
+    {
+      "char_end": 614,
+      "char_start": 371,
+      "fragment_id": "FRAG_000001",
+      "fragment_type": "sql_trigger",
+      "line_end": 26,
+      "line_start": 17,
+      "metadata": {
+        "calls": [],
+        "object_type": "trigger",
+        "parser": "parse_db_code",
+        "parser_version": "1.0",
+        "reads": [
+          "NEW.STATO",
+          "INTERVENTO.SYSDATE",
+          "NEW.ID",
+          "INTERVENTO.ID"
+        ],
+        "source_hash": "45ed62bc2dad1c264b1a7a9b4f4b22b607bf36037f70e9917e62921b7e553f14",
+        "target_table": "INTERVENTO",
+        "trigger_event": "UPDATE",
+        "trigger_name": "TRG_CHIUDI_INTERVENTO",
+        "trigger_timing": "BEFORE",
+        "writes": [
+          "INTERVENTO.STATO",
+          "INTERVENTO.CHIUSO_IL"
+        ]
+      },
+      "path_or_selector": "trigger:TRG_CHIUDI_INTERVENTO",
+      "sequence": 1,
+      "source_revision_id": "REV_000002",
+      "status": "active",
+      "text": "CREATE OR REPLACE TRIGGER TRG_CHIUDI_INTERVENTO\nBEFORE UPDATE OF STATO ON INTERVENTO\nFOR EACH ROW\nWHEN (NEW.STATO = 'PRONTO')\nBEGIN\n    UPDATE INTERVENTO\n       SET STATO = 'CHIUSO',\n           CHIUSO_IL = SYSDATE\n     WHERE ID = :NEW.ID;\nEND;",
+      "text_hash": "7cbaf4c913c880951098580c422bfc1e04b30d8cccc0597a0ac545b0a07385cd"
+    },
+    {
+      "char_end": 609,
+      "char_start": 507,
+      "fragment_id": "FRAG_000002",
+      "fragment_type": "sql_statement",
+      "line_end": 25,
+      "line_start": 22,
+      "metadata": {
+        "calls": [],
+        "object_type": "statement",
+        "parent_object_name": "TRG_CHIUDI_INTERVENTO",
+        "parent_object_type": "trigger",
+        "parser": "parse_db_code",
+        "parser_version": "1.0",
+        "reads": [
+          "INTERVENTO.SYSDATE",
+          "NEW.ID",
+          "INTERVENTO.ID"
+        ],
+        "source_hash": "45ed62bc2dad1c264b1a7a9b4f4b22b607bf36037f70e9917e62921b7e553f14",
+        "statement_kind": "UPDATE",
+        "writes": [
+          "INTERVENTO.STATO",
+          "INTERVENTO.CHIUSO_IL"
+        ]
+      },
+      "path_or_selector": "trigger:TRG_CHIUDI_INTERVENTO/statement:1",
+      "sequence": 2,
+      "source_revision_id": "REV_000002",
+      "status": "active",
+      "text": "UPDATE INTERVENTO\n       SET STATO = 'CHIUSO',\n           CHIUSO_IL = SYSDATE\n     WHERE ID = :NEW.ID;",
+      "text_hash": "e60c5449d5cd27705cae1c584f20a640e7dc4aa143c84fc1379a1bdf54f4cbe8"
+    },
+    {
+      "char_end": 367,
+      "char_start": 72,
+      "fragment_id": "FRAG_000003",
+      "fragment_type": "sql_procedure",
+      "line_end": 14,
+      "line_start": 4,
+      "metadata": {
+        "calls": [
+          "PRC_AUDIT_INTERVENTO"
+        ],
+        "object_type": "procedure",
+        "parameters": [
+          "P_INTERVENTO_ID",
+          "P_TECNICO_ID"
+        ],
+        "parser": "parse_db_code",
+        "parser_version": "1.0",
+        "procedure_name": "PRC_ASSEGNA_TECNICO",
+        "reads": [
+          "P_TECNICO_ID",
+          "INTERVENTO.ID",
+          "P_INTERVENTO_ID"
+        ],
+        "source_hash": "45ed62bc2dad1c264b1a7a9b4f4b22b607bf36037f70e9917e62921b7e553f14",
+        "writes": [
+          "INTERVENTO.TECNICO_ID",
+          "INTERVENTO.STATO"
+        ]
+      },
+      "path_or_selector": "procedure:PRC_ASSEGNA_TECNICO",
+      "sequence": 3,
+      "source_revision_id": "REV_000002",
+      "status": "active",
+      "text": "CREATE OR REPLACE PROCEDURE PRC_ASSEGNA_TECNICO (\n    P_INTERVENTO_ID IN NUMBER,\n    P_TECNICO_ID IN NUMBER\n) AS\nBEGIN\n    UPDATE INTERVENTO\n       SET TECNICO_ID = P_TECNICO_ID,\n           STATO = 'ASSEGNATO'\n     WHERE ID = P_INTERVENTO_ID;\n    CALL PRC_AUDIT_INTERVENTO(P_INTERVENTO_ID);\nEND;",
+      "text_hash": "5867256e650b16241c6ead0e85c891d73026e45e8c6370f592572be36964b144"
+    },
+    {
+      "char_end": 314,
+      "char_start": 195,
+      "fragment_id": "FRAG_000004",
+      "fragment_type": "sql_statement",
+      "line_end": 12,
+      "line_start": 9,
+      "metadata": {
+        "calls": [],
+        "object_type": "statement",
+        "parent_object_name": "PRC_ASSEGNA_TECNICO",
+        "parent_object_type": "procedure",
+        "parser": "parse_db_code",
+        "parser_version": "1.0",
+        "reads": [
+          "P_TECNICO_ID",
+          "INTERVENTO.ID",
+          "P_INTERVENTO_ID"
+        ],
+        "source_hash": "45ed62bc2dad1c264b1a7a9b4f4b22b607bf36037f70e9917e62921b7e553f14",
+        "statement_kind": "UPDATE",
+        "writes": [
+          "INTERVENTO.TECNICO_ID",
+          "INTERVENTO.STATO"
+        ]
+      },
+      "path_or_selector": "procedure:PRC_ASSEGNA_TECNICO/statement:1",
+      "sequence": 4,
+      "source_revision_id": "REV_000002",
+      "status": "active",
+      "text": "UPDATE INTERVENTO\n       SET TECNICO_ID = P_TECNICO_ID,\n           STATO = 'ASSEGNATO'\n     WHERE ID = P_INTERVENTO_ID;",
+      "text_hash": "871ea5ef734ec255982049409e8a6a8f12fb1d79a0497f7fe75a891aa2171517"
+    }
+  ],
+  "fragments_hash": "76a808e4483e242c66b6bbdb6f06ce9598f21a7809a914b3b53247278af61296",
+  "fragments_jsonl_path": "fragments/SRC_000002/REV_000002/fragments.jsonl",
+  "input_path": "corpus/active/db_code/automazioni_intervento.sql",
+  "procedure_count": 1,
+  "profile": "db_code.default",
+  "read_count": 6,
+  "reads": [
+    "NEW.STATO",
+    "INTERVENTO.SYSDATE",
+    "NEW.ID",
+    "INTERVENTO.ID",
+    "P_TECNICO_ID",
+    "P_INTERVENTO_ID"
+  ],
+  "run_id": "RUN_000020",
+  "source_hash": "45ed62bc2dad1c264b1a7a9b4f4b22b607bf36037f70e9917e62921b7e553f14",
+  "source_id": "SRC_000002",
+  "source_revision_id": "REV_000002",
+  "statement_count": 2,
+  "status": "completed",
+  "trigger_count": 1,
+  "warnings": [],
+  "worker_config": {
+    "name": "parse_db_code",
+    "version": "1.0"
+  },
+  "worker_name": "parse_db_code",
+  "worker_version": "1.0",
+  "write_count": 3,
+  "writes": [
+    "INTERVENTO.STATO",
+    "INTERVENTO.CHIUSO_IL",
+    "INTERVENTO.TECNICO_ID"
+  ]
+}

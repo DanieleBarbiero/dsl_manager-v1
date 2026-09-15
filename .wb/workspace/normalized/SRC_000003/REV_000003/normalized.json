@@ -1,0 +1,247 @@
+{
+  "body": {
+    "children": [
+      {
+        "$ref": "#/texts/0"
+      },
+      {
+        "$ref": "#/texts/1"
+      },
+      {
+        "$ref": "#/texts/2"
+      },
+      {
+        "$ref": "#/texts/3"
+      },
+      {
+        "$ref": "#/texts/4"
+      },
+      {
+        "$ref": "#/texts/5"
+      },
+      {
+        "$ref": "#/texts/6"
+      },
+      {
+        "$ref": "#/texts/7"
+      },
+      {
+        "$ref": "#/texts/8"
+      },
+      {
+        "$ref": "#/texts/9"
+      },
+      {
+        "$ref": "#/texts/10"
+      },
+      {
+        "$ref": "#/texts/11"
+      },
+      {
+        "$ref": "#/texts/12"
+      },
+      {
+        "$ref": "#/texts/13"
+      }
+    ],
+    "content_layer": "body",
+    "label": "unspecified",
+    "name": "_root_",
+    "self_ref": "#/body"
+  },
+  "form_items": [],
+  "furniture": {
+    "children": [],
+    "content_layer": "furniture",
+    "label": "unspecified",
+    "name": "_root_",
+    "self_ref": "#/furniture"
+  },
+  "groups": [],
+  "key_value_items": [],
+  "name": "manuale_operativo_orione_2026",
+  "origin": {
+    "binary_hash": 17763501386815392426,
+    "filename": "manuale_operativo_orione_2026.md",
+    "mimetype": "text/markdown"
+  },
+  "pages": {},
+  "pictures": [],
+  "schema_name": "DoclingDocument",
+  "tables": [],
+  "texts": [
+    {
+      "children": [],
+      "content_layer": "body",
+      "label": "title",
+      "orig": "Manuale operativo Orione Assistenza",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "prov": [],
+      "self_ref": "#/texts/0",
+      "text": "Manuale operativo Orione Assistenza"
+    },
+    {
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "orig": "effective_from: 2026-01-15",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "prov": [],
+      "self_ref": "#/texts/1",
+      "text": "effective_from: 2026-01-15"
+    },
+    {
+      "children": [],
+      "content_layer": "body",
+      "label": "section_header",
+      "level": 1,
+      "orig": "Scopo e lessico",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "prov": [],
+      "self_ref": "#/texts/2",
+      "text": "Scopo e lessico"
+    },
+    {
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "orig": "Orione Assistenza gestisce interventi di manutenzione su asset industriali. Un Asset è identificato dalla matricola; un Intervento descrive una richiesta di lavoro; un Tecnico può essere assegnato a più interventi; una Voce di checklist documenta una verifica eseguita durante un intervento.",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "prov": [],
+      "self_ref": "#/texts/3",
+      "text": "Orione Assistenza gestisce interventi di manutenzione su asset industriali. Un Asset è identificato dalla matricola; un Intervento descrive una richiesta di lavoro; un Tecnico può essere assegnato a più interventi; una Voce di checklist documenta una verifica eseguita durante un intervento."
+    },
+    {
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "orig": "Nel linguaggio degli operatori, “ticket” e “intervento” indicano lo stesso concetto. Il codice applicativo e il database usano il termine INTERVENTO. La schermata principale mostra la matricola dell'asset, la priorità, lo stato e il tecnico assegnato.",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "prov": [],
+      "self_ref": "#/texts/4",
+      "text": "Nel linguaggio degli operatori, “ticket” e “intervento” indicano lo stesso concetto. Il codice applicativo e il database usano il termine INTERVENTO. La schermata principale mostra la matricola dell'asset, la priorità, lo stato e il tecnico assegnato."
+    },
+    {
+      "children": [],
+      "content_layer": "body",
+      "label": "section_header",
+      "level": 1,
+      "orig": "Apertura e assegnazione",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "prov": [],
+      "self_ref": "#/texts/5",
+      "text": "Apertura e assegnazione"
+    },
+    {
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "orig": "Ogni intervento appartiene a un solo asset. Alla creazione lo stato è APERTO e la priorità è BASSA, MEDIA o ALTA. Un intervento ad alta priorità deve essere assegnato entro due ore a un tecnico con livello almeno 3. Il responsabile di turno può riassegnare il tecnico, ma deve conservare la motivazione nell'audit.",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "prov": [],
+      "self_ref": "#/texts/6",
+      "text": "Ogni intervento appartiene a un solo asset. Alla creazione lo stato è APERTO e la priorità è BASSA, MEDIA o ALTA. Un intervento ad alta priorità deve essere assegnato entro due ore a un tecnico con livello almeno 3. Il responsabile di turno può riassegnare il tecnico, ma deve conservare la motivazione nell'audit."
+    },
+    {
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "orig": "La funzione “Assegna” della form aggiorna il tecnico e porta lo stato ad ASSEGNATO. La procedura PRC_ASSEGNA_TECNICO implementa l'aggiornamento tecnico; la relazione fra il pulsante della form e la procedura non è espressa nel DDL.",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "prov": [],
+      "self_ref": "#/texts/7",
+      "text": "La funzione “Assegna” della form aggiorna il tecnico e porta lo stato ad ASSEGNATO. La procedura PRC_ASSEGNA_TECNICO implementa l'aggiornamento tecnico; la relazione fra il pulsante della form e la procedura non è espressa nel DDL."
+    },
+    {
+      "children": [],
+      "content_layer": "body",
+      "label": "section_header",
+      "level": 1,
+      "orig": "Checklist e chiusura",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "prov": [],
+      "self_ref": "#/texts/8",
+      "text": "Checklist e chiusura"
+    },
+    {
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "orig": "Prima della chiusura devono essere presenti almeno le voci SICUREZZA e COLLAUDO, entrambe con esito OK. La chiusura valida porta lo stato a CHIUSO e registra CHIUSO_IL. Un intervento senza checklist completa deve rimanere IN_LAVORAZIONE.",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "prov": [],
+      "self_ref": "#/texts/9",
+      "text": "Prima della chiusura devono essere presenti almeno le voci SICUREZZA e COLLAUDO, entrambe con esito OK. La chiusura valida porta lo stato a CHIUSO e registra CHIUSO_IL. Un intervento senza checklist completa deve rimanere IN_LAVORAZIONE."
+    },
+    {
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "orig": "Il manuale richiede che sia l'operatore a premere “Chiudi”. Nel codice legacy esiste però un trigger chiamato TRG_CHIUDI_INTERVENTO: occorre verificare se effettui una chiusura automatica e se ciò contraddica la procedura operativa.",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "prov": [],
+      "self_ref": "#/texts/10",
+      "text": "Il manuale richiede che sia l'operatore a premere “Chiudi”. Nel codice legacy esiste però un trigger chiamato TRG_CHIUDI_INTERVENTO: occorre verificare se effettui una chiusura automatica e se ciò contraddica la procedura operativa."
+    },
+    {
+      "children": [],
+      "content_layer": "body",
+      "label": "section_header",
+      "level": 1,
+      "orig": "Modernizzazione e domande aperte",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "prov": [],
+      "self_ref": "#/texts/11",
+      "text": "Modernizzazione e domande aperte"
+    },
+    {
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "orig": "Nel nuovo servizio il termine pubblico sarà WorkOrder, mentre la tabella legacy rimarrà INTERVENTO durante la migrazione. La corrispondenza WorkOrder ↔ INTERVENTO è una proposta di mapping, non un cambio di schema già approvato.",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "prov": [],
+      "self_ref": "#/texts/12",
+      "text": "Nel nuovo servizio il termine pubblico sarà WorkOrder, mentre la tabella legacy rimarrà INTERVENTO durante la migrazione. La corrispondenza WorkOrder ↔ INTERVENTO è una proposta di mapping, non un cambio di schema già approvato."
+    },
+    {
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "orig": "Non è chiaro se i tecnici di livello 2 con certificazione temporanea possano gestire priorità ALTA. La fonte corrente non definisce né il periodo né l'autorità che concede l'eccezione: la questione deve restare aperta.",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "prov": [],
+      "self_ref": "#/texts/13",
+      "text": "Non è chiaro se i tecnici di livello 2 con certificazione temporanea possano gestire priorità ALTA. La fonte corrente non definisce né il periodo né l'autorità che concede l'eccezione: la questione deve restare aperta."
+    }
+  ],
+  "version": "1.10.0"
+}

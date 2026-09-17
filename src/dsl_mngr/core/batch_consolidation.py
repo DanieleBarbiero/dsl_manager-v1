@@ -43,9 +43,13 @@ from dsl_mngr.core.temporal_consolidation import (
 PHASES = ("parse", "derive", "review", "merge", "reconcile")
 _PARSER_RULES = {
     "parse_ddl": ("ddl_table_fact/1", "ddl_column_fact/1", "ddl_fk_relation/1"),
-    "parse_xml_form": ("xml_form_structure/1", "xml_table_usage/1"),
-    "parse_db_code": ("db_code_unit/1", "db_code_dependency/1"),
-    "parse_log": ("log_event_observation/1",),
+    "parse_xml_form": (
+        "xml_form_structure/2",
+        "xml_table_usage/2",
+        "xml_button_operation/1",
+    ),
+    "parse_db_code": ("db_code_unit/1", "db_code_dependency/2"),
+    "parse_log": ("log_event_observation/2",),
     "normalize_excel": (
         "excel_workbook_fact/1",
         "excel_sheet_fact/1",
@@ -551,10 +555,13 @@ def _review_phase(
             rule_name = f"{payload.get('rule_id', '')}/{payload.get('rule_version', '')}"
             contract = ALL_DERIVATION_RULE_CATALOG.get(rule_name)
             configured_policy = contract.automatic_review_policy if contract else ""
+            resolution_status = str(payload.get("resolution_status") or "")
+            structurally_reviewable = resolution_status in {"", "resolved"}
             if (
                 contract is not None
                 and contract.automatic_review_allowed
                 and configured_policy in automatic_policies
+                and structurally_reviewable
             ):
                 policy_id, policy_version = configured_policy.rsplit("/", 1)
                 decision = service.confirm(
@@ -591,7 +598,9 @@ def _review_phase(
                     "decision_id": None,
                     "outcome": "pending",
                     "reason": (
-                        "automatic_review_not_allowed"
+                        "structural_resolution_requires_review"
+                        if not structurally_reviewable
+                        else "automatic_review_not_allowed"
                         if contract is not None and not contract.automatic_review_allowed
                         else "automatic_policy_version_mismatch"
                         if version_mismatch

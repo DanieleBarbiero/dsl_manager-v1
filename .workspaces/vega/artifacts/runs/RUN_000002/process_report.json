@@ -4,7 +4,7 @@
   "batch_report_path": "artifacts/runs/RUN_000002/batch_report.json",
   "config_hash": "df2480f4cc36925fa82075f98a4d0fd0580fe05c37c10f20aa15505662358122",
   "error": null,
-  "finished_at": "2026-09-17T04:58:32+02:00",
+  "finished_at": "2026-09-17T11:03:29+02:00",
   "items": [
     {
       "error": null,
@@ -92,9 +92,9 @@
       "item_id": "BITEM_000006",
       "kind": "parse_xml_form",
       "outputs": {
-        "fields": 0,
+        "fields": 4,
         "forms": 1,
-        "fragments": 2
+        "fragments": 6
       },
       "run_id": "RUN_000008",
       "source_id": "SRC_000004",
@@ -137,7 +137,7 @@
   ],
   "run_id": "RUN_000002",
   "run_type": "batch",
-  "started_at": "2026-09-17T04:55:08+02:00",
+  "started_at": "2026-09-17T10:59:32+02:00",
   "status": "completed",
   "stop_on_error": false,
   "summary": {

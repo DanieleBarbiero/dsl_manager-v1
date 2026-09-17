@@ -16,7 +16,7 @@ Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
 $script:TutorVersion = '13'
-$script:Utf8NoBom = New-Object System.Text.UTF8Encoding($false)
+$script:Utf8NoBom = [System.Text.UTF8Encoding]::new($false)
 [Console]::InputEncoding = $script:Utf8NoBom
 [Console]::OutputEncoding = $script:Utf8NoBom
 $OutputEncoding = $script:Utf8NoBom
@@ -56,7 +56,7 @@ function Write-Why {
 function Find-RepositoryRoot {
     param([Parameter(Mandatory)][string]$Start)
 
-    $cursor = New-Object System.IO.DirectoryInfo([System.IO.Path]::GetFullPath($Start))
+    $cursor = [System.IO.DirectoryInfo]::new([System.IO.Path]::GetFullPath($Start))
     while ($null -ne $cursor) {
         $agents = Join-Path $cursor.FullName 'AGENTS.md'
         $project = Join-Path $cursor.FullName 'pyproject.toml'
@@ -1884,7 +1884,7 @@ function Import-OneAiPackage {
 
     if ($accepted -le 0) {
         throw @"
-Import $packageId: nessun candidato accettato.
+Import ${packageId}: nessun candidato accettato.
 Total=$total Accepted=$accepted Rejected=$rejected
 
 Il round-trip di questo package non e' dimostrato. Correggi la risposta invece
@@ -2139,11 +2139,11 @@ function Invoke-Step8MergeAndReconcile {
         $count = @($confirmed.candidates).Count
 
         if ($count -eq 0) {
-            Write-Host "SKIP merge $batchId: nessun candidato confirmed. Pending/rejected non sono errori." -ForegroundColor Yellow
+            Write-Host "SKIP merge ${batchId}: nessun candidato confirmed. Pending/rejected non sono errori." -ForegroundColor Yellow
             continue
         }
 
-        Write-Host "Merge $batchId: $count candidato/i confirmed." -ForegroundColor Cyan
+        Write-Host "Merge ${batchId}: $count candidato/i confirmed." -ForegroundColor Cyan
 
         $merge = Invoke-Dsl `
             -Label "facts merge $batchId" `
@@ -2219,7 +2219,7 @@ function Invoke-Step9Exports {
 }
 
 function Get-FreeLoopbackPort {
-    $listener = New-Object Net.Sockets.TcpListener([Net.IPAddress]::Loopback, 0)
+    $listener = [Net.Sockets.TcpListener]::new([Net.IPAddress]::Loopback, 0)
     $listener.Start()
     try {
         return ([Net.IPEndPoint]$listener.LocalEndpoint).Port

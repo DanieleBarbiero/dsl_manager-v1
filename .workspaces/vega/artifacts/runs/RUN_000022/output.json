@@ -5,11 +5,11 @@
   ],
   "batch_id": "CBATCH_000012",
   "candidate_ids": [
-    "LOG_EVENT_OBSERVATION_2D8A953754401E3D",
-    "LOG_EVENT_OBSERVATION_A5BE8F71810AE26E",
-    "LOG_EVENT_OBSERVATION_7125A851FA27FBCF",
-    "LOG_EVENT_OBSERVATION_23F3C53268781D27",
-    "LOG_EVENT_OBSERVATION_74425CED01EF8B10"
+    "XML_TABLE_USAGE_A16E082FC2B85DA2",
+    "XML_TABLE_USAGE_47F0E9CCE4E04996",
+    "XML_TABLE_USAGE_A44A7FAA4950A164",
+    "XML_TABLE_USAGE_3605DA47B3FF9463",
+    "XML_TABLE_USAGE_A137121B8238C3C9"
   ],
   "catalog_version": "result_catalog_v1",
   "condition": "candidate_derivation",
@@ -27,29 +27,29 @@
   "mutations": true,
   "outcome": "pending",
   "payload_hashes": [
-    "ed02f108baed4076ede1ca825119658e73b398d02b0ddb8ef09fac64ccf4478d",
-    "6f96b827c3ee36b6def75eefdf9376ed5f344af8205831eef00735aea787daa3",
-    "34333f141fcde02d63277cf88a682f590834878f3e0c745eea58dbb3d64d4428",
-    "7e16113c5ddd8d49504e1ad758686662dd9788876a48c4d8eeef82d3db654c16",
-    "e236fc31ddb50b2c3e6296700bc532a49380df2c67c54ced196e92f5f28132fb"
+    "5c3fa81508f4cf6b4971c2cf8954b55a7cade139c26f4c635e167e7571e33ee0",
+    "f4f7b413d864eb4c263666761beac58fe71bbcc059e9b581f0e6cc3a81566548",
+    "117fbb07d484cede01176a30b13effe7ab42689bc768d092532b428143e0090c",
+    "f1d5c50e2b6dcc056419dcf1c81e838ceadd41151a24feed7dcf1b1e5cad21ff",
+    "6b55f1dbbb5545a4cd0b0b7c2de2b29399e84406668d152ed3008f9915ea0cd7"
   ],
   "reason": "success",
   "retryable": false,
-  "rule": "log_event_observation/1",
+  "rule": "xml_table_usage/2",
   "rule_contract": {
-    "assertion_type": "observed",
+    "assertion_type": "explicit",
     "automatic_review_allowed": true,
-    "automatic_review_policy": "named_explicit_log_policy_required/1",
-    "candidate_record_type": "candidate_fact",
+    "automatic_review_policy": "explicit_xml_operation_only/1",
+    "candidate_record_type": "candidate_relation",
     "default_review_state": "pending",
     "evidence_locator": "source_revision_id+fragment_id+path_or_selector+line_start+line_end",
-    "input_schema": "source_fragment/log_event/1",
-    "parser_kind": "log",
-    "rule_id": "log_event_observation",
-    "rule_version": "1"
+    "input_schema": "source_fragment/xml_form|xml_field/1",
+    "parser_kind": "xml_form",
+    "rule_id": "xml_table_usage",
+    "rule_version": "2"
   },
   "rule_counts": {
-    "log_event_observation/1": {
+    "xml_table_usage/2": {
       "auto_confirmed": 0,
       "deduplicated": 0,
       "input_fragments": 5,
@@ -61,15 +61,15 @@
   "rule_set_version": "1",
   "run_id": "RUN_000022",
   "schema_version": "1",
-  "semantic_report_hash": "1cd710c98cf8cb30a05a8efda7c8095e866b7ccd10419207d69bf615694e71f5",
+  "semantic_report_hash": "f51a822893bd4cd9cfeb6c3294045eb1d932b8f2dd13abfd1afc629778af3bd7",
   "severity": "info",
-  "source_revision_id": "REV_000005",
+  "source_revision_id": "REV_000004",
   "status": "completed",
   "subject_ids": [
-    "LOG_EVENT_OBSERVATION_2D8A953754401E3D",
-    "LOG_EVENT_OBSERVATION_A5BE8F71810AE26E",
-    "LOG_EVENT_OBSERVATION_7125A851FA27FBCF",
-    "LOG_EVENT_OBSERVATION_23F3C53268781D27",
-    "LOG_EVENT_OBSERVATION_74425CED01EF8B10"
+    "XML_TABLE_USAGE_A16E082FC2B85DA2",
+    "XML_TABLE_USAGE_47F0E9CCE4E04996",
+    "XML_TABLE_USAGE_A44A7FAA4950A164",
+    "XML_TABLE_USAGE_3605DA47B3FF9463",
+    "XML_TABLE_USAGE_A137121B8238C3C9"
   ]
 }

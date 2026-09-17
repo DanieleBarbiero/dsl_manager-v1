@@ -1,32 +1,24 @@
 {
-  "config_hash": "cbde2ce17dc1ec5e5c4a66de2eb413bbaec85ae25dd9d499df17ddd0fc9566d9",
-  "counts": {
-    "examined": 28,
-    "excluded": 24,
-    "included": 4,
-    "selected_chars": 364
+  "artifact_paths": [
+    "artifacts/runs/RUN_000028/reconcile_report.json"
+  ],
+  "catalog_version": "result_catalog_v1",
+  "condition": "reconcile",
+  "counters": {
+    "closed": 0,
+    "pending": 0,
+    "processed": 0,
+    "supports_removed": 0
   },
-  "policy": {
-    "config_hash": "4134bf1071008c0f7ec2044563071b23cb67f47b44eeb881760c11d200f20248",
-    "policy_id": "technical_extraction",
-    "policy_version": "1"
-  },
-  "profile": "ai_package.default",
-  "reason_catalog_version": "1",
-  "reason_summary": {
-    "deterministic_coverage_excluded": 22,
-    "evidence_kind_excluded": 2,
-    "fragment_type_excluded": 5,
-    "included_by_policy": 4,
-    "incomplete_locator": 1
-  },
-  "relevant_state_hash": "329495f518032013251af09f69054fe551cb981efbd1f9480c2697991e987516",
-  "report_path": "artifacts/runs/RUN_000028/selection_plan_report.json",
-  "route": {
-    "route_id": "technical_extraction",
-    "route_version": "1"
-  },
+  "exit_code": 0,
+  "mutations": false,
+  "outcome": null,
+  "reason": "success",
+  "reconciliation_ids": [],
+  "retryable": false,
   "run_id": "RUN_000028",
-  "selection_plan_hash": "e596bb7ac170a1fce943ba81e1bc14e470e72d126dfcacb607b3f2b6d402bdfc",
-  "selection_plan_id": "AISEL_000001"
+  "schema_version": "1",
+  "severity": "info",
+  "status": "completed",
+  "subject_ids": []
 }

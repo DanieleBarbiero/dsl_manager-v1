@@ -1,0 +1,144 @@
+{
+  "artifact_dir": "artifacts/runs/RUN_000054",
+  "artifact_paths": [],
+  "batch_id": "CBATCH_000024",
+  "candidate_record_count": 14,
+  "catalog_version": "result_catalog_v1",
+  "condition": "merge",
+  "config_hash": "04c81f814cfe84be0a702083425e96e3bed9fd08cfe957000fefd72a4ba367a1",
+  "conflicts_created": 0,
+  "conflicts_existing": 0,
+  "counters": {
+    "candidate_records": 14,
+    "conflicts_created": 0,
+    "conflicts_existing": 0,
+    "facts_created": 7,
+    "facts_existing": 2,
+    "reconciled_supports_removed": 0,
+    "reconciliation_closed": 0,
+    "relations_created": 3,
+    "relations_existing": 0,
+    "skipped_no_positive_head": 2,
+    "skipped_non_leaf": 0,
+    "skipped_pending": 0,
+    "skipped_records": 2,
+    "skipped_rejected": 0,
+    "skipped_superseded": 0
+  },
+  "error": null,
+  "exit_code": 0,
+  "facts_created": 7,
+  "facts_existing": 2,
+  "finished_at": "2026-09-17T11:37:40+02:00",
+  "merged_candidate_record_ids": [
+    "CREC_000052",
+    "CREC_000053",
+    "CREC_000054",
+    "CREC_000055",
+    "CREC_000056",
+    "CREC_000057",
+    "CREC_000058",
+    "CREC_000059",
+    "CREC_000060",
+    "CREC_000061",
+    "CREC_000062",
+    "CREC_000063"
+  ],
+  "merged_candidates": [
+    {
+      "candidate_record_id": "CREC_000052",
+      "decision_id": "RDEC_000044"
+    },
+    {
+      "candidate_record_id": "CREC_000053",
+      "decision_id": "RDEC_000045"
+    },
+    {
+      "candidate_record_id": "CREC_000054",
+      "decision_id": "RDEC_000046"
+    },
+    {
+      "candidate_record_id": "CREC_000055",
+      "decision_id": "RDEC_000047"
+    },
+    {
+      "candidate_record_id": "CREC_000056",
+      "decision_id": "RDEC_000048"
+    },
+    {
+      "candidate_record_id": "CREC_000057",
+      "decision_id": "RDEC_000049"
+    },
+    {
+      "candidate_record_id": "CREC_000058",
+      "decision_id": "RDEC_000050"
+    },
+    {
+      "candidate_record_id": "CREC_000059",
+      "decision_id": "RDEC_000051"
+    },
+    {
+      "candidate_record_id": "CREC_000060",
+      "decision_id": "RDEC_000052"
+    },
+    {
+      "candidate_record_id": "CREC_000061",
+      "decision_id": "RDEC_000053"
+    },
+    {
+      "candidate_record_id": "CREC_000062",
+      "decision_id": "RDEC_000054"
+    },
+    {
+      "candidate_record_id": "CREC_000063",
+      "decision_id": "RDEC_000055"
+    }
+  ],
+  "mutations": true,
+  "outcome": null,
+  "reason": "merge_completed_with_skips",
+  "reconciled_supports_removed": 0,
+  "reconciliation_closed": 0,
+  "relations_created": 3,
+  "relations_existing": 0,
+  "retryable": false,
+  "run_id": "RUN_000054",
+  "run_type": "merge",
+  "schema_version": "1",
+  "severity": "info",
+  "skipped_candidates": [
+    {
+      "candidate_record_id": "CREC_000064",
+      "decision_id": "RDEC_000056",
+      "reason": "unsupported_record_type"
+    },
+    {
+      "candidate_record_id": "CREC_000065",
+      "decision_id": "RDEC_000057",
+      "reason": "unsupported_record_type"
+    }
+  ],
+  "skipped_no_positive_head": 2,
+  "skipped_non_leaf": 0,
+  "skipped_pending": 0,
+  "skipped_records": 2,
+  "skipped_rejected": 0,
+  "skipped_superseded": 0,
+  "started_at": "2026-09-17T11:37:40+02:00",
+  "status": "completed",
+  "subject_ids": [
+    "CREC_000052",
+    "CREC_000053",
+    "CREC_000054",
+    "CREC_000055",
+    "CREC_000056",
+    "CREC_000057",
+    "CREC_000058",
+    "CREC_000059",
+    "CREC_000060",
+    "CREC_000061",
+    "CREC_000062",
+    "CREC_000063"
+  ],
+  "workers": []
+}

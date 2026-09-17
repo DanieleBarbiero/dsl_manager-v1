@@ -43,7 +43,10 @@ SQL_KEYWORDS = {
     "IN",
     "INSERT",
     "INTO",
+    "INNER",
     "IS",
+    "JOIN",
+    "LEFT",
     "LIKE",
     "NEW",
     "NOT",
@@ -52,13 +55,23 @@ SQL_KEYWORDS = {
     "OLD",
     "ON",
     "OR",
+    "ORDER",
+    "OUTER",
+    "RIGHT",
     "ROW",
     "SELECT",
     "SET",
     "THEN",
+    "UNION",
     "UPDATE",
     "WHEN",
     "WHERE",
+    "ASC",
+    "DESC",
+    "DISTINCT",
+    "FULL",
+    "GROUP",
+    "HAVING",
 }
 
 
@@ -489,7 +502,12 @@ def _parse_trigger(
         if options.parse_update_statements
         else ()
     )
-    trigger_reads = _reads_from_trigger_when(segment, target_table)
+    trigger_reads = _ordered_unique(
+        [
+            *_reads_from_trigger_when(segment, target_table),
+            *_extract_pseudo_record_reads(segment),
+        ]
+    )
     reads = _ordered_unique([*trigger_reads, *[read for statement in statements for read in statement.reads]])
     writes = _ordered_unique([write for statement in statements for write in statement.writes])
     calls = _find_calls(segment) if options.parse_calls else []
@@ -570,7 +588,11 @@ def _parse_update_statements(
 ) -> list[SqlStatement]:
     statements: list[SqlStatement] = []
     segment = cleaned[object_start:object_end]
-    pattern = re.compile(rf"\bUPDATE\s+(?P<table>{IDENTIFIER_RE})\s+SET\b", re.IGNORECASE)
+    pattern = re.compile(
+        rf"\bUPDATE\s+(?P<table>{IDENTIFIER_RE})"
+        rf"(?:\s+(?:AS\s+)?(?P<alias>[A-Za-z_][A-Za-z0-9_$#]*))?\s+SET\b",
+        re.IGNORECASE,
+    )
     for match in pattern.finditer(segment):
         statement_start = object_start + match.start()
         statement_end = _statement_end(cleaned, object_start + match.end(), object_end)
@@ -621,14 +643,24 @@ def _analyze_update_statement(
 ) -> tuple[list[str], list[str]]:
     cleaned_statement = strip_sql_comments_preserving_offsets(statement_text)
     match = re.search(
-        rf"\bUPDATE\s+{re.escape(table_name)}\s+SET\s+(?P<set>.*?)(?:\bWHERE\b(?P<where>.*))?$",
+        rf"\bUPDATE\s+{re.escape(table_name)}"
+        rf"(?:\s+(?:AS\s+)?(?P<alias>[A-Za-z_][A-Za-z0-9_$#]*))?\s+SET\b",
         cleaned_statement.strip().rstrip(";"),
-        re.IGNORECASE | re.DOTALL,
+        re.IGNORECASE,
     )
     if match is None:
         return [], []
 
-    assignments = _split_top_level_commas(match.group("set"))
+    body = cleaned_statement.strip().rstrip(";")[match.end() :]
+    where_position = _find_top_level_keyword(body, "WHERE")
+    set_text = body if where_position is None else body[:where_position]
+    where_text = "" if where_position is None else body[where_position + len("WHERE") :]
+    alias = _normalize_identifier(match.group("alias") or "")
+    aliases = {table_name.upper(): table_name.upper()}
+    if alias:
+        aliases[alias] = table_name.upper()
+
+    assignments = _split_top_level_commas(set_text)
     writes: list[str] = []
     reads: list[str] = []
     for assignment in assignments:
@@ -638,10 +670,23 @@ def _analyze_update_statement(
         column_name = _normalize_identifier(left.strip().split(".")[-1])
         if column_name:
             writes.append(f"{table_name}.{column_name}")
-        reads.extend(_extract_reads_from_expression(right, table_name, parameters))
+        reads.extend(
+            _extract_reads_from_expression(
+                right,
+                table_name,
+                parameters,
+                aliases=aliases,
+            )
+        )
 
-    where_text = match.group("where") or ""
-    reads.extend(_extract_reads_from_expression(where_text, table_name, parameters))
+    reads.extend(
+        _extract_reads_from_expression(
+            where_text,
+            table_name,
+            parameters,
+            aliases=aliases,
+        )
+    )
     return _ordered_unique(writes), _ordered_unique(reads)
 
 
@@ -649,12 +694,118 @@ def _extract_reads_from_expression(
     expression: str,
     table_name: str,
     parameters: tuple[str, ...],
+    *,
+    aliases: dict[str, str] | None = None,
 ) -> list[str]:
-    expression = _strip_string_literals(expression)
+    aliases = {
+        str(alias).upper(): str(target).upper()
+        for alias, target in (aliases or {table_name: table_name}).items()
+    }
+    without_literals = _strip_string_literals(expression)
     reads: list[str] = []
     parameter_names = {parameter.upper() for parameter in parameters}
 
-    for match in re.finditer(r"\b(NEW|OLD)\.([A-Za-z_][A-Za-z0-9_$#]*)\b", expression, re.IGNORECASE):
+    subqueries = _select_subquery_spans(without_literals)
+    outer_chars = list(without_literals)
+    for start, end in subqueries:
+        reads.extend(
+            _extract_select_reads(
+                without_literals[start + 1 : end - 1],
+                outer_aliases=aliases,
+                parameters=parameter_names,
+            )
+        )
+        outer_chars[start:end] = " " * (end - start)
+    outer_expression = "".join(outer_chars)
+
+    reads.extend(
+        _extract_scope_reads(
+            outer_expression,
+            default_table=table_name.upper(),
+            aliases=aliases,
+            parameters=parameter_names,
+            excluded_identifiers=set(aliases),
+        )
+    )
+    return _ordered_unique(reads)
+
+
+def _extract_select_reads(
+    select_expression: str,
+    *,
+    outer_aliases: dict[str, str],
+    parameters: set[str],
+) -> list[str]:
+    text = _strip_string_literals(select_expression)
+    reads: list[str] = []
+    nested_spans = _select_subquery_spans(text)
+    chars = list(text)
+    for start, end in nested_spans:
+        reads.extend(
+            _extract_select_reads(
+                text[start + 1 : end - 1],
+                outer_aliases=outer_aliases,
+                parameters=parameters,
+            )
+        )
+        chars[start:end] = " " * (end - start)
+    local_text = "".join(chars)
+
+    local_aliases: dict[str, str] = {}
+    table_names: set[str] = set()
+    declaration_spans: list[tuple[int, int]] = []
+    source_pattern = re.compile(
+        rf"\b(?:FROM|JOIN)\s+(?P<table>{IDENTIFIER_RE})"
+        rf"(?:\s+(?:AS\s+)?(?P<alias>"
+        rf"(?!(?:WHERE|JOIN|LEFT|RIGHT|FULL|INNER|OUTER|ON|GROUP|ORDER|HAVING|UNION)\b)"
+        rf"[A-Za-z_][A-Za-z0-9_$#]*))?",
+        re.IGNORECASE,
+    )
+    for match in source_pattern.finditer(local_text):
+        table = _normalize_identifier(match.group("table"))
+        alias_text = _normalize_identifier(match.group("alias") or "")
+        if alias_text in SQL_KEYWORDS:
+            alias_text = ""
+        table_names.add(table)
+        local_aliases[table] = table
+        if alias_text:
+            local_aliases[alias_text] = table
+        declaration_spans.append(match.span())
+
+    scope_aliases = {**outer_aliases, **local_aliases}
+    scope_chars = list(local_text)
+    for start, end in declaration_spans:
+        scope_chars[start:end] = " " * (end - start)
+    scope_text = "".join(scope_chars)
+    default_table = next(iter(table_names)) if len(table_names) == 1 else None
+    excluded = set(scope_aliases) | table_names | _select_aliases(scope_text)
+    reads.extend(
+        _extract_scope_reads(
+            scope_text,
+            default_table=default_table,
+            aliases=scope_aliases,
+            parameters=parameters,
+            excluded_identifiers=excluded,
+        )
+    )
+    return _ordered_unique(reads)
+
+
+def _extract_scope_reads(
+    expression: str,
+    *,
+    default_table: str | None,
+    aliases: dict[str, str],
+    parameters: set[str],
+    excluded_identifiers: set[str],
+) -> list[str]:
+    reads: list[str] = []
+
+    for match in re.finditer(
+        r"(?<![A-Za-z0-9_$#]):?(NEW|OLD)\.([A-Za-z_][A-Za-z0-9_$#]*)\b",
+        expression,
+        re.IGNORECASE,
+    ):
         reads.append(f"{match.group(1).upper()}.{match.group(2).upper()}")
 
     for match in re.finditer(
@@ -665,23 +816,102 @@ def _extract_reads_from_expression(
         column = match.group(2).upper()
         if owner in {"NEW", "OLD"}:
             continue
-        reads.append(f"{owner}.{column}")
+        reads.append(f"{aliases.get(owner, owner)}.{column}")
 
     for match in re.finditer(r"\b[A-Za-z_][A-Za-z0-9_$#]*\b", expression):
         identifier = match.group(0).upper()
         if identifier in SQL_KEYWORDS:
             continue
-        if identifier == table_name.upper():
+        if identifier in excluded_identifiers:
             continue
         previous_char = expression[match.start() - 1] if match.start() > 0 else ""
         next_char = expression[match.end()] if match.end() < len(expression) else ""
         if previous_char == "." or next_char == ".":
             continue
-        if identifier in parameter_names:
-            reads.append(identifier)
+        if identifier in parameters:
             continue
-        reads.append(f"{table_name}.{identifier}")
+        if _next_non_space(expression, match.end()) == "(":
+            continue
+        if default_table is not None:
+            reads.append(f"{default_table}.{identifier}")
     return _ordered_unique(reads)
+
+
+def _extract_pseudo_record_reads(expression: str) -> list[str]:
+    return _ordered_unique(
+        f"{match.group(1).upper()}.{match.group(2).upper()}"
+        for match in re.finditer(
+            r"(?<![A-Za-z0-9_$#]):?(NEW|OLD)\.([A-Za-z_][A-Za-z0-9_$#]*)\b",
+            _strip_string_literals(expression),
+            re.IGNORECASE,
+        )
+    )
+
+
+def _select_subquery_spans(text: str) -> list[tuple[int, int]]:
+    spans: list[tuple[int, int]] = []
+    i = 0
+    while i < len(text):
+        if text[i] != "(":
+            i += 1
+            continue
+        close = _find_matching_paren(text, i)
+        if close is None:
+            break
+        if re.match(r"\s*SELECT\b", text[i + 1 : close], re.IGNORECASE):
+            spans.append((i, close + 1))
+            i = close + 1
+        else:
+            i += 1
+    return spans
+
+
+def _find_top_level_keyword(text: str, keyword: str) -> int | None:
+    depth = 0
+    state: str | None = None
+    upper_keyword = keyword.upper()
+    i = 0
+    while i < len(text):
+        current = text[i]
+        next_char = text[i + 1] if i + 1 < len(text) else ""
+        if state == "single_quote":
+            if current == "'" and next_char == "'":
+                i += 2
+                continue
+            if current == "'":
+                state = None
+            i += 1
+            continue
+        if current == "'":
+            state = "single_quote"
+        elif current == "(":
+            depth += 1
+        elif current == ")":
+            depth = max(0, depth - 1)
+        elif depth == 0 and text[i : i + len(keyword)].upper() == upper_keyword:
+            before = text[i - 1] if i else " "
+            after = text[i + len(keyword)] if i + len(keyword) < len(text) else " "
+            if not (before.isalnum() or before in "_$#") and not (
+                after.isalnum() or after in "_$#"
+            ):
+                return i
+        i += 1
+    return None
+
+
+def _select_aliases(text: str) -> set[str]:
+    return {
+        match.group(1).upper()
+        for match in re.finditer(
+            r"\bAS\s+([A-Za-z_][A-Za-z0-9_$#]*)\b", text, re.IGNORECASE
+        )
+    }
+
+
+def _next_non_space(text: str, position: int) -> str:
+    while position < len(text) and text[position].isspace():
+        position += 1
+    return text[position] if position < len(text) else ""
 
 
 def _reads_from_trigger_when(segment: str, table_name: str) -> list[str]:

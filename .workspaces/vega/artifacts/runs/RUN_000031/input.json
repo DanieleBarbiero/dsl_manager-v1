@@ -1,15 +1,3625 @@
 {
+  "ai_package_options": {
+    "include_candidate_schema": true,
+    "include_chunks": true,
+    "include_fragments": true,
+    "include_output_template": true,
+    "max_evidence_chars": 20000,
+    "package_format": "markdown_plus_json",
+    "strict_options_fail_on_unsupported_option": true
+  },
   "artifact_dir": "artifacts/runs/RUN_000031",
-  "parameters": {
-    "input_path": "ai/inbox/AIPKG_000001_candidates.jsonl",
+  "chunks": [],
+  "evidence_order": [
+    {
+      "evidence_id": "FRAG_000029",
+      "evidence_kind": "fragment",
+      "rank": 1
+    },
+    {
+      "evidence_id": "FRAG_000030",
+      "evidence_kind": "fragment",
+      "rank": 2
+    },
+    {
+      "evidence_id": "FRAG_000006",
+      "evidence_kind": "fragment",
+      "rank": 3
+    },
+    {
+      "evidence_id": "FRAG_000013",
+      "evidence_kind": "fragment",
+      "rank": 4
+    }
+  ],
+  "fragments": [
+    {
+      "fragment_id": "FRAG_000029",
+      "fragment_type": "sql_statement",
+      "path_or_selector": "procedure:PRC_PRENOTA_ARTICOLO/statement:1",
+      "sequence": 3,
+      "source_revision_id": "REV_000006",
+      "status": "active",
+      "text": "UPDATE RICHIESTA_RICAMBIO\n       SET STATO = 'PRENOTATA'\n     WHERE ID_RICHIESTA = P_ID_RICHIESTA;",
+      "text_hash": "7b9b0f098670b9856f549b2582c5fe3842a5ee8c6a29afddf6ef8363bdd9a407"
+    },
+    {
+      "fragment_id": "FRAG_000030",
+      "fragment_type": "sql_statement",
+      "path_or_selector": "procedure:PRC_PRENOTA_ARTICOLO/statement:2",
+      "sequence": 4,
+      "source_revision_id": "REV_000006",
+      "status": "active",
+      "text": "UPDATE ARTICOLO\n       SET QTA_DISPONIBILE = QTA_DISPONIBILE - 1\n     WHERE ID_ARTICOLO = (\n        SELECT ID_ARTICOLO\n          FROM RICHIESTA_RICAMBIO\n         WHERE ID_RICHIESTA = P_ID_RICHIESTA\n     );",
+      "text_hash": "95b301327e0e09103bff7abc3ad6e6e5c483b9d20e280a1a6aa981e04205a48c"
+    },
+    {
+      "fragment_id": "FRAG_000006",
+      "fragment_type": "ddl_constraint",
+      "path_or_selector": "table:ARTICOLO/primary_key:ID_ARTICOLO",
+      "sequence": 6,
+      "source_revision_id": "REV_000001",
+      "status": "active",
+      "text": "ID_ARTICOLO NUMBER PRIMARY KEY",
+      "text_hash": "755a643188bd7ac8866b488fbcdfcb4f4acff3fe5f000c1137b34d1fd06ad33f"
+    },
+    {
+      "fragment_id": "FRAG_000013",
+      "fragment_type": "ddl_constraint",
+      "path_or_selector": "table:RICHIESTA_RICAMBIO/primary_key:ID_RICHIESTA",
+      "sequence": 13,
+      "source_revision_id": "REV_000001",
+      "status": "active",
+      "text": "ID_RICHIESTA NUMBER PRIMARY KEY",
+      "text_hash": "e9561d78493965c0ca8e3734346134f74f18d5898f7e3cf06e532b439c5bd379"
+    }
+  ],
+  "input": {
+    "ai_package_options": {
+      "include_candidate_schema": true,
+      "include_chunks": true,
+      "include_fragments": true,
+      "include_output_template": true,
+      "max_evidence_chars": 20000,
+      "package_format": "markdown_plus_json",
+      "strict_options_fail_on_unsupported_option": true
+    },
+    "chunks": [],
+    "evidence_order": [
+      {
+        "evidence_id": "FRAG_000029",
+        "evidence_kind": "fragment",
+        "rank": 1
+      },
+      {
+        "evidence_id": "FRAG_000030",
+        "evidence_kind": "fragment",
+        "rank": 2
+      },
+      {
+        "evidence_id": "FRAG_000006",
+        "evidence_kind": "fragment",
+        "rank": 3
+      },
+      {
+        "evidence_id": "FRAG_000013",
+        "evidence_kind": "fragment",
+        "rank": 4
+      }
+    ],
+    "fragments": [
+      {
+        "fragment_id": "FRAG_000029",
+        "fragment_type": "sql_statement",
+        "path_or_selector": "procedure:PRC_PRENOTA_ARTICOLO/statement:1",
+        "sequence": 3,
+        "source_revision_id": "REV_000006",
+        "status": "active",
+        "text": "UPDATE RICHIESTA_RICAMBIO\n       SET STATO = 'PRENOTATA'\n     WHERE ID_RICHIESTA = P_ID_RICHIESTA;",
+        "text_hash": "7b9b0f098670b9856f549b2582c5fe3842a5ee8c6a29afddf6ef8363bdd9a407"
+      },
+      {
+        "fragment_id": "FRAG_000030",
+        "fragment_type": "sql_statement",
+        "path_or_selector": "procedure:PRC_PRENOTA_ARTICOLO/statement:2",
+        "sequence": 4,
+        "source_revision_id": "REV_000006",
+        "status": "active",
+        "text": "UPDATE ARTICOLO\n       SET QTA_DISPONIBILE = QTA_DISPONIBILE - 1\n     WHERE ID_ARTICOLO = (\n        SELECT ID_ARTICOLO\n          FROM RICHIESTA_RICAMBIO\n         WHERE ID_RICHIESTA = P_ID_RICHIESTA\n     );",
+        "text_hash": "95b301327e0e09103bff7abc3ad6e6e5c483b9d20e280a1a6aa981e04205a48c"
+      },
+      {
+        "fragment_id": "FRAG_000006",
+        "fragment_type": "ddl_constraint",
+        "path_or_selector": "table:ARTICOLO/primary_key:ID_ARTICOLO",
+        "sequence": 6,
+        "source_revision_id": "REV_000001",
+        "status": "active",
+        "text": "ID_ARTICOLO NUMBER PRIMARY KEY",
+        "text_hash": "755a643188bd7ac8866b488fbcdfcb4f4acff3fe5f000c1137b34d1fd06ad33f"
+      },
+      {
+        "fragment_id": "FRAG_000013",
+        "fragment_type": "ddl_constraint",
+        "path_or_selector": "table:RICHIESTA_RICAMBIO/primary_key:ID_RICHIESTA",
+        "sequence": 13,
+        "source_revision_id": "REV_000001",
+        "status": "active",
+        "text": "ID_RICHIESTA NUMBER PRIMARY KEY",
+        "text_hash": "e9561d78493965c0ca8e3734346134f74f18d5898f7e3cf06e532b439c5bd379"
+      }
+    ],
+    "output_dir": "ai/outbox/AIPKG_000001",
     "package_id": "AIPKG_000001",
-    "stale_allowed": false,
-    "stale_check": {
-      "is_stale": false,
-      "reason": null
+    "profile": "ai_package.default",
+    "selection_plan": {
+      "config_hash": "cbde2ce17dc1ec5e5c4a66de2eb413bbaec85ae25dd9d499df17ddd0fc9566d9",
+      "counts": {
+        "examined": 32,
+        "excluded": 28,
+        "included": 4,
+        "selected_chars": 364
+      },
+      "created_at": "2026-09-17T11:04:49+02:00",
+      "items": [
+        {
+          "coverage_refs": {
+            "applicable_rules": [],
+            "references": []
+          },
+          "coverage_state": "no_rule_applicable",
+          "evidence_id": "CHK_000001",
+          "evidence_kind": "chunk",
+          "matched_criteria": [
+            "source_status=active",
+            "revision_status=active",
+            "current_revision=true",
+            "evidence_status=active",
+            "locator_complete=true",
+            "coverage_state=no_rule_applicable",
+            "ranking:coverage_state=no_rule_applicable"
+          ],
+          "normalized_char_count": 792,
+          "outcome": "excluded",
+          "package_char_count": 792,
+          "rank": null,
+          "reason_codes": [
+            "evidence_kind_excluded"
+          ],
+          "sequence": 1,
+          "sort_key": [
+            0,
+            1,
+            1,
+            1,
+            "REV_000002",
+            "chunk",
+            1,
+            "CHK_000001"
+          ],
+          "source_revision_id": "REV_000002"
+        },
+        {
+          "coverage_refs": {
+            "applicable_rules": [],
+            "references": []
+          },
+          "coverage_state": "no_rule_applicable",
+          "evidence_id": "CHK_000002",
+          "evidence_kind": "chunk",
+          "matched_criteria": [
+            "source_status=active",
+            "revision_status=active",
+            "current_revision=true",
+            "evidence_status=active",
+            "locator_complete=true",
+            "coverage_state=no_rule_applicable",
+            "ranking:coverage_state=no_rule_applicable"
+          ],
+          "normalized_char_count": 924,
+          "outcome": "excluded",
+          "package_char_count": 924,
+          "rank": null,
+          "reason_codes": [
+            "evidence_kind_excluded"
+          ],
+          "sequence": 1,
+          "sort_key": [
+            0,
+            1,
+            1,
+            1,
+            "REV_000003",
+            "chunk",
+            1,
+            "CHK_000002"
+          ],
+          "source_revision_id": "REV_000003"
+        },
+        {
+          "coverage_refs": {
+            "applicable_rules": [
+              "ddl_table_fact/1"
+            ],
+            "references": [
+              {
+                "candidate_record_id": "CREC_000011",
+                "current_decision_id": "RDEC_000011",
+                "current_outcome": "confirmed",
+                "decision_hash": "000779ef7ef8aa13506b7a71d0bcd8768ae1a7636cb31937c0580f95a82a5284",
+                "is_leaf": true,
+                "root_candidate_record_id": "CREC_000011",
+                "rule": "ddl_table_fact/1"
+              }
+            ]
+          },
+          "coverage_state": "confirmed",
+          "evidence_id": "FRAG_000001",
+          "evidence_kind": "fragment",
+          "matched_criteria": [
+            "source_status=active",
+            "revision_status=active",
+            "current_revision=true",
+            "evidence_status=active",
+            "evidence_kind=fragment",
+            "fragment_type=ddl_table",
+            "locator_complete=true",
+            "ranking:fragment_type=ddl_table"
+          ],
+          "normalized_char_count": 172,
+          "outcome": "excluded",
+          "package_char_count": 172,
+          "rank": null,
+          "reason_codes": [
+            "deterministic_coverage_excluded"
+          ],
+          "sequence": 1,
+          "sort_key": [
+            1,
+            1,
+            0,
+            1,
+            "REV_000001",
+            "fragment",
+            1,
+            "FRAG_000001"
+          ],
+          "source_revision_id": "REV_000001"
+        },
+        {
+          "coverage_refs": {
+            "applicable_rules": [
+              "ddl_column_fact/1"
+            ],
+            "references": [
+              {
+                "candidate_record_id": "CREC_000003",
+                "current_decision_id": "RDEC_000003",
+                "current_outcome": "confirmed",
+                "decision_hash": "9f205adb9b55c90d9341ad74ebf5c41dfbe5b5df0e243ec61f8186df14daca5d",
+                "is_leaf": true,
+                "root_candidate_record_id": "CREC_000003",
+                "rule": "ddl_column_fact/1"
+              }
+            ]
+          },
+          "coverage_state": "confirmed",
+          "evidence_id": "FRAG_000002",
+          "evidence_kind": "fragment",
+          "matched_criteria": [
+            "source_status=active",
+            "revision_status=active",
+            "current_revision=true",
+            "evidence_status=active",
+            "evidence_kind=fragment",
+            "fragment_type=ddl_column",
+            "locator_complete=true"
+          ],
+          "normalized_char_count": 30,
+          "outcome": "excluded",
+          "package_char_count": 30,
+          "rank": null,
+          "reason_codes": [
+            "deterministic_coverage_excluded"
+          ],
+          "sequence": 2,
+          "sort_key": [
+            1,
+            1,
+            1,
+            1,
+            "REV_000001",
+            "fragment",
+            2,
+            "FRAG_000002"
+          ],
+          "source_revision_id": "REV_000001"
+        },
+        {
+          "coverage_refs": {
+            "applicable_rules": [
+              "ddl_column_fact/1"
+            ],
+            "references": [
+              {
+                "candidate_record_id": "CREC_000001",
+                "current_decision_id": "RDEC_000001",
+                "current_outcome": "confirmed",
+                "decision_hash": "0a9fd6769ad195a5aa27522ad72ad9b6d067e59901b7a17afd1d1a0379a4b9f5",
+                "is_leaf": true,
+                "root_candidate_record_id": "CREC_000001",
+                "rule": "ddl_column_fact/1"
+              }
+            ]
+          },
+          "coverage_state": "confirmed",
+          "evidence_id": "FRAG_000003",
+          "evidence_kind": "fragment",
+          "matched_criteria": [
+            "source_status=active",
+            "revision_status=active",
+            "current_revision=true",
+            "evidence_status=active",
+            "evidence_kind=fragment",
+            "fragment_type=ddl_column",
+            "locator_complete=true"
+          ],
+          "normalized_char_count": 28,
+          "outcome": "excluded",
+          "package_char_count": 28,
+          "rank": null,
+          "reason_codes": [
+            "deterministic_coverage_excluded"
+          ],
+          "sequence": 3,
+          "sort_key": [
+            1,
+            1,
+            1,
+            1,
+            "REV_000001",
+            "fragment",
+            3,
+            "FRAG_000003"
+          ],
+          "source_revision_id": "REV_000001"
+        },
+        {
+          "coverage_refs": {
+            "applicable_rules": [
+              "ddl_column_fact/1"
+            ],
+            "references": [
+              {
+                "candidate_record_id": "CREC_000002",
+                "current_decision_id": "RDEC_000002",
+                "current_outcome": "confirmed",
+                "decision_hash": "41d044d156c7e7706d932beb93f242999b960dda7d88177c66be11317d34ed13",
+                "is_leaf": true,
+                "root_candidate_record_id": "CREC_000002",
+                "rule": "ddl_column_fact/1"
+              }
+            ]
+          },
+          "coverage_state": "confirmed",
+          "evidence_id": "FRAG_000004",
+          "evidence_kind": "fragment",
+          "matched_criteria": [
+            "source_status=active",
+            "revision_status=active",
+            "current_revision=true",
+            "evidence_status=active",
+            "evidence_kind=fragment",
+            "fragment_type=ddl_column",
+            "locator_complete=true"
+          ],
+          "normalized_char_count": 34,
+          "outcome": "excluded",
+          "package_char_count": 34,
+          "rank": null,
+          "reason_codes": [
+            "deterministic_coverage_excluded"
+          ],
+          "sequence": 4,
+          "sort_key": [
+            1,
+            1,
+            1,
+            1,
+            "REV_000001",
+            "fragment",
+            4,
+            "FRAG_000004"
+          ],
+          "source_revision_id": "REV_000001"
+        },
+        {
+          "coverage_refs": {
+            "applicable_rules": [
+              "ddl_column_fact/1"
+            ],
+            "references": [
+              {
+                "candidate_record_id": "CREC_000004",
+                "current_decision_id": "RDEC_000004",
+                "current_outcome": "confirmed",
+                "decision_hash": "dcb1216f726f0460e1988cecabf9f45e84147757e4cf38a6df60caf2870f1922",
+                "is_leaf": true,
+                "root_candidate_record_id": "CREC_000004",
+                "rule": "ddl_column_fact/1"
+              }
+            ]
+          },
+          "coverage_state": "confirmed",
+          "evidence_id": "FRAG_000005",
+          "evidence_kind": "fragment",
+          "matched_criteria": [
+            "source_status=active",
+            "revision_status=active",
+            "current_revision=true",
+            "evidence_status=active",
+            "evidence_kind=fragment",
+            "fragment_type=ddl_column",
+            "locator_complete=true"
+          ],
+          "normalized_char_count": 31,
+          "outcome": "excluded",
+          "package_char_count": 31,
+          "rank": null,
+          "reason_codes": [
+            "deterministic_coverage_excluded"
+          ],
+          "sequence": 5,
+          "sort_key": [
+            1,
+            1,
+            1,
+            1,
+            "REV_000001",
+            "fragment",
+            5,
+            "FRAG_000005"
+          ],
+          "source_revision_id": "REV_000001"
+        },
+        {
+          "coverage_refs": {
+            "applicable_rules": [
+              "ddl_table_fact/1"
+            ],
+            "references": [
+              {
+                "candidate_record_id": "CREC_000012",
+                "current_decision_id": "RDEC_000012",
+                "current_outcome": "confirmed",
+                "decision_hash": "fd99139e5290ee3a469a6ff7202be41ca87e5e8d567b1eaa1d9f1be5932d6e02",
+                "is_leaf": true,
+                "root_candidate_record_id": "CREC_000012",
+                "rule": "ddl_table_fact/1"
+              }
+            ]
+          },
+          "coverage_state": "confirmed",
+          "evidence_id": "FRAG_000007",
+          "evidence_kind": "fragment",
+          "matched_criteria": [
+            "source_status=active",
+            "revision_status=active",
+            "current_revision=true",
+            "evidence_status=active",
+            "evidence_kind=fragment",
+            "fragment_type=ddl_table",
+            "locator_complete=true",
+            "ranking:fragment_type=ddl_table"
+          ],
+          "normalized_char_count": 314,
+          "outcome": "excluded",
+          "package_char_count": 314,
+          "rank": null,
+          "reason_codes": [
+            "deterministic_coverage_excluded"
+          ],
+          "sequence": 7,
+          "sort_key": [
+            1,
+            1,
+            0,
+            1,
+            "REV_000001",
+            "fragment",
+            7,
+            "FRAG_000007"
+          ],
+          "source_revision_id": "REV_000001"
+        },
+        {
+          "coverage_refs": {
+            "applicable_rules": [
+              "ddl_column_fact/1"
+            ],
+            "references": [
+              {
+                "candidate_record_id": "CREC_000006",
+                "current_decision_id": "RDEC_000006",
+                "current_outcome": "confirmed",
+                "decision_hash": "053c3fd4a35095b879190e6f45d0748a456f41bed6f8c4787fe2513d5ffdbd8b",
+                "is_leaf": true,
+                "root_candidate_record_id": "CREC_000006",
+                "rule": "ddl_column_fact/1"
+              }
+            ]
+          },
+          "coverage_state": "confirmed",
+          "evidence_id": "FRAG_000008",
+          "evidence_kind": "fragment",
+          "matched_criteria": [
+            "source_status=active",
+            "revision_status=active",
+            "current_revision=true",
+            "evidence_status=active",
+            "evidence_kind=fragment",
+            "fragment_type=ddl_column",
+            "locator_complete=true"
+          ],
+          "normalized_char_count": 31,
+          "outcome": "excluded",
+          "package_char_count": 31,
+          "rank": null,
+          "reason_codes": [
+            "deterministic_coverage_excluded"
+          ],
+          "sequence": 8,
+          "sort_key": [
+            1,
+            1,
+            1,
+            1,
+            "REV_000001",
+            "fragment",
+            8,
+            "FRAG_000008"
+          ],
+          "source_revision_id": "REV_000001"
+        },
+        {
+          "coverage_refs": {
+            "applicable_rules": [
+              "ddl_column_fact/1"
+            ],
+            "references": [
+              {
+                "candidate_record_id": "CREC_000005",
+                "current_decision_id": "RDEC_000005",
+                "current_outcome": "confirmed",
+                "decision_hash": "a9876479a72c1368bc97f49ec3609ee113336a23034593ca92872b4acb18727c",
+                "is_leaf": true,
+                "root_candidate_record_id": "CREC_000005",
+                "rule": "ddl_column_fact/1"
+              }
+            ]
+          },
+          "coverage_state": "confirmed",
+          "evidence_id": "FRAG_000009",
+          "evidence_kind": "fragment",
+          "matched_criteria": [
+            "source_status=active",
+            "revision_status=active",
+            "current_revision=true",
+            "evidence_status=active",
+            "evidence_kind=fragment",
+            "fragment_type=ddl_column",
+            "locator_complete=true"
+          ],
+          "normalized_char_count": 27,
+          "outcome": "excluded",
+          "package_char_count": 27,
+          "rank": null,
+          "reason_codes": [
+            "deterministic_coverage_excluded"
+          ],
+          "sequence": 9,
+          "sort_key": [
+            1,
+            1,
+            1,
+            1,
+            "REV_000001",
+            "fragment",
+            9,
+            "FRAG_000009"
+          ],
+          "source_revision_id": "REV_000001"
+        },
+        {
+          "coverage_refs": {
+            "applicable_rules": [
+              "ddl_column_fact/1"
+            ],
+            "references": [
+              {
+                "candidate_record_id": "CREC_000007",
+                "current_decision_id": "RDEC_000007",
+                "current_outcome": "confirmed",
+                "decision_hash": "71d6638d1bd33ede485071a3e9c7eb36dd8a9e96728d42add5182b3bf7a5c99c",
+                "is_leaf": true,
+                "root_candidate_record_id": "CREC_000007",
+                "rule": "ddl_column_fact/1"
+              }
+            ]
+          },
+          "coverage_state": "confirmed",
+          "evidence_id": "FRAG_000010",
+          "evidence_kind": "fragment",
+          "matched_criteria": [
+            "source_status=active",
+            "revision_status=active",
+            "current_revision=true",
+            "evidence_status=active",
+            "evidence_kind=fragment",
+            "fragment_type=ddl_column",
+            "locator_complete=true"
+          ],
+          "normalized_char_count": 30,
+          "outcome": "excluded",
+          "package_char_count": 30,
+          "rank": null,
+          "reason_codes": [
+            "deterministic_coverage_excluded"
+          ],
+          "sequence": 10,
+          "sort_key": [
+            1,
+            1,
+            1,
+            1,
+            "REV_000001",
+            "fragment",
+            10,
+            "FRAG_000010"
+          ],
+          "source_revision_id": "REV_000001"
+        },
+        {
+          "coverage_refs": {
+            "applicable_rules": [
+              "ddl_column_fact/1"
+            ],
+            "references": [
+              {
+                "candidate_record_id": "CREC_000009",
+                "current_decision_id": "RDEC_000009",
+                "current_outcome": "confirmed",
+                "decision_hash": "190cd4dbc8b30a72189e48d0b3c60880f9ce85a1e08605b2d368c52a51e75b92",
+                "is_leaf": true,
+                "root_candidate_record_id": "CREC_000009",
+                "rule": "ddl_column_fact/1"
+              }
+            ]
+          },
+          "coverage_state": "confirmed",
+          "evidence_id": "FRAG_000011",
+          "evidence_kind": "fragment",
+          "matched_criteria": [
+            "source_status=active",
+            "revision_status=active",
+            "current_revision=true",
+            "evidence_status=active",
+            "evidence_kind=fragment",
+            "fragment_type=ddl_column",
+            "locator_complete=true"
+          ],
+          "normalized_char_count": 27,
+          "outcome": "excluded",
+          "package_char_count": 27,
+          "rank": null,
+          "reason_codes": [
+            "deterministic_coverage_excluded"
+          ],
+          "sequence": 11,
+          "sort_key": [
+            1,
+            1,
+            1,
+            1,
+            "REV_000001",
+            "fragment",
+            11,
+            "FRAG_000011"
+          ],
+          "source_revision_id": "REV_000001"
+        },
+        {
+          "coverage_refs": {
+            "applicable_rules": [
+              "ddl_column_fact/1"
+            ],
+            "references": [
+              {
+                "candidate_record_id": "CREC_000008",
+                "current_decision_id": "RDEC_000008",
+                "current_outcome": "confirmed",
+                "decision_hash": "097d6a8931e0a300ce01c27ccb89d8474d06071918262ae3d08779bffee2ff94",
+                "is_leaf": true,
+                "root_candidate_record_id": "CREC_000008",
+                "rule": "ddl_column_fact/1"
+              }
+            ]
+          },
+          "coverage_state": "confirmed",
+          "evidence_id": "FRAG_000012",
+          "evidence_kind": "fragment",
+          "matched_criteria": [
+            "source_status=active",
+            "revision_status=active",
+            "current_revision=true",
+            "evidence_status=active",
+            "evidence_kind=fragment",
+            "fragment_type=ddl_column",
+            "locator_complete=true"
+          ],
+          "normalized_char_count": 29,
+          "outcome": "excluded",
+          "package_char_count": 29,
+          "rank": null,
+          "reason_codes": [
+            "deterministic_coverage_excluded"
+          ],
+          "sequence": 12,
+          "sort_key": [
+            1,
+            1,
+            1,
+            1,
+            "REV_000001",
+            "fragment",
+            12,
+            "FRAG_000012"
+          ],
+          "source_revision_id": "REV_000001"
+        },
+        {
+          "coverage_refs": {
+            "applicable_rules": [
+              "ddl_fk_relation/1"
+            ],
+            "references": [
+              {
+                "candidate_record_id": "CREC_000010",
+                "current_decision_id": "RDEC_000010",
+                "current_outcome": "confirmed",
+                "decision_hash": "b9c403464ae9ee6468ec3cd81e3342768b472a93487b3d146ce4a22bdcfb7b47",
+                "is_leaf": true,
+                "root_candidate_record_id": "CREC_000010",
+                "rule": "ddl_fk_relation/1"
+              }
+            ]
+          },
+          "coverage_state": "confirmed",
+          "evidence_id": "FRAG_000014",
+          "evidence_kind": "fragment",
+          "matched_criteria": [
+            "source_status=active",
+            "revision_status=active",
+            "current_revision=true",
+            "evidence_status=active",
+            "evidence_kind=fragment",
+            "fragment_type=ddl_constraint",
+            "locator_complete=true"
+          ],
+          "normalized_char_count": 99,
+          "outcome": "excluded",
+          "package_char_count": 99,
+          "rank": null,
+          "reason_codes": [
+            "deterministic_coverage_excluded"
+          ],
+          "sequence": 14,
+          "sort_key": [
+            1,
+            1,
+            1,
+            1,
+            "REV_000001",
+            "fragment",
+            14,
+            "FRAG_000014"
+          ],
+          "source_revision_id": "REV_000001"
+        },
+        {
+          "coverage_refs": {
+            "applicable_rules": [
+              "excel_explicit_reference/1",
+              "excel_named_range_fact/1",
+              "excel_region_fact/1",
+              "excel_sheet_fact/1",
+              "excel_table_fact/1",
+              "excel_workbook_fact/1"
+            ],
+            "references": [
+              {
+                "candidate_record_id": "CREC_000013",
+                "current_decision_id": "RDEC_000013",
+                "current_outcome": "confirmed",
+                "decision_hash": "bb8b16354eef824f714f1ac3bb3c9aee4d93e55241965618c41bd895688732ab",
+                "is_leaf": true,
+                "root_candidate_record_id": "CREC_000013",
+                "rule": "excel_region_fact/1"
+              },
+              {
+                "candidate_record_id": "CREC_000014",
+                "current_decision_id": "RDEC_000014",
+                "current_outcome": "confirmed",
+                "decision_hash": "e6817b71205f6db9d22fe96779b72d5a580928baf16cd2752bebb323bdb21f3c",
+                "is_leaf": true,
+                "root_candidate_record_id": "CREC_000014",
+                "rule": "excel_sheet_fact/1"
+              },
+              {
+                "candidate_record_id": "CREC_000015",
+                "current_decision_id": "RDEC_000015",
+                "current_outcome": "confirmed",
+                "decision_hash": "140ce47bc67d8a4c2e57a4fcd4e86d61c954bfb694d16bbb1d1851ae8393fa5d",
+                "is_leaf": true,
+                "root_candidate_record_id": "CREC_000015",
+                "rule": "excel_workbook_fact/1"
+              }
+            ]
+          },
+          "coverage_state": "confirmed",
+          "evidence_id": "FRAG_000015",
+          "evidence_kind": "fragment",
+          "matched_criteria": [
+            "source_status=active",
+            "revision_status=active",
+            "current_revision=true",
+            "evidence_status=active",
+            "evidence_kind=fragment",
+            "fragment_type=excel_region"
+          ],
+          "normalized_char_count": 2998,
+          "outcome": "excluded",
+          "package_char_count": 2998,
+          "rank": null,
+          "reason_codes": [
+            "incomplete_locator",
+            "deterministic_coverage_excluded"
+          ],
+          "sequence": 1,
+          "sort_key": [
+            1,
+            1,
+            1,
+            1,
+            "REV_000003",
+            "fragment",
+            1,
+            "FRAG_000015"
+          ],
+          "source_revision_id": "REV_000003"
+        },
+        {
+          "coverage_refs": {
+            "applicable_rules": [
+              "xml_form_structure/1",
+              "xml_form_structure/2",
+              "xml_table_usage/1",
+              "xml_table_usage/2"
+            ],
+            "references": [
+              {
+                "candidate_record_id": "CREC_000017",
+                "current_decision_id": "RDEC_000016",
+                "current_outcome": "confirmed",
+                "decision_hash": "f4f7bc4e763e76161621fe7b300621cf8f4e43003d5ee403eff430eec82aed02",
+                "is_leaf": true,
+                "root_candidate_record_id": "CREC_000017",
+                "rule": "xml_form_structure/2"
+              },
+              {
+                "candidate_record_id": "CREC_000023",
+                "current_decision_id": "RDEC_000022",
+                "current_outcome": "confirmed",
+                "decision_hash": "f4cc04cadfceb4c6bccf1666653247da9a55cc6eb2654e1ac9bc721eab2718ec",
+                "is_leaf": true,
+                "root_candidate_record_id": "CREC_000023",
+                "rule": "xml_table_usage/2"
+              }
+            ]
+          },
+          "coverage_state": "confirmed",
+          "evidence_id": "FRAG_000016",
+          "evidence_kind": "fragment",
+          "matched_criteria": [
+            "source_status=active",
+            "revision_status=active",
+            "current_revision=true",
+            "evidence_status=active",
+            "evidence_kind=fragment",
+            "fragment_type=xml_form",
+            "locator_complete=true"
+          ],
+          "normalized_char_count": 548,
+          "outcome": "excluded",
+          "package_char_count": 548,
+          "rank": null,
+          "reason_codes": [
+            "deterministic_coverage_excluded"
+          ],
+          "sequence": 1,
+          "sort_key": [
+            1,
+            1,
+            1,
+            1,
+            "REV_000004",
+            "fragment",
+            1,
+            "FRAG_000016"
+          ],
+          "source_revision_id": "REV_000004"
+        },
+        {
+          "coverage_refs": {
+            "applicable_rules": [
+              "xml_form_structure/1",
+              "xml_form_structure/2",
+              "xml_table_usage/2"
+            ],
+            "references": [
+              {
+                "candidate_record_id": "CREC_000019",
+                "current_decision_id": "RDEC_000018",
+                "current_outcome": "confirmed",
+                "decision_hash": "2e8d0c995ed93d323814015a2d33affaad89f34f6095c73d19dc5ec4077cdb61",
+                "is_leaf": true,
+                "root_candidate_record_id": "CREC_000019",
+                "rule": "xml_form_structure/2"
+              },
+              {
+                "candidate_record_id": "CREC_000025",
+                "current_decision_id": "RDEC_000024",
+                "current_outcome": "confirmed",
+                "decision_hash": "4bae31853fa2b11e59682d0399e7a6f0efe0f4a1e986cf224a4c6fab2d2803ca",
+                "is_leaf": true,
+                "root_candidate_record_id": "CREC_000025",
+                "rule": "xml_table_usage/2"
+              }
+            ]
+          },
+          "coverage_state": "confirmed",
+          "evidence_id": "FRAG_000017",
+          "evidence_kind": "fragment",
+          "matched_criteria": [
+            "source_status=active",
+            "revision_status=active",
+            "current_revision=true",
+            "evidence_status=active",
+            "evidence_kind=fragment",
+            "fragment_type=xml_field",
+            "locator_complete=true"
+          ],
+          "normalized_char_count": 83,
+          "outcome": "excluded",
+          "package_char_count": 83,
+          "rank": null,
+          "reason_codes": [
+            "deterministic_coverage_excluded"
+          ],
+          "sequence": 2,
+          "sort_key": [
+            1,
+            1,
+            1,
+            1,
+            "REV_000004",
+            "fragment",
+            2,
+            "FRAG_000017"
+          ],
+          "source_revision_id": "REV_000004"
+        },
+        {
+          "coverage_refs": {
+            "applicable_rules": [
+              "xml_form_structure/1",
+              "xml_form_structure/2",
+              "xml_table_usage/2"
+            ],
+            "references": [
+              {
+                "candidate_record_id": "CREC_000018",
+                "current_decision_id": "RDEC_000017",
+                "current_outcome": "confirmed",
+                "decision_hash": "6e5f4883cc58a3df81bd10bb13123df1936e6379501cf8f8c670fde6853f48e9",
+                "is_leaf": true,
+                "root_candidate_record_id": "CREC_000018",
+                "rule": "xml_form_structure/2"
+              },
+              {
+                "candidate_record_id": "CREC_000024",
+                "current_decision_id": "RDEC_000023",
+                "current_outcome": "confirmed",
+                "decision_hash": "b716541695f1651afd2327f4e27bb38bc66e545968980fe22cd7ce8b090f2113",
+                "is_leaf": true,
+                "root_candidate_record_id": "CREC_000024",
+                "rule": "xml_table_usage/2"
+              }
+            ]
+          },
+          "coverage_state": "confirmed",
+          "evidence_id": "FRAG_000018",
+          "evidence_kind": "fragment",
+          "matched_criteria": [
+            "source_status=active",
+            "revision_status=active",
+            "current_revision=true",
+            "evidence_status=active",
+            "evidence_kind=fragment",
+            "fragment_type=xml_field",
+            "locator_complete=true"
+          ],
+          "normalized_char_count": 81,
+          "outcome": "excluded",
+          "package_char_count": 81,
+          "rank": null,
+          "reason_codes": [
+            "deterministic_coverage_excluded"
+          ],
+          "sequence": 3,
+          "sort_key": [
+            1,
+            1,
+            1,
+            1,
+            "REV_000004",
+            "fragment",
+            3,
+            "FRAG_000018"
+          ],
+          "source_revision_id": "REV_000004"
+        },
+        {
+          "coverage_refs": {
+            "applicable_rules": [
+              "xml_form_structure/1",
+              "xml_form_structure/2",
+              "xml_table_usage/2"
+            ],
+            "references": [
+              {
+                "candidate_record_id": "CREC_000020",
+                "current_decision_id": "RDEC_000019",
+                "current_outcome": "confirmed",
+                "decision_hash": "26f28ca5336c11b5a710925acf345f04b42503dc7b11774675e98fb3adf4b1d8",
+                "is_leaf": true,
+                "root_candidate_record_id": "CREC_000020",
+                "rule": "xml_form_structure/2"
+              },
+              {
+                "candidate_record_id": "CREC_000026",
+                "current_decision_id": "RDEC_000025",
+                "current_outcome": "confirmed",
+                "decision_hash": "3187e9e413f4340a3c63ccc4525926da872e5722cab7c812735eb99eacd4d4e6",
+                "is_leaf": true,
+                "root_candidate_record_id": "CREC_000026",
+                "rule": "xml_table_usage/2"
+              }
+            ]
+          },
+          "coverage_state": "confirmed",
+          "evidence_id": "FRAG_000019",
+          "evidence_kind": "fragment",
+          "matched_criteria": [
+            "source_status=active",
+            "revision_status=active",
+            "current_revision=true",
+            "evidence_status=active",
+            "evidence_kind=fragment",
+            "fragment_type=xml_field",
+            "locator_complete=true"
+          ],
+          "normalized_char_count": 77,
+          "outcome": "excluded",
+          "package_char_count": 77,
+          "rank": null,
+          "reason_codes": [
+            "deterministic_coverage_excluded"
+          ],
+          "sequence": 4,
+          "sort_key": [
+            1,
+            1,
+            1,
+            1,
+            "REV_000004",
+            "fragment",
+            4,
+            "FRAG_000019"
+          ],
+          "source_revision_id": "REV_000004"
+        },
+        {
+          "coverage_refs": {
+            "applicable_rules": [
+              "xml_form_structure/1",
+              "xml_form_structure/2",
+              "xml_table_usage/2"
+            ],
+            "references": [
+              {
+                "candidate_record_id": "CREC_000021",
+                "current_decision_id": "RDEC_000020",
+                "current_outcome": "confirmed",
+                "decision_hash": "967066930d78dd83d5ee54848dc3482d145d68c84cc594ba9d647a3394984a57",
+                "is_leaf": true,
+                "root_candidate_record_id": "CREC_000021",
+                "rule": "xml_form_structure/2"
+              },
+              {
+                "candidate_record_id": "CREC_000027",
+                "current_decision_id": "RDEC_000026",
+                "current_outcome": "confirmed",
+                "decision_hash": "8590c0dace485a91c3b84db51c0d0abb44d1a759383ae7becdf00bc072e2c3d4",
+                "is_leaf": true,
+                "root_candidate_record_id": "CREC_000027",
+                "rule": "xml_table_usage/2"
+              }
+            ]
+          },
+          "coverage_state": "confirmed",
+          "evidence_id": "FRAG_000020",
+          "evidence_kind": "fragment",
+          "matched_criteria": [
+            "source_status=active",
+            "revision_status=active",
+            "current_revision=true",
+            "evidence_status=active",
+            "evidence_kind=fragment",
+            "fragment_type=xml_field",
+            "locator_complete=true"
+          ],
+          "normalized_char_count": 71,
+          "outcome": "excluded",
+          "package_char_count": 71,
+          "rank": null,
+          "reason_codes": [
+            "deterministic_coverage_excluded"
+          ],
+          "sequence": 5,
+          "sort_key": [
+            1,
+            1,
+            1,
+            1,
+            "REV_000004",
+            "fragment",
+            5,
+            "FRAG_000020"
+          ],
+          "source_revision_id": "REV_000004"
+        },
+        {
+          "coverage_refs": {
+            "applicable_rules": [
+              "xml_button_operation/1",
+              "xml_form_structure/1",
+              "xml_form_structure/2"
+            ],
+            "references": [
+              {
+                "candidate_record_id": "CREC_000016",
+                "current_decision_id": null,
+                "current_outcome": "pending",
+                "decision_hash": null,
+                "is_leaf": true,
+                "root_candidate_record_id": "CREC_000016",
+                "rule": "xml_button_operation/1"
+              },
+              {
+                "candidate_record_id": "CREC_000022",
+                "current_decision_id": "RDEC_000021",
+                "current_outcome": "confirmed",
+                "decision_hash": "b475f438e9211157b6acf76790882fc13859be90f23e13f44e8e9ad468f8b445",
+                "is_leaf": true,
+                "root_candidate_record_id": "CREC_000022",
+                "rule": "xml_form_structure/2"
+              }
+            ]
+          },
+          "coverage_state": "confirmed",
+          "evidence_id": "FRAG_000021",
+          "evidence_kind": "fragment",
+          "matched_criteria": [
+            "source_status=active",
+            "revision_status=active",
+            "current_revision=true",
+            "evidence_status=active",
+            "evidence_kind=fragment",
+            "fragment_type=xml_button",
+            "locator_complete=true"
+          ],
+          "normalized_char_count": 77,
+          "outcome": "excluded",
+          "package_char_count": 77,
+          "rank": null,
+          "reason_codes": [
+            "deterministic_coverage_excluded"
+          ],
+          "sequence": 6,
+          "sort_key": [
+            1,
+            1,
+            1,
+            1,
+            "REV_000004",
+            "fragment",
+            6,
+            "FRAG_000021"
+          ],
+          "source_revision_id": "REV_000004"
+        },
+        {
+          "coverage_refs": {
+            "applicable_rules": [
+              "log_event_observation/1",
+              "log_event_observation/2"
+            ],
+            "references": [
+              {
+                "candidate_record_id": "CREC_000028",
+                "current_decision_id": "RDEC_000027",
+                "current_outcome": "confirmed",
+                "decision_hash": "152a95c71112da490e34d05f494000a177a41ddd58e07de9ce4aa180a4cda9b6",
+                "is_leaf": true,
+                "root_candidate_record_id": "CREC_000028",
+                "rule": "log_event_observation/2"
+              }
+            ]
+          },
+          "coverage_state": "confirmed",
+          "evidence_id": "FRAG_000022",
+          "evidence_kind": "fragment",
+          "matched_criteria": [
+            "source_status=active",
+            "revision_status=active",
+            "current_revision=true",
+            "evidence_status=active",
+            "evidence_kind=fragment",
+            "locator_complete=true"
+          ],
+          "normalized_char_count": 68,
+          "outcome": "excluded",
+          "package_char_count": 68,
+          "rank": null,
+          "reason_codes": [
+            "fragment_type_excluded",
+            "deterministic_coverage_excluded"
+          ],
+          "sequence": 1,
+          "sort_key": [
+            1,
+            1,
+            1,
+            1,
+            "REV_000005",
+            "fragment",
+            1,
+            "FRAG_000022"
+          ],
+          "source_revision_id": "REV_000005"
+        },
+        {
+          "coverage_refs": {
+            "applicable_rules": [
+              "log_event_observation/1",
+              "log_event_observation/2"
+            ],
+            "references": [
+              {
+                "candidate_record_id": "CREC_000029",
+                "current_decision_id": "RDEC_000028",
+                "current_outcome": "confirmed",
+                "decision_hash": "a06f7b9df6b18d4a514067a0abf6e91d08be9a7e37f82ac3eaf1107375274801",
+                "is_leaf": true,
+                "root_candidate_record_id": "CREC_000029",
+                "rule": "log_event_observation/2"
+              }
+            ]
+          },
+          "coverage_state": "confirmed",
+          "evidence_id": "FRAG_000023",
+          "evidence_kind": "fragment",
+          "matched_criteria": [
+            "source_status=active",
+            "revision_status=active",
+            "current_revision=true",
+            "evidence_status=active",
+            "evidence_kind=fragment",
+            "locator_complete=true"
+          ],
+          "normalized_char_count": 88,
+          "outcome": "excluded",
+          "package_char_count": 88,
+          "rank": null,
+          "reason_codes": [
+            "fragment_type_excluded",
+            "deterministic_coverage_excluded"
+          ],
+          "sequence": 2,
+          "sort_key": [
+            1,
+            1,
+            1,
+            1,
+            "REV_000005",
+            "fragment",
+            2,
+            "FRAG_000023"
+          ],
+          "source_revision_id": "REV_000005"
+        },
+        {
+          "coverage_refs": {
+            "applicable_rules": [
+              "log_event_observation/1",
+              "log_event_observation/2"
+            ],
+            "references": [
+              {
+                "candidate_record_id": "CREC_000030",
+                "current_decision_id": "RDEC_000029",
+                "current_outcome": "confirmed",
+                "decision_hash": "d28358aac0c69a110215c68ebdfe041368601a200af3bdac76fd9a16833bb4a8",
+                "is_leaf": true,
+                "root_candidate_record_id": "CREC_000030",
+                "rule": "log_event_observation/2"
+              }
+            ]
+          },
+          "coverage_state": "confirmed",
+          "evidence_id": "FRAG_000024",
+          "evidence_kind": "fragment",
+          "matched_criteria": [
+            "source_status=active",
+            "revision_status=active",
+            "current_revision=true",
+            "evidence_status=active",
+            "evidence_kind=fragment",
+            "locator_complete=true"
+          ],
+          "normalized_char_count": 92,
+          "outcome": "excluded",
+          "package_char_count": 92,
+          "rank": null,
+          "reason_codes": [
+            "fragment_type_excluded",
+            "deterministic_coverage_excluded"
+          ],
+          "sequence": 3,
+          "sort_key": [
+            1,
+            1,
+            1,
+            1,
+            "REV_000005",
+            "fragment",
+            3,
+            "FRAG_000024"
+          ],
+          "source_revision_id": "REV_000005"
+        },
+        {
+          "coverage_refs": {
+            "applicable_rules": [
+              "log_event_observation/1",
+              "log_event_observation/2"
+            ],
+            "references": [
+              {
+                "candidate_record_id": "CREC_000031",
+                "current_decision_id": "RDEC_000030",
+                "current_outcome": "confirmed",
+                "decision_hash": "5917ae7c050258b1dfcfb3b7e2c8bf6f334e4063c38edaba5827f9b45137e111",
+                "is_leaf": true,
+                "root_candidate_record_id": "CREC_000031",
+                "rule": "log_event_observation/2"
+              }
+            ]
+          },
+          "coverage_state": "confirmed",
+          "evidence_id": "FRAG_000025",
+          "evidence_kind": "fragment",
+          "matched_criteria": [
+            "source_status=active",
+            "revision_status=active",
+            "current_revision=true",
+            "evidence_status=active",
+            "evidence_kind=fragment",
+            "locator_complete=true"
+          ],
+          "normalized_char_count": 102,
+          "outcome": "excluded",
+          "package_char_count": 102,
+          "rank": null,
+          "reason_codes": [
+            "fragment_type_excluded",
+            "deterministic_coverage_excluded"
+          ],
+          "sequence": 4,
+          "sort_key": [
+            1,
+            1,
+            1,
+            1,
+            "REV_000005",
+            "fragment",
+            4,
+            "FRAG_000025"
+          ],
+          "source_revision_id": "REV_000005"
+        },
+        {
+          "coverage_refs": {
+            "applicable_rules": [
+              "log_event_observation/1",
+              "log_event_observation/2"
+            ],
+            "references": [
+              {
+                "candidate_record_id": "CREC_000032",
+                "current_decision_id": "RDEC_000031",
+                "current_outcome": "confirmed",
+                "decision_hash": "0a7701d1cf5bd60d41c5efd6c4368266868f1ac4ded4f3337eab3fc10ab7269f",
+                "is_leaf": true,
+                "root_candidate_record_id": "CREC_000032",
+                "rule": "log_event_observation/2"
+              }
+            ]
+          },
+          "coverage_state": "confirmed",
+          "evidence_id": "FRAG_000026",
+          "evidence_kind": "fragment",
+          "matched_criteria": [
+            "source_status=active",
+            "revision_status=active",
+            "current_revision=true",
+            "evidence_status=active",
+            "evidence_kind=fragment",
+            "locator_complete=true"
+          ],
+          "normalized_char_count": 70,
+          "outcome": "excluded",
+          "package_char_count": 70,
+          "rank": null,
+          "reason_codes": [
+            "fragment_type_excluded",
+            "deterministic_coverage_excluded"
+          ],
+          "sequence": 5,
+          "sort_key": [
+            1,
+            1,
+            1,
+            1,
+            "REV_000005",
+            "fragment",
+            5,
+            "FRAG_000026"
+          ],
+          "source_revision_id": "REV_000005"
+        },
+        {
+          "coverage_refs": {
+            "applicable_rules": [
+              "db_code_dependency/1",
+              "db_code_dependency/2",
+              "db_code_unit/1"
+            ],
+            "references": [
+              {
+                "candidate_record_id": "CREC_000040",
+                "current_decision_id": "RDEC_000039",
+                "current_outcome": "confirmed",
+                "decision_hash": "9b148231aaddc9244093a6e8ca3b43d70d5c365a02a2139e112aabbb42403cfb",
+                "is_leaf": true,
+                "root_candidate_record_id": "CREC_000040",
+                "rule": "db_code_unit/1"
+              }
+            ]
+          },
+          "coverage_state": "confirmed",
+          "evidence_id": "FRAG_000027",
+          "evidence_kind": "fragment",
+          "matched_criteria": [
+            "source_status=active",
+            "revision_status=active",
+            "current_revision=true",
+            "evidence_status=active",
+            "evidence_kind=fragment",
+            "fragment_type=sql_trigger",
+            "locator_complete=true"
+          ],
+          "normalized_char_count": 282,
+          "outcome": "excluded",
+          "package_char_count": 282,
+          "rank": null,
+          "reason_codes": [
+            "deterministic_coverage_excluded"
+          ],
+          "sequence": 1,
+          "sort_key": [
+            1,
+            1,
+            1,
+            1,
+            "REV_000006",
+            "fragment",
+            1,
+            "FRAG_000027"
+          ],
+          "source_revision_id": "REV_000006"
+        },
+        {
+          "coverage_refs": {
+            "applicable_rules": [
+              "db_code_dependency/1",
+              "db_code_dependency/2",
+              "db_code_unit/1"
+            ],
+            "references": [
+              {
+                "candidate_record_id": "CREC_000033",
+                "current_decision_id": "RDEC_000032",
+                "current_outcome": "confirmed",
+                "decision_hash": "2d7ece36740b4f4514e99d1de4e0693f5991ffe40c315ec20e43033a0faa44ac",
+                "is_leaf": true,
+                "root_candidate_record_id": "CREC_000033",
+                "rule": "db_code_dependency/2"
+              },
+              {
+                "candidate_record_id": "CREC_000034",
+                "current_decision_id": "RDEC_000033",
+                "current_outcome": "confirmed",
+                "decision_hash": "0bef214c019697e1074ff3fdf0fd6576c9d364ff993abc21d8c954a431f56ee3",
+                "is_leaf": true,
+                "root_candidate_record_id": "CREC_000034",
+                "rule": "db_code_dependency/2"
+              },
+              {
+                "candidate_record_id": "CREC_000035",
+                "current_decision_id": "RDEC_000034",
+                "current_outcome": "confirmed",
+                "decision_hash": "5f5ce399344381733d5b524d1c90010ae57426073501627c82ddb5f357e20a79",
+                "is_leaf": true,
+                "root_candidate_record_id": "CREC_000035",
+                "rule": "db_code_dependency/2"
+              },
+              {
+                "candidate_record_id": "CREC_000036",
+                "current_decision_id": "RDEC_000035",
+                "current_outcome": "confirmed",
+                "decision_hash": "8aea4dcf2fcab52041c340358530df5a25747fe3701ecdaafe440b0a7a54f451",
+                "is_leaf": true,
+                "root_candidate_record_id": "CREC_000036",
+                "rule": "db_code_dependency/2"
+              },
+              {
+                "candidate_record_id": "CREC_000037",
+                "current_decision_id": "RDEC_000036",
+                "current_outcome": "confirmed",
+                "decision_hash": "da5d6cb190db4897674804b98fd65c5eda60037f49997acb44fc90e1fa6c1847",
+                "is_leaf": true,
+                "root_candidate_record_id": "CREC_000037",
+                "rule": "db_code_dependency/2"
+              },
+              {
+                "candidate_record_id": "CREC_000038",
+                "current_decision_id": "RDEC_000037",
+                "current_outcome": "confirmed",
+                "decision_hash": "e9ce045f14ad48ca04fe3ae5e83b8431ea3d828c7b50eb66acab7e11f6ece57b",
+                "is_leaf": true,
+                "root_candidate_record_id": "CREC_000038",
+                "rule": "db_code_dependency/2"
+              },
+              {
+                "candidate_record_id": "CREC_000039",
+                "current_decision_id": "RDEC_000038",
+                "current_outcome": "confirmed",
+                "decision_hash": "5341c0d9aa38beb2345159e4aa89e64aef4572ea89f75c19a8da05fc6dd90dfe",
+                "is_leaf": true,
+                "root_candidate_record_id": "CREC_000039",
+                "rule": "db_code_unit/1"
+              }
+            ]
+          },
+          "coverage_state": "confirmed",
+          "evidence_id": "FRAG_000028",
+          "evidence_kind": "fragment",
+          "matched_criteria": [
+            "source_status=active",
+            "revision_status=active",
+            "current_revision=true",
+            "evidence_status=active",
+            "evidence_kind=fragment",
+            "fragment_type=sql_procedure",
+            "locator_complete=true",
+            "ranking:fragment_type=sql_procedure"
+          ],
+          "normalized_char_count": 398,
+          "outcome": "excluded",
+          "package_char_count": 398,
+          "rank": null,
+          "reason_codes": [
+            "deterministic_coverage_excluded"
+          ],
+          "sequence": 2,
+          "sort_key": [
+            1,
+            1,
+            1,
+            0,
+            "REV_000006",
+            "fragment",
+            2,
+            "FRAG_000028"
+          ],
+          "source_revision_id": "REV_000006"
+        },
+        {
+          "coverage_refs": {
+            "applicable_rules": [],
+            "references": []
+          },
+          "coverage_state": "no_rule_applicable",
+          "evidence_id": "FRAG_000029",
+          "evidence_kind": "fragment",
+          "matched_criteria": [
+            "source_status=active",
+            "revision_status=active",
+            "current_revision=true",
+            "evidence_status=active",
+            "evidence_kind=fragment",
+            "fragment_type=sql_statement",
+            "locator_complete=true",
+            "coverage_state=no_rule_applicable",
+            "ranking:coverage_state=no_rule_applicable"
+          ],
+          "normalized_char_count": 98,
+          "outcome": "included",
+          "package_char_count": 98,
+          "rank": 1,
+          "reason_codes": [
+            "included_by_policy"
+          ],
+          "sequence": 3,
+          "sort_key": [
+            0,
+            1,
+            1,
+            1,
+            "REV_000006",
+            "fragment",
+            3,
+            "FRAG_000029"
+          ],
+          "source_revision_id": "REV_000006"
+        },
+        {
+          "coverage_refs": {
+            "applicable_rules": [],
+            "references": []
+          },
+          "coverage_state": "no_rule_applicable",
+          "evidence_id": "FRAG_000030",
+          "evidence_kind": "fragment",
+          "matched_criteria": [
+            "source_status=active",
+            "revision_status=active",
+            "current_revision=true",
+            "evidence_status=active",
+            "evidence_kind=fragment",
+            "fragment_type=sql_statement",
+            "locator_complete=true",
+            "coverage_state=no_rule_applicable",
+            "ranking:coverage_state=no_rule_applicable"
+          ],
+          "normalized_char_count": 205,
+          "outcome": "included",
+          "package_char_count": 205,
+          "rank": 2,
+          "reason_codes": [
+            "included_by_policy"
+          ],
+          "sequence": 4,
+          "sort_key": [
+            0,
+            1,
+            1,
+            1,
+            "REV_000006",
+            "fragment",
+            4,
+            "FRAG_000030"
+          ],
+          "source_revision_id": "REV_000006"
+        },
+        {
+          "coverage_refs": {
+            "applicable_rules": [
+              "ddl_fk_relation/1"
+            ],
+            "references": []
+          },
+          "coverage_state": "applicable_no_candidate",
+          "evidence_id": "FRAG_000006",
+          "evidence_kind": "fragment",
+          "matched_criteria": [
+            "source_status=active",
+            "revision_status=active",
+            "current_revision=true",
+            "evidence_status=active",
+            "evidence_kind=fragment",
+            "fragment_type=ddl_constraint",
+            "locator_complete=true",
+            "coverage_state=applicable_no_candidate"
+          ],
+          "normalized_char_count": 30,
+          "outcome": "included",
+          "package_char_count": 30,
+          "rank": 3,
+          "reason_codes": [
+            "included_by_policy"
+          ],
+          "sequence": 6,
+          "sort_key": [
+            1,
+            1,
+            1,
+            1,
+            "REV_000001",
+            "fragment",
+            6,
+            "FRAG_000006"
+          ],
+          "source_revision_id": "REV_000001"
+        },
+        {
+          "coverage_refs": {
+            "applicable_rules": [
+              "ddl_fk_relation/1"
+            ],
+            "references": []
+          },
+          "coverage_state": "applicable_no_candidate",
+          "evidence_id": "FRAG_000013",
+          "evidence_kind": "fragment",
+          "matched_criteria": [
+            "source_status=active",
+            "revision_status=active",
+            "current_revision=true",
+            "evidence_status=active",
+            "evidence_kind=fragment",
+            "fragment_type=ddl_constraint",
+            "locator_complete=true",
+            "coverage_state=applicable_no_candidate"
+          ],
+          "normalized_char_count": 31,
+          "outcome": "included",
+          "package_char_count": 31,
+          "rank": 4,
+          "reason_codes": [
+            "included_by_policy"
+          ],
+          "sequence": 13,
+          "sort_key": [
+            1,
+            1,
+            1,
+            1,
+            "REV_000001",
+            "fragment",
+            13,
+            "FRAG_000013"
+          ],
+          "source_revision_id": "REV_000001"
+        }
+      ],
+      "policy": {
+        "config_hash": "4134bf1071008c0f7ec2044563071b23cb67f47b44eeb881760c11d200f20248",
+        "policy_id": "technical_extraction",
+        "policy_version": "1"
+      },
+      "profile": {
+        "config_hash": "2f05e1bdc838efbd30438ae2b05640e1e0b2280537a2435d727fddb932ff0ec1",
+        "name": "ai_package.default"
+      },
+      "reason_catalog_version": "1",
+      "reason_summary": {
+        "deterministic_coverage_excluded": 26,
+        "evidence_kind_excluded": 2,
+        "fragment_type_excluded": 5,
+        "included_by_policy": 4,
+        "incomplete_locator": 1
+      },
+      "relevant_state_hash": "48acc14787419ba922c15b2181513504cc5abfa0a788944549a775cbaf95fb3c",
+      "report_path": "artifacts/runs/RUN_000029/selection_plan_report.json",
+      "route": {
+        "route_id": "technical_extraction",
+        "route_version": "1"
+      },
+      "run_id": "RUN_000029",
+      "schema_version": 1,
+      "selection_plan_hash": "6e8ed2dbf753ddd01115112f6ed7f8bddb69fe47f3b7a623ca66898487f1b675",
+      "selection_plan_id": "AISEL_000001",
+      "status": "completed"
+    },
+    "selection_plan_id": "AISEL_000001",
+    "source_revisions": [
+      {
+        "authority_level": "technical_structure",
+        "content_hash": "a972c0b4cbbf50543d017bf91519ee9e6deb799c9e8685b9d417084c961d040d",
+        "current_revision_id": "REV_000001",
+        "file_path": "corpus/active/database/schema_vega.sql",
+        "revision_status": "active",
+        "source_id": "SRC_000001",
+        "source_revision_id": "REV_000001",
+        "source_subtype": "mixed_ddl",
+        "source_type": "ddl"
+      },
+      {
+        "authority_level": "runtime_code",
+        "content_hash": "2bc89867201b4390cf0380678c2d2136fbe0d76c6ae166167aebaef85f466f3d",
+        "current_revision_id": "REV_000006",
+        "file_path": "corpus/active/plsql/logica_vega.sql",
+        "revision_status": "active",
+        "source_id": "SRC_000006",
+        "source_revision_id": "REV_000006",
+        "source_subtype": "mixed_sql_code",
+        "source_type": "database_code"
+      }
+    ],
+    "worker_config": {
+      "name": "build_ai_package",
+      "version": "1.0"
     }
   },
-  "parent_run_id": null,
+  "output_dir": "ai/outbox/AIPKG_000001",
+  "package_id": "AIPKG_000001",
+  "profile": "ai_package.default",
   "run_id": "RUN_000031",
-  "run_type": "candidate_import"
+  "run_type": "ai_package",
+  "selection_plan": {
+    "config_hash": "cbde2ce17dc1ec5e5c4a66de2eb413bbaec85ae25dd9d499df17ddd0fc9566d9",
+    "counts": {
+      "examined": 32,
+      "excluded": 28,
+      "included": 4,
+      "selected_chars": 364
+    },
+    "created_at": "2026-09-17T11:04:49+02:00",
+    "items": [
+      {
+        "coverage_refs": {
+          "applicable_rules": [],
+          "references": []
+        },
+        "coverage_state": "no_rule_applicable",
+        "evidence_id": "CHK_000001",
+        "evidence_kind": "chunk",
+        "matched_criteria": [
+          "source_status=active",
+          "revision_status=active",
+          "current_revision=true",
+          "evidence_status=active",
+          "locator_complete=true",
+          "coverage_state=no_rule_applicable",
+          "ranking:coverage_state=no_rule_applicable"
+        ],
+        "normalized_char_count": 792,
+        "outcome": "excluded",
+        "package_char_count": 792,
+        "rank": null,
+        "reason_codes": [
+          "evidence_kind_excluded"
+        ],
+        "sequence": 1,
+        "sort_key": [
+          0,
+          1,
+          1,
+          1,
+          "REV_000002",
+          "chunk",
+          1,
+          "CHK_000001"
+        ],
+        "source_revision_id": "REV_000002"
+      },
+      {
+        "coverage_refs": {
+          "applicable_rules": [],
+          "references": []
+        },
+        "coverage_state": "no_rule_applicable",
+        "evidence_id": "CHK_000002",
+        "evidence_kind": "chunk",
+        "matched_criteria": [
+          "source_status=active",
+          "revision_status=active",
+          "current_revision=true",
+          "evidence_status=active",
+          "locator_complete=true",
+          "coverage_state=no_rule_applicable",
+          "ranking:coverage_state=no_rule_applicable"
+        ],
+        "normalized_char_count": 924,
+        "outcome": "excluded",
+        "package_char_count": 924,
+        "rank": null,
+        "reason_codes": [
+          "evidence_kind_excluded"
+        ],
+        "sequence": 1,
+        "sort_key": [
+          0,
+          1,
+          1,
+          1,
+          "REV_000003",
+          "chunk",
+          1,
+          "CHK_000002"
+        ],
+        "source_revision_id": "REV_000003"
+      },
+      {
+        "coverage_refs": {
+          "applicable_rules": [
+            "ddl_table_fact/1"
+          ],
+          "references": [
+            {
+              "candidate_record_id": "CREC_000011",
+              "current_decision_id": "RDEC_000011",
+              "current_outcome": "confirmed",
+              "decision_hash": "000779ef7ef8aa13506b7a71d0bcd8768ae1a7636cb31937c0580f95a82a5284",
+              "is_leaf": true,
+              "root_candidate_record_id": "CREC_000011",
+              "rule": "ddl_table_fact/1"
+            }
+          ]
+        },
+        "coverage_state": "confirmed",
+        "evidence_id": "FRAG_000001",
+        "evidence_kind": "fragment",
+        "matched_criteria": [
+          "source_status=active",
+          "revision_status=active",
+          "current_revision=true",
+          "evidence_status=active",
+          "evidence_kind=fragment",
+          "fragment_type=ddl_table",
+          "locator_complete=true",
+          "ranking:fragment_type=ddl_table"
+        ],
+        "normalized_char_count": 172,
+        "outcome": "excluded",
+        "package_char_count": 172,
+        "rank": null,
+        "reason_codes": [
+          "deterministic_coverage_excluded"
+        ],
+        "sequence": 1,
+        "sort_key": [
+          1,
+          1,
+          0,
+          1,
+          "REV_000001",
+          "fragment",
+          1,
+          "FRAG_000001"
+        ],
+        "source_revision_id": "REV_000001"
+      },
+      {
+        "coverage_refs": {
+          "applicable_rules": [
+            "ddl_column_fact/1"
+          ],
+          "references": [
+            {
+              "candidate_record_id": "CREC_000003",
+              "current_decision_id": "RDEC_000003",
+              "current_outcome": "confirmed",
+              "decision_hash": "9f205adb9b55c90d9341ad74ebf5c41dfbe5b5df0e243ec61f8186df14daca5d",
+              "is_leaf": true,
+              "root_candidate_record_id": "CREC_000003",
+              "rule": "ddl_column_fact/1"
+            }
+          ]
+        },
+        "coverage_state": "confirmed",
+        "evidence_id": "FRAG_000002",
+        "evidence_kind": "fragment",
+        "matched_criteria": [
+          "source_status=active",
+          "revision_status=active",
+          "current_revision=true",
+          "evidence_status=active",
+          "evidence_kind=fragment",
+          "fragment_type=ddl_column",
+          "locator_complete=true"
+        ],
+        "normalized_char_count": 30,
+        "outcome": "excluded",
+        "package_char_count": 30,
+        "rank": null,
+        "reason_codes": [
+          "deterministic_coverage_excluded"
+        ],
+        "sequence": 2,
+        "sort_key": [
+          1,
+          1,
+          1,
+          1,
+          "REV_000001",
+          "fragment",
+          2,
+          "FRAG_000002"
+        ],
+        "source_revision_id": "REV_000001"
+      },
+      {
+        "coverage_refs": {
+          "applicable_rules": [
+            "ddl_column_fact/1"
+          ],
+          "references": [
+            {
+              "candidate_record_id": "CREC_000001",
+              "current_decision_id": "RDEC_000001",
+              "current_outcome": "confirmed",
+              "decision_hash": "0a9fd6769ad195a5aa27522ad72ad9b6d067e59901b7a17afd1d1a0379a4b9f5",
+              "is_leaf": true,
+              "root_candidate_record_id": "CREC_000001",
+              "rule": "ddl_column_fact/1"
+            }
+          ]
+        },
+        "coverage_state": "confirmed",
+        "evidence_id": "FRAG_000003",
+        "evidence_kind": "fragment",
+        "matched_criteria": [
+          "source_status=active",
+          "revision_status=active",
+          "current_revision=true",
+          "evidence_status=active",
+          "evidence_kind=fragment",
+          "fragment_type=ddl_column",
+          "locator_complete=true"
+        ],
+        "normalized_char_count": 28,
+        "outcome": "excluded",
+        "package_char_count": 28,
+        "rank": null,
+        "reason_codes": [
+          "deterministic_coverage_excluded"
+        ],
+        "sequence": 3,
+        "sort_key": [
+          1,
+          1,
+          1,
+          1,
+          "REV_000001",
+          "fragment",
+          3,
+          "FRAG_000003"
+        ],
+        "source_revision_id": "REV_000001"
+      },
+      {
+        "coverage_refs": {
+          "applicable_rules": [
+            "ddl_column_fact/1"
+          ],
+          "references": [
+            {
+              "candidate_record_id": "CREC_000002",
+              "current_decision_id": "RDEC_000002",
+              "current_outcome": "confirmed",
+              "decision_hash": "41d044d156c7e7706d932beb93f242999b960dda7d88177c66be11317d34ed13",
+              "is_leaf": true,
+              "root_candidate_record_id": "CREC_000002",
+              "rule": "ddl_column_fact/1"
+            }
+          ]
+        },
+        "coverage_state": "confirmed",
+        "evidence_id": "FRAG_000004",
+        "evidence_kind": "fragment",
+        "matched_criteria": [
+          "source_status=active",
+          "revision_status=active",
+          "current_revision=true",
+          "evidence_status=active",
+          "evidence_kind=fragment",
+          "fragment_type=ddl_column",
+          "locator_complete=true"
+        ],
+        "normalized_char_count": 34,
+        "outcome": "excluded",
+        "package_char_count": 34,
+        "rank": null,
+        "reason_codes": [
+          "deterministic_coverage_excluded"
+        ],
+        "sequence": 4,
+        "sort_key": [
+          1,
+          1,
+          1,
+          1,
+          "REV_000001",
+          "fragment",
+          4,
+          "FRAG_000004"
+        ],
+        "source_revision_id": "REV_000001"
+      },
+      {
+        "coverage_refs": {
+          "applicable_rules": [
+            "ddl_column_fact/1"
+          ],
+          "references": [
+            {
+              "candidate_record_id": "CREC_000004",
+              "current_decision_id": "RDEC_000004",
+              "current_outcome": "confirmed",
+              "decision_hash": "dcb1216f726f0460e1988cecabf9f45e84147757e4cf38a6df60caf2870f1922",
+              "is_leaf": true,
+              "root_candidate_record_id": "CREC_000004",
+              "rule": "ddl_column_fact/1"
+            }
+          ]
+        },
+        "coverage_state": "confirmed",
+        "evidence_id": "FRAG_000005",
+        "evidence_kind": "fragment",
+        "matched_criteria": [
+          "source_status=active",
+          "revision_status=active",
+          "current_revision=true",
+          "evidence_status=active",
+          "evidence_kind=fragment",
+          "fragment_type=ddl_column",
+          "locator_complete=true"
+        ],
+        "normalized_char_count": 31,
+        "outcome": "excluded",
+        "package_char_count": 31,
+        "rank": null,
+        "reason_codes": [
+          "deterministic_coverage_excluded"
+        ],
+        "sequence": 5,
+        "sort_key": [
+          1,
+          1,
+          1,
+          1,
+          "REV_000001",
+          "fragment",
+          5,
+          "FRAG_000005"
+        ],
+        "source_revision_id": "REV_000001"
+      },
+      {
+        "coverage_refs": {
+          "applicable_rules": [
+            "ddl_table_fact/1"
+          ],
+          "references": [
+            {
+              "candidate_record_id": "CREC_000012",
+              "current_decision_id": "RDEC_000012",
+              "current_outcome": "confirmed",
+              "decision_hash": "fd99139e5290ee3a469a6ff7202be41ca87e5e8d567b1eaa1d9f1be5932d6e02",
+              "is_leaf": true,
+              "root_candidate_record_id": "CREC_000012",
+              "rule": "ddl_table_fact/1"
+            }
+          ]
+        },
+        "coverage_state": "confirmed",
+        "evidence_id": "FRAG_000007",
+        "evidence_kind": "fragment",
+        "matched_criteria": [
+          "source_status=active",
+          "revision_status=active",
+          "current_revision=true",
+          "evidence_status=active",
+          "evidence_kind=fragment",
+          "fragment_type=ddl_table",
+          "locator_complete=true",
+          "ranking:fragment_type=ddl_table"
+        ],
+        "normalized_char_count": 314,
+        "outcome": "excluded",
+        "package_char_count": 314,
+        "rank": null,
+        "reason_codes": [
+          "deterministic_coverage_excluded"
+        ],
+        "sequence": 7,
+        "sort_key": [
+          1,
+          1,
+          0,
+          1,
+          "REV_000001",
+          "fragment",
+          7,
+          "FRAG_000007"
+        ],
+        "source_revision_id": "REV_000001"
+      },
+      {
+        "coverage_refs": {
+          "applicable_rules": [
+            "ddl_column_fact/1"
+          ],
+          "references": [
+            {
+              "candidate_record_id": "CREC_000006",
+              "current_decision_id": "RDEC_000006",
+              "current_outcome": "confirmed",
+              "decision_hash": "053c3fd4a35095b879190e6f45d0748a456f41bed6f8c4787fe2513d5ffdbd8b",
+              "is_leaf": true,
+              "root_candidate_record_id": "CREC_000006",
+              "rule": "ddl_column_fact/1"
+            }
+          ]
+        },
+        "coverage_state": "confirmed",
+        "evidence_id": "FRAG_000008",
+        "evidence_kind": "fragment",
+        "matched_criteria": [
+          "source_status=active",
+          "revision_status=active",
+          "current_revision=true",
+          "evidence_status=active",
+          "evidence_kind=fragment",
+          "fragment_type=ddl_column",
+          "locator_complete=true"
+        ],
+        "normalized_char_count": 31,
+        "outcome": "excluded",
+        "package_char_count": 31,
+        "rank": null,
+        "reason_codes": [
+          "deterministic_coverage_excluded"
+        ],
+        "sequence": 8,
+        "sort_key": [
+          1,
+          1,
+          1,
+          1,
+          "REV_000001",
+          "fragment",
+          8,
+          "FRAG_000008"
+        ],
+        "source_revision_id": "REV_000001"
+      },
+      {
+        "coverage_refs": {
+          "applicable_rules": [
+            "ddl_column_fact/1"
+          ],
+          "references": [
+            {
+              "candidate_record_id": "CREC_000005",
+              "current_decision_id": "RDEC_000005",
+              "current_outcome": "confirmed",
+              "decision_hash": "a9876479a72c1368bc97f49ec3609ee113336a23034593ca92872b4acb18727c",
+              "is_leaf": true,
+              "root_candidate_record_id": "CREC_000005",
+              "rule": "ddl_column_fact/1"
+            }
+          ]
+        },
+        "coverage_state": "confirmed",
+        "evidence_id": "FRAG_000009",
+        "evidence_kind": "fragment",
+        "matched_criteria": [
+          "source_status=active",
+          "revision_status=active",
+          "current_revision=true",
+          "evidence_status=active",
+          "evidence_kind=fragment",
+          "fragment_type=ddl_column",
+          "locator_complete=true"
+        ],
+        "normalized_char_count": 27,
+        "outcome": "excluded",
+        "package_char_count": 27,
+        "rank": null,
+        "reason_codes": [
+          "deterministic_coverage_excluded"
+        ],
+        "sequence": 9,
+        "sort_key": [
+          1,
+          1,
+          1,
+          1,
+          "REV_000001",
+          "fragment",
+          9,
+          "FRAG_000009"
+        ],
+        "source_revision_id": "REV_000001"
+      },
+      {
+        "coverage_refs": {
+          "applicable_rules": [
+            "ddl_column_fact/1"
+          ],
+          "references": [
+            {
+              "candidate_record_id": "CREC_000007",
+              "current_decision_id": "RDEC_000007",
+              "current_outcome": "confirmed",
+              "decision_hash": "71d6638d1bd33ede485071a3e9c7eb36dd8a9e96728d42add5182b3bf7a5c99c",
+              "is_leaf": true,
+              "root_candidate_record_id": "CREC_000007",
+              "rule": "ddl_column_fact/1"
+            }
+          ]
+        },
+        "coverage_state": "confirmed",
+        "evidence_id": "FRAG_000010",
+        "evidence_kind": "fragment",
+        "matched_criteria": [
+          "source_status=active",
+          "revision_status=active",
+          "current_revision=true",
+          "evidence_status=active",
+          "evidence_kind=fragment",
+          "fragment_type=ddl_column",
+          "locator_complete=true"
+        ],
+        "normalized_char_count": 30,
+        "outcome": "excluded",
+        "package_char_count": 30,
+        "rank": null,
+        "reason_codes": [
+          "deterministic_coverage_excluded"
+        ],
+        "sequence": 10,
+        "sort_key": [
+          1,
+          1,
+          1,
+          1,
+          "REV_000001",
+          "fragment",
+          10,
+          "FRAG_000010"
+        ],
+        "source_revision_id": "REV_000001"
+      },
+      {
+        "coverage_refs": {
+          "applicable_rules": [
+            "ddl_column_fact/1"
+          ],
+          "references": [
+            {
+              "candidate_record_id": "CREC_000009",
+              "current_decision_id": "RDEC_000009",
+              "current_outcome": "confirmed",
+              "decision_hash": "190cd4dbc8b30a72189e48d0b3c60880f9ce85a1e08605b2d368c52a51e75b92",
+              "is_leaf": true,
+              "root_candidate_record_id": "CREC_000009",
+              "rule": "ddl_column_fact/1"
+            }
+          ]
+        },
+        "coverage_state": "confirmed",
+        "evidence_id": "FRAG_000011",
+        "evidence_kind": "fragment",
+        "matched_criteria": [
+          "source_status=active",
+          "revision_status=active",
+          "current_revision=true",
+          "evidence_status=active",
+          "evidence_kind=fragment",
+          "fragment_type=ddl_column",
+          "locator_complete=true"
+        ],
+        "normalized_char_count": 27,
+        "outcome": "excluded",
+        "package_char_count": 27,
+        "rank": null,
+        "reason_codes": [
+          "deterministic_coverage_excluded"
+        ],
+        "sequence": 11,
+        "sort_key": [
+          1,
+          1,
+          1,
+          1,
+          "REV_000001",
+          "fragment",
+          11,
+          "FRAG_000011"
+        ],
+        "source_revision_id": "REV_000001"
+      },
+      {
+        "coverage_refs": {
+          "applicable_rules": [
+            "ddl_column_fact/1"
+          ],
+          "references": [
+            {
+              "candidate_record_id": "CREC_000008",
+              "current_decision_id": "RDEC_000008",
+              "current_outcome": "confirmed",
+              "decision_hash": "097d6a8931e0a300ce01c27ccb89d8474d06071918262ae3d08779bffee2ff94",
+              "is_leaf": true,
+              "root_candidate_record_id": "CREC_000008",
+              "rule": "ddl_column_fact/1"
+            }
+          ]
+        },
+        "coverage_state": "confirmed",
+        "evidence_id": "FRAG_000012",
+        "evidence_kind": "fragment",
+        "matched_criteria": [
+          "source_status=active",
+          "revision_status=active",
+          "current_revision=true",
+          "evidence_status=active",
+          "evidence_kind=fragment",
+          "fragment_type=ddl_column",
+          "locator_complete=true"
+        ],
+        "normalized_char_count": 29,
+        "outcome": "excluded",
+        "package_char_count": 29,
+        "rank": null,
+        "reason_codes": [
+          "deterministic_coverage_excluded"
+        ],
+        "sequence": 12,
+        "sort_key": [
+          1,
+          1,
+          1,
+          1,
+          "REV_000001",
+          "fragment",
+          12,
+          "FRAG_000012"
+        ],
+        "source_revision_id": "REV_000001"
+      },
+      {
+        "coverage_refs": {
+          "applicable_rules": [
+            "ddl_fk_relation/1"
+          ],
+          "references": [
+            {
+              "candidate_record_id": "CREC_000010",
+              "current_decision_id": "RDEC_000010",
+              "current_outcome": "confirmed",
+              "decision_hash": "b9c403464ae9ee6468ec3cd81e3342768b472a93487b3d146ce4a22bdcfb7b47",
+              "is_leaf": true,
+              "root_candidate_record_id": "CREC_000010",
+              "rule": "ddl_fk_relation/1"
+            }
+          ]
+        },
+        "coverage_state": "confirmed",
+        "evidence_id": "FRAG_000014",
+        "evidence_kind": "fragment",
+        "matched_criteria": [
+          "source_status=active",
+          "revision_status=active",
+          "current_revision=true",
+          "evidence_status=active",
+          "evidence_kind=fragment",
+          "fragment_type=ddl_constraint",
+          "locator_complete=true"
+        ],
+        "normalized_char_count": 99,
+        "outcome": "excluded",
+        "package_char_count": 99,
+        "rank": null,
+        "reason_codes": [
+          "deterministic_coverage_excluded"
+        ],
+        "sequence": 14,
+        "sort_key": [
+          1,
+          1,
+          1,
+          1,
+          "REV_000001",
+          "fragment",
+          14,
+          "FRAG_000014"
+        ],
+        "source_revision_id": "REV_000001"
+      },
+      {
+        "coverage_refs": {
+          "applicable_rules": [
+            "excel_explicit_reference/1",
+            "excel_named_range_fact/1",
+            "excel_region_fact/1",
+            "excel_sheet_fact/1",
+            "excel_table_fact/1",
+            "excel_workbook_fact/1"
+          ],
+          "references": [
+            {
+              "candidate_record_id": "CREC_000013",
+              "current_decision_id": "RDEC_000013",
+              "current_outcome": "confirmed",
+              "decision_hash": "bb8b16354eef824f714f1ac3bb3c9aee4d93e55241965618c41bd895688732ab",
+              "is_leaf": true,
+              "root_candidate_record_id": "CREC_000013",
+              "rule": "excel_region_fact/1"
+            },
+            {
+              "candidate_record_id": "CREC_000014",
+              "current_decision_id": "RDEC_000014",
+              "current_outcome": "confirmed",
+              "decision_hash": "e6817b71205f6db9d22fe96779b72d5a580928baf16cd2752bebb323bdb21f3c",
+              "is_leaf": true,
+              "root_candidate_record_id": "CREC_000014",
+              "rule": "excel_sheet_fact/1"
+            },
+            {
+              "candidate_record_id": "CREC_000015",
+              "current_decision_id": "RDEC_000015",
+              "current_outcome": "confirmed",
+              "decision_hash": "140ce47bc67d8a4c2e57a4fcd4e86d61c954bfb694d16bbb1d1851ae8393fa5d",
+              "is_leaf": true,
+              "root_candidate_record_id": "CREC_000015",
+              "rule": "excel_workbook_fact/1"
+            }
+          ]
+        },
+        "coverage_state": "confirmed",
+        "evidence_id": "FRAG_000015",
+        "evidence_kind": "fragment",
+        "matched_criteria": [
+          "source_status=active",
+          "revision_status=active",
+          "current_revision=true",
+          "evidence_status=active",
+          "evidence_kind=fragment",
+          "fragment_type=excel_region"
+        ],
+        "normalized_char_count": 2998,
+        "outcome": "excluded",
+        "package_char_count": 2998,
+        "rank": null,
+        "reason_codes": [
+          "incomplete_locator",
+          "deterministic_coverage_excluded"
+        ],
+        "sequence": 1,
+        "sort_key": [
+          1,
+          1,
+          1,
+          1,
+          "REV_000003",
+          "fragment",
+          1,
+          "FRAG_000015"
+        ],
+        "source_revision_id": "REV_000003"
+      },
+      {
+        "coverage_refs": {
+          "applicable_rules": [
+            "xml_form_structure/1",
+            "xml_form_structure/2",
+            "xml_table_usage/1",
+            "xml_table_usage/2"
+          ],
+          "references": [
+            {
+              "candidate_record_id": "CREC_000017",
+              "current_decision_id": "RDEC_000016",
+              "current_outcome": "confirmed",
+              "decision_hash": "f4f7bc4e763e76161621fe7b300621cf8f4e43003d5ee403eff430eec82aed02",
+              "is_leaf": true,
+              "root_candidate_record_id": "CREC_000017",
+              "rule": "xml_form_structure/2"
+            },
+            {
+              "candidate_record_id": "CREC_000023",
+              "current_decision_id": "RDEC_000022",
+              "current_outcome": "confirmed",
+              "decision_hash": "f4cc04cadfceb4c6bccf1666653247da9a55cc6eb2654e1ac9bc721eab2718ec",
+              "is_leaf": true,
+              "root_candidate_record_id": "CREC_000023",
+              "rule": "xml_table_usage/2"
+            }
+          ]
+        },
+        "coverage_state": "confirmed",
+        "evidence_id": "FRAG_000016",
+        "evidence_kind": "fragment",
+        "matched_criteria": [
+          "source_status=active",
+          "revision_status=active",
+          "current_revision=true",
+          "evidence_status=active",
+          "evidence_kind=fragment",
+          "fragment_type=xml_form",
+          "locator_complete=true"
+        ],
+        "normalized_char_count": 548,
+        "outcome": "excluded",
+        "package_char_count": 548,
+        "rank": null,
+        "reason_codes": [
+          "deterministic_coverage_excluded"
+        ],
+        "sequence": 1,
+        "sort_key": [
+          1,
+          1,
+          1,
+          1,
+          "REV_000004",
+          "fragment",
+          1,
+          "FRAG_000016"
+        ],
+        "source_revision_id": "REV_000004"
+      },
+      {
+        "coverage_refs": {
+          "applicable_rules": [
+            "xml_form_structure/1",
+            "xml_form_structure/2",
+            "xml_table_usage/2"
+          ],
+          "references": [
+            {
+              "candidate_record_id": "CREC_000019",
+              "current_decision_id": "RDEC_000018",
+              "current_outcome": "confirmed",
+              "decision_hash": "2e8d0c995ed93d323814015a2d33affaad89f34f6095c73d19dc5ec4077cdb61",
+              "is_leaf": true,
+              "root_candidate_record_id": "CREC_000019",
+              "rule": "xml_form_structure/2"
+            },
+            {
+              "candidate_record_id": "CREC_000025",
+              "current_decision_id": "RDEC_000024",
+              "current_outcome": "confirmed",
+              "decision_hash": "4bae31853fa2b11e59682d0399e7a6f0efe0f4a1e986cf224a4c6fab2d2803ca",
+              "is_leaf": true,
+              "root_candidate_record_id": "CREC_000025",
+              "rule": "xml_table_usage/2"
+            }
+          ]
+        },
+        "coverage_state": "confirmed",
+        "evidence_id": "FRAG_000017",
+        "evidence_kind": "fragment",
+        "matched_criteria": [
+          "source_status=active",
+          "revision_status=active",
+          "current_revision=true",
+          "evidence_status=active",
+          "evidence_kind=fragment",
+          "fragment_type=xml_field",
+          "locator_complete=true"
+        ],
+        "normalized_char_count": 83,
+        "outcome": "excluded",
+        "package_char_count": 83,
+        "rank": null,
+        "reason_codes": [
+          "deterministic_coverage_excluded"
+        ],
+        "sequence": 2,
+        "sort_key": [
+          1,
+          1,
+          1,
+          1,
+          "REV_000004",
+          "fragment",
+          2,
+          "FRAG_000017"
+        ],
+        "source_revision_id": "REV_000004"
+      },
+      {
+        "coverage_refs": {
+          "applicable_rules": [
+            "xml_form_structure/1",
+            "xml_form_structure/2",
+            "xml_table_usage/2"
+          ],
+          "references": [
+            {
+              "candidate_record_id": "CREC_000018",
+              "current_decision_id": "RDEC_000017",
+              "current_outcome": "confirmed",
+              "decision_hash": "6e5f4883cc58a3df81bd10bb13123df1936e6379501cf8f8c670fde6853f48e9",
+              "is_leaf": true,
+              "root_candidate_record_id": "CREC_000018",
+              "rule": "xml_form_structure/2"
+            },
+            {
+              "candidate_record_id": "CREC_000024",
+              "current_decision_id": "RDEC_000023",
+              "current_outcome": "confirmed",
+              "decision_hash": "b716541695f1651afd2327f4e27bb38bc66e545968980fe22cd7ce8b090f2113",
+              "is_leaf": true,
+              "root_candidate_record_id": "CREC_000024",
+              "rule": "xml_table_usage/2"
+            }
+          ]
+        },
+        "coverage_state": "confirmed",
+        "evidence_id": "FRAG_000018",
+        "evidence_kind": "fragment",
+        "matched_criteria": [
+          "source_status=active",
+          "revision_status=active",
+          "current_revision=true",
+          "evidence_status=active",
+          "evidence_kind=fragment",
+          "fragment_type=xml_field",
+          "locator_complete=true"
+        ],
+        "normalized_char_count": 81,
+        "outcome": "excluded",
+        "package_char_count": 81,
+        "rank": null,
+        "reason_codes": [
+          "deterministic_coverage_excluded"
+        ],
+        "sequence": 3,
+        "sort_key": [
+          1,
+          1,
+          1,
+          1,
+          "REV_000004",
+          "fragment",
+          3,
+          "FRAG_000018"
+        ],
+        "source_revision_id": "REV_000004"
+      },
+      {
+        "coverage_refs": {
+          "applicable_rules": [
+            "xml_form_structure/1",
+            "xml_form_structure/2",
+            "xml_table_usage/2"
+          ],
+          "references": [
+            {
+              "candidate_record_id": "CREC_000020",
+              "current_decision_id": "RDEC_000019",
+              "current_outcome": "confirmed",
+              "decision_hash": "26f28ca5336c11b5a710925acf345f04b42503dc7b11774675e98fb3adf4b1d8",
+              "is_leaf": true,
+              "root_candidate_record_id": "CREC_000020",
+              "rule": "xml_form_structure/2"
+            },
+            {
+              "candidate_record_id": "CREC_000026",
+              "current_decision_id": "RDEC_000025",
+              "current_outcome": "confirmed",
+              "decision_hash": "3187e9e413f4340a3c63ccc4525926da872e5722cab7c812735eb99eacd4d4e6",
+              "is_leaf": true,
+              "root_candidate_record_id": "CREC_000026",
+              "rule": "xml_table_usage/2"
+            }
+          ]
+        },
+        "coverage_state": "confirmed",
+        "evidence_id": "FRAG_000019",
+        "evidence_kind": "fragment",
+        "matched_criteria": [
+          "source_status=active",
+          "revision_status=active",
+          "current_revision=true",
+          "evidence_status=active",
+          "evidence_kind=fragment",
+          "fragment_type=xml_field",
+          "locator_complete=true"
+        ],
+        "normalized_char_count": 77,
+        "outcome": "excluded",
+        "package_char_count": 77,
+        "rank": null,
+        "reason_codes": [
+          "deterministic_coverage_excluded"
+        ],
+        "sequence": 4,
+        "sort_key": [
+          1,
+          1,
+          1,
+          1,
+          "REV_000004",
+          "fragment",
+          4,
+          "FRAG_000019"
+        ],
+        "source_revision_id": "REV_000004"
+      },
+      {
+        "coverage_refs": {
+          "applicable_rules": [
+            "xml_form_structure/1",
+            "xml_form_structure/2",
+            "xml_table_usage/2"
+          ],
+          "references": [
+            {
+              "candidate_record_id": "CREC_000021",
+              "current_decision_id": "RDEC_000020",
+              "current_outcome": "confirmed",
+              "decision_hash": "967066930d78dd83d5ee54848dc3482d145d68c84cc594ba9d647a3394984a57",
+              "is_leaf": true,
+              "root_candidate_record_id": "CREC_000021",
+              "rule": "xml_form_structure/2"
+            },
+            {
+              "candidate_record_id": "CREC_000027",
+              "current_decision_id": "RDEC_000026",
+              "current_outcome": "confirmed",
+              "decision_hash": "8590c0dace485a91c3b84db51c0d0abb44d1a759383ae7becdf00bc072e2c3d4",
+              "is_leaf": true,
+              "root_candidate_record_id": "CREC_000027",
+              "rule": "xml_table_usage/2"
+            }
+          ]
+        },
+        "coverage_state": "confirmed",
+        "evidence_id": "FRAG_000020",
+        "evidence_kind": "fragment",
+        "matched_criteria": [
+          "source_status=active",
+          "revision_status=active",
+          "current_revision=true",
+          "evidence_status=active",
+          "evidence_kind=fragment",
+          "fragment_type=xml_field",
+          "locator_complete=true"
+        ],
+        "normalized_char_count": 71,
+        "outcome": "excluded",
+        "package_char_count": 71,
+        "rank": null,
+        "reason_codes": [
+          "deterministic_coverage_excluded"
+        ],
+        "sequence": 5,
+        "sort_key": [
+          1,
+          1,
+          1,
+          1,
+          "REV_000004",
+          "fragment",
+          5,
+          "FRAG_000020"
+        ],
+        "source_revision_id": "REV_000004"
+      },
+      {
+        "coverage_refs": {
+          "applicable_rules": [
+            "xml_button_operation/1",
+            "xml_form_structure/1",
+            "xml_form_structure/2"
+          ],
+          "references": [
+            {
+              "candidate_record_id": "CREC_000016",
+              "current_decision_id": null,
+              "current_outcome": "pending",
+              "decision_hash": null,
+              "is_leaf": true,
+              "root_candidate_record_id": "CREC_000016",
+              "rule": "xml_button_operation/1"
+            },
+            {
+              "candidate_record_id": "CREC_000022",
+              "current_decision_id": "RDEC_000021",
+              "current_outcome": "confirmed",
+              "decision_hash": "b475f438e9211157b6acf76790882fc13859be90f23e13f44e8e9ad468f8b445",
+              "is_leaf": true,
+              "root_candidate_record_id": "CREC_000022",
+              "rule": "xml_form_structure/2"
+            }
+          ]
+        },
+        "coverage_state": "confirmed",
+        "evidence_id": "FRAG_000021",
+        "evidence_kind": "fragment",
+        "matched_criteria": [
+          "source_status=active",
+          "revision_status=active",
+          "current_revision=true",
+          "evidence_status=active",
+          "evidence_kind=fragment",
+          "fragment_type=xml_button",
+          "locator_complete=true"
+        ],
+        "normalized_char_count": 77,
+        "outcome": "excluded",
+        "package_char_count": 77,
+        "rank": null,
+        "reason_codes": [
+          "deterministic_coverage_excluded"
+        ],
+        "sequence": 6,
+        "sort_key": [
+          1,
+          1,
+          1,
+          1,
+          "REV_000004",
+          "fragment",
+          6,
+          "FRAG_000021"
+        ],
+        "source_revision_id": "REV_000004"
+      },
+      {
+        "coverage_refs": {
+          "applicable_rules": [
+            "log_event_observation/1",
+            "log_event_observation/2"
+          ],
+          "references": [
+            {
+              "candidate_record_id": "CREC_000028",
+              "current_decision_id": "RDEC_000027",
+              "current_outcome": "confirmed",
+              "decision_hash": "152a95c71112da490e34d05f494000a177a41ddd58e07de9ce4aa180a4cda9b6",
+              "is_leaf": true,
+              "root_candidate_record_id": "CREC_000028",
+              "rule": "log_event_observation/2"
+            }
+          ]
+        },
+        "coverage_state": "confirmed",
+        "evidence_id": "FRAG_000022",
+        "evidence_kind": "fragment",
+        "matched_criteria": [
+          "source_status=active",
+          "revision_status=active",
+          "current_revision=true",
+          "evidence_status=active",
+          "evidence_kind=fragment",
+          "locator_complete=true"
+        ],
+        "normalized_char_count": 68,
+        "outcome": "excluded",
+        "package_char_count": 68,
+        "rank": null,
+        "reason_codes": [
+          "fragment_type_excluded",
+          "deterministic_coverage_excluded"
+        ],
+        "sequence": 1,
+        "sort_key": [
+          1,
+          1,
+          1,
+          1,
+          "REV_000005",
+          "fragment",
+          1,
+          "FRAG_000022"
+        ],
+        "source_revision_id": "REV_000005"
+      },
+      {
+        "coverage_refs": {
+          "applicable_rules": [
+            "log_event_observation/1",
+            "log_event_observation/2"
+          ],
+          "references": [
+            {
+              "candidate_record_id": "CREC_000029",
+              "current_decision_id": "RDEC_000028",
+              "current_outcome": "confirmed",
+              "decision_hash": "a06f7b9df6b18d4a514067a0abf6e91d08be9a7e37f82ac3eaf1107375274801",
+              "is_leaf": true,
+              "root_candidate_record_id": "CREC_000029",
+              "rule": "log_event_observation/2"
+            }
+          ]
+        },
+        "coverage_state": "confirmed",
+        "evidence_id": "FRAG_000023",
+        "evidence_kind": "fragment",
+        "matched_criteria": [
+          "source_status=active",
+          "revision_status=active",
+          "current_revision=true",
+          "evidence_status=active",
+          "evidence_kind=fragment",
+          "locator_complete=true"
+        ],
+        "normalized_char_count": 88,
+        "outcome": "excluded",
+        "package_char_count": 88,
+        "rank": null,
+        "reason_codes": [
+          "fragment_type_excluded",
+          "deterministic_coverage_excluded"
+        ],
+        "sequence": 2,
+        "sort_key": [
+          1,
+          1,
+          1,
+          1,
+          "REV_000005",
+          "fragment",
+          2,
+          "FRAG_000023"
+        ],
+        "source_revision_id": "REV_000005"
+      },
+      {
+        "coverage_refs": {
+          "applicable_rules": [
+            "log_event_observation/1",
+            "log_event_observation/2"
+          ],
+          "references": [
+            {
+              "candidate_record_id": "CREC_000030",
+              "current_decision_id": "RDEC_000029",
+              "current_outcome": "confirmed",
+              "decision_hash": "d28358aac0c69a110215c68ebdfe041368601a200af3bdac76fd9a16833bb4a8",
+              "is_leaf": true,
+              "root_candidate_record_id": "CREC_000030",
+              "rule": "log_event_observation/2"
+            }
+          ]
+        },
+        "coverage_state": "confirmed",
+        "evidence_id": "FRAG_000024",
+        "evidence_kind": "fragment",
+        "matched_criteria": [
+          "source_status=active",
+          "revision_status=active",
+          "current_revision=true",
+          "evidence_status=active",
+          "evidence_kind=fragment",
+          "locator_complete=true"
+        ],
+        "normalized_char_count": 92,
+        "outcome": "excluded",
+        "package_char_count": 92,
+        "rank": null,
+        "reason_codes": [
+          "fragment_type_excluded",
+          "deterministic_coverage_excluded"
+        ],
+        "sequence": 3,
+        "sort_key": [
+          1,
+          1,
+          1,
+          1,
+          "REV_000005",
+          "fragment",
+          3,
+          "FRAG_000024"
+        ],
+        "source_revision_id": "REV_000005"
+      },
+      {
+        "coverage_refs": {
+          "applicable_rules": [
+            "log_event_observation/1",
+            "log_event_observation/2"
+          ],
+          "references": [
+            {
+              "candidate_record_id": "CREC_000031",
+              "current_decision_id": "RDEC_000030",
+              "current_outcome": "confirmed",
+              "decision_hash": "5917ae7c050258b1dfcfb3b7e2c8bf6f334e4063c38edaba5827f9b45137e111",
+              "is_leaf": true,
+              "root_candidate_record_id": "CREC_000031",
+              "rule": "log_event_observation/2"
+            }
+          ]
+        },
+        "coverage_state": "confirmed",
+        "evidence_id": "FRAG_000025",
+        "evidence_kind": "fragment",
+        "matched_criteria": [
+          "source_status=active",
+          "revision_status=active",
+          "current_revision=true",
+          "evidence_status=active",
+          "evidence_kind=fragment",
+          "locator_complete=true"
+        ],
+        "normalized_char_count": 102,
+        "outcome": "excluded",
+        "package_char_count": 102,
+        "rank": null,
+        "reason_codes": [
+          "fragment_type_excluded",
+          "deterministic_coverage_excluded"
+        ],
+        "sequence": 4,
+        "sort_key": [
+          1,
+          1,
+          1,
+          1,
+          "REV_000005",
+          "fragment",
+          4,
+          "FRAG_000025"
+        ],
+        "source_revision_id": "REV_000005"
+      },
+      {
+        "coverage_refs": {
+          "applicable_rules": [
+            "log_event_observation/1",
+            "log_event_observation/2"
+          ],
+          "references": [
+            {
+              "candidate_record_id": "CREC_000032",
+              "current_decision_id": "RDEC_000031",
+              "current_outcome": "confirmed",
+              "decision_hash": "0a7701d1cf5bd60d41c5efd6c4368266868f1ac4ded4f3337eab3fc10ab7269f",
+              "is_leaf": true,
+              "root_candidate_record_id": "CREC_000032",
+              "rule": "log_event_observation/2"
+            }
+          ]
+        },
+        "coverage_state": "confirmed",
+        "evidence_id": "FRAG_000026",
+        "evidence_kind": "fragment",
+        "matched_criteria": [
+          "source_status=active",
+          "revision_status=active",
+          "current_revision=true",
+          "evidence_status=active",
+          "evidence_kind=fragment",
+          "locator_complete=true"
+        ],
+        "normalized_char_count": 70,
+        "outcome": "excluded",
+        "package_char_count": 70,
+        "rank": null,
+        "reason_codes": [
+          "fragment_type_excluded",
+          "deterministic_coverage_excluded"
+        ],
+        "sequence": 5,
+        "sort_key": [
+          1,
+          1,
+          1,
+          1,
+          "REV_000005",
+          "fragment",
+          5,
+          "FRAG_000026"
+        ],
+        "source_revision_id": "REV_000005"
+      },
+      {
+        "coverage_refs": {
+          "applicable_rules": [
+            "db_code_dependency/1",
+            "db_code_dependency/2",
+            "db_code_unit/1"
+          ],
+          "references": [
+            {
+              "candidate_record_id": "CREC_000040",
+              "current_decision_id": "RDEC_000039",
+              "current_outcome": "confirmed",
+              "decision_hash": "9b148231aaddc9244093a6e8ca3b43d70d5c365a02a2139e112aabbb42403cfb",
+              "is_leaf": true,
+              "root_candidate_record_id": "CREC_000040",
+              "rule": "db_code_unit/1"
+            }
+          ]
+        },
+        "coverage_state": "confirmed",
+        "evidence_id": "FRAG_000027",
+        "evidence_kind": "fragment",
+        "matched_criteria": [
+          "source_status=active",
+          "revision_status=active",
+          "current_revision=true",
+          "evidence_status=active",
+          "evidence_kind=fragment",
+          "fragment_type=sql_trigger",
+          "locator_complete=true"
+        ],
+        "normalized_char_count": 282,
+        "outcome": "excluded",
+        "package_char_count": 282,
+        "rank": null,
+        "reason_codes": [
+          "deterministic_coverage_excluded"
+        ],
+        "sequence": 1,
+        "sort_key": [
+          1,
+          1,
+          1,
+          1,
+          "REV_000006",
+          "fragment",
+          1,
+          "FRAG_000027"
+        ],
+        "source_revision_id": "REV_000006"
+      },
+      {
+        "coverage_refs": {
+          "applicable_rules": [
+            "db_code_dependency/1",
+            "db_code_dependency/2",
+            "db_code_unit/1"
+          ],
+          "references": [
+            {
+              "candidate_record_id": "CREC_000033",
+              "current_decision_id": "RDEC_000032",
+              "current_outcome": "confirmed",
+              "decision_hash": "2d7ece36740b4f4514e99d1de4e0693f5991ffe40c315ec20e43033a0faa44ac",
+              "is_leaf": true,
+              "root_candidate_record_id": "CREC_000033",
+              "rule": "db_code_dependency/2"
+            },
+            {
+              "candidate_record_id": "CREC_000034",
+              "current_decision_id": "RDEC_000033",
+              "current_outcome": "confirmed",
+              "decision_hash": "0bef214c019697e1074ff3fdf0fd6576c9d364ff993abc21d8c954a431f56ee3",
+              "is_leaf": true,
+              "root_candidate_record_id": "CREC_000034",
+              "rule": "db_code_dependency/2"
+            },
+            {
+              "candidate_record_id": "CREC_000035",
+              "current_decision_id": "RDEC_000034",
+              "current_outcome": "confirmed",
+              "decision_hash": "5f5ce399344381733d5b524d1c90010ae57426073501627c82ddb5f357e20a79",
+              "is_leaf": true,
+              "root_candidate_record_id": "CREC_000035",
+              "rule": "db_code_dependency/2"
+            },
+            {
+              "candidate_record_id": "CREC_000036",
+              "current_decision_id": "RDEC_000035",
+              "current_outcome": "confirmed",
+              "decision_hash": "8aea4dcf2fcab52041c340358530df5a25747fe3701ecdaafe440b0a7a54f451",
+              "is_leaf": true,
+              "root_candidate_record_id": "CREC_000036",
+              "rule": "db_code_dependency/2"
+            },
+            {
+              "candidate_record_id": "CREC_000037",
+              "current_decision_id": "RDEC_000036",
+              "current_outcome": "confirmed",
+              "decision_hash": "da5d6cb190db4897674804b98fd65c5eda60037f49997acb44fc90e1fa6c1847",
+              "is_leaf": true,
+              "root_candidate_record_id": "CREC_000037",
+              "rule": "db_code_dependency/2"
+            },
+            {
+              "candidate_record_id": "CREC_000038",
+              "current_decision_id": "RDEC_000037",
+              "current_outcome": "confirmed",
+              "decision_hash": "e9ce045f14ad48ca04fe3ae5e83b8431ea3d828c7b50eb66acab7e11f6ece57b",
+              "is_leaf": true,
+              "root_candidate_record_id": "CREC_000038",
+              "rule": "db_code_dependency/2"
+            },
+            {
+              "candidate_record_id": "CREC_000039",
+              "current_decision_id": "RDEC_000038",
+              "current_outcome": "confirmed",
+              "decision_hash": "5341c0d9aa38beb2345159e4aa89e64aef4572ea89f75c19a8da05fc6dd90dfe",
+              "is_leaf": true,
+              "root_candidate_record_id": "CREC_000039",
+              "rule": "db_code_unit/1"
+            }
+          ]
+        },
+        "coverage_state": "confirmed",
+        "evidence_id": "FRAG_000028",
+        "evidence_kind": "fragment",
+        "matched_criteria": [
+          "source_status=active",
+          "revision_status=active",
+          "current_revision=true",
+          "evidence_status=active",
+          "evidence_kind=fragment",
+          "fragment_type=sql_procedure",
+          "locator_complete=true",
+          "ranking:fragment_type=sql_procedure"
+        ],
+        "normalized_char_count": 398,
+        "outcome": "excluded",
+        "package_char_count": 398,
+        "rank": null,
+        "reason_codes": [
+          "deterministic_coverage_excluded"
+        ],
+        "sequence": 2,
+        "sort_key": [
+          1,
+          1,
+          1,
+          0,
+          "REV_000006",
+          "fragment",
+          2,
+          "FRAG_000028"
+        ],
+        "source_revision_id": "REV_000006"
+      },
+      {
+        "coverage_refs": {
+          "applicable_rules": [],
+          "references": []
+        },
+        "coverage_state": "no_rule_applicable",
+        "evidence_id": "FRAG_000029",
+        "evidence_kind": "fragment",
+        "matched_criteria": [
+          "source_status=active",
+          "revision_status=active",
+          "current_revision=true",
+          "evidence_status=active",
+          "evidence_kind=fragment",
+          "fragment_type=sql_statement",
+          "locator_complete=true",
+          "coverage_state=no_rule_applicable",
+          "ranking:coverage_state=no_rule_applicable"
+        ],
+        "normalized_char_count": 98,
+        "outcome": "included",
+        "package_char_count": 98,
+        "rank": 1,
+        "reason_codes": [
+          "included_by_policy"
+        ],
+        "sequence": 3,
+        "sort_key": [
+          0,
+          1,
+          1,
+          1,
+          "REV_000006",
+          "fragment",
+          3,
+          "FRAG_000029"
+        ],
+        "source_revision_id": "REV_000006"
+      },
+      {
+        "coverage_refs": {
+          "applicable_rules": [],
+          "references": []
+        },
+        "coverage_state": "no_rule_applicable",
+        "evidence_id": "FRAG_000030",
+        "evidence_kind": "fragment",
+        "matched_criteria": [
+          "source_status=active",
+          "revision_status=active",
+          "current_revision=true",
+          "evidence_status=active",
+          "evidence_kind=fragment",
+          "fragment_type=sql_statement",
+          "locator_complete=true",
+          "coverage_state=no_rule_applicable",
+          "ranking:coverage_state=no_rule_applicable"
+        ],
+        "normalized_char_count": 205,
+        "outcome": "included",
+        "package_char_count": 205,
+        "rank": 2,
+        "reason_codes": [
+          "included_by_policy"
+        ],
+        "sequence": 4,
+        "sort_key": [
+          0,
+          1,
+          1,
+          1,
+          "REV_000006",
+          "fragment",
+          4,
+          "FRAG_000030"
+        ],
+        "source_revision_id": "REV_000006"
+      },
+      {
+        "coverage_refs": {
+          "applicable_rules": [
+            "ddl_fk_relation/1"
+          ],
+          "references": []
+        },
+        "coverage_state": "applicable_no_candidate",
+        "evidence_id": "FRAG_000006",
+        "evidence_kind": "fragment",
+        "matched_criteria": [
+          "source_status=active",
+          "revision_status=active",
+          "current_revision=true",
+          "evidence_status=active",
+          "evidence_kind=fragment",
+          "fragment_type=ddl_constraint",
+          "locator_complete=true",
+          "coverage_state=applicable_no_candidate"
+        ],
+        "normalized_char_count": 30,
+        "outcome": "included",
+        "package_char_count": 30,
+        "rank": 3,
+        "reason_codes": [
+          "included_by_policy"
+        ],
+        "sequence": 6,
+        "sort_key": [
+          1,
+          1,
+          1,
+          1,
+          "REV_000001",
+          "fragment",
+          6,
+          "FRAG_000006"
+        ],
+        "source_revision_id": "REV_000001"
+      },
+      {
+        "coverage_refs": {
+          "applicable_rules": [
+            "ddl_fk_relation/1"
+          ],
+          "references": []
+        },
+        "coverage_state": "applicable_no_candidate",
+        "evidence_id": "FRAG_000013",
+        "evidence_kind": "fragment",
+        "matched_criteria": [
+          "source_status=active",
+          "revision_status=active",
+          "current_revision=true",
+          "evidence_status=active",
+          "evidence_kind=fragment",
+          "fragment_type=ddl_constraint",
+          "locator_complete=true",
+          "coverage_state=applicable_no_candidate"
+        ],
+        "normalized_char_count": 31,
+        "outcome": "included",
+        "package_char_count": 31,
+        "rank": 4,
+        "reason_codes": [
+          "included_by_policy"
+        ],
+        "sequence": 13,
+        "sort_key": [
+          1,
+          1,
+          1,
+          1,
+          "REV_000001",
+          "fragment",
+          13,
+          "FRAG_000013"
+        ],
+        "source_revision_id": "REV_000001"
+      }
+    ],
+    "policy": {
+      "config_hash": "4134bf1071008c0f7ec2044563071b23cb67f47b44eeb881760c11d200f20248",
+      "policy_id": "technical_extraction",
+      "policy_version": "1"
+    },
+    "profile": {
+      "config_hash": "2f05e1bdc838efbd30438ae2b05640e1e0b2280537a2435d727fddb932ff0ec1",
+      "name": "ai_package.default"
+    },
+    "reason_catalog_version": "1",
+    "reason_summary": {
+      "deterministic_coverage_excluded": 26,
+      "evidence_kind_excluded": 2,
+      "fragment_type_excluded": 5,
+      "included_by_policy": 4,
+      "incomplete_locator": 1
+    },
+    "relevant_state_hash": "48acc14787419ba922c15b2181513504cc5abfa0a788944549a775cbaf95fb3c",
+    "report_path": "artifacts/runs/RUN_000029/selection_plan_report.json",
+    "route": {
+      "route_id": "technical_extraction",
+      "route_version": "1"
+    },
+    "run_id": "RUN_000029",
+    "schema_version": 1,
+    "selection_plan_hash": "6e8ed2dbf753ddd01115112f6ed7f8bddb69fe47f3b7a623ca66898487f1b675",
+    "selection_plan_id": "AISEL_000001",
+    "status": "completed"
+  },
+  "selection_plan_id": "AISEL_000001",
+  "source_revisions": [
+    {
+      "authority_level": "technical_structure",
+      "content_hash": "a972c0b4cbbf50543d017bf91519ee9e6deb799c9e8685b9d417084c961d040d",
+      "current_revision_id": "REV_000001",
+      "file_path": "corpus/active/database/schema_vega.sql",
+      "revision_status": "active",
+      "source_id": "SRC_000001",
+      "source_revision_id": "REV_000001",
+      "source_subtype": "mixed_ddl",
+      "source_type": "ddl"
+    },
+    {
+      "authority_level": "runtime_code",
+      "content_hash": "2bc89867201b4390cf0380678c2d2136fbe0d76c6ae166167aebaef85f466f3d",
+      "current_revision_id": "REV_000006",
+      "file_path": "corpus/active/plsql/logica_vega.sql",
+      "revision_status": "active",
+      "source_id": "SRC_000006",
+      "source_revision_id": "REV_000006",
+      "source_subtype": "mixed_sql_code",
+      "source_type": "database_code"
+    }
+  ],
+  "worker_config": {
+    "name": "build_ai_package",
+    "version": "1.0"
+  },
+  "worker_name": "build_ai_package",
+  "worker_version": "1.0"
 }

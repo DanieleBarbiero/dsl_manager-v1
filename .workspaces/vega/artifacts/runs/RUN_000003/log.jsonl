@@ -1,4 +1,4 @@
-{"event": "run_started", "level": "INFO", "message": "Run RUN_000003 started.", "run_id": "RUN_000003", "timestamp": "2026-09-17T04:55:08+02:00"}
-{"event": "worker_started", "level": "INFO", "message": "Worker parse_ddl started.", "run_id": "RUN_000003", "timestamp": "2026-09-17T04:55:08+02:00", "worker": "parse_ddl"}
-{"event": "worker_completed", "level": "INFO", "message": "Worker parse_ddl finished with status completed.", "run_id": "RUN_000003", "timestamp": "2026-09-17T04:55:09+02:00", "worker": "parse_ddl"}
-{"event": "run_completed", "level": "INFO", "message": "Run RUN_000003 finished with status completed.", "run_id": "RUN_000003", "timestamp": "2026-09-17T04:55:09+02:00"}
+{"event": "run_started", "level": "INFO", "message": "Run RUN_000003 started.", "run_id": "RUN_000003", "timestamp": "2026-09-17T10:59:32+02:00"}
+{"event": "worker_started", "level": "INFO", "message": "Worker parse_ddl started.", "run_id": "RUN_000003", "timestamp": "2026-09-17T10:59:33+02:00", "worker": "parse_ddl"}
+{"event": "worker_completed", "level": "INFO", "message": "Worker parse_ddl finished with status completed.", "run_id": "RUN_000003", "timestamp": "2026-09-17T10:59:33+02:00", "worker": "parse_ddl"}
+{"event": "run_completed", "level": "INFO", "message": "Run RUN_000003 finished with status completed.", "run_id": "RUN_000003", "timestamp": "2026-09-17T10:59:33+02:00"}

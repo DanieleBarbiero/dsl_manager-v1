@@ -1,7 +1,7 @@
 {
   "artifact_dir": "artifacts/runs/RUN_000020",
   "parameters": {
-    "rule": "xml_form_structure/1",
+    "rule": "xml_button_operation/1",
     "rule_set_version": "1",
     "source_revision_id": "REV_000004"
   },

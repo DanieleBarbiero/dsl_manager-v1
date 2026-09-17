@@ -1,9 +1,9 @@
 {
   "artifact_dir": "artifacts/runs/RUN_000022",
   "parameters": {
-    "rule": "log_event_observation/1",
+    "rule": "xml_table_usage/2",
     "rule_set_version": "1",
-    "source_revision_id": "REV_000005"
+    "source_revision_id": "REV_000004"
   },
   "parent_run_id": "RUN_000001",
   "run_id": "RUN_000022",

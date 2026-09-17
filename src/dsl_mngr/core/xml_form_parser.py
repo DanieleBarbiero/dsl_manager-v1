@@ -65,15 +65,21 @@ class XmlField:
     column_name: str | None
     required: bool
     span: TextSpan
+    block_name: str | None = None
+    source_element_kind: str = "field"
 
     def to_dict(self) -> dict[str, Any]:
-        return {
+        payload = {
             "column_name": self.column_name,
             "label": self.label,
             "name": self.name,
             "required": self.required,
             "table_name": self.table_name,
         }
+        if self.source_element_kind != "field":
+            payload["block_name"] = self.block_name
+            payload["source_element_kind"] = self.source_element_kind
+        return payload
 
 
 @dataclass(frozen=True)
@@ -82,13 +88,17 @@ class XmlButton:
     label: str | None
     action_kind: str
     span: TextSpan
+    operation: str | None = None
 
     def to_dict(self) -> dict[str, Any]:
-        return {
+        payload = {
             "action_kind": self.action_kind,
             "label": self.label,
             "name": self.name,
         }
+        if self.operation is not None:
+            payload["operation"] = self.operation
+        return payload
 
 
 @dataclass(frozen=True)
@@ -340,9 +350,19 @@ def build_fragment_records(
                 field_metadata["column_name"] = field.column_name
             if field.table_name is not None and field.column_name is not None:
                 field_metadata["mapping_type"] = "form_field_to_column"
+            if field.source_element_kind == "item":
+                field_metadata["block_name"] = field.block_name
+                field_metadata["source_element_kind"] = "item"
+            if field.source_element_kind == "item":
+                field_selector = (
+                    f"{form_selector}/block[@name='{_selector_escape(field.block_name or '')}']"
+                    f"/item[@name='{_selector_escape(field.name)}']"
+                )
+            else:
+                field_selector = f"{form_selector}/field[@name='{_selector_escape(field.name)}']"
             add_record(
                 fragment_type="xml_field",
-                path_or_selector=f"{form_selector}/field[@name='{_selector_escape(field.name)}']",
+                path_or_selector=field_selector,
                 span=field.span,
                 metadata=field_metadata,
             )
@@ -356,6 +376,8 @@ def build_fragment_records(
             }
             if button.label is not None:
                 button_metadata["label"] = button.label
+            if button.operation is not None:
+                button_metadata["operation"] = button.operation
             add_record(
                 fragment_type="xml_button",
                 path_or_selector=f"{form_selector}/button[@name='{_selector_escape(button.name)}']",
@@ -415,6 +437,26 @@ def _parse_form_element(
             )
             fields.append(field)
             field_cursor = field.span.char_end
+        item_cursor = form_span.char_start
+        for block_element in form_element.iter():
+            if _local_tag(block_element.tag) != "block":
+                continue
+            block_name = _required_attribute(block_element, "name", "block.name")
+            block_table = _optional_attribute(block_element, "table")
+            for item_element in block_element:
+                if _local_tag(item_element.tag) != "item":
+                    continue
+                field = _parse_item_element(
+                    normalized,
+                    item_element,
+                    options,
+                    block_name=block_name,
+                    block_table=block_table,
+                    start_cursor=item_cursor,
+                )
+                fields.append(field)
+                item_cursor = field.span.char_end
+        fields.sort(key=lambda field: (field.span.char_start, field.span.char_end, field.name))
 
     buttons: list[XmlButton] = []
     if options.parse_buttons:
@@ -473,6 +515,36 @@ def _parse_field_element(
     )
 
 
+def _parse_item_element(
+    normalized: str,
+    item_element: ET.Element[str],
+    options: XmlFormOptions,
+    *,
+    block_name: str,
+    block_table: str | None,
+    start_cursor: int,
+) -> XmlField:
+    item_name = _required_attribute(item_element, "name", "item.name")
+    item_table = _optional_attribute(item_element, "table")
+    if item_table is not None and block_table is not None and item_table.casefold() != block_table.casefold():
+        raise XmlFormParserError(
+            f"XML item table {item_table} contradicts block table {block_table}."
+        )
+    required = False
+    if options.parse_required_fields:
+        required = _required_attribute_as_bool(item_element.get("required"), "item.required")
+    return XmlField(
+        name=item_name,
+        label=_optional_attribute(item_element, "label"),
+        table_name=item_table or block_table,
+        column_name=_optional_attribute(item_element, "column"),
+        required=required,
+        span=_find_element_span(normalized, "item", item_name, start_cursor=start_cursor),
+        block_name=block_name,
+        source_element_kind="item",
+    )
+
+
 def _parse_button_element(
     normalized: str,
     button_element: ET.Element[str],
@@ -486,6 +558,7 @@ def _parse_button_element(
         label=label,
         action_kind=_infer_action_kind(button_name, label),
         span=_find_element_span(normalized, "button", button_name, start_cursor=start_cursor),
+        operation=_optional_attribute(button_element, "operation"),
     )
 
 

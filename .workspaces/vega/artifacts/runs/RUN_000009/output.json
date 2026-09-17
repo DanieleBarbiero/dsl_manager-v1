@@ -11,7 +11,7 @@
     {
       "char_end": 68,
       "char_start": 0,
-      "fragment_id": "FRAG_000018",
+      "fragment_id": "FRAG_000022",
       "fragment_type": "log_event",
       "line_end": 1,
       "line_start": 1,
@@ -40,7 +40,7 @@
     {
       "char_end": 157,
       "char_start": 69,
-      "fragment_id": "FRAG_000019",
+      "fragment_id": "FRAG_000023",
       "fragment_type": "log_event",
       "line_end": 2,
       "line_start": 2,
@@ -70,7 +70,7 @@
     {
       "char_end": 250,
       "char_start": 158,
-      "fragment_id": "FRAG_000020",
+      "fragment_id": "FRAG_000024",
       "fragment_type": "log_event",
       "line_end": 3,
       "line_start": 3,
@@ -100,7 +100,7 @@
     {
       "char_end": 353,
       "char_start": 251,
-      "fragment_id": "FRAG_000021",
+      "fragment_id": "FRAG_000025",
       "fragment_type": "log_event",
       "line_end": 4,
       "line_start": 4,
@@ -130,7 +130,7 @@
     {
       "char_end": 424,
       "char_start": 354,
-      "fragment_id": "FRAG_000022",
+      "fragment_id": "FRAG_000026",
       "fragment_type": "log_event",
       "line_end": 5,
       "line_start": 5,
@@ -157,7 +157,7 @@
       "text_hash": "490e3fda21b0f91e9a6a41b26bdcc717f9eb16a8911a5d31a8bc7ea48a81caf9"
     }
   ],
-  "fragments_hash": "c5aca7045fe6267a1cba19b10680c0f83f1eec28af6549cfc970c09017973b80",
+  "fragments_hash": "be1da8c3578b52addaed27a7eabc92b1b41397ca78b8c0f46b268aebed1f1558",
   "fragments_jsonl_path": "fragments/SRC_000005/REV_000005/fragments.jsonl",
   "input_path": "corpus/active/logs/vega_2026.log",
   "log_objects": {

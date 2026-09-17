@@ -1,63 +1,10 @@
 {
   "artifact_dir": "artifacts/runs/RUN_000035",
-  "dsl_hash": "65d4521b40b7563913c376b4a26ef54e9d9f5efa22ca8e86ab5ceec47c0abc0e",
-  "edge_count": 47,
-  "format": "gexf",
-  "graph_export_id": "GEXF_000001",
-  "graph_hash": "3ab653855d2cdc988e2c8fcfb2b2f173d887aacc355d71148b9f283107b3e454",
-  "graph_path": "exports/graph/DSL_000001.gexf",
-  "node_count": 36,
-  "options": {
-    "allow_incomplete": false,
-    "directed": true,
-    "dynamic": true,
-    "include_conflicts": true,
-    "include_fact_nodes": true,
-    "include_sources": true,
-    "node_label_strategy": "readable",
-    "strict_orphans": false,
-    "temporal_output_mode": "strict",
-    "timeformat": null
-  },
-  "orphan_count": 2,
   "parameters": {
-    "format": "gexf",
-    "options": {
-      "allow_incomplete": false,
-      "directed": true,
-      "dynamic": true,
-      "include_conflicts": true,
-      "include_fact_nodes": true,
-      "include_sources": true,
-      "node_label_strategy": "readable",
-      "strict_orphans": false,
-      "temporal_output_mode": "strict",
-      "timeformat": null
-    },
-    "output_dir": "exports/graph",
-    "snapshot_id": "DSL_000001"
+    "candidate_record_id": "CREC_000048",
+    "operation": "confirm"
   },
-  "registry_hash": "7fa799fc6ec53620925eb875a3b0ed53806c7675cea5d8a2bc2b9e91a671dd17",
-  "report_path": "exports/graph/DSL_000001.graph_report.json",
+  "parent_run_id": null,
   "run_id": "RUN_000035",
-  "run_type": "gexf_export",
-  "separated_graph_paths": [],
-  "snapshot_id": "DSL_000001",
-  "warning_count": 2,
-  "warnings": [
-    {
-      "canonical_entity": "articolo.id_richiesta",
-      "code": "orphan_node_added",
-      "message": "relation REL_000003 references missing target entity articolo.id_richiesta",
-      "relation_id": "REL_000003",
-      "role": "target"
-    },
-    {
-      "canonical_entity": "articolo.richiesta_ricambio",
-      "code": "orphan_node_added",
-      "message": "relation REL_000005 references missing target entity articolo.richiesta_ricambio",
-      "relation_id": "REL_000005",
-      "role": "target"
-    }
-  ]
+  "run_type": "candidate_review"
 }

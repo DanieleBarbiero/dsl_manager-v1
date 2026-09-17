@@ -1,19 +1,41 @@
 {
-  "accepted_count": 12,
   "artifact_dir": "artifacts/runs/RUN_000031",
-  "batch_id": "CBATCH_000022",
-  "config_hash": "04c81f814cfe84be0a702083425e96e3bed9fd08cfe957000fefd72a4ba367a1",
+  "chunk_count": 0,
+  "config_hash": "351e15d28fd7c1b370ef30e8b7da23f03fbd5f171c9a3b1b1b615238fd80ed0e",
+  "content_path": "ai/outbox/AIPKG_000001/content.md",
   "error": null,
-  "finished_at": "2026-09-17T05:00:52+02:00",
-  "input_path": "ai/inbox/AIPKG_000001_candidates.jsonl",
+  "finished_at": "2026-09-17T11:04:54+02:00",
+  "fragment_count": 4,
+  "manifest_path": "ai/outbox/AIPKG_000001/package_manifest.json",
+  "package_hash": "82b58e1e167b7918a9f89a2c009ba676e287ba476a7620d194adc4001e4d6cdf",
   "package_id": "AIPKG_000001",
-  "rejected_count": 0,
+  "package_path": "ai/outbox/AIPKG_000001",
   "run_id": "RUN_000031",
-  "run_type": "candidate_import",
-  "stale_allowed": false,
-  "stale_reason": null,
-  "started_at": "2026-09-17T05:00:52+02:00",
+  "run_type": "ai_package",
+  "source_revision_count": 2,
+  "started_at": "2026-09-17T11:04:52+02:00",
   "status": "completed",
-  "total_records": 12,
-  "workers": []
+  "workers": [
+    {
+      "duration_ms": 1133,
+      "error": null,
+      "exit_code": 0,
+      "finished_at": "2026-09-17T11:04:54+02:00",
+      "resource_limits": {
+        "max_output_bytes": null,
+        "memory_limit_bytes": null,
+        "memory_limit_mode": "not_configured",
+        "peak_memory_bytes": null,
+        "termination_reason": null,
+        "timeout_seconds": null
+      },
+      "started_at": "2026-09-17T11:04:52+02:00",
+      "status": "completed",
+      "stderr": "",
+      "stdout": "build_ai_package completed\n",
+      "worker_name": "build_ai_package",
+      "worker_run_id": "WRK_000009",
+      "worker_version": "1.0"
+    }
+  ]
 }

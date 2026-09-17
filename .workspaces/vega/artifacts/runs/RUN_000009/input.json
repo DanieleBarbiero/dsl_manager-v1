@@ -9,7 +9,7 @@
       "parser": "line_regex",
       "strict_options_fail_on_unsupported_option": true
     },
-    "next_fragment_number": 18,
+    "next_fragment_number": 22,
     "output_dir": "fragments/SRC_000005/REV_000005",
     "profile": "log.default",
     "source_hash": "a1e69986569ae7f053041f1b180db540ab3d858e9f71ad5088da122bb1708873",
@@ -26,7 +26,7 @@
     "parser": "line_regex",
     "strict_options_fail_on_unsupported_option": true
   },
-  "next_fragment_number": 18,
+  "next_fragment_number": 22,
   "output_dir": "fragments/SRC_000005/REV_000005",
   "profile": "log.default",
   "run_id": "RUN_000009",

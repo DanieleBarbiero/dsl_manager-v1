@@ -1,34 +1,48 @@
 {
-  "action": "created",
-  "artifact_paths": [
-    "artifacts/runs/RUN_000032/review_report.json"
-  ],
-  "batch_id": null,
-  "catalog_version": "result_catalog_v1",
-  "condition": "created",
-  "counters": {
-    "decisions_created": 1
-  },
-  "current_head_decision_id": "RDEC_000032",
-  "decision_id": "RDEC_000032",
+  "candidate_schema_path": "ai/outbox/AIPKG_000002/candidate_schema.json",
+  "chunk_count": 2,
+  "content_path": "ai/outbox/AIPKG_000002/content.md",
   "exit_code": 0,
-  "idempotency_key": "review:d7adca1a977c99891b82856edb32b0d869f80597d3829a2fd84fae59935ee651",
-  "mutations": true,
-  "outcome": "confirmed",
-  "previous_head_decision_id": null,
-  "reason": "approvazione",
-  "reconciliation_id": null,
-  "replacement_candidate_record_id": null,
-  "replacement_decision_id": null,
-  "request_payload_hash": "9145df98cd3c52fa6d7855d907b3a71471d6f54f326cdbdb3d7d7c5bc3ea7ffb",
-  "retryable": false,
+  "files": {
+    "candidate_schema": {
+      "path": "ai/outbox/AIPKG_000002/candidate_schema.json",
+      "sha256": "8f2682f8b5b671f7d8d12f0c243d4ac9219b27f546031862d3c94d93a0f59900"
+    },
+    "content": {
+      "path": "ai/outbox/AIPKG_000002/content.md",
+      "sha256": "7a41d74416f370d8ff19f76f71030279d2672717399f2278218344d0ad3a3f45"
+    },
+    "instructions": {
+      "path": "ai/outbox/AIPKG_000002/instructions.md",
+      "sha256": "a3df8a3185273d401b9cdbc666e22f5b663ce5020d65567319efc1c84abc23f8"
+    },
+    "output_template": {
+      "path": "ai/outbox/AIPKG_000002/output_template.jsonl",
+      "sha256": "10ce16f19d232dab3c911a95e6db7ceec0d21faefda8b288da933bba44531dbe"
+    },
+    "selection_plan": {
+      "path": "ai/outbox/AIPKG_000002/selection_plan.json",
+      "sha256": "5fdd60933f9f8e95d302ca925a6689c68479ff5c4afb4708c038c6e6e0520665"
+    },
+    "source_manifest": {
+      "path": "ai/outbox/AIPKG_000002/source_manifest.json",
+      "sha256": "a3d422af8315cfd5f461c1e20ff98461d1ae8507b5bab96f5dc9b51a159f8fe2"
+    }
+  },
+  "fragment_count": 30,
+  "instructions_path": "ai/outbox/AIPKG_000002/instructions.md",
+  "manifest_path": "ai/outbox/AIPKG_000002/package_manifest.json",
+  "output_template_path": "ai/outbox/AIPKG_000002/output_template.jsonl",
+  "package_hash": "73ed98f2358380214e1e31dea11346bbaf008be2324b5c4a7e61ff479fbc2737",
+  "package_id": "AIPKG_000002",
+  "package_path": "ai/outbox/AIPKG_000002",
+  "profile": "ai_package.default",
   "run_id": "RUN_000032",
-  "schema_version": "1",
-  "semantic_payload_hash": "d02e260ae6d66abc6528d6c8b743f7b366d577be79e566f9d667c7375c698696",
-  "severity": "info",
+  "selection_plan_id": "AISEL_000002",
+  "selection_plan_path": "ai/outbox/AIPKG_000002/selection_plan.json",
+  "source_manifest_path": "ai/outbox/AIPKG_000002/source_manifest.json",
+  "source_revision_count": 6,
   "status": "completed",
-  "subject_ids": [
-    "CREC_000039"
-  ],
-  "subject_type": "candidate_record"
+  "worker_name": "build_ai_package",
+  "worker_version": "1.0"
 }

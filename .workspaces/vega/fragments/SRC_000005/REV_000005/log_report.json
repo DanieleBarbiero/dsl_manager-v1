@@ -8,7 +8,7 @@
   "fragment_count": 5,
   "fragments": [
     {
-      "fragment_id": "FRAG_000018",
+      "fragment_id": "FRAG_000022",
       "fragment_type": "log_event",
       "path_or_selector": "log/line:1",
       "sequence": 1,
@@ -16,7 +16,7 @@
       "text_hash": "e99a55d81603ef0096e0b40d29897605aa02cbdf9acfddd039044846fcc07a0a"
     },
     {
-      "fragment_id": "FRAG_000019",
+      "fragment_id": "FRAG_000023",
       "fragment_type": "log_event",
       "path_or_selector": "log/line:2",
       "sequence": 2,
@@ -24,7 +24,7 @@
       "text_hash": "fed9868a4d1cf2c01e8e66040afaf0b6d3e6eb46517f4355d8560694d77ee155"
     },
     {
-      "fragment_id": "FRAG_000020",
+      "fragment_id": "FRAG_000024",
       "fragment_type": "log_event",
       "path_or_selector": "log/line:3",
       "sequence": 3,
@@ -32,7 +32,7 @@
       "text_hash": "9d7e11da6e3107c94b164ae8e356f5f8a3670e846e02eaf1638c958d248cab9b"
     },
     {
-      "fragment_id": "FRAG_000021",
+      "fragment_id": "FRAG_000025",
       "fragment_type": "log_event",
       "path_or_selector": "log/line:4",
       "sequence": 4,
@@ -40,7 +40,7 @@
       "text_hash": "acd1e678d7805f389cf046eb355bbf7cd3b7f6da9865b71befb949a9519100ec"
     },
     {
-      "fragment_id": "FRAG_000022",
+      "fragment_id": "FRAG_000026",
       "fragment_type": "log_event",
       "path_or_selector": "log/line:5",
       "sequence": 5,
@@ -48,7 +48,7 @@
       "text_hash": "490e3fda21b0f91e9a6a41b26bdcc717f9eb16a8911a5d31a8bc7ea48a81caf9"
     }
   ],
-  "fragments_hash": "c5aca7045fe6267a1cba19b10680c0f83f1eec28af6549cfc970c09017973b80",
+  "fragments_hash": "be1da8c3578b52addaed27a7eabc92b1b41397ca78b8c0f46b268aebed1f1558",
   "input": {
     "input_path": "corpus/active/logs/vega_2026.log",
     "source_hash": "a1e69986569ae7f053041f1b180db540ab3d858e9f71ad5088da122bb1708873",

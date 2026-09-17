@@ -2,17 +2,17 @@
   "artifact_dir": "artifacts/runs/RUN_000004",
   "config_hash": "3802d11ce6e01af0b42230bb9728f444ad8aa03c15a902a118fa4060f94348ed",
   "error": null,
-  "finished_at": "2026-09-17T04:57:40+02:00",
+  "finished_at": "2026-09-17T11:02:21+02:00",
   "run_id": "RUN_000004",
   "run_type": "normalize",
-  "started_at": "2026-09-17T04:55:09+02:00",
+  "started_at": "2026-09-17T10:59:33+02:00",
   "status": "completed",
   "workers": [
     {
-      "duration_ms": 151196,
+      "duration_ms": 167357,
       "error": null,
       "exit_code": 0,
-      "finished_at": "2026-09-17T04:57:40+02:00",
+      "finished_at": "2026-09-17T11:02:21+02:00",
       "resource_limits": {
         "max_output_bytes": null,
         "memory_limit_bytes": null,
@@ -21,7 +21,7 @@
         "termination_reason": null,
         "timeout_seconds": null
       },
-      "started_at": "2026-09-17T04:55:09+02:00",
+      "started_at": "2026-09-17T10:59:34+02:00",
       "status": "completed",
       "stderr": "C:\\Users\\dbarbiero\\OneDrive - Engineering Ingegneria Informatica S.p.A\\Projects\\dsl_manager-v1\\src\\dsl_mngr\\core\\docling_adapter.py:217: DeprecationWarning: This field is deprecated. Use `generate_page_images=True` and call `TableItem.get_image()` to extract table images from page images.\n  if hasattr(pdf_options, \"generate_table_images\"):\n",
       "stdout": "normalize_docling completed\n",

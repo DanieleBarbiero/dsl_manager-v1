@@ -1,6 +1,21 @@
 {
   "artifact_paths": [
-    "artifacts/runs/RUN_000026/merge_report.json"
+    "artifacts/runs/RUN_000026/review_report.json"
+  ],
+  "automatic_policies": [
+    "explicit_db_code_unit_only/1",
+    "explicit_ddl_column_only/1",
+    "explicit_ddl_table_only/1",
+    "explicit_excel_named_range_only/1",
+    "explicit_excel_region_only/1",
+    "explicit_excel_sheet_only/1",
+    "explicit_excel_table_only/1",
+    "explicit_excel_workbook_only/1",
+    "explicit_resolved_ddl_fk_only/1",
+    "explicit_xml_form_structure_only/1",
+    "explicit_xml_operation_only/1",
+    "named_explicit_log_policy_required/1",
+    "observed_db_code_dependency_only/1"
   ],
   "batch_ids": [
     "CBATCH_000001",
@@ -23,232 +38,401 @@
     "CBATCH_000018",
     "CBATCH_000019",
     "CBATCH_000020",
-    "CBATCH_000021"
+    "CBATCH_000021",
+    "CBATCH_000022"
   ],
   "catalog_version": "result_catalog_v1",
-  "condition": "merge",
+  "condition": "automatic_review",
   "counters": {
-    "candidate_records": 38,
-    "conflicts_created": 4,
-    "conflicts_existing": 0,
-    "facts_created": 23,
-    "facts_existing": 0,
-    "merged_candidates": 31,
-    "reconciled_supports_removed": 0,
-    "reconciliation_closed": 0,
-    "relations_created": 8,
-    "relations_existing": 0,
-    "skipped_no_positive_head": 0,
-    "skipped_non_leaf": 0,
-    "skipped_pending": 7,
-    "skipped_records": 7,
-    "skipped_rejected": 0,
-    "skipped_superseded": 0
+    "auto_confirmed": 39,
+    "auto_replayed": 0,
+    "confirmed": 39,
+    "non_leaf": 0,
+    "pending": 8,
+    "policy_skipped_absent": 7,
+    "policy_skipped_version": 0,
+    "rejected": 0,
+    "superseded": 0,
+    "total": 47
   },
   "exit_code": 0,
-  "merged_candidate_record_ids": [
-    "CREC_000001",
-    "CREC_000002",
-    "CREC_000003",
-    "CREC_000004",
-    "CREC_000005",
-    "CREC_000006",
-    "CREC_000007",
-    "CREC_000008",
-    "CREC_000009",
-    "CREC_000010",
-    "CREC_000011",
-    "CREC_000012",
-    "CREC_000013",
-    "CREC_000014",
-    "CREC_000015",
-    "CREC_000016",
-    "CREC_000017",
-    "CREC_000018",
-    "CREC_000019",
-    "CREC_000020",
-    "CREC_000021",
-    "CREC_000022",
-    "CREC_000023",
-    "CREC_000024",
-    "CREC_000025",
-    "CREC_000026",
-    "CREC_000027",
-    "CREC_000028",
-    "CREC_000029",
-    "CREC_000030",
-    "CREC_000031"
-  ],
-  "merged_candidates": [
+  "items": [
     {
+      "action": "created",
       "candidate_record_id": "CREC_000001",
-      "decision_id": "RDEC_000001"
+      "decision_id": "RDEC_000001",
+      "outcome": "confirmed",
+      "policy": "explicit_ddl_column_only/1",
+      "reason": "policy_confirmed"
     },
     {
+      "action": "created",
       "candidate_record_id": "CREC_000002",
-      "decision_id": "RDEC_000002"
+      "decision_id": "RDEC_000002",
+      "outcome": "confirmed",
+      "policy": "explicit_ddl_column_only/1",
+      "reason": "policy_confirmed"
     },
     {
+      "action": "created",
       "candidate_record_id": "CREC_000003",
-      "decision_id": "RDEC_000003"
+      "decision_id": "RDEC_000003",
+      "outcome": "confirmed",
+      "policy": "explicit_ddl_column_only/1",
+      "reason": "policy_confirmed"
     },
     {
+      "action": "created",
       "candidate_record_id": "CREC_000004",
-      "decision_id": "RDEC_000004"
+      "decision_id": "RDEC_000004",
+      "outcome": "confirmed",
+      "policy": "explicit_ddl_column_only/1",
+      "reason": "policy_confirmed"
     },
     {
+      "action": "created",
       "candidate_record_id": "CREC_000005",
-      "decision_id": "RDEC_000005"
+      "decision_id": "RDEC_000005",
+      "outcome": "confirmed",
+      "policy": "explicit_ddl_column_only/1",
+      "reason": "policy_confirmed"
     },
     {
+      "action": "created",
       "candidate_record_id": "CREC_000006",
-      "decision_id": "RDEC_000006"
+      "decision_id": "RDEC_000006",
+      "outcome": "confirmed",
+      "policy": "explicit_ddl_column_only/1",
+      "reason": "policy_confirmed"
     },
     {
+      "action": "created",
       "candidate_record_id": "CREC_000007",
-      "decision_id": "RDEC_000007"
+      "decision_id": "RDEC_000007",
+      "outcome": "confirmed",
+      "policy": "explicit_ddl_column_only/1",
+      "reason": "policy_confirmed"
     },
     {
+      "action": "created",
       "candidate_record_id": "CREC_000008",
-      "decision_id": "RDEC_000008"
+      "decision_id": "RDEC_000008",
+      "outcome": "confirmed",
+      "policy": "explicit_ddl_column_only/1",
+      "reason": "policy_confirmed"
     },
     {
+      "action": "created",
       "candidate_record_id": "CREC_000009",
-      "decision_id": "RDEC_000009"
+      "decision_id": "RDEC_000009",
+      "outcome": "confirmed",
+      "policy": "explicit_ddl_column_only/1",
+      "reason": "policy_confirmed"
     },
     {
+      "action": "created",
       "candidate_record_id": "CREC_000010",
-      "decision_id": "RDEC_000010"
+      "decision_id": "RDEC_000010",
+      "outcome": "confirmed",
+      "policy": "explicit_resolved_ddl_fk_only/1",
+      "reason": "policy_confirmed"
     },
     {
+      "action": "created",
       "candidate_record_id": "CREC_000011",
-      "decision_id": "RDEC_000011"
+      "decision_id": "RDEC_000011",
+      "outcome": "confirmed",
+      "policy": "explicit_ddl_table_only/1",
+      "reason": "policy_confirmed"
     },
     {
+      "action": "created",
       "candidate_record_id": "CREC_000012",
-      "decision_id": "RDEC_000012"
+      "decision_id": "RDEC_000012",
+      "outcome": "confirmed",
+      "policy": "explicit_ddl_table_only/1",
+      "reason": "policy_confirmed"
     },
     {
+      "action": "created",
       "candidate_record_id": "CREC_000013",
-      "decision_id": "RDEC_000013"
+      "decision_id": "RDEC_000013",
+      "outcome": "confirmed",
+      "policy": "explicit_excel_region_only/1",
+      "reason": "policy_confirmed"
     },
     {
+      "action": "created",
       "candidate_record_id": "CREC_000014",
-      "decision_id": "RDEC_000014"
+      "decision_id": "RDEC_000014",
+      "outcome": "confirmed",
+      "policy": "explicit_excel_sheet_only/1",
+      "reason": "policy_confirmed"
     },
     {
+      "action": "created",
       "candidate_record_id": "CREC_000015",
-      "decision_id": "RDEC_000015"
+      "decision_id": "RDEC_000015",
+      "outcome": "confirmed",
+      "policy": "explicit_excel_workbook_only/1",
+      "reason": "policy_confirmed"
     },
     {
+      "action": "skipped",
       "candidate_record_id": "CREC_000016",
-      "decision_id": "RDEC_000016"
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_review_not_allowed"
     },
     {
+      "action": "created",
       "candidate_record_id": "CREC_000017",
-      "decision_id": "RDEC_000017"
+      "decision_id": "RDEC_000016",
+      "outcome": "confirmed",
+      "policy": "explicit_xml_form_structure_only/1",
+      "reason": "policy_confirmed"
     },
     {
+      "action": "created",
       "candidate_record_id": "CREC_000018",
-      "decision_id": "RDEC_000018"
+      "decision_id": "RDEC_000017",
+      "outcome": "confirmed",
+      "policy": "explicit_xml_form_structure_only/1",
+      "reason": "policy_confirmed"
     },
     {
+      "action": "created",
       "candidate_record_id": "CREC_000019",
-      "decision_id": "RDEC_000019"
+      "decision_id": "RDEC_000018",
+      "outcome": "confirmed",
+      "policy": "explicit_xml_form_structure_only/1",
+      "reason": "policy_confirmed"
     },
     {
+      "action": "created",
       "candidate_record_id": "CREC_000020",
-      "decision_id": "RDEC_000020"
+      "decision_id": "RDEC_000019",
+      "outcome": "confirmed",
+      "policy": "explicit_xml_form_structure_only/1",
+      "reason": "policy_confirmed"
     },
     {
+      "action": "created",
       "candidate_record_id": "CREC_000021",
-      "decision_id": "RDEC_000021"
+      "decision_id": "RDEC_000020",
+      "outcome": "confirmed",
+      "policy": "explicit_xml_form_structure_only/1",
+      "reason": "policy_confirmed"
     },
     {
+      "action": "created",
       "candidate_record_id": "CREC_000022",
-      "decision_id": "RDEC_000022"
+      "decision_id": "RDEC_000021",
+      "outcome": "confirmed",
+      "policy": "explicit_xml_form_structure_only/1",
+      "reason": "policy_confirmed"
     },
     {
+      "action": "created",
       "candidate_record_id": "CREC_000023",
-      "decision_id": "RDEC_000023"
+      "decision_id": "RDEC_000022",
+      "outcome": "confirmed",
+      "policy": "explicit_xml_operation_only/1",
+      "reason": "policy_confirmed"
     },
     {
+      "action": "created",
       "candidate_record_id": "CREC_000024",
-      "decision_id": "RDEC_000024"
+      "decision_id": "RDEC_000023",
+      "outcome": "confirmed",
+      "policy": "explicit_xml_operation_only/1",
+      "reason": "policy_confirmed"
     },
     {
+      "action": "created",
       "candidate_record_id": "CREC_000025",
-      "decision_id": "RDEC_000025"
+      "decision_id": "RDEC_000024",
+      "outcome": "confirmed",
+      "policy": "explicit_xml_operation_only/1",
+      "reason": "policy_confirmed"
     },
     {
+      "action": "created",
       "candidate_record_id": "CREC_000026",
-      "decision_id": "RDEC_000026"
+      "decision_id": "RDEC_000025",
+      "outcome": "confirmed",
+      "policy": "explicit_xml_operation_only/1",
+      "reason": "policy_confirmed"
     },
     {
+      "action": "created",
       "candidate_record_id": "CREC_000027",
-      "decision_id": "RDEC_000027"
+      "decision_id": "RDEC_000026",
+      "outcome": "confirmed",
+      "policy": "explicit_xml_operation_only/1",
+      "reason": "policy_confirmed"
     },
     {
+      "action": "created",
       "candidate_record_id": "CREC_000028",
-      "decision_id": "RDEC_000028"
+      "decision_id": "RDEC_000027",
+      "outcome": "confirmed",
+      "policy": "named_explicit_log_policy_required/1",
+      "reason": "policy_confirmed"
     },
     {
+      "action": "created",
       "candidate_record_id": "CREC_000029",
-      "decision_id": "RDEC_000029"
+      "decision_id": "RDEC_000028",
+      "outcome": "confirmed",
+      "policy": "named_explicit_log_policy_required/1",
+      "reason": "policy_confirmed"
     },
     {
+      "action": "created",
       "candidate_record_id": "CREC_000030",
-      "decision_id": "RDEC_000030"
+      "decision_id": "RDEC_000029",
+      "outcome": "confirmed",
+      "policy": "named_explicit_log_policy_required/1",
+      "reason": "policy_confirmed"
     },
     {
+      "action": "created",
       "candidate_record_id": "CREC_000031",
-      "decision_id": "RDEC_000031"
+      "decision_id": "RDEC_000030",
+      "outcome": "confirmed",
+      "policy": "named_explicit_log_policy_required/1",
+      "reason": "policy_confirmed"
+    },
+    {
+      "action": "created",
+      "candidate_record_id": "CREC_000032",
+      "decision_id": "RDEC_000031",
+      "outcome": "confirmed",
+      "policy": "named_explicit_log_policy_required/1",
+      "reason": "policy_confirmed"
+    },
+    {
+      "action": "created",
+      "candidate_record_id": "CREC_000033",
+      "decision_id": "RDEC_000032",
+      "outcome": "confirmed",
+      "policy": "observed_db_code_dependency_only/1",
+      "reason": "policy_confirmed"
+    },
+    {
+      "action": "created",
+      "candidate_record_id": "CREC_000034",
+      "decision_id": "RDEC_000033",
+      "outcome": "confirmed",
+      "policy": "observed_db_code_dependency_only/1",
+      "reason": "policy_confirmed"
+    },
+    {
+      "action": "created",
+      "candidate_record_id": "CREC_000035",
+      "decision_id": "RDEC_000034",
+      "outcome": "confirmed",
+      "policy": "observed_db_code_dependency_only/1",
+      "reason": "policy_confirmed"
+    },
+    {
+      "action": "created",
+      "candidate_record_id": "CREC_000036",
+      "decision_id": "RDEC_000035",
+      "outcome": "confirmed",
+      "policy": "observed_db_code_dependency_only/1",
+      "reason": "policy_confirmed"
+    },
+    {
+      "action": "created",
+      "candidate_record_id": "CREC_000037",
+      "decision_id": "RDEC_000036",
+      "outcome": "confirmed",
+      "policy": "observed_db_code_dependency_only/1",
+      "reason": "policy_confirmed"
+    },
+    {
+      "action": "created",
+      "candidate_record_id": "CREC_000038",
+      "decision_id": "RDEC_000037",
+      "outcome": "confirmed",
+      "policy": "observed_db_code_dependency_only/1",
+      "reason": "policy_confirmed"
+    },
+    {
+      "action": "created",
+      "candidate_record_id": "CREC_000039",
+      "decision_id": "RDEC_000038",
+      "outcome": "confirmed",
+      "policy": "explicit_db_code_unit_only/1",
+      "reason": "policy_confirmed"
+    },
+    {
+      "action": "created",
+      "candidate_record_id": "CREC_000040",
+      "decision_id": "RDEC_000039",
+      "outcome": "confirmed",
+      "policy": "explicit_db_code_unit_only/1",
+      "reason": "policy_confirmed"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000041",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000042",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000043",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000044",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000045",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000046",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
+    },
+    {
+      "action": "skipped",
+      "candidate_record_id": "CREC_000047",
+      "decision_id": null,
+      "outcome": "pending",
+      "reason": "automatic_policy_not_enabled"
     }
   ],
   "mutations": true,
   "outcome": null,
-  "reason": "merge_completed_with_skips",
+  "reason": "success",
   "retryable": false,
   "run_id": "RUN_000026",
   "schema_version": "1",
   "severity": "info",
-  "skipped_candidates": [
-    {
-      "candidate_record_id": "CREC_000032",
-      "decision_id": null,
-      "reason": "pending"
-    },
-    {
-      "candidate_record_id": "CREC_000033",
-      "decision_id": null,
-      "reason": "pending"
-    },
-    {
-      "candidate_record_id": "CREC_000034",
-      "decision_id": null,
-      "reason": "pending"
-    },
-    {
-      "candidate_record_id": "CREC_000035",
-      "decision_id": null,
-      "reason": "pending"
-    },
-    {
-      "candidate_record_id": "CREC_000036",
-      "decision_id": null,
-      "reason": "pending"
-    },
-    {
-      "candidate_record_id": "CREC_000037",
-      "decision_id": null,
-      "reason": "pending"
-    },
-    {
-      "candidate_record_id": "CREC_000038",
-      "decision_id": null,
-      "reason": "pending"
-    }
-  ],
   "status": "completed",
   "subject_ids": [
     "CREC_000001",
@@ -281,6 +465,22 @@
     "CREC_000028",
     "CREC_000029",
     "CREC_000030",
-    "CREC_000031"
+    "CREC_000031",
+    "CREC_000032",
+    "CREC_000033",
+    "CREC_000034",
+    "CREC_000035",
+    "CREC_000036",
+    "CREC_000037",
+    "CREC_000038",
+    "CREC_000039",
+    "CREC_000040",
+    "CREC_000041",
+    "CREC_000042",
+    "CREC_000043",
+    "CREC_000044",
+    "CREC_000045",
+    "CREC_000046",
+    "CREC_000047"
   ]
 }

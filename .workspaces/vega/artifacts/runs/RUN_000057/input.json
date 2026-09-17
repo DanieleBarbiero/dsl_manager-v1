@@ -1,0 +1,48 @@
+{
+  "artifact_dir": "artifacts/runs/RUN_000057",
+  "dsl_hash": "beb9f757b08c8da4d010286a023ab6749aa4af9b6d73a05e333de1b83407b8b2",
+  "edge_count": 70,
+  "format": "gexf",
+  "graph_export_id": "GEXF_000001",
+  "graph_hash": "fe0b14b1554a3489c37d75ba0d2f13f4cc650dd27596b153d87bee5e6c673ff9",
+  "graph_path": "exports/graph/DSL_000001.gexf",
+  "node_count": 38,
+  "options": {
+    "allow_incomplete": false,
+    "directed": true,
+    "dynamic": true,
+    "include_conflicts": true,
+    "include_fact_nodes": true,
+    "include_sources": true,
+    "node_label_strategy": "readable",
+    "strict_orphans": false,
+    "temporal_output_mode": "strict",
+    "timeformat": null
+  },
+  "orphan_count": 0,
+  "parameters": {
+    "format": "gexf",
+    "options": {
+      "allow_incomplete": false,
+      "directed": true,
+      "dynamic": true,
+      "include_conflicts": true,
+      "include_fact_nodes": true,
+      "include_sources": true,
+      "node_label_strategy": "readable",
+      "strict_orphans": false,
+      "temporal_output_mode": "strict",
+      "timeformat": null
+    },
+    "output_dir": "exports/graph",
+    "snapshot_id": "DSL_000001"
+  },
+  "registry_hash": "41c4364e8b72251ee33157cc20de1effb23635bc1e050b97533eb621cbc1dc40",
+  "report_path": "exports/graph/DSL_000001.graph_report.json",
+  "run_id": "RUN_000057",
+  "run_type": "gexf_export",
+  "separated_graph_paths": [],
+  "snapshot_id": "DSL_000001",
+  "warning_count": 0,
+  "warnings": []
+}

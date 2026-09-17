@@ -1,12 +1,12 @@
-{"event": "run_started", "level": "INFO", "message": "Run RUN_000002 started.", "run_id": "RUN_000002", "timestamp": "2026-09-17T04:55:08+02:00"}
-{"event": "batch_started", "level": "INFO", "message": "Batch process-dir started with 8 item(s).", "run_id": "RUN_000002", "timestamp": "2026-09-17T04:55:08+02:00"}
-{"event": "batch_item_completed", "level": "INFO", "message": "Batch item BITEM_000001 completed: parse_ddl.", "run_id": "RUN_000002", "timestamp": "2026-09-17T04:55:09+02:00"}
-{"event": "batch_item_completed", "level": "INFO", "message": "Batch item BITEM_000002 completed: normalize.", "run_id": "RUN_000002", "timestamp": "2026-09-17T04:57:40+02:00"}
-{"event": "batch_item_completed", "level": "INFO", "message": "Batch item BITEM_000003 completed: chunk.", "run_id": "RUN_000002", "timestamp": "2026-09-17T04:57:42+02:00"}
-{"event": "batch_item_completed", "level": "INFO", "message": "Batch item BITEM_000004 completed: normalize.", "run_id": "RUN_000002", "timestamp": "2026-09-17T04:58:28+02:00"}
-{"event": "batch_item_completed", "level": "INFO", "message": "Batch item BITEM_000005 completed: chunk.", "run_id": "RUN_000002", "timestamp": "2026-09-17T04:58:29+02:00"}
-{"event": "batch_item_completed", "level": "INFO", "message": "Batch item BITEM_000006 completed: parse_xml_form.", "run_id": "RUN_000002", "timestamp": "2026-09-17T04:58:30+02:00"}
-{"event": "batch_item_completed", "level": "INFO", "message": "Batch item BITEM_000007 completed: parse_log.", "run_id": "RUN_000002", "timestamp": "2026-09-17T04:58:31+02:00"}
-{"event": "batch_item_completed", "level": "INFO", "message": "Batch item BITEM_000008 completed: parse_db_code.", "run_id": "RUN_000002", "timestamp": "2026-09-17T04:58:32+02:00"}
-{"event": "run_completed", "level": "INFO", "message": "Run RUN_000002 completed.", "run_id": "RUN_000002", "timestamp": "2026-09-17T04:58:32+02:00"}
-{"event": "batch_completed", "level": "INFO", "message": "Batch process-dir completed; completed=8; failed=0; skipped=0.", "run_id": "RUN_000002", "timestamp": "2026-09-17T04:58:32+02:00"}
+{"event": "run_started", "level": "INFO", "message": "Run RUN_000002 started.", "run_id": "RUN_000002", "timestamp": "2026-09-17T10:59:32+02:00"}
+{"event": "batch_started", "level": "INFO", "message": "Batch process-dir started with 8 item(s).", "run_id": "RUN_000002", "timestamp": "2026-09-17T10:59:32+02:00"}
+{"event": "batch_item_completed", "level": "INFO", "message": "Batch item BITEM_000001 completed: parse_ddl.", "run_id": "RUN_000002", "timestamp": "2026-09-17T10:59:33+02:00"}
+{"event": "batch_item_completed", "level": "INFO", "message": "Batch item BITEM_000002 completed: normalize.", "run_id": "RUN_000002", "timestamp": "2026-09-17T11:02:21+02:00"}
+{"event": "batch_item_completed", "level": "INFO", "message": "Batch item BITEM_000003 completed: chunk.", "run_id": "RUN_000002", "timestamp": "2026-09-17T11:02:22+02:00"}
+{"event": "batch_item_completed", "level": "INFO", "message": "Batch item BITEM_000004 completed: normalize.", "run_id": "RUN_000002", "timestamp": "2026-09-17T11:03:24+02:00"}
+{"event": "batch_item_completed", "level": "INFO", "message": "Batch item BITEM_000005 completed: chunk.", "run_id": "RUN_000002", "timestamp": "2026-09-17T11:03:26+02:00"}
+{"event": "batch_item_completed", "level": "INFO", "message": "Batch item BITEM_000006 completed: parse_xml_form.", "run_id": "RUN_000002", "timestamp": "2026-09-17T11:03:27+02:00"}
+{"event": "batch_item_completed", "level": "INFO", "message": "Batch item BITEM_000007 completed: parse_log.", "run_id": "RUN_000002", "timestamp": "2026-09-17T11:03:28+02:00"}
+{"event": "batch_item_completed", "level": "INFO", "message": "Batch item BITEM_000008 completed: parse_db_code.", "run_id": "RUN_000002", "timestamp": "2026-09-17T11:03:29+02:00"}
+{"event": "run_completed", "level": "INFO", "message": "Run RUN_000002 completed.", "run_id": "RUN_000002", "timestamp": "2026-09-17T11:03:30+02:00"}
+{"event": "batch_completed", "level": "INFO", "message": "Batch process-dir completed; completed=8; failed=0; skipped=0.", "run_id": "RUN_000002", "timestamp": "2026-09-17T11:03:30+02:00"}

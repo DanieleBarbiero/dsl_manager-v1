@@ -2,10 +2,10 @@
   "artifact_dir": "artifacts/runs/RUN_000022",
   "config_hash": "04c81f814cfe84be0a702083425e96e3bed9fd08cfe957000fefd72a4ba367a1",
   "error": null,
-  "finished_at": "2026-09-17T04:58:34+02:00",
+  "finished_at": "2026-09-17T11:03:34+02:00",
   "run_id": "RUN_000022",
   "run_type": "candidate_derivation",
-  "started_at": "2026-09-17T04:58:34+02:00",
+  "started_at": "2026-09-17T11:03:34+02:00",
   "status": "completed",
   "workers": []
 }

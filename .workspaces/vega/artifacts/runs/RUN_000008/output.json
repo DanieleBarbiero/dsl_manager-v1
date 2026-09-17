@@ -1,11 +1,23 @@
 {
   "button_count": 1,
-  "edit_relation_count": 0,
-  "edit_relations": [],
+  "edit_relation_count": 1,
+  "edit_relations": [
+    {
+      "field_names": [
+        "ID_RICHIESTA",
+        "ID_ARTICOLO",
+        "PRIORITA",
+        "STATO"
+      ],
+      "relation_type": "edits",
+      "source_form": "FRM_RICHIESTA",
+      "target_table": "RICHIESTA_RICAMBIO"
+    }
+  ],
   "exit_code": 0,
-  "field_count": 0,
+  "field_count": 4,
   "form_count": 1,
-  "fragment_count": 2,
+  "fragment_count": 6,
   "fragments": [
     {
       "char_end": 587,
@@ -16,16 +28,51 @@
       "line_start": 2,
       "metadata": {
         "button_count": 1,
-        "edit_relations": [],
-        "field_count": 0,
+        "edit_relations": [
+          {
+            "field_names": [
+              "ID_RICHIESTA",
+              "ID_ARTICOLO",
+              "PRIORITA",
+              "STATO"
+            ],
+            "relation_type": "edits",
+            "source_form": "FRM_RICHIESTA",
+            "target_table": "RICHIESTA_RICAMBIO"
+          }
+        ],
+        "field_count": 4,
         "form_name": "FRM_RICHIESTA",
         "object_type": "form",
         "parser": "parse_xml_form",
         "parser_version": "1.0",
-        "required_field_count": 0,
+        "required_field_count": 4,
         "source_hash": "db3ae1c80ee4bf333e605a058978b36a86b0093b9990bb4822ca560340a25d9a",
-        "table_column_references": [],
-        "table_references": [],
+        "table_column_references": [
+          {
+            "column_name": "ID_RICHIESTA",
+            "field_name": "ID_RICHIESTA",
+            "table_name": "RICHIESTA_RICAMBIO"
+          },
+          {
+            "column_name": "ID_ARTICOLO",
+            "field_name": "ID_ARTICOLO",
+            "table_name": "RICHIESTA_RICAMBIO"
+          },
+          {
+            "column_name": "PRIORITA",
+            "field_name": "PRIORITA",
+            "table_name": "RICHIESTA_RICAMBIO"
+          },
+          {
+            "column_name": "STATO",
+            "field_name": "STATO",
+            "table_name": "RICHIESTA_RICAMBIO"
+          }
+        ],
+        "table_references": [
+          "RICHIESTA_RICAMBIO"
+        ],
         "title": "Richiesta ricambio"
       },
       "path_or_selector": "/form[@name='FRM_RICHIESTA']",
@@ -36,9 +83,121 @@
       "text_hash": "86fafaace02463b63adc0f48e8e2aecee26e77a2c29e9982ce9be8d2c03cc939"
     },
     {
+      "char_end": 244,
+      "char_start": 161,
+      "fragment_id": "FRAG_000017",
+      "fragment_type": "xml_field",
+      "line_end": 4,
+      "line_start": 4,
+      "metadata": {
+        "block_name": "RICHIESTA_RICAMBIO",
+        "column_name": "ID_RICHIESTA",
+        "field_name": "ID_RICHIESTA",
+        "form_name": "FRM_RICHIESTA",
+        "mapping_type": "form_field_to_column",
+        "object_type": "field",
+        "parser": "parse_xml_form",
+        "parser_version": "1.0",
+        "required": true,
+        "source_element_kind": "item",
+        "source_hash": "db3ae1c80ee4bf333e605a058978b36a86b0093b9990bb4822ca560340a25d9a",
+        "table_name": "RICHIESTA_RICAMBIO"
+      },
+      "path_or_selector": "/form[@name='FRM_RICHIESTA']/block[@name='RICHIESTA_RICAMBIO']/item[@name='ID_RICHIESTA']",
+      "sequence": 2,
+      "source_revision_id": "REV_000004",
+      "status": "active",
+      "text": "<item name=\"ID_RICHIESTA\" column=\"ID_RICHIESTA\" datatype=\"NUMBER\" required=\"true\"/>",
+      "text_hash": "535b1a301387fde6d2ef65f98b30341a6e8b538d18337a6e584d4233bc2efa5b"
+    },
+    {
+      "char_end": 330,
+      "char_start": 249,
+      "fragment_id": "FRAG_000018",
+      "fragment_type": "xml_field",
+      "line_end": 5,
+      "line_start": 5,
+      "metadata": {
+        "block_name": "RICHIESTA_RICAMBIO",
+        "column_name": "ID_ARTICOLO",
+        "field_name": "ID_ARTICOLO",
+        "form_name": "FRM_RICHIESTA",
+        "mapping_type": "form_field_to_column",
+        "object_type": "field",
+        "parser": "parse_xml_form",
+        "parser_version": "1.0",
+        "required": true,
+        "source_element_kind": "item",
+        "source_hash": "db3ae1c80ee4bf333e605a058978b36a86b0093b9990bb4822ca560340a25d9a",
+        "table_name": "RICHIESTA_RICAMBIO"
+      },
+      "path_or_selector": "/form[@name='FRM_RICHIESTA']/block[@name='RICHIESTA_RICAMBIO']/item[@name='ID_ARTICOLO']",
+      "sequence": 3,
+      "source_revision_id": "REV_000004",
+      "status": "active",
+      "text": "<item name=\"ID_ARTICOLO\" column=\"ID_ARTICOLO\" datatype=\"NUMBER\" required=\"true\"/>",
+      "text_hash": "7be0e2ec8a6ee27e512e4129408fba4d834f6d28c80e1f179b111af789c474bd"
+    },
+    {
+      "char_end": 412,
+      "char_start": 335,
+      "fragment_id": "FRAG_000019",
+      "fragment_type": "xml_field",
+      "line_end": 6,
+      "line_start": 6,
+      "metadata": {
+        "block_name": "RICHIESTA_RICAMBIO",
+        "column_name": "PRIORITA",
+        "field_name": "PRIORITA",
+        "form_name": "FRM_RICHIESTA",
+        "mapping_type": "form_field_to_column",
+        "object_type": "field",
+        "parser": "parse_xml_form",
+        "parser_version": "1.0",
+        "required": true,
+        "source_element_kind": "item",
+        "source_hash": "db3ae1c80ee4bf333e605a058978b36a86b0093b9990bb4822ca560340a25d9a",
+        "table_name": "RICHIESTA_RICAMBIO"
+      },
+      "path_or_selector": "/form[@name='FRM_RICHIESTA']/block[@name='RICHIESTA_RICAMBIO']/item[@name='PRIORITA']",
+      "sequence": 4,
+      "source_revision_id": "REV_000004",
+      "status": "active",
+      "text": "<item name=\"PRIORITA\" column=\"PRIORITA\" datatype=\"VARCHAR2\" required=\"true\"/>",
+      "text_hash": "94f92d5b5bbf4a0324b08661435ec82449d05845297baaf75c94e128bad810b4"
+    },
+    {
+      "char_end": 488,
+      "char_start": 417,
+      "fragment_id": "FRAG_000020",
+      "fragment_type": "xml_field",
+      "line_end": 7,
+      "line_start": 7,
+      "metadata": {
+        "block_name": "RICHIESTA_RICAMBIO",
+        "column_name": "STATO",
+        "field_name": "STATO",
+        "form_name": "FRM_RICHIESTA",
+        "mapping_type": "form_field_to_column",
+        "object_type": "field",
+        "parser": "parse_xml_form",
+        "parser_version": "1.0",
+        "required": true,
+        "source_element_kind": "item",
+        "source_hash": "db3ae1c80ee4bf333e605a058978b36a86b0093b9990bb4822ca560340a25d9a",
+        "table_name": "RICHIESTA_RICAMBIO"
+      },
+      "path_or_selector": "/form[@name='FRM_RICHIESTA']/block[@name='RICHIESTA_RICAMBIO']/item[@name='STATO']",
+      "sequence": 5,
+      "source_revision_id": "REV_000004",
+      "status": "active",
+      "text": "<item name=\"STATO\" column=\"STATO\" datatype=\"VARCHAR2\" required=\"true\"/>",
+      "text_hash": "1cb57413e00229dbaed9efac40c499f110ce595ded5df3d7986858c239d14d15"
+    },
+    {
       "char_end": 579,
       "char_start": 502,
-      "fragment_id": "FRAG_000017",
+      "fragment_id": "FRAG_000021",
       "fragment_type": "xml_button",
       "line_end": 9,
       "line_start": 9,
@@ -48,31 +207,53 @@
         "form_name": "FRM_RICHIESTA",
         "label": "Prenota",
         "object_type": "button",
+        "operation": "PRC_PRENOTA_ARTICOLO",
         "parser": "parse_xml_form",
         "parser_version": "1.0",
         "source_hash": "db3ae1c80ee4bf333e605a058978b36a86b0093b9990bb4822ca560340a25d9a"
       },
       "path_or_selector": "/form[@name='FRM_RICHIESTA']/button[@name='BTN_PRENOTA']",
-      "sequence": 2,
+      "sequence": 6,
       "source_revision_id": "REV_000004",
       "status": "active",
       "text": "<button name=\"BTN_PRENOTA\" label=\"Prenota\" operation=\"PRC_PRENOTA_ARTICOLO\"/>",
       "text_hash": "1dcc617ccb1924f00242af5f7e693dc286e73c0fe5da5d005db6b911214386cc"
     }
   ],
-  "fragments_hash": "799f5d92a3f0d9ddecacc133259a349313c24c72ef7fe70c329d942b2812d135",
+  "fragments_hash": "34af90a8ef90cf91ed6a0727c39a71a1c3b6169b69c942969bde71b8abd3545b",
   "fragments_jsonl_path": "fragments/SRC_000004/REV_000004/fragments.jsonl",
   "input_path": "corpus/active/forms/frm_richiesta.xml",
   "parser": "elementtree",
   "profile": "xml_form.default",
-  "required_field_count": 0,
+  "required_field_count": 4,
   "run_id": "RUN_000008",
   "source_hash": "db3ae1c80ee4bf333e605a058978b36a86b0093b9990bb4822ca560340a25d9a",
   "source_id": "SRC_000004",
   "source_revision_id": "REV_000004",
   "status": "completed",
-  "table_column_references": [],
-  "table_reference_count": 0,
+  "table_column_references": [
+    {
+      "column_name": "ID_RICHIESTA",
+      "field_name": "ID_RICHIESTA",
+      "table_name": "RICHIESTA_RICAMBIO"
+    },
+    {
+      "column_name": "ID_ARTICOLO",
+      "field_name": "ID_ARTICOLO",
+      "table_name": "RICHIESTA_RICAMBIO"
+    },
+    {
+      "column_name": "PRIORITA",
+      "field_name": "PRIORITA",
+      "table_name": "RICHIESTA_RICAMBIO"
+    },
+    {
+      "column_name": "STATO",
+      "field_name": "STATO",
+      "table_name": "RICHIESTA_RICAMBIO"
+    }
+  ],
+  "table_reference_count": 1,
   "warnings": [],
   "worker_config": {
     "name": "parse_xml_form",
@@ -87,14 +268,87 @@
           {
             "action_kind": "unknown",
             "label": "Prenota",
-            "name": "BTN_PRENOTA"
+            "name": "BTN_PRENOTA",
+            "operation": "PRC_PRENOTA_ARTICOLO"
           }
         ],
-        "edit_relations": [],
-        "fields": [],
+        "edit_relations": [
+          {
+            "field_names": [
+              "ID_RICHIESTA",
+              "ID_ARTICOLO",
+              "PRIORITA",
+              "STATO"
+            ],
+            "relation_type": "edits",
+            "source_form": "FRM_RICHIESTA",
+            "target_table": "RICHIESTA_RICAMBIO"
+          }
+        ],
+        "fields": [
+          {
+            "block_name": "RICHIESTA_RICAMBIO",
+            "column_name": "ID_RICHIESTA",
+            "label": null,
+            "name": "ID_RICHIESTA",
+            "required": true,
+            "source_element_kind": "item",
+            "table_name": "RICHIESTA_RICAMBIO"
+          },
+          {
+            "block_name": "RICHIESTA_RICAMBIO",
+            "column_name": "ID_ARTICOLO",
+            "label": null,
+            "name": "ID_ARTICOLO",
+            "required": true,
+            "source_element_kind": "item",
+            "table_name": "RICHIESTA_RICAMBIO"
+          },
+          {
+            "block_name": "RICHIESTA_RICAMBIO",
+            "column_name": "PRIORITA",
+            "label": null,
+            "name": "PRIORITA",
+            "required": true,
+            "source_element_kind": "item",
+            "table_name": "RICHIESTA_RICAMBIO"
+          },
+          {
+            "block_name": "RICHIESTA_RICAMBIO",
+            "column_name": "STATO",
+            "label": null,
+            "name": "STATO",
+            "required": true,
+            "source_element_kind": "item",
+            "table_name": "RICHIESTA_RICAMBIO"
+          }
+        ],
         "name": "FRM_RICHIESTA",
-        "table_column_references": [],
-        "table_references": [],
+        "table_column_references": [
+          {
+            "column_name": "ID_RICHIESTA",
+            "field_name": "ID_RICHIESTA",
+            "table_name": "RICHIESTA_RICAMBIO"
+          },
+          {
+            "column_name": "ID_ARTICOLO",
+            "field_name": "ID_ARTICOLO",
+            "table_name": "RICHIESTA_RICAMBIO"
+          },
+          {
+            "column_name": "PRIORITA",
+            "field_name": "PRIORITA",
+            "table_name": "RICHIESTA_RICAMBIO"
+          },
+          {
+            "column_name": "STATO",
+            "field_name": "STATO",
+            "table_name": "RICHIESTA_RICAMBIO"
+          }
+        ],
+        "table_references": [
+          "RICHIESTA_RICAMBIO"
+        ],
         "title": "Richiesta ricambio"
       }
     ],

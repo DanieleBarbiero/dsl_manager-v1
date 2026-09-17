@@ -2,17 +2,17 @@
   "artifact_dir": "artifacts/runs/RUN_000003",
   "config_hash": "a7d21aa150d89caa949fc74b2af3d41aec651d8efc5eebfc752350df411e1bcb",
   "error": null,
-  "finished_at": "2026-09-17T04:55:09+02:00",
+  "finished_at": "2026-09-17T10:59:33+02:00",
   "run_id": "RUN_000003",
   "run_type": "parse_ddl",
-  "started_at": "2026-09-17T04:55:08+02:00",
+  "started_at": "2026-09-17T10:59:32+02:00",
   "status": "completed",
   "workers": [
     {
-      "duration_ms": 706,
+      "duration_ms": 723,
       "error": null,
       "exit_code": 0,
-      "finished_at": "2026-09-17T04:55:09+02:00",
+      "finished_at": "2026-09-17T10:59:33+02:00",
       "resource_limits": {
         "max_output_bytes": null,
         "memory_limit_bytes": null,
@@ -21,7 +21,7 @@
         "termination_reason": null,
         "timeout_seconds": null
       },
-      "started_at": "2026-09-17T04:55:08+02:00",
+      "started_at": "2026-09-17T10:59:32+02:00",
       "status": "completed",
       "stderr": "",
       "stdout": "parse_ddl completed\n",

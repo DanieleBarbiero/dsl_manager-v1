@@ -11,11 +11,9 @@
         "procedure_name": "PRC_PRENOTA_ARTICOLO",
         "reads": [
           "RICHIESTA_RICAMBIO.ID_RICHIESTA",
-          "P_ID_RICHIESTA",
           "ARTICOLO.QTA_DISPONIBILE",
-          "ARTICOLO.ID_ARTICOLO",
-          "ARTICOLO.RICHIESTA_RICAMBIO",
-          "ARTICOLO.ID_RICHIESTA"
+          "RICHIESTA_RICAMBIO.ID_ARTICOLO",
+          "ARTICOLO.ID_ARTICOLO"
         ],
         "statements": [
           {
@@ -23,8 +21,7 @@
             "parent_object_name": "PRC_PRENOTA_ARTICOLO",
             "parent_object_type": "procedure",
             "reads": [
-              "RICHIESTA_RICAMBIO.ID_RICHIESTA",
-              "P_ID_RICHIESTA"
+              "RICHIESTA_RICAMBIO.ID_RICHIESTA"
             ],
             "statement_kind": "UPDATE",
             "writes": [
@@ -37,10 +34,9 @@
             "parent_object_type": "procedure",
             "reads": [
               "ARTICOLO.QTA_DISPONIBILE",
-              "ARTICOLO.ID_ARTICOLO",
-              "ARTICOLO.RICHIESTA_RICAMBIO",
-              "ARTICOLO.ID_RICHIESTA",
-              "P_ID_RICHIESTA"
+              "RICHIESTA_RICAMBIO.ID_ARTICOLO",
+              "RICHIESTA_RICAMBIO.ID_RICHIESTA",
+              "ARTICOLO.ID_ARTICOLO"
             ],
             "statement_kind": "UPDATE",
             "writes": [
@@ -57,7 +53,10 @@
     "triggers": [
       {
         "calls": [],
-        "reads": [],
+        "reads": [
+          "NEW.STATO",
+          "OLD.STATO"
+        ],
         "statements": [],
         "target_table": "RICHIESTA_RICAMBIO",
         "trigger_event": "UPDATE",
@@ -85,7 +84,7 @@
     {
       "char_end": 750,
       "char_start": 468,
-      "fragment_id": "FRAG_000023",
+      "fragment_id": "FRAG_000027",
       "fragment_type": "sql_trigger",
       "line_end": 27,
       "line_start": 20,
@@ -94,7 +93,10 @@
         "object_type": "trigger",
         "parser": "parse_db_code",
         "parser_version": "1.0",
-        "reads": [],
+        "reads": [
+          "NEW.STATO",
+          "OLD.STATO"
+        ],
         "source_hash": "2bc89867201b4390cf0380678c2d2136fbe0d76c6ae166167aebaef85f466f3d",
         "target_table": "RICHIESTA_RICAMBIO",
         "trigger_event": "UPDATE",
@@ -112,7 +114,7 @@
     {
       "char_end": 464,
       "char_start": 66,
-      "fragment_id": "FRAG_000024",
+      "fragment_id": "FRAG_000028",
       "fragment_type": "sql_procedure",
       "line_end": 17,
       "line_start": 2,
@@ -127,11 +129,9 @@
         "procedure_name": "PRC_PRENOTA_ARTICOLO",
         "reads": [
           "RICHIESTA_RICAMBIO.ID_RICHIESTA",
-          "P_ID_RICHIESTA",
           "ARTICOLO.QTA_DISPONIBILE",
-          "ARTICOLO.ID_ARTICOLO",
-          "ARTICOLO.RICHIESTA_RICAMBIO",
-          "ARTICOLO.ID_RICHIESTA"
+          "RICHIESTA_RICAMBIO.ID_ARTICOLO",
+          "ARTICOLO.ID_ARTICOLO"
         ],
         "source_hash": "2bc89867201b4390cf0380678c2d2136fbe0d76c6ae166167aebaef85f466f3d",
         "writes": [
@@ -149,7 +149,7 @@
     {
       "char_end": 248,
       "char_start": 150,
-      "fragment_id": "FRAG_000025",
+      "fragment_id": "FRAG_000029",
       "fragment_type": "sql_statement",
       "line_end": 8,
       "line_start": 6,
@@ -161,8 +161,7 @@
         "parser": "parse_db_code",
         "parser_version": "1.0",
         "reads": [
-          "RICHIESTA_RICAMBIO.ID_RICHIESTA",
-          "P_ID_RICHIESTA"
+          "RICHIESTA_RICAMBIO.ID_RICHIESTA"
         ],
         "source_hash": "2bc89867201b4390cf0380678c2d2136fbe0d76c6ae166167aebaef85f466f3d",
         "statement_kind": "UPDATE",
@@ -180,7 +179,7 @@
     {
       "char_end": 459,
       "char_start": 254,
-      "fragment_id": "FRAG_000026",
+      "fragment_id": "FRAG_000030",
       "fragment_type": "sql_statement",
       "line_end": 16,
       "line_start": 10,
@@ -193,10 +192,9 @@
         "parser_version": "1.0",
         "reads": [
           "ARTICOLO.QTA_DISPONIBILE",
-          "ARTICOLO.ID_ARTICOLO",
-          "ARTICOLO.RICHIESTA_RICAMBIO",
-          "ARTICOLO.ID_RICHIESTA",
-          "P_ID_RICHIESTA"
+          "RICHIESTA_RICAMBIO.ID_ARTICOLO",
+          "RICHIESTA_RICAMBIO.ID_RICHIESTA",
+          "ARTICOLO.ID_ARTICOLO"
         ],
         "source_hash": "2bc89867201b4390cf0380678c2d2136fbe0d76c6ae166167aebaef85f466f3d",
         "statement_kind": "UPDATE",
@@ -212,19 +210,19 @@
       "text_hash": "95b301327e0e09103bff7abc3ad6e6e5c483b9d20e280a1a6aa981e04205a48c"
     }
   ],
-  "fragments_hash": "d92c357c195ec33cecb8b7f31454d878a6a4f000f0b481b53914c966b1a0a6f5",
+  "fragments_hash": "1a15ec636e76a2b364d57db1d2685b75b5a86bd1428386ff1ae80c17da87e312",
   "fragments_jsonl_path": "fragments/SRC_000006/REV_000006/fragments.jsonl",
   "input_path": "corpus/active/plsql/logica_vega.sql",
   "procedure_count": 1,
   "profile": "db_code.default",
   "read_count": 6,
   "reads": [
+    "NEW.STATO",
+    "OLD.STATO",
     "RICHIESTA_RICAMBIO.ID_RICHIESTA",
-    "P_ID_RICHIESTA",
     "ARTICOLO.QTA_DISPONIBILE",
-    "ARTICOLO.ID_ARTICOLO",
-    "ARTICOLO.RICHIESTA_RICAMBIO",
-    "ARTICOLO.ID_RICHIESTA"
+    "RICHIESTA_RICAMBIO.ID_ARTICOLO",
+    "ARTICOLO.ID_ARTICOLO"
   ],
   "run_id": "RUN_000010",
   "source_hash": "2bc89867201b4390cf0380678c2d2136fbe0d76c6ae166167aebaef85f466f3d",

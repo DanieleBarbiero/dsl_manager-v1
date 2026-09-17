@@ -26,6 +26,7 @@ from dsl_mngr.core.runs import (
     timestamp_now,
     validate_database_migrations,
 )
+from dsl_mngr.core.schema_resolution import INCONSISTENT, StructuralIndex
 from dsl_mngr.core.workbook_regions import (
     CellRange,
     WorkbookRegionError,
@@ -122,6 +123,51 @@ DERIVATION_RULE_CATALOG: dict[str, DerivationRule] = {
 }
 
 
+SLICE_32_DERIVATION_RULE_CATALOG: dict[str, DerivationRule] = {
+    "xml_form_structure/2": _rule(
+        "xml_form_structure/2",
+        "xml_form",
+        "xml_form|xml_field|xml_button",
+        "candidate_fact",
+        "explicit",
+        policy="explicit_xml_form_structure_only/1",
+    ),
+    "xml_table_usage/2": _rule(
+        "xml_table_usage/2",
+        "xml_form",
+        "xml_form|xml_field",
+        "candidate_relation",
+        "explicit",
+        policy="explicit_xml_operation_only/1",
+    ),
+    "xml_button_operation/1": _rule(
+        "xml_button_operation/1",
+        "xml_form",
+        "xml_button",
+        "candidate_relation",
+        "explicit",
+        policy="explicit_xml_button_operation_pending/1",
+        automatic_review_allowed=False,
+    ),
+    "db_code_dependency/2": _rule(
+        "db_code_dependency/2",
+        "db_code",
+        "sql_function|sql_procedure|sql_trigger",
+        "candidate_relation",
+        "observed",
+        policy="observed_db_code_dependency_only/1",
+    ),
+    "log_event_observation/2": _rule(
+        "log_event_observation/2",
+        "log",
+        "log_event",
+        "candidate_fact",
+        "observed",
+        policy="named_explicit_log_policy_required/1",
+    ),
+}
+
+
 EXCEL_DERIVATION_RULE_CATALOG: dict[str, DerivationRule] = {
     "excel_workbook_fact/1": _rule(
         "excel_workbook_fact/1",
@@ -195,6 +241,7 @@ EXCEL_DERIVATION_RULE_CATALOG: dict[str, DerivationRule] = {
 
 ALL_DERIVATION_RULE_CATALOG: dict[str, DerivationRule] = {
     **DERIVATION_RULE_CATALOG,
+    **SLICE_32_DERIVATION_RULE_CATALOG,
     **EXCEL_DERIVATION_RULE_CATALOG,
 }
 
@@ -1042,9 +1089,21 @@ _SHEET_REFERENCE = re.compile(
 
 
 def _load_context(connection) -> dict[str, Any]:
-    query = "SELECT metadata_json FROM source_fragments WHERE status = 'active' AND fragment_type = 'ddl_table'"
+    query = """
+        SELECT fragment_type, metadata_json
+        FROM source_fragments
+        WHERE status = 'active'
+          AND fragment_type IN (
+              'ddl_table', 'ddl_column', 'sql_function', 'sql_procedure', 'sql_trigger'
+          )
+        ORDER BY source_revision_id, sequence, fragment_id
+    """
+    fragments = [dict(row) for row in connection.execute(query).fetchall()]
+    structural_index = StructuralIndex.from_active_fragments(fragments)
     tables: set[str] = set()
-    for row in connection.execute(query).fetchall():
+    for row in fragments:
+        if row["fragment_type"] != "ddl_table":
+            continue
         try:
             metadata = json.loads(row["metadata_json"] or "{}")
         except json.JSONDecodeError:
@@ -1052,7 +1111,10 @@ def _load_context(connection) -> dict[str, Any]:
         table_name = _clean_text(metadata.get("table_name"))
         if table_name:
             tables.add(table_name.casefold())
-    return {"ddl_tables": frozenset(tables)}
+    return {
+        "ddl_tables": frozenset(tables),
+        "structural_index": structural_index,
+    }
 
 
 Producer = Callable[
@@ -1333,6 +1395,274 @@ def _log_event_records(fragment, metadata, locator, context):
     ], []
 
 
+def _xml_form_structure_records_v2(fragment, metadata, locator, context):
+    del context
+    fragment_type = _value(fragment, "fragment_type")
+    form_name = _required_metadata_text(fragment, metadata, "form_name")
+    if fragment_type == "xml_form":
+        structure_type = "form"
+        entity_name = form_name
+        signal = {"form_name": form_name, "structure_type": structure_type}
+        details: dict[str, Any] = {}
+        fact_type = "xml_form"
+    elif fragment_type == "xml_field":
+        field_name = _required_metadata_text(fragment, metadata, "field_name")
+        block_name = _clean_text(metadata.get("block_name"))
+        source_kind = _clean_text(metadata.get("source_element_kind")) or "field"
+        structure_type = "field"
+        entity_name = _xml_field_entity(form_name, field_name, block_name, source_kind)
+        signal = {
+            "block_name": block_name,
+            "field_name": field_name,
+            "form_name": form_name,
+            "source_element_kind": source_kind,
+            "structure_type": structure_type,
+        }
+        details = {
+            "block_name": block_name,
+            "column_name": _clean_text(metadata.get("column_name")),
+            "required": bool(metadata.get("required", False)),
+            "source_element_kind": source_kind,
+            "table_name": _clean_text(metadata.get("table_name")),
+        }
+        fact_type = "xml_form_field"
+    elif fragment_type == "xml_button":
+        button_name = _required_metadata_text(fragment, metadata, "button_name")
+        structure_type = "button"
+        entity_name = f"{form_name}.{button_name}"
+        signal = {
+            "button_name": button_name,
+            "form_name": form_name,
+            "structure_type": structure_type,
+        }
+        details = {
+            "action_kind": _clean_text(metadata.get("action_kind")),
+            "operation": _clean_text(metadata.get("operation")),
+        }
+        fact_type = "xml_form_button"
+    else:
+        return [], [_issue(fragment, f"Unsupported XML structure fragment type: {fragment_type}.")]
+    return [
+        _fact_candidate(
+            "xml_form_structure/2",
+            fragment,
+            locator,
+            signal=signal,
+            fact_type=fact_type,
+            entity_name=entity_name,
+            property_name="object_type",
+            property_value=structure_type,
+            **details,
+        )
+    ], []
+
+
+def _xml_table_usage_records_v2(fragment, metadata, locator, context):
+    index = _structural_index(context)
+    fragment_type = _value(fragment, "fragment_type")
+    form_name = _required_metadata_text(fragment, metadata, "form_name")
+    records: list[dict[str, Any]] = []
+    issues: list[DerivationIssue] = []
+    if fragment_type == "xml_field":
+        field_name = _required_metadata_text(fragment, metadata, "field_name")
+        table_name = _clean_text(metadata.get("table_name"))
+        column_name = _clean_text(metadata.get("column_name"))
+        if table_name is None or column_name is None:
+            return [], [_issue(fragment, "XML field lacks an explicit table/column mapping.")]
+        raw_target = f"{table_name}.{column_name}"
+        resolution = index.resolve_column(raw_target)
+        if resolution.status == INCONSISTENT:
+            return [], [_resolution_issue(fragment, resolution)]
+        block_name = _clean_text(metadata.get("block_name"))
+        source_kind = _clean_text(metadata.get("source_element_kind")) or "field"
+        source = _xml_field_entity(form_name, field_name, block_name, source_kind)
+        payload = resolution.to_payload()
+        return [
+            _relation_candidate(
+                "xml_table_usage/2",
+                fragment,
+                locator,
+                signal={
+                    "relation_type": "writes_to",
+                    "resolution_status": resolution.status,
+                    "source": source,
+                    "target": resolution.canonical_target,
+                },
+                source_entity=source,
+                relation_type="writes_to",
+                target_entity=resolution.canonical_target,
+                block_name=block_name,
+                field_name=field_name,
+                source_element_kind=source_kind,
+                **payload,
+            )
+        ], []
+
+    if fragment_type != "xml_form":
+        return [], [_issue(fragment, f"Unsupported XML table-usage fragment type: {fragment_type}.")]
+    raw_relations = metadata.get("edit_relations")
+    if raw_relations is None:
+        raw_relations = metadata.get("table_usage_relations", [])
+    if not isinstance(raw_relations, list):
+        return [], [_issue(fragment, "XML table usage relation list is invalid.")]
+    operation_map = {
+        "edit": "writes_to",
+        "edits": "writes_to",
+        "write": "writes_to",
+        "writes": "writes_to",
+        "writes_to": "writes_to",
+        "read": "reads_from",
+        "reads": "reads_from",
+        "reads_from": "reads_from",
+    }
+    for relation_index, relation in enumerate(raw_relations):
+        if not isinstance(relation, dict):
+            issues.append(_issue(fragment, f"XML table usage entry {relation_index} is invalid."))
+            continue
+        target = _clean_text(relation.get("target_table"))
+        operation = _clean_text(relation.get("relation_type"))
+        relation_type = operation_map.get(operation.casefold() if operation else "")
+        if target is None or relation_type is None:
+            issues.append(
+                _issue(
+                    fragment,
+                    f"XML table usage entry {relation_index} lacks an explicit read/write operation or target.",
+                )
+            )
+            continue
+        resolution = index.resolve_table(target)
+        payload = resolution.to_payload()
+        records.append(
+            _relation_candidate(
+                "xml_table_usage/2",
+                fragment,
+                locator,
+                signal={
+                    "relation_type": relation_type,
+                    "resolution_status": resolution.status,
+                    "source": form_name,
+                    "target": resolution.canonical_target,
+                },
+                source_entity=form_name,
+                relation_type=relation_type,
+                target_entity=resolution.canonical_target,
+                field_names=_text_list(relation.get("field_names")),
+                **payload,
+            )
+        )
+    return records, issues
+
+
+def _xml_button_operation_records(fragment, metadata, locator, context):
+    form_name = _required_metadata_text(fragment, metadata, "form_name")
+    button_name = _required_metadata_text(fragment, metadata, "button_name")
+    operation = _clean_text(metadata.get("operation"))
+    if operation is None:
+        return [], []
+    resolution = _structural_index(context).resolve_code_unit(operation)
+    payload = resolution.to_payload()
+    source = f"{form_name}.{button_name}"
+    return [
+        _relation_candidate(
+            "xml_button_operation/1",
+            fragment,
+            locator,
+            signal={
+                "operation": operation,
+                "resolution_status": resolution.status,
+                "source": source,
+            },
+            source_entity=source,
+            relation_type="calls",
+            target_entity=resolution.canonical_target,
+            button_name=button_name,
+            operation=operation,
+            **payload,
+        )
+    ], []
+
+
+def _db_code_dependency_records_v2(fragment, metadata, locator, context):
+    fragment_type = _value(fragment, "fragment_type")
+    name_key = {
+        "sql_function": "function_name",
+        "sql_procedure": "procedure_name",
+        "sql_trigger": "trigger_name",
+    }.get(fragment_type)
+    if name_key is None:
+        return [], [_issue(fragment, f"Unsupported database-code dependency fragment type: {fragment_type}.")]
+    source = _required_metadata_text(fragment, metadata, name_key)
+    parameters = {item.casefold() for item in _text_list(metadata.get("parameters"))}
+    index = _structural_index(context)
+    records: list[dict[str, Any]] = []
+    issues: list[DerivationIssue] = []
+    for metadata_key, relation_type in (
+        ("reads", "reads_from"),
+        ("writes", "writes_to"),
+        ("calls", "calls"),
+    ):
+        raw_targets = metadata.get(metadata_key, [])
+        if not isinstance(raw_targets, list):
+            issues.append(_issue(fragment, f"Database-code {metadata_key} signal is invalid."))
+            continue
+        for target in _text_list(raw_targets):
+            if target.upper().startswith(("NEW.", "OLD.")) or target.casefold() in parameters:
+                continue
+            resolution = (
+                index.resolve_code_unit(target)
+                if relation_type == "calls"
+                else index.resolve_column(target)
+            )
+            if resolution.status == INCONSISTENT:
+                issues.append(_resolution_issue(fragment, resolution))
+                continue
+            payload = resolution.to_payload()
+            records.append(
+                _relation_candidate(
+                    "db_code_dependency/2",
+                    fragment,
+                    locator,
+                    signal={
+                        "relation_type": relation_type,
+                        "resolution_status": resolution.status,
+                        "source": source,
+                        "target": resolution.canonical_target,
+                    },
+                    source_entity=source,
+                    relation_type=relation_type,
+                    target_entity=resolution.canonical_target,
+                    **payload,
+                )
+            )
+    return records, issues
+
+
+def _log_event_records_v2(fragment, metadata, locator, context):
+    del context
+    component = _required_metadata_text(fragment, metadata, "component")
+    event_kind = _required_metadata_text(fragment, metadata, "event_kind")
+    revision_id = _value(fragment, "source_revision_id")
+    fragment_id = _value(fragment, "fragment_id")
+    event_identity = f"log_event:{revision_id}:{fragment_id}"
+    return [
+        _fact_candidate(
+            "log_event_observation/2",
+            fragment,
+            locator,
+            signal={"event_identity": event_identity},
+            fact_type="log_event",
+            entity_name=event_identity,
+            property_name="event_kind",
+            property_value=event_kind,
+            component=component,
+            level=_clean_text(metadata.get("level")),
+            message=_clean_text(metadata.get("message")),
+            observed_identifiers=_observed_identifiers(metadata.get("observed_identifiers")),
+            observation_timestamp=_clean_text(metadata.get("timestamp")),
+        )
+    ], []
+
+
 def _excel_fact_records(
     fragment,
     metadata,
@@ -1475,6 +1805,11 @@ _RULE_PRODUCERS: dict[str, Producer] = {
     "db_code_unit/1": _db_code_unit_records,
     "db_code_dependency/1": _db_code_dependency_records,
     "log_event_observation/1": _log_event_records,
+    "xml_form_structure/2": _xml_form_structure_records_v2,
+    "xml_table_usage/2": _xml_table_usage_records_v2,
+    "xml_button_operation/1": _xml_button_operation_records,
+    "db_code_dependency/2": _db_code_dependency_records_v2,
+    "log_event_observation/2": _log_event_records_v2,
     "excel_workbook_fact/1": _excel_workbook_records,
     "excel_sheet_fact/1": _excel_sheet_records,
     "excel_region_fact/1": _excel_region_records,
@@ -1666,8 +2001,39 @@ def _required_metadata_text(
     return value
 
 
-def _issue(fragment: Mapping[str, Any], message: str) -> DerivationIssue:
-    return DerivationIssue(_value(fragment, "fragment_id"), message)
+def _issue(
+    fragment: Mapping[str, Any],
+    message: str,
+    reason: str = "derivation_insufficient_evidence",
+) -> DerivationIssue:
+    return DerivationIssue(_value(fragment, "fragment_id"), message, reason)
+
+
+def _resolution_issue(fragment: Mapping[str, Any], resolution) -> DerivationIssue:
+    return _issue(
+        fragment,
+        (
+            f"Structural reference is inconsistent: {resolution.canonical_target} "
+            f"({resolution.reason})."
+        ),
+        "structural_reference_inconsistent",
+    )
+
+
+def _structural_index(context: Mapping[str, Any]) -> StructuralIndex:
+    index = context.get("structural_index")
+    return index if isinstance(index, StructuralIndex) else StructuralIndex.empty()
+
+
+def _xml_field_entity(
+    form_name: str,
+    field_name: str,
+    block_name: str | None,
+    source_element_kind: str,
+) -> str:
+    if source_element_kind == "item" and block_name:
+        return f"{form_name}.{block_name}.{field_name}"
+    return f"{form_name}.{field_name}"
 
 
 def _fragment_sort_key(fragment: Mapping[str, Any]) -> tuple[str, str, str, str, str]:

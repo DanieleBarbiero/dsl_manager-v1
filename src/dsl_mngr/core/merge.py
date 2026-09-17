@@ -16,6 +16,7 @@ from dsl_mngr.core.database import (
     resolve_database_settings,
 )
 from dsl_mngr.core.canonical import canonical_sha256_v1
+from dsl_mngr.core.conflict_semantics import SINGLE_VALUE, fact_conflict_semantics
 from dsl_mngr.core.runs import (
     DatabaseNotReadyError,
     canonical_json,
@@ -920,6 +921,7 @@ def _ensure_fact_conflicts(
         """
         SELECT
             fact_id,
+            fact_type,
             entity_name,
             canonical_entity_name,
             property_name,
@@ -938,6 +940,13 @@ def _ensure_fact_conflicts(
         if normalize_name(other["property_name"]) != property_key:
             continue
         if other["normalized_property_value"] == fact["normalized_property_value"]:
+            continue
+        if (
+            fact_conflict_semantics(fact["fact_type"], fact["property_name"])
+            != SINGLE_VALUE
+            or fact_conflict_semantics(other["fact_type"], other["property_name"])
+            != SINGLE_VALUE
+        ):
             continue
         _ensure_different_value_conflict(
             connection,

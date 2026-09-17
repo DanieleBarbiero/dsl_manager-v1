@@ -1,0 +1,34 @@
+{
+  "action": "created",
+  "artifact_paths": [
+    "artifacts/runs/RUN_000040/review_report.json"
+  ],
+  "batch_id": null,
+  "catalog_version": "result_catalog_v1",
+  "condition": "created",
+  "counters": {
+    "decisions_created": 1
+  },
+  "current_head_decision_id": "RDEC_000045",
+  "decision_id": "RDEC_000045",
+  "exit_code": 0,
+  "idempotency_key": "review:e053f8e998fd1a5cd63bfc8d6458aa6a6f79529992b6748654bedeba43dd3185",
+  "mutations": true,
+  "outcome": "confirmed",
+  "previous_head_decision_id": null,
+  "reason": "c",
+  "reconciliation_id": null,
+  "replacement_candidate_record_id": null,
+  "replacement_decision_id": null,
+  "request_payload_hash": "c9e8d201c59146f5df6d75f8e4500d9cc0f91eb3eeba7815ea3f46ad8006af89",
+  "retryable": false,
+  "run_id": "RUN_000040",
+  "schema_version": "1",
+  "semantic_payload_hash": "e3c027b0857ee274a8ce542cd51602aeef9a921c7d25be57706d0f2a81116733",
+  "severity": "info",
+  "status": "completed",
+  "subject_ids": [
+    "CREC_000053"
+  ],
+  "subject_type": "candidate_record"
+}

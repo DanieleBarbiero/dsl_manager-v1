@@ -5,8 +5,12 @@
   ],
   "batch_id": "CBATCH_000014",
   "candidate_ids": [
-    "DB_CODE_UNIT_13D185BBE850C5BF",
-    "DB_CODE_UNIT_311A766C071329A0"
+    "DB_CODE_DEPENDENCY_54300412A858856F",
+    "DB_CODE_DEPENDENCY_728464636645068D",
+    "DB_CODE_DEPENDENCY_9B23A9AAF575D861",
+    "DB_CODE_DEPENDENCY_B69DACD2A129CF3D",
+    "DB_CODE_DEPENDENCY_0DC20A4DB67A7837",
+    "DB_CODE_DEPENDENCY_F92D8DAE33341091"
   ],
   "catalog_version": "result_catalog_v1",
   "condition": "candidate_derivation",
@@ -14,8 +18,8 @@
     "auto_confirmed": 0,
     "deduplicated": 0,
     "input_fragments": 2,
-    "pending": 2,
-    "produced": 2,
+    "pending": 6,
+    "produced": 6,
     "rejected": 0
   },
   "derivation_id": "DERIVE_000014",
@@ -24,43 +28,51 @@
   "mutations": true,
   "outcome": "pending",
   "payload_hashes": [
-    "6d9ed9bfed57499906a07ee92f85f8838b7957f00c018a2de05df78b2b07faee",
-    "996c4f9d8e6c4b082d6d6bbb65a6e5c5bb1e152b5d5af6e6e854dca186e31f13"
+    "1146bd712cd75c8c8126bc6ec09c0c9446f971d1192fa40b0c78ed39697d0517",
+    "92025bf39786437cfa75b96b0ce9800b7b3d8f7968865d803fc80357284b54fd",
+    "367bedaf3082ba2c3f6e2e7460f03607a4bf50916f4a3c9bae1c3ad22afa730f",
+    "7b5b9df510627af23659f0d41558ab9ca54fecf80884795b59cc9735be7d736c",
+    "3375de857020cdfa20fd264650ac9a91717592f5405ebd855b4ebd1a7a257ae9",
+    "dfd66e93dc53c193e9aa24a9cb466ae475601c2811cd688c7f2f3ab2ee733e10"
   ],
   "reason": "success",
   "retryable": false,
-  "rule": "db_code_unit/1",
+  "rule": "db_code_dependency/2",
   "rule_contract": {
-    "assertion_type": "explicit",
+    "assertion_type": "observed",
     "automatic_review_allowed": true,
-    "automatic_review_policy": "explicit_db_code_unit_only/1",
-    "candidate_record_type": "candidate_fact",
+    "automatic_review_policy": "observed_db_code_dependency_only/1",
+    "candidate_record_type": "candidate_relation",
     "default_review_state": "pending",
     "evidence_locator": "source_revision_id+fragment_id+path_or_selector+line_start+line_end",
     "input_schema": "source_fragment/sql_function|sql_procedure|sql_trigger/1",
     "parser_kind": "db_code",
-    "rule_id": "db_code_unit",
-    "rule_version": "1"
+    "rule_id": "db_code_dependency",
+    "rule_version": "2"
   },
   "rule_counts": {
-    "db_code_unit/1": {
+    "db_code_dependency/2": {
       "auto_confirmed": 0,
       "deduplicated": 0,
       "input_fragments": 2,
-      "pending": 2,
-      "produced": 2,
+      "pending": 6,
+      "produced": 6,
       "rejected": 0
     }
   },
   "rule_set_version": "1",
   "run_id": "RUN_000024",
   "schema_version": "1",
-  "semantic_report_hash": "c011059a8f3dc170b7da8769ec1e032459b55ddce237a4f05a7f807608cda7a7",
+  "semantic_report_hash": "8536fe138e5df6739d7425845e20008efc97c2c748269315c35c6c3fa732c5a0",
   "severity": "info",
   "source_revision_id": "REV_000006",
   "status": "completed",
   "subject_ids": [
-    "DB_CODE_UNIT_13D185BBE850C5BF",
-    "DB_CODE_UNIT_311A766C071329A0"
+    "DB_CODE_DEPENDENCY_54300412A858856F",
+    "DB_CODE_DEPENDENCY_728464636645068D",
+    "DB_CODE_DEPENDENCY_9B23A9AAF575D861",
+    "DB_CODE_DEPENDENCY_B69DACD2A129CF3D",
+    "DB_CODE_DEPENDENCY_0DC20A4DB67A7837",
+    "DB_CODE_DEPENDENCY_F92D8DAE33341091"
   ]
 }

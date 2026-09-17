@@ -87,9 +87,9 @@
       "item_id": "BITEM_000006",
       "kind": "parse_xml_form",
       "outputs": {
-        "fields": 0,
+        "fields": 4,
         "forms": 1,
-        "fragments": 2
+        "fragments": 6
       },
       "run_id": "RUN_000008",
       "source_id": "SRC_000004",

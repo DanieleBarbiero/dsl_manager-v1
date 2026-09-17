@@ -1,9 +1,9 @@
 {
   "artifact_dir": "artifacts/runs/RUN_000023",
   "parameters": {
-    "rule": "db_code_dependency/1",
+    "rule": "log_event_observation/2",
     "rule_set_version": "1",
-    "source_revision_id": "REV_000006"
+    "source_revision_id": "REV_000005"
   },
   "parent_run_id": "RUN_000001",
   "run_id": "RUN_000023",

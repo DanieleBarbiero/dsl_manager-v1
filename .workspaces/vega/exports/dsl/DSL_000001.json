@@ -1,58 +1,29 @@
 {
-  "conflicts": [
-    {
-      "canonical_entity_name": "scanner",
-      "conflict_id": "CONFLICT_000001",
-      "conflict_type": "different_values_same_property",
-      "entity_name": "scanner",
-      "left_fact_id": "FACT_000018",
-      "left_value": "processed",
-      "property_name": "event_kind",
-      "right_fact_id": "FACT_000017",
-      "right_value": "start",
-      "status": "open"
-    },
-    {
-      "canonical_entity_name": "magazzino",
-      "conflict_id": "CONFLICT_000002",
-      "conflict_type": "different_values_same_property",
-      "entity_name": "magazzino",
-      "left_fact_id": "FACT_000020",
-      "left_value": "processed",
-      "property_name": "event_kind",
-      "right_fact_id": "FACT_000019",
-      "right_value": "warning",
-      "status": "open"
-    },
-    {
-      "canonical_entity_name": "scanner",
-      "conflict_id": "CONFLICT_000003",
-      "conflict_type": "different_values_same_property",
-      "entity_name": "scanner",
-      "left_fact_id": "FACT_000021",
-      "left_value": "end",
-      "property_name": "event_kind",
-      "right_fact_id": "FACT_000017",
-      "right_value": "start",
-      "status": "open"
-    },
-    {
-      "canonical_entity_name": "scanner",
-      "conflict_id": "CONFLICT_000004",
-      "conflict_type": "different_values_same_property",
-      "entity_name": "scanner",
-      "left_fact_id": "FACT_000021",
-      "left_value": "end",
-      "property_name": "event_kind",
-      "right_fact_id": "FACT_000018",
-      "right_value": "processed",
-      "status": "open"
-    }
-  ],
+  "conflicts": [],
   "entities": [
     {
       "canonical_name": "articolo",
       "facts": [
+        {
+          "assertion_type": "explicit",
+          "confidence": "high",
+          "fact_id": "FACT_000034",
+          "fact_type": "database_column",
+          "intervals": [],
+          "property_name": "CODICE",
+          "property_value": "VARCHAR2(30) NOT NULL",
+          "status": "active"
+        },
+        {
+          "assertion_type": "explicit",
+          "confidence": "high",
+          "fact_id": "FACT_000028",
+          "fact_type": "primary_key",
+          "intervals": [],
+          "property_name": "ID_ARTICOLO",
+          "property_value": "NUMBER PRIMARY KEY",
+          "status": "active"
+        },
         {
           "assertion_type": "explicit",
           "confidence": "high",
@@ -200,7 +171,7 @@
         {
           "assertion_type": "explicit",
           "confidence": "high",
-          "fact_id": "FACT_000016",
+          "fact_id": "FACT_000020",
           "fact_type": "xml_form_button",
           "intervals": [],
           "property_name": "object_type",
@@ -211,30 +182,148 @@
       "name": "FRM_RICHIESTA.BTN_PRENOTA"
     },
     {
-      "canonical_name": "magazzino",
+      "canonical_name": "frm_richiesta.richiesta_ricambio.id_articolo",
+      "facts": [
+        {
+          "assertion_type": "explicit",
+          "confidence": "high",
+          "fact_id": "FACT_000016",
+          "fact_type": "xml_form_field",
+          "intervals": [],
+          "property_name": "object_type",
+          "property_value": "field",
+          "status": "active"
+        }
+      ],
+      "name": "FRM_RICHIESTA.RICHIESTA_RICAMBIO.ID_ARTICOLO"
+    },
+    {
+      "canonical_name": "frm_richiesta.richiesta_ricambio.id_richiesta",
+      "facts": [
+        {
+          "assertion_type": "explicit",
+          "confidence": "high",
+          "fact_id": "FACT_000017",
+          "fact_type": "xml_form_field",
+          "intervals": [],
+          "property_name": "object_type",
+          "property_value": "field",
+          "status": "active"
+        }
+      ],
+      "name": "FRM_RICHIESTA.RICHIESTA_RICAMBIO.ID_RICHIESTA"
+    },
+    {
+      "canonical_name": "frm_richiesta.richiesta_ricambio.priorita",
+      "facts": [
+        {
+          "assertion_type": "explicit",
+          "confidence": "high",
+          "fact_id": "FACT_000018",
+          "fact_type": "xml_form_field",
+          "intervals": [],
+          "property_name": "object_type",
+          "property_value": "field",
+          "status": "active"
+        }
+      ],
+      "name": "FRM_RICHIESTA.RICHIESTA_RICAMBIO.PRIORITA"
+    },
+    {
+      "canonical_name": "frm_richiesta.richiesta_ricambio.stato",
+      "facts": [
+        {
+          "assertion_type": "explicit",
+          "confidence": "high",
+          "fact_id": "FACT_000019",
+          "fact_type": "xml_form_field",
+          "intervals": [],
+          "property_name": "object_type",
+          "property_value": "field",
+          "status": "active"
+        }
+      ],
+      "name": "FRM_RICHIESTA.RICHIESTA_RICAMBIO.STATO"
+    },
+    {
+      "canonical_name": "log_event:rev_000005:frag_000022",
       "facts": [
         {
           "assertion_type": "observed",
           "confidence": "high",
-          "fact_id": "FACT_000020",
+          "fact_id": "FACT_000021",
+          "fact_type": "log_event",
+          "intervals": [],
+          "property_name": "event_kind",
+          "property_value": "start",
+          "status": "active"
+        }
+      ],
+      "name": "log_event:REV_000005:FRAG_000022"
+    },
+    {
+      "canonical_name": "log_event:rev_000005:frag_000023",
+      "facts": [
+        {
+          "assertion_type": "observed",
+          "confidence": "high",
+          "fact_id": "FACT_000022",
           "fact_type": "log_event",
           "intervals": [],
           "property_name": "event_kind",
           "property_value": "processed",
-          "status": "conflicted"
-        },
+          "status": "active"
+        }
+      ],
+      "name": "log_event:REV_000005:FRAG_000023"
+    },
+    {
+      "canonical_name": "log_event:rev_000005:frag_000024",
+      "facts": [
         {
           "assertion_type": "observed",
           "confidence": "high",
-          "fact_id": "FACT_000019",
+          "fact_id": "FACT_000023",
           "fact_type": "log_event",
           "intervals": [],
           "property_name": "event_kind",
           "property_value": "warning",
-          "status": "conflicted"
+          "status": "active"
         }
       ],
-      "name": "magazzino"
+      "name": "log_event:REV_000005:FRAG_000024"
+    },
+    {
+      "canonical_name": "log_event:rev_000005:frag_000025",
+      "facts": [
+        {
+          "assertion_type": "observed",
+          "confidence": "high",
+          "fact_id": "FACT_000024",
+          "fact_type": "log_event",
+          "intervals": [],
+          "property_name": "event_kind",
+          "property_value": "processed",
+          "status": "active"
+        }
+      ],
+      "name": "log_event:REV_000005:FRAG_000025"
+    },
+    {
+      "canonical_name": "log_event:rev_000005:frag_000026",
+      "facts": [
+        {
+          "assertion_type": "observed",
+          "confidence": "high",
+          "fact_id": "FACT_000025",
+          "fact_type": "log_event",
+          "intervals": [],
+          "property_name": "event_kind",
+          "property_value": "end",
+          "status": "active"
+        }
+      ],
+      "name": "log_event:REV_000005:FRAG_000026"
     },
     {
       "canonical_name": "prc_prenota_articolo",
@@ -242,7 +331,7 @@
         {
           "assertion_type": "explicit",
           "confidence": "high",
-          "fact_id": "FACT_000022",
+          "fact_id": "FACT_000026",
           "fact_type": "database_code_unit",
           "intervals": [],
           "property_name": "unit_type",
@@ -253,8 +342,92 @@
       "name": "PRC_PRENOTA_ARTICOLO"
     },
     {
+      "canonical_name": "prenotazione articolo",
+      "facts": [
+        {
+          "assertion_type": "explicit",
+          "confidence": "high",
+          "fact_id": "FACT_000032",
+          "fact_type": "inventory_rule",
+          "intervals": [],
+          "property_name": "effetto_disponibilita",
+          "property_value": "riduzione",
+          "status": "active"
+        }
+      ],
+      "name": "Prenotazione articolo"
+    },
+    {
+      "canonical_name": "regole correnti",
+      "facts": [
+        {
+          "assertion_type": "explicit",
+          "confidence": "high",
+          "fact_id": "FACT_000033",
+          "fact_type": "effective_date",
+          "intervals": [],
+          "property_name": "decorrenza",
+          "property_value": "2026-09-01",
+          "status": "active"
+        }
+      ],
+      "name": "Regole correnti"
+    },
+    {
+      "canonical_name": "richiesta p1",
+      "facts": [
+        {
+          "assertion_type": "explicit",
+          "confidence": "high",
+          "fact_id": "FACT_000030",
+          "fact_type": "service_level",
+          "intervals": [],
+          "property_name": "tempo_presa_in_carico",
+          "property_value": "30 minuti",
+          "status": "active"
+        }
+      ],
+      "name": "Richiesta P1"
+    },
+    {
+      "canonical_name": "richiesta ricambio",
+      "facts": [
+        {
+          "assertion_type": "explicit",
+          "confidence": "high",
+          "fact_id": "FACT_000031",
+          "fact_type": "state_transition_rule",
+          "intervals": [],
+          "property_name": "stato_precedente_alla_chiusura",
+          "property_value": "CONSEGNATA",
+          "status": "active"
+        }
+      ],
+      "name": "Richiesta ricambio"
+    },
+    {
       "canonical_name": "richiesta_ricambio",
       "facts": [
+        {
+          "assertion_type": "explicit",
+          "confidence": "high",
+          "fact_id": "FACT_000029",
+          "fact_type": "primary_key",
+          "intervals": [],
+          "property_name": "ID_RICHIESTA",
+          "property_value": "NUMBER PRIMARY KEY",
+          "status": "active"
+        },
+        {
+          "assertion_type": "explicit",
+          "confidence": "high",
+          "fact_id": "FACT_000035",
+          "fact_type": "database_column",
+          "intervals": [],
+          "property_name": "PRIORITA",
+          "property_value": "VARCHAR2(10) NOT NULL",
+          "status": "active"
+        },
         {
           "assertion_type": "explicit",
           "confidence": "high",
@@ -349,40 +522,20 @@
       "name": "RICHIESTA_RICAMBIO.STATO"
     },
     {
-      "canonical_name": "scanner",
+      "canonical_name": "rv-1002",
       "facts": [
         {
           "assertion_type": "observed",
           "confidence": "high",
-          "fact_id": "FACT_000021",
+          "fact_id": "FACT_000036",
           "fact_type": "log_event",
           "intervals": [],
-          "property_name": "event_kind",
-          "property_value": "end",
-          "status": "conflicted"
-        },
-        {
-          "assertion_type": "observed",
-          "confidence": "high",
-          "fact_id": "FACT_000018",
-          "fact_type": "log_event",
-          "intervals": [],
-          "property_name": "event_kind",
-          "property_value": "processed",
-          "status": "conflicted"
-        },
-        {
-          "assertion_type": "observed",
-          "confidence": "high",
-          "fact_id": "FACT_000017",
-          "fact_type": "log_event",
-          "intervals": [],
-          "property_name": "event_kind",
-          "property_value": "start",
-          "status": "conflicted"
+          "property_name": "evento",
+          "property_value": "magazzino missing articolo=RIC-118 priorita=P2",
+          "status": "active"
         }
       ],
-      "name": "scanner"
+      "name": "RV-1002"
     },
     {
       "canonical_name": "trg_chiudi_richiesta",
@@ -390,7 +543,7 @@
         {
           "assertion_type": "explicit",
           "confidence": "high",
-          "fact_id": "FACT_000023",
+          "fact_id": "FACT_000027",
           "fact_type": "database_code_unit",
           "intervals": [],
           "property_name": "unit_type",
@@ -403,13 +556,13 @@
   ],
   "metadata": {
     "counts": {
-      "conflicts": 4,
-      "entities": 20,
-      "facts": 23,
-      "relations": 8
+      "conflicts": 0,
+      "entities": 32,
+      "facts": 36,
+      "relations": 17
     },
-    "dsl_hash": "65d4521b40b7563913c376b4a26ef54e9d9f5efa22ca8e86ab5ceec47c0abc0e",
-    "registry_hash": "7fa799fc6ec53620925eb875a3b0ed53806c7675cea5d8a2bc2b9e91a671dd17",
+    "dsl_hash": "beb9f757b08c8da4d010286a023ab6749aa4af9b6d73a05e333de1b83407b8b2",
+    "registry_hash": "41c4364e8b72251ee33157cc20de1effb23635bc1e050b97533eb621cbc1dc40",
     "schema_version": "2",
     "temporal": {
       "base": "day",
@@ -420,12 +573,96 @@
   },
   "relations": [
     {
+      "assertion_type": "explicit",
+      "canonical_source_entity": "frm_richiesta",
+      "canonical_target_entity": "richiesta_ricambio",
+      "confidence": "high",
+      "intervals": [],
+      "relation_id": "REL_000002",
+      "relation_type": "writes_to",
+      "source_entity": "FRM_RICHIESTA",
+      "status": "active",
+      "target_entity": "RICHIESTA_RICAMBIO"
+    },
+    {
+      "assertion_type": "explicit",
+      "canonical_source_entity": "frm_richiesta.richiesta_ricambio.id_articolo",
+      "canonical_target_entity": "richiesta_ricambio.id_articolo",
+      "confidence": "high",
+      "intervals": [],
+      "relation_id": "REL_000003",
+      "relation_type": "writes_to",
+      "source_entity": "FRM_RICHIESTA.RICHIESTA_RICAMBIO.ID_ARTICOLO",
+      "status": "active",
+      "target_entity": "RICHIESTA_RICAMBIO.ID_ARTICOLO"
+    },
+    {
+      "assertion_type": "explicit",
+      "canonical_source_entity": "frm_richiesta.richiesta_ricambio.id_richiesta",
+      "canonical_target_entity": "richiesta_ricambio.id_richiesta",
+      "confidence": "high",
+      "intervals": [],
+      "relation_id": "REL_000004",
+      "relation_type": "writes_to",
+      "source_entity": "FRM_RICHIESTA.RICHIESTA_RICAMBIO.ID_RICHIESTA",
+      "status": "active",
+      "target_entity": "RICHIESTA_RICAMBIO.ID_RICHIESTA"
+    },
+    {
+      "assertion_type": "explicit",
+      "canonical_source_entity": "frm_richiesta.richiesta_ricambio.priorita",
+      "canonical_target_entity": "richiesta_ricambio.priorita",
+      "confidence": "high",
+      "intervals": [],
+      "relation_id": "REL_000005",
+      "relation_type": "writes_to",
+      "source_entity": "FRM_RICHIESTA.RICHIESTA_RICAMBIO.PRIORITA",
+      "status": "active",
+      "target_entity": "RICHIESTA_RICAMBIO.PRIORITA"
+    },
+    {
+      "assertion_type": "explicit",
+      "canonical_source_entity": "frm_richiesta.richiesta_ricambio.stato",
+      "canonical_target_entity": "richiesta_ricambio.stato",
+      "confidence": "high",
+      "intervals": [],
+      "relation_id": "REL_000006",
+      "relation_type": "writes_to",
+      "source_entity": "FRM_RICHIESTA.RICHIESTA_RICAMBIO.STATO",
+      "status": "active",
+      "target_entity": "RICHIESTA_RICAMBIO.STATO"
+    },
+    {
+      "assertion_type": "explicit",
+      "canonical_source_entity": "prc_prenota_articolo",
+      "canonical_target_entity": "articolo",
+      "confidence": "high",
+      "intervals": [],
+      "relation_id": "REL_000014",
+      "relation_type": "decrements_available_quantity",
+      "source_entity": "PRC_PRENOTA_ARTICOLO",
+      "status": "active",
+      "target_entity": "ARTICOLO"
+    },
+    {
+      "assertion_type": "explicit",
+      "canonical_source_entity": "prc_prenota_articolo",
+      "canonical_target_entity": "articolo.qta_disponibile",
+      "confidence": "high",
+      "intervals": [],
+      "relation_id": "REL_000017",
+      "relation_type": "decrements_quantity",
+      "source_entity": "PRC_PRENOTA_ARTICOLO",
+      "status": "active",
+      "target_entity": "ARTICOLO.QTA_DISPONIBILE"
+    },
+    {
       "assertion_type": "observed",
       "canonical_source_entity": "prc_prenota_articolo",
       "canonical_target_entity": "articolo.id_articolo",
       "confidence": "high",
       "intervals": [],
-      "relation_id": "REL_000002",
+      "relation_id": "REL_000007",
       "relation_type": "reads_from",
       "source_entity": "PRC_PRENOTA_ARTICOLO",
       "status": "active",
@@ -434,22 +671,10 @@
     {
       "assertion_type": "observed",
       "canonical_source_entity": "prc_prenota_articolo",
-      "canonical_target_entity": "articolo.id_richiesta",
-      "confidence": "high",
-      "intervals": [],
-      "relation_id": "REL_000003",
-      "relation_type": "reads_from",
-      "source_entity": "PRC_PRENOTA_ARTICOLO",
-      "status": "active",
-      "target_entity": "ARTICOLO.ID_RICHIESTA"
-    },
-    {
-      "assertion_type": "observed",
-      "canonical_source_entity": "prc_prenota_articolo",
       "canonical_target_entity": "articolo.qta_disponibile",
       "confidence": "high",
       "intervals": [],
-      "relation_id": "REL_000004",
+      "relation_id": "REL_000008",
       "relation_type": "reads_from",
       "source_entity": "PRC_PRENOTA_ARTICOLO",
       "status": "active",
@@ -458,14 +683,14 @@
     {
       "assertion_type": "observed",
       "canonical_source_entity": "prc_prenota_articolo",
-      "canonical_target_entity": "articolo.richiesta_ricambio",
+      "canonical_target_entity": "richiesta_ricambio.id_articolo",
       "confidence": "high",
       "intervals": [],
-      "relation_id": "REL_000005",
+      "relation_id": "REL_000009",
       "relation_type": "reads_from",
       "source_entity": "PRC_PRENOTA_ARTICOLO",
       "status": "active",
-      "target_entity": "ARTICOLO.RICHIESTA_RICAMBIO"
+      "target_entity": "RICHIESTA_RICAMBIO.ID_ARTICOLO"
     },
     {
       "assertion_type": "observed",
@@ -473,11 +698,35 @@
       "canonical_target_entity": "richiesta_ricambio.id_richiesta",
       "confidence": "high",
       "intervals": [],
-      "relation_id": "REL_000006",
+      "relation_id": "REL_000010",
       "relation_type": "reads_from",
       "source_entity": "PRC_PRENOTA_ARTICOLO",
       "status": "active",
       "target_entity": "RICHIESTA_RICAMBIO.ID_RICHIESTA"
+    },
+    {
+      "assertion_type": "explicit",
+      "canonical_source_entity": "prc_prenota_articolo",
+      "canonical_target_entity": "richiesta_ricambio",
+      "confidence": "high",
+      "intervals": [],
+      "relation_id": "REL_000016",
+      "relation_type": "updates_status",
+      "source_entity": "PRC_PRENOTA_ARTICOLO",
+      "status": "active",
+      "target_entity": "RICHIESTA_RICAMBIO"
+    },
+    {
+      "assertion_type": "explicit",
+      "canonical_source_entity": "prc_prenota_articolo",
+      "canonical_target_entity": "richiesta_ricambio",
+      "confidence": "high",
+      "intervals": [],
+      "relation_id": "REL_000013",
+      "relation_type": "updates_status_to_PRENOTATA",
+      "source_entity": "PRC_PRENOTA_ARTICOLO",
+      "status": "active",
+      "target_entity": "RICHIESTA_RICAMBIO"
     },
     {
       "assertion_type": "observed",
@@ -485,7 +734,7 @@
       "canonical_target_entity": "articolo.qta_disponibile",
       "confidence": "high",
       "intervals": [],
-      "relation_id": "REL_000007",
+      "relation_id": "REL_000011",
       "relation_type": "writes_to",
       "source_entity": "PRC_PRENOTA_ARTICOLO",
       "status": "active",
@@ -497,7 +746,7 @@
       "canonical_target_entity": "richiesta_ricambio.stato",
       "confidence": "high",
       "intervals": [],
-      "relation_id": "REL_000008",
+      "relation_id": "REL_000012",
       "relation_type": "writes_to",
       "source_entity": "PRC_PRENOTA_ARTICOLO",
       "status": "active",
@@ -514,6 +763,18 @@
       "source_entity": "RICHIESTA_RICAMBIO",
       "status": "active",
       "target_entity": "ARTICOLO"
+    },
+    {
+      "assertion_type": "explicit",
+      "canonical_source_entity": "richiesta_ricambio.id_articolo",
+      "canonical_target_entity": "articolo.id_articolo",
+      "confidence": "high",
+      "intervals": [],
+      "relation_id": "REL_000015",
+      "relation_type": "foreign_key_reference",
+      "source_entity": "RICHIESTA_RICAMBIO.ID_ARTICOLO",
+      "status": "active",
+      "target_entity": "ARTICOLO.ID_ARTICOLO"
     }
   ],
   "traceability": {
@@ -758,7 +1019,7 @@
       ],
       "FACT_000015": [
         {
-          "candidate_record_id": "CREC_000016",
+          "candidate_record_id": "CREC_000017",
           "chunk_id": null,
           "evidence_text_hash": "86fafaace02463b63adc0f48e8e2aecee26e77a2c29e9982ce9be8d2c03cc939",
           "file_path": "corpus/active/forms/frm_richiesta.xml",
@@ -767,7 +1028,7 @@
             "outcome": "confirmed",
             "policy_id": "explicit_xml_form_structure_only",
             "policy_version": "1",
-            "semantic_payload_hash": "1fde9978690ddc3c5eb7ba8d42f0c688bfc2e0e2b6dd1dc58e50b0a3e5459e3e"
+            "semantic_payload_hash": "f4f7bc4e763e76161621fe7b300621cf8f4e43003d5ee403eff430eec82aed02"
           },
           "source_id": "SRC_000004",
           "source_revision_id": "REV_000004"
@@ -775,16 +1036,16 @@
       ],
       "FACT_000016": [
         {
-          "candidate_record_id": "CREC_000017",
+          "candidate_record_id": "CREC_000018",
           "chunk_id": null,
-          "evidence_text_hash": "1dcc617ccb1924f00242af5f7e693dc286e73c0fe5da5d005db6b911214386cc",
+          "evidence_text_hash": "7be0e2ec8a6ee27e512e4129408fba4d834f6d28c80e1f179b111af789c474bd",
           "file_path": "corpus/active/forms/frm_richiesta.xml",
-          "fragment_id": "FRAG_000017",
+          "fragment_id": "FRAG_000018",
           "review": {
             "outcome": "confirmed",
             "policy_id": "explicit_xml_form_structure_only",
             "policy_version": "1",
-            "semantic_payload_hash": "eeb10c73f89c058a78548344ee3dcde14a14d64361c16b126942399deb347eb2"
+            "semantic_payload_hash": "6e5f4883cc58a3df81bd10bb13123df1936e6379501cf8f8c670fde6853f48e9"
           },
           "source_id": "SRC_000004",
           "source_revision_id": "REV_000004"
@@ -792,84 +1053,84 @@
       ],
       "FACT_000017": [
         {
-          "candidate_record_id": "CREC_000018",
+          "candidate_record_id": "CREC_000019",
           "chunk_id": null,
-          "evidence_text_hash": "e99a55d81603ef0096e0b40d29897605aa02cbdf9acfddd039044846fcc07a0a",
-          "file_path": "corpus/active/logs/vega_2026.log",
-          "fragment_id": "FRAG_000018",
+          "evidence_text_hash": "535b1a301387fde6d2ef65f98b30341a6e8b538d18337a6e584d4233bc2efa5b",
+          "file_path": "corpus/active/forms/frm_richiesta.xml",
+          "fragment_id": "FRAG_000017",
           "review": {
             "outcome": "confirmed",
-            "policy_id": "named_explicit_log_policy_required",
+            "policy_id": "explicit_xml_form_structure_only",
             "policy_version": "1",
-            "semantic_payload_hash": "1a83e796081f09b460b888bb416d857de296c80a7e306ab64588d9b6db61af14"
+            "semantic_payload_hash": "2e8d0c995ed93d323814015a2d33affaad89f34f6095c73d19dc5ec4077cdb61"
           },
-          "source_id": "SRC_000005",
-          "source_revision_id": "REV_000005"
+          "source_id": "SRC_000004",
+          "source_revision_id": "REV_000004"
         }
       ],
       "FACT_000018": [
         {
-          "candidate_record_id": "CREC_000019",
+          "candidate_record_id": "CREC_000020",
           "chunk_id": null,
-          "evidence_text_hash": "fed9868a4d1cf2c01e8e66040afaf0b6d3e6eb46517f4355d8560694d77ee155",
-          "file_path": "corpus/active/logs/vega_2026.log",
+          "evidence_text_hash": "94f92d5b5bbf4a0324b08661435ec82449d05845297baaf75c94e128bad810b4",
+          "file_path": "corpus/active/forms/frm_richiesta.xml",
           "fragment_id": "FRAG_000019",
           "review": {
             "outcome": "confirmed",
-            "policy_id": "named_explicit_log_policy_required",
+            "policy_id": "explicit_xml_form_structure_only",
             "policy_version": "1",
-            "semantic_payload_hash": "64d9934b5e3d6fcf5fef4233a349453a8a1d998994845150cc4bd092ed9957ae"
+            "semantic_payload_hash": "26f28ca5336c11b5a710925acf345f04b42503dc7b11774675e98fb3adf4b1d8"
           },
-          "source_id": "SRC_000005",
-          "source_revision_id": "REV_000005"
+          "source_id": "SRC_000004",
+          "source_revision_id": "REV_000004"
         }
       ],
       "FACT_000019": [
         {
-          "candidate_record_id": "CREC_000020",
+          "candidate_record_id": "CREC_000021",
           "chunk_id": null,
-          "evidence_text_hash": "9d7e11da6e3107c94b164ae8e356f5f8a3670e846e02eaf1638c958d248cab9b",
-          "file_path": "corpus/active/logs/vega_2026.log",
+          "evidence_text_hash": "1cb57413e00229dbaed9efac40c499f110ce595ded5df3d7986858c239d14d15",
+          "file_path": "corpus/active/forms/frm_richiesta.xml",
           "fragment_id": "FRAG_000020",
           "review": {
             "outcome": "confirmed",
-            "policy_id": "named_explicit_log_policy_required",
+            "policy_id": "explicit_xml_form_structure_only",
             "policy_version": "1",
-            "semantic_payload_hash": "e6ca9499112af354908a28a7555ac289496294e1edbc77e8ab1c9b814f60678d"
+            "semantic_payload_hash": "967066930d78dd83d5ee54848dc3482d145d68c84cc594ba9d647a3394984a57"
           },
-          "source_id": "SRC_000005",
-          "source_revision_id": "REV_000005"
+          "source_id": "SRC_000004",
+          "source_revision_id": "REV_000004"
         }
       ],
       "FACT_000020": [
         {
-          "candidate_record_id": "CREC_000021",
+          "candidate_record_id": "CREC_000022",
           "chunk_id": null,
-          "evidence_text_hash": "acd1e678d7805f389cf046eb355bbf7cd3b7f6da9865b71befb949a9519100ec",
-          "file_path": "corpus/active/logs/vega_2026.log",
+          "evidence_text_hash": "1dcc617ccb1924f00242af5f7e693dc286e73c0fe5da5d005db6b911214386cc",
+          "file_path": "corpus/active/forms/frm_richiesta.xml",
           "fragment_id": "FRAG_000021",
           "review": {
             "outcome": "confirmed",
-            "policy_id": "named_explicit_log_policy_required",
+            "policy_id": "explicit_xml_form_structure_only",
             "policy_version": "1",
-            "semantic_payload_hash": "ccb5509f7d1b526e926c77e483943e9852dd67e9158054b2281a3d7fba74910e"
+            "semantic_payload_hash": "b475f438e9211157b6acf76790882fc13859be90f23e13f44e8e9ad468f8b445"
           },
-          "source_id": "SRC_000005",
-          "source_revision_id": "REV_000005"
+          "source_id": "SRC_000004",
+          "source_revision_id": "REV_000004"
         }
       ],
       "FACT_000021": [
         {
-          "candidate_record_id": "CREC_000022",
+          "candidate_record_id": "CREC_000028",
           "chunk_id": null,
-          "evidence_text_hash": "490e3fda21b0f91e9a6a41b26bdcc717f9eb16a8911a5d31a8bc7ea48a81caf9",
+          "evidence_text_hash": "e99a55d81603ef0096e0b40d29897605aa02cbdf9acfddd039044846fcc07a0a",
           "file_path": "corpus/active/logs/vega_2026.log",
           "fragment_id": "FRAG_000022",
           "review": {
             "outcome": "confirmed",
             "policy_id": "named_explicit_log_policy_required",
             "policy_version": "1",
-            "semantic_payload_hash": "2986af84d81f3a5124508d7a787630c7f5c4d992d5555d21c28702ce32768a04"
+            "semantic_payload_hash": "152a95c71112da490e34d05f494000a177a41ddd58e07de9ce4aa180a4cda9b6"
           },
           "source_id": "SRC_000005",
           "source_revision_id": "REV_000005"
@@ -877,36 +1138,287 @@
       ],
       "FACT_000022": [
         {
+          "candidate_record_id": "CREC_000029",
+          "chunk_id": null,
+          "evidence_text_hash": "fed9868a4d1cf2c01e8e66040afaf0b6d3e6eb46517f4355d8560694d77ee155",
+          "file_path": "corpus/active/logs/vega_2026.log",
+          "fragment_id": "FRAG_000023",
+          "review": {
+            "outcome": "confirmed",
+            "policy_id": "named_explicit_log_policy_required",
+            "policy_version": "1",
+            "semantic_payload_hash": "a06f7b9df6b18d4a514067a0abf6e91d08be9a7e37f82ac3eaf1107375274801"
+          },
+          "source_id": "SRC_000005",
+          "source_revision_id": "REV_000005"
+        }
+      ],
+      "FACT_000023": [
+        {
           "candidate_record_id": "CREC_000030",
+          "chunk_id": null,
+          "evidence_text_hash": "9d7e11da6e3107c94b164ae8e356f5f8a3670e846e02eaf1638c958d248cab9b",
+          "file_path": "corpus/active/logs/vega_2026.log",
+          "fragment_id": "FRAG_000024",
+          "review": {
+            "outcome": "confirmed",
+            "policy_id": "named_explicit_log_policy_required",
+            "policy_version": "1",
+            "semantic_payload_hash": "d28358aac0c69a110215c68ebdfe041368601a200af3bdac76fd9a16833bb4a8"
+          },
+          "source_id": "SRC_000005",
+          "source_revision_id": "REV_000005"
+        }
+      ],
+      "FACT_000024": [
+        {
+          "candidate_record_id": "CREC_000031",
+          "chunk_id": null,
+          "evidence_text_hash": "acd1e678d7805f389cf046eb355bbf7cd3b7f6da9865b71befb949a9519100ec",
+          "file_path": "corpus/active/logs/vega_2026.log",
+          "fragment_id": "FRAG_000025",
+          "review": {
+            "outcome": "confirmed",
+            "policy_id": "named_explicit_log_policy_required",
+            "policy_version": "1",
+            "semantic_payload_hash": "5917ae7c050258b1dfcfb3b7e2c8bf6f334e4063c38edaba5827f9b45137e111"
+          },
+          "source_id": "SRC_000005",
+          "source_revision_id": "REV_000005"
+        }
+      ],
+      "FACT_000025": [
+        {
+          "candidate_record_id": "CREC_000032",
+          "chunk_id": null,
+          "evidence_text_hash": "490e3fda21b0f91e9a6a41b26bdcc717f9eb16a8911a5d31a8bc7ea48a81caf9",
+          "file_path": "corpus/active/logs/vega_2026.log",
+          "fragment_id": "FRAG_000026",
+          "review": {
+            "outcome": "confirmed",
+            "policy_id": "named_explicit_log_policy_required",
+            "policy_version": "1",
+            "semantic_payload_hash": "0a7701d1cf5bd60d41c5efd6c4368266868f1ac4ded4f3337eab3fc10ab7269f"
+          },
+          "source_id": "SRC_000005",
+          "source_revision_id": "REV_000005"
+        }
+      ],
+      "FACT_000026": [
+        {
+          "candidate_record_id": "CREC_000039",
           "chunk_id": null,
           "evidence_text_hash": "583946ddd210a10a6cf4fdc51ba5d57eeb676f7a170cf848858e677e0261f736",
           "file_path": "corpus/active/plsql/logica_vega.sql",
-          "fragment_id": "FRAG_000024",
+          "fragment_id": "FRAG_000028",
           "review": {
             "outcome": "confirmed",
             "policy_id": "explicit_db_code_unit_only",
             "policy_version": "1",
-            "semantic_payload_hash": "39d7f46ad2b1dddaa7d3927ad849f90707489c0c76169ce16506c4d56cf10f6c"
+            "semantic_payload_hash": "5341c0d9aa38beb2345159e4aa89e64aef4572ea89f75c19a8da05fc6dd90dfe"
           },
           "source_id": "SRC_000006",
           "source_revision_id": "REV_000006"
         }
       ],
-      "FACT_000023": [
+      "FACT_000027": [
         {
-          "candidate_record_id": "CREC_000031",
+          "candidate_record_id": "CREC_000040",
           "chunk_id": null,
           "evidence_text_hash": "a67b70ca50a81990b777a3f93d6dfa9078c18981f6666a1b6c71edba6ecfba0d",
           "file_path": "corpus/active/plsql/logica_vega.sql",
-          "fragment_id": "FRAG_000023",
+          "fragment_id": "FRAG_000027",
           "review": {
             "outcome": "confirmed",
             "policy_id": "explicit_db_code_unit_only",
             "policy_version": "1",
-            "semantic_payload_hash": "349d9d15ebc33200a873aaf1140361738466b35d5821a00f5d0973e52d520176"
+            "semantic_payload_hash": "9b148231aaddc9244093a6e8ca3b43d70d5c365a02a2139e112aabbb42403cfb"
           },
           "source_id": "SRC_000006",
           "source_revision_id": "REV_000006"
+        }
+      ],
+      "FACT_000028": [
+        {
+          "candidate_record_id": "CREC_000050",
+          "chunk_id": null,
+          "evidence_text_hash": "755a643188bd7ac8866b488fbcdfcb4f4acff3fe5f000c1137b34d1fd06ad33f",
+          "file_path": "corpus/active/database/schema_vega.sql",
+          "fragment_id": "FRAG_000006",
+          "review": {
+            "outcome": "confirmed",
+            "policy_id": null,
+            "policy_version": null,
+            "semantic_payload_hash": "1d84d3067779944fc3c981dec0958981d12e59598c460fa8299ad74ed2a04bc0"
+          },
+          "source_id": "SRC_000001",
+          "source_revision_id": "REV_000001"
+        },
+        {
+          "candidate_record_id": "CREC_000056",
+          "chunk_id": null,
+          "evidence_text_hash": "755a643188bd7ac8866b488fbcdfcb4f4acff3fe5f000c1137b34d1fd06ad33f",
+          "file_path": "corpus/active/database/schema_vega.sql",
+          "fragment_id": "FRAG_000002",
+          "review": {
+            "outcome": "confirmed",
+            "policy_id": null,
+            "policy_version": null,
+            "semantic_payload_hash": "9a217a61a12041aca251cd07adad96e7b781a84803fccbc2770ebbb96ea07c24"
+          },
+          "source_id": "SRC_000001",
+          "source_revision_id": "REV_000001"
+        }
+      ],
+      "FACT_000029": [
+        {
+          "candidate_record_id": "CREC_000051",
+          "chunk_id": null,
+          "evidence_text_hash": "e9561d78493965c0ca8e3734346134f74f18d5898f7e3cf06e532b439c5bd379",
+          "file_path": "corpus/active/database/schema_vega.sql",
+          "fragment_id": "FRAG_000013",
+          "review": {
+            "outcome": "confirmed",
+            "policy_id": null,
+            "policy_version": null,
+            "semantic_payload_hash": "1061c6971130e1899cf514bf0b6b8bde3b306eba98401b1910ae6509f8082c7f"
+          },
+          "source_id": "SRC_000001",
+          "source_revision_id": "REV_000001"
+        },
+        {
+          "candidate_record_id": "CREC_000058",
+          "chunk_id": null,
+          "evidence_text_hash": "e9561d78493965c0ca8e3734346134f74f18d5898f7e3cf06e532b439c5bd379",
+          "file_path": "corpus/active/database/schema_vega.sql",
+          "fragment_id": "FRAG_000008",
+          "review": {
+            "outcome": "confirmed",
+            "policy_id": null,
+            "policy_version": null,
+            "semantic_payload_hash": "a88375cc36061bd647f026e66dc6f6f0a6da087420afd2502f560becb0ed9c0d"
+          },
+          "source_id": "SRC_000001",
+          "source_revision_id": "REV_000001"
+        }
+      ],
+      "FACT_000030": [
+        {
+          "candidate_record_id": "CREC_000052",
+          "chunk_id": "CHK_000001",
+          "evidence_text_hash": "3ce00fff446312ac4ff68ce3361ffe3b23df847c2afad2867e47f101d95f9877",
+          "file_path": "corpus/active/documenti/manuale_operativo_vega_2026.docx",
+          "fragment_id": null,
+          "review": {
+            "outcome": "confirmed",
+            "policy_id": null,
+            "policy_version": null,
+            "semantic_payload_hash": "c2953ee6e7e282b8131324c0b85eed4c502e92ab7882c036202a0075e2b3c78f"
+          },
+          "source_id": "SRC_000002",
+          "source_revision_id": "REV_000002"
+        }
+      ],
+      "FACT_000031": [
+        {
+          "candidate_record_id": "CREC_000053",
+          "chunk_id": "CHK_000001",
+          "evidence_text_hash": "2e8e9fa7f70dc7291cf47503ce106ed15c6b8517d37beda61fe3170cd8800a2e",
+          "file_path": "corpus/active/documenti/manuale_operativo_vega_2026.docx",
+          "fragment_id": null,
+          "review": {
+            "outcome": "confirmed",
+            "policy_id": null,
+            "policy_version": null,
+            "semantic_payload_hash": "e3c027b0857ee274a8ce542cd51602aeef9a921c7d25be57706d0f2a81116733"
+          },
+          "source_id": "SRC_000002",
+          "source_revision_id": "REV_000002"
+        }
+      ],
+      "FACT_000032": [
+        {
+          "candidate_record_id": "CREC_000054",
+          "chunk_id": "CHK_000001",
+          "evidence_text_hash": "5305a3c33d989e18b97c9c109fd8f11d0e374c14573bd1fa06457ef69013a142",
+          "file_path": "corpus/active/documenti/manuale_operativo_vega_2026.docx",
+          "fragment_id": null,
+          "review": {
+            "outcome": "confirmed",
+            "policy_id": null,
+            "policy_version": null,
+            "semantic_payload_hash": "fb219d6d58002f5a364efe7e2544835bcf897679eabbb6d3a04704556c13604e"
+          },
+          "source_id": "SRC_000002",
+          "source_revision_id": "REV_000002"
+        }
+      ],
+      "FACT_000033": [
+        {
+          "candidate_record_id": "CREC_000055",
+          "chunk_id": "CHK_000001",
+          "evidence_text_hash": "ddb0d19739f2620ae77aa177f5ba191aed99e41b7d39e9c3f374e9e4512234eb",
+          "file_path": "corpus/active/documenti/manuale_operativo_vega_2026.docx",
+          "fragment_id": null,
+          "review": {
+            "outcome": "confirmed",
+            "policy_id": null,
+            "policy_version": null,
+            "semantic_payload_hash": "55e1bd590918bb7ccae69e87aededc638d691c23e3e8e6a2b69a35b2490454ce"
+          },
+          "source_id": "SRC_000002",
+          "source_revision_id": "REV_000002"
+        }
+      ],
+      "FACT_000034": [
+        {
+          "candidate_record_id": "CREC_000057",
+          "chunk_id": null,
+          "evidence_text_hash": "ff21e9f7f4f7456274bb3b5561150d2ef3ebe237f3cadac96882941473ab8358",
+          "file_path": "corpus/active/database/schema_vega.sql",
+          "fragment_id": "FRAG_000003",
+          "review": {
+            "outcome": "confirmed",
+            "policy_id": null,
+            "policy_version": null,
+            "semantic_payload_hash": "8002beabd494f434545b63512900d44b5f2f828e5d84921aac6646dc0cbc665d"
+          },
+          "source_id": "SRC_000001",
+          "source_revision_id": "REV_000001"
+        }
+      ],
+      "FACT_000035": [
+        {
+          "candidate_record_id": "CREC_000059",
+          "chunk_id": null,
+          "evidence_text_hash": "39408a007f2e2904aea74caba73c8197a8027a0c98df3c7d43a4cb2e14c03635",
+          "file_path": "corpus/active/database/schema_vega.sql",
+          "fragment_id": "FRAG_000010",
+          "review": {
+            "outcome": "confirmed",
+            "policy_id": null,
+            "policy_version": null,
+            "semantic_payload_hash": "b272efd4d11056a61cdd78d27b39810089121e45667701df778065fae0cd9edf"
+          },
+          "source_id": "SRC_000001",
+          "source_revision_id": "REV_000001"
+        }
+      ],
+      "FACT_000036": [
+        {
+          "candidate_record_id": "CREC_000060",
+          "chunk_id": null,
+          "evidence_text_hash": "9d7e11da6e3107c94b164ae8e356f5f8a3670e846e02eaf1638c958d248cab9b",
+          "file_path": "corpus/active/logs/vega_2026.log",
+          "fragment_id": "FRAG_000024",
+          "review": {
+            "outcome": "confirmed",
+            "policy_id": null,
+            "policy_version": null,
+            "semantic_payload_hash": "32218d6676fce5f4949794c3bf4ae3fc1793b46bca15338082f9e1b813880ea9"
+          },
+          "source_id": "SRC_000005",
+          "source_revision_id": "REV_000005"
         }
       ]
     },
@@ -932,99 +1444,99 @@
         {
           "candidate_record_id": "CREC_000023",
           "chunk_id": null,
-          "evidence_text_hash": "583946ddd210a10a6cf4fdc51ba5d57eeb676f7a170cf848858e677e0261f736",
-          "file_path": "corpus/active/plsql/logica_vega.sql",
-          "fragment_id": "FRAG_000024",
+          "evidence_text_hash": "86fafaace02463b63adc0f48e8e2aecee26e77a2c29e9982ce9be8d2c03cc939",
+          "file_path": "corpus/active/forms/frm_richiesta.xml",
+          "fragment_id": "FRAG_000016",
           "review": {
             "outcome": "confirmed",
-            "policy_id": "observed_db_code_dependency_only",
+            "policy_id": "explicit_xml_operation_only",
             "policy_version": "1",
-            "semantic_payload_hash": "1466f79e1960678f076b2ccc3ab6e9643d864edb4dd24958cc74471b1f172cc5"
+            "semantic_payload_hash": "f4cc04cadfceb4c6bccf1666653247da9a55cc6eb2654e1ac9bc721eab2718ec"
           },
-          "source_id": "SRC_000006",
-          "source_revision_id": "REV_000006"
+          "source_id": "SRC_000004",
+          "source_revision_id": "REV_000004"
         }
       ],
       "REL_000003": [
         {
           "candidate_record_id": "CREC_000024",
           "chunk_id": null,
-          "evidence_text_hash": "583946ddd210a10a6cf4fdc51ba5d57eeb676f7a170cf848858e677e0261f736",
-          "file_path": "corpus/active/plsql/logica_vega.sql",
-          "fragment_id": "FRAG_000024",
+          "evidence_text_hash": "7be0e2ec8a6ee27e512e4129408fba4d834f6d28c80e1f179b111af789c474bd",
+          "file_path": "corpus/active/forms/frm_richiesta.xml",
+          "fragment_id": "FRAG_000018",
           "review": {
             "outcome": "confirmed",
-            "policy_id": "observed_db_code_dependency_only",
+            "policy_id": "explicit_xml_operation_only",
             "policy_version": "1",
-            "semantic_payload_hash": "f322b45c6c267665221dbf03a905a62afe4a80bd234001ae091215ea15caecda"
+            "semantic_payload_hash": "b716541695f1651afd2327f4e27bb38bc66e545968980fe22cd7ce8b090f2113"
           },
-          "source_id": "SRC_000006",
-          "source_revision_id": "REV_000006"
+          "source_id": "SRC_000004",
+          "source_revision_id": "REV_000004"
         }
       ],
       "REL_000004": [
         {
           "candidate_record_id": "CREC_000025",
           "chunk_id": null,
-          "evidence_text_hash": "583946ddd210a10a6cf4fdc51ba5d57eeb676f7a170cf848858e677e0261f736",
-          "file_path": "corpus/active/plsql/logica_vega.sql",
-          "fragment_id": "FRAG_000024",
+          "evidence_text_hash": "535b1a301387fde6d2ef65f98b30341a6e8b538d18337a6e584d4233bc2efa5b",
+          "file_path": "corpus/active/forms/frm_richiesta.xml",
+          "fragment_id": "FRAG_000017",
           "review": {
             "outcome": "confirmed",
-            "policy_id": "observed_db_code_dependency_only",
+            "policy_id": "explicit_xml_operation_only",
             "policy_version": "1",
-            "semantic_payload_hash": "d6769a3ae770e11f33ded125d1ab549688ee84c39280c4130870f45fc2851612"
+            "semantic_payload_hash": "4bae31853fa2b11e59682d0399e7a6f0efe0f4a1e986cf224a4c6fab2d2803ca"
           },
-          "source_id": "SRC_000006",
-          "source_revision_id": "REV_000006"
+          "source_id": "SRC_000004",
+          "source_revision_id": "REV_000004"
         }
       ],
       "REL_000005": [
         {
           "candidate_record_id": "CREC_000026",
           "chunk_id": null,
-          "evidence_text_hash": "583946ddd210a10a6cf4fdc51ba5d57eeb676f7a170cf848858e677e0261f736",
-          "file_path": "corpus/active/plsql/logica_vega.sql",
-          "fragment_id": "FRAG_000024",
+          "evidence_text_hash": "94f92d5b5bbf4a0324b08661435ec82449d05845297baaf75c94e128bad810b4",
+          "file_path": "corpus/active/forms/frm_richiesta.xml",
+          "fragment_id": "FRAG_000019",
           "review": {
             "outcome": "confirmed",
-            "policy_id": "observed_db_code_dependency_only",
+            "policy_id": "explicit_xml_operation_only",
             "policy_version": "1",
-            "semantic_payload_hash": "c7595e475447ccadf7d27c7d16499be784a29f608a4bebf55a824913a8400542"
+            "semantic_payload_hash": "3187e9e413f4340a3c63ccc4525926da872e5722cab7c812735eb99eacd4d4e6"
           },
-          "source_id": "SRC_000006",
-          "source_revision_id": "REV_000006"
+          "source_id": "SRC_000004",
+          "source_revision_id": "REV_000004"
         }
       ],
       "REL_000006": [
         {
           "candidate_record_id": "CREC_000027",
           "chunk_id": null,
-          "evidence_text_hash": "583946ddd210a10a6cf4fdc51ba5d57eeb676f7a170cf848858e677e0261f736",
-          "file_path": "corpus/active/plsql/logica_vega.sql",
-          "fragment_id": "FRAG_000024",
+          "evidence_text_hash": "1cb57413e00229dbaed9efac40c499f110ce595ded5df3d7986858c239d14d15",
+          "file_path": "corpus/active/forms/frm_richiesta.xml",
+          "fragment_id": "FRAG_000020",
           "review": {
             "outcome": "confirmed",
-            "policy_id": "observed_db_code_dependency_only",
+            "policy_id": "explicit_xml_operation_only",
             "policy_version": "1",
-            "semantic_payload_hash": "be3b523378fff245d668c60c5732abd49a495f08970d0b22a7ec12c8e0618b7d"
+            "semantic_payload_hash": "8590c0dace485a91c3b84db51c0d0abb44d1a759383ae7becdf00bc072e2c3d4"
           },
-          "source_id": "SRC_000006",
-          "source_revision_id": "REV_000006"
+          "source_id": "SRC_000004",
+          "source_revision_id": "REV_000004"
         }
       ],
       "REL_000007": [
         {
-          "candidate_record_id": "CREC_000028",
+          "candidate_record_id": "CREC_000033",
           "chunk_id": null,
           "evidence_text_hash": "583946ddd210a10a6cf4fdc51ba5d57eeb676f7a170cf848858e677e0261f736",
           "file_path": "corpus/active/plsql/logica_vega.sql",
-          "fragment_id": "FRAG_000024",
+          "fragment_id": "FRAG_000028",
           "review": {
             "outcome": "confirmed",
             "policy_id": "observed_db_code_dependency_only",
             "policy_version": "1",
-            "semantic_payload_hash": "a92f5dc76fc7f0009fddc7ee1892c7253a8cd11f706fa7533c35164ed6badd2e"
+            "semantic_payload_hash": "2d7ece36740b4f4514e99d1de4e0693f5991ffe40c315ec20e43033a0faa44ac"
           },
           "source_id": "SRC_000006",
           "source_revision_id": "REV_000006"
@@ -1032,16 +1544,169 @@
       ],
       "REL_000008": [
         {
-          "candidate_record_id": "CREC_000029",
+          "candidate_record_id": "CREC_000034",
           "chunk_id": null,
           "evidence_text_hash": "583946ddd210a10a6cf4fdc51ba5d57eeb676f7a170cf848858e677e0261f736",
           "file_path": "corpus/active/plsql/logica_vega.sql",
-          "fragment_id": "FRAG_000024",
+          "fragment_id": "FRAG_000028",
           "review": {
             "outcome": "confirmed",
             "policy_id": "observed_db_code_dependency_only",
             "policy_version": "1",
-            "semantic_payload_hash": "4729800f3ede7ad35fc8868527e587db8eb6b091006c487c62f33e3f4cfd824a"
+            "semantic_payload_hash": "0bef214c019697e1074ff3fdf0fd6576c9d364ff993abc21d8c954a431f56ee3"
+          },
+          "source_id": "SRC_000006",
+          "source_revision_id": "REV_000006"
+        }
+      ],
+      "REL_000009": [
+        {
+          "candidate_record_id": "CREC_000035",
+          "chunk_id": null,
+          "evidence_text_hash": "583946ddd210a10a6cf4fdc51ba5d57eeb676f7a170cf848858e677e0261f736",
+          "file_path": "corpus/active/plsql/logica_vega.sql",
+          "fragment_id": "FRAG_000028",
+          "review": {
+            "outcome": "confirmed",
+            "policy_id": "observed_db_code_dependency_only",
+            "policy_version": "1",
+            "semantic_payload_hash": "5f5ce399344381733d5b524d1c90010ae57426073501627c82ddb5f357e20a79"
+          },
+          "source_id": "SRC_000006",
+          "source_revision_id": "REV_000006"
+        }
+      ],
+      "REL_000010": [
+        {
+          "candidate_record_id": "CREC_000036",
+          "chunk_id": null,
+          "evidence_text_hash": "583946ddd210a10a6cf4fdc51ba5d57eeb676f7a170cf848858e677e0261f736",
+          "file_path": "corpus/active/plsql/logica_vega.sql",
+          "fragment_id": "FRAG_000028",
+          "review": {
+            "outcome": "confirmed",
+            "policy_id": "observed_db_code_dependency_only",
+            "policy_version": "1",
+            "semantic_payload_hash": "8aea4dcf2fcab52041c340358530df5a25747fe3701ecdaafe440b0a7a54f451"
+          },
+          "source_id": "SRC_000006",
+          "source_revision_id": "REV_000006"
+        }
+      ],
+      "REL_000011": [
+        {
+          "candidate_record_id": "CREC_000037",
+          "chunk_id": null,
+          "evidence_text_hash": "583946ddd210a10a6cf4fdc51ba5d57eeb676f7a170cf848858e677e0261f736",
+          "file_path": "corpus/active/plsql/logica_vega.sql",
+          "fragment_id": "FRAG_000028",
+          "review": {
+            "outcome": "confirmed",
+            "policy_id": "observed_db_code_dependency_only",
+            "policy_version": "1",
+            "semantic_payload_hash": "da5d6cb190db4897674804b98fd65c5eda60037f49997acb44fc90e1fa6c1847"
+          },
+          "source_id": "SRC_000006",
+          "source_revision_id": "REV_000006"
+        }
+      ],
+      "REL_000012": [
+        {
+          "candidate_record_id": "CREC_000038",
+          "chunk_id": null,
+          "evidence_text_hash": "583946ddd210a10a6cf4fdc51ba5d57eeb676f7a170cf848858e677e0261f736",
+          "file_path": "corpus/active/plsql/logica_vega.sql",
+          "fragment_id": "FRAG_000028",
+          "review": {
+            "outcome": "confirmed",
+            "policy_id": "observed_db_code_dependency_only",
+            "policy_version": "1",
+            "semantic_payload_hash": "e9ce045f14ad48ca04fe3ae5e83b8431ea3d828c7b50eb66acab7e11f6ece57b"
+          },
+          "source_id": "SRC_000006",
+          "source_revision_id": "REV_000006"
+        }
+      ],
+      "REL_000013": [
+        {
+          "candidate_record_id": "CREC_000048",
+          "chunk_id": null,
+          "evidence_text_hash": "7b9b0f098670b9856f549b2582c5fe3842a5ee8c6a29afddf6ef8363bdd9a407",
+          "file_path": "corpus/active/plsql/logica_vega.sql",
+          "fragment_id": "FRAG_000029",
+          "review": {
+            "outcome": "confirmed",
+            "policy_id": null,
+            "policy_version": null,
+            "semantic_payload_hash": "2abae2b128da45f4c57edea374ddd6fdb3f90114e06d30762a18a2f020a006c1"
+          },
+          "source_id": "SRC_000006",
+          "source_revision_id": "REV_000006"
+        }
+      ],
+      "REL_000014": [
+        {
+          "candidate_record_id": "CREC_000049",
+          "chunk_id": null,
+          "evidence_text_hash": "95b301327e0e09103bff7abc3ad6e6e5c483b9d20e280a1a6aa981e04205a48c",
+          "file_path": "corpus/active/plsql/logica_vega.sql",
+          "fragment_id": "FRAG_000030",
+          "review": {
+            "outcome": "confirmed",
+            "policy_id": null,
+            "policy_version": null,
+            "semantic_payload_hash": "4a166e936d24da874a10d890990cd3d2f37c7b0042f6be8e71b80bb6384e4cdf"
+          },
+          "source_id": "SRC_000006",
+          "source_revision_id": "REV_000006"
+        }
+      ],
+      "REL_000015": [
+        {
+          "candidate_record_id": "CREC_000061",
+          "chunk_id": null,
+          "evidence_text_hash": "acc807ba980a4cf5cfa2d4198df0839ceb6e08a1e146734077c717b238b8a66b",
+          "file_path": "corpus/active/database/schema_vega.sql",
+          "fragment_id": "FRAG_000014",
+          "review": {
+            "outcome": "confirmed",
+            "policy_id": null,
+            "policy_version": null,
+            "semantic_payload_hash": "a080a7993f7fe6751af3158ba4c9201cb072dc1f75d6494dbaf2da9f708d71c9"
+          },
+          "source_id": "SRC_000001",
+          "source_revision_id": "REV_000001"
+        }
+      ],
+      "REL_000016": [
+        {
+          "candidate_record_id": "CREC_000062",
+          "chunk_id": null,
+          "evidence_text_hash": "7b9b0f098670b9856f549b2582c5fe3842a5ee8c6a29afddf6ef8363bdd9a407",
+          "file_path": "corpus/active/plsql/logica_vega.sql",
+          "fragment_id": "FRAG_000029",
+          "review": {
+            "outcome": "confirmed",
+            "policy_id": null,
+            "policy_version": null,
+            "semantic_payload_hash": "fd572f79c4926c98bf3fe602e99a798ba631a1fc86e885b4c08a719085a7af66"
+          },
+          "source_id": "SRC_000006",
+          "source_revision_id": "REV_000006"
+        }
+      ],
+      "REL_000017": [
+        {
+          "candidate_record_id": "CREC_000063",
+          "chunk_id": null,
+          "evidence_text_hash": "e1afb657e4e0e2293526a51e0186014d963f4662dc474aedd3448d0ae2fb7e33",
+          "file_path": "corpus/active/plsql/logica_vega.sql",
+          "fragment_id": "FRAG_000030",
+          "review": {
+            "outcome": "confirmed",
+            "policy_id": null,
+            "policy_version": null,
+            "semantic_payload_hash": "dcbc2bd71aea6b92ff9b4c6a20444b0bf32f53f5867aa056395abc5a40edd976"
           },
           "source_id": "SRC_000006",
           "source_revision_id": "REV_000006"

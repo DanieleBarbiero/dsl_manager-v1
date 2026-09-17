@@ -1,6 +1,6 @@
 {
-  "chunk_count": 2,
-  "created_at": "2026-09-17T04:58:54+02:00",
+  "chunk_count": 0,
+  "created_at": "2026-09-17T11:04:53+02:00",
   "files": {
     "candidate_schema": {
       "path": "ai/outbox/AIPKG_000001/candidate_schema.json",
@@ -8,7 +8,7 @@
     },
     "content": {
       "path": "ai/outbox/AIPKG_000001/content.md",
-      "sha256": "3bce5eefd070b8054d02854f6603b7e09880144c6f1a3bb28fd7d819576bd375"
+      "sha256": "bf56e0c09575b08250b89e550b4fe971bc89e311b5240b16ab287cc0c1d0a9cb"
     },
     "instructions": {
       "path": "ai/outbox/AIPKG_000001/instructions.md",
@@ -16,189 +16,73 @@
     },
     "output_template": {
       "path": "ai/outbox/AIPKG_000001/output_template.jsonl",
-      "sha256": "1a033db7f7afad10efb4ed643d77a682f72b1f450d5ba29b6262150527126cfc"
+      "sha256": "d58d6e342549d91b9b5190779aab321064594a370b793d8f6f1ee76c7cbfa66e"
     },
     "selection_plan": {
       "path": "ai/outbox/AIPKG_000001/selection_plan.json",
-      "sha256": "e6e36c43482bd03bf09c58a09fde486c4d978c4c646d1ce9f23063227592ea68"
+      "sha256": "a8756b8f3cb9cb56d5900499ea6a44d73c2fe20e8b4620382e4bd4a78f36774d"
     },
     "source_manifest": {
       "path": "ai/outbox/AIPKG_000001/source_manifest.json",
-      "sha256": "84e88e4efa8a648e5bf5dd78c1dfab060d41e403613e9e2cbee75548900abf6f"
+      "sha256": "00c1cca610fb7f4001bde050035b29453e19c9111307ccdadda59324dc2d1336"
     }
   },
-  "fragment_count": 26,
-  "package_hash": "6e6338eb3b6a1798a4245be875cb0ec3c3a98629b72065114675e6b09302592f",
+  "fragment_count": 4,
+  "package_hash": "82b58e1e167b7918a9f89a2c009ba676e287ba476a7620d194adc4001e4d6cdf",
   "package_id": "AIPKG_000001",
   "package_path": "ai/outbox/AIPKG_000001",
-  "run_id": "RUN_000030",
+  "run_id": "RUN_000031",
   "selection": {
     "artifact_path": "ai/outbox/AIPKG_000001/selection_plan.json",
-    "artifact_sha256": "e6e36c43482bd03bf09c58a09fde486c4d978c4c646d1ce9f23063227592ea68",
-    "config_hash": "91926f51f64bfddfeec1cadec31b380d53641f0c98a1bcd1c299efe68d665d8f",
+    "artifact_sha256": "a8756b8f3cb9cb56d5900499ea6a44d73c2fe20e8b4620382e4bd4a78f36774d",
+    "config_hash": "cbde2ce17dc1ec5e5c4a66de2eb413bbaec85ae25dd9d499df17ddd0fc9566d9",
     "counts": {
-      "examined": 28,
-      "excluded": 0,
-      "included": 28,
-      "selected_chars": 7655
+      "examined": 32,
+      "excluded": 28,
+      "included": 4,
+      "selected_chars": 364
     },
     "ordered_evidence": [
       {
-        "evidence_id": "CHK_000001",
-        "evidence_kind": "chunk",
+        "evidence_id": "FRAG_000029",
+        "evidence_kind": "fragment",
         "rank": 1
       },
       {
-        "evidence_id": "CHK_000002",
-        "evidence_kind": "chunk",
+        "evidence_id": "FRAG_000030",
+        "evidence_kind": "fragment",
         "rank": 2
-      },
-      {
-        "evidence_id": "FRAG_000025",
-        "evidence_kind": "fragment",
-        "rank": 3
-      },
-      {
-        "evidence_id": "FRAG_000026",
-        "evidence_kind": "fragment",
-        "rank": 4
-      },
-      {
-        "evidence_id": "FRAG_000001",
-        "evidence_kind": "fragment",
-        "rank": 5
-      },
-      {
-        "evidence_id": "FRAG_000002",
-        "evidence_kind": "fragment",
-        "rank": 6
-      },
-      {
-        "evidence_id": "FRAG_000003",
-        "evidence_kind": "fragment",
-        "rank": 7
-      },
-      {
-        "evidence_id": "FRAG_000004",
-        "evidence_kind": "fragment",
-        "rank": 8
-      },
-      {
-        "evidence_id": "FRAG_000005",
-        "evidence_kind": "fragment",
-        "rank": 9
       },
       {
         "evidence_id": "FRAG_000006",
         "evidence_kind": "fragment",
-        "rank": 10
-      },
-      {
-        "evidence_id": "FRAG_000007",
-        "evidence_kind": "fragment",
-        "rank": 11
-      },
-      {
-        "evidence_id": "FRAG_000008",
-        "evidence_kind": "fragment",
-        "rank": 12
-      },
-      {
-        "evidence_id": "FRAG_000009",
-        "evidence_kind": "fragment",
-        "rank": 13
-      },
-      {
-        "evidence_id": "FRAG_000010",
-        "evidence_kind": "fragment",
-        "rank": 14
-      },
-      {
-        "evidence_id": "FRAG_000011",
-        "evidence_kind": "fragment",
-        "rank": 15
-      },
-      {
-        "evidence_id": "FRAG_000012",
-        "evidence_kind": "fragment",
-        "rank": 16
+        "rank": 3
       },
       {
         "evidence_id": "FRAG_000013",
         "evidence_kind": "fragment",
-        "rank": 17
-      },
-      {
-        "evidence_id": "FRAG_000014",
-        "evidence_kind": "fragment",
-        "rank": 18
-      },
-      {
-        "evidence_id": "FRAG_000015",
-        "evidence_kind": "fragment",
-        "rank": 19
-      },
-      {
-        "evidence_id": "FRAG_000016",
-        "evidence_kind": "fragment",
-        "rank": 20
-      },
-      {
-        "evidence_id": "FRAG_000017",
-        "evidence_kind": "fragment",
-        "rank": 21
-      },
-      {
-        "evidence_id": "FRAG_000018",
-        "evidence_kind": "fragment",
-        "rank": 22
-      },
-      {
-        "evidence_id": "FRAG_000019",
-        "evidence_kind": "fragment",
-        "rank": 23
-      },
-      {
-        "evidence_id": "FRAG_000020",
-        "evidence_kind": "fragment",
-        "rank": 24
-      },
-      {
-        "evidence_id": "FRAG_000021",
-        "evidence_kind": "fragment",
-        "rank": 25
-      },
-      {
-        "evidence_id": "FRAG_000022",
-        "evidence_kind": "fragment",
-        "rank": 26
-      },
-      {
-        "evidence_id": "FRAG_000023",
-        "evidence_kind": "fragment",
-        "rank": 27
-      },
-      {
-        "evidence_id": "FRAG_000024",
-        "evidence_kind": "fragment",
-        "rank": 28
+        "rank": 4
       }
     ],
-    "policy_config_hash": "892285675fee729ef86f4be6eee9b7c2a18b5ae0345f70b2c95699bdad32f48a",
-    "policy_id": "domain_interpretation",
+    "policy_config_hash": "4134bf1071008c0f7ec2044563071b23cb67f47b44eeb881760c11d200f20248",
+    "policy_id": "technical_extraction",
     "policy_version": "1",
     "reason_catalog_version": "1",
     "reason_summary": {
-      "included_by_policy": 28
+      "deterministic_coverage_excluded": 26,
+      "evidence_kind_excluded": 2,
+      "fragment_type_excluded": 5,
+      "included_by_policy": 4,
+      "incomplete_locator": 1
     },
-    "relevant_state_hash": "329495f518032013251af09f69054fe551cb981efbd1f9480c2697991e987516",
-    "route_id": "domain_interpretation",
+    "relevant_state_hash": "48acc14787419ba922c15b2181513504cc5abfa0a788944549a775cbaf95fb3c",
+    "route_id": "technical_extraction",
     "route_version": "1",
-    "selection_plan_hash": "8da8885c3a73ceca6c6836131ac1a503d751d057441b663d9b25528b872464c0",
-    "selection_plan_id": "AISEL_000002"
+    "selection_plan_hash": "6e8ed2dbf753ddd01115112f6ed7f8bddb69fe47f3b7a623ca66898487f1b675",
+    "selection_plan_id": "AISEL_000001"
   },
   "source_manifest_path": "ai/outbox/AIPKG_000001/source_manifest.json",
-  "source_revision_count": 6,
+  "source_revision_count": 2,
   "stale_check": {
     "is_stale": false,
     "reason": null

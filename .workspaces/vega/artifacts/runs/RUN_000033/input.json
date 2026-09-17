@@ -1,10 +1,15 @@
 {
   "artifact_dir": "artifacts/runs/RUN_000033",
   "parameters": {
-    "reconciliation_id": null,
-    "strict": false
+    "input_path": "ai/inbox/AIPKG_000001_candidates.jsonl",
+    "package_id": "AIPKG_000001",
+    "stale_allowed": false,
+    "stale_check": {
+      "is_stale": false,
+      "reason": null
+    }
   },
   "parent_run_id": null,
   "run_id": "RUN_000033",
-  "run_type": "reconciliation"
+  "run_type": "candidate_import"
 }

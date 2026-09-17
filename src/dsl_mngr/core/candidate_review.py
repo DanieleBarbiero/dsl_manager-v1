@@ -833,6 +833,12 @@ def _require_automatic_reviewable(candidate: sqlite3.Row) -> None:
             "Automatic review is allowed only for a named, versioned deterministic rule.",
             reason="automatic_review_not_allowed",
         )
+    resolution_status = _clean_identifier(payload.get("resolution_status"))
+    if resolution_status and resolution_status != "resolved":
+        raise CandidateReviewConflict(
+            "Automatic review requires a structurally resolved candidate.",
+            reason="structural_resolution_requires_review",
+        )
     if candidate["assertion_type"] not in {"explicit", "observed"}:
         raise CandidateReviewConflict(
             "Automatic review cannot confirm an interpretive or ambiguous candidate.",

@@ -2,10 +2,10 @@
   "artifact_dir": "artifacts/runs/RUN_000029",
   "config_hash": "04c81f814cfe84be0a702083425e96e3bed9fd08cfe957000fefd72a4ba367a1",
   "error": null,
-  "finished_at": "2026-09-17T04:58:51+02:00",
+  "finished_at": "2026-09-17T11:04:49+02:00",
   "run_id": "RUN_000029",
   "run_type": "ai_evidence_selection",
-  "started_at": "2026-09-17T04:58:51+02:00",
+  "started_at": "2026-09-17T11:04:49+02:00",
   "status": "completed",
   "workers": []
 }

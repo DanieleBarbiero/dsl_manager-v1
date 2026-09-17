@@ -52,62 +52,6 @@
       <attribute id="edge_19" title="temporal_support_count" type="integer" />
     </attributes>
     <nodes>
-      <node id="conflict:CONFLICT_000001" label="scanner.event_kind.conflict">
-        <attvalues>
-          <attvalue for="node_0" value="conflict:CONFLICT_000001" />
-          <attvalue for="node_1" value="scanner.event_kind.conflict" />
-          <attvalue for="node_2" value="conflict" />
-          <attvalue for="node_3" value="scanner" />
-          <attvalue for="node_4" value="open" />
-          <attvalue for="node_11" value="event_kind" />
-          <attvalue for="node_18" value="CONFLICT_000001" />
-          <attvalue for="node_19" value="different_values_same_property" />
-          <attvalue for="node_20" value="FACT_000018" />
-          <attvalue for="node_21" value="FACT_000017" />
-        </attvalues>
-      </node>
-      <node id="conflict:CONFLICT_000002" label="magazzino.event_kind.conflict">
-        <attvalues>
-          <attvalue for="node_0" value="conflict:CONFLICT_000002" />
-          <attvalue for="node_1" value="magazzino.event_kind.conflict" />
-          <attvalue for="node_2" value="conflict" />
-          <attvalue for="node_3" value="magazzino" />
-          <attvalue for="node_4" value="open" />
-          <attvalue for="node_11" value="event_kind" />
-          <attvalue for="node_18" value="CONFLICT_000002" />
-          <attvalue for="node_19" value="different_values_same_property" />
-          <attvalue for="node_20" value="FACT_000020" />
-          <attvalue for="node_21" value="FACT_000019" />
-        </attvalues>
-      </node>
-      <node id="conflict:CONFLICT_000003" label="scanner.event_kind.conflict">
-        <attvalues>
-          <attvalue for="node_0" value="conflict:CONFLICT_000003" />
-          <attvalue for="node_1" value="scanner.event_kind.conflict" />
-          <attvalue for="node_2" value="conflict" />
-          <attvalue for="node_3" value="scanner" />
-          <attvalue for="node_4" value="open" />
-          <attvalue for="node_11" value="event_kind" />
-          <attvalue for="node_18" value="CONFLICT_000003" />
-          <attvalue for="node_19" value="different_values_same_property" />
-          <attvalue for="node_20" value="FACT_000021" />
-          <attvalue for="node_21" value="FACT_000017" />
-        </attvalues>
-      </node>
-      <node id="conflict:CONFLICT_000004" label="scanner.event_kind.conflict">
-        <attvalues>
-          <attvalue for="node_0" value="conflict:CONFLICT_000004" />
-          <attvalue for="node_1" value="scanner.event_kind.conflict" />
-          <attvalue for="node_2" value="conflict" />
-          <attvalue for="node_3" value="scanner" />
-          <attvalue for="node_4" value="open" />
-          <attvalue for="node_11" value="event_kind" />
-          <attvalue for="node_18" value="CONFLICT_000004" />
-          <attvalue for="node_19" value="different_values_same_property" />
-          <attvalue for="node_20" value="FACT_000021" />
-          <attvalue for="node_21" value="FACT_000018" />
-        </attvalues>
-      </node>
       <node id="entity:articolo" label="ARTICOLO">
         <attvalues>
           <attvalue for="node_0" value="entity:articolo" />
@@ -116,9 +60,9 @@
           <attvalue for="node_3" value="articolo" />
           <attvalue for="node_4" value="active" />
           <attvalue for="node_5" value="1" />
-          <attvalue for="node_6" value="1" />
+          <attvalue for="node_6" value="3" />
           <attvalue for="node_7" value="[&quot;SRC_000001&quot;]" />
-          <attvalue for="node_8" value="[&quot;FACT_000010&quot;]" />
+          <attvalue for="node_8" value="[&quot;FACT_000010&quot;,&quot;FACT_000028&quot;,&quot;FACT_000034&quot;]" />
         </attvalues>
       </node>
       <node id="entity:articolo.codice" label="ARTICOLO.CODICE">
@@ -160,19 +104,6 @@
           <attvalue for="node_8" value="[&quot;FACT_000003&quot;]" />
         </attvalues>
       </node>
-      <node id="entity:articolo.id_richiesta" label="articolo.id_richiesta">
-        <attvalues>
-          <attvalue for="node_0" value="entity:articolo.id_richiesta" />
-          <attvalue for="node_1" value="articolo.id_richiesta" />
-          <attvalue for="node_2" value="domain_entity" />
-          <attvalue for="node_3" value="articolo.id_richiesta" />
-          <attvalue for="node_4" value="orphaned" />
-          <attvalue for="node_5" value="0" />
-          <attvalue for="node_6" value="0" />
-          <attvalue for="node_7" value="[]" />
-          <attvalue for="node_8" value="[]" />
-        </attvalues>
-      </node>
       <node id="entity:articolo.qta_disponibile" label="ARTICOLO.QTA_DISPONIBILE">
         <attvalues>
           <attvalue for="node_0" value="entity:articolo.qta_disponibile" />
@@ -184,19 +115,6 @@
           <attvalue for="node_6" value="1" />
           <attvalue for="node_7" value="[&quot;SRC_000001&quot;]" />
           <attvalue for="node_8" value="[&quot;FACT_000004&quot;]" />
-        </attvalues>
-      </node>
-      <node id="entity:articolo.richiesta_ricambio" label="articolo.richiesta_ricambio">
-        <attvalues>
-          <attvalue for="node_0" value="entity:articolo.richiesta_ricambio" />
-          <attvalue for="node_1" value="articolo.richiesta_ricambio" />
-          <attvalue for="node_2" value="domain_entity" />
-          <attvalue for="node_3" value="articolo.richiesta_ricambio" />
-          <attvalue for="node_4" value="orphaned" />
-          <attvalue for="node_5" value="0" />
-          <attvalue for="node_6" value="0" />
-          <attvalue for="node_7" value="[]" />
-          <attvalue for="node_8" value="[]" />
         </attvalues>
       </node>
       <node id="entity:excel_workbook:0c24c3d8a3a1dc1c5952b4854eb529d33cb135619545aa0080bcb365add25ca9" label="excel_workbook:0c24c3d8a3a1dc1c5952b4854eb529d33cb135619545aa0080bcb365add25ca9">
@@ -261,20 +179,124 @@
           <attvalue for="node_5" value="1" />
           <attvalue for="node_6" value="1" />
           <attvalue for="node_7" value="[&quot;SRC_000004&quot;]" />
+          <attvalue for="node_8" value="[&quot;FACT_000020&quot;]" />
+        </attvalues>
+      </node>
+      <node id="entity:frm_richiesta.richiesta_ricambio.id_articolo" label="FRM_RICHIESTA.RICHIESTA_RICAMBIO.ID_ARTICOLO">
+        <attvalues>
+          <attvalue for="node_0" value="entity:frm_richiesta.richiesta_ricambio.id_articolo" />
+          <attvalue for="node_1" value="FRM_RICHIESTA.RICHIESTA_RICAMBIO.ID_ARTICOLO" />
+          <attvalue for="node_2" value="domain_entity" />
+          <attvalue for="node_3" value="frm_richiesta.richiesta_ricambio.id_articolo" />
+          <attvalue for="node_4" value="active" />
+          <attvalue for="node_5" value="1" />
+          <attvalue for="node_6" value="1" />
+          <attvalue for="node_7" value="[&quot;SRC_000004&quot;]" />
           <attvalue for="node_8" value="[&quot;FACT_000016&quot;]" />
         </attvalues>
       </node>
-      <node id="entity:magazzino" label="magazzino">
+      <node id="entity:frm_richiesta.richiesta_ricambio.id_richiesta" label="FRM_RICHIESTA.RICHIESTA_RICAMBIO.ID_RICHIESTA">
         <attvalues>
-          <attvalue for="node_0" value="entity:magazzino" />
-          <attvalue for="node_1" value="magazzino" />
+          <attvalue for="node_0" value="entity:frm_richiesta.richiesta_ricambio.id_richiesta" />
+          <attvalue for="node_1" value="FRM_RICHIESTA.RICHIESTA_RICAMBIO.ID_RICHIESTA" />
           <attvalue for="node_2" value="domain_entity" />
-          <attvalue for="node_3" value="magazzino" />
+          <attvalue for="node_3" value="frm_richiesta.richiesta_ricambio.id_richiesta" />
           <attvalue for="node_4" value="active" />
           <attvalue for="node_5" value="1" />
-          <attvalue for="node_6" value="2" />
+          <attvalue for="node_6" value="1" />
+          <attvalue for="node_7" value="[&quot;SRC_000004&quot;]" />
+          <attvalue for="node_8" value="[&quot;FACT_000017&quot;]" />
+        </attvalues>
+      </node>
+      <node id="entity:frm_richiesta.richiesta_ricambio.priorita" label="FRM_RICHIESTA.RICHIESTA_RICAMBIO.PRIORITA">
+        <attvalues>
+          <attvalue for="node_0" value="entity:frm_richiesta.richiesta_ricambio.priorita" />
+          <attvalue for="node_1" value="FRM_RICHIESTA.RICHIESTA_RICAMBIO.PRIORITA" />
+          <attvalue for="node_2" value="domain_entity" />
+          <attvalue for="node_3" value="frm_richiesta.richiesta_ricambio.priorita" />
+          <attvalue for="node_4" value="active" />
+          <attvalue for="node_5" value="1" />
+          <attvalue for="node_6" value="1" />
+          <attvalue for="node_7" value="[&quot;SRC_000004&quot;]" />
+          <attvalue for="node_8" value="[&quot;FACT_000018&quot;]" />
+        </attvalues>
+      </node>
+      <node id="entity:frm_richiesta.richiesta_ricambio.stato" label="FRM_RICHIESTA.RICHIESTA_RICAMBIO.STATO">
+        <attvalues>
+          <attvalue for="node_0" value="entity:frm_richiesta.richiesta_ricambio.stato" />
+          <attvalue for="node_1" value="FRM_RICHIESTA.RICHIESTA_RICAMBIO.STATO" />
+          <attvalue for="node_2" value="domain_entity" />
+          <attvalue for="node_3" value="frm_richiesta.richiesta_ricambio.stato" />
+          <attvalue for="node_4" value="active" />
+          <attvalue for="node_5" value="1" />
+          <attvalue for="node_6" value="1" />
+          <attvalue for="node_7" value="[&quot;SRC_000004&quot;]" />
+          <attvalue for="node_8" value="[&quot;FACT_000019&quot;]" />
+        </attvalues>
+      </node>
+      <node id="entity:log_event:rev_000005:frag_000022" label="log_event:REV_000005:FRAG_000022">
+        <attvalues>
+          <attvalue for="node_0" value="entity:log_event:rev_000005:frag_000022" />
+          <attvalue for="node_1" value="log_event:REV_000005:FRAG_000022" />
+          <attvalue for="node_2" value="domain_entity" />
+          <attvalue for="node_3" value="log_event:rev_000005:frag_000022" />
+          <attvalue for="node_4" value="active" />
+          <attvalue for="node_5" value="1" />
+          <attvalue for="node_6" value="1" />
           <attvalue for="node_7" value="[&quot;SRC_000005&quot;]" />
-          <attvalue for="node_8" value="[&quot;FACT_000019&quot;,&quot;FACT_000020&quot;]" />
+          <attvalue for="node_8" value="[&quot;FACT_000021&quot;]" />
+        </attvalues>
+      </node>
+      <node id="entity:log_event:rev_000005:frag_000023" label="log_event:REV_000005:FRAG_000023">
+        <attvalues>
+          <attvalue for="node_0" value="entity:log_event:rev_000005:frag_000023" />
+          <attvalue for="node_1" value="log_event:REV_000005:FRAG_000023" />
+          <attvalue for="node_2" value="domain_entity" />
+          <attvalue for="node_3" value="log_event:rev_000005:frag_000023" />
+          <attvalue for="node_4" value="active" />
+          <attvalue for="node_5" value="1" />
+          <attvalue for="node_6" value="1" />
+          <attvalue for="node_7" value="[&quot;SRC_000005&quot;]" />
+          <attvalue for="node_8" value="[&quot;FACT_000022&quot;]" />
+        </attvalues>
+      </node>
+      <node id="entity:log_event:rev_000005:frag_000024" label="log_event:REV_000005:FRAG_000024">
+        <attvalues>
+          <attvalue for="node_0" value="entity:log_event:rev_000005:frag_000024" />
+          <attvalue for="node_1" value="log_event:REV_000005:FRAG_000024" />
+          <attvalue for="node_2" value="domain_entity" />
+          <attvalue for="node_3" value="log_event:rev_000005:frag_000024" />
+          <attvalue for="node_4" value="active" />
+          <attvalue for="node_5" value="1" />
+          <attvalue for="node_6" value="1" />
+          <attvalue for="node_7" value="[&quot;SRC_000005&quot;]" />
+          <attvalue for="node_8" value="[&quot;FACT_000023&quot;]" />
+        </attvalues>
+      </node>
+      <node id="entity:log_event:rev_000005:frag_000025" label="log_event:REV_000005:FRAG_000025">
+        <attvalues>
+          <attvalue for="node_0" value="entity:log_event:rev_000005:frag_000025" />
+          <attvalue for="node_1" value="log_event:REV_000005:FRAG_000025" />
+          <attvalue for="node_2" value="domain_entity" />
+          <attvalue for="node_3" value="log_event:rev_000005:frag_000025" />
+          <attvalue for="node_4" value="active" />
+          <attvalue for="node_5" value="1" />
+          <attvalue for="node_6" value="1" />
+          <attvalue for="node_7" value="[&quot;SRC_000005&quot;]" />
+          <attvalue for="node_8" value="[&quot;FACT_000024&quot;]" />
+        </attvalues>
+      </node>
+      <node id="entity:log_event:rev_000005:frag_000026" label="log_event:REV_000005:FRAG_000026">
+        <attvalues>
+          <attvalue for="node_0" value="entity:log_event:rev_000005:frag_000026" />
+          <attvalue for="node_1" value="log_event:REV_000005:FRAG_000026" />
+          <attvalue for="node_2" value="domain_entity" />
+          <attvalue for="node_3" value="log_event:rev_000005:frag_000026" />
+          <attvalue for="node_4" value="active" />
+          <attvalue for="node_5" value="1" />
+          <attvalue for="node_6" value="1" />
+          <attvalue for="node_7" value="[&quot;SRC_000005&quot;]" />
+          <attvalue for="node_8" value="[&quot;FACT_000025&quot;]" />
         </attvalues>
       </node>
       <node id="entity:prc_prenota_articolo" label="PRC_PRENOTA_ARTICOLO">
@@ -287,7 +309,59 @@
           <attvalue for="node_5" value="1" />
           <attvalue for="node_6" value="1" />
           <attvalue for="node_7" value="[&quot;SRC_000006&quot;]" />
-          <attvalue for="node_8" value="[&quot;FACT_000022&quot;]" />
+          <attvalue for="node_8" value="[&quot;FACT_000026&quot;]" />
+        </attvalues>
+      </node>
+      <node id="entity:prenotazione articolo" label="Prenotazione articolo">
+        <attvalues>
+          <attvalue for="node_0" value="entity:prenotazione articolo" />
+          <attvalue for="node_1" value="Prenotazione articolo" />
+          <attvalue for="node_2" value="domain_entity" />
+          <attvalue for="node_3" value="prenotazione articolo" />
+          <attvalue for="node_4" value="active" />
+          <attvalue for="node_5" value="1" />
+          <attvalue for="node_6" value="1" />
+          <attvalue for="node_7" value="[&quot;SRC_000002&quot;]" />
+          <attvalue for="node_8" value="[&quot;FACT_000032&quot;]" />
+        </attvalues>
+      </node>
+      <node id="entity:regole correnti" label="Regole correnti">
+        <attvalues>
+          <attvalue for="node_0" value="entity:regole correnti" />
+          <attvalue for="node_1" value="Regole correnti" />
+          <attvalue for="node_2" value="domain_entity" />
+          <attvalue for="node_3" value="regole correnti" />
+          <attvalue for="node_4" value="active" />
+          <attvalue for="node_5" value="1" />
+          <attvalue for="node_6" value="1" />
+          <attvalue for="node_7" value="[&quot;SRC_000002&quot;]" />
+          <attvalue for="node_8" value="[&quot;FACT_000033&quot;]" />
+        </attvalues>
+      </node>
+      <node id="entity:richiesta p1" label="Richiesta P1">
+        <attvalues>
+          <attvalue for="node_0" value="entity:richiesta p1" />
+          <attvalue for="node_1" value="Richiesta P1" />
+          <attvalue for="node_2" value="domain_entity" />
+          <attvalue for="node_3" value="richiesta p1" />
+          <attvalue for="node_4" value="active" />
+          <attvalue for="node_5" value="1" />
+          <attvalue for="node_6" value="1" />
+          <attvalue for="node_7" value="[&quot;SRC_000002&quot;]" />
+          <attvalue for="node_8" value="[&quot;FACT_000030&quot;]" />
+        </attvalues>
+      </node>
+      <node id="entity:richiesta ricambio" label="Richiesta ricambio">
+        <attvalues>
+          <attvalue for="node_0" value="entity:richiesta ricambio" />
+          <attvalue for="node_1" value="Richiesta ricambio" />
+          <attvalue for="node_2" value="domain_entity" />
+          <attvalue for="node_3" value="richiesta ricambio" />
+          <attvalue for="node_4" value="active" />
+          <attvalue for="node_5" value="1" />
+          <attvalue for="node_6" value="1" />
+          <attvalue for="node_7" value="[&quot;SRC_000002&quot;]" />
+          <attvalue for="node_8" value="[&quot;FACT_000031&quot;]" />
         </attvalues>
       </node>
       <node id="entity:richiesta_ricambio" label="RICHIESTA_RICAMBIO">
@@ -298,9 +372,9 @@
           <attvalue for="node_3" value="richiesta_ricambio" />
           <attvalue for="node_4" value="active" />
           <attvalue for="node_5" value="1" />
-          <attvalue for="node_6" value="1" />
+          <attvalue for="node_6" value="3" />
           <attvalue for="node_7" value="[&quot;SRC_000001&quot;]" />
-          <attvalue for="node_8" value="[&quot;FACT_000011&quot;]" />
+          <attvalue for="node_8" value="[&quot;FACT_000011&quot;,&quot;FACT_000029&quot;,&quot;FACT_000035&quot;]" />
         </attvalues>
       </node>
       <node id="entity:richiesta_ricambio.id_articolo" label="RICHIESTA_RICAMBIO.ID_ARTICOLO">
@@ -368,17 +442,17 @@
           <attvalue for="node_8" value="[&quot;FACT_000009&quot;]" />
         </attvalues>
       </node>
-      <node id="entity:scanner" label="scanner">
+      <node id="entity:rv-1002" label="RV-1002">
         <attvalues>
-          <attvalue for="node_0" value="entity:scanner" />
-          <attvalue for="node_1" value="scanner" />
+          <attvalue for="node_0" value="entity:rv-1002" />
+          <attvalue for="node_1" value="RV-1002" />
           <attvalue for="node_2" value="domain_entity" />
-          <attvalue for="node_3" value="scanner" />
+          <attvalue for="node_3" value="rv-1002" />
           <attvalue for="node_4" value="active" />
           <attvalue for="node_5" value="1" />
-          <attvalue for="node_6" value="3" />
+          <attvalue for="node_6" value="1" />
           <attvalue for="node_7" value="[&quot;SRC_000005&quot;]" />
-          <attvalue for="node_8" value="[&quot;FACT_000017&quot;,&quot;FACT_000018&quot;,&quot;FACT_000021&quot;]" />
+          <attvalue for="node_8" value="[&quot;FACT_000036&quot;]" />
         </attvalues>
       </node>
       <node id="entity:trg_chiudi_richiesta" label="TRG_CHIUDI_RICHIESTA">
@@ -391,87 +465,7 @@
           <attvalue for="node_5" value="1" />
           <attvalue for="node_6" value="1" />
           <attvalue for="node_7" value="[&quot;SRC_000006&quot;]" />
-          <attvalue for="node_8" value="[&quot;FACT_000023&quot;]" />
-        </attvalues>
-      </node>
-      <node id="fact:FACT_000017" label="scanner.event_kind">
-        <attvalues>
-          <attvalue for="node_0" value="fact:FACT_000017" />
-          <attvalue for="node_1" value="scanner.event_kind" />
-          <attvalue for="node_2" value="fact" />
-          <attvalue for="node_3" value="scanner" />
-          <attvalue for="node_4" value="conflicted" />
-          <attvalue for="node_5" value="1" />
-          <attvalue for="node_7" value="[&quot;SRC_000005&quot;]" />
-          <attvalue for="node_9" value="FACT_000017" />
-          <attvalue for="node_10" value="log_event" />
-          <attvalue for="node_11" value="event_kind" />
-          <attvalue for="node_12" value="observed" />
-          <attvalue for="node_13" value="high" />
-        </attvalues>
-      </node>
-      <node id="fact:FACT_000018" label="scanner.event_kind">
-        <attvalues>
-          <attvalue for="node_0" value="fact:FACT_000018" />
-          <attvalue for="node_1" value="scanner.event_kind" />
-          <attvalue for="node_2" value="fact" />
-          <attvalue for="node_3" value="scanner" />
-          <attvalue for="node_4" value="conflicted" />
-          <attvalue for="node_5" value="1" />
-          <attvalue for="node_7" value="[&quot;SRC_000005&quot;]" />
-          <attvalue for="node_9" value="FACT_000018" />
-          <attvalue for="node_10" value="log_event" />
-          <attvalue for="node_11" value="event_kind" />
-          <attvalue for="node_12" value="observed" />
-          <attvalue for="node_13" value="high" />
-        </attvalues>
-      </node>
-      <node id="fact:FACT_000019" label="magazzino.event_kind">
-        <attvalues>
-          <attvalue for="node_0" value="fact:FACT_000019" />
-          <attvalue for="node_1" value="magazzino.event_kind" />
-          <attvalue for="node_2" value="fact" />
-          <attvalue for="node_3" value="magazzino" />
-          <attvalue for="node_4" value="conflicted" />
-          <attvalue for="node_5" value="1" />
-          <attvalue for="node_7" value="[&quot;SRC_000005&quot;]" />
-          <attvalue for="node_9" value="FACT_000019" />
-          <attvalue for="node_10" value="log_event" />
-          <attvalue for="node_11" value="event_kind" />
-          <attvalue for="node_12" value="observed" />
-          <attvalue for="node_13" value="high" />
-        </attvalues>
-      </node>
-      <node id="fact:FACT_000020" label="magazzino.event_kind">
-        <attvalues>
-          <attvalue for="node_0" value="fact:FACT_000020" />
-          <attvalue for="node_1" value="magazzino.event_kind" />
-          <attvalue for="node_2" value="fact" />
-          <attvalue for="node_3" value="magazzino" />
-          <attvalue for="node_4" value="conflicted" />
-          <attvalue for="node_5" value="1" />
-          <attvalue for="node_7" value="[&quot;SRC_000005&quot;]" />
-          <attvalue for="node_9" value="FACT_000020" />
-          <attvalue for="node_10" value="log_event" />
-          <attvalue for="node_11" value="event_kind" />
-          <attvalue for="node_12" value="observed" />
-          <attvalue for="node_13" value="high" />
-        </attvalues>
-      </node>
-      <node id="fact:FACT_000021" label="scanner.event_kind">
-        <attvalues>
-          <attvalue for="node_0" value="fact:FACT_000021" />
-          <attvalue for="node_1" value="scanner.event_kind" />
-          <attvalue for="node_2" value="fact" />
-          <attvalue for="node_3" value="scanner" />
-          <attvalue for="node_4" value="conflicted" />
-          <attvalue for="node_5" value="1" />
-          <attvalue for="node_7" value="[&quot;SRC_000005&quot;]" />
-          <attvalue for="node_9" value="FACT_000021" />
-          <attvalue for="node_10" value="log_event" />
-          <attvalue for="node_11" value="event_kind" />
-          <attvalue for="node_12" value="observed" />
-          <attvalue for="node_13" value="high" />
+          <attvalue for="node_8" value="[&quot;FACT_000027&quot;]" />
         </attvalues>
       </node>
       <node id="source:SRC_000001" label="corpus/active/database/schema_vega.sql">
@@ -484,6 +478,18 @@
           <attvalue for="node_15" value="corpus/active/database/schema_vega.sql" />
           <attvalue for="node_16" value="[&quot;corpus/active/database/schema_vega.sql&quot;]" />
           <attvalue for="node_17" value="[&quot;REV_000001&quot;]" />
+        </attvalues>
+      </node>
+      <node id="source:SRC_000002" label="corpus/active/documenti/manuale_operativo_vega_2026.docx">
+        <attvalues>
+          <attvalue for="node_0" value="source:SRC_000002" />
+          <attvalue for="node_1" value="corpus/active/documenti/manuale_operativo_vega_2026.docx" />
+          <attvalue for="node_2" value="source" />
+          <attvalue for="node_4" value="active" />
+          <attvalue for="node_14" value="SRC_000002" />
+          <attvalue for="node_15" value="corpus/active/documenti/manuale_operativo_vega_2026.docx" />
+          <attvalue for="node_16" value="[&quot;corpus/active/documenti/manuale_operativo_vega_2026.docx&quot;]" />
+          <attvalue for="node_17" value="[&quot;REV_000002&quot;]" />
         </attvalues>
       </node>
       <node id="source:SRC_000003" label="corpus/active/documenti/matrice_priorita_vega_2026.xlsx">
@@ -536,102 +542,6 @@
       </node>
     </nodes>
     <edges>
-      <edge id="conflict:CONFLICT_000001:left" label="conflicts_with" source="conflict:CONFLICT_000001" target="fact:FACT_000018" type="directed">
-        <attvalues>
-          <attvalue for="edge_0" value="conflict:CONFLICT_000001:left" />
-          <attvalue for="edge_1" value="conflicts_with" />
-          <attvalue for="edge_5" value="open" />
-          <attvalue for="edge_11" value="FACT_000018" />
-          <attvalue for="edge_12" value="conflict" />
-          <attvalue for="edge_13" value="CONFLICT_000001" />
-          <attvalue for="edge_14" value="CONFLICT_000001" />
-          <attvalue for="edge_15" value="left" />
-        </attvalues>
-      </edge>
-      <edge id="conflict:CONFLICT_000001:right" label="conflicts_with" source="conflict:CONFLICT_000001" target="fact:FACT_000017" type="directed">
-        <attvalues>
-          <attvalue for="edge_0" value="conflict:CONFLICT_000001:right" />
-          <attvalue for="edge_1" value="conflicts_with" />
-          <attvalue for="edge_5" value="open" />
-          <attvalue for="edge_11" value="FACT_000017" />
-          <attvalue for="edge_12" value="conflict" />
-          <attvalue for="edge_13" value="CONFLICT_000001" />
-          <attvalue for="edge_14" value="CONFLICT_000001" />
-          <attvalue for="edge_15" value="right" />
-        </attvalues>
-      </edge>
-      <edge id="conflict:CONFLICT_000002:left" label="conflicts_with" source="conflict:CONFLICT_000002" target="fact:FACT_000020" type="directed">
-        <attvalues>
-          <attvalue for="edge_0" value="conflict:CONFLICT_000002:left" />
-          <attvalue for="edge_1" value="conflicts_with" />
-          <attvalue for="edge_5" value="open" />
-          <attvalue for="edge_11" value="FACT_000020" />
-          <attvalue for="edge_12" value="conflict" />
-          <attvalue for="edge_13" value="CONFLICT_000002" />
-          <attvalue for="edge_14" value="CONFLICT_000002" />
-          <attvalue for="edge_15" value="left" />
-        </attvalues>
-      </edge>
-      <edge id="conflict:CONFLICT_000002:right" label="conflicts_with" source="conflict:CONFLICT_000002" target="fact:FACT_000019" type="directed">
-        <attvalues>
-          <attvalue for="edge_0" value="conflict:CONFLICT_000002:right" />
-          <attvalue for="edge_1" value="conflicts_with" />
-          <attvalue for="edge_5" value="open" />
-          <attvalue for="edge_11" value="FACT_000019" />
-          <attvalue for="edge_12" value="conflict" />
-          <attvalue for="edge_13" value="CONFLICT_000002" />
-          <attvalue for="edge_14" value="CONFLICT_000002" />
-          <attvalue for="edge_15" value="right" />
-        </attvalues>
-      </edge>
-      <edge id="conflict:CONFLICT_000003:left" label="conflicts_with" source="conflict:CONFLICT_000003" target="fact:FACT_000021" type="directed">
-        <attvalues>
-          <attvalue for="edge_0" value="conflict:CONFLICT_000003:left" />
-          <attvalue for="edge_1" value="conflicts_with" />
-          <attvalue for="edge_5" value="open" />
-          <attvalue for="edge_11" value="FACT_000021" />
-          <attvalue for="edge_12" value="conflict" />
-          <attvalue for="edge_13" value="CONFLICT_000003" />
-          <attvalue for="edge_14" value="CONFLICT_000003" />
-          <attvalue for="edge_15" value="left" />
-        </attvalues>
-      </edge>
-      <edge id="conflict:CONFLICT_000003:right" label="conflicts_with" source="conflict:CONFLICT_000003" target="fact:FACT_000017" type="directed">
-        <attvalues>
-          <attvalue for="edge_0" value="conflict:CONFLICT_000003:right" />
-          <attvalue for="edge_1" value="conflicts_with" />
-          <attvalue for="edge_5" value="open" />
-          <attvalue for="edge_11" value="FACT_000017" />
-          <attvalue for="edge_12" value="conflict" />
-          <attvalue for="edge_13" value="CONFLICT_000003" />
-          <attvalue for="edge_14" value="CONFLICT_000003" />
-          <attvalue for="edge_15" value="right" />
-        </attvalues>
-      </edge>
-      <edge id="conflict:CONFLICT_000004:left" label="conflicts_with" source="conflict:CONFLICT_000004" target="fact:FACT_000021" type="directed">
-        <attvalues>
-          <attvalue for="edge_0" value="conflict:CONFLICT_000004:left" />
-          <attvalue for="edge_1" value="conflicts_with" />
-          <attvalue for="edge_5" value="open" />
-          <attvalue for="edge_11" value="FACT_000021" />
-          <attvalue for="edge_12" value="conflict" />
-          <attvalue for="edge_13" value="CONFLICT_000004" />
-          <attvalue for="edge_14" value="CONFLICT_000004" />
-          <attvalue for="edge_15" value="left" />
-        </attvalues>
-      </edge>
-      <edge id="conflict:CONFLICT_000004:right" label="conflicts_with" source="conflict:CONFLICT_000004" target="fact:FACT_000018" type="directed">
-        <attvalues>
-          <attvalue for="edge_0" value="conflict:CONFLICT_000004:right" />
-          <attvalue for="edge_1" value="conflicts_with" />
-          <attvalue for="edge_5" value="open" />
-          <attvalue for="edge_11" value="FACT_000018" />
-          <attvalue for="edge_12" value="conflict" />
-          <attvalue for="edge_13" value="CONFLICT_000004" />
-          <attvalue for="edge_14" value="CONFLICT_000004" />
-          <attvalue for="edge_15" value="right" />
-        </attvalues>
-      </edge>
       <edge id="relation:REL_000001" label="references" source="entity:richiesta_ricambio" target="entity:articolo" type="directed">
         <attvalues>
           <attvalue for="edge_0" value="relation:REL_000001" />
@@ -645,11 +555,76 @@
           <attvalue for="edge_8" value="[&quot;SRC_000001&quot;]" />
         </attvalues>
       </edge>
-      <edge id="relation:REL_000002" label="reads_from" source="entity:prc_prenota_articolo" target="entity:articolo.id_articolo" type="directed">
+      <edge id="relation:REL_000002" label="writes_to" source="entity:frm_richiesta" target="entity:richiesta_ricambio" type="directed">
         <attvalues>
           <attvalue for="edge_0" value="relation:REL_000002" />
-          <attvalue for="edge_1" value="reads_from" />
+          <attvalue for="edge_1" value="writes_to" />
           <attvalue for="edge_2" value="REL_000002" />
+          <attvalue for="edge_3" value="explicit" />
+          <attvalue for="edge_4" value="high" />
+          <attvalue for="edge_5" value="active" />
+          <attvalue for="edge_6" value="FRM_RICHIESTA" />
+          <attvalue for="edge_7" value="RICHIESTA_RICAMBIO" />
+          <attvalue for="edge_8" value="[&quot;SRC_000004&quot;]" />
+        </attvalues>
+      </edge>
+      <edge id="relation:REL_000003" label="writes_to" source="entity:frm_richiesta.richiesta_ricambio.id_articolo" target="entity:richiesta_ricambio.id_articolo" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="relation:REL_000003" />
+          <attvalue for="edge_1" value="writes_to" />
+          <attvalue for="edge_2" value="REL_000003" />
+          <attvalue for="edge_3" value="explicit" />
+          <attvalue for="edge_4" value="high" />
+          <attvalue for="edge_5" value="active" />
+          <attvalue for="edge_6" value="FRM_RICHIESTA.RICHIESTA_RICAMBIO.ID_ARTICOLO" />
+          <attvalue for="edge_7" value="RICHIESTA_RICAMBIO.ID_ARTICOLO" />
+          <attvalue for="edge_8" value="[&quot;SRC_000004&quot;]" />
+        </attvalues>
+      </edge>
+      <edge id="relation:REL_000004" label="writes_to" source="entity:frm_richiesta.richiesta_ricambio.id_richiesta" target="entity:richiesta_ricambio.id_richiesta" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="relation:REL_000004" />
+          <attvalue for="edge_1" value="writes_to" />
+          <attvalue for="edge_2" value="REL_000004" />
+          <attvalue for="edge_3" value="explicit" />
+          <attvalue for="edge_4" value="high" />
+          <attvalue for="edge_5" value="active" />
+          <attvalue for="edge_6" value="FRM_RICHIESTA.RICHIESTA_RICAMBIO.ID_RICHIESTA" />
+          <attvalue for="edge_7" value="RICHIESTA_RICAMBIO.ID_RICHIESTA" />
+          <attvalue for="edge_8" value="[&quot;SRC_000004&quot;]" />
+        </attvalues>
+      </edge>
+      <edge id="relation:REL_000005" label="writes_to" source="entity:frm_richiesta.richiesta_ricambio.priorita" target="entity:richiesta_ricambio.priorita" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="relation:REL_000005" />
+          <attvalue for="edge_1" value="writes_to" />
+          <attvalue for="edge_2" value="REL_000005" />
+          <attvalue for="edge_3" value="explicit" />
+          <attvalue for="edge_4" value="high" />
+          <attvalue for="edge_5" value="active" />
+          <attvalue for="edge_6" value="FRM_RICHIESTA.RICHIESTA_RICAMBIO.PRIORITA" />
+          <attvalue for="edge_7" value="RICHIESTA_RICAMBIO.PRIORITA" />
+          <attvalue for="edge_8" value="[&quot;SRC_000004&quot;]" />
+        </attvalues>
+      </edge>
+      <edge id="relation:REL_000006" label="writes_to" source="entity:frm_richiesta.richiesta_ricambio.stato" target="entity:richiesta_ricambio.stato" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="relation:REL_000006" />
+          <attvalue for="edge_1" value="writes_to" />
+          <attvalue for="edge_2" value="REL_000006" />
+          <attvalue for="edge_3" value="explicit" />
+          <attvalue for="edge_4" value="high" />
+          <attvalue for="edge_5" value="active" />
+          <attvalue for="edge_6" value="FRM_RICHIESTA.RICHIESTA_RICAMBIO.STATO" />
+          <attvalue for="edge_7" value="RICHIESTA_RICAMBIO.STATO" />
+          <attvalue for="edge_8" value="[&quot;SRC_000004&quot;]" />
+        </attvalues>
+      </edge>
+      <edge id="relation:REL_000007" label="reads_from" source="entity:prc_prenota_articolo" target="entity:articolo.id_articolo" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="relation:REL_000007" />
+          <attvalue for="edge_1" value="reads_from" />
+          <attvalue for="edge_2" value="REL_000007" />
           <attvalue for="edge_3" value="observed" />
           <attvalue for="edge_4" value="high" />
           <attvalue for="edge_5" value="active" />
@@ -658,24 +633,11 @@
           <attvalue for="edge_8" value="[&quot;SRC_000006&quot;]" />
         </attvalues>
       </edge>
-      <edge id="relation:REL_000003" label="reads_from" source="entity:prc_prenota_articolo" target="entity:articolo.id_richiesta" type="directed">
+      <edge id="relation:REL_000008" label="reads_from" source="entity:prc_prenota_articolo" target="entity:articolo.qta_disponibile" type="directed">
         <attvalues>
-          <attvalue for="edge_0" value="relation:REL_000003" />
+          <attvalue for="edge_0" value="relation:REL_000008" />
           <attvalue for="edge_1" value="reads_from" />
-          <attvalue for="edge_2" value="REL_000003" />
-          <attvalue for="edge_3" value="observed" />
-          <attvalue for="edge_4" value="high" />
-          <attvalue for="edge_5" value="active" />
-          <attvalue for="edge_6" value="PRC_PRENOTA_ARTICOLO" />
-          <attvalue for="edge_7" value="ARTICOLO.ID_RICHIESTA" />
-          <attvalue for="edge_8" value="[&quot;SRC_000006&quot;]" />
-        </attvalues>
-      </edge>
-      <edge id="relation:REL_000004" label="reads_from" source="entity:prc_prenota_articolo" target="entity:articolo.qta_disponibile" type="directed">
-        <attvalues>
-          <attvalue for="edge_0" value="relation:REL_000004" />
-          <attvalue for="edge_1" value="reads_from" />
-          <attvalue for="edge_2" value="REL_000004" />
+          <attvalue for="edge_2" value="REL_000008" />
           <attvalue for="edge_3" value="observed" />
           <attvalue for="edge_4" value="high" />
           <attvalue for="edge_5" value="active" />
@@ -684,24 +646,24 @@
           <attvalue for="edge_8" value="[&quot;SRC_000006&quot;]" />
         </attvalues>
       </edge>
-      <edge id="relation:REL_000005" label="reads_from" source="entity:prc_prenota_articolo" target="entity:articolo.richiesta_ricambio" type="directed">
+      <edge id="relation:REL_000009" label="reads_from" source="entity:prc_prenota_articolo" target="entity:richiesta_ricambio.id_articolo" type="directed">
         <attvalues>
-          <attvalue for="edge_0" value="relation:REL_000005" />
+          <attvalue for="edge_0" value="relation:REL_000009" />
           <attvalue for="edge_1" value="reads_from" />
-          <attvalue for="edge_2" value="REL_000005" />
+          <attvalue for="edge_2" value="REL_000009" />
           <attvalue for="edge_3" value="observed" />
           <attvalue for="edge_4" value="high" />
           <attvalue for="edge_5" value="active" />
           <attvalue for="edge_6" value="PRC_PRENOTA_ARTICOLO" />
-          <attvalue for="edge_7" value="ARTICOLO.RICHIESTA_RICAMBIO" />
+          <attvalue for="edge_7" value="RICHIESTA_RICAMBIO.ID_ARTICOLO" />
           <attvalue for="edge_8" value="[&quot;SRC_000006&quot;]" />
         </attvalues>
       </edge>
-      <edge id="relation:REL_000006" label="reads_from" source="entity:prc_prenota_articolo" target="entity:richiesta_ricambio.id_richiesta" type="directed">
+      <edge id="relation:REL_000010" label="reads_from" source="entity:prc_prenota_articolo" target="entity:richiesta_ricambio.id_richiesta" type="directed">
         <attvalues>
-          <attvalue for="edge_0" value="relation:REL_000006" />
+          <attvalue for="edge_0" value="relation:REL_000010" />
           <attvalue for="edge_1" value="reads_from" />
-          <attvalue for="edge_2" value="REL_000006" />
+          <attvalue for="edge_2" value="REL_000010" />
           <attvalue for="edge_3" value="observed" />
           <attvalue for="edge_4" value="high" />
           <attvalue for="edge_5" value="active" />
@@ -710,11 +672,11 @@
           <attvalue for="edge_8" value="[&quot;SRC_000006&quot;]" />
         </attvalues>
       </edge>
-      <edge id="relation:REL_000007" label="writes_to" source="entity:prc_prenota_articolo" target="entity:articolo.qta_disponibile" type="directed">
+      <edge id="relation:REL_000011" label="writes_to" source="entity:prc_prenota_articolo" target="entity:articolo.qta_disponibile" type="directed">
         <attvalues>
-          <attvalue for="edge_0" value="relation:REL_000007" />
+          <attvalue for="edge_0" value="relation:REL_000011" />
           <attvalue for="edge_1" value="writes_to" />
-          <attvalue for="edge_2" value="REL_000007" />
+          <attvalue for="edge_2" value="REL_000011" />
           <attvalue for="edge_3" value="observed" />
           <attvalue for="edge_4" value="high" />
           <attvalue for="edge_5" value="active" />
@@ -723,16 +685,81 @@
           <attvalue for="edge_8" value="[&quot;SRC_000006&quot;]" />
         </attvalues>
       </edge>
-      <edge id="relation:REL_000008" label="writes_to" source="entity:prc_prenota_articolo" target="entity:richiesta_ricambio.stato" type="directed">
+      <edge id="relation:REL_000012" label="writes_to" source="entity:prc_prenota_articolo" target="entity:richiesta_ricambio.stato" type="directed">
         <attvalues>
-          <attvalue for="edge_0" value="relation:REL_000008" />
+          <attvalue for="edge_0" value="relation:REL_000012" />
           <attvalue for="edge_1" value="writes_to" />
-          <attvalue for="edge_2" value="REL_000008" />
+          <attvalue for="edge_2" value="REL_000012" />
           <attvalue for="edge_3" value="observed" />
           <attvalue for="edge_4" value="high" />
           <attvalue for="edge_5" value="active" />
           <attvalue for="edge_6" value="PRC_PRENOTA_ARTICOLO" />
           <attvalue for="edge_7" value="RICHIESTA_RICAMBIO.STATO" />
+          <attvalue for="edge_8" value="[&quot;SRC_000006&quot;]" />
+        </attvalues>
+      </edge>
+      <edge id="relation:REL_000013" label="updates_status_to_PRENOTATA" source="entity:prc_prenota_articolo" target="entity:richiesta_ricambio" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="relation:REL_000013" />
+          <attvalue for="edge_1" value="updates_status_to_PRENOTATA" />
+          <attvalue for="edge_2" value="REL_000013" />
+          <attvalue for="edge_3" value="explicit" />
+          <attvalue for="edge_4" value="high" />
+          <attvalue for="edge_5" value="active" />
+          <attvalue for="edge_6" value="PRC_PRENOTA_ARTICOLO" />
+          <attvalue for="edge_7" value="RICHIESTA_RICAMBIO" />
+          <attvalue for="edge_8" value="[&quot;SRC_000006&quot;]" />
+        </attvalues>
+      </edge>
+      <edge id="relation:REL_000014" label="decrements_available_quantity" source="entity:prc_prenota_articolo" target="entity:articolo" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="relation:REL_000014" />
+          <attvalue for="edge_1" value="decrements_available_quantity" />
+          <attvalue for="edge_2" value="REL_000014" />
+          <attvalue for="edge_3" value="explicit" />
+          <attvalue for="edge_4" value="high" />
+          <attvalue for="edge_5" value="active" />
+          <attvalue for="edge_6" value="PRC_PRENOTA_ARTICOLO" />
+          <attvalue for="edge_7" value="ARTICOLO" />
+          <attvalue for="edge_8" value="[&quot;SRC_000006&quot;]" />
+        </attvalues>
+      </edge>
+      <edge id="relation:REL_000015" label="foreign_key_reference" source="entity:richiesta_ricambio.id_articolo" target="entity:articolo.id_articolo" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="relation:REL_000015" />
+          <attvalue for="edge_1" value="foreign_key_reference" />
+          <attvalue for="edge_2" value="REL_000015" />
+          <attvalue for="edge_3" value="explicit" />
+          <attvalue for="edge_4" value="high" />
+          <attvalue for="edge_5" value="active" />
+          <attvalue for="edge_6" value="RICHIESTA_RICAMBIO.ID_ARTICOLO" />
+          <attvalue for="edge_7" value="ARTICOLO.ID_ARTICOLO" />
+          <attvalue for="edge_8" value="[&quot;SRC_000001&quot;]" />
+        </attvalues>
+      </edge>
+      <edge id="relation:REL_000016" label="updates_status" source="entity:prc_prenota_articolo" target="entity:richiesta_ricambio" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="relation:REL_000016" />
+          <attvalue for="edge_1" value="updates_status" />
+          <attvalue for="edge_2" value="REL_000016" />
+          <attvalue for="edge_3" value="explicit" />
+          <attvalue for="edge_4" value="high" />
+          <attvalue for="edge_5" value="active" />
+          <attvalue for="edge_6" value="PRC_PRENOTA_ARTICOLO" />
+          <attvalue for="edge_7" value="RICHIESTA_RICAMBIO" />
+          <attvalue for="edge_8" value="[&quot;SRC_000006&quot;]" />
+        </attvalues>
+      </edge>
+      <edge id="relation:REL_000017" label="decrements_quantity" source="entity:prc_prenota_articolo" target="entity:articolo.qta_disponibile" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="relation:REL_000017" />
+          <attvalue for="edge_1" value="decrements_quantity" />
+          <attvalue for="edge_2" value="REL_000017" />
+          <attvalue for="edge_3" value="explicit" />
+          <attvalue for="edge_4" value="high" />
+          <attvalue for="edge_5" value="active" />
+          <attvalue for="edge_6" value="PRC_PRENOTA_ARTICOLO" />
+          <attvalue for="edge_7" value="ARTICOLO.QTA_DISPONIBILE" />
           <attvalue for="edge_8" value="[&quot;SRC_000006&quot;]" />
         </attvalues>
       </edge>
@@ -857,6 +884,94 @@
           <attvalue for="edge_13" value="FACT_000011" />
         </attvalues>
       </edge>
+      <edge id="source-fact:SRC_000001:FACT_000028" label="derives_from" source="source:SRC_000001" target="entity:articolo" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="source-fact:SRC_000001:FACT_000028" />
+          <attvalue for="edge_1" value="derives_from" />
+          <attvalue for="edge_9" value="SRC_000001" />
+          <attvalue for="edge_10" value="[&quot;REV_000001&quot;]" />
+          <attvalue for="edge_11" value="FACT_000028" />
+          <attvalue for="edge_12" value="fact" />
+          <attvalue for="edge_13" value="FACT_000028" />
+        </attvalues>
+      </edge>
+      <edge id="source-fact:SRC_000001:FACT_000029" label="derives_from" source="source:SRC_000001" target="entity:richiesta_ricambio" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="source-fact:SRC_000001:FACT_000029" />
+          <attvalue for="edge_1" value="derives_from" />
+          <attvalue for="edge_9" value="SRC_000001" />
+          <attvalue for="edge_10" value="[&quot;REV_000001&quot;]" />
+          <attvalue for="edge_11" value="FACT_000029" />
+          <attvalue for="edge_12" value="fact" />
+          <attvalue for="edge_13" value="FACT_000029" />
+        </attvalues>
+      </edge>
+      <edge id="source-fact:SRC_000001:FACT_000034" label="derives_from" source="source:SRC_000001" target="entity:articolo" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="source-fact:SRC_000001:FACT_000034" />
+          <attvalue for="edge_1" value="derives_from" />
+          <attvalue for="edge_9" value="SRC_000001" />
+          <attvalue for="edge_10" value="[&quot;REV_000001&quot;]" />
+          <attvalue for="edge_11" value="FACT_000034" />
+          <attvalue for="edge_12" value="fact" />
+          <attvalue for="edge_13" value="FACT_000034" />
+        </attvalues>
+      </edge>
+      <edge id="source-fact:SRC_000001:FACT_000035" label="derives_from" source="source:SRC_000001" target="entity:richiesta_ricambio" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="source-fact:SRC_000001:FACT_000035" />
+          <attvalue for="edge_1" value="derives_from" />
+          <attvalue for="edge_9" value="SRC_000001" />
+          <attvalue for="edge_10" value="[&quot;REV_000001&quot;]" />
+          <attvalue for="edge_11" value="FACT_000035" />
+          <attvalue for="edge_12" value="fact" />
+          <attvalue for="edge_13" value="FACT_000035" />
+        </attvalues>
+      </edge>
+      <edge id="source-fact:SRC_000002:FACT_000030" label="derives_from" source="source:SRC_000002" target="entity:richiesta p1" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="source-fact:SRC_000002:FACT_000030" />
+          <attvalue for="edge_1" value="derives_from" />
+          <attvalue for="edge_9" value="SRC_000002" />
+          <attvalue for="edge_10" value="[&quot;REV_000002&quot;]" />
+          <attvalue for="edge_11" value="FACT_000030" />
+          <attvalue for="edge_12" value="fact" />
+          <attvalue for="edge_13" value="FACT_000030" />
+        </attvalues>
+      </edge>
+      <edge id="source-fact:SRC_000002:FACT_000031" label="derives_from" source="source:SRC_000002" target="entity:richiesta ricambio" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="source-fact:SRC_000002:FACT_000031" />
+          <attvalue for="edge_1" value="derives_from" />
+          <attvalue for="edge_9" value="SRC_000002" />
+          <attvalue for="edge_10" value="[&quot;REV_000002&quot;]" />
+          <attvalue for="edge_11" value="FACT_000031" />
+          <attvalue for="edge_12" value="fact" />
+          <attvalue for="edge_13" value="FACT_000031" />
+        </attvalues>
+      </edge>
+      <edge id="source-fact:SRC_000002:FACT_000032" label="derives_from" source="source:SRC_000002" target="entity:prenotazione articolo" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="source-fact:SRC_000002:FACT_000032" />
+          <attvalue for="edge_1" value="derives_from" />
+          <attvalue for="edge_9" value="SRC_000002" />
+          <attvalue for="edge_10" value="[&quot;REV_000002&quot;]" />
+          <attvalue for="edge_11" value="FACT_000032" />
+          <attvalue for="edge_12" value="fact" />
+          <attvalue for="edge_13" value="FACT_000032" />
+        </attvalues>
+      </edge>
+      <edge id="source-fact:SRC_000002:FACT_000033" label="derives_from" source="source:SRC_000002" target="entity:regole correnti" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="source-fact:SRC_000002:FACT_000033" />
+          <attvalue for="edge_1" value="derives_from" />
+          <attvalue for="edge_9" value="SRC_000002" />
+          <attvalue for="edge_10" value="[&quot;REV_000002&quot;]" />
+          <attvalue for="edge_11" value="FACT_000033" />
+          <attvalue for="edge_12" value="fact" />
+          <attvalue for="edge_13" value="FACT_000033" />
+        </attvalues>
+      </edge>
       <edge id="source-fact:SRC_000003:FACT_000012" label="derives_from" source="source:SRC_000003" target="entity:excel_workbook:0c24c3d8a3a1dc1c5952b4854eb529d33cb135619545aa0080bcb365add25ca9/sheet:0/region:a1:d5" type="directed">
         <attvalues>
           <attvalue for="edge_0" value="source-fact:SRC_000003:FACT_000012" />
@@ -901,7 +1016,7 @@
           <attvalue for="edge_13" value="FACT_000015" />
         </attvalues>
       </edge>
-      <edge id="source-fact:SRC_000004:FACT_000016" label="derives_from" source="source:SRC_000004" target="entity:frm_richiesta.btn_prenota" type="directed">
+      <edge id="source-fact:SRC_000004:FACT_000016" label="derives_from" source="source:SRC_000004" target="entity:frm_richiesta.richiesta_ricambio.id_articolo" type="directed">
         <attvalues>
           <attvalue for="edge_0" value="source-fact:SRC_000004:FACT_000016" />
           <attvalue for="edge_1" value="derives_from" />
@@ -912,51 +1027,51 @@
           <attvalue for="edge_13" value="FACT_000016" />
         </attvalues>
       </edge>
-      <edge id="source-fact:SRC_000005:FACT_000017" label="derives_from" source="source:SRC_000005" target="fact:FACT_000017" type="directed">
+      <edge id="source-fact:SRC_000004:FACT_000017" label="derives_from" source="source:SRC_000004" target="entity:frm_richiesta.richiesta_ricambio.id_richiesta" type="directed">
         <attvalues>
-          <attvalue for="edge_0" value="source-fact:SRC_000005:FACT_000017" />
+          <attvalue for="edge_0" value="source-fact:SRC_000004:FACT_000017" />
           <attvalue for="edge_1" value="derives_from" />
-          <attvalue for="edge_9" value="SRC_000005" />
-          <attvalue for="edge_10" value="[&quot;REV_000005&quot;]" />
+          <attvalue for="edge_9" value="SRC_000004" />
+          <attvalue for="edge_10" value="[&quot;REV_000004&quot;]" />
           <attvalue for="edge_11" value="FACT_000017" />
           <attvalue for="edge_12" value="fact" />
           <attvalue for="edge_13" value="FACT_000017" />
         </attvalues>
       </edge>
-      <edge id="source-fact:SRC_000005:FACT_000018" label="derives_from" source="source:SRC_000005" target="fact:FACT_000018" type="directed">
+      <edge id="source-fact:SRC_000004:FACT_000018" label="derives_from" source="source:SRC_000004" target="entity:frm_richiesta.richiesta_ricambio.priorita" type="directed">
         <attvalues>
-          <attvalue for="edge_0" value="source-fact:SRC_000005:FACT_000018" />
+          <attvalue for="edge_0" value="source-fact:SRC_000004:FACT_000018" />
           <attvalue for="edge_1" value="derives_from" />
-          <attvalue for="edge_9" value="SRC_000005" />
-          <attvalue for="edge_10" value="[&quot;REV_000005&quot;]" />
+          <attvalue for="edge_9" value="SRC_000004" />
+          <attvalue for="edge_10" value="[&quot;REV_000004&quot;]" />
           <attvalue for="edge_11" value="FACT_000018" />
           <attvalue for="edge_12" value="fact" />
           <attvalue for="edge_13" value="FACT_000018" />
         </attvalues>
       </edge>
-      <edge id="source-fact:SRC_000005:FACT_000019" label="derives_from" source="source:SRC_000005" target="fact:FACT_000019" type="directed">
+      <edge id="source-fact:SRC_000004:FACT_000019" label="derives_from" source="source:SRC_000004" target="entity:frm_richiesta.richiesta_ricambio.stato" type="directed">
         <attvalues>
-          <attvalue for="edge_0" value="source-fact:SRC_000005:FACT_000019" />
+          <attvalue for="edge_0" value="source-fact:SRC_000004:FACT_000019" />
           <attvalue for="edge_1" value="derives_from" />
-          <attvalue for="edge_9" value="SRC_000005" />
-          <attvalue for="edge_10" value="[&quot;REV_000005&quot;]" />
+          <attvalue for="edge_9" value="SRC_000004" />
+          <attvalue for="edge_10" value="[&quot;REV_000004&quot;]" />
           <attvalue for="edge_11" value="FACT_000019" />
           <attvalue for="edge_12" value="fact" />
           <attvalue for="edge_13" value="FACT_000019" />
         </attvalues>
       </edge>
-      <edge id="source-fact:SRC_000005:FACT_000020" label="derives_from" source="source:SRC_000005" target="fact:FACT_000020" type="directed">
+      <edge id="source-fact:SRC_000004:FACT_000020" label="derives_from" source="source:SRC_000004" target="entity:frm_richiesta.btn_prenota" type="directed">
         <attvalues>
-          <attvalue for="edge_0" value="source-fact:SRC_000005:FACT_000020" />
+          <attvalue for="edge_0" value="source-fact:SRC_000004:FACT_000020" />
           <attvalue for="edge_1" value="derives_from" />
-          <attvalue for="edge_9" value="SRC_000005" />
-          <attvalue for="edge_10" value="[&quot;REV_000005&quot;]" />
+          <attvalue for="edge_9" value="SRC_000004" />
+          <attvalue for="edge_10" value="[&quot;REV_000004&quot;]" />
           <attvalue for="edge_11" value="FACT_000020" />
           <attvalue for="edge_12" value="fact" />
           <attvalue for="edge_13" value="FACT_000020" />
         </attvalues>
       </edge>
-      <edge id="source-fact:SRC_000005:FACT_000021" label="derives_from" source="source:SRC_000005" target="fact:FACT_000021" type="directed">
+      <edge id="source-fact:SRC_000005:FACT_000021" label="derives_from" source="source:SRC_000005" target="entity:log_event:rev_000005:frag_000022" type="directed">
         <attvalues>
           <attvalue for="edge_0" value="source-fact:SRC_000005:FACT_000021" />
           <attvalue for="edge_1" value="derives_from" />
@@ -967,26 +1082,81 @@
           <attvalue for="edge_13" value="FACT_000021" />
         </attvalues>
       </edge>
-      <edge id="source-fact:SRC_000006:FACT_000022" label="derives_from" source="source:SRC_000006" target="entity:prc_prenota_articolo" type="directed">
+      <edge id="source-fact:SRC_000005:FACT_000022" label="derives_from" source="source:SRC_000005" target="entity:log_event:rev_000005:frag_000023" type="directed">
         <attvalues>
-          <attvalue for="edge_0" value="source-fact:SRC_000006:FACT_000022" />
+          <attvalue for="edge_0" value="source-fact:SRC_000005:FACT_000022" />
           <attvalue for="edge_1" value="derives_from" />
-          <attvalue for="edge_9" value="SRC_000006" />
-          <attvalue for="edge_10" value="[&quot;REV_000006&quot;]" />
+          <attvalue for="edge_9" value="SRC_000005" />
+          <attvalue for="edge_10" value="[&quot;REV_000005&quot;]" />
           <attvalue for="edge_11" value="FACT_000022" />
           <attvalue for="edge_12" value="fact" />
           <attvalue for="edge_13" value="FACT_000022" />
         </attvalues>
       </edge>
-      <edge id="source-fact:SRC_000006:FACT_000023" label="derives_from" source="source:SRC_000006" target="entity:trg_chiudi_richiesta" type="directed">
+      <edge id="source-fact:SRC_000005:FACT_000023" label="derives_from" source="source:SRC_000005" target="entity:log_event:rev_000005:frag_000024" type="directed">
         <attvalues>
-          <attvalue for="edge_0" value="source-fact:SRC_000006:FACT_000023" />
+          <attvalue for="edge_0" value="source-fact:SRC_000005:FACT_000023" />
           <attvalue for="edge_1" value="derives_from" />
-          <attvalue for="edge_9" value="SRC_000006" />
-          <attvalue for="edge_10" value="[&quot;REV_000006&quot;]" />
+          <attvalue for="edge_9" value="SRC_000005" />
+          <attvalue for="edge_10" value="[&quot;REV_000005&quot;]" />
           <attvalue for="edge_11" value="FACT_000023" />
           <attvalue for="edge_12" value="fact" />
           <attvalue for="edge_13" value="FACT_000023" />
+        </attvalues>
+      </edge>
+      <edge id="source-fact:SRC_000005:FACT_000024" label="derives_from" source="source:SRC_000005" target="entity:log_event:rev_000005:frag_000025" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="source-fact:SRC_000005:FACT_000024" />
+          <attvalue for="edge_1" value="derives_from" />
+          <attvalue for="edge_9" value="SRC_000005" />
+          <attvalue for="edge_10" value="[&quot;REV_000005&quot;]" />
+          <attvalue for="edge_11" value="FACT_000024" />
+          <attvalue for="edge_12" value="fact" />
+          <attvalue for="edge_13" value="FACT_000024" />
+        </attvalues>
+      </edge>
+      <edge id="source-fact:SRC_000005:FACT_000025" label="derives_from" source="source:SRC_000005" target="entity:log_event:rev_000005:frag_000026" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="source-fact:SRC_000005:FACT_000025" />
+          <attvalue for="edge_1" value="derives_from" />
+          <attvalue for="edge_9" value="SRC_000005" />
+          <attvalue for="edge_10" value="[&quot;REV_000005&quot;]" />
+          <attvalue for="edge_11" value="FACT_000025" />
+          <attvalue for="edge_12" value="fact" />
+          <attvalue for="edge_13" value="FACT_000025" />
+        </attvalues>
+      </edge>
+      <edge id="source-fact:SRC_000005:FACT_000036" label="derives_from" source="source:SRC_000005" target="entity:rv-1002" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="source-fact:SRC_000005:FACT_000036" />
+          <attvalue for="edge_1" value="derives_from" />
+          <attvalue for="edge_9" value="SRC_000005" />
+          <attvalue for="edge_10" value="[&quot;REV_000005&quot;]" />
+          <attvalue for="edge_11" value="FACT_000036" />
+          <attvalue for="edge_12" value="fact" />
+          <attvalue for="edge_13" value="FACT_000036" />
+        </attvalues>
+      </edge>
+      <edge id="source-fact:SRC_000006:FACT_000026" label="derives_from" source="source:SRC_000006" target="entity:prc_prenota_articolo" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="source-fact:SRC_000006:FACT_000026" />
+          <attvalue for="edge_1" value="derives_from" />
+          <attvalue for="edge_9" value="SRC_000006" />
+          <attvalue for="edge_10" value="[&quot;REV_000006&quot;]" />
+          <attvalue for="edge_11" value="FACT_000026" />
+          <attvalue for="edge_12" value="fact" />
+          <attvalue for="edge_13" value="FACT_000026" />
+        </attvalues>
+      </edge>
+      <edge id="source-fact:SRC_000006:FACT_000027" label="derives_from" source="source:SRC_000006" target="entity:trg_chiudi_richiesta" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="source-fact:SRC_000006:FACT_000027" />
+          <attvalue for="edge_1" value="derives_from" />
+          <attvalue for="edge_9" value="SRC_000006" />
+          <attvalue for="edge_10" value="[&quot;REV_000006&quot;]" />
+          <attvalue for="edge_11" value="FACT_000027" />
+          <attvalue for="edge_12" value="fact" />
+          <attvalue for="edge_13" value="FACT_000027" />
         </attvalues>
       </edge>
       <edge id="source-relation:SRC_000001:REL_000001" label="derives_from" source="source:SRC_000001" target="entity:articolo" type="directed">
@@ -1000,62 +1170,73 @@
           <attvalue for="edge_13" value="REL_000001" />
         </attvalues>
       </edge>
-      <edge id="source-relation:SRC_000006:REL_000002" label="derives_from" source="source:SRC_000006" target="entity:articolo.id_articolo" type="directed">
+      <edge id="source-relation:SRC_000001:REL_000015" label="derives_from" source="source:SRC_000001" target="entity:articolo.id_articolo" type="directed">
         <attvalues>
-          <attvalue for="edge_0" value="source-relation:SRC_000006:REL_000002" />
+          <attvalue for="edge_0" value="source-relation:SRC_000001:REL_000015" />
+          <attvalue for="edge_1" value="derives_from" />
+          <attvalue for="edge_2" value="REL_000015" />
+          <attvalue for="edge_9" value="SRC_000001" />
+          <attvalue for="edge_10" value="[&quot;REV_000001&quot;]" />
+          <attvalue for="edge_12" value="relation" />
+          <attvalue for="edge_13" value="REL_000015" />
+        </attvalues>
+      </edge>
+      <edge id="source-relation:SRC_000004:REL_000002" label="derives_from" source="source:SRC_000004" target="entity:richiesta_ricambio" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="source-relation:SRC_000004:REL_000002" />
           <attvalue for="edge_1" value="derives_from" />
           <attvalue for="edge_2" value="REL_000002" />
-          <attvalue for="edge_9" value="SRC_000006" />
-          <attvalue for="edge_10" value="[&quot;REV_000006&quot;]" />
+          <attvalue for="edge_9" value="SRC_000004" />
+          <attvalue for="edge_10" value="[&quot;REV_000004&quot;]" />
           <attvalue for="edge_12" value="relation" />
           <attvalue for="edge_13" value="REL_000002" />
         </attvalues>
       </edge>
-      <edge id="source-relation:SRC_000006:REL_000003" label="derives_from" source="source:SRC_000006" target="entity:articolo.id_richiesta" type="directed">
+      <edge id="source-relation:SRC_000004:REL_000003" label="derives_from" source="source:SRC_000004" target="entity:richiesta_ricambio.id_articolo" type="directed">
         <attvalues>
-          <attvalue for="edge_0" value="source-relation:SRC_000006:REL_000003" />
+          <attvalue for="edge_0" value="source-relation:SRC_000004:REL_000003" />
           <attvalue for="edge_1" value="derives_from" />
           <attvalue for="edge_2" value="REL_000003" />
-          <attvalue for="edge_9" value="SRC_000006" />
-          <attvalue for="edge_10" value="[&quot;REV_000006&quot;]" />
+          <attvalue for="edge_9" value="SRC_000004" />
+          <attvalue for="edge_10" value="[&quot;REV_000004&quot;]" />
           <attvalue for="edge_12" value="relation" />
           <attvalue for="edge_13" value="REL_000003" />
         </attvalues>
       </edge>
-      <edge id="source-relation:SRC_000006:REL_000004" label="derives_from" source="source:SRC_000006" target="entity:articolo.qta_disponibile" type="directed">
+      <edge id="source-relation:SRC_000004:REL_000004" label="derives_from" source="source:SRC_000004" target="entity:richiesta_ricambio.id_richiesta" type="directed">
         <attvalues>
-          <attvalue for="edge_0" value="source-relation:SRC_000006:REL_000004" />
+          <attvalue for="edge_0" value="source-relation:SRC_000004:REL_000004" />
           <attvalue for="edge_1" value="derives_from" />
           <attvalue for="edge_2" value="REL_000004" />
-          <attvalue for="edge_9" value="SRC_000006" />
-          <attvalue for="edge_10" value="[&quot;REV_000006&quot;]" />
+          <attvalue for="edge_9" value="SRC_000004" />
+          <attvalue for="edge_10" value="[&quot;REV_000004&quot;]" />
           <attvalue for="edge_12" value="relation" />
           <attvalue for="edge_13" value="REL_000004" />
         </attvalues>
       </edge>
-      <edge id="source-relation:SRC_000006:REL_000005" label="derives_from" source="source:SRC_000006" target="entity:articolo.richiesta_ricambio" type="directed">
+      <edge id="source-relation:SRC_000004:REL_000005" label="derives_from" source="source:SRC_000004" target="entity:richiesta_ricambio.priorita" type="directed">
         <attvalues>
-          <attvalue for="edge_0" value="source-relation:SRC_000006:REL_000005" />
+          <attvalue for="edge_0" value="source-relation:SRC_000004:REL_000005" />
           <attvalue for="edge_1" value="derives_from" />
           <attvalue for="edge_2" value="REL_000005" />
-          <attvalue for="edge_9" value="SRC_000006" />
-          <attvalue for="edge_10" value="[&quot;REV_000006&quot;]" />
+          <attvalue for="edge_9" value="SRC_000004" />
+          <attvalue for="edge_10" value="[&quot;REV_000004&quot;]" />
           <attvalue for="edge_12" value="relation" />
           <attvalue for="edge_13" value="REL_000005" />
         </attvalues>
       </edge>
-      <edge id="source-relation:SRC_000006:REL_000006" label="derives_from" source="source:SRC_000006" target="entity:richiesta_ricambio.id_richiesta" type="directed">
+      <edge id="source-relation:SRC_000004:REL_000006" label="derives_from" source="source:SRC_000004" target="entity:richiesta_ricambio.stato" type="directed">
         <attvalues>
-          <attvalue for="edge_0" value="source-relation:SRC_000006:REL_000006" />
+          <attvalue for="edge_0" value="source-relation:SRC_000004:REL_000006" />
           <attvalue for="edge_1" value="derives_from" />
           <attvalue for="edge_2" value="REL_000006" />
-          <attvalue for="edge_9" value="SRC_000006" />
-          <attvalue for="edge_10" value="[&quot;REV_000006&quot;]" />
+          <attvalue for="edge_9" value="SRC_000004" />
+          <attvalue for="edge_10" value="[&quot;REV_000004&quot;]" />
           <attvalue for="edge_12" value="relation" />
           <attvalue for="edge_13" value="REL_000006" />
         </attvalues>
       </edge>
-      <edge id="source-relation:SRC_000006:REL_000007" label="derives_from" source="source:SRC_000006" target="entity:articolo.qta_disponibile" type="directed">
+      <edge id="source-relation:SRC_000006:REL_000007" label="derives_from" source="source:SRC_000006" target="entity:articolo.id_articolo" type="directed">
         <attvalues>
           <attvalue for="edge_0" value="source-relation:SRC_000006:REL_000007" />
           <attvalue for="edge_1" value="derives_from" />
@@ -1066,7 +1247,7 @@
           <attvalue for="edge_13" value="REL_000007" />
         </attvalues>
       </edge>
-      <edge id="source-relation:SRC_000006:REL_000008" label="derives_from" source="source:SRC_000006" target="entity:richiesta_ricambio.stato" type="directed">
+      <edge id="source-relation:SRC_000006:REL_000008" label="derives_from" source="source:SRC_000006" target="entity:articolo.qta_disponibile" type="directed">
         <attvalues>
           <attvalue for="edge_0" value="source-relation:SRC_000006:REL_000008" />
           <attvalue for="edge_1" value="derives_from" />
@@ -1075,6 +1256,94 @@
           <attvalue for="edge_10" value="[&quot;REV_000006&quot;]" />
           <attvalue for="edge_12" value="relation" />
           <attvalue for="edge_13" value="REL_000008" />
+        </attvalues>
+      </edge>
+      <edge id="source-relation:SRC_000006:REL_000009" label="derives_from" source="source:SRC_000006" target="entity:richiesta_ricambio.id_articolo" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="source-relation:SRC_000006:REL_000009" />
+          <attvalue for="edge_1" value="derives_from" />
+          <attvalue for="edge_2" value="REL_000009" />
+          <attvalue for="edge_9" value="SRC_000006" />
+          <attvalue for="edge_10" value="[&quot;REV_000006&quot;]" />
+          <attvalue for="edge_12" value="relation" />
+          <attvalue for="edge_13" value="REL_000009" />
+        </attvalues>
+      </edge>
+      <edge id="source-relation:SRC_000006:REL_000010" label="derives_from" source="source:SRC_000006" target="entity:richiesta_ricambio.id_richiesta" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="source-relation:SRC_000006:REL_000010" />
+          <attvalue for="edge_1" value="derives_from" />
+          <attvalue for="edge_2" value="REL_000010" />
+          <attvalue for="edge_9" value="SRC_000006" />
+          <attvalue for="edge_10" value="[&quot;REV_000006&quot;]" />
+          <attvalue for="edge_12" value="relation" />
+          <attvalue for="edge_13" value="REL_000010" />
+        </attvalues>
+      </edge>
+      <edge id="source-relation:SRC_000006:REL_000011" label="derives_from" source="source:SRC_000006" target="entity:articolo.qta_disponibile" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="source-relation:SRC_000006:REL_000011" />
+          <attvalue for="edge_1" value="derives_from" />
+          <attvalue for="edge_2" value="REL_000011" />
+          <attvalue for="edge_9" value="SRC_000006" />
+          <attvalue for="edge_10" value="[&quot;REV_000006&quot;]" />
+          <attvalue for="edge_12" value="relation" />
+          <attvalue for="edge_13" value="REL_000011" />
+        </attvalues>
+      </edge>
+      <edge id="source-relation:SRC_000006:REL_000012" label="derives_from" source="source:SRC_000006" target="entity:richiesta_ricambio.stato" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="source-relation:SRC_000006:REL_000012" />
+          <attvalue for="edge_1" value="derives_from" />
+          <attvalue for="edge_2" value="REL_000012" />
+          <attvalue for="edge_9" value="SRC_000006" />
+          <attvalue for="edge_10" value="[&quot;REV_000006&quot;]" />
+          <attvalue for="edge_12" value="relation" />
+          <attvalue for="edge_13" value="REL_000012" />
+        </attvalues>
+      </edge>
+      <edge id="source-relation:SRC_000006:REL_000013" label="derives_from" source="source:SRC_000006" target="entity:richiesta_ricambio" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="source-relation:SRC_000006:REL_000013" />
+          <attvalue for="edge_1" value="derives_from" />
+          <attvalue for="edge_2" value="REL_000013" />
+          <attvalue for="edge_9" value="SRC_000006" />
+          <attvalue for="edge_10" value="[&quot;REV_000006&quot;]" />
+          <attvalue for="edge_12" value="relation" />
+          <attvalue for="edge_13" value="REL_000013" />
+        </attvalues>
+      </edge>
+      <edge id="source-relation:SRC_000006:REL_000014" label="derives_from" source="source:SRC_000006" target="entity:articolo" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="source-relation:SRC_000006:REL_000014" />
+          <attvalue for="edge_1" value="derives_from" />
+          <attvalue for="edge_2" value="REL_000014" />
+          <attvalue for="edge_9" value="SRC_000006" />
+          <attvalue for="edge_10" value="[&quot;REV_000006&quot;]" />
+          <attvalue for="edge_12" value="relation" />
+          <attvalue for="edge_13" value="REL_000014" />
+        </attvalues>
+      </edge>
+      <edge id="source-relation:SRC_000006:REL_000016" label="derives_from" source="source:SRC_000006" target="entity:richiesta_ricambio" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="source-relation:SRC_000006:REL_000016" />
+          <attvalue for="edge_1" value="derives_from" />
+          <attvalue for="edge_2" value="REL_000016" />
+          <attvalue for="edge_9" value="SRC_000006" />
+          <attvalue for="edge_10" value="[&quot;REV_000006&quot;]" />
+          <attvalue for="edge_12" value="relation" />
+          <attvalue for="edge_13" value="REL_000016" />
+        </attvalues>
+      </edge>
+      <edge id="source-relation:SRC_000006:REL_000017" label="derives_from" source="source:SRC_000006" target="entity:articolo.qta_disponibile" type="directed">
+        <attvalues>
+          <attvalue for="edge_0" value="source-relation:SRC_000006:REL_000017" />
+          <attvalue for="edge_1" value="derives_from" />
+          <attvalue for="edge_2" value="REL_000017" />
+          <attvalue for="edge_9" value="SRC_000006" />
+          <attvalue for="edge_10" value="[&quot;REV_000006&quot;]" />
+          <attvalue for="edge_12" value="relation" />
+          <attvalue for="edge_13" value="REL_000017" />
         </attvalues>
       </edge>
     </edges>

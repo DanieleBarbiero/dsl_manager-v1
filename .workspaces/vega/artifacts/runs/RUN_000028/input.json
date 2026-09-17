@@ -1,12 +1,10 @@
 {
   "artifact_dir": "artifacts/runs/RUN_000028",
   "parameters": {
-    "policy": "technical_extraction",
-    "profile": "ai_package.default",
-    "revision_ids": [],
-    "scope_mode": "all_registered_evidence"
+    "reconciliation_id": null,
+    "strict": false
   },
-  "parent_run_id": null,
+  "parent_run_id": "RUN_000001",
   "run_id": "RUN_000028",
-  "run_type": "ai_evidence_selection"
+  "run_type": "reconciliation"
 }

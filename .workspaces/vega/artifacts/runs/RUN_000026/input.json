@@ -1,6 +1,21 @@
 {
   "artifact_dir": "artifacts/runs/RUN_000026",
   "parameters": {
+    "automatic_policies": [
+      "explicit_db_code_unit_only/1",
+      "explicit_ddl_column_only/1",
+      "explicit_ddl_table_only/1",
+      "explicit_excel_named_range_only/1",
+      "explicit_excel_region_only/1",
+      "explicit_excel_sheet_only/1",
+      "explicit_excel_table_only/1",
+      "explicit_excel_workbook_only/1",
+      "explicit_resolved_ddl_fk_only/1",
+      "explicit_xml_form_structure_only/1",
+      "explicit_xml_operation_only/1",
+      "named_explicit_log_policy_required/1",
+      "observed_db_code_dependency_only/1"
+    ],
     "batch_ids": [
       "CBATCH_000001",
       "CBATCH_000002",
@@ -22,11 +37,11 @@
       "CBATCH_000018",
       "CBATCH_000019",
       "CBATCH_000020",
-      "CBATCH_000021"
-    ],
-    "strict_review": false
+      "CBATCH_000021",
+      "CBATCH_000022"
+    ]
   },
   "parent_run_id": "RUN_000001",
   "run_id": "RUN_000026",
-  "run_type": "merge"
+  "run_type": "candidate_review"
 }

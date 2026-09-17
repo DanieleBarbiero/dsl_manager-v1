@@ -1,22 +1,14 @@
 {
-  "artifact_paths": [],
-  "catalog_version": "result_catalog_v1",
-  "condition": "reconcile",
-  "counters": {
-    "closed": 0,
-    "pending": 0,
-    "processed": 0,
-    "supports_removed": 0
-  },
-  "exit_code": 0,
-  "mutations": false,
-  "outcome": null,
-  "reason": "success",
-  "reconciliation_ids": [],
-  "retryable": false,
+  "accepted": 4,
+  "accepted_count": 4,
+  "batch_id": "CBATCH_000023",
+  "input_path": "ai/inbox/AIPKG_000001_candidates.jsonl",
+  "package_id": "AIPKG_000001",
+  "rejected": 0,
+  "rejected_count": 0,
   "run_id": "RUN_000033",
-  "schema_version": "1",
-  "severity": "info",
-  "status": "completed",
-  "subject_ids": []
+  "stale_allowed": false,
+  "stale_reason": null,
+  "total": 4,
+  "total_records": 4
 }

@@ -1,7 +1,7 @@
 {
   "artifact_dir": "artifacts/runs/RUN_000024",
   "parameters": {
-    "rule": "db_code_unit/1",
+    "rule": "db_code_dependency/2",
     "rule_set_version": "1",
     "source_revision_id": "REV_000006"
   },

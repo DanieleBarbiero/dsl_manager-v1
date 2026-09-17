@@ -1,0 +1,19 @@
+{
+  "accepted_count": 12,
+  "artifact_dir": "artifacts/runs/RUN_000031",
+  "batch_id": "CBATCH_000022",
+  "config_hash": "04c81f814cfe84be0a702083425e96e3bed9fd08cfe957000fefd72a4ba367a1",
+  "error": null,
+  "finished_at": "2026-09-17T05:00:52+02:00",
+  "input_path": "ai/inbox/AIPKG_000001_candidates.jsonl",
+  "package_id": "AIPKG_000001",
+  "rejected_count": 0,
+  "run_id": "RUN_000031",
+  "run_type": "candidate_import",
+  "stale_allowed": false,
+  "stale_reason": null,
+  "started_at": "2026-09-17T05:00:52+02:00",
+  "status": "completed",
+  "total_records": 12,
+  "workers": []
+}

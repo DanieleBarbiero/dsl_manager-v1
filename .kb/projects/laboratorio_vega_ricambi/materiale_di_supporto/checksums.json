@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "scenario": "Laboratorio Vega Ricambi",
+  "active_source_count": 6,
+  "algorithm": "sha256",
+  "files": {
+    "database/schema_vega.sql": "a972c0b4cbbf50543d017bf91519ee9e6deb799c9e8685b9d417084c961d040d",
+    "documenti/manuale_operativo_vega_2026.docx": "bca1c3408141adc0df112e2076f2d681d761c06b0b3550cf48bef331a39c204a",
+    "documenti/matrice_priorita_vega_2026.xlsx": "0c24c3d8a3a1dc1c5952b4854eb529d33cb135619545aa0080bcb365add25ca9",
+    "forms/frm_richiesta.xml": "db3ae1c80ee4bf333e605a058978b36a86b0093b9990bb4822ca560340a25d9a",
+    "logs/vega_2026.log": "a1e69986569ae7f053041f1b180db540ab3d858e9f71ad5088da122bb1708873",
+    "plsql/logica_vega.sql": "2bc89867201b4390cf0380678c2d2136fbe0d76c6ae166167aebaef85f466f3d"
+  }
+}

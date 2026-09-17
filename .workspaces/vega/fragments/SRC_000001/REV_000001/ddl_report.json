@@ -1,0 +1,284 @@
+{
+  "column_count": 9,
+  "ddl_objects": {
+    "indexes": [],
+    "tables": [
+      {
+        "columns": [
+          {
+            "data_type": "NUMBER",
+            "default": null,
+            "name": "ID_ARTICOLO",
+            "nullable": null,
+            "primary_key": true,
+            "unique": false
+          },
+          {
+            "data_type": "VARCHAR2(30)",
+            "default": null,
+            "name": "CODICE",
+            "nullable": false,
+            "primary_key": false,
+            "unique": false
+          },
+          {
+            "data_type": "VARCHAR2(200)",
+            "default": null,
+            "name": "DESCRIZIONE",
+            "nullable": false,
+            "primary_key": false,
+            "unique": false
+          },
+          {
+            "data_type": "NUMBER",
+            "default": null,
+            "name": "QTA_DISPONIBILE",
+            "nullable": false,
+            "primary_key": false,
+            "unique": false
+          }
+        ],
+        "constraints": [
+          {
+            "columns": [
+              "ID_ARTICOLO"
+            ],
+            "constraint_kind": "primary_key",
+            "constraint_name": "pk_ARTICOLO_ID_ARTICOLO",
+            "references_columns": [],
+            "references_table": null
+          }
+        ],
+        "full_name": "ARTICOLO",
+        "line_end": 7,
+        "line_start": 2,
+        "schema_name": null,
+        "table_name": "ARTICOLO"
+      },
+      {
+        "columns": [
+          {
+            "data_type": "NUMBER",
+            "default": null,
+            "name": "ID_RICHIESTA",
+            "nullable": null,
+            "primary_key": true,
+            "unique": false
+          },
+          {
+            "data_type": "NUMBER",
+            "default": null,
+            "name": "ID_ARTICOLO",
+            "nullable": false,
+            "primary_key": false,
+            "unique": false
+          },
+          {
+            "data_type": "VARCHAR2(10)",
+            "default": null,
+            "name": "PRIORITA",
+            "nullable": false,
+            "primary_key": false,
+            "unique": false
+          },
+          {
+            "data_type": "VARCHAR2(20)",
+            "default": null,
+            "name": "STATO",
+            "nullable": false,
+            "primary_key": false,
+            "unique": false
+          },
+          {
+            "data_type": "NUMBER",
+            "default": null,
+            "name": "QTA_RICHIESTA",
+            "nullable": false,
+            "primary_key": false,
+            "unique": false
+          }
+        ],
+        "constraints": [
+          {
+            "columns": [
+              "ID_RICHIESTA"
+            ],
+            "constraint_kind": "primary_key",
+            "constraint_name": "pk_RICHIESTA_RICAMBIO_ID_RICHIESTA",
+            "references_columns": [],
+            "references_table": null
+          },
+          {
+            "columns": [
+              "ID_ARTICOLO"
+            ],
+            "constraint_kind": "foreign_key",
+            "constraint_name": "FK_RICHIESTA_ARTICOLO",
+            "references_columns": [
+              "ID_ARTICOLO"
+            ],
+            "references_table": "ARTICOLO"
+          }
+        ],
+        "full_name": "RICHIESTA_RICAMBIO",
+        "line_end": 17,
+        "line_start": 9,
+        "schema_name": null,
+        "table_name": "RICHIESTA_RICAMBIO"
+      }
+    ],
+    "warnings": []
+  },
+  "dialect": "generic_sql",
+  "foreign_key_count": 1,
+  "fragment_count": 14,
+  "fragments": [
+    {
+      "fragment_id": "FRAG_000001",
+      "fragment_type": "ddl_table",
+      "path_or_selector": "table:ARTICOLO",
+      "sequence": 1,
+      "status": "active",
+      "text_hash": "81814eecd7c72c942ccd925fdc72efe7480319e6d5c846a278ef853b71aee32c"
+    },
+    {
+      "fragment_id": "FRAG_000002",
+      "fragment_type": "ddl_column",
+      "path_or_selector": "table:ARTICOLO/column:ID_ARTICOLO",
+      "sequence": 2,
+      "status": "active",
+      "text_hash": "755a643188bd7ac8866b488fbcdfcb4f4acff3fe5f000c1137b34d1fd06ad33f"
+    },
+    {
+      "fragment_id": "FRAG_000003",
+      "fragment_type": "ddl_column",
+      "path_or_selector": "table:ARTICOLO/column:CODICE",
+      "sequence": 3,
+      "status": "active",
+      "text_hash": "ff21e9f7f4f7456274bb3b5561150d2ef3ebe237f3cadac96882941473ab8358"
+    },
+    {
+      "fragment_id": "FRAG_000004",
+      "fragment_type": "ddl_column",
+      "path_or_selector": "table:ARTICOLO/column:DESCRIZIONE",
+      "sequence": 4,
+      "status": "active",
+      "text_hash": "54408614f47c988f08688bebef83ac1c4acd2b6f2ba977b17508f2d948aff71c"
+    },
+    {
+      "fragment_id": "FRAG_000005",
+      "fragment_type": "ddl_column",
+      "path_or_selector": "table:ARTICOLO/column:QTA_DISPONIBILE",
+      "sequence": 5,
+      "status": "active",
+      "text_hash": "41c2bdfa1ccdf33d863297fdada4705a2b0ec43d4d2a95f7f9250a43e958b69c"
+    },
+    {
+      "fragment_id": "FRAG_000006",
+      "fragment_type": "ddl_constraint",
+      "path_or_selector": "table:ARTICOLO/primary_key:ID_ARTICOLO",
+      "sequence": 6,
+      "status": "active",
+      "text_hash": "755a643188bd7ac8866b488fbcdfcb4f4acff3fe5f000c1137b34d1fd06ad33f"
+    },
+    {
+      "fragment_id": "FRAG_000007",
+      "fragment_type": "ddl_table",
+      "path_or_selector": "table:RICHIESTA_RICAMBIO",
+      "sequence": 7,
+      "status": "active",
+      "text_hash": "1b50aa570dc39497b9f6df21e54e52c114df628b6a831ff596cfc47e01d14009"
+    },
+    {
+      "fragment_id": "FRAG_000008",
+      "fragment_type": "ddl_column",
+      "path_or_selector": "table:RICHIESTA_RICAMBIO/column:ID_RICHIESTA",
+      "sequence": 8,
+      "status": "active",
+      "text_hash": "e9561d78493965c0ca8e3734346134f74f18d5898f7e3cf06e532b439c5bd379"
+    },
+    {
+      "fragment_id": "FRAG_000009",
+      "fragment_type": "ddl_column",
+      "path_or_selector": "table:RICHIESTA_RICAMBIO/column:ID_ARTICOLO",
+      "sequence": 9,
+      "status": "active",
+      "text_hash": "1129cf5143216dc0ddcc47ba2141f2d99feeb2e83e3e6ba88cc8b3dee75a46bf"
+    },
+    {
+      "fragment_id": "FRAG_000010",
+      "fragment_type": "ddl_column",
+      "path_or_selector": "table:RICHIESTA_RICAMBIO/column:PRIORITA",
+      "sequence": 10,
+      "status": "active",
+      "text_hash": "39408a007f2e2904aea74caba73c8197a8027a0c98df3c7d43a4cb2e14c03635"
+    },
+    {
+      "fragment_id": "FRAG_000011",
+      "fragment_type": "ddl_column",
+      "path_or_selector": "table:RICHIESTA_RICAMBIO/column:STATO",
+      "sequence": 11,
+      "status": "active",
+      "text_hash": "376fdb67145cff0fa70bad2132e131958107b4cfe4de20b9cb5b47925e2b779a"
+    },
+    {
+      "fragment_id": "FRAG_000012",
+      "fragment_type": "ddl_column",
+      "path_or_selector": "table:RICHIESTA_RICAMBIO/column:QTA_RICHIESTA",
+      "sequence": 12,
+      "status": "active",
+      "text_hash": "4b29bd88e0a90dddc9e129072457f4347b8f21410bf7afab262dcdd2bbba7b71"
+    },
+    {
+      "fragment_id": "FRAG_000013",
+      "fragment_type": "ddl_constraint",
+      "path_or_selector": "table:RICHIESTA_RICAMBIO/primary_key:ID_RICHIESTA",
+      "sequence": 13,
+      "status": "active",
+      "text_hash": "e9561d78493965c0ca8e3734346134f74f18d5898f7e3cf06e532b439c5bd379"
+    },
+    {
+      "fragment_id": "FRAG_000014",
+      "fragment_type": "ddl_constraint",
+      "path_or_selector": "table:RICHIESTA_RICAMBIO/foreign_key:ID_ARTICOLO->ARTICOLO.ID_ARTICOLO",
+      "sequence": 14,
+      "status": "active",
+      "text_hash": "7919c511af69b27e4ed1173265fd8171c08123d01101051ee8dd542fb8416fed"
+    }
+  ],
+  "fragments_hash": "1f7420688a134b5b730a883cf6331a33e4db175e7291d7bbff557893aa732429",
+  "input": {
+    "input_path": "corpus/active/database/schema_vega.sql",
+    "source_hash": "a972c0b4cbbf50543d017bf91519ee9e6deb799c9e8685b9d417084c961d040d",
+    "source_id": "SRC_000001",
+    "source_revision_id": "REV_000001"
+  },
+  "outputs": {
+    "ddl_report_path": "fragments/SRC_000001/REV_000001/ddl_report.json",
+    "fragments_jsonl_path": "fragments/SRC_000001/REV_000001/fragments.jsonl"
+  },
+  "profile": "ddl.default",
+  "resolved_config": {
+    "ddl": {
+      "dialect": "generic_sql",
+      "output_fragments_jsonl": true,
+      "parse_create_table": true,
+      "parse_foreign_keys": true,
+      "parse_indexes": true,
+      "parse_primary_keys": true,
+      "parse_unique_constraints": true,
+      "strict_options_fail_on_unsupported_option": true,
+      "unsupported_statement_policy": "warn"
+    },
+    "worker": {
+      "name": "parse_ddl",
+      "version": "1.0"
+    }
+  },
+  "run_id": "RUN_000003",
+  "status": "completed",
+  "table_count": 2,
+  "warnings": [],
+  "worker_name": "parse_ddl",
+  "worker_version": "1.0"
+}

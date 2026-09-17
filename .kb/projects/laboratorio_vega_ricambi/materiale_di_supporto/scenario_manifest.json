@@ -1,0 +1,60 @@
+{
+  "scenario": "Laboratorio Vega Ricambi",
+  "version": "1.0",
+  "active_source_count": 6,
+  "expected_first_scan_added": 6,
+  "expected_second_scan_unchanged": 6,
+  "expected_process_operations": 8,
+  "sources": [
+    {
+      "path": "database/schema_vega.sql",
+      "route": [
+        "parse_ddl"
+      ],
+      "docling": false
+    },
+    {
+      "path": "plsql/logica_vega.sql",
+      "route": [
+        "parse_db_code"
+      ],
+      "docling": false
+    },
+    {
+      "path": "forms/frm_richiesta.xml",
+      "route": [
+        "parse_xml_form"
+      ],
+      "docling": false
+    },
+    {
+      "path": "logs/vega_2026.log",
+      "route": [
+        "parse_log"
+      ],
+      "docling": false
+    },
+    {
+      "path": "documenti/manuale_operativo_vega_2026.docx",
+      "route": [
+        "normalize",
+        "chunk"
+      ],
+      "docling": true
+    },
+    {
+      "path": "documenti/matrice_priorita_vega_2026.xlsx",
+      "route": [
+        "normalize",
+        "chunk"
+      ],
+      "docling": true
+    }
+  ],
+  "controlled_fixtures": [
+    {
+      "path": "materiale_di_supporto/fixture_controllate/workbook_malformed_controllato.xlsx",
+      "purpose": "OOXML/preflight rejection; never copy into the normal active corpus."
+    }
+  ]
+}

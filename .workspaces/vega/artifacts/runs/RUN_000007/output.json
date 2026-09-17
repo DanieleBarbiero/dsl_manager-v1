@@ -1,0 +1,42 @@
+{
+  "chunk_count": 1,
+  "chunk_report_path": "chunks/SRC_000003/REV_000003/chunk_report.json",
+  "chunks": [
+    {
+      "chunk_id": "CHK_000002",
+      "metadata": {
+        "chunker": "chunk_docling",
+        "chunker_version": "1.0",
+        "end_char": 924,
+        "heading_path": [],
+        "normalized_hash": "7e53ea44f13e014023ce250ee74d83a87849feea11c4546b9828296cf78ae193",
+        "normalized_json_path": "normalized/SRC_000003/REV_000003/normalized.json",
+        "normalized_markdown_path": "normalized/SRC_000003/REV_000003/normalized.md",
+        "source_text_kind": "normalized_markdown",
+        "start_char": 0,
+        "strategy": "heading_paragraph"
+      },
+      "sequence": 1,
+      "source_revision_id": "REV_000003",
+      "status": "active",
+      "text": "| Priorità   |   Tempo presa in carico (ore) | Descrizione                                               | Esempio                                      |\n|------------|-------------------------------|-----------------------------------------------------------|----------------------------------------------|\n| P1         |                             1 | Blocco totale o rischio operativo critico                 | Ricambio urgente: linea ferma                |\n| P2         |                             4 | Impatto elevato ma attività ancora parzialmente possibile | Ricambio necessario entro la giornata        |\n| P3         |                            24 | Impatto moderato, workaround disponibile                  | Richiesta standard con urgenza contenuta     |\n| P4         |                            72 | Bassa priorità o richiesta programmabile                  | Scorta preventiva / manutenzione pianificata |\n",
+      "text_hash": "7e53ea44f13e014023ce250ee74d83a87849feea11c4546b9828296cf78ae193"
+    }
+  ],
+  "chunks_hash": "3d6a7bfe7f73bd544646b0cf1676a8573592f95e0e0a6cce1e2888436444d3a0",
+  "chunks_jsonl_path": "chunks/SRC_000003/REV_000003/chunks.jsonl",
+  "exit_code": 0,
+  "normalized_hash": "7e53ea44f13e014023ce250ee74d83a87849feea11c4546b9828296cf78ae193",
+  "normalized_json_path": "normalized/SRC_000003/REV_000003/normalized.json",
+  "normalized_markdown_path": "normalized/SRC_000003/REV_000003/normalized.md",
+  "profile": "docling.chunking",
+  "run_id": "RUN_000007",
+  "source_hash": "0c24c3d8a3a1dc1c5952b4854eb529d33cb135619545aa0080bcb365add25ca9",
+  "source_hash_path": "normalized/SRC_000003/REV_000003/source_hash.txt",
+  "source_id": "SRC_000003",
+  "source_revision_id": "REV_000003",
+  "status": "completed",
+  "strategy": "heading_paragraph",
+  "worker_name": "chunk_docling",
+  "worker_version": "1.0"
+}

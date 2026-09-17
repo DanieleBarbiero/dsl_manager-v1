@@ -1,0 +1,28 @@
+{
+  "config_hash": "91926f51f64bfddfeec1cadec31b380d53641f0c98a1bcd1c299efe68d665d8f",
+  "counts": {
+    "examined": 28,
+    "excluded": 0,
+    "included": 28,
+    "selected_chars": 7655
+  },
+  "policy": {
+    "config_hash": "892285675fee729ef86f4be6eee9b7c2a18b5ae0345f70b2c95699bdad32f48a",
+    "policy_id": "domain_interpretation",
+    "policy_version": "1"
+  },
+  "profile": "ai_package.default",
+  "reason_catalog_version": "1",
+  "reason_summary": {
+    "included_by_policy": 28
+  },
+  "relevant_state_hash": "329495f518032013251af09f69054fe551cb981efbd1f9480c2697991e987516",
+  "report_path": "artifacts/runs/RUN_000029/selection_plan_report.json",
+  "route": {
+    "route_id": "domain_interpretation",
+    "route_version": "1"
+  },
+  "run_id": "RUN_000029",
+  "selection_plan_hash": "8da8885c3a73ceca6c6836131ac1a503d751d057441b663d9b25528b872464c0",
+  "selection_plan_id": "AISEL_000002"
+}

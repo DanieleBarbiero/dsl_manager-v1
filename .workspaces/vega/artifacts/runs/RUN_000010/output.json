@@ -1,0 +1,248 @@
+{
+  "call_count": 0,
+  "calls": [],
+  "db_code_objects": {
+    "procedures": [
+      {
+        "calls": [],
+        "parameters": [
+          "P_ID_RICHIESTA"
+        ],
+        "procedure_name": "PRC_PRENOTA_ARTICOLO",
+        "reads": [
+          "RICHIESTA_RICAMBIO.ID_RICHIESTA",
+          "P_ID_RICHIESTA",
+          "ARTICOLO.QTA_DISPONIBILE",
+          "ARTICOLO.ID_ARTICOLO",
+          "ARTICOLO.RICHIESTA_RICAMBIO",
+          "ARTICOLO.ID_RICHIESTA"
+        ],
+        "statements": [
+          {
+            "calls": [],
+            "parent_object_name": "PRC_PRENOTA_ARTICOLO",
+            "parent_object_type": "procedure",
+            "reads": [
+              "RICHIESTA_RICAMBIO.ID_RICHIESTA",
+              "P_ID_RICHIESTA"
+            ],
+            "statement_kind": "UPDATE",
+            "writes": [
+              "RICHIESTA_RICAMBIO.STATO"
+            ]
+          },
+          {
+            "calls": [],
+            "parent_object_name": "PRC_PRENOTA_ARTICOLO",
+            "parent_object_type": "procedure",
+            "reads": [
+              "ARTICOLO.QTA_DISPONIBILE",
+              "ARTICOLO.ID_ARTICOLO",
+              "ARTICOLO.RICHIESTA_RICAMBIO",
+              "ARTICOLO.ID_RICHIESTA",
+              "P_ID_RICHIESTA"
+            ],
+            "statement_kind": "UPDATE",
+            "writes": [
+              "ARTICOLO.QTA_DISPONIBILE"
+            ]
+          }
+        ],
+        "writes": [
+          "RICHIESTA_RICAMBIO.STATO",
+          "ARTICOLO.QTA_DISPONIBILE"
+        ]
+      }
+    ],
+    "triggers": [
+      {
+        "calls": [],
+        "reads": [],
+        "statements": [],
+        "target_table": "RICHIESTA_RICAMBIO",
+        "trigger_event": "UPDATE",
+        "trigger_name": "TRG_CHIUDI_RICHIESTA",
+        "trigger_timing": "BEFORE",
+        "writes": []
+      }
+    ],
+    "warnings": []
+  },
+  "db_code_options": {
+    "dialect": "generic_sql",
+    "output_fragments_jsonl": true,
+    "parse_calls": true,
+    "parse_procedures": true,
+    "parse_triggers": true,
+    "parse_update_statements": true,
+    "strict_options_fail_on_unsupported_option": true
+  },
+  "db_code_report_path": "fragments/SRC_000006/REV_000006/db_code_report.json",
+  "dialect": "generic_sql",
+  "exit_code": 0,
+  "fragment_count": 4,
+  "fragments": [
+    {
+      "char_end": 750,
+      "char_start": 468,
+      "fragment_id": "FRAG_000023",
+      "fragment_type": "sql_trigger",
+      "line_end": 27,
+      "line_start": 20,
+      "metadata": {
+        "calls": [],
+        "object_type": "trigger",
+        "parser": "parse_db_code",
+        "parser_version": "1.0",
+        "reads": [],
+        "source_hash": "2bc89867201b4390cf0380678c2d2136fbe0d76c6ae166167aebaef85f466f3d",
+        "target_table": "RICHIESTA_RICAMBIO",
+        "trigger_event": "UPDATE",
+        "trigger_name": "TRG_CHIUDI_RICHIESTA",
+        "trigger_timing": "BEFORE",
+        "writes": []
+      },
+      "path_or_selector": "trigger:TRG_CHIUDI_RICHIESTA",
+      "sequence": 1,
+      "source_revision_id": "REV_000006",
+      "status": "active",
+      "text": "CREATE TRIGGER TRG_CHIUDI_RICHIESTA\nBEFORE UPDATE OF STATO ON RICHIESTA_RICAMBIO\nFOR EACH ROW\nBEGIN\n    IF :NEW.STATO = 'CHIUSA' AND :OLD.STATO <> 'CONSEGNATA' THEN\n        RAISE_APPLICATION_ERROR(-20001, 'La richiesta deve essere consegnata prima della chiusura');\n    END IF;\nEND;",
+      "text_hash": "a67b70ca50a81990b777a3f93d6dfa9078c18981f6666a1b6c71edba6ecfba0d"
+    },
+    {
+      "char_end": 464,
+      "char_start": 66,
+      "fragment_id": "FRAG_000024",
+      "fragment_type": "sql_procedure",
+      "line_end": 17,
+      "line_start": 2,
+      "metadata": {
+        "calls": [],
+        "object_type": "procedure",
+        "parameters": [
+          "P_ID_RICHIESTA"
+        ],
+        "parser": "parse_db_code",
+        "parser_version": "1.0",
+        "procedure_name": "PRC_PRENOTA_ARTICOLO",
+        "reads": [
+          "RICHIESTA_RICAMBIO.ID_RICHIESTA",
+          "P_ID_RICHIESTA",
+          "ARTICOLO.QTA_DISPONIBILE",
+          "ARTICOLO.ID_ARTICOLO",
+          "ARTICOLO.RICHIESTA_RICAMBIO",
+          "ARTICOLO.ID_RICHIESTA"
+        ],
+        "source_hash": "2bc89867201b4390cf0380678c2d2136fbe0d76c6ae166167aebaef85f466f3d",
+        "writes": [
+          "RICHIESTA_RICAMBIO.STATO",
+          "ARTICOLO.QTA_DISPONIBILE"
+        ]
+      },
+      "path_or_selector": "procedure:PRC_PRENOTA_ARTICOLO",
+      "sequence": 2,
+      "source_revision_id": "REV_000006",
+      "status": "active",
+      "text": "CREATE PROCEDURE PRC_PRENOTA_ARTICOLO (\n    P_ID_RICHIESTA IN NUMBER\n) AS\nBEGIN\n    UPDATE RICHIESTA_RICAMBIO\n       SET STATO = 'PRENOTATA'\n     WHERE ID_RICHIESTA = P_ID_RICHIESTA;\n\n    UPDATE ARTICOLO\n       SET QTA_DISPONIBILE = QTA_DISPONIBILE - 1\n     WHERE ID_ARTICOLO = (\n        SELECT ID_ARTICOLO\n          FROM RICHIESTA_RICAMBIO\n         WHERE ID_RICHIESTA = P_ID_RICHIESTA\n     );\nEND;",
+      "text_hash": "583946ddd210a10a6cf4fdc51ba5d57eeb676f7a170cf848858e677e0261f736"
+    },
+    {
+      "char_end": 248,
+      "char_start": 150,
+      "fragment_id": "FRAG_000025",
+      "fragment_type": "sql_statement",
+      "line_end": 8,
+      "line_start": 6,
+      "metadata": {
+        "calls": [],
+        "object_type": "statement",
+        "parent_object_name": "PRC_PRENOTA_ARTICOLO",
+        "parent_object_type": "procedure",
+        "parser": "parse_db_code",
+        "parser_version": "1.0",
+        "reads": [
+          "RICHIESTA_RICAMBIO.ID_RICHIESTA",
+          "P_ID_RICHIESTA"
+        ],
+        "source_hash": "2bc89867201b4390cf0380678c2d2136fbe0d76c6ae166167aebaef85f466f3d",
+        "statement_kind": "UPDATE",
+        "writes": [
+          "RICHIESTA_RICAMBIO.STATO"
+        ]
+      },
+      "path_or_selector": "procedure:PRC_PRENOTA_ARTICOLO/statement:1",
+      "sequence": 3,
+      "source_revision_id": "REV_000006",
+      "status": "active",
+      "text": "UPDATE RICHIESTA_RICAMBIO\n       SET STATO = 'PRENOTATA'\n     WHERE ID_RICHIESTA = P_ID_RICHIESTA;",
+      "text_hash": "7b9b0f098670b9856f549b2582c5fe3842a5ee8c6a29afddf6ef8363bdd9a407"
+    },
+    {
+      "char_end": 459,
+      "char_start": 254,
+      "fragment_id": "FRAG_000026",
+      "fragment_type": "sql_statement",
+      "line_end": 16,
+      "line_start": 10,
+      "metadata": {
+        "calls": [],
+        "object_type": "statement",
+        "parent_object_name": "PRC_PRENOTA_ARTICOLO",
+        "parent_object_type": "procedure",
+        "parser": "parse_db_code",
+        "parser_version": "1.0",
+        "reads": [
+          "ARTICOLO.QTA_DISPONIBILE",
+          "ARTICOLO.ID_ARTICOLO",
+          "ARTICOLO.RICHIESTA_RICAMBIO",
+          "ARTICOLO.ID_RICHIESTA",
+          "P_ID_RICHIESTA"
+        ],
+        "source_hash": "2bc89867201b4390cf0380678c2d2136fbe0d76c6ae166167aebaef85f466f3d",
+        "statement_kind": "UPDATE",
+        "writes": [
+          "ARTICOLO.QTA_DISPONIBILE"
+        ]
+      },
+      "path_or_selector": "procedure:PRC_PRENOTA_ARTICOLO/statement:2",
+      "sequence": 4,
+      "source_revision_id": "REV_000006",
+      "status": "active",
+      "text": "UPDATE ARTICOLO\n       SET QTA_DISPONIBILE = QTA_DISPONIBILE - 1\n     WHERE ID_ARTICOLO = (\n        SELECT ID_ARTICOLO\n          FROM RICHIESTA_RICAMBIO\n         WHERE ID_RICHIESTA = P_ID_RICHIESTA\n     );",
+      "text_hash": "95b301327e0e09103bff7abc3ad6e6e5c483b9d20e280a1a6aa981e04205a48c"
+    }
+  ],
+  "fragments_hash": "d92c357c195ec33cecb8b7f31454d878a6a4f000f0b481b53914c966b1a0a6f5",
+  "fragments_jsonl_path": "fragments/SRC_000006/REV_000006/fragments.jsonl",
+  "input_path": "corpus/active/plsql/logica_vega.sql",
+  "procedure_count": 1,
+  "profile": "db_code.default",
+  "read_count": 6,
+  "reads": [
+    "RICHIESTA_RICAMBIO.ID_RICHIESTA",
+    "P_ID_RICHIESTA",
+    "ARTICOLO.QTA_DISPONIBILE",
+    "ARTICOLO.ID_ARTICOLO",
+    "ARTICOLO.RICHIESTA_RICAMBIO",
+    "ARTICOLO.ID_RICHIESTA"
+  ],
+  "run_id": "RUN_000010",
+  "source_hash": "2bc89867201b4390cf0380678c2d2136fbe0d76c6ae166167aebaef85f466f3d",
+  "source_id": "SRC_000006",
+  "source_revision_id": "REV_000006",
+  "statement_count": 2,
+  "status": "completed",
+  "trigger_count": 1,
+  "warnings": [],
+  "worker_config": {
+    "name": "parse_db_code",
+    "version": "1.0"
+  },
+  "worker_name": "parse_db_code",
+  "worker_version": "1.0",
+  "write_count": 2,
+  "writes": [
+    "RICHIESTA_RICAMBIO.STATO",
+    "ARTICOLO.QTA_DISPONIBILE"
+  ]
+}

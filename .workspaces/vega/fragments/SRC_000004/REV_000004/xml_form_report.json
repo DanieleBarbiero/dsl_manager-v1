@@ -1,0 +1,85 @@
+{
+  "button_count": 1,
+  "edit_relation_count": 0,
+  "edit_relations": [],
+  "field_count": 0,
+  "form_count": 1,
+  "fragment_count": 2,
+  "fragments": [
+    {
+      "fragment_id": "FRAG_000016",
+      "fragment_type": "xml_form",
+      "path_or_selector": "/form[@name='FRM_RICHIESTA']",
+      "sequence": 1,
+      "status": "active",
+      "text_hash": "86fafaace02463b63adc0f48e8e2aecee26e77a2c29e9982ce9be8d2c03cc939"
+    },
+    {
+      "fragment_id": "FRAG_000017",
+      "fragment_type": "xml_button",
+      "path_or_selector": "/form[@name='FRM_RICHIESTA']/button[@name='BTN_PRENOTA']",
+      "sequence": 2,
+      "status": "active",
+      "text_hash": "1dcc617ccb1924f00242af5f7e693dc286e73c0fe5da5d005db6b911214386cc"
+    }
+  ],
+  "fragments_hash": "799f5d92a3f0d9ddecacc133259a349313c24c72ef7fe70c329d942b2812d135",
+  "input": {
+    "input_path": "corpus/active/forms/frm_richiesta.xml",
+    "source_hash": "db3ae1c80ee4bf333e605a058978b36a86b0093b9990bb4822ca560340a25d9a",
+    "source_id": "SRC_000004",
+    "source_revision_id": "REV_000004"
+  },
+  "outputs": {
+    "fragments_jsonl_path": "fragments/SRC_000004/REV_000004/fragments.jsonl",
+    "xml_form_report_path": "fragments/SRC_000004/REV_000004/xml_form_report.json"
+  },
+  "parser": "elementtree",
+  "profile": "xml_form.default",
+  "required_field_count": 0,
+  "resolved_config": {
+    "worker": {
+      "name": "parse_xml_form",
+      "version": "1.0"
+    },
+    "xml_form": {
+      "infer_edit_relations": true,
+      "malformed_xml_policy": "fail",
+      "output_fragments_jsonl": true,
+      "parse_buttons": true,
+      "parse_fields": true,
+      "parse_required_fields": true,
+      "parse_table_column_references": true,
+      "parser": "elementtree",
+      "require_root_form": true,
+      "strict_options_fail_on_unsupported_option": true
+    }
+  },
+  "run_id": "RUN_000008",
+  "status": "completed",
+  "table_column_references": [],
+  "table_reference_count": 0,
+  "warnings": [],
+  "worker_name": "parse_xml_form",
+  "worker_version": "1.0",
+  "xml_form_objects": {
+    "forms": [
+      {
+        "buttons": [
+          {
+            "action_kind": "unknown",
+            "label": "Prenota",
+            "name": "BTN_PRENOTA"
+          }
+        ],
+        "edit_relations": [],
+        "fields": [],
+        "name": "FRM_RICHIESTA",
+        "table_column_references": [],
+        "table_references": [],
+        "title": "Richiesta ricambio"
+      }
+    ],
+    "warnings": []
+  }
+}

@@ -1,0 +1,4 @@
+{"event": "run_started", "level": "INFO", "message": "Run RUN_000008 started.", "run_id": "RUN_000008", "timestamp": "2026-09-17T04:58:29+02:00"}
+{"event": "worker_started", "level": "INFO", "message": "Worker parse_xml_form started.", "run_id": "RUN_000008", "timestamp": "2026-09-17T04:58:29+02:00", "worker": "parse_xml_form"}
+{"event": "worker_completed", "level": "INFO", "message": "Worker parse_xml_form finished with status completed.", "run_id": "RUN_000008", "timestamp": "2026-09-17T04:58:30+02:00", "worker": "parse_xml_form"}
+{"event": "run_completed", "level": "INFO", "message": "Run RUN_000008 finished with status completed.", "run_id": "RUN_000008", "timestamp": "2026-09-17T04:58:30+02:00"}

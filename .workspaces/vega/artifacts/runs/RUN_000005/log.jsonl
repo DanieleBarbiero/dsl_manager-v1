@@ -1,0 +1,4 @@
+{"event": "run_started", "level": "INFO", "message": "Run RUN_000005 started.", "run_id": "RUN_000005", "timestamp": "2026-09-17T04:57:41+02:00"}
+{"event": "worker_started", "level": "INFO", "message": "Worker chunk_docling started.", "run_id": "RUN_000005", "timestamp": "2026-09-17T04:57:41+02:00", "worker": "chunk_docling"}
+{"event": "worker_completed", "level": "INFO", "message": "Worker chunk_docling finished with status completed.", "run_id": "RUN_000005", "timestamp": "2026-09-17T04:57:42+02:00", "worker": "chunk_docling"}
+{"event": "run_completed", "level": "INFO", "message": "Run RUN_000005 finished with status completed.", "run_id": "RUN_000005", "timestamp": "2026-09-17T04:57:42+02:00"}

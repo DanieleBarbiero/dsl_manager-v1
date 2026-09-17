@@ -1,0 +1,11 @@
+worker:
+  name: build_ai_package
+  version: 1.0
+ai_package:
+  include_chunks: true
+  include_fragments: true
+  include_candidate_schema: true
+  include_output_template: true
+  max_evidence_chars: 20000
+  strict_options_fail_on_unsupported_option: true
+  package_format: markdown_plus_json

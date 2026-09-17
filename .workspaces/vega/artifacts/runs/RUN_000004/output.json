@@ -1,0 +1,18 @@
+{
+  "docling_report_path": "normalized/SRC_000002/REV_000002/docling_report.json",
+  "docling_version": "2.97.0",
+  "exit_code": 0,
+  "input_path": "corpus/active/documenti/manuale_operativo_vega_2026.docx",
+  "normalized_hash": "0949d9eb61c9f5ae95cdfecadc7b7c74d7240d94ed42e515ff8c968dccd29a73",
+  "normalized_json_path": "normalized/SRC_000002/REV_000002/normalized.json",
+  "normalized_markdown_path": "normalized/SRC_000002/REV_000002/normalized.md",
+  "profile": "docling.no_images",
+  "run_id": "RUN_000004",
+  "source_hash": "bca1c3408141adc0df112e2076f2d681d761c06b0b3550cf48bef331a39c204a",
+  "source_hash_path": "normalized/SRC_000002/REV_000002/source_hash.txt",
+  "source_id": "SRC_000002",
+  "source_revision_id": "REV_000002",
+  "status": "completed",
+  "worker_name": "normalize_docling",
+  "worker_version": "1.0"
+}

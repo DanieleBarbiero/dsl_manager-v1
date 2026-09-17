@@ -1,0 +1,448 @@
+{
+  "chunks": [
+    {
+      "chunk_id": "CHK_000001",
+      "sequence": 1,
+      "source_revision_id": "REV_000002",
+      "status": "active",
+      "text_hash": "0949d9eb61c9f5ae95cdfecadc7b7c74d7240d94ed42e515ff8c968dccd29a73"
+    },
+    {
+      "chunk_id": "CHK_000002",
+      "sequence": 1,
+      "source_revision_id": "REV_000003",
+      "status": "active",
+      "text_hash": "7e53ea44f13e014023ce250ee74d83a87849feea11c4546b9828296cf78ae193"
+    }
+  ],
+  "counts": {
+    "chunks": 2,
+    "fragments": 26,
+    "source_revisions": 6
+  },
+  "fragments": [
+    {
+      "fragment_id": "FRAG_000025",
+      "fragment_type": "sql_statement",
+      "sequence": 3,
+      "source_revision_id": "REV_000006",
+      "status": "active",
+      "text_hash": "7b9b0f098670b9856f549b2582c5fe3842a5ee8c6a29afddf6ef8363bdd9a407"
+    },
+    {
+      "fragment_id": "FRAG_000026",
+      "fragment_type": "sql_statement",
+      "sequence": 4,
+      "source_revision_id": "REV_000006",
+      "status": "active",
+      "text_hash": "95b301327e0e09103bff7abc3ad6e6e5c483b9d20e280a1a6aa981e04205a48c"
+    },
+    {
+      "fragment_id": "FRAG_000001",
+      "fragment_type": "ddl_table",
+      "sequence": 1,
+      "source_revision_id": "REV_000001",
+      "status": "active",
+      "text_hash": "81814eecd7c72c942ccd925fdc72efe7480319e6d5c846a278ef853b71aee32c"
+    },
+    {
+      "fragment_id": "FRAG_000002",
+      "fragment_type": "ddl_column",
+      "sequence": 2,
+      "source_revision_id": "REV_000001",
+      "status": "active",
+      "text_hash": "755a643188bd7ac8866b488fbcdfcb4f4acff3fe5f000c1137b34d1fd06ad33f"
+    },
+    {
+      "fragment_id": "FRAG_000003",
+      "fragment_type": "ddl_column",
+      "sequence": 3,
+      "source_revision_id": "REV_000001",
+      "status": "active",
+      "text_hash": "ff21e9f7f4f7456274bb3b5561150d2ef3ebe237f3cadac96882941473ab8358"
+    },
+    {
+      "fragment_id": "FRAG_000004",
+      "fragment_type": "ddl_column",
+      "sequence": 4,
+      "source_revision_id": "REV_000001",
+      "status": "active",
+      "text_hash": "54408614f47c988f08688bebef83ac1c4acd2b6f2ba977b17508f2d948aff71c"
+    },
+    {
+      "fragment_id": "FRAG_000005",
+      "fragment_type": "ddl_column",
+      "sequence": 5,
+      "source_revision_id": "REV_000001",
+      "status": "active",
+      "text_hash": "41c2bdfa1ccdf33d863297fdada4705a2b0ec43d4d2a95f7f9250a43e958b69c"
+    },
+    {
+      "fragment_id": "FRAG_000006",
+      "fragment_type": "ddl_constraint",
+      "sequence": 6,
+      "source_revision_id": "REV_000001",
+      "status": "active",
+      "text_hash": "755a643188bd7ac8866b488fbcdfcb4f4acff3fe5f000c1137b34d1fd06ad33f"
+    },
+    {
+      "fragment_id": "FRAG_000007",
+      "fragment_type": "ddl_table",
+      "sequence": 7,
+      "source_revision_id": "REV_000001",
+      "status": "active",
+      "text_hash": "1b50aa570dc39497b9f6df21e54e52c114df628b6a831ff596cfc47e01d14009"
+    },
+    {
+      "fragment_id": "FRAG_000008",
+      "fragment_type": "ddl_column",
+      "sequence": 8,
+      "source_revision_id": "REV_000001",
+      "status": "active",
+      "text_hash": "e9561d78493965c0ca8e3734346134f74f18d5898f7e3cf06e532b439c5bd379"
+    },
+    {
+      "fragment_id": "FRAG_000009",
+      "fragment_type": "ddl_column",
+      "sequence": 9,
+      "source_revision_id": "REV_000001",
+      "status": "active",
+      "text_hash": "1129cf5143216dc0ddcc47ba2141f2d99feeb2e83e3e6ba88cc8b3dee75a46bf"
+    },
+    {
+      "fragment_id": "FRAG_000010",
+      "fragment_type": "ddl_column",
+      "sequence": 10,
+      "source_revision_id": "REV_000001",
+      "status": "active",
+      "text_hash": "39408a007f2e2904aea74caba73c8197a8027a0c98df3c7d43a4cb2e14c03635"
+    },
+    {
+      "fragment_id": "FRAG_000011",
+      "fragment_type": "ddl_column",
+      "sequence": 11,
+      "source_revision_id": "REV_000001",
+      "status": "active",
+      "text_hash": "376fdb67145cff0fa70bad2132e131958107b4cfe4de20b9cb5b47925e2b779a"
+    },
+    {
+      "fragment_id": "FRAG_000012",
+      "fragment_type": "ddl_column",
+      "sequence": 12,
+      "source_revision_id": "REV_000001",
+      "status": "active",
+      "text_hash": "4b29bd88e0a90dddc9e129072457f4347b8f21410bf7afab262dcdd2bbba7b71"
+    },
+    {
+      "fragment_id": "FRAG_000013",
+      "fragment_type": "ddl_constraint",
+      "sequence": 13,
+      "source_revision_id": "REV_000001",
+      "status": "active",
+      "text_hash": "e9561d78493965c0ca8e3734346134f74f18d5898f7e3cf06e532b439c5bd379"
+    },
+    {
+      "fragment_id": "FRAG_000014",
+      "fragment_type": "ddl_constraint",
+      "sequence": 14,
+      "source_revision_id": "REV_000001",
+      "status": "active",
+      "text_hash": "7919c511af69b27e4ed1173265fd8171c08123d01101051ee8dd542fb8416fed"
+    },
+    {
+      "fragment_id": "FRAG_000015",
+      "fragment_type": "excel_region",
+      "sequence": 1,
+      "source_revision_id": "REV_000003",
+      "status": "active",
+      "text_hash": "6471cb5fe36d722903ec7a908204528e9bad36ba3533a32428302a32c7d640ec"
+    },
+    {
+      "fragment_id": "FRAG_000016",
+      "fragment_type": "xml_form",
+      "sequence": 1,
+      "source_revision_id": "REV_000004",
+      "status": "active",
+      "text_hash": "86fafaace02463b63adc0f48e8e2aecee26e77a2c29e9982ce9be8d2c03cc939"
+    },
+    {
+      "fragment_id": "FRAG_000017",
+      "fragment_type": "xml_button",
+      "sequence": 2,
+      "source_revision_id": "REV_000004",
+      "status": "active",
+      "text_hash": "1dcc617ccb1924f00242af5f7e693dc286e73c0fe5da5d005db6b911214386cc"
+    },
+    {
+      "fragment_id": "FRAG_000018",
+      "fragment_type": "log_event",
+      "sequence": 1,
+      "source_revision_id": "REV_000005",
+      "status": "active",
+      "text_hash": "e99a55d81603ef0096e0b40d29897605aa02cbdf9acfddd039044846fcc07a0a"
+    },
+    {
+      "fragment_id": "FRAG_000019",
+      "fragment_type": "log_event",
+      "sequence": 2,
+      "source_revision_id": "REV_000005",
+      "status": "active",
+      "text_hash": "fed9868a4d1cf2c01e8e66040afaf0b6d3e6eb46517f4355d8560694d77ee155"
+    },
+    {
+      "fragment_id": "FRAG_000020",
+      "fragment_type": "log_event",
+      "sequence": 3,
+      "source_revision_id": "REV_000005",
+      "status": "active",
+      "text_hash": "9d7e11da6e3107c94b164ae8e356f5f8a3670e846e02eaf1638c958d248cab9b"
+    },
+    {
+      "fragment_id": "FRAG_000021",
+      "fragment_type": "log_event",
+      "sequence": 4,
+      "source_revision_id": "REV_000005",
+      "status": "active",
+      "text_hash": "acd1e678d7805f389cf046eb355bbf7cd3b7f6da9865b71befb949a9519100ec"
+    },
+    {
+      "fragment_id": "FRAG_000022",
+      "fragment_type": "log_event",
+      "sequence": 5,
+      "source_revision_id": "REV_000005",
+      "status": "active",
+      "text_hash": "490e3fda21b0f91e9a6a41b26bdcc717f9eb16a8911a5d31a8bc7ea48a81caf9"
+    },
+    {
+      "fragment_id": "FRAG_000023",
+      "fragment_type": "sql_trigger",
+      "sequence": 1,
+      "source_revision_id": "REV_000006",
+      "status": "active",
+      "text_hash": "a67b70ca50a81990b777a3f93d6dfa9078c18981f6666a1b6c71edba6ecfba0d"
+    },
+    {
+      "fragment_id": "FRAG_000024",
+      "fragment_type": "sql_procedure",
+      "sequence": 2,
+      "source_revision_id": "REV_000006",
+      "status": "active",
+      "text_hash": "583946ddd210a10a6cf4fdc51ba5d57eeb676f7a170cf848858e677e0261f736"
+    }
+  ],
+  "package_id": "AIPKG_000001",
+  "package_path": "ai/outbox/AIPKG_000001",
+  "selection": {
+    "config_hash": "91926f51f64bfddfeec1cadec31b380d53641f0c98a1bcd1c299efe68d665d8f",
+    "counts": {
+      "examined": 28,
+      "excluded": 0,
+      "included": 28,
+      "selected_chars": 7655
+    },
+    "ordered_evidence": [
+      {
+        "evidence_id": "CHK_000001",
+        "evidence_kind": "chunk",
+        "rank": 1
+      },
+      {
+        "evidence_id": "CHK_000002",
+        "evidence_kind": "chunk",
+        "rank": 2
+      },
+      {
+        "evidence_id": "FRAG_000025",
+        "evidence_kind": "fragment",
+        "rank": 3
+      },
+      {
+        "evidence_id": "FRAG_000026",
+        "evidence_kind": "fragment",
+        "rank": 4
+      },
+      {
+        "evidence_id": "FRAG_000001",
+        "evidence_kind": "fragment",
+        "rank": 5
+      },
+      {
+        "evidence_id": "FRAG_000002",
+        "evidence_kind": "fragment",
+        "rank": 6
+      },
+      {
+        "evidence_id": "FRAG_000003",
+        "evidence_kind": "fragment",
+        "rank": 7
+      },
+      {
+        "evidence_id": "FRAG_000004",
+        "evidence_kind": "fragment",
+        "rank": 8
+      },
+      {
+        "evidence_id": "FRAG_000005",
+        "evidence_kind": "fragment",
+        "rank": 9
+      },
+      {
+        "evidence_id": "FRAG_000006",
+        "evidence_kind": "fragment",
+        "rank": 10
+      },
+      {
+        "evidence_id": "FRAG_000007",
+        "evidence_kind": "fragment",
+        "rank": 11
+      },
+      {
+        "evidence_id": "FRAG_000008",
+        "evidence_kind": "fragment",
+        "rank": 12
+      },
+      {
+        "evidence_id": "FRAG_000009",
+        "evidence_kind": "fragment",
+        "rank": 13
+      },
+      {
+        "evidence_id": "FRAG_000010",
+        "evidence_kind": "fragment",
+        "rank": 14
+      },
+      {
+        "evidence_id": "FRAG_000011",
+        "evidence_kind": "fragment",
+        "rank": 15
+      },
+      {
+        "evidence_id": "FRAG_000012",
+        "evidence_kind": "fragment",
+        "rank": 16
+      },
+      {
+        "evidence_id": "FRAG_000013",
+        "evidence_kind": "fragment",
+        "rank": 17
+      },
+      {
+        "evidence_id": "FRAG_000014",
+        "evidence_kind": "fragment",
+        "rank": 18
+      },
+      {
+        "evidence_id": "FRAG_000015",
+        "evidence_kind": "fragment",
+        "rank": 19
+      },
+      {
+        "evidence_id": "FRAG_000016",
+        "evidence_kind": "fragment",
+        "rank": 20
+      },
+      {
+        "evidence_id": "FRAG_000017",
+        "evidence_kind": "fragment",
+        "rank": 21
+      },
+      {
+        "evidence_id": "FRAG_000018",
+        "evidence_kind": "fragment",
+        "rank": 22
+      },
+      {
+        "evidence_id": "FRAG_000019",
+        "evidence_kind": "fragment",
+        "rank": 23
+      },
+      {
+        "evidence_id": "FRAG_000020",
+        "evidence_kind": "fragment",
+        "rank": 24
+      },
+      {
+        "evidence_id": "FRAG_000021",
+        "evidence_kind": "fragment",
+        "rank": 25
+      },
+      {
+        "evidence_id": "FRAG_000022",
+        "evidence_kind": "fragment",
+        "rank": 26
+      },
+      {
+        "evidence_id": "FRAG_000023",
+        "evidence_kind": "fragment",
+        "rank": 27
+      },
+      {
+        "evidence_id": "FRAG_000024",
+        "evidence_kind": "fragment",
+        "rank": 28
+      }
+    ],
+    "policy_config_hash": "892285675fee729ef86f4be6eee9b7c2a18b5ae0345f70b2c95699bdad32f48a",
+    "policy_id": "domain_interpretation",
+    "policy_version": "1",
+    "reason_catalog_version": "1",
+    "reason_summary": {
+      "included_by_policy": 28
+    },
+    "relevant_state_hash": "329495f518032013251af09f69054fe551cb981efbd1f9480c2697991e987516",
+    "route_id": "domain_interpretation",
+    "route_version": "1",
+    "selection_plan_hash": "8da8885c3a73ceca6c6836131ac1a503d751d057441b663d9b25528b872464c0",
+    "selection_plan_id": "AISEL_000002"
+  },
+  "source_revisions": [
+    {
+      "content_hash": "a972c0b4cbbf50543d017bf91519ee9e6deb799c9e8685b9d417084c961d040d",
+      "current_revision_id": "REV_000001",
+      "file_path": "corpus/active/database/schema_vega.sql",
+      "revision_status": "active",
+      "source_id": "SRC_000001",
+      "source_revision_id": "REV_000001"
+    },
+    {
+      "content_hash": "bca1c3408141adc0df112e2076f2d681d761c06b0b3550cf48bef331a39c204a",
+      "current_revision_id": "REV_000002",
+      "file_path": "corpus/active/documenti/manuale_operativo_vega_2026.docx",
+      "revision_status": "active",
+      "source_id": "SRC_000002",
+      "source_revision_id": "REV_000002"
+    },
+    {
+      "content_hash": "0c24c3d8a3a1dc1c5952b4854eb529d33cb135619545aa0080bcb365add25ca9",
+      "current_revision_id": "REV_000003",
+      "file_path": "corpus/active/documenti/matrice_priorita_vega_2026.xlsx",
+      "revision_status": "active",
+      "source_id": "SRC_000003",
+      "source_revision_id": "REV_000003"
+    },
+    {
+      "content_hash": "db3ae1c80ee4bf333e605a058978b36a86b0093b9990bb4822ca560340a25d9a",
+      "current_revision_id": "REV_000004",
+      "file_path": "corpus/active/forms/frm_richiesta.xml",
+      "revision_status": "active",
+      "source_id": "SRC_000004",
+      "source_revision_id": "REV_000004"
+    },
+    {
+      "content_hash": "a1e69986569ae7f053041f1b180db540ab3d858e9f71ad5088da122bb1708873",
+      "current_revision_id": "REV_000005",
+      "file_path": "corpus/active/logs/vega_2026.log",
+      "revision_status": "active",
+      "source_id": "SRC_000005",
+      "source_revision_id": "REV_000005"
+    },
+    {
+      "content_hash": "2bc89867201b4390cf0380678c2d2136fbe0d76c6ae166167aebaef85f466f3d",
+      "current_revision_id": "REV_000006",
+      "file_path": "corpus/active/plsql/logica_vega.sql",
+      "revision_status": "active",
+      "source_id": "SRC_000006",
+      "source_revision_id": "REV_000006"
+    }
+  ]
+}

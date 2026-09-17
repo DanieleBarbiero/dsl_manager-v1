@@ -1,0 +1,247 @@
+{
+  "component_count": 2,
+  "components": [
+    "magazzino",
+    "scanner"
+  ],
+  "event_count": 5,
+  "exit_code": 0,
+  "fragment_count": 5,
+  "fragments": [
+    {
+      "char_end": 68,
+      "char_start": 0,
+      "fragment_id": "FRAG_000018",
+      "fragment_type": "log_event",
+      "line_end": 1,
+      "line_start": 1,
+      "metadata": {
+        "component": "scanner",
+        "event_kind": "start",
+        "level": "INFO",
+        "message": "Start richiesta=RV-1001 priorita=P1",
+        "object_type": "log_event",
+        "observed_identifiers": {
+          "priorita": "P1",
+          "richiesta": "RV-1001"
+        },
+        "parser": "parse_log",
+        "parser_version": "1.0",
+        "source_hash": "a1e69986569ae7f053041f1b180db540ab3d858e9f71ad5088da122bb1708873",
+        "timestamp": "2026-09-01 08:00:00"
+      },
+      "path_or_selector": "log/line:1",
+      "sequence": 1,
+      "source_revision_id": "REV_000005",
+      "status": "active",
+      "text": "2026-09-01 08:00:00 INFO scanner Start richiesta=RV-1001 priorita=P1",
+      "text_hash": "e99a55d81603ef0096e0b40d29897605aa02cbdf9acfddd039044846fcc07a0a"
+    },
+    {
+      "char_end": 157,
+      "char_start": 69,
+      "fragment_id": "FRAG_000019",
+      "fragment_type": "log_event",
+      "line_end": 2,
+      "line_start": 2,
+      "metadata": {
+        "component": "scanner",
+        "event_kind": "processed",
+        "level": "INFO",
+        "message": "Processed richiesta=RV-1001 articolo=RIC-774 quantita=2",
+        "object_type": "log_event",
+        "observed_identifiers": {
+          "articolo": "RIC-774",
+          "quantita": "2",
+          "richiesta": "RV-1001"
+        },
+        "parser": "parse_log",
+        "parser_version": "1.0",
+        "source_hash": "a1e69986569ae7f053041f1b180db540ab3d858e9f71ad5088da122bb1708873",
+        "timestamp": "2026-09-01 08:00:01"
+      },
+      "path_or_selector": "log/line:2",
+      "sequence": 2,
+      "source_revision_id": "REV_000005",
+      "status": "active",
+      "text": "2026-09-01 08:00:01 INFO scanner Processed richiesta=RV-1001 articolo=RIC-774 quantita=2",
+      "text_hash": "fed9868a4d1cf2c01e8e66040afaf0b6d3e6eb46517f4355d8560694d77ee155"
+    },
+    {
+      "char_end": 250,
+      "char_start": 158,
+      "fragment_id": "FRAG_000020",
+      "fragment_type": "log_event",
+      "line_end": 3,
+      "line_start": 3,
+      "metadata": {
+        "component": "magazzino",
+        "event_kind": "warning",
+        "level": "WARNING",
+        "message": "missing richiesta=RV-1002 articolo=RIC-118 priorita=P2",
+        "object_type": "log_event",
+        "observed_identifiers": {
+          "articolo": "RIC-118",
+          "priorita": "P2",
+          "richiesta": "RV-1002"
+        },
+        "parser": "parse_log",
+        "parser_version": "1.0",
+        "source_hash": "a1e69986569ae7f053041f1b180db540ab3d858e9f71ad5088da122bb1708873",
+        "timestamp": "2026-09-01 08:00:02"
+      },
+      "path_or_selector": "log/line:3",
+      "sequence": 3,
+      "source_revision_id": "REV_000005",
+      "status": "active",
+      "text": "2026-09-01 08:00:02 WARNING magazzino missing richiesta=RV-1002 articolo=RIC-118 priorita=P2",
+      "text_hash": "9d7e11da6e3107c94b164ae8e356f5f8a3670e846e02eaf1638c958d248cab9b"
+    },
+    {
+      "char_end": 353,
+      "char_start": 251,
+      "fragment_id": "FRAG_000021",
+      "fragment_type": "log_event",
+      "line_end": 4,
+      "line_start": 4,
+      "metadata": {
+        "component": "magazzino",
+        "event_kind": "processed",
+        "level": "INFO",
+        "message": "Processed richiesta=RV-1002 articolo=RIC-118 disponibilita=parziale",
+        "object_type": "log_event",
+        "observed_identifiers": {
+          "articolo": "RIC-118",
+          "disponibilita": "parziale",
+          "richiesta": "RV-1002"
+        },
+        "parser": "parse_log",
+        "parser_version": "1.0",
+        "source_hash": "a1e69986569ae7f053041f1b180db540ab3d858e9f71ad5088da122bb1708873",
+        "timestamp": "2026-09-01 08:00:03"
+      },
+      "path_or_selector": "log/line:4",
+      "sequence": 4,
+      "source_revision_id": "REV_000005",
+      "status": "active",
+      "text": "2026-09-01 08:00:03 INFO magazzino Processed richiesta=RV-1002 articolo=RIC-118 disponibilita=parziale",
+      "text_hash": "acd1e678d7805f389cf046eb355bbf7cd3b7f6da9865b71befb949a9519100ec"
+    },
+    {
+      "char_end": 424,
+      "char_start": 354,
+      "fragment_id": "FRAG_000022",
+      "fragment_type": "log_event",
+      "line_end": 5,
+      "line_start": 5,
+      "metadata": {
+        "component": "scanner",
+        "event_kind": "end",
+        "level": "INFO",
+        "message": "End richiesta=RV-1001 esito=inoltrata",
+        "object_type": "log_event",
+        "observed_identifiers": {
+          "esito": "inoltrata",
+          "richiesta": "RV-1001"
+        },
+        "parser": "parse_log",
+        "parser_version": "1.0",
+        "source_hash": "a1e69986569ae7f053041f1b180db540ab3d858e9f71ad5088da122bb1708873",
+        "timestamp": "2026-09-01 08:00:04"
+      },
+      "path_or_selector": "log/line:5",
+      "sequence": 5,
+      "source_revision_id": "REV_000005",
+      "status": "active",
+      "text": "2026-09-01 08:00:04 INFO scanner End richiesta=RV-1001 esito=inoltrata",
+      "text_hash": "490e3fda21b0f91e9a6a41b26bdcc717f9eb16a8911a5d31a8bc7ea48a81caf9"
+    }
+  ],
+  "fragments_hash": "c5aca7045fe6267a1cba19b10680c0f83f1eec28af6549cfc970c09017973b80",
+  "fragments_jsonl_path": "fragments/SRC_000005/REV_000005/fragments.jsonl",
+  "input_path": "corpus/active/logs/vega_2026.log",
+  "log_objects": {
+    "events": [
+      {
+        "component": "scanner",
+        "event_kind": "start",
+        "level": "INFO",
+        "message": "Start richiesta=RV-1001 priorita=P1",
+        "observed_identifiers": {
+          "priorita": "P1",
+          "richiesta": "RV-1001"
+        },
+        "timestamp": "2026-09-01 08:00:00"
+      },
+      {
+        "component": "scanner",
+        "event_kind": "processed",
+        "level": "INFO",
+        "message": "Processed richiesta=RV-1001 articolo=RIC-774 quantita=2",
+        "observed_identifiers": {
+          "articolo": "RIC-774",
+          "quantita": "2",
+          "richiesta": "RV-1001"
+        },
+        "timestamp": "2026-09-01 08:00:01"
+      },
+      {
+        "component": "magazzino",
+        "event_kind": "warning",
+        "level": "WARNING",
+        "message": "missing richiesta=RV-1002 articolo=RIC-118 priorita=P2",
+        "observed_identifiers": {
+          "articolo": "RIC-118",
+          "priorita": "P2",
+          "richiesta": "RV-1002"
+        },
+        "timestamp": "2026-09-01 08:00:02"
+      },
+      {
+        "component": "magazzino",
+        "event_kind": "processed",
+        "level": "INFO",
+        "message": "Processed richiesta=RV-1002 articolo=RIC-118 disponibilita=parziale",
+        "observed_identifiers": {
+          "articolo": "RIC-118",
+          "disponibilita": "parziale",
+          "richiesta": "RV-1002"
+        },
+        "timestamp": "2026-09-01 08:00:03"
+      },
+      {
+        "component": "scanner",
+        "event_kind": "end",
+        "level": "INFO",
+        "message": "End richiesta=RV-1001 esito=inoltrata",
+        "observed_identifiers": {
+          "esito": "inoltrata",
+          "richiesta": "RV-1001"
+        },
+        "timestamp": "2026-09-01 08:00:04"
+      }
+    ],
+    "warnings": []
+  },
+  "log_options": {
+    "output_fragments_jsonl": true,
+    "parser": "line_regex",
+    "strict_options_fail_on_unsupported_option": true
+  },
+  "log_report_path": "fragments/SRC_000005/REV_000005/log_report.json",
+  "parser": "line_regex",
+  "profile": "log.default",
+  "run_id": "RUN_000009",
+  "source_hash": "a1e69986569ae7f053041f1b180db540ab3d858e9f71ad5088da122bb1708873",
+  "source_id": "SRC_000005",
+  "source_revision_id": "REV_000005",
+  "status": "completed",
+  "warning_count": 1,
+  "warnings": [],
+  "worker_config": {
+    "name": "parse_log",
+    "version": "1.0"
+  },
+  "worker_name": "parse_log",
+  "worker_version": "1.0"
+}

@@ -1,0 +1,33 @@
+{
+  "artifact_dir": "artifacts/runs/RUN_000009",
+  "config_hash": "501545fe763e7384d08d6fc5d2e8750c377920a58659503bdae2670d1d62e363",
+  "error": null,
+  "finished_at": "2026-09-17T04:58:31+02:00",
+  "run_id": "RUN_000009",
+  "run_type": "parse_log",
+  "started_at": "2026-09-17T04:58:30+02:00",
+  "status": "completed",
+  "workers": [
+    {
+      "duration_ms": 674,
+      "error": null,
+      "exit_code": 0,
+      "finished_at": "2026-09-17T04:58:31+02:00",
+      "resource_limits": {
+        "max_output_bytes": null,
+        "memory_limit_bytes": null,
+        "memory_limit_mode": "not_configured",
+        "peak_memory_bytes": null,
+        "termination_reason": null,
+        "timeout_seconds": null
+      },
+      "started_at": "2026-09-17T04:58:30+02:00",
+      "status": "completed",
+      "stderr": "",
+      "stdout": "parse_log completed\n",
+      "worker_name": "parse_log",
+      "worker_run_id": "WRK_000007",
+      "worker_version": "1.0"
+    }
+  ]
+}

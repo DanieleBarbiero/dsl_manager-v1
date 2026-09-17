@@ -1,6 +1,0 @@
-2026-03-02 08:14:03 INFO ORIONE_FORM start intervento_id=INT-1042 asset_id=AST-017 timezone=Europe/Rome
-2026-03-02 08:16:40 INFO ORIONE_ASSIGN processed intervento_id=INT-1042 tecnico_id=TEC-006 result=assigned
-2026-03-02 09:01:12 WARN ORIONE_SLA warning intervento_id=INT-1042 priority=P1 elapsed_minutes=47
-2026-03-02 10:20:55 ERROR ORIONE_CLOSE missing mandatory_checklist intervento_id=INT-1042 voce_id=CHK-003
-2026-03-02 10:31:18 INFO ORIONE_CLOSE end intervento_id=INT-1042 result=closed timestamp=2026-03-02T10:31:18+01:00
-riga diagnostica intenzionalmente non conforme

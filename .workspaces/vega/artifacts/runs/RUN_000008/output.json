@@ -1,0 +1,116 @@
+{
+  "button_count": 1,
+  "edit_relation_count": 0,
+  "edit_relations": [],
+  "exit_code": 0,
+  "field_count": 0,
+  "form_count": 1,
+  "fragment_count": 2,
+  "fragments": [
+    {
+      "char_end": 587,
+      "char_start": 39,
+      "fragment_id": "FRAG_000016",
+      "fragment_type": "xml_form",
+      "line_end": 10,
+      "line_start": 2,
+      "metadata": {
+        "button_count": 1,
+        "edit_relations": [],
+        "field_count": 0,
+        "form_name": "FRM_RICHIESTA",
+        "object_type": "form",
+        "parser": "parse_xml_form",
+        "parser_version": "1.0",
+        "required_field_count": 0,
+        "source_hash": "db3ae1c80ee4bf333e605a058978b36a86b0093b9990bb4822ca560340a25d9a",
+        "table_column_references": [],
+        "table_references": [],
+        "title": "Richiesta ricambio"
+      },
+      "path_or_selector": "/form[@name='FRM_RICHIESTA']",
+      "sequence": 1,
+      "source_revision_id": "REV_000004",
+      "status": "active",
+      "text": "<form name=\"FRM_RICHIESTA\" title=\"Richiesta ricambio\">\n  <block name=\"RICHIESTA_RICAMBIO\" table=\"RICHIESTA_RICAMBIO\">\n    <item name=\"ID_RICHIESTA\" column=\"ID_RICHIESTA\" datatype=\"NUMBER\" required=\"true\"/>\n    <item name=\"ID_ARTICOLO\" column=\"ID_ARTICOLO\" datatype=\"NUMBER\" required=\"true\"/>\n    <item name=\"PRIORITA\" column=\"PRIORITA\" datatype=\"VARCHAR2\" required=\"true\"/>\n    <item name=\"STATO\" column=\"STATO\" datatype=\"VARCHAR2\" required=\"true\"/>\n  </block>\n  <button name=\"BTN_PRENOTA\" label=\"Prenota\" operation=\"PRC_PRENOTA_ARTICOLO\"/>\n</form>",
+      "text_hash": "86fafaace02463b63adc0f48e8e2aecee26e77a2c29e9982ce9be8d2c03cc939"
+    },
+    {
+      "char_end": 579,
+      "char_start": 502,
+      "fragment_id": "FRAG_000017",
+      "fragment_type": "xml_button",
+      "line_end": 9,
+      "line_start": 9,
+      "metadata": {
+        "action_kind": "unknown",
+        "button_name": "BTN_PRENOTA",
+        "form_name": "FRM_RICHIESTA",
+        "label": "Prenota",
+        "object_type": "button",
+        "parser": "parse_xml_form",
+        "parser_version": "1.0",
+        "source_hash": "db3ae1c80ee4bf333e605a058978b36a86b0093b9990bb4822ca560340a25d9a"
+      },
+      "path_or_selector": "/form[@name='FRM_RICHIESTA']/button[@name='BTN_PRENOTA']",
+      "sequence": 2,
+      "source_revision_id": "REV_000004",
+      "status": "active",
+      "text": "<button name=\"BTN_PRENOTA\" label=\"Prenota\" operation=\"PRC_PRENOTA_ARTICOLO\"/>",
+      "text_hash": "1dcc617ccb1924f00242af5f7e693dc286e73c0fe5da5d005db6b911214386cc"
+    }
+  ],
+  "fragments_hash": "799f5d92a3f0d9ddecacc133259a349313c24c72ef7fe70c329d942b2812d135",
+  "fragments_jsonl_path": "fragments/SRC_000004/REV_000004/fragments.jsonl",
+  "input_path": "corpus/active/forms/frm_richiesta.xml",
+  "parser": "elementtree",
+  "profile": "xml_form.default",
+  "required_field_count": 0,
+  "run_id": "RUN_000008",
+  "source_hash": "db3ae1c80ee4bf333e605a058978b36a86b0093b9990bb4822ca560340a25d9a",
+  "source_id": "SRC_000004",
+  "source_revision_id": "REV_000004",
+  "status": "completed",
+  "table_column_references": [],
+  "table_reference_count": 0,
+  "warnings": [],
+  "worker_config": {
+    "name": "parse_xml_form",
+    "version": "1.0"
+  },
+  "worker_name": "parse_xml_form",
+  "worker_version": "1.0",
+  "xml_form_objects": {
+    "forms": [
+      {
+        "buttons": [
+          {
+            "action_kind": "unknown",
+            "label": "Prenota",
+            "name": "BTN_PRENOTA"
+          }
+        ],
+        "edit_relations": [],
+        "fields": [],
+        "name": "FRM_RICHIESTA",
+        "table_column_references": [],
+        "table_references": [],
+        "title": "Richiesta ricambio"
+      }
+    ],
+    "warnings": []
+  },
+  "xml_form_options": {
+    "infer_edit_relations": true,
+    "malformed_xml_policy": "fail",
+    "output_fragments_jsonl": true,
+    "parse_buttons": true,
+    "parse_fields": true,
+    "parse_required_fields": true,
+    "parse_table_column_references": true,
+    "parser": "elementtree",
+    "require_root_form": true,
+    "strict_options_fail_on_unsupported_option": true
+  },
+  "xml_form_report_path": "fragments/SRC_000004/REV_000004/xml_form_report.json"
+}

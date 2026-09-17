@@ -1,0 +1,82 @@
+{
+  "artifact_dir": "artifacts/runs/RUN_000002",
+  "batch_command": "process-dir",
+  "options": {
+    "path": "corpus/active",
+    "scan": {
+      "added": 0,
+      "deleted": 0,
+      "modified": 0,
+      "unchanged": 6
+    }
+  },
+  "planned_items": [
+    {
+      "input_path": "corpus/active/database/schema_vega.sql",
+      "item_id": "BITEM_000001",
+      "kind": "parse_ddl",
+      "source_id": "SRC_000001",
+      "source_revision_id": "REV_000001",
+      "status": "pending"
+    },
+    {
+      "input_path": "corpus/active/documenti/manuale_operativo_vega_2026.docx",
+      "item_id": "BITEM_000002",
+      "kind": "normalize",
+      "source_id": "SRC_000002",
+      "source_revision_id": "REV_000002",
+      "status": "pending"
+    },
+    {
+      "input_path": "corpus/active/documenti/manuale_operativo_vega_2026.docx",
+      "item_id": "BITEM_000003",
+      "kind": "chunk",
+      "source_id": "SRC_000002",
+      "source_revision_id": "REV_000002",
+      "status": "pending"
+    },
+    {
+      "input_path": "corpus/active/documenti/matrice_priorita_vega_2026.xlsx",
+      "item_id": "BITEM_000004",
+      "kind": "normalize",
+      "source_id": "SRC_000003",
+      "source_revision_id": "REV_000003",
+      "status": "pending"
+    },
+    {
+      "input_path": "corpus/active/documenti/matrice_priorita_vega_2026.xlsx",
+      "item_id": "BITEM_000005",
+      "kind": "chunk",
+      "source_id": "SRC_000003",
+      "source_revision_id": "REV_000003",
+      "status": "pending"
+    },
+    {
+      "input_path": "corpus/active/forms/frm_richiesta.xml",
+      "item_id": "BITEM_000006",
+      "kind": "parse_xml_form",
+      "source_id": "SRC_000004",
+      "source_revision_id": "REV_000004",
+      "status": "pending"
+    },
+    {
+      "input_path": "corpus/active/logs/vega_2026.log",
+      "item_id": "BITEM_000007",
+      "kind": "parse_log",
+      "source_id": "SRC_000005",
+      "source_revision_id": "REV_000005",
+      "status": "pending"
+    },
+    {
+      "input_path": "corpus/active/plsql/logica_vega.sql",
+      "item_id": "BITEM_000008",
+      "kind": "parse_db_code",
+      "source_id": "SRC_000006",
+      "source_revision_id": "REV_000006",
+      "status": "pending"
+    }
+  ],
+  "run_id": "RUN_000002",
+  "run_type": "batch",
+  "stop_on_error": false
+}

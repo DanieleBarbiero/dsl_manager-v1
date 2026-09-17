@@ -1,0 +1,150 @@
+{
+  "artifact_dir": "artifacts/runs/RUN_000002",
+  "batch_command": "process-dir",
+  "batch_report_path": "artifacts/runs/RUN_000002/batch_report.json",
+  "config_hash": "df2480f4cc36925fa82075f98a4d0fd0580fe05c37c10f20aa15505662358122",
+  "error": null,
+  "finished_at": "2026-09-17T04:58:32+02:00",
+  "items": [
+    {
+      "error": null,
+      "exit_code": 0,
+      "input_path": "corpus/active/database/schema_vega.sql",
+      "item_id": "BITEM_000001",
+      "kind": "parse_ddl",
+      "outputs": {
+        "columns": 9,
+        "foreign_keys": 1,
+        "fragments": 14,
+        "tables": 2
+      },
+      "run_id": "RUN_000003",
+      "source_id": "SRC_000001",
+      "source_revision_id": "REV_000001",
+      "status": "completed"
+    },
+    {
+      "error": null,
+      "exit_code": 0,
+      "input_path": "corpus/active/documenti/manuale_operativo_vega_2026.docx",
+      "item_id": "BITEM_000002",
+      "kind": "normalize",
+      "outputs": {
+        "is_excel": false,
+        "normalized_hash": "0949d9eb61c9f5ae95cdfecadc7b7c74d7240d94ed42e515ff8c968dccd29a73",
+        "normalized_markdown_path": "normalized/SRC_000002/REV_000002/normalized.md"
+      },
+      "run_id": "RUN_000004",
+      "source_id": "SRC_000002",
+      "source_revision_id": "REV_000002",
+      "status": "completed"
+    },
+    {
+      "error": null,
+      "exit_code": 0,
+      "input_path": "corpus/active/documenti/manuale_operativo_vega_2026.docx",
+      "item_id": "BITEM_000003",
+      "kind": "chunk",
+      "outputs": {
+        "chunks": 1,
+        "chunks_hash": "e356c41c5f1a33875a0e42b2ce7ef1ee29c2c08b09a0bec0388892503b31c321"
+      },
+      "run_id": "RUN_000005",
+      "source_id": "SRC_000002",
+      "source_revision_id": "REV_000002",
+      "status": "completed"
+    },
+    {
+      "error": null,
+      "exit_code": 0,
+      "input_path": "corpus/active/documenti/matrice_priorita_vega_2026.xlsx",
+      "item_id": "BITEM_000004",
+      "kind": "normalize",
+      "outputs": {
+        "is_excel": true,
+        "normalized_hash": "7e53ea44f13e014023ce250ee74d83a87849feea11c4546b9828296cf78ae193",
+        "normalized_markdown_path": "normalized/SRC_000003/REV_000003/normalized.md"
+      },
+      "run_id": "RUN_000006",
+      "source_id": "SRC_000003",
+      "source_revision_id": "REV_000003",
+      "status": "completed"
+    },
+    {
+      "error": null,
+      "exit_code": 0,
+      "input_path": "corpus/active/documenti/matrice_priorita_vega_2026.xlsx",
+      "item_id": "BITEM_000005",
+      "kind": "chunk",
+      "outputs": {
+        "chunks": 1,
+        "chunks_hash": "3d6a7bfe7f73bd544646b0cf1676a8573592f95e0e0a6cce1e2888436444d3a0"
+      },
+      "run_id": "RUN_000007",
+      "source_id": "SRC_000003",
+      "source_revision_id": "REV_000003",
+      "status": "completed"
+    },
+    {
+      "error": null,
+      "exit_code": 0,
+      "input_path": "corpus/active/forms/frm_richiesta.xml",
+      "item_id": "BITEM_000006",
+      "kind": "parse_xml_form",
+      "outputs": {
+        "fields": 0,
+        "forms": 1,
+        "fragments": 2
+      },
+      "run_id": "RUN_000008",
+      "source_id": "SRC_000004",
+      "source_revision_id": "REV_000004",
+      "status": "completed"
+    },
+    {
+      "error": null,
+      "exit_code": 0,
+      "input_path": "corpus/active/logs/vega_2026.log",
+      "item_id": "BITEM_000007",
+      "kind": "parse_log",
+      "outputs": {
+        "events": 5,
+        "fragments": 5,
+        "warnings": 1
+      },
+      "run_id": "RUN_000009",
+      "source_id": "SRC_000005",
+      "source_revision_id": "REV_000005",
+      "status": "completed"
+    },
+    {
+      "error": null,
+      "exit_code": 0,
+      "input_path": "corpus/active/plsql/logica_vega.sql",
+      "item_id": "BITEM_000008",
+      "kind": "parse_db_code",
+      "outputs": {
+        "fragments": 4,
+        "procedures": 1,
+        "statements": 2,
+        "triggers": 1
+      },
+      "run_id": "RUN_000010",
+      "source_id": "SRC_000006",
+      "source_revision_id": "REV_000006",
+      "status": "completed"
+    }
+  ],
+  "run_id": "RUN_000002",
+  "run_type": "batch",
+  "started_at": "2026-09-17T04:55:08+02:00",
+  "status": "completed",
+  "stop_on_error": false,
+  "summary": {
+    "completed": 8,
+    "failed": 0,
+    "skipped": 0,
+    "total": 8
+  },
+  "workers": []
+}

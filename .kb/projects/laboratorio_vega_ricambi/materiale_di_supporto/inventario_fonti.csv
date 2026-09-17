@@ -1,0 +1,7 @@
+path,estensione,famiglia,routing_atteso,docling,scopo
+database/schema_vega.sql,sql,DDL,parse_ddl,no,Schema minimo con PK/FK
+plsql/logica_vega.sql,sql,database code,parse_db_code,no,Procedura + trigger
+forms/frm_richiesta.xml,xml,Oracle Forms,parse_xml_form,no,Form minimo con required e bottone
+logs/vega_2026.log,log,runtime log,parse_log,no,Eventi e un warning
+documenti/manuale_operativo_vega_2026.docx,docx,document,normalize + chunk,yes,Regole narrative correnti
+documenti/matrice_priorita_vega_2026.xlsx,xlsx,workbook,normalize + chunk,yes,Matrice priorità tabellare

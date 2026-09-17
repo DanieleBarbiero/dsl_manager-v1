@@ -1,0 +1,16 @@
+worker:
+  name: normalize_docling
+  version: 1.0
+docling:
+  input_formats: pdf,docx,pptx,html,md,txt,xlsx,xlsm
+  output_normalized_markdown: true
+  output_normalized_json: true
+  images_enabled: false
+  image_export_mode: placeholder
+  generate_page_images: false
+  generate_picture_images: false
+  ocr_enabled: false
+  force_full_page_ocr: false
+  tables_enabled: true
+  tables_mode: auto
+  strict_options_fail_on_unsupported_option: true

@@ -1,0 +1,46 @@
+{
+  "artifact_dir": "artifacts/runs/RUN_000025",
+  "parameters": {
+    "automatic_policies": [
+      "explicit_db_code_unit_only/1",
+      "explicit_ddl_column_only/1",
+      "explicit_ddl_table_only/1",
+      "explicit_excel_named_range_only/1",
+      "explicit_excel_region_only/1",
+      "explicit_excel_sheet_only/1",
+      "explicit_excel_table_only/1",
+      "explicit_excel_workbook_only/1",
+      "explicit_resolved_ddl_fk_only/1",
+      "explicit_xml_form_structure_only/1",
+      "explicit_xml_operation_only/1",
+      "named_explicit_log_policy_required/1",
+      "observed_db_code_dependency_only/1"
+    ],
+    "batch_ids": [
+      "CBATCH_000001",
+      "CBATCH_000002",
+      "CBATCH_000003",
+      "CBATCH_000004",
+      "CBATCH_000005",
+      "CBATCH_000006",
+      "CBATCH_000007",
+      "CBATCH_000008",
+      "CBATCH_000009",
+      "CBATCH_000010",
+      "CBATCH_000011",
+      "CBATCH_000012",
+      "CBATCH_000013",
+      "CBATCH_000014",
+      "CBATCH_000015",
+      "CBATCH_000016",
+      "CBATCH_000017",
+      "CBATCH_000018",
+      "CBATCH_000019",
+      "CBATCH_000020",
+      "CBATCH_000021"
+    ]
+  },
+  "parent_run_id": "RUN_000001",
+  "run_id": "RUN_000025",
+  "run_type": "candidate_review"
+}

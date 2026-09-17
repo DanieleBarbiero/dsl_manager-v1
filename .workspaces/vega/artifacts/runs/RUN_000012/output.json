@@ -1,0 +1,63 @@
+{
+  "artifact_paths": [
+    "artifacts/runs/RUN_000012/derived_candidates.jsonl",
+    "artifacts/runs/RUN_000012/derive_report.json"
+  ],
+  "batch_id": "CBATCH_000002",
+  "candidate_ids": [
+    "DDL_FK_RELATION_FBA14318D12B4119"
+  ],
+  "catalog_version": "result_catalog_v1",
+  "condition": "candidate_derivation",
+  "counters": {
+    "auto_confirmed": 0,
+    "deduplicated": 0,
+    "input_fragments": 3,
+    "pending": 1,
+    "produced": 1,
+    "rejected": 0
+  },
+  "derivation_id": "DERIVE_000002",
+  "derivation_rejections": [],
+  "exit_code": 0,
+  "mutations": true,
+  "outcome": "pending",
+  "payload_hashes": [
+    "853a13961b103f801f89f45622222b30a58f124c7d0793e83a5fb397314790e1"
+  ],
+  "reason": "success",
+  "retryable": false,
+  "rule": "ddl_fk_relation/1",
+  "rule_contract": {
+    "assertion_type": "explicit",
+    "automatic_review_allowed": true,
+    "automatic_review_policy": "explicit_resolved_ddl_fk_only/1",
+    "candidate_record_type": "candidate_relation",
+    "default_review_state": "pending",
+    "evidence_locator": "source_revision_id+fragment_id+path_or_selector+line_start+line_end",
+    "input_schema": "source_fragment/ddl_constraint/1",
+    "parser_kind": "ddl",
+    "rule_id": "ddl_fk_relation",
+    "rule_version": "1"
+  },
+  "rule_counts": {
+    "ddl_fk_relation/1": {
+      "auto_confirmed": 0,
+      "deduplicated": 0,
+      "input_fragments": 3,
+      "pending": 1,
+      "produced": 1,
+      "rejected": 0
+    }
+  },
+  "rule_set_version": "1",
+  "run_id": "RUN_000012",
+  "schema_version": "1",
+  "semantic_report_hash": "af4ba933dd6cc5c799f24f2f96d74b31ef6c08fbc658515f5518920b01ede2e2",
+  "severity": "info",
+  "source_revision_id": "REV_000001",
+  "status": "completed",
+  "subject_ids": [
+    "DDL_FK_RELATION_FBA14318D12B4119"
+  ]
+}

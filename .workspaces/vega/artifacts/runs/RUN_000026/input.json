@@ -1,0 +1,32 @@
+{
+  "artifact_dir": "artifacts/runs/RUN_000026",
+  "parameters": {
+    "batch_ids": [
+      "CBATCH_000001",
+      "CBATCH_000002",
+      "CBATCH_000003",
+      "CBATCH_000004",
+      "CBATCH_000005",
+      "CBATCH_000006",
+      "CBATCH_000007",
+      "CBATCH_000008",
+      "CBATCH_000009",
+      "CBATCH_000010",
+      "CBATCH_000011",
+      "CBATCH_000012",
+      "CBATCH_000013",
+      "CBATCH_000014",
+      "CBATCH_000015",
+      "CBATCH_000016",
+      "CBATCH_000017",
+      "CBATCH_000018",
+      "CBATCH_000019",
+      "CBATCH_000020",
+      "CBATCH_000021"
+    ],
+    "strict_review": false
+  },
+  "parent_run_id": "RUN_000001",
+  "run_id": "RUN_000026",
+  "run_type": "merge"
+}

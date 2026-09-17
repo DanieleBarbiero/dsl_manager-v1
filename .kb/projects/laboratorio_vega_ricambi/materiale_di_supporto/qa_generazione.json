@@ -1,0 +1,42 @@
+{
+  "status": "passed",
+  "active_sources": 6,
+  "docling_sources": 2,
+  "expected_processing_actions": 8,
+  "routing": {
+    "database/schema_vega.sql": [
+      "parse_ddl"
+    ],
+    "documenti/manuale_operativo_vega_2026.docx": [
+      "normalize",
+      "chunk"
+    ],
+    "documenti/matrice_priorita_vega_2026.xlsx": [
+      "normalize",
+      "chunk"
+    ],
+    "forms/frm_richiesta.xml": [
+      "parse_xml_form"
+    ],
+    "logs/vega_2026.log": [
+      "parse_log"
+    ],
+    "plsql/logica_vega.sql": [
+      "parse_db_code"
+    ]
+  },
+  "powershell_static_checks": {
+    "state_file": true,
+    "substep_checkpoints": true,
+    "workspace_persisted": true,
+    "stdout_stderr_redirected": true,
+    "compact_console_summary": true,
+    "extended_jsonl_command_log": true,
+    "brace_balance": true,
+    "parenthesis_balance": true,
+    "quit_exits_cleanly": true,
+    "full_log_path_shown_on_success": true
+  },
+  "note": "PowerShell non è disponibile nel runtime di generazione: lo script è stato sottoposto a controlli statici, non eseguito end-to-end qui.",
+  "package_file_count": 19
+}

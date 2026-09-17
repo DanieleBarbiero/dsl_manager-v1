@@ -1,0 +1,51 @@
+{
+  "artifact_dir": "artifacts/runs/RUN_000010",
+  "db_code_options": {
+    "dialect": "generic_sql",
+    "output_fragments_jsonl": true,
+    "parse_calls": true,
+    "parse_procedures": true,
+    "parse_triggers": true,
+    "parse_update_statements": true,
+    "strict_options_fail_on_unsupported_option": true
+  },
+  "fragment_id_by_sequence": {},
+  "input": {
+    "db_code_options": {
+      "dialect": "generic_sql",
+      "output_fragments_jsonl": true,
+      "parse_calls": true,
+      "parse_procedures": true,
+      "parse_triggers": true,
+      "parse_update_statements": true,
+      "strict_options_fail_on_unsupported_option": true
+    },
+    "fragment_id_by_sequence": {},
+    "input_path": "corpus/active/plsql/logica_vega.sql",
+    "next_fragment_number": 23,
+    "output_dir": "fragments/SRC_000006/REV_000006",
+    "profile": "db_code.default",
+    "source_hash": "2bc89867201b4390cf0380678c2d2136fbe0d76c6ae166167aebaef85f466f3d",
+    "source_id": "SRC_000006",
+    "source_revision_id": "REV_000006",
+    "worker_config": {
+      "name": "parse_db_code",
+      "version": "1.0"
+    }
+  },
+  "input_path": "corpus/active/plsql/logica_vega.sql",
+  "next_fragment_number": 23,
+  "output_dir": "fragments/SRC_000006/REV_000006",
+  "profile": "db_code.default",
+  "run_id": "RUN_000010",
+  "run_type": "parse_db_code",
+  "source_hash": "2bc89867201b4390cf0380678c2d2136fbe0d76c6ae166167aebaef85f466f3d",
+  "source_id": "SRC_000006",
+  "source_revision_id": "REV_000006",
+  "worker_config": {
+    "name": "parse_db_code",
+    "version": "1.0"
+  },
+  "worker_name": "parse_db_code",
+  "worker_version": "1.0"
+}

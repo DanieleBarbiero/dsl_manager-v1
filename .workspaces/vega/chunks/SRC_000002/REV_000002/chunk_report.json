@@ -1,0 +1,38 @@
+{
+  "chunk_count": 1,
+  "chunks": [
+    {
+      "chunk_id": "CHK_000001",
+      "end_char": 792,
+      "heading_path": [
+        "Vega Ricambi - Manuale operativo 2026",
+        "Regole correnti",
+        "Punti da non dedurre automaticamente"
+      ],
+      "sequence": 1,
+      "start_char": 0,
+      "status": "active",
+      "text_hash": "0949d9eb61c9f5ae95cdfecadc7b7c74d7240d94ed42e515ff8c968dccd29a73"
+    }
+  ],
+  "chunks_hash": "e356c41c5f1a33875a0e42b2ce7ef1ee29c2c08b09a0bec0388892503b31c321",
+  "input": {
+    "normalized_hash": "0949d9eb61c9f5ae95cdfecadc7b7c74d7240d94ed42e515ff8c968dccd29a73",
+    "normalized_json_path": "normalized/SRC_000002/REV_000002/normalized.json",
+    "normalized_markdown_path": "normalized/SRC_000002/REV_000002/normalized.md",
+    "source_hash": "bca1c3408141adc0df112e2076f2d681d761c06b0b3550cf48bef331a39c204a",
+    "source_hash_path": "normalized/SRC_000002/REV_000002/source_hash.txt",
+    "source_id": "SRC_000002",
+    "source_revision_id": "REV_000002"
+  },
+  "outputs": {
+    "chunk_report_path": "chunks/SRC_000002/REV_000002/chunk_report.json",
+    "chunks_jsonl_path": "chunks/SRC_000002/REV_000002/chunks.jsonl"
+  },
+  "profile": "docling.chunking",
+  "run_id": "RUN_000005",
+  "status": "completed",
+  "strategy": "heading_paragraph",
+  "worker_name": "chunk_docling",
+  "worker_version": "1.0"
+}

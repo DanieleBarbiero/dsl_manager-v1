@@ -1,0 +1,874 @@
+metadata:
+  schema_version: "2"
+  dsl_hash: "65d4521b40b7563913c376b4a26ef54e9d9f5efa22ca8e86ab5ceec47c0abc0e"
+  registry_hash: "7fa799fc6ec53620925eb875a3b0ed53806c7675cea5d8a2bc2b9e91a671dd17"
+  counts:
+    conflicts: 4
+    entities: 20
+    facts: 23
+    relations: 8
+  temporal:
+    representation: "interval"
+    base: "day"
+    gexf_timeformat: "date"
+    timezone: "unknown"
+entities:
+  -
+    name: "ARTICOLO"
+    canonical_name: "articolo"
+    facts:
+      -
+        assertion_type: "explicit"
+        confidence: "high"
+        fact_id: "FACT_000010"
+        fact_type: "database_table"
+        intervals: []
+        property_name: "object_type"
+        property_value: "database_table"
+        status: "active"
+  -
+    name: "ARTICOLO.CODICE"
+    canonical_name: "articolo.codice"
+    facts:
+      -
+        assertion_type: "explicit"
+        confidence: "high"
+        fact_id: "FACT_000001"
+        fact_type: "database_column"
+        intervals: []
+        property_name: "data_type"
+        property_value: "VARCHAR2(30)"
+        status: "active"
+  -
+    name: "ARTICOLO.DESCRIZIONE"
+    canonical_name: "articolo.descrizione"
+    facts:
+      -
+        assertion_type: "explicit"
+        confidence: "high"
+        fact_id: "FACT_000002"
+        fact_type: "database_column"
+        intervals: []
+        property_name: "data_type"
+        property_value: "VARCHAR2(200)"
+        status: "active"
+  -
+    name: "ARTICOLO.ID_ARTICOLO"
+    canonical_name: "articolo.id_articolo"
+    facts:
+      -
+        assertion_type: "explicit"
+        confidence: "high"
+        fact_id: "FACT_000003"
+        fact_type: "database_column"
+        intervals: []
+        property_name: "data_type"
+        property_value: "NUMBER"
+        status: "active"
+  -
+    name: "ARTICOLO.QTA_DISPONIBILE"
+    canonical_name: "articolo.qta_disponibile"
+    facts:
+      -
+        assertion_type: "explicit"
+        confidence: "high"
+        fact_id: "FACT_000004"
+        fact_type: "database_column"
+        intervals: []
+        property_name: "data_type"
+        property_value: "NUMBER"
+        status: "active"
+  -
+    name: "excel_workbook:0c24c3d8a3a1dc1c5952b4854eb529d33cb135619545aa0080bcb365add25ca9"
+    canonical_name: "excel_workbook:0c24c3d8a3a1dc1c5952b4854eb529d33cb135619545aa0080bcb365add25ca9"
+    facts:
+      -
+        assertion_type: "explicit"
+        confidence: "high"
+        fact_id: "FACT_000014"
+        fact_type: "excel_workbook"
+        intervals: []
+        property_name: "object_type"
+        property_value: "excel_workbook"
+        status: "active"
+  -
+    name: "excel_workbook:0c24c3d8a3a1dc1c5952b4854eb529d33cb135619545aa0080bcb365add25ca9/sheet:0"
+    canonical_name: "excel_workbook:0c24c3d8a3a1dc1c5952b4854eb529d33cb135619545aa0080bcb365add25ca9/sheet:0"
+    facts:
+      -
+        assertion_type: "explicit"
+        confidence: "high"
+        fact_id: "FACT_000013"
+        fact_type: "excel_sheet"
+        intervals: []
+        property_name: "object_type"
+        property_value: "excel_sheet"
+        status: "active"
+  -
+    name: "excel_workbook:0c24c3d8a3a1dc1c5952b4854eb529d33cb135619545aa0080bcb365add25ca9/sheet:0/region:A1:D5"
+    canonical_name: "excel_workbook:0c24c3d8a3a1dc1c5952b4854eb529d33cb135619545aa0080bcb365add25ca9/sheet:0/region:a1:d5"
+    facts:
+      -
+        assertion_type: "explicit"
+        confidence: "high"
+        fact_id: "FACT_000012"
+        fact_type: "excel_region"
+        intervals: []
+        property_name: "object_type"
+        property_value: "excel_region"
+        status: "active"
+  -
+    name: "FRM_RICHIESTA"
+    canonical_name: "frm_richiesta"
+    facts:
+      -
+        assertion_type: "explicit"
+        confidence: "high"
+        fact_id: "FACT_000015"
+        fact_type: "xml_form"
+        intervals: []
+        property_name: "object_type"
+        property_value: "form"
+        status: "active"
+  -
+    name: "FRM_RICHIESTA.BTN_PRENOTA"
+    canonical_name: "frm_richiesta.btn_prenota"
+    facts:
+      -
+        assertion_type: "explicit"
+        confidence: "high"
+        fact_id: "FACT_000016"
+        fact_type: "xml_form_button"
+        intervals: []
+        property_name: "object_type"
+        property_value: "button"
+        status: "active"
+  -
+    name: "magazzino"
+    canonical_name: "magazzino"
+    facts:
+      -
+        assertion_type: "observed"
+        confidence: "high"
+        fact_id: "FACT_000020"
+        fact_type: "log_event"
+        intervals: []
+        property_name: "event_kind"
+        property_value: "processed"
+        status: "conflicted"
+      -
+        assertion_type: "observed"
+        confidence: "high"
+        fact_id: "FACT_000019"
+        fact_type: "log_event"
+        intervals: []
+        property_name: "event_kind"
+        property_value: "warning"
+        status: "conflicted"
+  -
+    name: "PRC_PRENOTA_ARTICOLO"
+    canonical_name: "prc_prenota_articolo"
+    facts:
+      -
+        assertion_type: "explicit"
+        confidence: "high"
+        fact_id: "FACT_000022"
+        fact_type: "database_code_unit"
+        intervals: []
+        property_name: "unit_type"
+        property_value: "procedure"
+        status: "active"
+  -
+    name: "RICHIESTA_RICAMBIO"
+    canonical_name: "richiesta_ricambio"
+    facts:
+      -
+        assertion_type: "explicit"
+        confidence: "high"
+        fact_id: "FACT_000011"
+        fact_type: "database_table"
+        intervals: []
+        property_name: "object_type"
+        property_value: "database_table"
+        status: "active"
+  -
+    name: "RICHIESTA_RICAMBIO.ID_ARTICOLO"
+    canonical_name: "richiesta_ricambio.id_articolo"
+    facts:
+      -
+        assertion_type: "explicit"
+        confidence: "high"
+        fact_id: "FACT_000005"
+        fact_type: "database_column"
+        intervals: []
+        property_name: "data_type"
+        property_value: "NUMBER"
+        status: "active"
+  -
+    name: "RICHIESTA_RICAMBIO.ID_RICHIESTA"
+    canonical_name: "richiesta_ricambio.id_richiesta"
+    facts:
+      -
+        assertion_type: "explicit"
+        confidence: "high"
+        fact_id: "FACT_000006"
+        fact_type: "database_column"
+        intervals: []
+        property_name: "data_type"
+        property_value: "NUMBER"
+        status: "active"
+  -
+    name: "RICHIESTA_RICAMBIO.PRIORITA"
+    canonical_name: "richiesta_ricambio.priorita"
+    facts:
+      -
+        assertion_type: "explicit"
+        confidence: "high"
+        fact_id: "FACT_000007"
+        fact_type: "database_column"
+        intervals: []
+        property_name: "data_type"
+        property_value: "VARCHAR2(10)"
+        status: "active"
+  -
+    name: "RICHIESTA_RICAMBIO.QTA_RICHIESTA"
+    canonical_name: "richiesta_ricambio.qta_richiesta"
+    facts:
+      -
+        assertion_type: "explicit"
+        confidence: "high"
+        fact_id: "FACT_000008"
+        fact_type: "database_column"
+        intervals: []
+        property_name: "data_type"
+        property_value: "NUMBER"
+        status: "active"
+  -
+    name: "RICHIESTA_RICAMBIO.STATO"
+    canonical_name: "richiesta_ricambio.stato"
+    facts:
+      -
+        assertion_type: "explicit"
+        confidence: "high"
+        fact_id: "FACT_000009"
+        fact_type: "database_column"
+        intervals: []
+        property_name: "data_type"
+        property_value: "VARCHAR2(20)"
+        status: "active"
+  -
+    name: "scanner"
+    canonical_name: "scanner"
+    facts:
+      -
+        assertion_type: "observed"
+        confidence: "high"
+        fact_id: "FACT_000021"
+        fact_type: "log_event"
+        intervals: []
+        property_name: "event_kind"
+        property_value: "end"
+        status: "conflicted"
+      -
+        assertion_type: "observed"
+        confidence: "high"
+        fact_id: "FACT_000018"
+        fact_type: "log_event"
+        intervals: []
+        property_name: "event_kind"
+        property_value: "processed"
+        status: "conflicted"
+      -
+        assertion_type: "observed"
+        confidence: "high"
+        fact_id: "FACT_000017"
+        fact_type: "log_event"
+        intervals: []
+        property_name: "event_kind"
+        property_value: "start"
+        status: "conflicted"
+  -
+    name: "TRG_CHIUDI_RICHIESTA"
+    canonical_name: "trg_chiudi_richiesta"
+    facts:
+      -
+        assertion_type: "explicit"
+        confidence: "high"
+        fact_id: "FACT_000023"
+        fact_type: "database_code_unit"
+        intervals: []
+        property_name: "unit_type"
+        property_value: "trigger"
+        status: "active"
+relations:
+  -
+    assertion_type: "observed"
+    canonical_source_entity: "prc_prenota_articolo"
+    canonical_target_entity: "articolo.id_articolo"
+    confidence: "high"
+    intervals: []
+    relation_id: "REL_000002"
+    relation_type: "reads_from"
+    source_entity: "PRC_PRENOTA_ARTICOLO"
+    status: "active"
+    target_entity: "ARTICOLO.ID_ARTICOLO"
+  -
+    assertion_type: "observed"
+    canonical_source_entity: "prc_prenota_articolo"
+    canonical_target_entity: "articolo.id_richiesta"
+    confidence: "high"
+    intervals: []
+    relation_id: "REL_000003"
+    relation_type: "reads_from"
+    source_entity: "PRC_PRENOTA_ARTICOLO"
+    status: "active"
+    target_entity: "ARTICOLO.ID_RICHIESTA"
+  -
+    assertion_type: "observed"
+    canonical_source_entity: "prc_prenota_articolo"
+    canonical_target_entity: "articolo.qta_disponibile"
+    confidence: "high"
+    intervals: []
+    relation_id: "REL_000004"
+    relation_type: "reads_from"
+    source_entity: "PRC_PRENOTA_ARTICOLO"
+    status: "active"
+    target_entity: "ARTICOLO.QTA_DISPONIBILE"
+  -
+    assertion_type: "observed"
+    canonical_source_entity: "prc_prenota_articolo"
+    canonical_target_entity: "articolo.richiesta_ricambio"
+    confidence: "high"
+    intervals: []
+    relation_id: "REL_000005"
+    relation_type: "reads_from"
+    source_entity: "PRC_PRENOTA_ARTICOLO"
+    status: "active"
+    target_entity: "ARTICOLO.RICHIESTA_RICAMBIO"
+  -
+    assertion_type: "observed"
+    canonical_source_entity: "prc_prenota_articolo"
+    canonical_target_entity: "richiesta_ricambio.id_richiesta"
+    confidence: "high"
+    intervals: []
+    relation_id: "REL_000006"
+    relation_type: "reads_from"
+    source_entity: "PRC_PRENOTA_ARTICOLO"
+    status: "active"
+    target_entity: "RICHIESTA_RICAMBIO.ID_RICHIESTA"
+  -
+    assertion_type: "observed"
+    canonical_source_entity: "prc_prenota_articolo"
+    canonical_target_entity: "articolo.qta_disponibile"
+    confidence: "high"
+    intervals: []
+    relation_id: "REL_000007"
+    relation_type: "writes_to"
+    source_entity: "PRC_PRENOTA_ARTICOLO"
+    status: "active"
+    target_entity: "ARTICOLO.QTA_DISPONIBILE"
+  -
+    assertion_type: "observed"
+    canonical_source_entity: "prc_prenota_articolo"
+    canonical_target_entity: "richiesta_ricambio.stato"
+    confidence: "high"
+    intervals: []
+    relation_id: "REL_000008"
+    relation_type: "writes_to"
+    source_entity: "PRC_PRENOTA_ARTICOLO"
+    status: "active"
+    target_entity: "RICHIESTA_RICAMBIO.STATO"
+  -
+    assertion_type: "explicit"
+    canonical_source_entity: "richiesta_ricambio"
+    canonical_target_entity: "articolo"
+    confidence: "high"
+    intervals: []
+    relation_id: "REL_000001"
+    relation_type: "references"
+    source_entity: "RICHIESTA_RICAMBIO"
+    status: "active"
+    target_entity: "ARTICOLO"
+conflicts:
+  -
+    canonical_entity_name: "scanner"
+    conflict_id: "CONFLICT_000001"
+    conflict_type: "different_values_same_property"
+    entity_name: "scanner"
+    left_fact_id: "FACT_000018"
+    left_value: "processed"
+    property_name: "event_kind"
+    right_fact_id: "FACT_000017"
+    right_value: "start"
+    status: "open"
+  -
+    canonical_entity_name: "magazzino"
+    conflict_id: "CONFLICT_000002"
+    conflict_type: "different_values_same_property"
+    entity_name: "magazzino"
+    left_fact_id: "FACT_000020"
+    left_value: "processed"
+    property_name: "event_kind"
+    right_fact_id: "FACT_000019"
+    right_value: "warning"
+    status: "open"
+  -
+    canonical_entity_name: "scanner"
+    conflict_id: "CONFLICT_000003"
+    conflict_type: "different_values_same_property"
+    entity_name: "scanner"
+    left_fact_id: "FACT_000021"
+    left_value: "end"
+    property_name: "event_kind"
+    right_fact_id: "FACT_000017"
+    right_value: "start"
+    status: "open"
+  -
+    canonical_entity_name: "scanner"
+    conflict_id: "CONFLICT_000004"
+    conflict_type: "different_values_same_property"
+    entity_name: "scanner"
+    left_fact_id: "FACT_000021"
+    left_value: "end"
+    property_name: "event_kind"
+    right_fact_id: "FACT_000018"
+    right_value: "processed"
+    status: "open"
+traceability:
+  facts:
+    FACT_000010:
+      -
+        candidate_record_id: "CREC_000011"
+        source_revision_id: "REV_000001"
+        source_id: "SRC_000001"
+        file_path: "corpus/active/database/schema_vega.sql"
+        chunk_id: null
+        fragment_id: "FRAG_000001"
+        evidence_text_hash: "81814eecd7c72c942ccd925fdc72efe7480319e6d5c846a278ef853b71aee32c"
+        review:
+          outcome: "confirmed"
+          policy_id: "explicit_ddl_table_only"
+          policy_version: "1"
+          semantic_payload_hash: "000779ef7ef8aa13506b7a71d0bcd8768ae1a7636cb31937c0580f95a82a5284"
+    FACT_000001:
+      -
+        candidate_record_id: "CREC_000001"
+        source_revision_id: "REV_000001"
+        source_id: "SRC_000001"
+        file_path: "corpus/active/database/schema_vega.sql"
+        chunk_id: null
+        fragment_id: "FRAG_000003"
+        evidence_text_hash: "ff21e9f7f4f7456274bb3b5561150d2ef3ebe237f3cadac96882941473ab8358"
+        review:
+          outcome: "confirmed"
+          policy_id: "explicit_ddl_column_only"
+          policy_version: "1"
+          semantic_payload_hash: "0a9fd6769ad195a5aa27522ad72ad9b6d067e59901b7a17afd1d1a0379a4b9f5"
+    FACT_000002:
+      -
+        candidate_record_id: "CREC_000002"
+        source_revision_id: "REV_000001"
+        source_id: "SRC_000001"
+        file_path: "corpus/active/database/schema_vega.sql"
+        chunk_id: null
+        fragment_id: "FRAG_000004"
+        evidence_text_hash: "54408614f47c988f08688bebef83ac1c4acd2b6f2ba977b17508f2d948aff71c"
+        review:
+          outcome: "confirmed"
+          policy_id: "explicit_ddl_column_only"
+          policy_version: "1"
+          semantic_payload_hash: "41d044d156c7e7706d932beb93f242999b960dda7d88177c66be11317d34ed13"
+    FACT_000003:
+      -
+        candidate_record_id: "CREC_000003"
+        source_revision_id: "REV_000001"
+        source_id: "SRC_000001"
+        file_path: "corpus/active/database/schema_vega.sql"
+        chunk_id: null
+        fragment_id: "FRAG_000002"
+        evidence_text_hash: "755a643188bd7ac8866b488fbcdfcb4f4acff3fe5f000c1137b34d1fd06ad33f"
+        review:
+          outcome: "confirmed"
+          policy_id: "explicit_ddl_column_only"
+          policy_version: "1"
+          semantic_payload_hash: "9f205adb9b55c90d9341ad74ebf5c41dfbe5b5df0e243ec61f8186df14daca5d"
+    FACT_000004:
+      -
+        candidate_record_id: "CREC_000004"
+        source_revision_id: "REV_000001"
+        source_id: "SRC_000001"
+        file_path: "corpus/active/database/schema_vega.sql"
+        chunk_id: null
+        fragment_id: "FRAG_000005"
+        evidence_text_hash: "41c2bdfa1ccdf33d863297fdada4705a2b0ec43d4d2a95f7f9250a43e958b69c"
+        review:
+          outcome: "confirmed"
+          policy_id: "explicit_ddl_column_only"
+          policy_version: "1"
+          semantic_payload_hash: "dcb1216f726f0460e1988cecabf9f45e84147757e4cf38a6df60caf2870f1922"
+    FACT_000014:
+      -
+        candidate_record_id: "CREC_000015"
+        source_revision_id: "REV_000003"
+        source_id: "SRC_000003"
+        file_path: "corpus/active/documenti/matrice_priorita_vega_2026.xlsx"
+        chunk_id: null
+        fragment_id: "FRAG_000015"
+        evidence_text_hash: "6471cb5fe36d722903ec7a908204528e9bad36ba3533a32428302a32c7d640ec"
+        review:
+          outcome: "confirmed"
+          policy_id: "explicit_excel_workbook_only"
+          policy_version: "1"
+          semantic_payload_hash: "140ce47bc67d8a4c2e57a4fcd4e86d61c954bfb694d16bbb1d1851ae8393fa5d"
+    FACT_000013:
+      -
+        candidate_record_id: "CREC_000014"
+        source_revision_id: "REV_000003"
+        source_id: "SRC_000003"
+        file_path: "corpus/active/documenti/matrice_priorita_vega_2026.xlsx"
+        chunk_id: null
+        fragment_id: "FRAG_000015"
+        evidence_text_hash: "6471cb5fe36d722903ec7a908204528e9bad36ba3533a32428302a32c7d640ec"
+        review:
+          outcome: "confirmed"
+          policy_id: "explicit_excel_sheet_only"
+          policy_version: "1"
+          semantic_payload_hash: "e6817b71205f6db9d22fe96779b72d5a580928baf16cd2752bebb323bdb21f3c"
+    FACT_000012:
+      -
+        candidate_record_id: "CREC_000013"
+        source_revision_id: "REV_000003"
+        source_id: "SRC_000003"
+        file_path: "corpus/active/documenti/matrice_priorita_vega_2026.xlsx"
+        chunk_id: null
+        fragment_id: "FRAG_000015"
+        evidence_text_hash: "6471cb5fe36d722903ec7a908204528e9bad36ba3533a32428302a32c7d640ec"
+        review:
+          outcome: "confirmed"
+          policy_id: "explicit_excel_region_only"
+          policy_version: "1"
+          semantic_payload_hash: "bb8b16354eef824f714f1ac3bb3c9aee4d93e55241965618c41bd895688732ab"
+    FACT_000015:
+      -
+        candidate_record_id: "CREC_000016"
+        source_revision_id: "REV_000004"
+        source_id: "SRC_000004"
+        file_path: "corpus/active/forms/frm_richiesta.xml"
+        chunk_id: null
+        fragment_id: "FRAG_000016"
+        evidence_text_hash: "86fafaace02463b63adc0f48e8e2aecee26e77a2c29e9982ce9be8d2c03cc939"
+        review:
+          outcome: "confirmed"
+          policy_id: "explicit_xml_form_structure_only"
+          policy_version: "1"
+          semantic_payload_hash: "1fde9978690ddc3c5eb7ba8d42f0c688bfc2e0e2b6dd1dc58e50b0a3e5459e3e"
+    FACT_000016:
+      -
+        candidate_record_id: "CREC_000017"
+        source_revision_id: "REV_000004"
+        source_id: "SRC_000004"
+        file_path: "corpus/active/forms/frm_richiesta.xml"
+        chunk_id: null
+        fragment_id: "FRAG_000017"
+        evidence_text_hash: "1dcc617ccb1924f00242af5f7e693dc286e73c0fe5da5d005db6b911214386cc"
+        review:
+          outcome: "confirmed"
+          policy_id: "explicit_xml_form_structure_only"
+          policy_version: "1"
+          semantic_payload_hash: "eeb10c73f89c058a78548344ee3dcde14a14d64361c16b126942399deb347eb2"
+    FACT_000020:
+      -
+        candidate_record_id: "CREC_000021"
+        source_revision_id: "REV_000005"
+        source_id: "SRC_000005"
+        file_path: "corpus/active/logs/vega_2026.log"
+        chunk_id: null
+        fragment_id: "FRAG_000021"
+        evidence_text_hash: "acd1e678d7805f389cf046eb355bbf7cd3b7f6da9865b71befb949a9519100ec"
+        review:
+          outcome: "confirmed"
+          policy_id: "named_explicit_log_policy_required"
+          policy_version: "1"
+          semantic_payload_hash: "ccb5509f7d1b526e926c77e483943e9852dd67e9158054b2281a3d7fba74910e"
+    FACT_000019:
+      -
+        candidate_record_id: "CREC_000020"
+        source_revision_id: "REV_000005"
+        source_id: "SRC_000005"
+        file_path: "corpus/active/logs/vega_2026.log"
+        chunk_id: null
+        fragment_id: "FRAG_000020"
+        evidence_text_hash: "9d7e11da6e3107c94b164ae8e356f5f8a3670e846e02eaf1638c958d248cab9b"
+        review:
+          outcome: "confirmed"
+          policy_id: "named_explicit_log_policy_required"
+          policy_version: "1"
+          semantic_payload_hash: "e6ca9499112af354908a28a7555ac289496294e1edbc77e8ab1c9b814f60678d"
+    FACT_000022:
+      -
+        candidate_record_id: "CREC_000030"
+        source_revision_id: "REV_000006"
+        source_id: "SRC_000006"
+        file_path: "corpus/active/plsql/logica_vega.sql"
+        chunk_id: null
+        fragment_id: "FRAG_000024"
+        evidence_text_hash: "583946ddd210a10a6cf4fdc51ba5d57eeb676f7a170cf848858e677e0261f736"
+        review:
+          outcome: "confirmed"
+          policy_id: "explicit_db_code_unit_only"
+          policy_version: "1"
+          semantic_payload_hash: "39d7f46ad2b1dddaa7d3927ad849f90707489c0c76169ce16506c4d56cf10f6c"
+    FACT_000011:
+      -
+        candidate_record_id: "CREC_000012"
+        source_revision_id: "REV_000001"
+        source_id: "SRC_000001"
+        file_path: "corpus/active/database/schema_vega.sql"
+        chunk_id: null
+        fragment_id: "FRAG_000007"
+        evidence_text_hash: "1b50aa570dc39497b9f6df21e54e52c114df628b6a831ff596cfc47e01d14009"
+        review:
+          outcome: "confirmed"
+          policy_id: "explicit_ddl_table_only"
+          policy_version: "1"
+          semantic_payload_hash: "fd99139e5290ee3a469a6ff7202be41ca87e5e8d567b1eaa1d9f1be5932d6e02"
+    FACT_000005:
+      -
+        candidate_record_id: "CREC_000005"
+        source_revision_id: "REV_000001"
+        source_id: "SRC_000001"
+        file_path: "corpus/active/database/schema_vega.sql"
+        chunk_id: null
+        fragment_id: "FRAG_000009"
+        evidence_text_hash: "1129cf5143216dc0ddcc47ba2141f2d99feeb2e83e3e6ba88cc8b3dee75a46bf"
+        review:
+          outcome: "confirmed"
+          policy_id: "explicit_ddl_column_only"
+          policy_version: "1"
+          semantic_payload_hash: "a9876479a72c1368bc97f49ec3609ee113336a23034593ca92872b4acb18727c"
+    FACT_000006:
+      -
+        candidate_record_id: "CREC_000006"
+        source_revision_id: "REV_000001"
+        source_id: "SRC_000001"
+        file_path: "corpus/active/database/schema_vega.sql"
+        chunk_id: null
+        fragment_id: "FRAG_000008"
+        evidence_text_hash: "e9561d78493965c0ca8e3734346134f74f18d5898f7e3cf06e532b439c5bd379"
+        review:
+          outcome: "confirmed"
+          policy_id: "explicit_ddl_column_only"
+          policy_version: "1"
+          semantic_payload_hash: "053c3fd4a35095b879190e6f45d0748a456f41bed6f8c4787fe2513d5ffdbd8b"
+    FACT_000007:
+      -
+        candidate_record_id: "CREC_000007"
+        source_revision_id: "REV_000001"
+        source_id: "SRC_000001"
+        file_path: "corpus/active/database/schema_vega.sql"
+        chunk_id: null
+        fragment_id: "FRAG_000010"
+        evidence_text_hash: "39408a007f2e2904aea74caba73c8197a8027a0c98df3c7d43a4cb2e14c03635"
+        review:
+          outcome: "confirmed"
+          policy_id: "explicit_ddl_column_only"
+          policy_version: "1"
+          semantic_payload_hash: "71d6638d1bd33ede485071a3e9c7eb36dd8a9e96728d42add5182b3bf7a5c99c"
+    FACT_000008:
+      -
+        candidate_record_id: "CREC_000008"
+        source_revision_id: "REV_000001"
+        source_id: "SRC_000001"
+        file_path: "corpus/active/database/schema_vega.sql"
+        chunk_id: null
+        fragment_id: "FRAG_000012"
+        evidence_text_hash: "4b29bd88e0a90dddc9e129072457f4347b8f21410bf7afab262dcdd2bbba7b71"
+        review:
+          outcome: "confirmed"
+          policy_id: "explicit_ddl_column_only"
+          policy_version: "1"
+          semantic_payload_hash: "097d6a8931e0a300ce01c27ccb89d8474d06071918262ae3d08779bffee2ff94"
+    FACT_000009:
+      -
+        candidate_record_id: "CREC_000009"
+        source_revision_id: "REV_000001"
+        source_id: "SRC_000001"
+        file_path: "corpus/active/database/schema_vega.sql"
+        chunk_id: null
+        fragment_id: "FRAG_000011"
+        evidence_text_hash: "376fdb67145cff0fa70bad2132e131958107b4cfe4de20b9cb5b47925e2b779a"
+        review:
+          outcome: "confirmed"
+          policy_id: "explicit_ddl_column_only"
+          policy_version: "1"
+          semantic_payload_hash: "190cd4dbc8b30a72189e48d0b3c60880f9ce85a1e08605b2d368c52a51e75b92"
+    FACT_000021:
+      -
+        candidate_record_id: "CREC_000022"
+        source_revision_id: "REV_000005"
+        source_id: "SRC_000005"
+        file_path: "corpus/active/logs/vega_2026.log"
+        chunk_id: null
+        fragment_id: "FRAG_000022"
+        evidence_text_hash: "490e3fda21b0f91e9a6a41b26bdcc717f9eb16a8911a5d31a8bc7ea48a81caf9"
+        review:
+          outcome: "confirmed"
+          policy_id: "named_explicit_log_policy_required"
+          policy_version: "1"
+          semantic_payload_hash: "2986af84d81f3a5124508d7a787630c7f5c4d992d5555d21c28702ce32768a04"
+    FACT_000018:
+      -
+        candidate_record_id: "CREC_000019"
+        source_revision_id: "REV_000005"
+        source_id: "SRC_000005"
+        file_path: "corpus/active/logs/vega_2026.log"
+        chunk_id: null
+        fragment_id: "FRAG_000019"
+        evidence_text_hash: "fed9868a4d1cf2c01e8e66040afaf0b6d3e6eb46517f4355d8560694d77ee155"
+        review:
+          outcome: "confirmed"
+          policy_id: "named_explicit_log_policy_required"
+          policy_version: "1"
+          semantic_payload_hash: "64d9934b5e3d6fcf5fef4233a349453a8a1d998994845150cc4bd092ed9957ae"
+    FACT_000017:
+      -
+        candidate_record_id: "CREC_000018"
+        source_revision_id: "REV_000005"
+        source_id: "SRC_000005"
+        file_path: "corpus/active/logs/vega_2026.log"
+        chunk_id: null
+        fragment_id: "FRAG_000018"
+        evidence_text_hash: "e99a55d81603ef0096e0b40d29897605aa02cbdf9acfddd039044846fcc07a0a"
+        review:
+          outcome: "confirmed"
+          policy_id: "named_explicit_log_policy_required"
+          policy_version: "1"
+          semantic_payload_hash: "1a83e796081f09b460b888bb416d857de296c80a7e306ab64588d9b6db61af14"
+    FACT_000023:
+      -
+        candidate_record_id: "CREC_000031"
+        source_revision_id: "REV_000006"
+        source_id: "SRC_000006"
+        file_path: "corpus/active/plsql/logica_vega.sql"
+        chunk_id: null
+        fragment_id: "FRAG_000023"
+        evidence_text_hash: "a67b70ca50a81990b777a3f93d6dfa9078c18981f6666a1b6c71edba6ecfba0d"
+        review:
+          outcome: "confirmed"
+          policy_id: "explicit_db_code_unit_only"
+          policy_version: "1"
+          semantic_payload_hash: "349d9d15ebc33200a873aaf1140361738466b35d5821a00f5d0973e52d520176"
+  relations:
+    REL_000002:
+      -
+        candidate_record_id: "CREC_000023"
+        source_revision_id: "REV_000006"
+        source_id: "SRC_000006"
+        file_path: "corpus/active/plsql/logica_vega.sql"
+        chunk_id: null
+        fragment_id: "FRAG_000024"
+        evidence_text_hash: "583946ddd210a10a6cf4fdc51ba5d57eeb676f7a170cf848858e677e0261f736"
+        review:
+          outcome: "confirmed"
+          policy_id: "observed_db_code_dependency_only"
+          policy_version: "1"
+          semantic_payload_hash: "1466f79e1960678f076b2ccc3ab6e9643d864edb4dd24958cc74471b1f172cc5"
+    REL_000003:
+      -
+        candidate_record_id: "CREC_000024"
+        source_revision_id: "REV_000006"
+        source_id: "SRC_000006"
+        file_path: "corpus/active/plsql/logica_vega.sql"
+        chunk_id: null
+        fragment_id: "FRAG_000024"
+        evidence_text_hash: "583946ddd210a10a6cf4fdc51ba5d57eeb676f7a170cf848858e677e0261f736"
+        review:
+          outcome: "confirmed"
+          policy_id: "observed_db_code_dependency_only"
+          policy_version: "1"
+          semantic_payload_hash: "f322b45c6c267665221dbf03a905a62afe4a80bd234001ae091215ea15caecda"
+    REL_000004:
+      -
+        candidate_record_id: "CREC_000025"
+        source_revision_id: "REV_000006"
+        source_id: "SRC_000006"
+        file_path: "corpus/active/plsql/logica_vega.sql"
+        chunk_id: null
+        fragment_id: "FRAG_000024"
+        evidence_text_hash: "583946ddd210a10a6cf4fdc51ba5d57eeb676f7a170cf848858e677e0261f736"
+        review:
+          outcome: "confirmed"
+          policy_id: "observed_db_code_dependency_only"
+          policy_version: "1"
+          semantic_payload_hash: "d6769a3ae770e11f33ded125d1ab549688ee84c39280c4130870f45fc2851612"
+    REL_000005:
+      -
+        candidate_record_id: "CREC_000026"
+        source_revision_id: "REV_000006"
+        source_id: "SRC_000006"
+        file_path: "corpus/active/plsql/logica_vega.sql"
+        chunk_id: null
+        fragment_id: "FRAG_000024"
+        evidence_text_hash: "583946ddd210a10a6cf4fdc51ba5d57eeb676f7a170cf848858e677e0261f736"
+        review:
+          outcome: "confirmed"
+          policy_id: "observed_db_code_dependency_only"
+          policy_version: "1"
+          semantic_payload_hash: "c7595e475447ccadf7d27c7d16499be784a29f608a4bebf55a824913a8400542"
+    REL_000006:
+      -
+        candidate_record_id: "CREC_000027"
+        source_revision_id: "REV_000006"
+        source_id: "SRC_000006"
+        file_path: "corpus/active/plsql/logica_vega.sql"
+        chunk_id: null
+        fragment_id: "FRAG_000024"
+        evidence_text_hash: "583946ddd210a10a6cf4fdc51ba5d57eeb676f7a170cf848858e677e0261f736"
+        review:
+          outcome: "confirmed"
+          policy_id: "observed_db_code_dependency_only"
+          policy_version: "1"
+          semantic_payload_hash: "be3b523378fff245d668c60c5732abd49a495f08970d0b22a7ec12c8e0618b7d"
+    REL_000007:
+      -
+        candidate_record_id: "CREC_000028"
+        source_revision_id: "REV_000006"
+        source_id: "SRC_000006"
+        file_path: "corpus/active/plsql/logica_vega.sql"
+        chunk_id: null
+        fragment_id: "FRAG_000024"
+        evidence_text_hash: "583946ddd210a10a6cf4fdc51ba5d57eeb676f7a170cf848858e677e0261f736"
+        review:
+          outcome: "confirmed"
+          policy_id: "observed_db_code_dependency_only"
+          policy_version: "1"
+          semantic_payload_hash: "a92f5dc76fc7f0009fddc7ee1892c7253a8cd11f706fa7533c35164ed6badd2e"
+    REL_000008:
+      -
+        candidate_record_id: "CREC_000029"
+        source_revision_id: "REV_000006"
+        source_id: "SRC_000006"
+        file_path: "corpus/active/plsql/logica_vega.sql"
+        chunk_id: null
+        fragment_id: "FRAG_000024"
+        evidence_text_hash: "583946ddd210a10a6cf4fdc51ba5d57eeb676f7a170cf848858e677e0261f736"
+        review:
+          outcome: "confirmed"
+          policy_id: "observed_db_code_dependency_only"
+          policy_version: "1"
+          semantic_payload_hash: "4729800f3ede7ad35fc8868527e587db8eb6b091006c487c62f33e3f4cfd824a"
+    REL_000001:
+      -
+        candidate_record_id: "CREC_000010"
+        source_revision_id: "REV_000001"
+        source_id: "SRC_000001"
+        file_path: "corpus/active/database/schema_vega.sql"
+        chunk_id: null
+        fragment_id: "FRAG_000014"
+        evidence_text_hash: "7919c511af69b27e4ed1173265fd8171c08123d01101051ee8dd542fb8416fed"
+        review:
+          outcome: "confirmed"
+          policy_id: "explicit_resolved_ddl_fk_only"
+          policy_version: "1"
+          semantic_payload_hash: "b9c403464ae9ee6468ec3cd81e3342768b472a93487b3d146ce4a22bdcfb7b47"
+  temporal: {}
